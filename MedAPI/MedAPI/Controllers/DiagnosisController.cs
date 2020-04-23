@@ -3,7 +3,9 @@ using MedAPI.Infrastructure.IService;
 using System;
 using System.Net;
 using System.Net.Http;
+using System.Web;
 using System.Web.Http;
+using System.Linq;
 
 namespace MedAPI.Controllers
 {
@@ -11,10 +13,12 @@ namespace MedAPI.Controllers
     public class DiagnosisController : ApiController
     {
         private readonly IDiagnosisService diagnosisService;
+        private readonly IUserService userService;
 
-        public DiagnosisController(IDiagnosisService diagnosisService)
+        public DiagnosisController(IDiagnosisService diagnosisService,IUserService userService)
         {
             this.diagnosisService = diagnosisService;
+            this.userService = userService;
         }
 
         [HttpGet]
@@ -81,7 +85,7 @@ namespace MedAPI.Controllers
             HttpResponseMessage response = null;
             try
             {
-                if (mDiagnosis != null)
+                if (IsAdminPermission())
                 {
                     int id = diagnosisService.SaveDiagnosis(mDiagnosis);
 
@@ -94,7 +98,7 @@ namespace MedAPI.Controllers
                         response = Request.CreateResponse(HttpStatusCode.Forbidden, "");
                     }
                 }else
-                    response = Request.CreateResponse(HttpStatusCode.InternalServerError, "Internal server error");
+                    response = Request.CreateResponse(HttpStatusCode.Unauthorized);
             }
             catch (Exception ex)
             {
@@ -110,7 +114,7 @@ namespace MedAPI.Controllers
             HttpResponseMessage response = null;
             try
             {
-                if (mDiagnosis != null)
+                if (IsAdminPermission())
                 {
                     int id = diagnosisService.SaveDiagnosis(mDiagnosis);
 
@@ -124,7 +128,7 @@ namespace MedAPI.Controllers
                     }
                 }
                 else
-                    response = Request.CreateResponse(HttpStatusCode.InternalServerError, "Internal server error");
+                    response = Request.CreateResponse(HttpStatusCode.Unauthorized);
             }
             catch (Exception ex)
             {
@@ -153,6 +157,22 @@ namespace MedAPI.Controllers
             }
             return response;
 
+        }
+
+        public bool IsAdminPermission()
+        {
+            bool result = false;
+            var headerValues = HttpContext.Current.Request.Headers.GetValues("email");
+            string email = Convert.ToString(headerValues.FirstOrDefault());
+            var user = userService.GetByEmail(email);
+            if (user != null)
+            {
+                if (user.RoleId == (int)Infrastructure.Common.Permission.ADMIN)
+                {
+                    result = true;
+                }
+            }
+            return result;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MedAPI.DataAccess;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,6 +20,11 @@ namespace MedAPI.Domain
             this.NoteExams1 = new List<NoteExam>();
             this.NoteMedicines1 = new List<NoteMedicine>();
             this.NoteReferrals1 = new List<NoteReferral>();
+            cardiovascularnote = new cardiovascularnote();
+            establishment = new establishment();
+            medic = new medic();
+            triage = new triage();
+
         }
 
         public long Id { get; set; }
@@ -48,14 +54,22 @@ namespace MedAPI.Domain
         public long? TicketId { get; set; }
         public long? TriageId { get; set; }
 
-        public List<Note> Note1 { get; set; }
-        public List<NoteDiagnosi> NoteDiagnosis { get; set; }
-        public List<NoteExam> NoteExams { get; set; }
-        public List<NoteMedicine> NoteMedicines { get; set; }
-        public List<NoteReferral> NoteReferrals { get; set; }
-        public List<NoteDiagnosi> NoteDiagnosis1 { get; set; }
-        public List<NoteExam> NoteExams1 { get; set; }
-        public List<NoteMedicine> NoteMedicines1 { get; set; }
-        public List<NoteReferral> NoteReferrals1 { get; set; }
+
+        public virtual cardiovascularnote cardiovascularnote { get; set; }
+        public virtual establishment establishment { get; set; }
+        public virtual medic medic { get; set; }
+        public virtual note note2 { get; set; }
+        public virtual patient patient { get; set; }
+        public virtual triage triage { get; set; }
+        public virtual ticket ticket { get; set; }
+        public ICollection<Note> Note1 { get; set; }
+        public ICollection<NoteDiagnosi> NoteDiagnosis { get; set; }
+        public ICollection<NoteExam> NoteExams { get; set; }
+        public ICollection<NoteMedicine> NoteMedicines { get; set; }
+        public ICollection<NoteReferral> NoteReferrals { get; set; }
+        public ICollection<NoteDiagnosi> NoteDiagnosis1 { get; set; }
+        public ICollection<NoteExam> NoteExams1 { get; set; }
+        public ICollection<NoteMedicine> NoteMedicines1 { get; set; }
+        public ICollection<NoteReferral> NoteReferrals1 { get; set; }
     }
 }

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Web;
 using System.Web.Http;
 
 namespace MedAPI.Controllers
@@ -12,10 +13,11 @@ namespace MedAPI.Controllers
     public class NoteController : ApiController
     {
         private readonly INoteService noteService;
-
-        public NoteController(INoteService noteService)
+        private readonly IUserService userService;
+        public NoteController(INoteService noteService, IUserService userService)
         {
             this.noteService = noteService;
+            this.userService = userService;
         }
 
         [HttpGet]
@@ -78,6 +80,23 @@ namespace MedAPI.Controllers
             }
             return response;
 
+        }
+
+
+        public bool IsAdminPermission()
+        {
+            bool result = false;
+            var headerValues = HttpContext.Current.Request.Headers.GetValues("email");
+            string email = Convert.ToString(headerValues.FirstOrDefault());
+            var user = userService.GetByEmail(email);
+            if (user != null)
+            {
+                if (user.RoleId == (int)Infrastructure.Common.Permission.ADMIN)
+                {
+                    result = true;
+                }
+            }
+            return result;
         }
     }
 }

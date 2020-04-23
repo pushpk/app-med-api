@@ -35,13 +35,38 @@ namespace MedAPI
             container.RegisterType<IHomeTypeService, HomeTypeService>();
             container.RegisterType<IMedicineService, MedicineService>();
             container.RegisterType<IMaritalStatusService, MaritalStatusService>();
+            container.RegisterType<IUserService, UserService>();
+            container.RegisterType<ITicketService, TicketService>();
+            container.RegisterType<ITriageService, TriageService>();
+            container.RegisterType<ICountryService, CountryService>();
+            container.RegisterType<IDepartmentService, DepartmentService>();
+            container.RegisterType<IDistrictService, DistrictService>();
 
+            container.RegisterType<IEstablishmentService, EstablishmentService>();
+            container.RegisterType<IProvinceService, ProvinceService>();
+            container.RegisterType<IMedicService, MedicService>();
+            container.RegisterType<IPatientService, PatientService>();
+
+            container.RegisterType<IApplicationService, ApplicationService>();
+            container.RegisterType<IEmailService, EmailService>();
             //Repository
             container.RegisterType<IDiagnosisRepository, DiagnosisRepository>();
             container.RegisterType<IExamRepository, ExamRepository>();
             container.RegisterType<IMedicineRepository, MedicineRepository>();
             container.RegisterType<ICardiovascularNoteRepository, CardiovascularNoteRepository>();
             container.RegisterType<INoteRepository, NoteRepository>();
+            container.RegisterType<IUserRepository, UserRepository>();
+            container.RegisterType<ITicketRepository, TicketRepository>();
+            container.RegisterType<ITriageRepository, TriageRepository>();
+            container.RegisterType<ICountryRepository, CountryRepository>();
+            container.RegisterType<IDepartmentService, DepartmentService>();
+            container.RegisterType<IDepartmentService, DepartmentService>();
+            container.RegisterType<IDistrictRepository, DistrictRepository>();
+            container.RegisterType<IEstablishmentRepository, EstablishmentRepository>();
+            container.RegisterType<IProvinceRepository, ProvinceRepository>();
+            container.RegisterType<IMedicRepository, MedicRepository>();
+            container.RegisterType<IPatientRepository, PatientRepository>();
+            container.RegisterType<IApplicationRepository, ApplicationRepository>();
 
             GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);
         }

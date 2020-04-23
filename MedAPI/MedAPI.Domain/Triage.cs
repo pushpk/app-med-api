@@ -10,7 +10,7 @@ namespace MedAPI.Domain
     {
         public Triage()
         {
-            this.Notes = new List<Note>();
+            Notes = new List<Note>();
         }
 
         public long Id { get; set; }

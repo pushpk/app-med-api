@@ -10,11 +10,12 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MedAPI.Repository</RootNamespace>
     <AssemblyName>MedAPI.Repository</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -51,12 +52,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApplicationRepository.cs" />
     <Compile Include="CardiovascularNoteRepository.cs" />
+    <Compile Include="CountryRepository.cs" />
+    <Compile Include="DepartmentRepository.cs" />
     <Compile Include="DiagnosisRepository.cs" />
+    <Compile Include="DistrictRepository.cs" />
+    <Compile Include="EstablishmentRepository.cs" />
     <Compile Include="ExamRepository.cs" />
     <Compile Include="MedicineRepository.cs" />
+    <Compile Include="MedicRepository.cs" />
     <Compile Include="NoteRepository.cs" />
+    <Compile Include="PatientRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ProvinceRepository.cs" />
+    <Compile Include="TicketRepository.cs" />
+    <Compile Include="TriageRepository.cs" />
     <Compile Include="UserRepository.cs" />
   </ItemGroup>
   <ItemGroup>

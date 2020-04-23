@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Web;
 using System.Web.Http;
 
 namespace MedAPI.Controllers
@@ -13,10 +14,12 @@ namespace MedAPI.Controllers
     public class MedicineController : ApiController
     {
         private readonly IMedicineService medicineService;
+        private readonly IUserService userService;
 
-        public MedicineController(IMedicineService medicineService)
+        public MedicineController(IMedicineService medicineService, IUserService userService)
         {
             this.medicineService = medicineService;
+            this.userService = userService;
         }
 
         [HttpGet]
@@ -81,7 +84,7 @@ namespace MedAPI.Controllers
             HttpResponseMessage response = null;
             try
             {
-                if (mMedicine != null)
+                if (IsAdminPermission())
                 {
                     int id = medicineService.SaveMedicine(mMedicine);
 
@@ -91,7 +94,7 @@ namespace MedAPI.Controllers
                     }
                 }
                 else
-                    response = Request.CreateResponse(HttpStatusCode.InternalServerError, "Internal server error");
+                    response = Request.CreateResponse(HttpStatusCode.Unauthorized);
             }
             catch (Exception ex)
             {
@@ -107,7 +110,7 @@ namespace MedAPI.Controllers
             HttpResponseMessage response = null;
             try
             {
-                if (mMedicine != null)
+                if (IsAdminPermission())
                 {
                     int id = medicineService.SaveMedicine(mMedicine);
 
@@ -117,7 +120,7 @@ namespace MedAPI.Controllers
                     }
                 }
                 else
-                    response = Request.CreateResponse(HttpStatusCode.InternalServerError, "Internal server error");
+                    response = Request.CreateResponse(HttpStatusCode.Unauthorized);
             }
             catch (Exception ex)
             {
@@ -146,6 +149,22 @@ namespace MedAPI.Controllers
             }
             return response;
 
+        }
+
+        public bool IsAdminPermission()
+        {
+            bool result = false;
+            var headerValues = HttpContext.Current.Request.Headers.GetValues("email");
+            string email = Convert.ToString(headerValues.FirstOrDefault());
+            var user = userService.GetByEmail(email);
+            if (user != null)
+            {
+                if (user.RoleId == (int)Infrastructure.Common.Permission.ADMIN)
+                {
+                    result = true;
+                }
+            }
+            return result;
         }
     }
 }

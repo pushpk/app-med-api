@@ -81,5 +81,40 @@ namespace MedAPI.Controllers
 
         }
 
+
+        [HttpPost]
+        [Route("Create")]
+        public HttpResponseMessage Create(Domain.User mUser)
+        {
+            HttpResponseMessage response = null;
+            try
+            {
+                mUser = userService.SaveUser(mUser);
+                response = Request.CreateResponse(HttpStatusCode.OK, mUser);
+            }
+            catch (Exception ex)
+            {
+                response = Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+            return response;
+        }
+        [HttpPost]
+        [Route("Update")]
+        public HttpResponseMessage Update(Domain.User mUser)
+        {
+            HttpResponseMessage response = null;
+            try
+            {
+                mUser = userService.SaveUser(mUser);
+                response = Request.CreateResponse(HttpStatusCode.OK, mUser);
+            }
+            catch (Exception ex)
+            {
+                response = Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+            return response;
+        }
+
+      
     }
 }

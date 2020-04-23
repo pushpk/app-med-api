@@ -18,6 +18,8 @@ namespace MedAPI.Domain
         public DateTime? CreatedDate { get; set; }
         public byte[] Deleted { get; set; }
         public string Path { get; set; }
+        public string Filename { get; set; }
+        public byte[] FileByte { get; set; }
 
         public List<NoteExam> NoteExams { get; set; }
     }

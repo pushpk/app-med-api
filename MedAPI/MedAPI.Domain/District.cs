@@ -11,6 +11,7 @@ namespace MedAPI.Domain
         public District()
         {
             this.Users = new List<User>();
+            Province = new Province();
         }
 
         public long Id { get; set; }
@@ -19,5 +20,6 @@ namespace MedAPI.Domain
         public long? Ubigeo { get; set; }
         public long ProvinceId { get; set; }
         public List<User> Users { get; set; }
+        public Province Province { get; set; }
     }
 }

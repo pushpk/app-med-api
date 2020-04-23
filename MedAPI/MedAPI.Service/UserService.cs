@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using MedAPI.Domain;
+﻿using MedAPI.Domain;
 using MedAPI.Infrastructure.IRepository;
 using MedAPI.Infrastructure.IService;
+using System.Collections.Generic;
 
 namespace MedAPI.Service
 {
@@ -27,6 +27,15 @@ namespace MedAPI.Service
         public User GetUserById(long id)
         {
             return userRepository.GetUserById(id);
+        }
+
+        public User GetByEmail(string email)
+        {
+            return userRepository.GetByEmail(email);
+        }
+        public User SaveUser(User mUser)
+        {
+            return userRepository.SaveUser(mUser);
         }
     }
 }

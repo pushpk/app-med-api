@@ -10,11 +10,12 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MedAPI.Service</RootNamespace>
     <AssemblyName>MedAPI.Service</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -43,6 +44,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -51,22 +53,33 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApplicationService.cs" />
     <Compile Include="BloodTypeService.cs" />
     <Compile Include="CardiovascularNoteService.cs" />
+    <Compile Include="CountryService.cs" />
+    <Compile Include="DepartmentService.cs" />
     <Compile Include="DiagnosisService.cs" />
+    <Compile Include="DistrictService.cs" />
     <Compile Include="DocumentTypeService.cs" />
     <Compile Include="EducationService.cs" />
+    <Compile Include="EmailService.cs" />
+    <Compile Include="EstablishmentService.cs" />
     <Compile Include="ExamService.cs" />
     <Compile Include="HomeMaterialService.cs" />
     <Compile Include="HomeOwnershipService.cs" />
     <Compile Include="HomeTypeService.cs" />
     <Compile Include="MaritalStatusService.cs" />
     <Compile Include="MedicineService.cs" />
+    <Compile Include="MedicService.cs" />
     <Compile Include="NoteService.cs" />
+    <Compile Include="PatientService.cs" />
     <Compile Include="PermissionService.cs" />
     <Compile Include="PhysicalActivityService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ProvinceService.cs" />
     <Compile Include="SpecialtyService.cs" />
+    <Compile Include="TicketService.cs" />
+    <Compile Include="TriageService.cs" />
     <Compile Include="UserService.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -9,9 +9,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MedAPI.Infrastructure</RootNamespace>
     <AssemblyName>MedAPI.Infrastructure</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -32,6 +33,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -42,29 +44,51 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common.cs" />
+    <Compile Include="IRepository\IApplicationRepository.cs" />
     <Compile Include="IRepository\ICardiovascularNoteRepository.cs" />
+    <Compile Include="IRepository\ICountryRepository.cs" />
+    <Compile Include="IRepository\IDepartmentRepository.cs" />
     <Compile Include="IRepository\IDiagnosisRepository.cs" />
+    <Compile Include="IRepository\IDistrictRepository.cs" />
+    <Compile Include="IRepository\IEstablishmentRepository.cs" />
     <Compile Include="IRepository\IExamRepository.cs" />
     <Compile Include="IRepository\IMedicineRepository.cs" />
+    <Compile Include="IRepository\IMedicRepository.cs" />
     <Compile Include="IRepository\INoteRepository.cs" />
+    <Compile Include="IRepository\IPatientRepository.cs" />
+    <Compile Include="IRepository\IProvinceRepository.cs" />
+    <Compile Include="IRepository\ITicketRepository.cs" />
+    <Compile Include="IRepository\ITriageRepository.cs" />
     <Compile Include="IRepository\IUserRepository.cs" />
+    <Compile Include="IService\IApplicationService.cs" />
+    <Compile Include="IService\ICountryService.cs" />
     <Compile Include="IService\IBloodTypeService.cs" />
     <Compile Include="IService\ICardiovascularNoteService.cs" />
+    <Compile Include="IService\IDepartmentService.cs" />
     <Compile Include="IService\IDiagnosisService.cs" />
+    <Compile Include="IService\IDistrictService.cs" />
     <Compile Include="IService\IDocumentTypeService.cs" />
     <Compile Include="IService\IEducationService.cs" />
+    <Compile Include="IService\IEmailService.cs" />
+    <Compile Include="IService\IEstablishmentService.cs" />
     <Compile Include="IService\IExamService.cs" />
     <Compile Include="IService\IHomeMaterialService.cs" />
     <Compile Include="IService\IHomeOwnershipService.cs" />
     <Compile Include="IService\IHomeTypeService.cs" />
     <Compile Include="IService\IMaritalStatusService.cs" />
     <Compile Include="IService\IMedicineService.cs" />
+    <Compile Include="IService\IMedicService.cs" />
     <Compile Include="IService\INoteService.cs" />
+    <Compile Include="IService\IPatientService.cs" />
     <Compile Include="IService\IPermissionService.cs" />
     <Compile Include="IService\IPhysicalActivityService.cs" />
+    <Compile Include="IService\IProvinceService.cs" />
     <Compile Include="IService\ISpecialtyService.cs" />
+    <Compile Include="IService\ITicketService.cs" />
+    <Compile Include="IService\ITriageService.cs" />
     <Compile Include="IService\IUserService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SendMailHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MedAPI.Domain\MedAPI.Domain.csproj">

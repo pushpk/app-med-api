@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MedAPI.DataAccess;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,14 +11,14 @@ namespace MedAPI.Domain
     {
         public Country()
         {
-            this.Departments = new List<Department>();
-            this.Users = new List<User>();
+            this.departments = new HashSet<department>();
+            this.users = new HashSet<user>();
         }
 
-        public long Id { get; set; }
-        public byte[] Deleted { get; set; }
-        public string Name { get; set; }
-        public List<Department> Departments { get; set; }
-        public List<User> Users { get; set; }
+        public long id { get; set; }
+        public byte[] deleted { get; set; }
+        public string name { get; set; }
+        public virtual ICollection<department> departments { get; set; }
+        public virtual ICollection<user> users { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MedAPI.DataAccess;
+using System;
 
 namespace MedAPI.Domain
 {
@@ -29,5 +30,13 @@ namespace MedAPI.Domain
         public long CountryId { get; set; }
         public long? DistrictId { get; set; }
         public long? RoleId { get; set; }
+
+
+        public virtual Country country { get; set; }
+        public virtual District district { get; set; }
+        public virtual Medic medic { get; set; }
+        public virtual Nurse nurse { get; set; }
+        public virtual Patient patient { get; set; }
+        public virtual role role { get; set; }
     }
 }

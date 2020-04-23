@@ -1,8 +1,10 @@
 ﻿using MedAPI.Domain;
 using MedAPI.Infrastructure.IService;
 using System;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Web;
 using System.Web.Http;
 
 namespace MedAPI.Controllers
@@ -11,10 +13,12 @@ namespace MedAPI.Controllers
     public class CardiovascularNoteController : ApiController
     {
         private readonly ICardiovascularNoteService cardiovascularNoteService;
+        private readonly IUserService userService;
 
-        public CardiovascularNoteController(ICardiovascularNoteService cardiovascularNoteService)
+        public CardiovascularNoteController(ICardiovascularNoteService cardiovascularNoteService, IUserService userService)
         {
             this.cardiovascularNoteService = cardiovascularNoteService;
+            this.userService = userService;
         }
 
         [HttpGet]
@@ -86,17 +90,20 @@ namespace MedAPI.Controllers
             HttpResponseMessage response = null;
             try
             {
-                if (mCardiovascularNote != null)
+                if (IsAdminPermission())
                 {
-                    int id = cardiovascularNoteService.SaveCardiovascularNote(mCardiovascularNote);
+                     int id = cardiovascularNoteService.SaveCardiovascularNote(mCardiovascularNote);
 
-                    if (id > 0)
-                    {
-                        response = Request.CreateResponse(HttpStatusCode.OK, id);
-                    }
+                        if (id > 0)
+                        {
+                            response = Request.CreateResponse(HttpStatusCode.OK, id);
+                        }
                 }
                 else
-                    response = Request.CreateResponse(HttpStatusCode.InternalServerError, "Internal server error");
+                {
+                    response = Request.CreateResponse(HttpStatusCode.Unauthorized);
+                }
+
             }
             catch (Exception ex)
             {
@@ -112,7 +119,7 @@ namespace MedAPI.Controllers
             HttpResponseMessage response = null;
             try
             {
-                if (mCardiovascularNote != null)
+                if (IsAdminPermission())
                 {
                     int id = cardiovascularNoteService.SaveCardiovascularNote(mCardiovascularNote);
 
@@ -122,7 +129,7 @@ namespace MedAPI.Controllers
                     }
                 }
                 else
-                    response = Request.CreateResponse(HttpStatusCode.InternalServerError, "Internal server error");
+                    response = Request.CreateResponse(HttpStatusCode.Unauthorized);
             }
             catch (Exception ex)
             {
@@ -131,5 +138,20 @@ namespace MedAPI.Controllers
             return response;
         }
 
+        public bool IsAdminPermission()
+        {
+            bool result = false;
+            var headerValues = HttpContext.Current.Request.Headers.GetValues("email");
+            string email = Convert.ToString(headerValues.FirstOrDefault());
+            var user = userService.GetByEmail(email);
+            if (user != null)
+            {
+                if (user.RoleId == (int)Infrastructure.Common.Permission.ADMIN)
+                {
+                    result = true;
+                }
+            }
+            return result;
+        }
     }
 }
