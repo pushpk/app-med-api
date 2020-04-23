@@ -1,0 +1,2897 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="registroclinicoModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="cardiovascularnote">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="auscultationSite" Type="nvarchar" MaxLength="255" />
+          <Property Name="capillaryRefillLLM" Type="nvarchar" MaxLength="255" />
+          <Property Name="capillaryRefillLRM" Type="nvarchar" MaxLength="255" />
+          <Property Name="cardiacPressureIntensity" Type="nvarchar" MaxLength="255" />
+          <Property Name="cardiacPressureRhythm" Type="nvarchar" MaxLength="255" />
+          <Property Name="diastolicPhase" Type="binary" MaxLength="1" Nullable="false" />
+          <Property Name="edemaAnkle" Type="binary" MaxLength="1" Nullable="false" />
+          <Property Name="edemaGeneralized" Type="binary" MaxLength="1" Nullable="false" />
+          <Property Name="edemaLowerMembers" Type="binary" MaxLength="1" Nullable="false" />
+          <Property Name="fourthNoise" Type="binary" MaxLength="1" Nullable="false" />
+          <Property Name="gastrointestinalSemiology" Type="nvarchar" MaxLength="255" />
+          <Property Name="murmurs" Type="binary" MaxLength="1" Nullable="false" />
+          <Property Name="neckRadiation" Type="binary" MaxLength="1" Nullable="false" />
+          <Property Name="otherSymptoms" Type="nvarchar" MaxLength="255" />
+          <Property Name="pedalPulsesL" Type="nvarchar" MaxLength="255" />
+          <Property Name="pedalPulsesR" Type="nvarchar" MaxLength="255" />
+          <Property Name="pulsesLLM" Type="nvarchar" MaxLength="255" />
+          <Property Name="pulsesLRM" Type="nvarchar" MaxLength="255" />
+          <Property Name="radialPulsesL" Type="nvarchar" MaxLength="255" />
+          <Property Name="radialPulsesR" Type="nvarchar" MaxLength="255" />
+          <Property Name="systolicPhase" Type="binary" MaxLength="1" Nullable="false" />
+          <Property Name="thirdNoise" Type="binary" MaxLength="1" Nullable="false" />
+          <Property Name="trophicChanges" Type="binary" MaxLength="1" Nullable="false" />
+          <Property Name="vesicularWhisperL" Type="nvarchar" MaxLength="255" />
+          <Property Name="vesicularWhisperR" Type="nvarchar" MaxLength="255" />
+          <Property Name="id" Type="bigint" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'registroclinico.registroclinico.cardiovascularnote_cardiovascularsymptoms' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="cardiovascularnote_cardiovascularsymptoms">
+          <Key>
+            <PropertyRef Name="CardiovascularNote_id" />
+          </Key>
+          <Property Name="CardiovascularNote_id" Type="bigint" Nullable="false" />
+          <Property Name="cardiovascularSymptoms" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="chapter">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="code" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="deleted" Type="binary" MaxLength="1" Nullable="false" />
+          <Property Name="title" Type="nvarchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="country">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="deleted" Type="binary" MaxLength="1" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <EntityType Name="department">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="deleted" Type="binary" MaxLength="1" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="country_id" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="diagnosis">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="code" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="deleted" Type="binary" MaxLength="1" Nullable="false" />
+          <Property Name="title" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="chapter_id" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="district">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="deleted" Type="binary" MaxLength="1" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="ubigeo" Type="bigint" />
+          <Property Name="province_id" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="establishment">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="address" Type="nvarchar" MaxLength="255" />
+          <Property Name="deleted" Type="binary" MaxLength="1" Nullable="false" />
+          <Property Name="establishmentType" Type="nvarchar" MaxLength="255" />
+          <Property Name="initials" Type="nvarchar" MaxLength="255" />
+          <Property Name="name" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="phone" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="exam">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="deleted" Type="binary" MaxLength="1" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="type" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="medic">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="cmp" Type="nvarchar" MaxLength="255" />
+          <Property Name="rne" Type="nvarchar" MaxLength="255" />
+          <Property Name="id" Type="bigint" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'registroclinico.registroclinico.medic_specialties' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="medic_specialties">
+          <Key>
+            <PropertyRef Name="Medic_id" />
+          </Key>
+          <Property Name="Medic_id" Type="bigint" Nullable="false" />
+          <Property Name="specialties" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="medicine">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="concentration" Type="nvarchar" MaxLength="255" />
+          <Property Name="deleted" Type="binary" MaxLength="1" Nullable="false" />
+          <Property Name="form" Type="nvarchar" MaxLength="255" />
+          <Property Name="fractions" Type="bigint" />
+          <Property Name="healthRegistration" Type="nvarchar" MaxLength="255" />
+          <Property Name="name" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="owner" Type="nvarchar" MaxLength="255" />
+          <Property Name="presentation" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="note">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="age" Type="nvarchar" MaxLength="255" />
+          <Property Name="completed" Type="binary" MaxLength="1" Nullable="false" />
+          <Property Name="control" Type="binary" MaxLength="1" Nullable="false" />
+          <Property Name="createdBy" Type="nvarchar" MaxLength="255" />
+          <Property Name="createdDate" Type="date" />
+          <Property Name="deleted" Type="binary" MaxLength="1" Nullable="false" />
+          <Property Name="diagnosis" Type="nvarchar(max)" />
+          <Property Name="exam" Type="nvarchar(max)" />
+          <Property Name="modifiedBy" Type="nvarchar" MaxLength="255" />
+          <Property Name="modifiedDate" Type="date" />
+          <Property Name="physicalExam" Type="nvarchar(max)" />
+          <Property Name="secondOpinion" Type="nvarchar(max)" />
+          <Property Name="sicknessTime" Type="bigint" />
+          <Property Name="sicknessUnit" Type="nvarchar" MaxLength="255" />
+          <Property Name="specialty" Type="nvarchar" MaxLength="255" />
+          <Property Name="stage" Type="bigint" />
+          <Property Name="story" Type="nvarchar(max)" />
+          <Property Name="symptom" Type="nvarchar" MaxLength="255" />
+          <Property Name="treatment" Type="nvarchar(max)" />
+          <Property Name="controlNote_id" Type="bigint" />
+          <Property Name="establishment_id" Type="bigint" />
+          <Property Name="medic_id" Type="bigint" />
+          <Property Name="patient_id" Type="bigint" Nullable="false" />
+          <Property Name="ticket_id" Type="bigint" />
+          <Property Name="triage_id" Type="bigint" />
+        </EntityType>
+        <EntityType Name="note_notediagnosis">
+          <Key>
+            <PropertyRef Name="Note_id" />
+            <PropertyRef Name="diagnosisList_id" />
+          </Key>
+          <Property Name="Note_id" Type="bigint" Nullable="false" />
+          <Property Name="diagnosisList_id" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="note_noteexam">
+          <Key>
+            <PropertyRef Name="Note_id" />
+            <PropertyRef Name="examList_id" />
+          </Key>
+          <Property Name="Note_id" Type="bigint" Nullable="false" />
+          <Property Name="examList_id" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="note_notemedicine">
+          <Key>
+            <PropertyRef Name="Note_id" />
+            <PropertyRef Name="medicineList_id" />
+          </Key>
+          <Property Name="Note_id" Type="bigint" Nullable="false" />
+          <Property Name="medicineList_id" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="note_notereferral">
+          <Key>
+            <PropertyRef Name="Note_id" />
+            <PropertyRef Name="referralList_id" />
+          </Key>
+          <Property Name="Note_id" Type="bigint" Nullable="false" />
+          <Property Name="referralList_id" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="notediagnosis">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="deleted" Type="binary" MaxLength="1" Nullable="false" />
+          <Property Name="diagnosisType" Type="nvarchar" MaxLength="255" />
+          <Property Name="diagnosis_id" Type="bigint" />
+          <Property Name="note_id" Type="bigint" />
+        </EntityType>
+        <EntityType Name="noteexam">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="deleted" Type="binary" MaxLength="1" Nullable="false" />
+          <Property Name="observation" Type="nvarchar" MaxLength="255" />
+          <Property Name="specification" Type="nvarchar" MaxLength="255" />
+          <Property Name="status" Type="nvarchar" MaxLength="255" />
+          <Property Name="exam_id" Type="bigint" Nullable="false" />
+          <Property Name="note_id" Type="bigint" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'registroclinico.registroclinico.noteexam_upload' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="noteexam_upload">
+          <Key>
+            <PropertyRef Name="NoteExam_id" />
+            <PropertyRef Name="uploads_id" />
+          </Key>
+          <Property Name="NoteExam_id" Type="bigint" Nullable="false" />
+          <Property Name="uploads_id" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="notemedicine">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="deleted" Type="binary" MaxLength="1" Nullable="false" />
+          <Property Name="durationTime" Type="bigint" />
+          <Property Name="durationUnit" Type="nvarchar" MaxLength="255" />
+          <Property Name="frequencyTime" Type="bigint" />
+          <Property Name="frequencyUnit" Type="nvarchar" MaxLength="255" />
+          <Property Name="indication" Type="nvarchar" MaxLength="255" />
+          <Property Name="medicine_id" Type="bigint" />
+          <Property Name="note_id" Type="bigint" />
+        </EntityType>
+        <EntityType Name="notereferral">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="deleted" Type="binary" MaxLength="1" Nullable="false" />
+          <Property Name="reason" Type="nvarchar" MaxLength="255" />
+          <Property Name="specialty" Type="nvarchar" MaxLength="255" />
+          <Property Name="note_id" Type="bigint" />
+        </EntityType>
+        <EntityType Name="nurse">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="medicRegistration" Type="nvarchar" MaxLength="255" />
+          <Property Name="id" Type="bigint" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'registroclinico.registroclinico.nurse_specialties' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="nurse_specialties">
+          <Key>
+            <PropertyRef Name="Nurse_id" />
+          </Key>
+          <Property Name="Nurse_id" Type="bigint" Nullable="false" />
+          <Property Name="specialties" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="patient">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="alcohol" Type="nvarchar" MaxLength="255" />
+          <Property Name="bloodType" Type="nvarchar" MaxLength="255" />
+          <Property Name="cigaretteNumber" Type="bigint" />
+          <Property Name="createdTicket" Type="nvarchar" MaxLength="255" />
+          <Property Name="dormNumber" Type="bigint" />
+          <Property Name="educationalAttainment" Type="nvarchar" MaxLength="255" />
+          <Property Name="electricity" Type="binary" MaxLength="1" Nullable="false" />
+          <Property Name="fractureNumber" Type="bigint" />
+          <Property Name="fruitsVegetables" Type="nvarchar" MaxLength="255" />
+          <Property Name="highGlucose" Type="nvarchar" MaxLength="255" />
+          <Property Name="homeMaterial" Type="nvarchar" MaxLength="255" />
+          <Property Name="homeOwnership" Type="nvarchar" MaxLength="255" />
+          <Property Name="homeType" Type="nvarchar" MaxLength="255" />
+          <Property Name="occupation" Type="nvarchar" MaxLength="255" />
+          <Property Name="otherAllergies" Type="nvarchar" MaxLength="255" />
+          <Property Name="otherFatherBackground" Type="nvarchar" MaxLength="255" />
+          <Property Name="otherMedicines" Type="nvarchar" MaxLength="255" />
+          <Property Name="otherMotherBackground" Type="nvarchar" MaxLength="255" />
+          <Property Name="otherPersonalBackground" Type="nvarchar" MaxLength="255" />
+          <Property Name="physicalActivity" Type="nvarchar" MaxLength="255" />
+          <Property Name="residentNumber" Type="bigint" />
+          <Property Name="sewage" Type="binary" MaxLength="1" Nullable="false" />
+          <Property Name="water" Type="binary" MaxLength="1" Nullable="false" />
+          <Property Name="id" Type="bigint" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'registroclinico.registroclinico.patient_allergies' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="patient_allergies">
+          <Key>
+            <PropertyRef Name="Patient_id" />
+          </Key>
+          <Property Name="Patient_id" Type="bigint" Nullable="false" />
+          <Property Name="allergies" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'registroclinico.registroclinico.patient_fatherbackgrounds' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="patient_fatherbackgrounds">
+          <Key>
+            <PropertyRef Name="Patient_id" />
+          </Key>
+          <Property Name="Patient_id" Type="bigint" Nullable="false" />
+          <Property Name="fatherBackgrounds" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'registroclinico.registroclinico.patient_medicines' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="patient_medicines">
+          <Key>
+            <PropertyRef Name="Patient_id" />
+          </Key>
+          <Property Name="Patient_id" Type="bigint" Nullable="false" />
+          <Property Name="medicines" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'registroclinico.registroclinico.patient_motherbackgrounds' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="patient_motherbackgrounds">
+          <Key>
+            <PropertyRef Name="Patient_id" />
+          </Key>
+          <Property Name="Patient_id" Type="bigint" Nullable="false" />
+          <Property Name="motherBackgrounds" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'registroclinico.registroclinico.patient_personalbackgrounds' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="patient_personalbackgrounds">
+          <Key>
+            <PropertyRef Name="Patient_id" />
+          </Key>
+          <Property Name="Patient_id" Type="bigint" Nullable="false" />
+          <Property Name="personalBackgrounds" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="province">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="deleted" Type="binary" MaxLength="1" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="department_id" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="role">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="deletable" Type="binary" MaxLength="1" Nullable="false" />
+          <Property Name="deleted" Type="binary" MaxLength="1" Nullable="false" />
+          <Property Name="description" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="255" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="role_permissions">
+          <Key>
+            <PropertyRef Name="Role_id" />
+          </Key>
+          <Property Name="Role_id" Type="bigint" Nullable="false" />
+          <Property Name="permissions" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="ticket">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="closed" Type="binary" MaxLength="1" Nullable="false" />
+          <Property Name="deleted" Type="binary" MaxLength="1" Nullable="false" />
+          <Property Name="nroTicket" Type="nvarchar" MaxLength="255" />
+          <Property Name="serie" Type="nvarchar" MaxLength="255" />
+          <Property Name="status" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="triage">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="abdominalPerimeter" Type="float" />
+          <Property Name="bmi" Type="float" />
+          <Property Name="breathingRate" Type="float" />
+          <Property Name="createdBy" Type="nvarchar" MaxLength="255" />
+          <Property Name="createdDate" Type="date" />
+          <Property Name="deleted" Type="binary" MaxLength="1" Nullable="false" />
+          <Property Name="deposition" Type="nvarchar" MaxLength="255" />
+          <Property Name="diastolicBloodPressure" Type="float" />
+          <Property Name="glycemia" Type="float" />
+          <Property Name="hdlCholesterol" Type="float" />
+          <Property Name="heartRate" Type="float" />
+          <Property Name="heartRisk" Type="float" />
+          <Property Name="hunger" Type="nvarchar" MaxLength="255" />
+          <Property Name="hypertensionRisk" Type="float" />
+          <Property Name="ldlCholesterol" Type="float" />
+          <Property Name="modifiedBy" Type="nvarchar" MaxLength="255" />
+          <Property Name="modifiedDate" Type="date" />
+          <Property Name="size" Type="float" />
+          <Property Name="sleep" Type="nvarchar" MaxLength="255" />
+          <Property Name="systolicBloodPressure" Type="float" />
+          <Property Name="temperature" Type="float" />
+          <Property Name="thirst" Type="nvarchar" MaxLength="255" />
+          <Property Name="totalCholesterol" Type="float" />
+          <Property Name="urine" Type="nvarchar" MaxLength="255" />
+          <Property Name="weight" Type="float" />
+          <Property Name="weightEvolution" Type="nvarchar" MaxLength="255" />
+          <Property Name="patient_id" Type="bigint" />
+          <Property Name="ticket_id" Type="bigint" />
+        </EntityType>
+        <EntityType Name="upload">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="createdBy" Type="nvarchar" MaxLength="255" />
+          <Property Name="createdDate" Type="date" />
+          <Property Name="deleted" Type="binary" MaxLength="1" Nullable="false" />
+          <Property Name="path" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="users">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="address" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="birthday" Type="date" Nullable="false" />
+          <Property Name="cellphone" Type="nvarchar" MaxLength="255" />
+          <Property Name="createdBy" Type="nvarchar" MaxLength="255" />
+          <Property Name="createdDate" Type="datetime2" Precision="0" />
+          <Property Name="deletable" Type="binary" MaxLength="1" Nullable="false" />
+          <Property Name="deleted" Type="binary" MaxLength="1" Nullable="false" />
+          <Property Name="documentNumber" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="documentType" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="email" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="firstName" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="lastNameFather" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="lastNameMother" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="maritalStatus" Type="nvarchar" MaxLength="255" />
+          <Property Name="modifiedBy" Type="nvarchar" MaxLength="255" />
+          <Property Name="modifiedDate" Type="datetime2" Precision="0" />
+          <Property Name="organDonor" Type="binary" MaxLength="1" Nullable="false" />
+          <Property Name="password_hash" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="phone" Type="nvarchar" MaxLength="255" />
+          <Property Name="sex" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="since" Type="date" Nullable="false" />
+          <Property Name="country_id" Type="bigint" Nullable="false" />
+          <Property Name="district_id" Type="bigint" />
+          <Property Name="role_id" Type="bigint" />
+        </EntityType>
+        <Association Name="cardiovascularnote$FK76l04w2q8l3eqoj9cvdpbvftg">
+          <End Role="note" Type="Self.note" Multiplicity="1" />
+          <End Role="cardiovascularnote" Type="Self.cardiovascularnote" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="note">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="cardiovascularnote">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="cardiovascularnote_cardiovascularsymptoms$FKoy9u7yokvwb49eobcslkvcorq">
+          <End Role="cardiovascularnote" Type="Self.cardiovascularnote" Multiplicity="1" />
+          <End Role="cardiovascularnote_cardiovascularsymptoms" Type="Self.cardiovascularnote_cardiovascularsymptoms" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="cardiovascularnote">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="cardiovascularnote_cardiovascularsymptoms">
+              <PropertyRef Name="CardiovascularNote_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="department$FK43w9v6odn5ebkcotastqgn1dw">
+          <End Role="country" Type="Self.country" Multiplicity="1" />
+          <End Role="department" Type="Self.department" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="country">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="department">
+              <PropertyRef Name="country_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="diagnosis$FKdkejwjwwrvhod7ilsu9u62d4r">
+          <End Role="chapter" Type="Self.chapter" Multiplicity="1" />
+          <End Role="diagnosis" Type="Self.diagnosis" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="chapter">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="diagnosis">
+              <PropertyRef Name="chapter_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="district$FKft8pluvn8a75sbmt3bn3o11ph">
+          <End Role="province" Type="Self.province" Multiplicity="1" />
+          <End Role="district" Type="Self.district" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="province">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="district">
+              <PropertyRef Name="province_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="medic$FKa63sueb7mgdy1vvoejcxsafil">
+          <End Role="users" Type="Self.users" Multiplicity="1" />
+          <End Role="medic" Type="Self.medic" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="medic">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="medic_specialties$FKgyco417bacd28ti07gdpxwvsr">
+          <End Role="medic" Type="Self.medic" Multiplicity="1" />
+          <End Role="medic_specialties" Type="Self.medic_specialties" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="medic">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="medic_specialties">
+              <PropertyRef Name="Medic_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="note$FK1q1iewxl8l8ns1v0ra54rpi1m">
+          <End Role="note" Type="Self.note" Multiplicity="0..1" />
+          <End Role="note1" Type="Self.note" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="note">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="note1">
+              <PropertyRef Name="controlNote_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="note$FK4xax0ys51744q34eyu5f3fjqi">
+          <End Role="patient" Type="Self.patient" Multiplicity="1" />
+          <End Role="note" Type="Self.note" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="patient">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="note">
+              <PropertyRef Name="patient_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="note$FKcfa530uvyoc47lcpgg193u38x">
+          <End Role="triage" Type="Self.triage" Multiplicity="0..1" />
+          <End Role="note" Type="Self.note" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="triage">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="note">
+              <PropertyRef Name="triage_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="note$FKgh47sx5cegenn53sohwq7qsxg">
+          <End Role="medic" Type="Self.medic" Multiplicity="0..1" />
+          <End Role="note" Type="Self.note" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="medic">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="note">
+              <PropertyRef Name="medic_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="note$FKmj186q811duwyj6vjeq2g0tdq">
+          <End Role="establishment" Type="Self.establishment" Multiplicity="0..1" />
+          <End Role="note" Type="Self.note" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="establishment">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="note">
+              <PropertyRef Name="establishment_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="note$FKnp0l5lfrvxca2ra3ycetknoun">
+          <End Role="ticket" Type="Self.ticket" Multiplicity="0..1" />
+          <End Role="note" Type="Self.note" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ticket">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="note">
+              <PropertyRef Name="ticket_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="note_notediagnosis$FK3xev2f5hkcif6u646lul1i60u">
+          <End Role="notediagnosis" Type="Self.notediagnosis" Multiplicity="1" />
+          <End Role="note_notediagnosis" Type="Self.note_notediagnosis" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="notediagnosis">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="note_notediagnosis">
+              <PropertyRef Name="diagnosisList_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="note_notediagnosis$FKiarvroh3s4qe0mxrumkyiyv2l">
+          <End Role="note" Type="Self.note" Multiplicity="1" />
+          <End Role="note_notediagnosis" Type="Self.note_notediagnosis" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="note">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="note_notediagnosis">
+              <PropertyRef Name="Note_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="note_noteexam$FKd9d71447en4pshapqxl8gcxuf">
+          <End Role="noteexam" Type="Self.noteexam" Multiplicity="1" />
+          <End Role="note_noteexam" Type="Self.note_noteexam" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="noteexam">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="note_noteexam">
+              <PropertyRef Name="examList_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="note_noteexam$FKq9smmjy4tb6q7s5tfbwgurwpu">
+          <End Role="note" Type="Self.note" Multiplicity="1" />
+          <End Role="note_noteexam" Type="Self.note_noteexam" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="note">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="note_noteexam">
+              <PropertyRef Name="Note_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="note_notemedicine$FKcom12hqvmwlj743rn5ciyi254">
+          <End Role="notemedicine" Type="Self.notemedicine" Multiplicity="1" />
+          <End Role="note_notemedicine" Type="Self.note_notemedicine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="notemedicine">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="note_notemedicine">
+              <PropertyRef Name="medicineList_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="note_notemedicine$FKjn4o8ugr46j42ll2pyqes1hif">
+          <End Role="note" Type="Self.note" Multiplicity="1" />
+          <End Role="note_notemedicine" Type="Self.note_notemedicine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="note">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="note_notemedicine">
+              <PropertyRef Name="Note_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="note_notereferral$FK5bpver4llrcrppdigcmik8t1v">
+          <End Role="note" Type="Self.note" Multiplicity="1" />
+          <End Role="note_notereferral" Type="Self.note_notereferral" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="note">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="note_notereferral">
+              <PropertyRef Name="Note_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="note_notereferral$FK82rp1boh0fiind0fl29kfl1j6">
+          <End Role="notereferral" Type="Self.notereferral" Multiplicity="1" />
+          <End Role="note_notereferral" Type="Self.note_notereferral" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="notereferral">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="note_notereferral">
+              <PropertyRef Name="referralList_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="notediagnosis$FKdsbu75xh53e0laalsslirqjtj">
+          <End Role="diagnosis" Type="Self.diagnosis" Multiplicity="0..1" />
+          <End Role="notediagnosis" Type="Self.notediagnosis" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="diagnosis">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="notediagnosis">
+              <PropertyRef Name="diagnosis_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="notediagnosis$FKt1hhagwvwjxc206n0r05h6g0o">
+          <End Role="note" Type="Self.note" Multiplicity="0..1" />
+          <End Role="notediagnosis" Type="Self.notediagnosis" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="note">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="notediagnosis">
+              <PropertyRef Name="note_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="noteexam$FK8k6pnsf3mvufnyx02okom4m0k">
+          <End Role="note" Type="Self.note" Multiplicity="1" />
+          <End Role="noteexam" Type="Self.noteexam" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="note">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="noteexam">
+              <PropertyRef Name="note_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="noteexam$FKitrp9vwk6cmbplyfe6ag2shv">
+          <End Role="exam" Type="Self.exam" Multiplicity="1" />
+          <End Role="noteexam" Type="Self.noteexam" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="exam">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="noteexam">
+              <PropertyRef Name="exam_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="noteexam_upload$FK1aeir7vd9le5355xnk44tupad">
+          <End Role="upload" Type="Self.upload" Multiplicity="1" />
+          <End Role="noteexam_upload" Type="Self.noteexam_upload" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="upload">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="noteexam_upload">
+              <PropertyRef Name="uploads_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="noteexam_upload$FKc5g15medqnor7apl4iar8wur0">
+          <End Role="noteexam" Type="Self.noteexam" Multiplicity="1" />
+          <End Role="noteexam_upload" Type="Self.noteexam_upload" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="noteexam">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="noteexam_upload">
+              <PropertyRef Name="NoteExam_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="notemedicine$FK56i7lamo0r27xp8mtoog57qep">
+          <End Role="note" Type="Self.note" Multiplicity="0..1" />
+          <End Role="notemedicine" Type="Self.notemedicine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="note">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="notemedicine">
+              <PropertyRef Name="note_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="notemedicine$FKs4qetuf5x8fiw3yy6tud54ox6">
+          <End Role="medicine" Type="Self.medicine" Multiplicity="0..1" />
+          <End Role="notemedicine" Type="Self.notemedicine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="medicine">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="notemedicine">
+              <PropertyRef Name="medicine_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="notereferral$FKmkcu52sj6rov69cglicgu5qsh">
+          <End Role="note" Type="Self.note" Multiplicity="0..1" />
+          <End Role="notereferral" Type="Self.notereferral" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="note">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="notereferral">
+              <PropertyRef Name="note_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="nurse$FKinc1dd4o81eetpkv731etxb34">
+          <End Role="users" Type="Self.users" Multiplicity="1" />
+          <End Role="nurse" Type="Self.nurse" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="nurse">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="nurse_specialties$FK6nc16jusxlaag0qyhvwjs89fk">
+          <End Role="nurse" Type="Self.nurse" Multiplicity="1" />
+          <End Role="nurse_specialties" Type="Self.nurse_specialties" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="nurse">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="nurse_specialties">
+              <PropertyRef Name="Nurse_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="patient$FKs32bk76cxamwpt0gyddps95ow">
+          <End Role="users" Type="Self.users" Multiplicity="1" />
+          <End Role="patient" Type="Self.patient" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="patient">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="patient_allergies$FK7rkekxco79081ners3551bw7u">
+          <End Role="patient" Type="Self.patient" Multiplicity="1" />
+          <End Role="patient_allergies" Type="Self.patient_allergies" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="patient">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="patient_allergies">
+              <PropertyRef Name="Patient_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="patient_fatherbackgrounds$FKh57pb8bk2ypmmftpk55s535ff">
+          <End Role="patient" Type="Self.patient" Multiplicity="1" />
+          <End Role="patient_fatherbackgrounds" Type="Self.patient_fatherbackgrounds" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="patient">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="patient_fatherbackgrounds">
+              <PropertyRef Name="Patient_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="patient_medicines$FKk7eyrktcc9fxau1bm1wquouk8">
+          <End Role="patient" Type="Self.patient" Multiplicity="1" />
+          <End Role="patient_medicines" Type="Self.patient_medicines" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="patient">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="patient_medicines">
+              <PropertyRef Name="Patient_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="patient_motherbackgrounds$FK5u17xwpgftjpdsaeg47as16g7">
+          <End Role="patient" Type="Self.patient" Multiplicity="1" />
+          <End Role="patient_motherbackgrounds" Type="Self.patient_motherbackgrounds" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="patient">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="patient_motherbackgrounds">
+              <PropertyRef Name="Patient_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="patient_personalbackgrounds$FKdmyajsvykcawgr02qquin7orr">
+          <End Role="patient" Type="Self.patient" Multiplicity="1" />
+          <End Role="patient_personalbackgrounds" Type="Self.patient_personalbackgrounds" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="patient">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="patient_personalbackgrounds">
+              <PropertyRef Name="Patient_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="province$FK3joxh8ppnjhvvt1485efkpxm8">
+          <End Role="department" Type="Self.department" Multiplicity="1" />
+          <End Role="province" Type="Self.province" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="department">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="province">
+              <PropertyRef Name="department_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="role_permissions$FKr5u91l7q7yikdobgi0lhntse6">
+          <End Role="role" Type="Self.role" Multiplicity="1" />
+          <End Role="role_permissions" Type="Self.role_permissions" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="role">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="role_permissions">
+              <PropertyRef Name="Role_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="triage$FKf6fatkh465lnjyycdrnmy59b">
+          <End Role="ticket" Type="Self.ticket" Multiplicity="0..1" />
+          <End Role="triage" Type="Self.triage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ticket">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="triage">
+              <PropertyRef Name="ticket_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="triage$FKlql3nj4madqcpkv209jturf45">
+          <End Role="patient" Type="Self.patient" Multiplicity="0..1" />
+          <End Role="triage" Type="Self.triage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="patient">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="triage">
+              <PropertyRef Name="patient_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="users$FK1eit3dhanvh8r59sd30a3vyaw">
+          <End Role="country" Type="Self.country" Multiplicity="1" />
+          <End Role="users" Type="Self.users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="country">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="users">
+              <PropertyRef Name="country_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="users$FKdoiykqja8oxn78j7gf3l536ta">
+          <End Role="district" Type="Self.district" Multiplicity="0..1" />
+          <End Role="users" Type="Self.users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="district">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="users">
+              <PropertyRef Name="district_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="users$FKiod6nq5d7gqshxljomqccs7tp">
+          <End Role="role" Type="Self.role" Multiplicity="0..1" />
+          <End Role="users" Type="Self.users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="role">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="users">
+              <PropertyRef Name="role_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="registroclinicoModelStoreContainer">
+          <EntitySet Name="cardiovascularnote" EntityType="Self.cardiovascularnote" Schema="registroclinico" store:Type="Tables" />
+          <EntitySet Name="chapter" EntityType="Self.chapter" Schema="registroclinico" store:Type="Tables" />
+          <EntitySet Name="country" EntityType="Self.country" Schema="registroclinico" store:Type="Tables" />
+          <EntitySet Name="department" EntityType="Self.department" Schema="registroclinico" store:Type="Tables" />
+          <EntitySet Name="diagnosis" EntityType="Self.diagnosis" Schema="registroclinico" store:Type="Tables" />
+          <EntitySet Name="district" EntityType="Self.district" Schema="registroclinico" store:Type="Tables" />
+          <EntitySet Name="establishment" EntityType="Self.establishment" Schema="registroclinico" store:Type="Tables" />
+          <EntitySet Name="exam" EntityType="Self.exam" Schema="registroclinico" store:Type="Tables" />
+          <EntitySet Name="medic" EntityType="Self.medic" Schema="registroclinico" store:Type="Tables" />
+          <EntitySet Name="medicine" EntityType="Self.medicine" Schema="registroclinico" store:Type="Tables" />
+          <EntitySet Name="note" EntityType="Self.note" Schema="registroclinico" store:Type="Tables" />
+          <EntitySet Name="note_notediagnosis" EntityType="Self.note_notediagnosis" Schema="registroclinico" store:Type="Tables" />
+          <EntitySet Name="note_noteexam" EntityType="Self.note_noteexam" Schema="registroclinico" store:Type="Tables" />
+          <EntitySet Name="note_notemedicine" EntityType="Self.note_notemedicine" Schema="registroclinico" store:Type="Tables" />
+          <EntitySet Name="note_notereferral" EntityType="Self.note_notereferral" Schema="registroclinico" store:Type="Tables" />
+          <EntitySet Name="notediagnosis" EntityType="Self.notediagnosis" Schema="registroclinico" store:Type="Tables" />
+          <EntitySet Name="noteexam" EntityType="Self.noteexam" Schema="registroclinico" store:Type="Tables" />
+          <EntitySet Name="notemedicine" EntityType="Self.notemedicine" Schema="registroclinico" store:Type="Tables" />
+          <EntitySet Name="notereferral" EntityType="Self.notereferral" Schema="registroclinico" store:Type="Tables" />
+          <EntitySet Name="nurse" EntityType="Self.nurse" Schema="registroclinico" store:Type="Tables" />
+          <EntitySet Name="patient" EntityType="Self.patient" Schema="registroclinico" store:Type="Tables" />
+          <EntitySet Name="province" EntityType="Self.province" Schema="registroclinico" store:Type="Tables" />
+          <EntitySet Name="role" EntityType="Self.role" Schema="registroclinico" store:Type="Tables" />
+          <EntitySet Name="ticket" EntityType="Self.ticket" Schema="registroclinico" store:Type="Tables" />
+          <EntitySet Name="triage" EntityType="Self.triage" Schema="registroclinico" store:Type="Tables" />
+          <EntitySet Name="upload" EntityType="Self.upload" Schema="registroclinico" store:Type="Tables" />
+          <EntitySet Name="users" EntityType="Self.users" Schema="registroclinico" store:Type="Tables" />
+          <EntitySet Name="cardiovascularnote_cardiovascularsymptoms" EntityType="Self.cardiovascularnote_cardiovascularsymptoms" store:Type="Tables" store:Schema="registroclinico">
+            <DefiningQuery>SELECT 
+    [cardiovascularnote_cardiovascularsymptoms].[CardiovascularNote_id] AS [CardiovascularNote_id], 
+    [cardiovascularnote_cardiovascularsymptoms].[cardiovascularSymptoms] AS [cardiovascularSymptoms]
+    FROM [registroclinico].[cardiovascularnote_cardiovascularsymptoms] AS [cardiovascularnote_cardiovascularsymptoms]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="medic_specialties" EntityType="Self.medic_specialties" store:Type="Tables" store:Schema="registroclinico">
+            <DefiningQuery>SELECT 
+    [medic_specialties].[Medic_id] AS [Medic_id], 
+    [medic_specialties].[specialties] AS [specialties]
+    FROM [registroclinico].[medic_specialties] AS [medic_specialties]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="noteexam_upload" EntityType="Self.noteexam_upload" store:Type="Tables" store:Schema="registroclinico">
+            <DefiningQuery>SELECT 
+    [noteexam_upload].[NoteExam_id] AS [NoteExam_id], 
+    [noteexam_upload].[uploads_id] AS [uploads_id]
+    FROM [registroclinico].[noteexam_upload] AS [noteexam_upload]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="nurse_specialties" EntityType="Self.nurse_specialties" store:Type="Tables" store:Schema="registroclinico">
+            <DefiningQuery>SELECT 
+    [nurse_specialties].[Nurse_id] AS [Nurse_id], 
+    [nurse_specialties].[specialties] AS [specialties]
+    FROM [registroclinico].[nurse_specialties] AS [nurse_specialties]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="patient_allergies" EntityType="Self.patient_allergies" store:Type="Tables" store:Schema="registroclinico">
+            <DefiningQuery>SELECT 
+    [patient_allergies].[Patient_id] AS [Patient_id], 
+    [patient_allergies].[allergies] AS [allergies]
+    FROM [registroclinico].[patient_allergies] AS [patient_allergies]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="patient_fatherbackgrounds" EntityType="Self.patient_fatherbackgrounds" store:Type="Tables" store:Schema="registroclinico">
+            <DefiningQuery>SELECT 
+    [patient_fatherbackgrounds].[Patient_id] AS [Patient_id], 
+    [patient_fatherbackgrounds].[fatherBackgrounds] AS [fatherBackgrounds]
+    FROM [registroclinico].[patient_fatherbackgrounds] AS [patient_fatherbackgrounds]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="patient_medicines" EntityType="Self.patient_medicines" store:Type="Tables" store:Schema="registroclinico">
+            <DefiningQuery>SELECT 
+    [patient_medicines].[Patient_id] AS [Patient_id], 
+    [patient_medicines].[medicines] AS [medicines]
+    FROM [registroclinico].[patient_medicines] AS [patient_medicines]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="patient_motherbackgrounds" EntityType="Self.patient_motherbackgrounds" store:Type="Tables" store:Schema="registroclinico">
+            <DefiningQuery>SELECT 
+    [patient_motherbackgrounds].[Patient_id] AS [Patient_id], 
+    [patient_motherbackgrounds].[motherBackgrounds] AS [motherBackgrounds]
+    FROM [registroclinico].[patient_motherbackgrounds] AS [patient_motherbackgrounds]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="patient_personalbackgrounds" EntityType="Self.patient_personalbackgrounds" store:Type="Tables" store:Schema="registroclinico">
+            <DefiningQuery>SELECT 
+    [patient_personalbackgrounds].[Patient_id] AS [Patient_id], 
+    [patient_personalbackgrounds].[personalBackgrounds] AS [personalBackgrounds]
+    FROM [registroclinico].[patient_personalbackgrounds] AS [patient_personalbackgrounds]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="role_permissions" EntityType="Self.role_permissions" store:Type="Tables" store:Schema="registroclinico">
+            <DefiningQuery>SELECT 
+    [role_permissions].[Role_id] AS [Role_id], 
+    [role_permissions].[permissions] AS [permissions]
+    FROM [registroclinico].[role_permissions] AS [role_permissions]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="cardiovascularnote$FK76l04w2q8l3eqoj9cvdpbvftg" Association="Self.cardiovascularnote$FK76l04w2q8l3eqoj9cvdpbvftg">
+            <End Role="note" EntitySet="note" />
+            <End Role="cardiovascularnote" EntitySet="cardiovascularnote" />
+          </AssociationSet>
+          <AssociationSet Name="cardiovascularnote_cardiovascularsymptoms$FKoy9u7yokvwb49eobcslkvcorq" Association="Self.cardiovascularnote_cardiovascularsymptoms$FKoy9u7yokvwb49eobcslkvcorq">
+            <End Role="cardiovascularnote" EntitySet="cardiovascularnote" />
+            <End Role="cardiovascularnote_cardiovascularsymptoms" EntitySet="cardiovascularnote_cardiovascularsymptoms" />
+          </AssociationSet>
+          <AssociationSet Name="department$FK43w9v6odn5ebkcotastqgn1dw" Association="Self.department$FK43w9v6odn5ebkcotastqgn1dw">
+            <End Role="country" EntitySet="country" />
+            <End Role="department" EntitySet="department" />
+          </AssociationSet>
+          <AssociationSet Name="diagnosis$FKdkejwjwwrvhod7ilsu9u62d4r" Association="Self.diagnosis$FKdkejwjwwrvhod7ilsu9u62d4r">
+            <End Role="chapter" EntitySet="chapter" />
+            <End Role="diagnosis" EntitySet="diagnosis" />
+          </AssociationSet>
+          <AssociationSet Name="district$FKft8pluvn8a75sbmt3bn3o11ph" Association="Self.district$FKft8pluvn8a75sbmt3bn3o11ph">
+            <End Role="province" EntitySet="province" />
+            <End Role="district" EntitySet="district" />
+          </AssociationSet>
+          <AssociationSet Name="medic$FKa63sueb7mgdy1vvoejcxsafil" Association="Self.medic$FKa63sueb7mgdy1vvoejcxsafil">
+            <End Role="users" EntitySet="users" />
+            <End Role="medic" EntitySet="medic" />
+          </AssociationSet>
+          <AssociationSet Name="medic_specialties$FKgyco417bacd28ti07gdpxwvsr" Association="Self.medic_specialties$FKgyco417bacd28ti07gdpxwvsr">
+            <End Role="medic" EntitySet="medic" />
+            <End Role="medic_specialties" EntitySet="medic_specialties" />
+          </AssociationSet>
+          <AssociationSet Name="note$FK1q1iewxl8l8ns1v0ra54rpi1m" Association="Self.note$FK1q1iewxl8l8ns1v0ra54rpi1m">
+            <End Role="note" EntitySet="note" />
+            <End Role="note1" EntitySet="note" />
+          </AssociationSet>
+          <AssociationSet Name="note$FK4xax0ys51744q34eyu5f3fjqi" Association="Self.note$FK4xax0ys51744q34eyu5f3fjqi">
+            <End Role="patient" EntitySet="patient" />
+            <End Role="note" EntitySet="note" />
+          </AssociationSet>
+          <AssociationSet Name="note$FKcfa530uvyoc47lcpgg193u38x" Association="Self.note$FKcfa530uvyoc47lcpgg193u38x">
+            <End Role="triage" EntitySet="triage" />
+            <End Role="note" EntitySet="note" />
+          </AssociationSet>
+          <AssociationSet Name="note$FKgh47sx5cegenn53sohwq7qsxg" Association="Self.note$FKgh47sx5cegenn53sohwq7qsxg">
+            <End Role="medic" EntitySet="medic" />
+            <End Role="note" EntitySet="note" />
+          </AssociationSet>
+          <AssociationSet Name="note$FKmj186q811duwyj6vjeq2g0tdq" Association="Self.note$FKmj186q811duwyj6vjeq2g0tdq">
+            <End Role="establishment" EntitySet="establishment" />
+            <End Role="note" EntitySet="note" />
+          </AssociationSet>
+          <AssociationSet Name="note$FKnp0l5lfrvxca2ra3ycetknoun" Association="Self.note$FKnp0l5lfrvxca2ra3ycetknoun">
+            <End Role="ticket" EntitySet="ticket" />
+            <End Role="note" EntitySet="note" />
+          </AssociationSet>
+          <AssociationSet Name="note_notediagnosis$FK3xev2f5hkcif6u646lul1i60u" Association="Self.note_notediagnosis$FK3xev2f5hkcif6u646lul1i60u">
+            <End Role="notediagnosis" EntitySet="notediagnosis" />
+            <End Role="note_notediagnosis" EntitySet="note_notediagnosis" />
+          </AssociationSet>
+          <AssociationSet Name="note_notediagnosis$FKiarvroh3s4qe0mxrumkyiyv2l" Association="Self.note_notediagnosis$FKiarvroh3s4qe0mxrumkyiyv2l">
+            <End Role="note" EntitySet="note" />
+            <End Role="note_notediagnosis" EntitySet="note_notediagnosis" />
+          </AssociationSet>
+          <AssociationSet Name="note_noteexam$FKd9d71447en4pshapqxl8gcxuf" Association="Self.note_noteexam$FKd9d71447en4pshapqxl8gcxuf">
+            <End Role="noteexam" EntitySet="noteexam" />
+            <End Role="note_noteexam" EntitySet="note_noteexam" />
+          </AssociationSet>
+          <AssociationSet Name="note_noteexam$FKq9smmjy4tb6q7s5tfbwgurwpu" Association="Self.note_noteexam$FKq9smmjy4tb6q7s5tfbwgurwpu">
+            <End Role="note" EntitySet="note" />
+            <End Role="note_noteexam" EntitySet="note_noteexam" />
+          </AssociationSet>
+          <AssociationSet Name="note_notemedicine$FKcom12hqvmwlj743rn5ciyi254" Association="Self.note_notemedicine$FKcom12hqvmwlj743rn5ciyi254">
+            <End Role="notemedicine" EntitySet="notemedicine" />
+            <End Role="note_notemedicine" EntitySet="note_notemedicine" />
+          </AssociationSet>
+          <AssociationSet Name="note_notemedicine$FKjn4o8ugr46j42ll2pyqes1hif" Association="Self.note_notemedicine$FKjn4o8ugr46j42ll2pyqes1hif">
+            <End Role="note" EntitySet="note" />
+            <End Role="note_notemedicine" EntitySet="note_notemedicine" />
+          </AssociationSet>
+          <AssociationSet Name="note_notereferral$FK5bpver4llrcrppdigcmik8t1v" Association="Self.note_notereferral$FK5bpver4llrcrppdigcmik8t1v">
+            <End Role="note" EntitySet="note" />
+            <End Role="note_notereferral" EntitySet="note_notereferral" />
+          </AssociationSet>
+          <AssociationSet Name="note_notereferral$FK82rp1boh0fiind0fl29kfl1j6" Association="Self.note_notereferral$FK82rp1boh0fiind0fl29kfl1j6">
+            <End Role="notereferral" EntitySet="notereferral" />
+            <End Role="note_notereferral" EntitySet="note_notereferral" />
+          </AssociationSet>
+          <AssociationSet Name="notediagnosis$FKdsbu75xh53e0laalsslirqjtj" Association="Self.notediagnosis$FKdsbu75xh53e0laalsslirqjtj">
+            <End Role="diagnosis" EntitySet="diagnosis" />
+            <End Role="notediagnosis" EntitySet="notediagnosis" />
+          </AssociationSet>
+          <AssociationSet Name="notediagnosis$FKt1hhagwvwjxc206n0r05h6g0o" Association="Self.notediagnosis$FKt1hhagwvwjxc206n0r05h6g0o">
+            <End Role="note" EntitySet="note" />
+            <End Role="notediagnosis" EntitySet="notediagnosis" />
+          </AssociationSet>
+          <AssociationSet Name="noteexam$FK8k6pnsf3mvufnyx02okom4m0k" Association="Self.noteexam$FK8k6pnsf3mvufnyx02okom4m0k">
+            <End Role="note" EntitySet="note" />
+            <End Role="noteexam" EntitySet="noteexam" />
+          </AssociationSet>
+          <AssociationSet Name="noteexam$FKitrp9vwk6cmbplyfe6ag2shv" Association="Self.noteexam$FKitrp9vwk6cmbplyfe6ag2shv">
+            <End Role="exam" EntitySet="exam" />
+            <End Role="noteexam" EntitySet="noteexam" />
+          </AssociationSet>
+          <AssociationSet Name="noteexam_upload$FK1aeir7vd9le5355xnk44tupad" Association="Self.noteexam_upload$FK1aeir7vd9le5355xnk44tupad">
+            <End Role="upload" EntitySet="upload" />
+            <End Role="noteexam_upload" EntitySet="noteexam_upload" />
+          </AssociationSet>
+          <AssociationSet Name="noteexam_upload$FKc5g15medqnor7apl4iar8wur0" Association="Self.noteexam_upload$FKc5g15medqnor7apl4iar8wur0">
+            <End Role="noteexam" EntitySet="noteexam" />
+            <End Role="noteexam_upload" EntitySet="noteexam_upload" />
+          </AssociationSet>
+          <AssociationSet Name="notemedicine$FK56i7lamo0r27xp8mtoog57qep" Association="Self.notemedicine$FK56i7lamo0r27xp8mtoog57qep">
+            <End Role="note" EntitySet="note" />
+            <End Role="notemedicine" EntitySet="notemedicine" />
+          </AssociationSet>
+          <AssociationSet Name="notemedicine$FKs4qetuf5x8fiw3yy6tud54ox6" Association="Self.notemedicine$FKs4qetuf5x8fiw3yy6tud54ox6">
+            <End Role="medicine" EntitySet="medicine" />
+            <End Role="notemedicine" EntitySet="notemedicine" />
+          </AssociationSet>
+          <AssociationSet Name="notereferral$FKmkcu52sj6rov69cglicgu5qsh" Association="Self.notereferral$FKmkcu52sj6rov69cglicgu5qsh">
+            <End Role="note" EntitySet="note" />
+            <End Role="notereferral" EntitySet="notereferral" />
+          </AssociationSet>
+          <AssociationSet Name="nurse$FKinc1dd4o81eetpkv731etxb34" Association="Self.nurse$FKinc1dd4o81eetpkv731etxb34">
+            <End Role="users" EntitySet="users" />
+            <End Role="nurse" EntitySet="nurse" />
+          </AssociationSet>
+          <AssociationSet Name="nurse_specialties$FK6nc16jusxlaag0qyhvwjs89fk" Association="Self.nurse_specialties$FK6nc16jusxlaag0qyhvwjs89fk">
+            <End Role="nurse" EntitySet="nurse" />
+            <End Role="nurse_specialties" EntitySet="nurse_specialties" />
+          </AssociationSet>
+          <AssociationSet Name="patient$FKs32bk76cxamwpt0gyddps95ow" Association="Self.patient$FKs32bk76cxamwpt0gyddps95ow">
+            <End Role="users" EntitySet="users" />
+            <End Role="patient" EntitySet="patient" />
+          </AssociationSet>
+          <AssociationSet Name="patient_allergies$FK7rkekxco79081ners3551bw7u" Association="Self.patient_allergies$FK7rkekxco79081ners3551bw7u">
+            <End Role="patient" EntitySet="patient" />
+            <End Role="patient_allergies" EntitySet="patient_allergies" />
+          </AssociationSet>
+          <AssociationSet Name="patient_fatherbackgrounds$FKh57pb8bk2ypmmftpk55s535ff" Association="Self.patient_fatherbackgrounds$FKh57pb8bk2ypmmftpk55s535ff">
+            <End Role="patient" EntitySet="patient" />
+            <End Role="patient_fatherbackgrounds" EntitySet="patient_fatherbackgrounds" />
+          </AssociationSet>
+          <AssociationSet Name="patient_medicines$FKk7eyrktcc9fxau1bm1wquouk8" Association="Self.patient_medicines$FKk7eyrktcc9fxau1bm1wquouk8">
+            <End Role="patient" EntitySet="patient" />
+            <End Role="patient_medicines" EntitySet="patient_medicines" />
+          </AssociationSet>
+          <AssociationSet Name="patient_motherbackgrounds$FK5u17xwpgftjpdsaeg47as16g7" Association="Self.patient_motherbackgrounds$FK5u17xwpgftjpdsaeg47as16g7">
+            <End Role="patient" EntitySet="patient" />
+            <End Role="patient_motherbackgrounds" EntitySet="patient_motherbackgrounds" />
+          </AssociationSet>
+          <AssociationSet Name="patient_personalbackgrounds$FKdmyajsvykcawgr02qquin7orr" Association="Self.patient_personalbackgrounds$FKdmyajsvykcawgr02qquin7orr">
+            <End Role="patient" EntitySet="patient" />
+            <End Role="patient_personalbackgrounds" EntitySet="patient_personalbackgrounds" />
+          </AssociationSet>
+          <AssociationSet Name="province$FK3joxh8ppnjhvvt1485efkpxm8" Association="Self.province$FK3joxh8ppnjhvvt1485efkpxm8">
+            <End Role="department" EntitySet="department" />
+            <End Role="province" EntitySet="province" />
+          </AssociationSet>
+          <AssociationSet Name="role_permissions$FKr5u91l7q7yikdobgi0lhntse6" Association="Self.role_permissions$FKr5u91l7q7yikdobgi0lhntse6">
+            <End Role="role" EntitySet="role" />
+            <End Role="role_permissions" EntitySet="role_permissions" />
+          </AssociationSet>
+          <AssociationSet Name="triage$FKf6fatkh465lnjyycdrnmy59b" Association="Self.triage$FKf6fatkh465lnjyycdrnmy59b">
+            <End Role="ticket" EntitySet="ticket" />
+            <End Role="triage" EntitySet="triage" />
+          </AssociationSet>
+          <AssociationSet Name="triage$FKlql3nj4madqcpkv209jturf45" Association="Self.triage$FKlql3nj4madqcpkv209jturf45">
+            <End Role="patient" EntitySet="patient" />
+            <End Role="triage" EntitySet="triage" />
+          </AssociationSet>
+          <AssociationSet Name="users$FK1eit3dhanvh8r59sd30a3vyaw" Association="Self.users$FK1eit3dhanvh8r59sd30a3vyaw">
+            <End Role="country" EntitySet="country" />
+            <End Role="users" EntitySet="users" />
+          </AssociationSet>
+          <AssociationSet Name="users$FKdoiykqja8oxn78j7gf3l536ta" Association="Self.users$FKdoiykqja8oxn78j7gf3l536ta">
+            <End Role="district" EntitySet="district" />
+            <End Role="users" EntitySet="users" />
+          </AssociationSet>
+          <AssociationSet Name="users$FKiod6nq5d7gqshxljomqccs7tp" Association="Self.users$FKiod6nq5d7gqshxljomqccs7tp">
+            <End Role="role" EntitySet="role" />
+            <End Role="users" EntitySet="users" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="registroclinicoModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="cardiovascularnote">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="auscultationSite" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="capillaryRefillLLM" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="capillaryRefillLRM" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="cardiacPressureIntensity" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="cardiacPressureRhythm" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="diastolicPhase" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
+          <Property Name="edemaAnkle" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
+          <Property Name="edemaGeneralized" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
+          <Property Name="edemaLowerMembers" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
+          <Property Name="fourthNoise" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
+          <Property Name="gastrointestinalSemiology" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="murmurs" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
+          <Property Name="neckRadiation" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
+          <Property Name="otherSymptoms" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="pedalPulsesL" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="pedalPulsesR" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="pulsesLLM" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="pulsesLRM" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="radialPulsesL" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="radialPulsesR" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="systolicPhase" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
+          <Property Name="thirdNoise" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
+          <Property Name="trophicChanges" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
+          <Property Name="vesicularWhisperL" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="vesicularWhisperR" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="id" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="note" Relationship="Self.cardiovascularnote_FK76l04w2q8l3eqoj9cvdpbvftg" FromRole="cardiovascularnote" ToRole="note" />
+          <NavigationProperty Name="cardiovascularnote_cardiovascularsymptoms" Relationship="Self.cardiovascularnote_cardiovascularsymptoms_FKoy9u7yokvwb49eobcslkvcorq" FromRole="cardiovascularnote" ToRole="cardiovascularnote_cardiovascularsymptoms" />
+        </EntityType>
+        <EntityType Name="chapter">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="code" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="deleted" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
+          <Property Name="title" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="diagnosis" Relationship="Self.diagnosis_FKdkejwjwwrvhod7ilsu9u62d4r" FromRole="chapter" ToRole="diagnosis" />
+        </EntityType>
+        <EntityType Name="country">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="deleted" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="departments" Relationship="Self.department_FK43w9v6odn5ebkcotastqgn1dw" FromRole="country" ToRole="department" />
+          <NavigationProperty Name="users" Relationship="Self.users_FK1eit3dhanvh8r59sd30a3vyaw" FromRole="country" ToRole="users" />
+        </EntityType>
+        <EntityType Name="department">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="deleted" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="country_id" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="country" Relationship="Self.department_FK43w9v6odn5ebkcotastqgn1dw" FromRole="department" ToRole="country" />
+          <NavigationProperty Name="provinces" Relationship="Self.province_FK3joxh8ppnjhvvt1485efkpxm8" FromRole="department" ToRole="province" />
+        </EntityType>
+        <EntityType Name="diagnosi">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="code" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="deleted" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
+          <Property Name="title" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="chapter_id" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="chapter" Relationship="Self.diagnosis_FKdkejwjwwrvhod7ilsu9u62d4r" FromRole="diagnosis" ToRole="chapter" />
+          <NavigationProperty Name="notediagnosis" Relationship="Self.notediagnosis_FKdsbu75xh53e0laalsslirqjtj" FromRole="diagnosis" ToRole="notediagnosis" />
+        </EntityType>
+        <EntityType Name="district">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="deleted" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ubigeo" Type="Int64" />
+          <Property Name="province_id" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="province" Relationship="Self.district_FKft8pluvn8a75sbmt3bn3o11ph" FromRole="district" ToRole="province" />
+          <NavigationProperty Name="users" Relationship="Self.users_FKdoiykqja8oxn78j7gf3l536ta" FromRole="district" ToRole="users" />
+        </EntityType>
+        <EntityType Name="establishment">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="address" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="deleted" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
+          <Property Name="establishmentType" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="initials" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="phone" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="notes" Relationship="Self.note_FKmj186q811duwyj6vjeq2g0tdq" FromRole="establishment" ToRole="note" />
+        </EntityType>
+        <EntityType Name="exam">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="deleted" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="type" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="noteexams" Relationship="Self.noteexam_FKitrp9vwk6cmbplyfe6ag2shv" FromRole="exam" ToRole="noteexam" />
+        </EntityType>
+        <EntityType Name="medic">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="cmp" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="rne" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="id" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="user" Relationship="Self.medic_FKa63sueb7mgdy1vvoejcxsafil" FromRole="medic" ToRole="users" />
+          <NavigationProperty Name="medic_specialties" Relationship="Self.medic_specialties_FKgyco417bacd28ti07gdpxwvsr" FromRole="medic" ToRole="medic_specialties" />
+          <NavigationProperty Name="notes" Relationship="Self.note_FKgh47sx5cegenn53sohwq7qsxg" FromRole="medic" ToRole="note" />
+        </EntityType>
+        <EntityType Name="medicine">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="concentration" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="deleted" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
+          <Property Name="form" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="fractions" Type="Int64" />
+          <Property Name="healthRegistration" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="owner" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="presentation" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="notemedicines" Relationship="Self.notemedicine_FKs4qetuf5x8fiw3yy6tud54ox6" FromRole="medicine" ToRole="notemedicine" />
+        </EntityType>
+        <EntityType Name="note">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="age" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="completed" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
+          <Property Name="control" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
+          <Property Name="createdBy" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="createdDate" Type="DateTime" Precision="0" />
+          <Property Name="deleted" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
+          <Property Name="diagnosis" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="exam" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="modifiedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="modifiedDate" Type="DateTime" Precision="0" />
+          <Property Name="physicalExam" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="secondOpinion" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="sicknessTime" Type="Int64" />
+          <Property Name="sicknessUnit" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="specialty" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="stage" Type="Int64" />
+          <Property Name="story" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="symptom" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="treatment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="controlNote_id" Type="Int64" />
+          <Property Name="establishment_id" Type="Int64" />
+          <Property Name="medic_id" Type="Int64" />
+          <Property Name="patient_id" Type="Int64" Nullable="false" />
+          <Property Name="ticket_id" Type="Int64" />
+          <Property Name="triage_id" Type="Int64" />
+          <NavigationProperty Name="cardiovascularnote" Relationship="Self.cardiovascularnote_FK76l04w2q8l3eqoj9cvdpbvftg" FromRole="note" ToRole="cardiovascularnote" />
+          <NavigationProperty Name="establishment" Relationship="Self.note_FKmj186q811duwyj6vjeq2g0tdq" FromRole="note" ToRole="establishment" />
+          <NavigationProperty Name="medic" Relationship="Self.note_FKgh47sx5cegenn53sohwq7qsxg" FromRole="note" ToRole="medic" />
+          <NavigationProperty Name="note1" Relationship="Self.note_FK1q1iewxl8l8ns1v0ra54rpi1m" FromRole="note" ToRole="note1" />
+          <NavigationProperty Name="note2" Relationship="Self.note_FK1q1iewxl8l8ns1v0ra54rpi1m" FromRole="note1" ToRole="note" />
+          <NavigationProperty Name="patient" Relationship="Self.note_FK4xax0ys51744q34eyu5f3fjqi" FromRole="note" ToRole="patient" />
+          <NavigationProperty Name="triage" Relationship="Self.note_FKcfa530uvyoc47lcpgg193u38x" FromRole="note" ToRole="triage" />
+          <NavigationProperty Name="ticket" Relationship="Self.note_FKnp0l5lfrvxca2ra3ycetknoun" FromRole="note" ToRole="ticket" />
+          <NavigationProperty Name="notediagnosis" Relationship="Self.notediagnosis_FKt1hhagwvwjxc206n0r05h6g0o" FromRole="note" ToRole="notediagnosis" />
+          <NavigationProperty Name="noteexams" Relationship="Self.noteexam_FK8k6pnsf3mvufnyx02okom4m0k" FromRole="note" ToRole="noteexam" />
+          <NavigationProperty Name="notemedicines" Relationship="Self.notemedicine_FK56i7lamo0r27xp8mtoog57qep" FromRole="note" ToRole="notemedicine" />
+          <NavigationProperty Name="notereferrals" Relationship="Self.notereferral_FKmkcu52sj6rov69cglicgu5qsh" FromRole="note" ToRole="notereferral" />
+          <NavigationProperty Name="notediagnosis1" Relationship="Self.note_notediagnosis" FromRole="note" ToRole="notediagnosis" />
+          <NavigationProperty Name="noteexams1" Relationship="Self.note_noteexam" FromRole="note" ToRole="noteexam" />
+          <NavigationProperty Name="notemedicines1" Relationship="Self.note_notemedicine" FromRole="note" ToRole="notemedicine" />
+          <NavigationProperty Name="notereferrals1" Relationship="Self.note_notereferral" FromRole="note" ToRole="notereferral" />
+        </EntityType>
+        <EntityType Name="notediagnosi">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="deleted" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
+          <Property Name="diagnosisType" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="diagnosis_id" Type="Int64" />
+          <Property Name="note_id" Type="Int64" />
+          <NavigationProperty Name="diagnosi" Relationship="Self.notediagnosis_FKdsbu75xh53e0laalsslirqjtj" FromRole="notediagnosis" ToRole="diagnosis" />
+          <NavigationProperty Name="note" Relationship="Self.notediagnosis_FKt1hhagwvwjxc206n0r05h6g0o" FromRole="notediagnosis" ToRole="note" />
+          <NavigationProperty Name="notes" Relationship="Self.note_notediagnosis" FromRole="notediagnosis" ToRole="note" />
+        </EntityType>
+        <EntityType Name="noteexam">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="deleted" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
+          <Property Name="observation" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="specification" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="status" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="exam_id" Type="Int64" Nullable="false" />
+          <Property Name="note_id" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="exam" Relationship="Self.noteexam_FKitrp9vwk6cmbplyfe6ag2shv" FromRole="noteexam" ToRole="exam" />
+          <NavigationProperty Name="note" Relationship="Self.noteexam_FK8k6pnsf3mvufnyx02okom4m0k" FromRole="noteexam" ToRole="note" />
+          <NavigationProperty Name="notes" Relationship="Self.note_noteexam" FromRole="noteexam" ToRole="note" />
+          <NavigationProperty Name="uploads" Relationship="Self.noteexam_upload" FromRole="noteexam" ToRole="upload" />
+        </EntityType>
+        <EntityType Name="notemedicine">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="deleted" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
+          <Property Name="durationTime" Type="Int64" />
+          <Property Name="durationUnit" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="frequencyTime" Type="Int64" />
+          <Property Name="frequencyUnit" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="indication" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="medicine_id" Type="Int64" />
+          <Property Name="note_id" Type="Int64" />
+          <NavigationProperty Name="medicine" Relationship="Self.notemedicine_FKs4qetuf5x8fiw3yy6tud54ox6" FromRole="notemedicine" ToRole="medicine" />
+          <NavigationProperty Name="note" Relationship="Self.notemedicine_FK56i7lamo0r27xp8mtoog57qep" FromRole="notemedicine" ToRole="note" />
+          <NavigationProperty Name="notes" Relationship="Self.note_notemedicine" FromRole="notemedicine" ToRole="note" />
+        </EntityType>
+        <EntityType Name="notereferral">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="deleted" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
+          <Property Name="reason" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="specialty" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="note_id" Type="Int64" />
+          <NavigationProperty Name="note" Relationship="Self.notereferral_FKmkcu52sj6rov69cglicgu5qsh" FromRole="notereferral" ToRole="note" />
+          <NavigationProperty Name="notes" Relationship="Self.note_notereferral" FromRole="notereferral" ToRole="note" />
+        </EntityType>
+        <EntityType Name="nurse">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="medicRegistration" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="id" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="user" Relationship="Self.nurse_FKinc1dd4o81eetpkv731etxb34" FromRole="nurse" ToRole="users" />
+          <NavigationProperty Name="nurse_specialties" Relationship="Self.nurse_specialties_FK6nc16jusxlaag0qyhvwjs89fk" FromRole="nurse" ToRole="nurse_specialties" />
+        </EntityType>
+        <EntityType Name="patient">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="alcohol" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="bloodType" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="cigaretteNumber" Type="Int64" />
+          <Property Name="createdTicket" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="dormNumber" Type="Int64" />
+          <Property Name="educationalAttainment" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="electricity" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
+          <Property Name="fractureNumber" Type="Int64" />
+          <Property Name="fruitsVegetables" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="highGlucose" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="homeMaterial" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="homeOwnership" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="homeType" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="occupation" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="otherAllergies" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="otherFatherBackground" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="otherMedicines" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="otherMotherBackground" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="otherPersonalBackground" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="physicalActivity" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="residentNumber" Type="Int64" />
+          <Property Name="sewage" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
+          <Property Name="water" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
+          <Property Name="id" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="notes" Relationship="Self.note_FK4xax0ys51744q34eyu5f3fjqi" FromRole="patient" ToRole="note" />
+          <NavigationProperty Name="user" Relationship="Self.patient_FKs32bk76cxamwpt0gyddps95ow" FromRole="patient" ToRole="users" />
+          <NavigationProperty Name="patient_allergies" Relationship="Self.patient_allergies_FK7rkekxco79081ners3551bw7u" FromRole="patient" ToRole="patient_allergies" />
+          <NavigationProperty Name="patient_fatherbackgrounds" Relationship="Self.patient_fatherbackgrounds_FKh57pb8bk2ypmmftpk55s535ff" FromRole="patient" ToRole="patient_fatherbackgrounds" />
+          <NavigationProperty Name="patient_medicines" Relationship="Self.patient_medicines_FKk7eyrktcc9fxau1bm1wquouk8" FromRole="patient" ToRole="patient_medicines" />
+          <NavigationProperty Name="patient_motherbackgrounds" Relationship="Self.patient_motherbackgrounds_FK5u17xwpgftjpdsaeg47as16g7" FromRole="patient" ToRole="patient_motherbackgrounds" />
+          <NavigationProperty Name="patient_personalbackgrounds" Relationship="Self.patient_personalbackgrounds_FKdmyajsvykcawgr02qquin7orr" FromRole="patient" ToRole="patient_personalbackgrounds" />
+          <NavigationProperty Name="triages" Relationship="Self.triage_FKlql3nj4madqcpkv209jturf45" FromRole="patient" ToRole="triage" />
+        </EntityType>
+        <EntityType Name="province">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="deleted" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="department_id" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="department" Relationship="Self.province_FK3joxh8ppnjhvvt1485efkpxm8" FromRole="province" ToRole="department" />
+          <NavigationProperty Name="districts" Relationship="Self.district_FKft8pluvn8a75sbmt3bn3o11ph" FromRole="province" ToRole="district" />
+        </EntityType>
+        <EntityType Name="role">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="deletable" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
+          <Property Name="deleted" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="role_permissions" Relationship="Self.role_permissions_FKr5u91l7q7yikdobgi0lhntse6" FromRole="role" ToRole="role_permissions" />
+          <NavigationProperty Name="users" Relationship="Self.users_FKiod6nq5d7gqshxljomqccs7tp" FromRole="role" ToRole="users" />
+        </EntityType>
+        <EntityType Name="ticket">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="closed" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
+          <Property Name="deleted" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
+          <Property Name="nroTicket" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="serie" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="status" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="notes" Relationship="Self.note_FKnp0l5lfrvxca2ra3ycetknoun" FromRole="ticket" ToRole="note" />
+          <NavigationProperty Name="triages" Relationship="Self.triage_FKf6fatkh465lnjyycdrnmy59b" FromRole="ticket" ToRole="triage" />
+        </EntityType>
+        <EntityType Name="triage">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="abdominalPerimeter" Type="Double" />
+          <Property Name="bmi" Type="Double" />
+          <Property Name="breathingRate" Type="Double" />
+          <Property Name="createdBy" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="createdDate" Type="DateTime" Precision="0" />
+          <Property Name="deleted" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
+          <Property Name="deposition" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="diastolicBloodPressure" Type="Double" />
+          <Property Name="glycemia" Type="Double" />
+          <Property Name="hdlCholesterol" Type="Double" />
+          <Property Name="heartRate" Type="Double" />
+          <Property Name="heartRisk" Type="Double" />
+          <Property Name="hunger" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="hypertensionRisk" Type="Double" />
+          <Property Name="ldlCholesterol" Type="Double" />
+          <Property Name="modifiedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="modifiedDate" Type="DateTime" Precision="0" />
+          <Property Name="size" Type="Double" />
+          <Property Name="sleep" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="systolicBloodPressure" Type="Double" />
+          <Property Name="temperature" Type="Double" />
+          <Property Name="thirst" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="totalCholesterol" Type="Double" />
+          <Property Name="urine" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="weight" Type="Double" />
+          <Property Name="weightEvolution" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="patient_id" Type="Int64" />
+          <Property Name="ticket_id" Type="Int64" />
+          <NavigationProperty Name="notes" Relationship="Self.note_FKcfa530uvyoc47lcpgg193u38x" FromRole="triage" ToRole="note" />
+          <NavigationProperty Name="patient" Relationship="Self.triage_FKlql3nj4madqcpkv209jturf45" FromRole="triage" ToRole="patient" />
+          <NavigationProperty Name="ticket" Relationship="Self.triage_FKf6fatkh465lnjyycdrnmy59b" FromRole="triage" ToRole="ticket" />
+        </EntityType>
+        <EntityType Name="upload">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="createdBy" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="createdDate" Type="DateTime" Precision="0" />
+          <Property Name="deleted" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
+          <Property Name="path" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="noteexams" Relationship="Self.noteexam_upload" FromRole="upload" ToRole="noteexam" />
+        </EntityType>
+        <EntityType Name="user">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="address" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="birthday" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="cellphone" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="createdBy" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="createdDate" Type="DateTime" Precision="0" />
+          <Property Name="deletable" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
+          <Property Name="deleted" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
+          <Property Name="documentNumber" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="documentType" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="email" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="firstName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="lastNameFather" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="lastNameMother" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="maritalStatus" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="modifiedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="modifiedDate" Type="DateTime" Precision="0" />
+          <Property Name="organDonor" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
+          <Property Name="password_hash" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="phone" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="sex" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="since" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="country_id" Type="Int64" Nullable="false" />
+          <Property Name="district_id" Type="Int64" />
+          <Property Name="role_id" Type="Int64" />
+          <NavigationProperty Name="country" Relationship="Self.users_FK1eit3dhanvh8r59sd30a3vyaw" FromRole="users" ToRole="country" />
+          <NavigationProperty Name="district" Relationship="Self.users_FKdoiykqja8oxn78j7gf3l536ta" FromRole="users" ToRole="district" />
+          <NavigationProperty Name="medic" Relationship="Self.medic_FKa63sueb7mgdy1vvoejcxsafil" FromRole="users" ToRole="medic" />
+          <NavigationProperty Name="nurse" Relationship="Self.nurse_FKinc1dd4o81eetpkv731etxb34" FromRole="users" ToRole="nurse" />
+          <NavigationProperty Name="patient" Relationship="Self.patient_FKs32bk76cxamwpt0gyddps95ow" FromRole="users" ToRole="patient" />
+          <NavigationProperty Name="role" Relationship="Self.users_FKiod6nq5d7gqshxljomqccs7tp" FromRole="users" ToRole="role" />
+        </EntityType>
+        <EntityType Name="cardiovascularnote_cardiovascularsymptoms">
+          <Key>
+            <PropertyRef Name="CardiovascularNote_id" />
+          </Key>
+          <Property Name="CardiovascularNote_id" Type="Int64" Nullable="false" />
+          <Property Name="cardiovascularSymptoms" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="cardiovascularnote" Relationship="Self.cardiovascularnote_cardiovascularsymptoms_FKoy9u7yokvwb49eobcslkvcorq" FromRole="cardiovascularnote_cardiovascularsymptoms" ToRole="cardiovascularnote" />
+        </EntityType>
+        <EntityType Name="medic_specialties">
+          <Key>
+            <PropertyRef Name="Medic_id" />
+          </Key>
+          <Property Name="Medic_id" Type="Int64" Nullable="false" />
+          <Property Name="specialties" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="medic" Relationship="Self.medic_specialties_FKgyco417bacd28ti07gdpxwvsr" FromRole="medic_specialties" ToRole="medic" />
+        </EntityType>
+        <EntityType Name="nurse_specialties">
+          <Key>
+            <PropertyRef Name="Nurse_id" />
+          </Key>
+          <Property Name="Nurse_id" Type="Int64" Nullable="false" />
+          <Property Name="specialties" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="nurse" Relationship="Self.nurse_specialties_FK6nc16jusxlaag0qyhvwjs89fk" FromRole="nurse_specialties" ToRole="nurse" />
+        </EntityType>
+        <EntityType Name="patient_allergies">
+          <Key>
+            <PropertyRef Name="Patient_id" />
+          </Key>
+          <Property Name="Patient_id" Type="Int64" Nullable="false" />
+          <Property Name="allergies" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="patient" Relationship="Self.patient_allergies_FK7rkekxco79081ners3551bw7u" FromRole="patient_allergies" ToRole="patient" />
+        </EntityType>
+        <EntityType Name="patient_fatherbackgrounds">
+          <Key>
+            <PropertyRef Name="Patient_id" />
+          </Key>
+          <Property Name="Patient_id" Type="Int64" Nullable="false" />
+          <Property Name="fatherBackgrounds" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="patient" Relationship="Self.patient_fatherbackgrounds_FKh57pb8bk2ypmmftpk55s535ff" FromRole="patient_fatherbackgrounds" ToRole="patient" />
+        </EntityType>
+        <EntityType Name="patient_medicines">
+          <Key>
+            <PropertyRef Name="Patient_id" />
+          </Key>
+          <Property Name="Patient_id" Type="Int64" Nullable="false" />
+          <Property Name="medicines" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="patient" Relationship="Self.patient_medicines_FKk7eyrktcc9fxau1bm1wquouk8" FromRole="patient_medicines" ToRole="patient" />
+        </EntityType>
+        <EntityType Name="patient_motherbackgrounds">
+          <Key>
+            <PropertyRef Name="Patient_id" />
+          </Key>
+          <Property Name="Patient_id" Type="Int64" Nullable="false" />
+          <Property Name="motherBackgrounds" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="patient" Relationship="Self.patient_motherbackgrounds_FK5u17xwpgftjpdsaeg47as16g7" FromRole="patient_motherbackgrounds" ToRole="patient" />
+        </EntityType>
+        <EntityType Name="patient_personalbackgrounds">
+          <Key>
+            <PropertyRef Name="Patient_id" />
+          </Key>
+          <Property Name="Patient_id" Type="Int64" Nullable="false" />
+          <Property Name="personalBackgrounds" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="patient" Relationship="Self.patient_personalbackgrounds_FKdmyajsvykcawgr02qquin7orr" FromRole="patient_personalbackgrounds" ToRole="patient" />
+        </EntityType>
+        <EntityType Name="role_permissions">
+          <Key>
+            <PropertyRef Name="Role_id" />
+          </Key>
+          <Property Name="Role_id" Type="Int64" Nullable="false" />
+          <Property Name="permissions" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="role" Relationship="Self.role_permissions_FKr5u91l7q7yikdobgi0lhntse6" FromRole="role_permissions" ToRole="role" />
+        </EntityType>
+        <Association Name="cardiovascularnote_FK76l04w2q8l3eqoj9cvdpbvftg">
+          <End Role="note" Type="Self.note" Multiplicity="1" />
+          <End Role="cardiovascularnote" Type="Self.cardiovascularnote" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="note">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="cardiovascularnote">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="cardiovascularnote_cardiovascularsymptoms_FKoy9u7yokvwb49eobcslkvcorq">
+          <End Role="cardiovascularnote" Type="Self.cardiovascularnote" Multiplicity="1" />
+          <End Role="cardiovascularnote_cardiovascularsymptoms" Type="Self.cardiovascularnote_cardiovascularsymptoms" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="cardiovascularnote">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="cardiovascularnote_cardiovascularsymptoms">
+              <PropertyRef Name="CardiovascularNote_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="diagnosis_FKdkejwjwwrvhod7ilsu9u62d4r">
+          <End Role="chapter" Type="Self.chapter" Multiplicity="1" />
+          <End Role="diagnosis" Type="Self.diagnosi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="chapter">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="diagnosis">
+              <PropertyRef Name="chapter_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="department_FK43w9v6odn5ebkcotastqgn1dw">
+          <End Role="country" Type="Self.country" Multiplicity="1" />
+          <End Role="department" Type="Self.department" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="country">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="department">
+              <PropertyRef Name="country_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="users_FK1eit3dhanvh8r59sd30a3vyaw">
+          <End Role="country" Type="Self.country" Multiplicity="1" />
+          <End Role="users" Type="Self.user" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="country">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="users">
+              <PropertyRef Name="country_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="province_FK3joxh8ppnjhvvt1485efkpxm8">
+          <End Role="department" Type="Self.department" Multiplicity="1" />
+          <End Role="province" Type="Self.province" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="department">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="province">
+              <PropertyRef Name="department_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="notediagnosis_FKdsbu75xh53e0laalsslirqjtj">
+          <End Role="diagnosis" Type="Self.diagnosi" Multiplicity="0..1" />
+          <End Role="notediagnosis" Type="Self.notediagnosi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="diagnosis">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="notediagnosis">
+              <PropertyRef Name="diagnosis_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="district_FKft8pluvn8a75sbmt3bn3o11ph">
+          <End Role="province" Type="Self.province" Multiplicity="1" />
+          <End Role="district" Type="Self.district" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="province">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="district">
+              <PropertyRef Name="province_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="users_FKdoiykqja8oxn78j7gf3l536ta">
+          <End Role="district" Type="Self.district" Multiplicity="0..1" />
+          <End Role="users" Type="Self.user" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="district">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="users">
+              <PropertyRef Name="district_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="note_FKmj186q811duwyj6vjeq2g0tdq">
+          <End Role="establishment" Type="Self.establishment" Multiplicity="0..1" />
+          <End Role="note" Type="Self.note" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="establishment">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="note">
+              <PropertyRef Name="establishment_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="noteexam_FKitrp9vwk6cmbplyfe6ag2shv">
+          <End Role="exam" Type="Self.exam" Multiplicity="1" />
+          <End Role="noteexam" Type="Self.noteexam" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="exam">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="noteexam">
+              <PropertyRef Name="exam_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="medic_FKa63sueb7mgdy1vvoejcxsafil">
+          <End Role="users" Type="Self.user" Multiplicity="1" />
+          <End Role="medic" Type="Self.medic" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="medic">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="medic_specialties_FKgyco417bacd28ti07gdpxwvsr">
+          <End Role="medic" Type="Self.medic" Multiplicity="1" />
+          <End Role="medic_specialties" Type="Self.medic_specialties" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="medic">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="medic_specialties">
+              <PropertyRef Name="Medic_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="note_FKgh47sx5cegenn53sohwq7qsxg">
+          <End Role="medic" Type="Self.medic" Multiplicity="0..1" />
+          <End Role="note" Type="Self.note" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="medic">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="note">
+              <PropertyRef Name="medic_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="notemedicine_FKs4qetuf5x8fiw3yy6tud54ox6">
+          <End Role="medicine" Type="Self.medicine" Multiplicity="0..1" />
+          <End Role="notemedicine" Type="Self.notemedicine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="medicine">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="notemedicine">
+              <PropertyRef Name="medicine_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="note_FK1q1iewxl8l8ns1v0ra54rpi1m">
+          <End Role="note" Type="Self.note" Multiplicity="0..1" />
+          <End Role="note1" Type="Self.note" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="note">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="note1">
+              <PropertyRef Name="controlNote_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="note_FK4xax0ys51744q34eyu5f3fjqi">
+          <End Role="patient" Type="Self.patient" Multiplicity="1" />
+          <End Role="note" Type="Self.note" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="patient">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="note">
+              <PropertyRef Name="patient_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="note_FKcfa530uvyoc47lcpgg193u38x">
+          <End Role="triage" Type="Self.triage" Multiplicity="0..1" />
+          <End Role="note" Type="Self.note" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="triage">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="note">
+              <PropertyRef Name="triage_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="note_FKnp0l5lfrvxca2ra3ycetknoun">
+          <End Role="ticket" Type="Self.ticket" Multiplicity="0..1" />
+          <End Role="note" Type="Self.note" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ticket">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="note">
+              <PropertyRef Name="ticket_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="notediagnosis_FKt1hhagwvwjxc206n0r05h6g0o">
+          <End Role="note" Type="Self.note" Multiplicity="0..1" />
+          <End Role="notediagnosis" Type="Self.notediagnosi" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="note">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="notediagnosis">
+              <PropertyRef Name="note_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="noteexam_FK8k6pnsf3mvufnyx02okom4m0k">
+          <End Role="note" Type="Self.note" Multiplicity="1" />
+          <End Role="noteexam" Type="Self.noteexam" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="note">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="noteexam">
+              <PropertyRef Name="note_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="notemedicine_FK56i7lamo0r27xp8mtoog57qep">
+          <End Role="note" Type="Self.note" Multiplicity="0..1" />
+          <End Role="notemedicine" Type="Self.notemedicine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="note">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="notemedicine">
+              <PropertyRef Name="note_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="notereferral_FKmkcu52sj6rov69cglicgu5qsh">
+          <End Role="note" Type="Self.note" Multiplicity="0..1" />
+          <End Role="notereferral" Type="Self.notereferral" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="note">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="notereferral">
+              <PropertyRef Name="note_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="nurse_FKinc1dd4o81eetpkv731etxb34">
+          <End Role="users" Type="Self.user" Multiplicity="1" />
+          <End Role="nurse" Type="Self.nurse" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="nurse">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="nurse_specialties_FK6nc16jusxlaag0qyhvwjs89fk">
+          <End Role="nurse" Type="Self.nurse" Multiplicity="1" />
+          <End Role="nurse_specialties" Type="Self.nurse_specialties" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="nurse">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="nurse_specialties">
+              <PropertyRef Name="Nurse_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="patient_FKs32bk76cxamwpt0gyddps95ow">
+          <End Role="users" Type="Self.user" Multiplicity="1" />
+          <End Role="patient" Type="Self.patient" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="patient">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="patient_allergies_FK7rkekxco79081ners3551bw7u">
+          <End Role="patient" Type="Self.patient" Multiplicity="1" />
+          <End Role="patient_allergies" Type="Self.patient_allergies" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="patient">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="patient_allergies">
+              <PropertyRef Name="Patient_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="patient_fatherbackgrounds_FKh57pb8bk2ypmmftpk55s535ff">
+          <End Role="patient" Type="Self.patient" Multiplicity="1" />
+          <End Role="patient_fatherbackgrounds" Type="Self.patient_fatherbackgrounds" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="patient">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="patient_fatherbackgrounds">
+              <PropertyRef Name="Patient_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="patient_medicines_FKk7eyrktcc9fxau1bm1wquouk8">
+          <End Role="patient" Type="Self.patient" Multiplicity="1" />
+          <End Role="patient_medicines" Type="Self.patient_medicines" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="patient">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="patient_medicines">
+              <PropertyRef Name="Patient_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="patient_motherbackgrounds_FK5u17xwpgftjpdsaeg47as16g7">
+          <End Role="patient" Type="Self.patient" Multiplicity="1" />
+          <End Role="patient_motherbackgrounds" Type="Self.patient_motherbackgrounds" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="patient">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="patient_motherbackgrounds">
+              <PropertyRef Name="Patient_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="patient_personalbackgrounds_FKdmyajsvykcawgr02qquin7orr">
+          <End Role="patient" Type="Self.patient" Multiplicity="1" />
+          <End Role="patient_personalbackgrounds" Type="Self.patient_personalbackgrounds" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="patient">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="patient_personalbackgrounds">
+              <PropertyRef Name="Patient_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="triage_FKlql3nj4madqcpkv209jturf45">
+          <End Role="patient" Type="Self.patient" Multiplicity="0..1" />
+          <End Role="triage" Type="Self.triage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="patient">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="triage">
+              <PropertyRef Name="patient_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="role_permissions_FKr5u91l7q7yikdobgi0lhntse6">
+          <End Role="role" Type="Self.role" Multiplicity="1" />
+          <End Role="role_permissions" Type="Self.role_permissions" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="role">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="role_permissions">
+              <PropertyRef Name="Role_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="users_FKiod6nq5d7gqshxljomqccs7tp">
+          <End Role="role" Type="Self.role" Multiplicity="0..1" />
+          <End Role="users" Type="Self.user" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="role">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="users">
+              <PropertyRef Name="role_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="triage_FKf6fatkh465lnjyycdrnmy59b">
+          <End Role="ticket" Type="Self.ticket" Multiplicity="0..1" />
+          <End Role="triage" Type="Self.triage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ticket">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="triage">
+              <PropertyRef Name="ticket_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="note_notediagnosis">
+          <End Role="notediagnosis" Type="Self.notediagnosi" Multiplicity="*" />
+          <End Role="note" Type="Self.note" Multiplicity="*" />
+        </Association>
+        <Association Name="note_noteexam">
+          <End Role="noteexam" Type="Self.noteexam" Multiplicity="*" />
+          <End Role="note" Type="Self.note" Multiplicity="*" />
+        </Association>
+        <Association Name="note_notemedicine">
+          <End Role="notemedicine" Type="Self.notemedicine" Multiplicity="*" />
+          <End Role="note" Type="Self.note" Multiplicity="*" />
+        </Association>
+        <Association Name="note_notereferral">
+          <End Role="note" Type="Self.note" Multiplicity="*" />
+          <End Role="notereferral" Type="Self.notereferral" Multiplicity="*" />
+        </Association>
+        <Association Name="noteexam_upload">
+          <End Role="upload" Type="Self.upload" Multiplicity="*" />
+          <End Role="noteexam" Type="Self.noteexam" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="RegistroclinicoEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="cardiovascularnotes" EntityType="Self.cardiovascularnote" />
+          <EntitySet Name="chapters" EntityType="Self.chapter" />
+          <EntitySet Name="countries" EntityType="Self.country" />
+          <EntitySet Name="departments" EntityType="Self.department" />
+          <EntitySet Name="diagnosis" EntityType="Self.diagnosi" />
+          <EntitySet Name="districts" EntityType="Self.district" />
+          <EntitySet Name="establishments" EntityType="Self.establishment" />
+          <EntitySet Name="exams" EntityType="Self.exam" />
+          <EntitySet Name="medics" EntityType="Self.medic" />
+          <EntitySet Name="medicines" EntityType="Self.medicine" />
+          <EntitySet Name="notes" EntityType="Self.note" />
+          <EntitySet Name="notediagnosis" EntityType="Self.notediagnosi" />
+          <EntitySet Name="noteexams" EntityType="Self.noteexam" />
+          <EntitySet Name="notemedicines" EntityType="Self.notemedicine" />
+          <EntitySet Name="notereferrals" EntityType="Self.notereferral" />
+          <EntitySet Name="nurses" EntityType="Self.nurse" />
+          <EntitySet Name="patients" EntityType="Self.patient" />
+          <EntitySet Name="provinces" EntityType="Self.province" />
+          <EntitySet Name="roles" EntityType="Self.role" />
+          <EntitySet Name="tickets" EntityType="Self.ticket" />
+          <EntitySet Name="triages" EntityType="Self.triage" />
+          <EntitySet Name="uploads" EntityType="Self.upload" />
+          <EntitySet Name="users" EntityType="Self.user" />
+          <EntitySet Name="cardiovascularnote_cardiovascularsymptoms" EntityType="Self.cardiovascularnote_cardiovascularsymptoms" />
+          <EntitySet Name="medic_specialties" EntityType="Self.medic_specialties" />
+          <EntitySet Name="nurse_specialties" EntityType="Self.nurse_specialties" />
+          <EntitySet Name="patient_allergies" EntityType="Self.patient_allergies" />
+          <EntitySet Name="patient_fatherbackgrounds" EntityType="Self.patient_fatherbackgrounds" />
+          <EntitySet Name="patient_medicines" EntityType="Self.patient_medicines" />
+          <EntitySet Name="patient_motherbackgrounds" EntityType="Self.patient_motherbackgrounds" />
+          <EntitySet Name="patient_personalbackgrounds" EntityType="Self.patient_personalbackgrounds" />
+          <EntitySet Name="role_permissions" EntityType="Self.role_permissions" />
+          <AssociationSet Name="cardiovascularnote_FK76l04w2q8l3eqoj9cvdpbvftg" Association="Self.cardiovascularnote_FK76l04w2q8l3eqoj9cvdpbvftg">
+            <End Role="note" EntitySet="notes" />
+            <End Role="cardiovascularnote" EntitySet="cardiovascularnotes" />
+          </AssociationSet>
+          <AssociationSet Name="cardiovascularnote_cardiovascularsymptoms_FKoy9u7yokvwb49eobcslkvcorq" Association="Self.cardiovascularnote_cardiovascularsymptoms_FKoy9u7yokvwb49eobcslkvcorq">
+            <End Role="cardiovascularnote" EntitySet="cardiovascularnotes" />
+            <End Role="cardiovascularnote_cardiovascularsymptoms" EntitySet="cardiovascularnote_cardiovascularsymptoms" />
+          </AssociationSet>
+          <AssociationSet Name="diagnosis_FKdkejwjwwrvhod7ilsu9u62d4r" Association="Self.diagnosis_FKdkejwjwwrvhod7ilsu9u62d4r">
+            <End Role="chapter" EntitySet="chapters" />
+            <End Role="diagnosis" EntitySet="diagnosis" />
+          </AssociationSet>
+          <AssociationSet Name="department_FK43w9v6odn5ebkcotastqgn1dw" Association="Self.department_FK43w9v6odn5ebkcotastqgn1dw">
+            <End Role="country" EntitySet="countries" />
+            <End Role="department" EntitySet="departments" />
+          </AssociationSet>
+          <AssociationSet Name="users_FK1eit3dhanvh8r59sd30a3vyaw" Association="Self.users_FK1eit3dhanvh8r59sd30a3vyaw">
+            <End Role="country" EntitySet="countries" />
+            <End Role="users" EntitySet="users" />
+          </AssociationSet>
+          <AssociationSet Name="province_FK3joxh8ppnjhvvt1485efkpxm8" Association="Self.province_FK3joxh8ppnjhvvt1485efkpxm8">
+            <End Role="department" EntitySet="departments" />
+            <End Role="province" EntitySet="provinces" />
+          </AssociationSet>
+          <AssociationSet Name="notediagnosis_FKdsbu75xh53e0laalsslirqjtj" Association="Self.notediagnosis_FKdsbu75xh53e0laalsslirqjtj">
+            <End Role="diagnosis" EntitySet="diagnosis" />
+            <End Role="notediagnosis" EntitySet="notediagnosis" />
+          </AssociationSet>
+          <AssociationSet Name="district_FKft8pluvn8a75sbmt3bn3o11ph" Association="Self.district_FKft8pluvn8a75sbmt3bn3o11ph">
+            <End Role="province" EntitySet="provinces" />
+            <End Role="district" EntitySet="districts" />
+          </AssociationSet>
+          <AssociationSet Name="users_FKdoiykqja8oxn78j7gf3l536ta" Association="Self.users_FKdoiykqja8oxn78j7gf3l536ta">
+            <End Role="district" EntitySet="districts" />
+            <End Role="users" EntitySet="users" />
+          </AssociationSet>
+          <AssociationSet Name="note_FKmj186q811duwyj6vjeq2g0tdq" Association="Self.note_FKmj186q811duwyj6vjeq2g0tdq">
+            <End Role="establishment" EntitySet="establishments" />
+            <End Role="note" EntitySet="notes" />
+          </AssociationSet>
+          <AssociationSet Name="noteexam_FKitrp9vwk6cmbplyfe6ag2shv" Association="Self.noteexam_FKitrp9vwk6cmbplyfe6ag2shv">
+            <End Role="exam" EntitySet="exams" />
+            <End Role="noteexam" EntitySet="noteexams" />
+          </AssociationSet>
+          <AssociationSet Name="medic_FKa63sueb7mgdy1vvoejcxsafil" Association="Self.medic_FKa63sueb7mgdy1vvoejcxsafil">
+            <End Role="users" EntitySet="users" />
+            <End Role="medic" EntitySet="medics" />
+          </AssociationSet>
+          <AssociationSet Name="medic_specialties_FKgyco417bacd28ti07gdpxwvsr" Association="Self.medic_specialties_FKgyco417bacd28ti07gdpxwvsr">
+            <End Role="medic" EntitySet="medics" />
+            <End Role="medic_specialties" EntitySet="medic_specialties" />
+          </AssociationSet>
+          <AssociationSet Name="note_FKgh47sx5cegenn53sohwq7qsxg" Association="Self.note_FKgh47sx5cegenn53sohwq7qsxg">
+            <End Role="medic" EntitySet="medics" />
+            <End Role="note" EntitySet="notes" />
+          </AssociationSet>
+          <AssociationSet Name="notemedicine_FKs4qetuf5x8fiw3yy6tud54ox6" Association="Self.notemedicine_FKs4qetuf5x8fiw3yy6tud54ox6">
+            <End Role="medicine" EntitySet="medicines" />
+            <End Role="notemedicine" EntitySet="notemedicines" />
+          </AssociationSet>
+          <AssociationSet Name="note_FK1q1iewxl8l8ns1v0ra54rpi1m" Association="Self.note_FK1q1iewxl8l8ns1v0ra54rpi1m">
+            <End Role="note" EntitySet="notes" />
+            <End Role="note1" EntitySet="notes" />
+          </AssociationSet>
+          <AssociationSet Name="note_FK4xax0ys51744q34eyu5f3fjqi" Association="Self.note_FK4xax0ys51744q34eyu5f3fjqi">
+            <End Role="patient" EntitySet="patients" />
+            <End Role="note" EntitySet="notes" />
+          </AssociationSet>
+          <AssociationSet Name="note_FKcfa530uvyoc47lcpgg193u38x" Association="Self.note_FKcfa530uvyoc47lcpgg193u38x">
+            <End Role="triage" EntitySet="triages" />
+            <End Role="note" EntitySet="notes" />
+          </AssociationSet>
+          <AssociationSet Name="note_FKnp0l5lfrvxca2ra3ycetknoun" Association="Self.note_FKnp0l5lfrvxca2ra3ycetknoun">
+            <End Role="ticket" EntitySet="tickets" />
+            <End Role="note" EntitySet="notes" />
+          </AssociationSet>
+          <AssociationSet Name="notediagnosis_FKt1hhagwvwjxc206n0r05h6g0o" Association="Self.notediagnosis_FKt1hhagwvwjxc206n0r05h6g0o">
+            <End Role="note" EntitySet="notes" />
+            <End Role="notediagnosis" EntitySet="notediagnosis" />
+          </AssociationSet>
+          <AssociationSet Name="noteexam_FK8k6pnsf3mvufnyx02okom4m0k" Association="Self.noteexam_FK8k6pnsf3mvufnyx02okom4m0k">
+            <End Role="note" EntitySet="notes" />
+            <End Role="noteexam" EntitySet="noteexams" />
+          </AssociationSet>
+          <AssociationSet Name="notemedicine_FK56i7lamo0r27xp8mtoog57qep" Association="Self.notemedicine_FK56i7lamo0r27xp8mtoog57qep">
+            <End Role="note" EntitySet="notes" />
+            <End Role="notemedicine" EntitySet="notemedicines" />
+          </AssociationSet>
+          <AssociationSet Name="notereferral_FKmkcu52sj6rov69cglicgu5qsh" Association="Self.notereferral_FKmkcu52sj6rov69cglicgu5qsh">
+            <End Role="note" EntitySet="notes" />
+            <End Role="notereferral" EntitySet="notereferrals" />
+          </AssociationSet>
+          <AssociationSet Name="nurse_FKinc1dd4o81eetpkv731etxb34" Association="Self.nurse_FKinc1dd4o81eetpkv731etxb34">
+            <End Role="users" EntitySet="users" />
+            <End Role="nurse" EntitySet="nurses" />
+          </AssociationSet>
+          <AssociationSet Name="nurse_specialties_FK6nc16jusxlaag0qyhvwjs89fk" Association="Self.nurse_specialties_FK6nc16jusxlaag0qyhvwjs89fk">
+            <End Role="nurse" EntitySet="nurses" />
+            <End Role="nurse_specialties" EntitySet="nurse_specialties" />
+          </AssociationSet>
+          <AssociationSet Name="patient_FKs32bk76cxamwpt0gyddps95ow" Association="Self.patient_FKs32bk76cxamwpt0gyddps95ow">
+            <End Role="users" EntitySet="users" />
+            <End Role="patient" EntitySet="patients" />
+          </AssociationSet>
+          <AssociationSet Name="patient_allergies_FK7rkekxco79081ners3551bw7u" Association="Self.patient_allergies_FK7rkekxco79081ners3551bw7u">
+            <End Role="patient" EntitySet="patients" />
+            <End Role="patient_allergies" EntitySet="patient_allergies" />
+          </AssociationSet>
+          <AssociationSet Name="patient_fatherbackgrounds_FKh57pb8bk2ypmmftpk55s535ff" Association="Self.patient_fatherbackgrounds_FKh57pb8bk2ypmmftpk55s535ff">
+            <End Role="patient" EntitySet="patients" />
+            <End Role="patient_fatherbackgrounds" EntitySet="patient_fatherbackgrounds" />
+          </AssociationSet>
+          <AssociationSet Name="patient_medicines_FKk7eyrktcc9fxau1bm1wquouk8" Association="Self.patient_medicines_FKk7eyrktcc9fxau1bm1wquouk8">
+            <End Role="patient" EntitySet="patients" />
+            <End Role="patient_medicines" EntitySet="patient_medicines" />
+          </AssociationSet>
+          <AssociationSet Name="patient_motherbackgrounds_FK5u17xwpgftjpdsaeg47as16g7" Association="Self.patient_motherbackgrounds_FK5u17xwpgftjpdsaeg47as16g7">
+            <End Role="patient" EntitySet="patients" />
+            <End Role="patient_motherbackgrounds" EntitySet="patient_motherbackgrounds" />
+          </AssociationSet>
+          <AssociationSet Name="patient_personalbackgrounds_FKdmyajsvykcawgr02qquin7orr" Association="Self.patient_personalbackgrounds_FKdmyajsvykcawgr02qquin7orr">
+            <End Role="patient" EntitySet="patients" />
+            <End Role="patient_personalbackgrounds" EntitySet="patient_personalbackgrounds" />
+          </AssociationSet>
+          <AssociationSet Name="triage_FKlql3nj4madqcpkv209jturf45" Association="Self.triage_FKlql3nj4madqcpkv209jturf45">
+            <End Role="patient" EntitySet="patients" />
+            <End Role="triage" EntitySet="triages" />
+          </AssociationSet>
+          <AssociationSet Name="role_permissions_FKr5u91l7q7yikdobgi0lhntse6" Association="Self.role_permissions_FKr5u91l7q7yikdobgi0lhntse6">
+            <End Role="role" EntitySet="roles" />
+            <End Role="role_permissions" EntitySet="role_permissions" />
+          </AssociationSet>
+          <AssociationSet Name="users_FKiod6nq5d7gqshxljomqccs7tp" Association="Self.users_FKiod6nq5d7gqshxljomqccs7tp">
+            <End Role="role" EntitySet="roles" />
+            <End Role="users" EntitySet="users" />
+          </AssociationSet>
+          <AssociationSet Name="triage_FKf6fatkh465lnjyycdrnmy59b" Association="Self.triage_FKf6fatkh465lnjyycdrnmy59b">
+            <End Role="ticket" EntitySet="tickets" />
+            <End Role="triage" EntitySet="triages" />
+          </AssociationSet>
+          <AssociationSet Name="note_notediagnosis" Association="Self.note_notediagnosis">
+            <End Role="notediagnosis" EntitySet="notediagnosis" />
+            <End Role="note" EntitySet="notes" />
+          </AssociationSet>
+          <AssociationSet Name="note_noteexam" Association="Self.note_noteexam">
+            <End Role="noteexam" EntitySet="noteexams" />
+            <End Role="note" EntitySet="notes" />
+          </AssociationSet>
+          <AssociationSet Name="note_notemedicine" Association="Self.note_notemedicine">
+            <End Role="notemedicine" EntitySet="notemedicines" />
+            <End Role="note" EntitySet="notes" />
+          </AssociationSet>
+          <AssociationSet Name="note_notereferral" Association="Self.note_notereferral">
+            <End Role="note" EntitySet="notes" />
+            <End Role="notereferral" EntitySet="notereferrals" />
+          </AssociationSet>
+          <AssociationSet Name="noteexam_upload" Association="Self.noteexam_upload">
+            <End Role="upload" EntitySet="uploads" />
+            <End Role="noteexam" EntitySet="noteexams" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="registroclinicoModelStoreContainer" CdmEntityContainer="RegistroclinicoEntities">
+          <EntitySetMapping Name="cardiovascularnotes">
+            <EntityTypeMapping TypeName="registroclinicoModel.cardiovascularnote">
+              <MappingFragment StoreEntitySet="cardiovascularnote">
+                <ScalarProperty Name="auscultationSite" ColumnName="auscultationSite" />
+                <ScalarProperty Name="capillaryRefillLLM" ColumnName="capillaryRefillLLM" />
+                <ScalarProperty Name="capillaryRefillLRM" ColumnName="capillaryRefillLRM" />
+                <ScalarProperty Name="cardiacPressureIntensity" ColumnName="cardiacPressureIntensity" />
+                <ScalarProperty Name="cardiacPressureRhythm" ColumnName="cardiacPressureRhythm" />
+                <ScalarProperty Name="diastolicPhase" ColumnName="diastolicPhase" />
+                <ScalarProperty Name="edemaAnkle" ColumnName="edemaAnkle" />
+                <ScalarProperty Name="edemaGeneralized" ColumnName="edemaGeneralized" />
+                <ScalarProperty Name="edemaLowerMembers" ColumnName="edemaLowerMembers" />
+                <ScalarProperty Name="fourthNoise" ColumnName="fourthNoise" />
+                <ScalarProperty Name="gastrointestinalSemiology" ColumnName="gastrointestinalSemiology" />
+                <ScalarProperty Name="murmurs" ColumnName="murmurs" />
+                <ScalarProperty Name="neckRadiation" ColumnName="neckRadiation" />
+                <ScalarProperty Name="otherSymptoms" ColumnName="otherSymptoms" />
+                <ScalarProperty Name="pedalPulsesL" ColumnName="pedalPulsesL" />
+                <ScalarProperty Name="pedalPulsesR" ColumnName="pedalPulsesR" />
+                <ScalarProperty Name="pulsesLLM" ColumnName="pulsesLLM" />
+                <ScalarProperty Name="pulsesLRM" ColumnName="pulsesLRM" />
+                <ScalarProperty Name="radialPulsesL" ColumnName="radialPulsesL" />
+                <ScalarProperty Name="radialPulsesR" ColumnName="radialPulsesR" />
+                <ScalarProperty Name="systolicPhase" ColumnName="systolicPhase" />
+                <ScalarProperty Name="thirdNoise" ColumnName="thirdNoise" />
+                <ScalarProperty Name="trophicChanges" ColumnName="trophicChanges" />
+                <ScalarProperty Name="vesicularWhisperL" ColumnName="vesicularWhisperL" />
+                <ScalarProperty Name="vesicularWhisperR" ColumnName="vesicularWhisperR" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="chapters">
+            <EntityTypeMapping TypeName="registroclinicoModel.chapter">
+              <MappingFragment StoreEntitySet="chapter">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="code" ColumnName="code" />
+                <ScalarProperty Name="deleted" ColumnName="deleted" />
+                <ScalarProperty Name="title" ColumnName="title" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="countries">
+            <EntityTypeMapping TypeName="registroclinicoModel.country">
+              <MappingFragment StoreEntitySet="country">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="deleted" ColumnName="deleted" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="departments">
+            <EntityTypeMapping TypeName="registroclinicoModel.department">
+              <MappingFragment StoreEntitySet="department">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="deleted" ColumnName="deleted" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="country_id" ColumnName="country_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="diagnosis">
+            <EntityTypeMapping TypeName="registroclinicoModel.diagnosi">
+              <MappingFragment StoreEntitySet="diagnosis">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="code" ColumnName="code" />
+                <ScalarProperty Name="deleted" ColumnName="deleted" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="chapter_id" ColumnName="chapter_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="districts">
+            <EntityTypeMapping TypeName="registroclinicoModel.district">
+              <MappingFragment StoreEntitySet="district">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="deleted" ColumnName="deleted" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="ubigeo" ColumnName="ubigeo" />
+                <ScalarProperty Name="province_id" ColumnName="province_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="establishments">
+            <EntityTypeMapping TypeName="registroclinicoModel.establishment">
+              <MappingFragment StoreEntitySet="establishment">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="deleted" ColumnName="deleted" />
+                <ScalarProperty Name="establishmentType" ColumnName="establishmentType" />
+                <ScalarProperty Name="initials" ColumnName="initials" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="exams">
+            <EntityTypeMapping TypeName="registroclinicoModel.exam">
+              <MappingFragment StoreEntitySet="exam">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="deleted" ColumnName="deleted" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="type" ColumnName="type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="medics">
+            <EntityTypeMapping TypeName="registroclinicoModel.medic">
+              <MappingFragment StoreEntitySet="medic">
+                <ScalarProperty Name="cmp" ColumnName="cmp" />
+                <ScalarProperty Name="rne" ColumnName="rne" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="medicines">
+            <EntityTypeMapping TypeName="registroclinicoModel.medicine">
+              <MappingFragment StoreEntitySet="medicine">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="concentration" ColumnName="concentration" />
+                <ScalarProperty Name="deleted" ColumnName="deleted" />
+                <ScalarProperty Name="form" ColumnName="form" />
+                <ScalarProperty Name="fractions" ColumnName="fractions" />
+                <ScalarProperty Name="healthRegistration" ColumnName="healthRegistration" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="owner" ColumnName="owner" />
+                <ScalarProperty Name="presentation" ColumnName="presentation" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="notes">
+            <EntityTypeMapping TypeName="registroclinicoModel.note">
+              <MappingFragment StoreEntitySet="note">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="age" ColumnName="age" />
+                <ScalarProperty Name="completed" ColumnName="completed" />
+                <ScalarProperty Name="control" ColumnName="control" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="createdDate" ColumnName="createdDate" />
+                <ScalarProperty Name="deleted" ColumnName="deleted" />
+                <ScalarProperty Name="diagnosis" ColumnName="diagnosis" />
+                <ScalarProperty Name="exam" ColumnName="exam" />
+                <ScalarProperty Name="modifiedBy" ColumnName="modifiedBy" />
+                <ScalarProperty Name="modifiedDate" ColumnName="modifiedDate" />
+                <ScalarProperty Name="physicalExam" ColumnName="physicalExam" />
+                <ScalarProperty Name="secondOpinion" ColumnName="secondOpinion" />
+                <ScalarProperty Name="sicknessTime" ColumnName="sicknessTime" />
+                <ScalarProperty Name="sicknessUnit" ColumnName="sicknessUnit" />
+                <ScalarProperty Name="specialty" ColumnName="specialty" />
+                <ScalarProperty Name="stage" ColumnName="stage" />
+                <ScalarProperty Name="story" ColumnName="story" />
+                <ScalarProperty Name="symptom" ColumnName="symptom" />
+                <ScalarProperty Name="treatment" ColumnName="treatment" />
+                <ScalarProperty Name="controlNote_id" ColumnName="controlNote_id" />
+                <ScalarProperty Name="establishment_id" ColumnName="establishment_id" />
+                <ScalarProperty Name="medic_id" ColumnName="medic_id" />
+                <ScalarProperty Name="patient_id" ColumnName="patient_id" />
+                <ScalarProperty Name="ticket_id" ColumnName="ticket_id" />
+                <ScalarProperty Name="triage_id" ColumnName="triage_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="notediagnosis">
+            <EntityTypeMapping TypeName="registroclinicoModel.notediagnosi">
+              <MappingFragment StoreEntitySet="notediagnosis">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="deleted" ColumnName="deleted" />
+                <ScalarProperty Name="diagnosisType" ColumnName="diagnosisType" />
+                <ScalarProperty Name="diagnosis_id" ColumnName="diagnosis_id" />
+                <ScalarProperty Name="note_id" ColumnName="note_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="noteexams">
+            <EntityTypeMapping TypeName="registroclinicoModel.noteexam">
+              <MappingFragment StoreEntitySet="noteexam">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="deleted" ColumnName="deleted" />
+                <ScalarProperty Name="observation" ColumnName="observation" />
+                <ScalarProperty Name="specification" ColumnName="specification" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="exam_id" ColumnName="exam_id" />
+                <ScalarProperty Name="note_id" ColumnName="note_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="notemedicines">
+            <EntityTypeMapping TypeName="registroclinicoModel.notemedicine">
+              <MappingFragment StoreEntitySet="notemedicine">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="deleted" ColumnName="deleted" />
+                <ScalarProperty Name="durationTime" ColumnName="durationTime" />
+                <ScalarProperty Name="durationUnit" ColumnName="durationUnit" />
+                <ScalarProperty Name="frequencyTime" ColumnName="frequencyTime" />
+                <ScalarProperty Name="frequencyUnit" ColumnName="frequencyUnit" />
+                <ScalarProperty Name="indication" ColumnName="indication" />
+                <ScalarProperty Name="medicine_id" ColumnName="medicine_id" />
+                <ScalarProperty Name="note_id" ColumnName="note_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="notereferrals">
+            <EntityTypeMapping TypeName="registroclinicoModel.notereferral">
+              <MappingFragment StoreEntitySet="notereferral">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="deleted" ColumnName="deleted" />
+                <ScalarProperty Name="reason" ColumnName="reason" />
+                <ScalarProperty Name="specialty" ColumnName="specialty" />
+                <ScalarProperty Name="note_id" ColumnName="note_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="nurses">
+            <EntityTypeMapping TypeName="registroclinicoModel.nurse">
+              <MappingFragment StoreEntitySet="nurse">
+                <ScalarProperty Name="medicRegistration" ColumnName="medicRegistration" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="patients">
+            <EntityTypeMapping TypeName="registroclinicoModel.patient">
+              <MappingFragment StoreEntitySet="patient">
+                <ScalarProperty Name="alcohol" ColumnName="alcohol" />
+                <ScalarProperty Name="bloodType" ColumnName="bloodType" />
+                <ScalarProperty Name="cigaretteNumber" ColumnName="cigaretteNumber" />
+                <ScalarProperty Name="createdTicket" ColumnName="createdTicket" />
+                <ScalarProperty Name="dormNumber" ColumnName="dormNumber" />
+                <ScalarProperty Name="educationalAttainment" ColumnName="educationalAttainment" />
+                <ScalarProperty Name="electricity" ColumnName="electricity" />
+                <ScalarProperty Name="fractureNumber" ColumnName="fractureNumber" />
+                <ScalarProperty Name="fruitsVegetables" ColumnName="fruitsVegetables" />
+                <ScalarProperty Name="highGlucose" ColumnName="highGlucose" />
+                <ScalarProperty Name="homeMaterial" ColumnName="homeMaterial" />
+                <ScalarProperty Name="homeOwnership" ColumnName="homeOwnership" />
+                <ScalarProperty Name="homeType" ColumnName="homeType" />
+                <ScalarProperty Name="occupation" ColumnName="occupation" />
+                <ScalarProperty Name="otherAllergies" ColumnName="otherAllergies" />
+                <ScalarProperty Name="otherFatherBackground" ColumnName="otherFatherBackground" />
+                <ScalarProperty Name="otherMedicines" ColumnName="otherMedicines" />
+                <ScalarProperty Name="otherMotherBackground" ColumnName="otherMotherBackground" />
+                <ScalarProperty Name="otherPersonalBackground" ColumnName="otherPersonalBackground" />
+                <ScalarProperty Name="physicalActivity" ColumnName="physicalActivity" />
+                <ScalarProperty Name="residentNumber" ColumnName="residentNumber" />
+                <ScalarProperty Name="sewage" ColumnName="sewage" />
+                <ScalarProperty Name="water" ColumnName="water" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="provinces">
+            <EntityTypeMapping TypeName="registroclinicoModel.province">
+              <MappingFragment StoreEntitySet="province">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="deleted" ColumnName="deleted" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="department_id" ColumnName="department_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="roles">
+            <EntityTypeMapping TypeName="registroclinicoModel.role">
+              <MappingFragment StoreEntitySet="role">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="deletable" ColumnName="deletable" />
+                <ScalarProperty Name="deleted" ColumnName="deleted" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tickets">
+            <EntityTypeMapping TypeName="registroclinicoModel.ticket">
+              <MappingFragment StoreEntitySet="ticket">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="closed" ColumnName="closed" />
+                <ScalarProperty Name="deleted" ColumnName="deleted" />
+                <ScalarProperty Name="nroTicket" ColumnName="nroTicket" />
+                <ScalarProperty Name="serie" ColumnName="serie" />
+                <ScalarProperty Name="status" ColumnName="status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="triages">
+            <EntityTypeMapping TypeName="registroclinicoModel.triage">
+              <MappingFragment StoreEntitySet="triage">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="abdominalPerimeter" ColumnName="abdominalPerimeter" />
+                <ScalarProperty Name="bmi" ColumnName="bmi" />
+                <ScalarProperty Name="breathingRate" ColumnName="breathingRate" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="createdDate" ColumnName="createdDate" />
+                <ScalarProperty Name="deleted" ColumnName="deleted" />
+                <ScalarProperty Name="deposition" ColumnName="deposition" />
+                <ScalarProperty Name="diastolicBloodPressure" ColumnName="diastolicBloodPressure" />
+                <ScalarProperty Name="glycemia" ColumnName="glycemia" />
+                <ScalarProperty Name="hdlCholesterol" ColumnName="hdlCholesterol" />
+                <ScalarProperty Name="heartRate" ColumnName="heartRate" />
+                <ScalarProperty Name="heartRisk" ColumnName="heartRisk" />
+                <ScalarProperty Name="hunger" ColumnName="hunger" />
+                <ScalarProperty Name="hypertensionRisk" ColumnName="hypertensionRisk" />
+                <ScalarProperty Name="ldlCholesterol" ColumnName="ldlCholesterol" />
+                <ScalarProperty Name="modifiedBy" ColumnName="modifiedBy" />
+                <ScalarProperty Name="modifiedDate" ColumnName="modifiedDate" />
+                <ScalarProperty Name="size" ColumnName="size" />
+                <ScalarProperty Name="sleep" ColumnName="sleep" />
+                <ScalarProperty Name="systolicBloodPressure" ColumnName="systolicBloodPressure" />
+                <ScalarProperty Name="temperature" ColumnName="temperature" />
+                <ScalarProperty Name="thirst" ColumnName="thirst" />
+                <ScalarProperty Name="totalCholesterol" ColumnName="totalCholesterol" />
+                <ScalarProperty Name="urine" ColumnName="urine" />
+                <ScalarProperty Name="weight" ColumnName="weight" />
+                <ScalarProperty Name="weightEvolution" ColumnName="weightEvolution" />
+                <ScalarProperty Name="patient_id" ColumnName="patient_id" />
+                <ScalarProperty Name="ticket_id" ColumnName="ticket_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="uploads">
+            <EntityTypeMapping TypeName="registroclinicoModel.upload">
+              <MappingFragment StoreEntitySet="upload">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="createdDate" ColumnName="createdDate" />
+                <ScalarProperty Name="deleted" ColumnName="deleted" />
+                <ScalarProperty Name="path" ColumnName="path" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="users">
+            <EntityTypeMapping TypeName="registroclinicoModel.user">
+              <MappingFragment StoreEntitySet="users">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="birthday" ColumnName="birthday" />
+                <ScalarProperty Name="cellphone" ColumnName="cellphone" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="createdDate" ColumnName="createdDate" />
+                <ScalarProperty Name="deletable" ColumnName="deletable" />
+                <ScalarProperty Name="deleted" ColumnName="deleted" />
+                <ScalarProperty Name="documentNumber" ColumnName="documentNumber" />
+                <ScalarProperty Name="documentType" ColumnName="documentType" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="firstName" ColumnName="firstName" />
+                <ScalarProperty Name="lastNameFather" ColumnName="lastNameFather" />
+                <ScalarProperty Name="lastNameMother" ColumnName="lastNameMother" />
+                <ScalarProperty Name="maritalStatus" ColumnName="maritalStatus" />
+                <ScalarProperty Name="modifiedBy" ColumnName="modifiedBy" />
+                <ScalarProperty Name="modifiedDate" ColumnName="modifiedDate" />
+                <ScalarProperty Name="organDonor" ColumnName="organDonor" />
+                <ScalarProperty Name="password_hash" ColumnName="password_hash" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="sex" ColumnName="sex" />
+                <ScalarProperty Name="since" ColumnName="since" />
+                <ScalarProperty Name="country_id" ColumnName="country_id" />
+                <ScalarProperty Name="district_id" ColumnName="district_id" />
+                <ScalarProperty Name="role_id" ColumnName="role_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="cardiovascularnote_cardiovascularsymptoms">
+            <EntityTypeMapping TypeName="registroclinicoModel.cardiovascularnote_cardiovascularsymptoms">
+              <MappingFragment StoreEntitySet="cardiovascularnote_cardiovascularsymptoms">
+                <ScalarProperty Name="CardiovascularNote_id" ColumnName="CardiovascularNote_id" />
+                <ScalarProperty Name="cardiovascularSymptoms" ColumnName="cardiovascularSymptoms" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="medic_specialties">
+            <EntityTypeMapping TypeName="registroclinicoModel.medic_specialties">
+              <MappingFragment StoreEntitySet="medic_specialties">
+                <ScalarProperty Name="Medic_id" ColumnName="Medic_id" />
+                <ScalarProperty Name="specialties" ColumnName="specialties" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="nurse_specialties">
+            <EntityTypeMapping TypeName="registroclinicoModel.nurse_specialties">
+              <MappingFragment StoreEntitySet="nurse_specialties">
+                <ScalarProperty Name="Nurse_id" ColumnName="Nurse_id" />
+                <ScalarProperty Name="specialties" ColumnName="specialties" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="patient_allergies">
+            <EntityTypeMapping TypeName="registroclinicoModel.patient_allergies">
+              <MappingFragment StoreEntitySet="patient_allergies">
+                <ScalarProperty Name="Patient_id" ColumnName="Patient_id" />
+                <ScalarProperty Name="allergies" ColumnName="allergies" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="patient_fatherbackgrounds">
+            <EntityTypeMapping TypeName="registroclinicoModel.patient_fatherbackgrounds">
+              <MappingFragment StoreEntitySet="patient_fatherbackgrounds">
+                <ScalarProperty Name="Patient_id" ColumnName="Patient_id" />
+                <ScalarProperty Name="fatherBackgrounds" ColumnName="fatherBackgrounds" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="patient_medicines">
+            <EntityTypeMapping TypeName="registroclinicoModel.patient_medicines">
+              <MappingFragment StoreEntitySet="patient_medicines">
+                <ScalarProperty Name="Patient_id" ColumnName="Patient_id" />
+                <ScalarProperty Name="medicines" ColumnName="medicines" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="patient_motherbackgrounds">
+            <EntityTypeMapping TypeName="registroclinicoModel.patient_motherbackgrounds">
+              <MappingFragment StoreEntitySet="patient_motherbackgrounds">
+                <ScalarProperty Name="Patient_id" ColumnName="Patient_id" />
+                <ScalarProperty Name="motherBackgrounds" ColumnName="motherBackgrounds" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="patient_personalbackgrounds">
+            <EntityTypeMapping TypeName="registroclinicoModel.patient_personalbackgrounds">
+              <MappingFragment StoreEntitySet="patient_personalbackgrounds">
+                <ScalarProperty Name="Patient_id" ColumnName="Patient_id" />
+                <ScalarProperty Name="personalBackgrounds" ColumnName="personalBackgrounds" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="role_permissions">
+            <EntityTypeMapping TypeName="registroclinicoModel.role_permissions">
+              <MappingFragment StoreEntitySet="role_permissions">
+                <ScalarProperty Name="Role_id" ColumnName="Role_id" />
+                <ScalarProperty Name="permissions" ColumnName="permissions" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="note_notediagnosis" TypeName="registroclinicoModel.note_notediagnosis" StoreEntitySet="note_notediagnosis">
+            <EndProperty Name="notediagnosis">
+              <ScalarProperty Name="id" ColumnName="diagnosisList_id" />
+            </EndProperty>
+            <EndProperty Name="note">
+              <ScalarProperty Name="id" ColumnName="Note_id" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="note_noteexam" TypeName="registroclinicoModel.note_noteexam" StoreEntitySet="note_noteexam">
+            <EndProperty Name="noteexam">
+              <ScalarProperty Name="id" ColumnName="examList_id" />
+            </EndProperty>
+            <EndProperty Name="note">
+              <ScalarProperty Name="id" ColumnName="Note_id" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="note_notemedicine" TypeName="registroclinicoModel.note_notemedicine" StoreEntitySet="note_notemedicine">
+            <EndProperty Name="notemedicine">
+              <ScalarProperty Name="id" ColumnName="medicineList_id" />
+            </EndProperty>
+            <EndProperty Name="note">
+              <ScalarProperty Name="id" ColumnName="Note_id" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="note_notereferral" TypeName="registroclinicoModel.note_notereferral" StoreEntitySet="note_notereferral">
+            <EndProperty Name="note">
+              <ScalarProperty Name="id" ColumnName="Note_id" />
+            </EndProperty>
+            <EndProperty Name="notereferral">
+              <ScalarProperty Name="id" ColumnName="referralList_id" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="noteexam_upload" TypeName="registroclinicoModel.noteexam_upload" StoreEntitySet="noteexam_upload">
+            <EndProperty Name="upload">
+              <ScalarProperty Name="id" ColumnName="uploads_id" />
+            </EndProperty>
+            <EndProperty Name="noteexam">
+              <ScalarProperty Name="id" ColumnName="NoteExam_id" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

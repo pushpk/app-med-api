@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{DE8E37B5-0BE3-4CD5-AC53-6B01F0AFAF54}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MedAPI.Infrastructure</RootNamespace>
+    <AssemblyName>MedAPI.Infrastructure</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Common.cs" />
+    <Compile Include="IRepository\ICardiovascularNoteRepository.cs" />
+    <Compile Include="IRepository\IDiagnosisRepository.cs" />
+    <Compile Include="IRepository\IExamRepository.cs" />
+    <Compile Include="IRepository\IMedicineRepository.cs" />
+    <Compile Include="IRepository\INoteRepository.cs" />
+    <Compile Include="IRepository\IUserRepository.cs" />
+    <Compile Include="IService\IBloodTypeService.cs" />
+    <Compile Include="IService\ICardiovascularNoteService.cs" />
+    <Compile Include="IService\IDiagnosisService.cs" />
+    <Compile Include="IService\IDocumentTypeService.cs" />
+    <Compile Include="IService\IEducationService.cs" />
+    <Compile Include="IService\IExamService.cs" />
+    <Compile Include="IService\IHomeMaterialService.cs" />
+    <Compile Include="IService\IHomeOwnershipService.cs" />
+    <Compile Include="IService\IHomeTypeService.cs" />
+    <Compile Include="IService\IMaritalStatusService.cs" />
+    <Compile Include="IService\IMedicineService.cs" />
+    <Compile Include="IService\INoteService.cs" />
+    <Compile Include="IService\IPermissionService.cs" />
+    <Compile Include="IService\IPhysicalActivityService.cs" />
+    <Compile Include="IService\ISpecialtyService.cs" />
+    <Compile Include="IService\IUserService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MedAPI.Domain\MedAPI.Domain.csproj">
+      <Project>{3bbc2c59-c8e8-4264-a6fb-db24be9fa25b}</Project>
+      <Name>MedAPI.Domain</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
