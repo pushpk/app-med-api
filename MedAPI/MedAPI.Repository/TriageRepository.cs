@@ -47,6 +47,52 @@ namespace MedAPI.Repository
                         }).FirstOrDefault();
             }
         }
+
+        public Triage SaveTriage(Triage triage)
+        {
+            using (var context = new DataAccess.RegistroclinicoEntities())
+            {
+                var efTriages = context.triages.Where(m => m.id == triage.Id).FirstOrDefault();
+                if (efTriages == null)
+                {
+                    efTriages = new DataAccess.triage();
+                    efTriages.createdDate = DateTime.UtcNow;
+                    efTriages.deleted = BitConverter.GetBytes(false);
+                    context.triages.Add(efTriages);
+                }
+                efTriages.abdominalPerimeter = triage.AbdominalPerimeter;
+                efTriages.bmi = triage.Bmi;
+                efTriages.breathingRate = triage.BreathingRate;
+                efTriages.createdBy = triage.CreatedBy;
+                efTriages.deposition = triage.Deposition;
+                efTriages.diastolicBloodPressure = triage.DiastolicBloodPressure;
+
+                efTriages.glycemia = triage.Glycemia;
+
+                efTriages.hdlCholesterol = triage.HdlCholesterol;
+                efTriages.heartRate = triage.HeartRate;
+                efTriages.heartRisk = triage.HeartRisk;
+                efTriages.hunger = triage.Hunger;
+                efTriages.hypertensionRisk = triage.HypertensionRisk;
+                efTriages.ldlCholesterol = triage.LdlCholesterol;
+                efTriages.modifiedBy = triage.ModifiedBy;
+                efTriages.modifiedDate = triage.ModifiedDate;
+                efTriages.patient_id = triage.PatientId;
+                efTriages.size = triage.PatientId;
+                efTriages.sleep = triage.Sleep;
+                efTriages.systolicBloodPressure = triage.SystolicBloodPressure ;
+                efTriages.temperature = triage.Temperature;
+                efTriages.thirst = triage.Thirst;
+                efTriages.ticket_id = triage.TicketId;
+                efTriages.totalCholesterol = triage.TotalCholesterol ;
+                efTriages.urine = triage.Urine;
+                efTriages.weight = triage.Weight;
+                efTriages.weightEvolution = triage.WeightEvolution;
+                context.SaveChanges();
+                triage.Id = efTriages.id;
+            }
+            return triage;
+        }
     }
 }
 

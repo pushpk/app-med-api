@@ -5,5 +5,6 @@ namespace MedAPI.Infrastructure.IRepository
     public interface ITriageRepository
     {
         Triage GetLatest(long id);
+        Triage SaveTriage(Triage triage);
     }
 }

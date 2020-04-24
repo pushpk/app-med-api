@@ -12,5 +12,6 @@ namespace MedAPI.Infrastructure.IRepository
         List<Note> GetAllNote();
         bool DeleteNoteById(long id);
         Note GetNoteById(long id);
+        Note SaveNote(Note mNote);
     }
 }

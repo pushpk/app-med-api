@@ -23,7 +23,8 @@ namespace MedAPI.Domain
             cardiovascularnote = new cardiovascularnote();
             establishment = new establishment();
             medic = new medic();
-            triage = new triage();
+            Triage = new Triage();
+            Ticket = new Ticket();
 
         }
 
@@ -59,8 +60,8 @@ namespace MedAPI.Domain
         public virtual establishment establishment { get; set; }
         public virtual medic medic { get; set; }
         public virtual note note2 { get; set; }
-        public virtual patient patient { get; set; }
-        public virtual triage triage { get; set; }
+        //public virtual patient patient { get; set; }
+        //public virtual triage triage { get; set; }
         public virtual ticket ticket { get; set; }
         public ICollection<Note> Note1 { get; set; }
         public ICollection<NoteDiagnosi> NoteDiagnosis { get; set; }
@@ -71,5 +72,8 @@ namespace MedAPI.Domain
         public ICollection<NoteExam> NoteExams1 { get; set; }
         public ICollection<NoteMedicine> NoteMedicines1 { get; set; }
         public ICollection<NoteReferral> NoteReferrals1 { get; set; }
+
+        public Triage Triage { get; set; }
+        public  Ticket Ticket { get; set; }
     }
 }

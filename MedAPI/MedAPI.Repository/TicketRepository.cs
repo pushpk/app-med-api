@@ -45,7 +45,7 @@ namespace MedAPI.Repository
                             Stage = n.stage,
                             Specialty = n.specialty,
                             SecondOpinion = n.secondOpinion,
-                            patient = n.patient,
+                            //patient = n.patient,
                             note2 = n.note2,
                             medic = n.medic,
                             ticket = n.ticket
@@ -89,12 +89,33 @@ namespace MedAPI.Repository
                             Stage = n.stage,
                             Specialty = n.specialty,
                             SecondOpinion = n.secondOpinion,
-                            patient = n.patient,
+                            //patient = n.patient,
                             note2 = n.note2,
                             medic = n.medic,
                             ticket = n.ticket
                         }).ToList();
             }
+        }
+
+        public Ticket SaveTicket(Ticket mTicket)
+        {
+            using (var context = new DataAccess.RegistroclinicoEntities())
+            {
+                var efTicket = context.tickets.Where(m => m.id == mTicket.id).FirstOrDefault();
+                if (efTicket == null)
+                {
+                    efTicket = new DataAccess.ticket();
+                    efTicket.deleted = BitConverter.GetBytes(false);
+                    context.tickets.Add(efTicket);
+                }
+                efTicket.closed = mTicket.closed;
+                efTicket.status = mTicket.status;
+                efTicket.serie = mTicket.serie;
+                efTicket.nroTicket = mTicket.nroTicket;
+                context.SaveChanges();
+                mTicket.id= efTicket.id;
+            }
+            return mTicket;
         }
     }
 }

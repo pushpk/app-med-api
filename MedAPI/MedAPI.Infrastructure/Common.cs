@@ -163,6 +163,12 @@ namespace MedAPI.Infrastructure
             [Description("Intensa")]
             INTENSA = 3
         }
+        public enum Hunger
+        {
+            Normal = 1,
+            Disminuido = 2,
+            Aumentado = 3
+        }
     }
 }
 

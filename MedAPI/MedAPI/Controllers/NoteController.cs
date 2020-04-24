@@ -1,7 +1,6 @@
 ﻿using MedAPI.Domain;
 using MedAPI.Infrastructure.IService;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -10,6 +9,7 @@ using System.Web.Http;
 
 namespace MedAPI.Controllers
 {
+    [System.Web.Http.RoutePrefix("api/Note")]
     public class NoteController : ApiController
     {
         private readonly INoteService noteService;
@@ -83,6 +83,63 @@ namespace MedAPI.Controllers
         }
 
 
+        [HttpPost]
+        [Route("Create")]
+        public HttpResponseMessage Create(Domain.Note mNote)
+        {
+            HttpResponseMessage response = null;
+            try
+            {
+                if (IsTRIAGEPermission() || IsAdminPermission())
+                {
+                    mNote = noteService.SaveNote(mNote);
+                    response = Request.CreateResponse(HttpStatusCode.OK, mNote);
+                }
+                else
+                {
+                    mNote.Triage = noteService.TriageSave(mNote.Triage);
+                    response = Request.CreateResponse(HttpStatusCode.OK, mNote.Triage);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                response = Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+            return response;
+        }
+
+        [HttpPost]
+        [Route("Update")]
+        public HttpResponseMessage Update(Domain.Note mNote)
+        {
+            HttpResponseMessage response = null;
+            try
+            {
+                mNote = noteService.SaveNote(mNote);
+                response = Request.CreateResponse(HttpStatusCode.OK, mNote);
+            }
+            catch (Exception ex)
+            {
+                response = Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+            return response;
+        }
+        public bool IsTRIAGEPermission()
+        {
+            bool result = false;
+            var headerValues = HttpContext.Current.Request.Headers.GetValues("email");
+            string email = Convert.ToString(headerValues.FirstOrDefault());
+            var user = userService.GetByEmail(email);
+            if (user != null)
+            {
+                if (user.RoleId == (int)Infrastructure.Common.Permission.TRIAGE)
+                {
+                    result = true;
+                }
+            }
+            return result;
+        }
         public bool IsAdminPermission()
         {
             bool result = false;

@@ -1,0 +1,366 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+    <style type="text/css">
+        h1 {
+            font-size: 2.0rem;
+            margin: 10px 0 6px 0;
+            font-weight: bold;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            margin: 8px 0 6px 0;
+            font-weight: bold;
+        }
+
+        h3 {
+            font-size: 1.6rem;
+            margin: 6px 0 4px 0;
+            font-weight: bold;
+        }
+
+        label, p {
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <h1 class="col-xs-12">
+                Atención médica
+                <small class="pull-right">{%note.createdDate%}</small>
+            </h1>
+        </div>
+        <!-- Report header -->
+        <div class="row">
+            <div class="col-xs-4">
+                <label>Paciente</label>
+                <p>{%note.patient.getFullName%}</p>
+            </div>
+
+            <div class="col-xs-4">
+                <label>DNI</label>
+                <p>{%note.patient.documentNumber%}</p>
+            </div>
+
+            <div class="col-xs-4">
+                <label>Sexo</label>
+                <p>{%note.patient.sex.getName%}</p>
+            </div>
+        </div>
+        @*<label>Relato</label>
+          <p> {%note.story}</p>
+
+        <label>Examen físico</label>
+        <p>{%note.physicalExam%}</p>*@
+
+        <!-- Triage detail -->
+        <div class="row">
+            <h2 class="col-xs-12">Triaje</h2>
+        </div>
+
+        <div class="row">
+            <h3 class="col-xs-12">Funciones biológicas</h3>
+            <div class="col-xs-4">
+                <label>Apetito</label>
+                <p>{%note.triage.hunger.getName%}</p>
+            </div>
+
+            <div class="col-xs-4">
+                <label>Sed</label>
+                <p>{%note.triage.thirst.getName%}</p>
+            </div>
+
+            <div class="col-xs-4">
+                <label>Sueño</label>
+                <p>{%note.triage.sleep.getName%}</p>
+            </div>
+
+            <div class="col-xs-4">
+                <label>Diuresis</label>
+                <p>{%note.triage.urine.getName%}</p>
+            </div>
+
+            <div class="col-xs-4">
+                <label>Deposiciones</label>
+                <p>{%note.triage.deposition.getName%}</p>
+            </div>
+
+            <div class="col-xs-4">
+                <label>Evolución ponderal</label>
+                <p>{%note.triage.weightEvolution.getName%}</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <h3 class="col-xs-12">Funciones vitales</h3>
+            <div class="col-xs-4">
+                <label>Presión arterial sistólica</label>
+                <p>{%note.triage.systolicBloodPressure%} mmHg</p>
+            </div>
+
+            <div class="col-xs-4">
+                <label>Presión arterial diastólica</label>
+                <p>{%note.triage.diastolicBloodPressure%} mmHg</p>
+            </div>
+
+            <div class="col-xs-4">
+                <label>Frecuencia cardiaca</label>
+                <p>{%note.triage.heartRate%} Hz</p>
+            </div>
+
+            <div class="col-xs-4">
+                <label>Frecuencia respiratoria</label>
+                <p>{%note.triage.breathingRate%} Hz</p>
+            </div>
+
+            <div class="col-xs-4">
+                <label>Temperatura</label>
+                <p>{%note.triage.temperature%} C°</p>
+            </div>
+
+            <div class="col-xs-4">
+                <label>Perímetro abdominal</label>
+                <p>{%note.triage.abdominalPerimeter%} cm</p>
+            </div>
+
+            <div class="col-xs-4">
+                <label>Talla</label>
+                <p>{%note.triage.size%} m</p>
+            </div>
+
+            <div class="col-xs-4">
+                <label>Peso</label>
+                <p>{%note.triage.weight%} kg</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <h3 class="col-xs-12">Otros</h3>
+            <div class="col-xs-4">
+                <label>Colesterol Total</label>
+                <p>{%note.triage.totalCholesterol%} mg/dL</p>
+            </div>
+
+            <div class="col-xs-4">
+                <label>Colesterol LDL</label>
+                <p>{%note.triage.ldlCholesterol%} mg/dL</p>
+            </div>
+
+            <div class="col-xs-4">
+                <label>Colesterol HDL</label>
+                <p>{%note.triage.hdlCholesterol%} mg/dL</p>
+            </div>
+
+            <div class="col-xs-4">
+                <label>Relación CT/HDL</label>
+                <p>
+                    {%Relación CT/HDL%}
+                </p>
+            </div>
+
+            <div class="col-xs-4">
+                <label>Glicemia</label>
+                <p>{%note.triage.glycemia%} mg/dL</p>
+            </div>
+        </div>
+
+        <!-- Attention -->
+
+        <div class="row">
+            <h2 class="col-xs-12">Atención</h2>
+        </div>
+
+        <div class="row">
+            <h3 class="col-xs-12">Síntomas</h3>
+            <div class="col-xs-4">
+                <p>a,b,c,d,e</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <h3 class="col-xs-12">Piel</h3>
+            <p class="col-xs-9">Presenta cambios tróficos</p>
+            <p class="col-xs-3">note.trophicChanges</p>
+            <p class="col-xs-9">Presenta edema de tobillo</p>
+            <p class="col-xs-3">si,no</p>
+            <p class="col-xs-9">Presenta edema de miembros interiores</p>
+            <p class="col-xs-3">si,no</p>
+            <p class="col-xs-9">Presenta edema generalizado</p>
+            <p class="col-xs-3">si,no</p>
+        </div>
+
+        <div class="row">
+            <h3 class="col-xs-12">Pulso</h3>
+            <p class="col-xs-9">Miembro inferior izquierdo</p>
+            <p class="col-xs-3">a,b,c,d</p>
+            <p class="col-xs-9">Miembro inferior derecho</p>
+            <p class="col-xs-3">a,b,c,d</p>
+        </div>
+
+        <div class="row">
+            <h3 class="col-xs-12">Aparato respiratorio</h3>
+            <p class="col-xs-9">Murmullo vesicular en campo pulmonar izquierdo</p>
+            <p class="col-xs-3">a,b,c,d</p>
+            <p class="col-xs-9">Murmullo vesicular en cmapo pulmonar derecho</p>
+            <p class="col-xs-3">a,b,c,d</p>
+        </div>
+
+        <div class="row">
+            <h3 class="col-xs-12">Aparato Cardiovascular</h3>
+            <div class="col-xs-4">
+                <label>Pulsos radiales izquierdos</label>
+                <p>note.radialPulsesL.getName</p>
+            </div>
+            <div class="col-xs-4">
+                <label>Pulsos radiales derechos</label>
+                <p>note.radialPulsesR.getName</p>
+            </div>
+            <div class="col-xs-4">
+                <label>Pulsos pedios izquierdos</label>
+                <p>note.pedalPulsesL.getName</p>
+            </div>
+            <div class="col-xs-4">
+                <label>Pulsos pedios derechos</label>
+                <p>note.pedalPulsesR.getName</p>
+            </div>
+            <div class="col-xs-4">
+                <label>Ruidos cardiacos - ritmo</label>
+                <p>note.cardiacPressureRhythm.getName</p>
+            </div>
+            <div class="col-xs-4">
+                <label>Ruidos cardiacos - intensidad</label>
+                <p>note.cardiacPressureIntensity.getName</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <h3 class="col-xs-12">Otros</h3>
+            <div class="col-xs-4">
+                <label>Soplos</label>
+                <p>note.murmurs.getName</p>
+            </div>
+
+            <div class="col-xs-8">
+                <label>Semiología gastrointestinal</label>
+                <p>note.gastrointestinalSemiology.getName</p>
+            </div>
+        </div>
+
+
+        <!-- Report detail -->
+        <div class="row">
+            <h2 class="col-xs-12">Conclusión</h2>
+        </div>
+
+        <div class="row">
+            <h3 class="col-xs-12">Diagnósticos</h3>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <table class="table table-bordered">
+                    <tr class="info">
+                        <th>#</th>
+                        <th>CIE-10</th>
+                        <th>Descripción</th>
+                        <th>Tipo</th>
+                    </tr>
+
+                    @for((m, i)
+                    <- note.diagnosisList.zipWithIndex) {
+                    <tr>
+                        <td>@(i + 1)</td>
+                        <td>@m.diagnosis.code</td>
+                        <td>@m.diagnosis.title</td>
+                        <td>@m.diagnosisType.getName</td>
+                    </tr>
+                }
+                </table>
+            </div>
+        </div>
+
+        <div class="row">
+            <h3 class="col-xs-12">Exámenes solicitados</h3>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12">
+                <table class="table table-bordered">
+                    <tr class="info">
+                        <th>#</th>
+                        <th>Nombre</th>
+                        <th>Especificación</th>
+                    </tr>
+
+                    @for((m, i)
+                    <- note.examList.zipWithIndex) {
+                <tr>
+                    <td>@(i + 1)</td>
+                    <td>@m.exam.name</td>
+                    <td>@if(m.specification != null) {@m.specification}else{-}</td>
+                </tr>
+            }
+                </table>
+            </div>
+        </div>
+
+        <div class="row">
+            <h3 class="col-xs-12">Tratamiento</h3>
+            <div class="col-xs-12">
+                <table class="table table-bordered">
+                    <tr class="info">
+                        <th>#</th>
+                        <th>Nombre</th>
+                        <th>Indicaciones</th>
+                    </tr>
+
+                    @for((m, i)
+                    <- note.medicineList.zipWithIndex) {
+                    <tr>
+                        <td>@(i + 1)</td>
+                        <td>@m.medicine.name</td>
+                        <td>@m.indication</td>
+                    </tr>
+                }
+                </table>
+            </div>
+        </div>
+
+        <div class="row">
+            <h3 class="col-xs-12">Interconsulta</h3>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12">
+                <table class="table table-bordered">
+                    <tr class="info">
+                        <th>#</th>
+                        <th>Especialidad</th>
+                        <th>Motivo</th>
+                    </tr>
+
+                    @for((m, i)
+                    <- note.referralList.zipWithIndex) {
+                    <tr>
+                        <td>@(i + 1)</td>
+                        <td>@m.specialty.getName</td>
+                        <td>@m.reason</td>
+                    </tr>
+                }
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <label class="col-xs-12">Médico</label>
+            <p class="col-xs-12">@note.medic.getFullName</p>
+            <p class="col-xs-12">CMP @note.medic.cmp</p>
+        </div>
+    </div>
+</body>
+</html>

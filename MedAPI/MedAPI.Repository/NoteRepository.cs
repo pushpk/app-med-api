@@ -91,5 +91,47 @@ namespace MedAPI.Repository
                    }).FirstOrDefault();
             }
         }
+
+        public Note SaveNote(Note mNote)
+        {
+            using (var context = new DataAccess.RegistroclinicoEntities())
+            {
+                var efNotes = context.notes.Where(m => m.id == mNote.Id).FirstOrDefault();
+                if (efNotes == null)
+                {
+                    efNotes = new DataAccess.note();
+                    efNotes.deleted = BitConverter.GetBytes(false);
+                    efNotes.createdDate = DateTime.UtcNow;
+                    context.notes.Add(efNotes);
+                }
+                efNotes.age = mNote.Age;
+                efNotes.completed = mNote.Completed;
+                efNotes.control = mNote.Control;
+                efNotes.controlNote_id = mNote.ControlNoteId;
+                efNotes.createdBy = mNote.CreatedBy;
+                efNotes.diagnosis = mNote.Diagnosis;
+                efNotes.establishment_id = mNote.EstablishmentId;
+                efNotes.exam = mNote.Exam;
+                efNotes.medic_id = mNote.MedicId;
+                efNotes.modifiedBy = mNote.ModifiedBy;
+                efNotes.modifiedDate = mNote.ModifiedDate;
+                efNotes.patient_id = mNote.PatientId;
+                efNotes.physicalExam = mNote.PhysicalExam;
+                efNotes.secondOpinion = mNote.SecondOpinion;
+                efNotes.sicknessTime = mNote.SicknessTime;
+                efNotes.sicknessUnit = mNote.SicknessUnit;
+                efNotes.secondOpinion = mNote.SecondOpinion;
+                efNotes.specialty = mNote.Specialty;
+                efNotes.stage = mNote.Stage;
+                efNotes.story = mNote.Story;
+                efNotes.symptom = mNote.Symptom;
+                efNotes.ticket_id = mNote.TicketId;
+                efNotes.treatment = mNote.Treatment;
+                efNotes.triage_id = mNote.TriageId;
+                context.SaveChanges();
+                mNote.Id = efNotes.id;
+            }
+            return mNote;
+        }
     }
 }
