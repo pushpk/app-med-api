@@ -11,7 +11,7 @@ using System.Web.Http;
 namespace MedAPI.Controllers
 {
 
-    [System.Web.Http.RoutePrefix("api/Medic")]
+    [System.Web.Http.RoutePrefix("users")]
     public class MedicController : ApiController
     {
         private readonly IMedicService medicService;
@@ -22,7 +22,7 @@ namespace MedAPI.Controllers
             this.userService = userService;
         }
         [HttpGet]
-        [Route("GetMedics")]
+        [Route("medic")]
         public HttpResponseMessage GetAll()
         {
             HttpResponseMessage response = null;
@@ -41,7 +41,7 @@ namespace MedAPI.Controllers
         }
 
         [HttpGet]
-        [Route("Show/{id:int}")]
+        [Route("medic/{id:int}")]
         public HttpResponseMessage Show(long id)
         {
             HttpResponseMessage response = null;
@@ -64,8 +64,8 @@ namespace MedAPI.Controllers
             return response;
         }
 
-        [HttpGet]
-        [Route("Delete/{id:int}")]
+        [HttpDelete]
+        [Route("medic/{id:int}")]
         public HttpResponseMessage Delete(long id)
         {
             HttpResponseMessage response = null;
@@ -79,6 +79,8 @@ namespace MedAPI.Controllers
                     {
                         response = Request.CreateResponse(HttpStatusCode.OK, "Entity removed successfully.");
                     }
+                    else
+                        response = Request.CreateResponse(HttpStatusCode.OK, "Invalid Entity. Not found");
                 }
                 else
                 {
@@ -91,6 +93,56 @@ namespace MedAPI.Controllers
             }
             return response;
 
+        }
+
+        [HttpPost]
+        [Route("medic")]
+        public HttpResponseMessage Create(Domain.Medic mMedic)
+        {
+            HttpResponseMessage response = null;
+            try
+            {
+                if (IsAdminPermission())
+                {
+                    mMedic = medicService.SaveMedic(mMedic);
+                    response = Request.CreateResponse(HttpStatusCode.OK, mMedic);
+                }
+                else
+                {
+                    response = Request.CreateResponse(HttpStatusCode.Unauthorized);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                response = Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+            return response;
+        }
+        [HttpPost]
+        [Route("medic/{id:int}")]
+        public HttpResponseMessage Update(Domain.Medic mMedic, long id)
+        {
+            HttpResponseMessage response = null;
+            try
+            {
+                if (IsAdminPermission())
+                {
+                    mMedic.User.Id = id;
+                    mMedic = medicService.SaveMedic(mMedic);
+                    response = Request.CreateResponse(HttpStatusCode.OK, mMedic);
+                }
+                else
+                {
+                    response = Request.CreateResponse(HttpStatusCode.Unauthorized);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                response = Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+            return response;
         }
         public bool IsAdminPermission()
         {

@@ -12,6 +12,7 @@ namespace MedAPI.Domain
         {
             this.Notes = new List<Note>();
             this.Triages = new List<Triage>();
+            User = new User();
         }
 
         public string Alcohol { get; set; }
@@ -41,5 +42,7 @@ namespace MedAPI.Domain
 
         public List<Note> Notes { get; set; }
         public List<Triage> Triages { get; set; }
+
+        public Domain.User User { get; set; }
     }
 }

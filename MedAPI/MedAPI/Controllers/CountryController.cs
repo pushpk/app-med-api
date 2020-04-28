@@ -10,7 +10,7 @@ using System.Web.Http;
 
 namespace MedAPI.Controllers
 {
-    [System.Web.Http.RoutePrefix("api/Country")]
+    [System.Web.Http.RoutePrefix("util")]
     public class CountryController : ApiController
     {
         private readonly ICountryService countryService;
@@ -22,7 +22,7 @@ namespace MedAPI.Controllers
         }
 
         [HttpGet]
-        [Route("Search/{query}")]
+        [Route("country/{query}")]
         public HttpResponseMessage Search(string query)
         {
             HttpResponseMessage response = null;
@@ -38,7 +38,7 @@ namespace MedAPI.Controllers
         }
 
         [HttpGet]
-        [Route("GetAll")]
+        [Route("country")]
         public HttpResponseMessage GetAll()
         {
             HttpResponseMessage response = null;
@@ -53,7 +53,7 @@ namespace MedAPI.Controllers
             return response;
         }
         [HttpGet]
-        [Route("Show/{id:int}")]
+        [Route("country/{id:int}")]
         public HttpResponseMessage Show(long id)
         {
             HttpResponseMessage response = null;
@@ -76,8 +76,8 @@ namespace MedAPI.Controllers
             return response;
         }
 
-        [HttpGet]
-        [Route("Delete/{id:int}")]
+        [HttpDelete]
+        [Route("country/{id:int}")]
         public HttpResponseMessage Delete(long id)
         {
             HttpResponseMessage response = null;
@@ -106,7 +106,7 @@ namespace MedAPI.Controllers
         }
 
         [HttpPost]
-        [Route("Create")]
+        [Route("country")]
         public HttpResponseMessage Create(Domain.Country mCountry)
         {
             HttpResponseMessage response = null;
@@ -130,14 +130,15 @@ namespace MedAPI.Controllers
             return response;
         }
         [HttpPost]
-        [Route("Update")]
-        public HttpResponseMessage Update(Domain.Country mCountry)
+        [Route("country/{id:int}")]
+        public HttpResponseMessage Update(Domain.Country mCountry,long id)
         {
             HttpResponseMessage response = null;
             try
             {
                 if (IsAdminPermission())
                 {
+                    mCountry.id = id;
                     mCountry = countryService.SaveCountry(mCountry);
                     response = Request.CreateResponse(HttpStatusCode.OK, mCountry);
                 }

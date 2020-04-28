@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CardiovascularResource.cs" />
     <Compile Include="CardiovascularNote.cs" />
     <Compile Include="Chapter.cs" />
     <Compile Include="Country.cs" />
@@ -58,8 +59,10 @@
     <Compile Include="NoteExam.cs" />
     <Compile Include="NoteMedicine.cs" />
     <Compile Include="NoteReferral.cs" />
+    <Compile Include="NoteResources.cs" />
     <Compile Include="Nurse.cs" />
     <Compile Include="NurseSpecialties.cs" />
+    <Compile Include="ObjectNode.cs" />
     <Compile Include="Patient.cs" />
     <Compile Include="PatientAllergies.cs" />
     <Compile Include="PatientFatherbackgrounds.cs" />

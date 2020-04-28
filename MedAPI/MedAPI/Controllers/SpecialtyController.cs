@@ -8,7 +8,7 @@ using System.Web.Http;
 
 namespace MedAPI.Controllers
 {
-    [System.Web.Http.RoutePrefix("api/Specialty")]
+    [System.Web.Http.RoutePrefix("record")]
     public class SpecialtyController : ApiController
     {
         private readonly ISpecialtyService specialtyService;
@@ -19,8 +19,8 @@ namespace MedAPI.Controllers
         }
 
         [HttpGet]
-        [Route("Search/{query}")]
-        public HttpResponseMessage Search(string query)
+        [Route("specialty/{query?}")]
+        public HttpResponseMessage Search(string query="")
         {
             HttpResponseMessage response = null;
             try
@@ -35,7 +35,7 @@ namespace MedAPI.Controllers
         }
 
         [HttpGet]
-        [Route("List")]
+        [Route("specialty")]
         public HttpResponseMessage List()
         {
             HttpResponseMessage response = null;

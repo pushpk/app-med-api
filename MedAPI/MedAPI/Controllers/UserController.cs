@@ -9,7 +9,7 @@ using System.Web.Http;
 
 namespace MedAPI.Controllers
 {
-    [System.Web.Http.RoutePrefix("api/User")]
+    [System.Web.Http.RoutePrefix("users")]
     public class UserController : ApiController
     {
         private readonly IUserService userService;
@@ -20,7 +20,7 @@ namespace MedAPI.Controllers
         }
 
         [HttpGet]
-        [Route("List")]
+        [Route("users")]
         public HttpResponseMessage List()
         {
             HttpResponseMessage response = null;
@@ -36,7 +36,7 @@ namespace MedAPI.Controllers
         }
 
         [HttpGet]
-        [Route("Show/{id:int}")]
+        [Route("users/{id:int}")]
         public HttpResponseMessage Show(long id)
         {
             HttpResponseMessage response = null;
@@ -59,8 +59,8 @@ namespace MedAPI.Controllers
             return response;
         }
 
-        [HttpGet]
-        [Route("Delete/{id:int}")]
+        [HttpDelete]
+        [Route("users/{id:int}")]
         public HttpResponseMessage Delete(long id)
         {
             HttpResponseMessage response = null;
@@ -83,7 +83,7 @@ namespace MedAPI.Controllers
 
 
         [HttpPost]
-        [Route("Create")]
+        [Route("users")]
         public HttpResponseMessage Create(Domain.User mUser)
         {
             HttpResponseMessage response = null;
@@ -99,12 +99,13 @@ namespace MedAPI.Controllers
             return response;
         }
         [HttpPost]
-        [Route("Update")]
-        public HttpResponseMessage Update(Domain.User mUser)
+        [Route("users/{id:int}")]
+        public HttpResponseMessage Update(Domain.User mUser,long id)
         {
             HttpResponseMessage response = null;
             try
             {
+                mUser.Id = id;
                 mUser = userService.SaveUser(mUser);
                 response = Request.CreateResponse(HttpStatusCode.OK, mUser);
             }

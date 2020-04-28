@@ -32,6 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BCrypt.Net, Version=0.1.4141.31969, Culture=neutral, PublicKeyToken=f3bc8f8c31beeb49, processorArchitecture=MSIL">
+      <HintPath>..\packages\BCrypt.Net.0.1.0\lib\net35\BCrypt.Net.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -44,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common.cs" />
+    <Compile Include="HashPasswordHelper.cs" />
     <Compile Include="IRepository\IApplicationRepository.cs" />
     <Compile Include="IRepository\ICardiovascularNoteRepository.cs" />
     <Compile Include="IRepository\ICountryRepository.cs" />
@@ -55,6 +59,7 @@
     <Compile Include="IRepository\IMedicineRepository.cs" />
     <Compile Include="IRepository\IMedicRepository.cs" />
     <Compile Include="IRepository\INoteRepository.cs" />
+    <Compile Include="IRepository\INurseRepository.cs" />
     <Compile Include="IRepository\IPatientRepository.cs" />
     <Compile Include="IRepository\IProvinceRepository.cs" />
     <Compile Include="IRepository\ITicketRepository.cs" />
@@ -79,6 +84,7 @@
     <Compile Include="IService\IMedicineService.cs" />
     <Compile Include="IService\IMedicService.cs" />
     <Compile Include="IService\INoteService.cs" />
+    <Compile Include="IService\INurseService.cs" />
     <Compile Include="IService\IPatientService.cs" />
     <Compile Include="IService\IPermissionService.cs" />
     <Compile Include="IService\IPhysicalActivityService.cs" />
@@ -95,6 +101,9 @@
       <Project>{3bbc2c59-c8e8-4264-a6fb-db24be9fa25b}</Project>
       <Name>MedAPI.Domain</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

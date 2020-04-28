@@ -1,23 +1,21 @@
 ﻿using MedAPI.Domain;
 using MedAPI.Infrastructure.IRepository;
 using MedAPI.Infrastructure.IService;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MedAPI.Service
 {
-   public class MedicService : IMedicService
+    public class MedicService : IMedicService
     {
         private readonly IMedicRepository medicRepository;
-        public MedicService(IMedicRepository medicRepository)
+        private readonly IUserRepository userRepository;
+        public MedicService(IMedicRepository medicRepository, IUserRepository userRepository)
         {
             this.medicRepository = medicRepository;
+            this.userRepository = userRepository;
         }
 
-       public List<Medic> GetAllMedic()
+        public List<Medic> GetAllMedic()
         {
             return medicRepository.GetAllMedic();
         }
@@ -29,6 +27,23 @@ namespace MedAPI.Service
         public bool DeleteMedicById(long id)
         {
             return medicRepository.DeleteMedicById(id);
+        }
+
+        public Medic SaveMedic(Domain.Medic mMedic)
+        {
+
+            if (mMedic.User.Id == 0)
+            {
+                mMedic.User.PasswordHash = Infrastructure.HashPasswordHelper.HashPassword(mMedic.User.PasswordHash);
+            }
+            mMedic.User = userRepository.SaveUser(mMedic.User);
+
+            if (mMedic.User.Id > 0)
+            {
+                mMedic.Id = mMedic.User.Id;
+                medicRepository.SaveMedic(mMedic);
+            }
+            return mMedic;
         }
     }
 

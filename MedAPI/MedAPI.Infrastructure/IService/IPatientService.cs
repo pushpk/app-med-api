@@ -10,6 +10,7 @@ namespace MedAPI.Infrastructure.IService
         bool DeletePatientById(long id);
         List<Province> GetProvinceByDepartment(long id);
         List<District> GetDistrictByprovinceId(long id);
-       /* Patient GetPatientByDocumentNumber(string documentNumber)*/
+        Patient SavePatient(Domain.Patient mPatient);
+        /* Patient GetPatientByDocumentNumber(string documentNumber)*/
     }
 }

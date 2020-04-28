@@ -21,7 +21,7 @@ namespace MedAPI.Repository
                        country = new Domain.Country
                        {
                            id = x.country.id,
-                           name = x.name
+                           name = x.country.name
                        },
                        country_id = x.country_id,
                    }).FirstOrDefault();
@@ -42,7 +42,7 @@ namespace MedAPI.Repository
                             country = new Domain.Country
                             {
                                 id = c.country.id,
-                                name = c.name
+                                name = c.country.name
                             },
                             country_id = c.country_id
                         }).OrderBy(x => x.name).ToList();
@@ -62,7 +62,7 @@ namespace MedAPI.Repository
                        country = new Domain.Country
                        {
                            id = x.country.id,
-                           name = x.name
+                           name = x.country.name
                        },
                        country_id = x.country_id,
                    }).FirstOrDefault();

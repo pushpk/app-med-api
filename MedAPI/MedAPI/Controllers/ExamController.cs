@@ -9,7 +9,7 @@ using System.Web.Http;
 
 namespace MedAPI.Controllers
 {
-    [System.Web.Http.RoutePrefix("api/Exam")]
+    [System.Web.Http.RoutePrefix("admin")]
     public class ExamController : ApiController
     {
         private readonly IExamService examService;
@@ -22,8 +22,8 @@ namespace MedAPI.Controllers
         }
 
         [HttpGet]
-        [Route("Search/{query}")]
-        public HttpResponseMessage Search(string query)
+        [Route("exam/{query?}")]
+        public HttpResponseMessage Search(string query="")
         {
             HttpResponseMessage response = null;
             try
@@ -38,7 +38,7 @@ namespace MedAPI.Controllers
         }
 
         [HttpGet]
-        [Route("List")]
+        [Route("exam")]
         public HttpResponseMessage List()
         {
             HttpResponseMessage response = null;
@@ -54,7 +54,7 @@ namespace MedAPI.Controllers
         }
 
         [HttpGet]
-        [Route("Show/{id:int}")]
+        [Route("exam/{id:int}")]
         public HttpResponseMessage Show(long id)
         {
             HttpResponseMessage response = null;
@@ -77,7 +77,7 @@ namespace MedAPI.Controllers
         }
 
         [HttpPost]
-        [Route("Create")]
+        [Route("exam")]
         public HttpResponseMessage Create(Exam mExam)
         {
             HttpResponseMessage response = null;
@@ -103,15 +103,16 @@ namespace MedAPI.Controllers
         }
 
         [HttpPost]
-        [Route("Update")]
-        public HttpResponseMessage Update(Exam mExam)
+        [Route("exam/{id:int}")]
+        public HttpResponseMessage Update(Exam mExam,long id)
         {
             HttpResponseMessage response = null;
             try
             {
                 if (IsAdminPermission())
                 {
-                    int id = examService.SaveExam(mExam);
+                    mExam.Id = id;
+                    id = examService.SaveExam(mExam);
 
                     if (id > 0)
                     {
@@ -133,7 +134,7 @@ namespace MedAPI.Controllers
         }
 
         [HttpGet]
-        [Route("Delete/{id:int}")]
+        [Route("exam/{id:int}")]
         public HttpResponseMessage Delete(long id)
         {
             HttpResponseMessage response = null;

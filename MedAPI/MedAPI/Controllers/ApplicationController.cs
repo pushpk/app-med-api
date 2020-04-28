@@ -11,7 +11,7 @@ using System.Web.Http;
 
 namespace MedAPI.Controllers
 {
-    [System.Web.Http.RoutePrefix("api/Application")]
+    [System.Web.Http.RoutePrefix("upload")]
     public class ApplicationController : ApiController
     {
         private readonly IApplicationService applicationService;
@@ -23,7 +23,7 @@ namespace MedAPI.Controllers
         }
 
         [HttpPost]
-        [Route("Upload")]
+        [Route("upload")]
         public HttpResponseMessage Upload(Domain.Upload mUpload)
         {
             HttpResponseMessage response = null;

@@ -9,7 +9,7 @@ using System.Web.Http;
 
 namespace MedAPI.Controllers
 {
-    [System.Web.Http.RoutePrefix("api/Establishment")]
+    [System.Web.Http.RoutePrefix("util")]
     public class EstablishmentController : ApiController
     {
         private readonly IEstablishmentService establishmentService;
@@ -20,7 +20,7 @@ namespace MedAPI.Controllers
             this.userService = userService;
         }
         [HttpGet]
-        [Route("GetAll")]
+        [Route("establishment")]
         public HttpResponseMessage GetAll()
         {
             HttpResponseMessage response = null;
@@ -36,7 +36,7 @@ namespace MedAPI.Controllers
         }
 
         [HttpPost]
-        [Route("Create")]
+        [Route("establishment")]
         public HttpResponseMessage Create(Domain.Establishment mEstablishment)
         {
             HttpResponseMessage response = null;
@@ -59,14 +59,15 @@ namespace MedAPI.Controllers
             return response;
         }
         [HttpPost]
-        [Route("Update")]
-        public HttpResponseMessage Update(Domain.Establishment mEstablishment)
+        [Route("establishment/{id:int}")]
+        public HttpResponseMessage Update(Domain.Establishment mEstablishment,long id)
         {
             HttpResponseMessage response = null;
             try
             {
                 if (IsAdminPermission())
                 {
+                    mEstablishment.Id = id;
                     mEstablishment = establishmentService.SaveEstablishment(mEstablishment);
                     response = Request.CreateResponse(HttpStatusCode.OK, mEstablishment);
                 }
@@ -82,7 +83,7 @@ namespace MedAPI.Controllers
             return response;
         }
         [HttpGet]
-        [Route("Show/{id:int}")]
+        [Route("establishment/{id:int}")]
         public HttpResponseMessage Show(long id)
         {
             HttpResponseMessage response = null;
@@ -105,8 +106,8 @@ namespace MedAPI.Controllers
             return response;
         }
 
-        [HttpGet]
-        [Route("Delete/{id:int}")]
+        [HttpDelete]
+        [Route("establishment/{id:int}")]
         public HttpResponseMessage Delete(long id)
         {
             HttpResponseMessage response = null;

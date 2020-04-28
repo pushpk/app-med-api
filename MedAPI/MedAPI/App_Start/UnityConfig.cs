@@ -41,7 +41,7 @@ namespace MedAPI
             container.RegisterType<ICountryService, CountryService>();
             container.RegisterType<IDepartmentService, DepartmentService>();
             container.RegisterType<IDistrictService, DistrictService>();
-
+            container.RegisterType<INurseService, NurseService>();
             container.RegisterType<IEstablishmentService, EstablishmentService>();
             container.RegisterType<IProvinceService, ProvinceService>();
             container.RegisterType<IMedicService, MedicService>();
@@ -59,14 +59,14 @@ namespace MedAPI
             container.RegisterType<ITicketRepository, TicketRepository>();
             container.RegisterType<ITriageRepository, TriageRepository>();
             container.RegisterType<ICountryRepository, CountryRepository>();
-            container.RegisterType<IDepartmentService, DepartmentService>();
-            container.RegisterType<IDepartmentService, DepartmentService>();
+            container.RegisterType<IDepartmentRepository, DepartmentRepository>();
             container.RegisterType<IDistrictRepository, DistrictRepository>();
             container.RegisterType<IEstablishmentRepository, EstablishmentRepository>();
             container.RegisterType<IProvinceRepository, ProvinceRepository>();
             container.RegisterType<IMedicRepository, MedicRepository>();
             container.RegisterType<IPatientRepository, PatientRepository>();
             container.RegisterType<IApplicationRepository, ApplicationRepository>();
+            container.RegisterType<INurseRepository, NurseRepository>();
 
             GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);
         }

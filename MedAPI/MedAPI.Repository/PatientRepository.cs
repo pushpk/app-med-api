@@ -48,7 +48,7 @@ namespace MedAPI.Repository
             using (var context = new DataAccess.RegistroclinicoEntities())
             {
                 return (from p in context.patients
-                        where p.id==id
+                        where p.id == id
                         select new Patient
                         {
                             Id = p.id,
@@ -100,7 +100,7 @@ namespace MedAPI.Repository
             using (var context = new DataAccess.RegistroclinicoEntities())
             {
                 return (from c in context.districts
-                        where c.deleted != bytes && c.province_id==id
+                        where c.deleted != bytes && c.province_id == id
                         select new District()
                         {
                             Deleted = c.deleted,
@@ -109,6 +109,44 @@ namespace MedAPI.Repository
                             ProvinceId = c.province_id,
                             Ubigeo = c.ubigeo,
                         }).OrderBy(x => x.Name).ToList();
+            }
+        }
+
+        public void SavePatient(Patient mPatient)
+        {
+            using (var context = new DataAccess.RegistroclinicoEntities())
+            {
+                var efPatients = context.patients.Where(m => m.id == mPatient.Id).FirstOrDefault();
+                if (efPatients == null)
+                {
+                    efPatients = new DataAccess.patient();
+                    context.patients.Add(efPatients);
+                }
+                efPatients.id = mPatient.Id;
+                efPatients.alcohol = mPatient.Alcohol;
+                efPatients.bloodType = mPatient.BloodType;
+                efPatients.cigaretteNumber = mPatient.CigaretteNumber;
+                efPatients.createdTicket = mPatient.CreatedTicket;
+                efPatients.dormNumber = mPatient.DormNumber;
+                efPatients.educationalAttainment = mPatient.EducationalAttainment;
+                efPatients.electricity = mPatient.Electricity;
+                efPatients.fractureNumber = mPatient.FractureNumber;
+                efPatients.fruitsVegetables = mPatient.FruitsVegetables;
+                efPatients.highGlucose = mPatient.HighGlucose;
+                efPatients.homeMaterial = mPatient.HomeMaterial;
+                efPatients.homeOwnership = mPatient.HomeOwnership;
+                efPatients.homeType = mPatient.HomeType;
+                efPatients.occupation = mPatient.Occupation;
+                efPatients.otherAllergies = mPatient.OtherAllergies;
+                efPatients.otherFatherBackground = mPatient.OtherFatherBackground;
+                efPatients.otherMedicines = mPatient.OtherMedicines;
+                efPatients.otherMotherBackground = mPatient.OtherMotherBackground;
+                efPatients.otherPersonalBackground = mPatient.OtherPersonalBackground;
+                efPatients.physicalActivity = mPatient.PhysicalActivity;
+                efPatients.residentNumber = mPatient.ResidentNumber;
+                efPatients.sewage = mPatient.Sewage;
+                efPatients.water = mPatient.Water;
+                context.SaveChanges();
             }
         }
 

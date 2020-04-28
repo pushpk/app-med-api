@@ -5,11 +5,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Web;
 using System.Web.Http;
 
 namespace MedAPI.Controllers
 {
-    [System.Web.Http.RoutePrefix("api/Patient")]
+    [System.Web.Http.RoutePrefix("users")]
     public class PatientController : ApiController
     {
         private readonly IUserService userService;
@@ -21,7 +22,7 @@ namespace MedAPI.Controllers
             this.patientService = patientService;
         }
         [HttpGet]
-        [Route("List")]
+        [Route("patient")]
         public HttpResponseMessage GetAll()
         {
             HttpResponseMessage response = null;
@@ -37,7 +38,7 @@ namespace MedAPI.Controllers
         }
 
         [HttpGet]
-        [Route("Show/{id:int}")]
+        [Route("patient/{id:int}")]
         public HttpResponseMessage Show(long id)
         {
             HttpResponseMessage response = null;
@@ -60,8 +61,60 @@ namespace MedAPI.Controllers
             return response;
         }
 
-        [HttpGet]
-        [Route("Delete/{id:int}")]
+
+        [HttpPost]
+        [Route("patient")]
+        public HttpResponseMessage Create(Domain.Patient mPatient)
+        {
+            HttpResponseMessage response = null;
+            try
+            {
+                if (IsAdminPermission())
+                {
+                    mPatient = patientService.SavePatient(mPatient);
+                    response = Request.CreateResponse(HttpStatusCode.OK, mPatient);
+                }
+                else
+                {
+                    response = Request.CreateResponse(HttpStatusCode.Unauthorized);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                response = Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+            return response;
+        }
+        [HttpPost]
+        [Route("patient/{id:int}")]
+        public HttpResponseMessage Create(Domain.Patient mPatient,long id)
+        {
+            HttpResponseMessage response = null;
+            try
+            {
+                if (IsAdminPermission())
+                {
+                    mPatient.User.Id = id;
+                    mPatient = patientService.SavePatient(mPatient);
+                    response = Request.CreateResponse(HttpStatusCode.OK, mPatient);
+                }
+                else
+                {
+                    response = Request.CreateResponse(HttpStatusCode.Unauthorized);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                response = Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+            return response;
+        }
+
+
+        [HttpDelete]
+        [Route("patient/{id:int}")]
         public HttpResponseMessage Delete(long id)
         {
             HttpResponseMessage response = null;
@@ -84,7 +137,7 @@ namespace MedAPI.Controllers
         }
 
         [HttpGet]
-        [Route("GetProvinceByDepartment/{id:int}")]
+        [Route("department/{id:int}/provinces")]
         public HttpResponseMessage GetProvinceByDepartment(long id)
         {
             HttpResponseMessage response = null;
@@ -99,7 +152,7 @@ namespace MedAPI.Controllers
             return response;
         }
         [HttpGet]
-        [Route("GetDistrictByprovinceId/{id:int}")]
+        [Route("province/{id:int}/districts")]
         public HttpResponseMessage GetDistrictByprovinceId(long id)
         {
             HttpResponseMessage response = null;
@@ -113,20 +166,22 @@ namespace MedAPI.Controllers
             }
             return response;
         }
-        //[HttpGet]
-        //[Route("GetPatientByDocumentNumber/{documentNumber}")]
-        //public HttpResponseMessage GetPatientByDocumentNumber(string documentNumber)
-        //{
-        //    HttpResponseMessage response = null;
-        //    try
-        //    {
-        //        response = Request.CreateResponse(HttpStatusCode.OK, patientService.GetPatientByDocumentNumber(documentNumber));
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        response = Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
-        //    }
-        //    return response;
-        //}
+
+
+        public bool IsAdminPermission()
+        {
+            bool result = false;
+            var headerValues = HttpContext.Current.Request.Headers.GetValues("email");
+            string email = Convert.ToString(headerValues.FirstOrDefault());
+            var user = userService.GetByEmail(email);
+            if (user != null)
+            {
+                if (user.RoleId == (int)Infrastructure.Common.Permission.ADMIN)
+                {
+                    result = true;
+                }
+            }
+            return result;
+        }
     }
 }

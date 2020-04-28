@@ -13,6 +13,7 @@ namespace MedAPI.Infrastructure.IRepository
         Patient GetPatientById(long id);
         bool DeletePatientById(long id);
         List<District> GetDistrictByprovinceId(long id);
+        void SavePatient(Patient mPatient);
         //Patient GetPatientByDocumentNumber(string documentNumber);
     }
 }

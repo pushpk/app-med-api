@@ -9,7 +9,7 @@ using System.Web.Http;
 
 namespace MedAPI.Controllers
 {
-    [System.Web.Http.RoutePrefix("api/Province")]
+    [System.Web.Http.RoutePrefix("util")]
     public class ProvinceController : ApiController
     {
         private readonly IProvinceService provinceService;
@@ -21,13 +21,13 @@ namespace MedAPI.Controllers
         }
 
         [HttpGet]
-        [Route("Search/{query}/{id:int}")]
-        public HttpResponseMessage Search(string query,int id)
+        [Route("province/{query?}/{department:int?}")]
+        public HttpResponseMessage Search(string query=null,int department=0)
         {
             HttpResponseMessage response = null;
             try
             {
-                response = Request.CreateResponse(HttpStatusCode.OK, provinceService.Search(query,id));
+                response = Request.CreateResponse(HttpStatusCode.OK, provinceService.Search(query, department));
             }
             catch (Exception ex)
             {
@@ -36,7 +36,7 @@ namespace MedAPI.Controllers
             return response;
         }
         [HttpGet]
-        [Route("GetAll")]
+        [Route("province")]
         public HttpResponseMessage GetAll()
         {
             HttpResponseMessage response = null;
@@ -52,7 +52,7 @@ namespace MedAPI.Controllers
         }
 
         [HttpPost]
-        [Route("Create")]
+        [Route("province")]
         public HttpResponseMessage Create(Domain.Province mProvince)
         {
             HttpResponseMessage response = null;
@@ -75,14 +75,15 @@ namespace MedAPI.Controllers
             return response;
         }
         [HttpPost]
-        [Route("Update")]
-        public HttpResponseMessage Update(Domain.Province mProvince)
+        [Route("province/{id:int}")]
+        public HttpResponseMessage Update(Domain.Province mProvince,long id)
         {
             HttpResponseMessage response = null;
             try
             {
                 if (IsAdminPermission())
                 {
+                    mProvince.Id = id;
                     mProvince = provinceService.SaveProvince(mProvince);
                     response = Request.CreateResponse(HttpStatusCode.OK, mProvince);
                 }
@@ -99,7 +100,7 @@ namespace MedAPI.Controllers
         }
 
         [HttpGet]
-        [Route("Show/{id:int}")]
+        [Route("province/{id:int}")]
         public HttpResponseMessage Show(long id)
         {
             HttpResponseMessage response = null;
@@ -122,8 +123,8 @@ namespace MedAPI.Controllers
             return response;
         }
 
-        [HttpGet]
-        [Route("Delete/{id:int}")]
+        [HttpDelete]
+        [Route("province/{id:int}")]
         public HttpResponseMessage Delete(long id)
         {
             HttpResponseMessage response = null;

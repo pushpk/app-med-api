@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace MedAPI.Controllers
 {
-    [System.Web.Http.RoutePrefix("api/Diagnosis")]
+    [System.Web.Http.RoutePrefix("admin")]
     public class DiagnosisController : ApiController
     {
         private readonly IDiagnosisService diagnosisService;
@@ -22,8 +22,8 @@ namespace MedAPI.Controllers
         }
 
         [HttpGet]
-        [Route("Search/{query}")]
-        public HttpResponseMessage Search(string query)
+        [Route("diagnosis/{query?}")]
+        public HttpResponseMessage Search(string query="")
         {
             HttpResponseMessage response = null;
             try
@@ -38,7 +38,7 @@ namespace MedAPI.Controllers
         }
 
         [HttpGet]
-        [Route("List")]
+        [Route("diagnosis")]
         public HttpResponseMessage List()
         {
             HttpResponseMessage response = null;
@@ -54,7 +54,7 @@ namespace MedAPI.Controllers
         }
 
         [HttpGet]
-        [Route("Show/{id:int}")]
+        [Route("diagnosis/{id:int}")]
         public HttpResponseMessage Show(long id)
         {
             HttpResponseMessage response = null;
@@ -79,7 +79,7 @@ namespace MedAPI.Controllers
         }
 
         [HttpPost]
-        [Route("Create")]
+        [Route("diagnosis")]
         public HttpResponseMessage Create(Diagnosis mDiagnosis)
         {
             HttpResponseMessage response = null;
@@ -108,15 +108,16 @@ namespace MedAPI.Controllers
         }
 
         [HttpPost]
-        [Route("Update")]
-        public HttpResponseMessage Update(Diagnosis mDiagnosis)
+        [Route("diagnosis/{id:int}")]
+        public HttpResponseMessage Update(Diagnosis mDiagnosis,long id)
         {
             HttpResponseMessage response = null;
             try
             {
                 if (IsAdminPermission())
                 {
-                    int id = diagnosisService.SaveDiagnosis(mDiagnosis);
+                    mDiagnosis.Id = id;
+                     id = diagnosisService.SaveDiagnosis(mDiagnosis);
 
                     if (id > 0)
                     {
@@ -137,8 +138,8 @@ namespace MedAPI.Controllers
             return response;
         }
 
-        [HttpGet]
-        [Route("Delete/{id:int}")]
+        [HttpDelete]
+        [Route("diagnosis/{id:int}")]
         public HttpResponseMessage Delete(long id)
         {
             HttpResponseMessage response = null;

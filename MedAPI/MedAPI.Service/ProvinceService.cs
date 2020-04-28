@@ -30,7 +30,7 @@ namespace MedAPI.Service
             if (id!=null && id>0)
             {
                 List<Province> mProvinceList2 = provinceRepository.GetAllProvinceByDeparmentId(id);
-                mProvinceList.Concat(mProvinceList2).ToList();
+                mProvinceList.AddRange(mProvinceList2);
             }
             return mProvinceList;
         }

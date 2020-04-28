@@ -72,6 +72,7 @@
     <Compile Include="MedicineService.cs" />
     <Compile Include="MedicService.cs" />
     <Compile Include="NoteService.cs" />
+    <Compile Include="NurseService.cs" />
     <Compile Include="PatientService.cs" />
     <Compile Include="PermissionService.cs" />
     <Compile Include="PhysicalActivityService.cs" />

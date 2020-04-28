@@ -9,7 +9,7 @@ using System.Web.Http;
 
 namespace MedAPI.Controllers
 {
-    [System.Web.Http.RoutePrefix("api/CardiovascularNote")]
+    [System.Web.Http.RoutePrefix("record")]
     public class CardiovascularNoteController : ApiController
     {
         private readonly ICardiovascularNoteService cardiovascularNoteService;
@@ -22,7 +22,7 @@ namespace MedAPI.Controllers
         }
 
         [HttpGet]
-        [Route("List")]
+        [Route("cardiology")]
         public HttpResponseMessage List()
         {
             HttpResponseMessage response = null;
@@ -38,7 +38,7 @@ namespace MedAPI.Controllers
         }
 
         [HttpGet]
-        [Route("Show/{id:int}")]
+        [Route("cardiology/{id:int}")]
         public HttpResponseMessage Show(long id)
         {
             HttpResponseMessage response = null;
@@ -61,8 +61,8 @@ namespace MedAPI.Controllers
             return response;
         }
 
-        [HttpGet]
-        [Route("Delete/{id:int}")]
+        [HttpDelete]
+        [Route("cardiology/{id:int}")]
         public HttpResponseMessage Delete(long id)
         {
             HttpResponseMessage response = null;
@@ -84,7 +84,7 @@ namespace MedAPI.Controllers
         }
 
         [HttpPost]
-        [Route("Create")]
+        [Route("cardiology")]
         public HttpResponseMessage Create(CardiovascularNote mCardiovascularNote)
         {
             HttpResponseMessage response = null;
@@ -113,15 +113,16 @@ namespace MedAPI.Controllers
         }
 
         [HttpPost]
-        [Route("Update")]
-        public HttpResponseMessage Update(CardiovascularNote mCardiovascularNote)
+        [Route("cardiology/{id:int}")]
+        public HttpResponseMessage Update(CardiovascularNote mCardiovascularNote,long id)
         {
             HttpResponseMessage response = null;
             try
             {
                 if (IsAdminPermission())
                 {
-                    int id = cardiovascularNoteService.SaveCardiovascularNote(mCardiovascularNote);
+                    mCardiovascularNote.Id = id;
+                     id = cardiovascularNoteService.SaveCardiovascularNote(mCardiovascularNote);
 
                     if (id > 0)
                     {
@@ -130,6 +131,24 @@ namespace MedAPI.Controllers
                 }
                 else
                     response = Request.CreateResponse(HttpStatusCode.Unauthorized);
+            }
+            catch (Exception ex)
+            {
+                response = Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+            return response;
+        }
+
+        [HttpGet]
+        [Route("resources/cardiology")]
+        public HttpResponseMessage Resources()
+        {
+            HttpResponseMessage response = null;
+            Domain.CardiovascularResource mNoteResources = new CardiovascularResource();
+            try
+            {
+                mNoteResources = cardiovascularNoteService.GetResources();
+                response = Request.CreateResponse(HttpStatusCode.OK, mNoteResources);
             }
             catch (Exception ex)
             {

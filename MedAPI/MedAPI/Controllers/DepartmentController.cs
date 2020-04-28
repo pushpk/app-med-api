@@ -10,7 +10,7 @@ using System.Web.Http;
 
 namespace MedAPI.Controllers
 {
-    [System.Web.Http.RoutePrefix("api/Department")]
+    [System.Web.Http.RoutePrefix("util")]
     public class DepartmentController : ApiController
     {
         private readonly IDepartmentService departmentService;
@@ -22,7 +22,7 @@ namespace MedAPI.Controllers
         }
 
         [HttpGet]
-        [Route("Search/{query}")]
+        [Route("department/{query}")]
         public HttpResponseMessage Search(string query)
         {
             HttpResponseMessage response = null;
@@ -38,7 +38,7 @@ namespace MedAPI.Controllers
         }
 
         [HttpGet]
-        [Route("GetAll")]
+        [Route("department")]
         public HttpResponseMessage GetAll()
         {
             HttpResponseMessage response = null;
@@ -53,7 +53,7 @@ namespace MedAPI.Controllers
             return response;
         }
         [HttpGet]
-        [Route("Show/{id:int}")]
+        [Route("department/{id:int}")]
         public HttpResponseMessage Show(long id)
         {
             HttpResponseMessage response = null;
@@ -76,8 +76,8 @@ namespace MedAPI.Controllers
             return response;
         }
 
-        [HttpGet]
-        [Route("Delete/{id:int}")]
+        [HttpDelete]
+        [Route("department/{id:int}")]
         public HttpResponseMessage Delete(long id)
         {
             HttpResponseMessage response = null;
@@ -106,7 +106,7 @@ namespace MedAPI.Controllers
         }
 
         [HttpPost]
-        [Route("Create")]
+        [Route("department")]
         public HttpResponseMessage Create(Domain.Department mDepartment)
         {
             HttpResponseMessage response = null;
@@ -130,14 +130,15 @@ namespace MedAPI.Controllers
             return response;
         }
         [HttpPost]
-        [Route("Update")]
-        public HttpResponseMessage Update(Domain.Department mDepartment)
+        [Route("department/{id:int}")]
+        public HttpResponseMessage Update(Domain.Department mDepartment, long id)
         {
             HttpResponseMessage response = null;
             try
             {
                 if (IsAdminPermission())
                 {
+                    mDepartment.id = id;
                     mDepartment = departmentService.SaveDepartment(mDepartment);
                     response = Request.CreateResponse(HttpStatusCode.OK, mDepartment);
                 }

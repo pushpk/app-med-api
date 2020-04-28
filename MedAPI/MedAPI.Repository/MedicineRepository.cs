@@ -74,6 +74,7 @@ namespace MedAPI.Repository
                 if (efMedicine == null)
                 {
                     efMedicine = new DataAccess.medicine();
+                    efMedicine.deleted = BitConverter.GetBytes(false);
                     context.medicines.Add(efMedicine);
                 }
                 efMedicine.name = mMedicine.Name;

@@ -10,5 +10,6 @@ namespace MedAPI.Infrastructure.IService
         bool DeleteNoteById(long id);
         Note SaveNote(Note mNote);
         Triage TriageSave(Triage triage);
+        NoteResources GetResources();
     }
 }

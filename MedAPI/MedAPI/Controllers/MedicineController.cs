@@ -10,7 +10,7 @@ using System.Web.Http;
 
 namespace MedAPI.Controllers
 {
-    [System.Web.Http.RoutePrefix("api/Medicine")]
+    [System.Web.Http.RoutePrefix("admin")]
     public class MedicineController : ApiController
     {
         private readonly IMedicineService medicineService;
@@ -23,8 +23,8 @@ namespace MedAPI.Controllers
         }
 
         [HttpGet]
-        [Route("Search/{query}")]
-        public HttpResponseMessage Search(string query)
+        [Route("medicine/{query?}")]
+        public HttpResponseMessage Search(string query=null)
         {
             HttpResponseMessage response = null;
             try
@@ -39,7 +39,7 @@ namespace MedAPI.Controllers
         }
 
         [HttpGet]
-        [Route("List")]
+        [Route("medicine")]
         public HttpResponseMessage List()
         {
             HttpResponseMessage response = null;
@@ -55,7 +55,7 @@ namespace MedAPI.Controllers
         }
 
         [HttpGet]
-        [Route("Show/{id:int}")]
+        [Route("medicine/{id:int}")]
         public HttpResponseMessage Show(long id)
         {
             HttpResponseMessage response = null;
@@ -78,7 +78,7 @@ namespace MedAPI.Controllers
         }
 
         [HttpPost]
-        [Route("Create")]
+        [Route("medicine")]
         public HttpResponseMessage Create(Medicine mMedicine)
         {
             HttpResponseMessage response = null;
@@ -104,15 +104,16 @@ namespace MedAPI.Controllers
         }
 
         [HttpPost]
-        [Route("Update")]
-        public HttpResponseMessage Update(Medicine mMedicine)
+        [Route("medicine/{id:int}")]
+        public HttpResponseMessage Update(Medicine mMedicine,long id)
         {
             HttpResponseMessage response = null;
             try
             {
                 if (IsAdminPermission())
                 {
-                    int id = medicineService.SaveMedicine(mMedicine);
+                    mMedicine.Id = id;
+                     id = medicineService.SaveMedicine(mMedicine);
 
                     if (id > 0)
                     {
@@ -129,18 +130,21 @@ namespace MedAPI.Controllers
             return response;
         }
 
-        [HttpGet]
-        [Route("Delete/{id:int}")]
+        [HttpDelete]
+        [Route("medicine/{id:int}")]
         public HttpResponseMessage Delete(long id)
         {
             HttpResponseMessage response = null;
             try
             {
                 bool isSuccess = false;
-                isSuccess = medicineService.DeleteMedicineById(id);
-                if (isSuccess)
+                if (IsAdminPermission())
                 {
-                    response = Request.CreateResponse(HttpStatusCode.OK, "Entity removed successfully.");
+                    isSuccess = medicineService.DeleteMedicineById(id);
+                    if (isSuccess)
+                    {
+                        response = Request.CreateResponse(HttpStatusCode.OK, "Entity removed successfully.");
+                    }
                 }
             }
             catch (Exception ex)

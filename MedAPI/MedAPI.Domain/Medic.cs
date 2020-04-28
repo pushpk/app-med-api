@@ -11,11 +11,13 @@ namespace MedAPI.Domain
         public Medic()
         {
             this.Notes = new List<Note>();
+            User = new User();
         }
 
         public string Cmp { get; set; }
         public string Rne { get; set; }
         public long Id { get; set; }
+        public User User { get; set; }
         public List<Note> Notes { get; set; }
     }
 }

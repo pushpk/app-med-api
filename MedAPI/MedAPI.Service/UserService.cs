@@ -35,7 +35,13 @@ namespace MedAPI.Service
         }
         public User SaveUser(User mUser)
         {
+            if (mUser.Id == 0)
+            {
+                mUser.PasswordHash = Infrastructure.HashPasswordHelper.HashPassword(mUser.PasswordHash);
+            }
             return userRepository.SaveUser(mUser);
         }
+
+        
     }
 }

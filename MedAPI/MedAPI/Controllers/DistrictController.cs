@@ -9,7 +9,7 @@ using System.Web.Http;
 
 namespace MedAPI.Controllers
 {
-    [System.Web.Http.RoutePrefix("api/District")]
+    [System.Web.Http.RoutePrefix("util")]
     public class DistrictController : ApiController
     {
         private readonly IDistrictService districtService;
@@ -20,7 +20,7 @@ namespace MedAPI.Controllers
             this.userService = userService;
         }
         [HttpGet]
-        [Route("GetAll")]
+        [Route("district")]
         public HttpResponseMessage GetAll()
         {
             HttpResponseMessage response = null;
@@ -36,7 +36,7 @@ namespace MedAPI.Controllers
         }
 
         [HttpPost]
-        [Route("Create")]
+        [Route("district")]
         public HttpResponseMessage Create(Domain.District mDistrict)
         {
             HttpResponseMessage response = null;
@@ -59,14 +59,15 @@ namespace MedAPI.Controllers
             return response;
         }
         [HttpPost]
-        [Route("Update")]
-        public HttpResponseMessage Update(Domain.District mDistrict)
+        [Route("district/{id:int}")]
+        public HttpResponseMessage Update(Domain.District mDistrict,long id)
         {
             HttpResponseMessage response = null;
             try
             {
                 if (IsAdminPermission())
                 {
+                    mDistrict.Id = id;
                     mDistrict = districtService.SaveDistrict(mDistrict);
                     response = Request.CreateResponse(HttpStatusCode.OK, mDistrict);
                 }
@@ -82,7 +83,7 @@ namespace MedAPI.Controllers
             return response;
         }
         [HttpGet]
-        [Route("Show/{id:int}")]
+        [Route("district/{id:int}")]
         public HttpResponseMessage Show(long id)
         {
             HttpResponseMessage response = null;
@@ -105,8 +106,8 @@ namespace MedAPI.Controllers
             return response;
         }
 
-        [HttpGet]
-        [Route("Delete/{id:int}")]
+        [HttpDelete]
+        [Route("district/{id:int}")]
         public HttpResponseMessage Delete(long id)
         {
             HttpResponseMessage response = null;

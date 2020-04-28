@@ -13,11 +13,13 @@ namespace MedAPI.Domain
         {
             this.departments = new HashSet<department>();
             this.users = new HashSet<user>();
+            Departments = new List<Department>();
         }
 
         public long id { get; set; }
         public byte[] deleted { get; set; }
         public string name { get; set; }
+        public List<Domain.Department> Departments { get; set; }
         public virtual ICollection<department> departments { get; set; }
         public virtual ICollection<user> users { get; set; }
     }

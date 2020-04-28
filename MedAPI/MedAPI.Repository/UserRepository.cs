@@ -16,6 +16,7 @@ namespace MedAPI.Repository
                 var efuser = context.users.Where(m => m.id == id).FirstOrDefault();
                 if (efuser != null)
                 {
+                    efuser.deleted= BitConverter.GetBytes(true);
                     context.SaveChanges();
                     isSuccess = true;
                 }
@@ -143,9 +144,11 @@ namespace MedAPI.Repository
                     efUser = new DataAccess.user();
                     efUser.deleted = BitConverter.GetBytes(false);
                     efUser.deletable = BitConverter.GetBytes(false);
+                    efUser.organDonor = BitConverter.GetBytes(false);
                     efUser.createdBy = mUser.CreatedBy;
                     efUser.createdDate = DateTime.UtcNow;
                     efUser.since = DateTime.UtcNow.Date;
+                    efUser.password_hash = mUser.PasswordHash;
                     context.users.Add(efUser);
                 }
                 efUser.firstName = mUser.FirstName;

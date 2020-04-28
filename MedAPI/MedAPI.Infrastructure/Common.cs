@@ -165,10 +165,170 @@ namespace MedAPI.Infrastructure
         }
         public enum Hunger
         {
-            Normal = 1,
-            Disminuido = 2,
-            Aumentado = 3
+            NORMAL = 1,
+            DISMINUIDO = 2,
+            AUMENTADO = 3
         }
+
+        public enum AuscultationSite
+        {
+            AORTICO = 1,
+            TRICUSPIDEO = 2,
+            MITRAL = 3,
+            PULMONAR = 4
+        }
+        public enum CapillaryRefillLLM
+        {
+            NORMAL = 1,
+            PROLONGADO = 2
+        }
+        public enum CapillaryRefillLRM
+        {
+            NORMAL = 1,
+            PROLONGADO = 2
+        }
+
+        public enum CardiacPressureIntensity
+        {
+            NORMAL = 1,
+            PROLONGADO = 2,
+        }
+        public enum CardiacPressureRhythm
+        {
+            NORMAL = 1,
+            PROLONGADO = 2,
+        }
+        public enum CardiovascularSymptom
+        {
+            DISNEA = 1,
+            DISNEA_PAROXISTICA_NOCTURNA = 2,
+            EDEMA = 3,
+            OPTOPNEA = 4,
+            DOLORTORAXICO = 5,
+            DOLORPRECORDIAL = 6,
+            ANGINA = 7,
+            PALPITACIONES = 8,
+            CLAUDICACION_INTERMITENTE = 9,
+            CIANOSIS = 10,
+            SINCOPE = 11,
+            CEFALEA = 12,
+            MAREOS = 13
+        }
+        public enum GastrointestinalSemiology
+        {
+            NORMAL = 1,
+            HEPATO_ESPLENOMEGALIA = 2
+        }
+        public enum PedalPulsesL
+        {
+            NORMAL = 1,
+            AUSENTE = 2,
+            DISMINUIDO = 3
+        }
+        public enum PedalPulsesR
+        {
+            NORMAL = 1,
+            PROLONGADO = 2
+        }
+
+        public enum PulsesLLM
+        {
+            NORMAL = 1,
+            AUSENTE = 2,
+            DISMINUIDO = 3
+
+        }
+        public enum PulsesLRM
+        {
+            NORMAL = 1,
+            AUSENTE = 2,
+            DISMINUIDO = 3
+        }
+        public enum RadialPulsesL
+        {
+            NORMAL = 1,
+            AUSENTE = 2,
+            DISMINUIDO = 3
+        }
+        public enum RadialPulsesR
+        {
+            NORMAL = 1,
+            AUSENTE = 2,
+            DISMINUIDO = 3
+        }
+
+        public enum VesicularWhisperL
+        {
+            NORMAL = 1,
+            RONCANTE = 2,
+            SUBCREPITANTE = 3,
+            CREPITANTE = 4
+        }
+        public enum VesicularWhisperR
+        {
+            NORMAL = 1,
+            RONCANTE = 2,
+            SUBCREPITANTE = 3,
+            CREPITANTE = 4
+        }
+        public enum Deposition
+        {
+            NORMAL = 1,
+            DISMINUIDO = 2,
+            AUMENTADO = 3
+        }
+        public enum Sleep
+        {
+            NORMAL = 1,
+            DISMINUIDO = 2,
+            AUMENTADO = 3
+        }
+        public enum Thirst
+        {
+
+            NORMAL = 1,
+            DISMINUIDO = 2,
+            AUMENTADO = 3
+        }
+        public enum Urine
+        {
+            NORMAL = 1,
+            DISMINUIDO = 2,
+            AUMENTADO = 3
+        }
+
+        public enum WeightEvolution
+        {
+            NORMAL = 1,
+            DISMINUIDO = 2,
+            AUMENTADO = 3
+        }
+        public enum Medicine
+        {
+            ANTIHIPERTENSIVOS = 1,
+            ANTICOAGULANTES = 2,
+            HIPOLIPEMIANTES = 3,
+            ANTIAGREGANTESPLAQUETARIOS = 4,
+            AINESMED = 5
+        }
+        public enum Background
+        {
+            HIPERTENSION_ARTERIAL = 1,
+            GLUCOSA_ELEVADA = 2,
+            DIABETES_MELITUS_I = 3,
+            DIABETES_MELITUS_II = 4,
+            DISLIPIDEMIA = 5,
+            TUBERCULOSIS = 6,
+            CANCER = 7,
+            ENFERMEDAD_RENAL = 8,
+            ENFERMEDAD_CARDIOVASCULAR = 9
+        }
+        public enum Sex
+        {
+            M = 1,
+            F = 2
+        }
+
     }
 }
 

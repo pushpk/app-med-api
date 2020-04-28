@@ -18,8 +18,13 @@ namespace MedAPI.Repository
                        id = x.id,
                        name = x.name,
                        deleted = x.deleted,
-                       departments = x.departments,
-                       users = x.users
+                       Departments = x.departments.Select(c => new Department()
+                       {
+                           country_id = c.country_id,
+                           id = c.id,
+                           name = c.name,
+                           deleted = c.deleted
+                       }).ToList()
                    }).FirstOrDefault();
             }
         }
@@ -35,7 +40,14 @@ namespace MedAPI.Repository
                             deleted = c.deleted,
                             name = c.name,
                             id = c.id,
-                            departments = c.departments
+                            Departments = c.departments.Select(x=>new Department()
+                            {
+                                country_id=x.country_id,
+                                id=x.id,
+                                name=x.name,
+                                deleted=x.deleted
+                            }).ToList()
+                            
                         }).OrderBy(x => x.name).ToList();
             }
         }
@@ -49,7 +61,13 @@ namespace MedAPI.Repository
                    {
                        id = x.id,
                        name = x.name,
-                       departments = x.departments,
+                       Departments = x.departments.Select(c => new Department()
+                       {
+                           country_id = c.country_id,
+                           id = c.id,
+                           name = c.name,
+                           deleted = c.deleted
+                       }).ToList(),
                        deleted = x.deleted,
 
                    }).FirstOrDefault();

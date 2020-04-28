@@ -9,5 +9,6 @@ namespace MedAPI.Infrastructure.IService
         CardiovascularNote GetCardiovascularNoteById(long id);
         bool DeleteCardiovascularNoteById(long id);
         int SaveCardiovascularNote(CardiovascularNote mCardiovascularNote);
+        CardiovascularResource GetResources();
     }
 }

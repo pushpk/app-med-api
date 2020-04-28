@@ -50,5 +50,23 @@ namespace MedAPI.Repository
                 return isSuccess;
             }
         }
+
+        public long SaveMedic(Medic mMedic)
+        {
+            using (var context = new DataAccess.RegistroclinicoEntities())
+            {
+                var efMedic = context.medics.Where(m => m.id == mMedic.Id).FirstOrDefault();
+                if (efMedic == null)
+                {
+                    efMedic = new DataAccess.medic();
+                    context.medics.Add(efMedic);
+                }
+                efMedic.id = mMedic.Id;
+                efMedic.rne = mMedic.Rne;
+                efMedic.cmp = mMedic.Cmp;
+                context.SaveChanges();
+                return efMedic.id;
+            }
+        }
     }
 }

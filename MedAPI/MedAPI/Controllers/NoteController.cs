@@ -9,7 +9,7 @@ using System.Web.Http;
 
 namespace MedAPI.Controllers
 {
-    [System.Web.Http.RoutePrefix("api/Note")]
+    [System.Web.Http.RoutePrefix("record")]
     public class NoteController : ApiController
     {
         private readonly INoteService noteService;
@@ -21,7 +21,7 @@ namespace MedAPI.Controllers
         }
 
         [HttpGet]
-        [Route("List")]
+        [Route("note")]
         public HttpResponseMessage List()
         {
             HttpResponseMessage response = null;
@@ -37,7 +37,7 @@ namespace MedAPI.Controllers
         }
 
         [HttpGet]
-        [Route("Show/{id:int}")]
+        [Route("note/{id:int}")]
         public HttpResponseMessage Show(long id)
         {
             HttpResponseMessage response = null;
@@ -60,8 +60,8 @@ namespace MedAPI.Controllers
             return response;
         }
 
-        [HttpGet]
-        [Route("Delete/{id:int}")]
+        [HttpDelete]
+        [Route("note/{id:int}")]
         public HttpResponseMessage Delete(long id)
         {
             HttpResponseMessage response = null;
@@ -84,7 +84,7 @@ namespace MedAPI.Controllers
 
 
         [HttpPost]
-        [Route("Create")]
+        [Route("note")]
         public HttpResponseMessage Create(Domain.Note mNote)
         {
             HttpResponseMessage response = null;
@@ -110,14 +110,33 @@ namespace MedAPI.Controllers
         }
 
         [HttpPost]
-        [Route("Update")]
-        public HttpResponseMessage Update(Domain.Note mNote)
+        [Route("note/{id:int}")]
+        public HttpResponseMessage Update(Domain.Note mNote,long id)
         {
             HttpResponseMessage response = null;
             try
             {
+                mNote.Id = id;
                 mNote = noteService.SaveNote(mNote);
                 response = Request.CreateResponse(HttpStatusCode.OK, mNote);
+            }
+            catch (Exception ex)
+            {
+                response = Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+            return response;
+        }
+
+        [HttpGet]
+        [Route("resources/note")]
+        public HttpResponseMessage Resources()
+        {
+            HttpResponseMessage response = null;
+            Domain.NoteResources mNoteResources = new NoteResources();
+            try
+            {
+                mNoteResources = noteService.GetResources();
+                response = Request.CreateResponse(HttpStatusCode.OK, mNoteResources);
             }
             catch (Exception ex)
             {

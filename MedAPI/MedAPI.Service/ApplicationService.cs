@@ -17,8 +17,8 @@ namespace MedAPI.Service
         public Upload SaveFile(Upload mUpload)
         {
            
-            string filePath = Path.Combine(HttpContext.Current.Server.MapPath("~/Upload/"),mUpload.Filename);
-            string absultepath = "/Upload/" + mUpload.Filename;
+            string filePath = Path.Combine(HttpContext.Current.Server.MapPath("~/public/assets"),mUpload.Filename);
+            string absultepath = "/public/assets/" + mUpload.Filename;
             if (mUpload.FileByte != null)
             {
                 File.WriteAllBytes(filePath, mUpload.FileByte);

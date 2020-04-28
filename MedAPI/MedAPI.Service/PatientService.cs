@@ -9,10 +9,12 @@ namespace MedAPI.Service
     {
         private readonly IPatientRepository patientRepository;
         private readonly IProvinceRepository provinceRepository;
-        public PatientService(IPatientRepository patientRepository, IProvinceRepository provinceRepository)
+        private readonly IUserRepository userRepository;
+        public PatientService(IPatientRepository patientRepository, IProvinceRepository provinceRepository, IUserRepository userRepository)
         {
             this.patientRepository = patientRepository;
             this.provinceRepository = provinceRepository;
+            this.userRepository = userRepository;
 
         }
 
@@ -36,6 +38,22 @@ namespace MedAPI.Service
         public List<District> GetDistrictByprovinceId(long id)
         {
             return patientRepository.GetDistrictByprovinceId(id);
+        }
+
+        public Patient SavePatient(Domain.Patient mPatient)
+        {
+            if (mPatient.User.Id == 0)
+            {
+                mPatient.User.PasswordHash = Infrastructure.HashPasswordHelper.HashPassword(mPatient.User.PasswordHash);
+            }
+            mPatient.User = userRepository.SaveUser(mPatient.User);
+
+            if (mPatient.User.Id > 0)
+            {
+                mPatient.Id = mPatient.User.Id;
+                patientRepository.SavePatient(mPatient);
+            }
+            return mPatient;
         }
         //public Patient GetPatientByDocumentNumber(string documentNumber)
         //{
