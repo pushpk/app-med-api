@@ -133,7 +133,7 @@ namespace MedAPI.Controllers
             return response;
         }
 
-        [HttpGet]
+        [HttpDelete]
         [Route("exam/{id:int}")]
         public HttpResponseMessage Delete(long id)
         {

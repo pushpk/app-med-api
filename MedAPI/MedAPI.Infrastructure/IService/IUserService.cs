@@ -10,5 +10,6 @@ namespace MedAPI.Infrastructure.IService
         bool DeleteUserById(long id);
         User GetByEmail(string email);
         User SaveUser(User mUser);
+        UserResources GetResources();
     }
 }

@@ -7,16 +7,17 @@ using System.Web.Http;
 
 namespace MedAPI.Controllers
 {
-    [System.Web.Http.RoutePrefix("")]
+    [System.Web.Http.RoutePrefix("note")]
     public class ReportController : ApiController
     {
         [HttpGet]
-        [Route("note/{id:int}/report/note")]
+        [Route("{id:int}/report/note")]
         public HttpResponseMessage NoteReport(long id)
         {
             HttpResponseMessage response = null;
             try
             {
+                response = Request.CreateResponse(HttpStatusCode.OK, "");
             }
             catch (Exception ex)
             {
@@ -25,12 +26,13 @@ namespace MedAPI.Controllers
             return response;
         }
         [HttpGet]
-        [Route("note/{id:int}/report/prescription")]
+        [Route("{id:int}/report/prescription")]
         public HttpResponseMessage NotePrescription(long id)
         {
             HttpResponseMessage response = null;
             try
             {
+                response = Request.CreateResponse(HttpStatusCode.OK, "");
             }
             catch (Exception ex)
             {
@@ -40,12 +42,13 @@ namespace MedAPI.Controllers
         }
 
         [HttpGet]
-        [Route("note/{id:int}/report/specialty")]
+        [Route("{id:int}/report/specialty")]
         public HttpResponseMessage NoteSpecialty(long id)
         {
             HttpResponseMessage response = null;
             try
             {
+                response = Request.CreateResponse(HttpStatusCode.OK, "");
             }
             catch (Exception ex)
             {
@@ -54,12 +57,13 @@ namespace MedAPI.Controllers
             return response;
         }
         [HttpGet]
-        [Route("note/{id:int}/report/image")]
+        [Route("{id:int}/report/image")]
         public HttpResponseMessage NoteImage(long id)
         {
             HttpResponseMessage response = null;
             try
             {
+                response = Request.CreateResponse(HttpStatusCode.OK, "");
             }
             catch (Exception ex)
             {
@@ -69,12 +73,13 @@ namespace MedAPI.Controllers
         }
 
         [HttpGet]
-        [Route("note/{id:int}/report/laboratory")]
+        [Route("{id:int}/report/laboratory")]
         public HttpResponseMessage NoteLaboratory(long id)
         {
             HttpResponseMessage response = null;
             try
             {
+                response = Request.CreateResponse(HttpStatusCode.OK, "");
             }
             catch (Exception ex)
             {
@@ -84,12 +89,13 @@ namespace MedAPI.Controllers
         }
 
         [HttpGet]
-        [Route("note/{id:int}/report/ginecology")]
+        [Route("{id:int}/report/ginecology")]
         public HttpResponseMessage NoteGinecology(long id)
         {
             HttpResponseMessage response = null;
             try
             {
+                response = Request.CreateResponse(HttpStatusCode.OK, "");
             }
             catch (Exception ex)
             {
@@ -99,12 +105,13 @@ namespace MedAPI.Controllers
         }
 
         [HttpGet]
-        [Route("note/{id:int}/report/cardiology")]
+        [Route("{id:int}/report/cardiology")]
         public HttpResponseMessage NoteCardiology(long id)
         {
             HttpResponseMessage response = null;
             try
             {
+                response = Request.CreateResponse(HttpStatusCode.OK, "");
             }
             catch (Exception ex)
             {

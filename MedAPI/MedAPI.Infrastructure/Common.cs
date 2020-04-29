@@ -329,6 +329,33 @@ namespace MedAPI.Infrastructure
             F = 2
         }
 
+        public enum Allergy
+        {
+            PENICILINA = 1,
+            AINES = 2,
+            PESCADO = 3,
+            MANI = 4,
+            MARISCOS = 5,
+            LATEX = 6,
+            POLLEN = 7
+        }
+        public enum Alcohol
+        {
+            NINGUNO = 1,
+            SOCIAL = 2,
+            FRECUENTE = 3
+        }
+
+        public enum FruitsVegetables
+        {
+            DAILY = 1,
+            OCCASIONALLY = 2,
+            NONE = 3
+        }
+        public enum Race
+        {
+            MESTIZO = 1
+        }
     }
 }
 

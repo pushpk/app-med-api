@@ -137,7 +137,7 @@ namespace MedAPI.Controllers
         }
 
         [HttpGet]
-        [Route("department/{id:int}/provinces")]
+        [Route("~/department/{id:int}/provinces")]
         public HttpResponseMessage GetProvinceByDepartment(long id)
         {
             HttpResponseMessage response = null;
@@ -152,7 +152,7 @@ namespace MedAPI.Controllers
             return response;
         }
         [HttpGet]
-        [Route("province/{id:int}/districts")]
+        [Route("~/province/{id:int}/districts")]
         public HttpResponseMessage GetDistrictByprovinceId(long id)
         {
             HttpResponseMessage response = null;

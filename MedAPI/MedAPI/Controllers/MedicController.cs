@@ -28,10 +28,11 @@ namespace MedAPI.Controllers
             HttpResponseMessage response = null;
             try
             {
-                if(IsAdminPermission())
-                   response = Request.CreateResponse(HttpStatusCode.OK, medicService.GetAllMedic());
-                else
-                    response = Request.CreateResponse(HttpStatusCode.Unauthorized);
+                response = Request.CreateResponse(HttpStatusCode.OK, medicService.GetAllMedic());
+                //if(IsAdminPermission())
+                //   response = Request.CreateResponse(HttpStatusCode.OK, medicService.GetAllMedic());
+                //else
+                //    response = Request.CreateResponse(HttpStatusCode.Unauthorized);
             }
             catch (Exception ex)
             {

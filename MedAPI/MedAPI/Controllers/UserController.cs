@@ -116,6 +116,23 @@ namespace MedAPI.Controllers
             return response;
         }
 
-      
+        [HttpGet]
+        [Route("resources")]
+        public HttpResponseMessage Resources()
+        {
+            HttpResponseMessage response = null;
+            Domain.UserResources mUserResources = new UserResources();
+            try
+            {
+                mUserResources = userService.GetResources();
+                response = Request.CreateResponse(HttpStatusCode.OK, mUserResources);
+            }
+            catch (Exception ex)
+            {
+                response = Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+            return response;
+        }
+
     }
 }

@@ -17,7 +17,15 @@ namespace MedAPI.Service
 
         public List<Medic> GetAllMedic()
         {
-            return medicRepository.GetAllMedic();
+            var medics= medicRepository.GetAllMedic();
+            if(medics!=null && medics.Count > 0)
+            {
+                foreach (var item in medics)
+                {
+                    item.User = userRepository.GetUserById(item.Id);
+                }
+            }
+            return medics;
         }
         public Medic GetMedicById(long id)
         {

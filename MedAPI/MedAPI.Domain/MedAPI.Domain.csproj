@@ -74,6 +74,7 @@
     <Compile Include="Triage.cs" />
     <Compile Include="Upload.cs" />
     <Compile Include="User.cs" />
+    <Compile Include="UserResources.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MedAPI.DataAccess\MedAPI.DataAccess.csproj">
