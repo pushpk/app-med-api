@@ -10,5 +10,6 @@ namespace MedAPI.Infrastructure.IRepository
         bool DeleteUserById(long id);
         User GetByEmail(string email);
         User SaveUser(User mUser);
+        User Authenticate(string email);
     }
 }

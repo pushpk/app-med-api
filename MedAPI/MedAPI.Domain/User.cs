@@ -5,6 +5,10 @@ namespace MedAPI.Domain
 {
     public class User
     {
+        public User()
+        {
+            Role = new Role();
+        }
         public long Id { get; set; }
         public string Address { get; set; }
         public DateTime Birthday { get; set; }
@@ -37,6 +41,6 @@ namespace MedAPI.Domain
         public virtual Medic medic { get; set; }
         public virtual Nurse nurse { get; set; }
         public virtual Patient patient { get; set; }
-        public virtual role role { get; set; }
+        public Role Role { get; set; }
     }
 }

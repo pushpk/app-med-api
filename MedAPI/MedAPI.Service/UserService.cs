@@ -1,4 +1,5 @@
 ﻿using MedAPI.Domain;
+using MedAPI.Infrastructure;
 using MedAPI.Infrastructure.IRepository;
 using MedAPI.Infrastructure.IService;
 using System;
@@ -20,6 +21,26 @@ namespace MedAPI.Service
             this.userRepository = userRepository;
             this.departmentRepository = departmentRepository;
             this.countryRepository = countryRepository;
+        }
+
+
+        public User Authenticate(string email, string password)
+        {
+            User mUser = new User();
+            mUser = userRepository.Authenticate(email);
+            if (mUser != null && HashPasswordHelper.ValidatePassword(password, mUser.PasswordHash))
+            {
+                return mUser;
+            }
+            else
+            {
+                return null;
+            }
+        }
+        public User Credentials(string email)
+        {
+            return userRepository.Authenticate(email);
+          
         }
 
         public bool DeleteUserById(long id)

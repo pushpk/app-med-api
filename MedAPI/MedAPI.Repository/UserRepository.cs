@@ -8,6 +8,48 @@ namespace MedAPI.Repository
 {
     public class UserRepository : IUserRepository
     {
+
+        public User Authenticate(string email)
+        {
+            var bytes = BitConverter.GetBytes(false);
+            using (var context = new DataAccess.RegistroclinicoEntities())
+            {
+                return context.users.Where(x => x.email == email  &&x.deleted== bytes)
+                      .Select(x => new Domain.User
+                      {
+                          Id=x.id,
+                          Address=x.address,
+                          Birthday=x.birthday,
+                          Cellphone=x.cellphone,
+                          CountryId=x.country_id,
+                          CreatedBy=x.createdBy,
+                          CreatedDate=x.createdDate,
+                          DistrictId=x.district_id,
+                          DocumentNumber=x.documentNumber,
+                          DocumentType=x.documentType,
+                          Email=x.email,
+                          FirstName=x.firstName,
+                          LastNameFather=x.lastNameFather,
+                          MaritalStatus=x.maritalStatus,
+                          LastNameMother=x.lastNameFather,
+                          ModifiedBy=x.modifiedBy,
+                          ModifiedDate=x.modifiedDate,
+                          OrganDonor=x.organDonor,
+                          Phone=x.phone,
+                          RoleId=x.role_id,
+                          Since=x.since,
+                          PasswordHash=x.password_hash,
+                          Role=new Role
+                          {
+                              Id=x.role.id,
+                              Name=x.role.name,
+                              Description=x.role.description
+                          },
+                           Sex = x.sex
+                      }).FirstOrDefault();
+            }
+        }
+
         public bool DeleteUserById(long id)
         {
             bool isSuccess = false;
@@ -129,7 +171,11 @@ namespace MedAPI.Repository
                        CountryId = x.country_id,
                        DistrictId = x.district_id,
                        RoleId = x.role_id,
-                       role=x.role
+                       Role=new Domain.Role
+                       {
+                           Id=x.role.id,
+                           Name=x.role.name
+                       }
                    }).FirstOrDefault();
             }
         }

@@ -11,5 +11,7 @@ namespace MedAPI.Infrastructure.IService
         User GetByEmail(string email);
         User SaveUser(User mUser);
         UserResources GetResources();
+        User Authenticate(string email, string password);
+        User Credentials(string email);
     }
 }

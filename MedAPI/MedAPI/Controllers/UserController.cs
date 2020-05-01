@@ -134,5 +134,71 @@ namespace MedAPI.Controllers
             return response;
         }
 
+        [HttpPost]
+        [Route("~/login")]
+        public HttpResponseMessage authenticate(Domain.Login mLogin)
+        {
+            Domain.User mUser = new Domain.User();
+            HttpResponseMessage response = null;
+            try
+            {
+                mUser = userService.Authenticate(mLogin.Email,mLogin.Password);
+                if (mUser != null)
+                {
+                    response = Request.CreateResponse(HttpStatusCode.OK, mUser);
+                }
+                else
+                {
+                    response = Request.CreateResponse(HttpStatusCode.Forbidden, "Invalid username or password!");
+                }
+            }
+            catch (Exception ex)
+            {
+                response = Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+            return response;
+        }
+
+        [HttpPost]
+        [Route("~/reauthenticate")]
+        public HttpResponseMessage credentials(Domain.Login mLogin)
+        {
+            Domain.User mUser = new Domain.User();
+            HttpResponseMessage response = null;
+            try
+            {
+                mUser = userService.Credentials(mLogin.Email);
+                if (mUser != null)
+                {
+                    response = Request.CreateResponse(HttpStatusCode.OK, mUser);
+                }
+                else
+                {
+                    response = Request.CreateResponse(HttpStatusCode.Forbidden, "Session Expired!");
+                }
+            }
+            catch (Exception ex)
+            {
+                response = Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+            return response;
+        }
+
+        [HttpPost]
+        [Route("~/logout")]
+        public HttpResponseMessage logout()
+        {
+            HttpResponseMessage response = null;
+            try
+            {
+                    response = Request.CreateResponse(HttpStatusCode.OK, "logout");
+            }
+            catch (Exception ex)
+            {
+                response = Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+            return response;
+        }
+
     }
 }
