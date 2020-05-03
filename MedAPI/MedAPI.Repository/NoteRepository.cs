@@ -7,7 +7,44 @@ using System.Linq;
 namespace MedAPI.Repository
 {
     public class NoteRepository : INoteRepository
+
+
     {
+
+        public List<Note> GetAllNoteByPatient(int id)
+        {
+            var bytes = BitConverter.GetBytes(true);
+            using (var context = new DataAccess.RegistroclinicoEntities())
+            {
+                return (from nt in context.notes
+                        where nt.deleted != bytes && nt.patient_id == id
+                        select new Note()
+                        {
+                            Id = nt.id,
+                            Age = nt.age,
+                            Completed = nt.completed,
+                            Control = nt.control,
+                            Diagnosis = nt.diagnosis,
+                            Exam = nt.exam,
+                            ModifiedBy = nt.modifiedBy,
+                            PhysicalExam = nt.physicalExam,
+                            SecondOpinion = nt.secondOpinion,
+                            SicknessTime = nt.sicknessTime,
+                            SicknessUnit = nt.sicknessUnit,
+                            Specialty = nt.specialty,
+                            Stage = nt.stage,
+                            Story = nt.story,
+                            Symptom = nt.symptom,
+                            Treatment = nt.treatment,
+                            ControlNoteId = nt.controlNote_id,
+                            EstablishmentId = nt.establishment_id,
+                            MedicId = nt.medic_id,
+                            PatientId = nt.patient_id,
+                            TicketId = nt.ticket_id,
+                            TriageId = nt.triage_id
+                        }).ToList();
+            }
+        }
         public bool DeleteNoteById(long id)
         {
             bool isSuccess = false;

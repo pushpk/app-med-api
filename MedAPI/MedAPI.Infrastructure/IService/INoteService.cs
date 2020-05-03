@@ -5,6 +5,7 @@ namespace MedAPI.Infrastructure.IService
 {
     public interface INoteService
     {
+        List<Note> GetAllNoteByPatient(int id);
         List<Note> GetAllNote();
         Note GetNoteById(long id);
         bool DeleteNoteById(long id);

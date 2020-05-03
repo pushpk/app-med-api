@@ -6,8 +6,8 @@ namespace MedAPI.Domain
     {
         public NoteResources()
         {
-            hunger =new List<ObjectNode>();
-            thirst = new List<ObjectNode>();
+            hungers =new List<ObjectNode>();
+            thirsts= new List<ObjectNode>();
             sleeps = new List<ObjectNode>();
             urines = new List<ObjectNode>();
             weightEvolutions = new List<ObjectNode>();
@@ -19,8 +19,8 @@ namespace MedAPI.Domain
             sexes = new List<ObjectNode>();
         }
 
-        public List<ObjectNode> hunger { get; set; }
-        public List<ObjectNode> thirst { get; set; }
+        public List<ObjectNode> hungers { get; set; }
+        public List<ObjectNode> thirsts { get; set; }
         public List<ObjectNode> sleeps { get; set; }
         public List<ObjectNode> urines { get; set; }
         public List<ObjectNode> weightEvolutions { get; set; }

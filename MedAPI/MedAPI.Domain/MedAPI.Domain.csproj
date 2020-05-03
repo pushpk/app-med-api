@@ -72,6 +72,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Province.cs" />
     <Compile Include="Role.cs" />
+    <Compile Include="Role_Permission.cs" />
     <Compile Include="Ticket.cs" />
     <Compile Include="Triage.cs" />
     <Compile Include="Upload.cs" />

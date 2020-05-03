@@ -139,13 +139,21 @@ namespace MedAPI.Controllers
         public HttpResponseMessage authenticate(Domain.Login mLogin)
         {
             Domain.User mUser = new Domain.User();
-            HttpResponseMessage response = null;
+
+          
+                HttpResponseMessage response = null;
             try
             {
-                mUser = userService.Authenticate(mLogin.Email,mLogin.Password);
+                mUser = userService.Authenticate(mLogin.username, mLogin.Password);
                 if (mUser != null)
                 {
-                    response = Request.CreateResponse(HttpStatusCode.OK, mUser);
+                    IEnumerable<string> permissions;
+                    using (var ctx = new DataAccess.RegistroclinicoEntities())
+                    {
+                        permissions = ctx.role_permissions.Where(s => s.Role_id == mUser.RoleId).Select(s => s.permissions).ToArray();
+                    }
+
+                    response = Request.CreateResponse(HttpStatusCode.OK, new { id = mUser.Id, permissions = permissions });
                 }
                 else
                 {
@@ -161,27 +169,31 @@ namespace MedAPI.Controllers
 
         [HttpPost]
         [Route("~/reauthenticate")]
-        public HttpResponseMessage credentials(Domain.Login mLogin)
+        public HttpResponseMessage credentials()
         {
-            Domain.User mUser = new Domain.User();
-            HttpResponseMessage response = null;
-            try
-            {
-                mUser = userService.Credentials(mLogin.Email);
-                if (mUser != null)
-                {
-                    response = Request.CreateResponse(HttpStatusCode.OK, mUser);
-                }
-                else
-                {
-                    response = Request.CreateResponse(HttpStatusCode.Forbidden, "Session Expired!");
-                }
-            }
-            catch (Exception ex)
-            {
-                response = Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
-            }
-            return response;
+
+
+            return Request.CreateResponse(HttpStatusCode.OK);
+
+            //Domain.User mUser = new Domain.User();
+            //HttpResponseMessage response = null;
+            //try
+            //{
+            //    mUser = userService.Credentials(Request.us);
+            //    if (mUser != null)
+            //    {
+            //        response = Request.CreateResponse(HttpStatusCode.OK, mUser);
+            //    }
+            //    else
+            //    {
+            //        response = Request.CreateResponse(HttpStatusCode.Forbidden, "Session Expired!");
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    response = Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            //}
+            //return response;
         }
 
         [HttpPost]

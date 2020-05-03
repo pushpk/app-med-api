@@ -150,41 +150,46 @@ namespace MedAPI.Repository
             }
         }
 
-        //public Patient GetPatientByDocumentNumber(string documentNumber)
-        //{
-        //    using (var context = new DataAccess.RegistroclinicoEntities())
-        //    {
-        //        return (from p in context.patients
-        //                where p.docu == documentNumber
-        //                select new Patient
-        //                {
-        //                    Id = p.id,
-        //                    Alcohol = p.alcohol,
-        //                    BloodType = p.bloodType,
-        //                    CigaretteNumber = p.cigaretteNumber,
-        //                    CreatedTicket = p.createdTicket,
-        //                    DormNumber = p.dormNumber,
-        //                    EducationalAttainment = p.educationalAttainment,
-        //                    Electricity = p.electricity,
-        //                    FractureNumber = p.fractureNumber,
-        //                    FruitsVegetables = p.fruitsVegetables,
-        //                    HighGlucose = p.highGlucose,
-        //                    HomeMaterial = p.homeMaterial,
-        //                    HomeOwnership = p.homeOwnership,
-        //                    HomeType = p.homeType,
-        //                    Occupation = p.occupation,
-        //                    OtherAllergies = p.otherAllergies,
-        //                    OtherFatherBackground = p.otherFatherBackground,
-        //                    OtherMedicines = p.otherMedicines,
-        //                    OtherMotherBackground = p.otherMotherBackground,
-        //                    OtherPersonalBackground = p.otherPersonalBackground,
-        //                    PhysicalActivity = p.physicalActivity,
-        //                    ResidentNumber = p.residentNumber,
-        //                    Sewage = p.sewage,
-        //                    Water = p.water
-        //                }).FirstOrDefault();
-        //    }
-        //}
+        public User GetPatientByDocumentNumber(int documentNumber)
+        {
+            using (var context = new DataAccess.RegistroclinicoEntities())
+            {
+                return (from x in context.users
+                        where x.documentNumber == documentNumber.ToString()
+                        select new User
+                        {
+                            Id = x.id,
+                            Address = x.address,
+                            Birthday = x.birthday,
+                            Cellphone = x.cellphone,
+                            CountryId = x.country_id,
+                            CreatedBy = x.createdBy,
+                            CreatedDate = x.createdDate,
+                            DistrictId = x.district_id,
+                            DocumentNumber = x.documentNumber,
+                            DocumentType = x.documentType,
+                            Email = x.email,
+                            FirstName = x.firstName,
+                            LastNameFather = x.lastNameFather,
+                            MaritalStatus = x.maritalStatus,
+                            LastNameMother = x.lastNameFather,
+                            ModifiedBy = x.modifiedBy,
+                            ModifiedDate = x.modifiedDate,
+                            OrganDonor = x.organDonor,
+                            Phone = x.phone,
+                            RoleId = x.role_id,
+                            Since = x.since,
+                            PasswordHash = x.password_hash,
+                            Role = new Role
+                            {
+                                Id = x.role.id,
+                                Name = x.role.name,
+                                Description = x.role.description
+                            },
+                            Sex = x.sex
+                        }).FirstOrDefault();
+            }
+        }
 
     }
 }

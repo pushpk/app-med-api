@@ -20,6 +20,12 @@ namespace MedAPI.Service
             this.triageRepository = triageRepository;
         }
 
+        public List<Note> GetAllNoteByPatient(int id)
+        {
+            return noteRepository.GetAllNoteByPatient(id);
+
+        }
+
         public bool DeleteNoteById(long id)
         {
             return noteRepository.DeleteNoteById(id);
@@ -59,59 +65,59 @@ namespace MedAPI.Service
         {
             NoteResources mNoteResourcesList = new NoteResources();
 
-            mNoteResourcesList.hunger = Enum.GetValues(typeof(Hunger))
+            mNoteResourcesList.hungers = Enum.GetValues(typeof(Hunger))
                             .Cast<Hunger>()
-                            .Select(d => new ObjectNode() { Id = (int)d, Name = d.ToString() })
+                            .Select(d => new ObjectNode() { Id = (int)d, name = d.ToString() })
                             .ToList();
 
-            mNoteResourcesList.thirst = Enum.GetValues(typeof(Thirst))
+            mNoteResourcesList.thirsts = Enum.GetValues(typeof(Thirst))
                             .Cast<Thirst>()
-                            .Select(d => new ObjectNode() { Id = (int)d, Name = d.ToString() })
+                            .Select(d => new ObjectNode() { Id = (int)d, name = d.ToString() })
                             .ToList();
 
             mNoteResourcesList.sleeps = Enum.GetValues(typeof(Sleep))
                           .Cast<Sleep>()
-                          .Select(d => new ObjectNode() { Id = (int)d, Name = d.ToString() })
+                          .Select(d => new ObjectNode() { Id = (int)d, name = d.ToString() })
                           .ToList();
 
             mNoteResourcesList.urines = Enum.GetValues(typeof(Urine))
                           .Cast<Urine>()
-                          .Select(d => new ObjectNode() { Id = (int)d, Name = d.ToString() })
+                          .Select(d => new ObjectNode() { Id = (int)d, name = d.ToString() })
                           .ToList();
 
             mNoteResourcesList.weightEvolutions = Enum.GetValues(typeof(WeightEvolution))
                          .Cast<WeightEvolution>()
-                         .Select(d => new ObjectNode() { Id = (int)d, Name = d.ToString() })
+                         .Select(d => new ObjectNode() { Id = (int)d, name = d.ToString() })
                          .ToList();
 
             mNoteResourcesList.depositions = Enum.GetValues(typeof(Deposition))
                         .Cast<Deposition>()
-                        .Select(d => new ObjectNode() { Id = (int)d, Name = d.ToString() })
+                        .Select(d => new ObjectNode() { Id = (int)d, name = d.ToString() })
                         .ToList();
 
             mNoteResourcesList.cardiovascularSymptom = Enum.GetValues(typeof(CardiovascularSymptom))
                         .Cast<CardiovascularSymptom>()
-                        .Select(d => new ObjectNode() { Id = (int)d, Name = d.ToString() })
+                        .Select(d => new ObjectNode() { Id = (int)d, name = d.ToString() })
                         .ToList();
 
 
             mNoteResourcesList.medicines = Enum.GetValues(typeof(Infrastructure.Common.Medicine))
                         .Cast<Infrastructure.Common.Medicine>()
-                        .Select(d => new ObjectNode() { Id = (int)d, Name = d.ToString() })
+                        .Select(d => new ObjectNode() { Id = (int)d, name = d.ToString() })
                         .ToList();
 
             mNoteResourcesList.backgrounds = Enum.GetValues(typeof(Infrastructure.Common.Background))
                       .Cast<Infrastructure.Common.Background>()
-                      .Select(d => new ObjectNode() { Id = (int)d, Name = d.ToString() })
+                      .Select(d => new ObjectNode() { Id = (int)d, name = d.ToString() })
                       .ToList();
 
             mNoteResourcesList.physicalActivities = Enum.GetValues(typeof(Infrastructure.Common.PhysicalActivity))
                       .Cast<Infrastructure.Common.PhysicalActivity>()
-                      .Select(d => new ObjectNode() { Id = (int)d, Name = d.ToString() })
+                      .Select(d => new ObjectNode() { Id = (int)d, name = d.ToString() })
                       .ToList();
             mNoteResourcesList.sexes = Enum.GetValues(typeof(Infrastructure.Common.Sex))
             .Cast<Infrastructure.Common.Sex>()
-            .Select(d => new ObjectNode() { Id = (int)d, Name = d.ToString() })
+            .Select(d => new ObjectNode() { Id = (int)d, name = d.ToString() })
             .ToList();
 
             return mNoteResourcesList;
