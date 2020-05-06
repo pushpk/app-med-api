@@ -104,21 +104,7 @@ namespace MedAPI.Controllers
             return response;
         }
 
-        [HttpGet]
-        [Route("{id:int}/report/cardiology")]
-        public HttpResponseMessage NoteCardiology(long id)
-        {
-            HttpResponseMessage response = null;
-            try
-            {
-                response = Request.CreateResponse(HttpStatusCode.OK, "");
-            }
-            catch (Exception ex)
-            {
-                response = Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
-            }
-            return response;
-        }
+        
 
     }
 }

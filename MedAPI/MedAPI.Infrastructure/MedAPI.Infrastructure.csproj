@@ -95,6 +95,7 @@
     <Compile Include="IService\IUserService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SendMailHelper.cs" />
+    <Compile Include="StringExtention.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MedAPI.Domain\MedAPI.Domain.csproj">

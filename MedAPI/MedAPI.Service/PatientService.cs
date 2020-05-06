@@ -55,9 +55,9 @@ namespace MedAPI.Service
             }
             return mPatient;
         }
-        //public Patient GetPatientByDocumentNumber(string documentNumber)
-        //{
-        //    return patientRepository.GetPatientByDocumentNumber(documentNumber);
-        //}
+        public User GetPatientByDocumentNumber(int documentNumber)
+        {
+            return patientRepository.GetPatientByDocumentNumber(documentNumber);
+        }
     }
 }

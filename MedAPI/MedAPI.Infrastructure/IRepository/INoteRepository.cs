@@ -9,6 +9,7 @@ namespace MedAPI.Infrastructure.IRepository
 {
    public interface INoteRepository
     {
+        List<Note> GetAllNoteByPatient(int id);
         List<Note> GetAllNote();
         bool DeleteNoteById(long id);
         Note GetNoteById(long id);

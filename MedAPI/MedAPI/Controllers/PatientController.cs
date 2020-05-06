@@ -15,11 +15,14 @@ namespace MedAPI.Controllers
     {
         private readonly IUserService userService;
         private readonly IPatientService patientService;
-        
-        public PatientController(IUserService userService, IPatientService patientService)
+        private readonly INoteService noteService;
+
+
+        public PatientController(IUserService userService, IPatientService patientService,   INoteService noteService)
         {
             this.userService = userService;
             this.patientService = patientService;
+            this.noteService = noteService;
         }
         [HttpGet]
         [Route("patient")]
@@ -165,6 +168,28 @@ namespace MedAPI.Controllers
                 response = Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
             return response;
+        }
+
+        [HttpGet]
+        [Route("~/record/patient")]
+        public HttpResponseMessage GetPatient(int documentNumber)
+        {
+            User pat = patientService.GetPatientByDocumentNumber(documentNumber);
+
+            var notes = noteService.GetAllNoteByPatient(Convert.ToInt32(pat.Id));
+
+            HttpResponseMessage response = null;
+            try
+            {
+                response = Request.CreateResponse(HttpStatusCode.OK, new { patient = pat, notes = notes  } );
+            }
+            catch (Exception ex)
+            {
+                response = Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+            return response;
+
+
         }
 
 

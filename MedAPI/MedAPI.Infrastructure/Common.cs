@@ -356,6 +356,161 @@ namespace MedAPI.Infrastructure
         {
             MESTIZO = 1
         }
+
+
+        
+  //public enum pulsesLLMs
+  //      {
+  //          NORMAL = "Presente",
+
+
+  //  AUSENTE = Ausente,
+
+
+  //  DISMINUIDO = Disminuido
+
+  //      }
+  //      public Dic pulsesLRMs
+  //      {
+
+  //          NORMAL = 1,
+  //          DISMINUIDO = 2,
+  //          AUMENTADO = 3
+
+  //      }
+  //      public enum auscultationSites
+  //      {
+
+  //          AORTICO = 1,
+        
+
+  //  TRICUSPIDEO = 2,        
+
+  //  MITRAL = 3,
+        
+
+  //  PULMONAR = 4
+
+  //      }
+  //      public enum capillaryRefillLRMs
+  //      {
+
+  //          NORMAL = 1,
+        
+
+  //  PROLONGADO = Prolongado
+
+  //      }
+  //      public enum capillaryRefillLLMs
+  //      {
+
+  //          NORMAL = Normal
+        
+
+  //  PROLONGADO = Prolongado
+
+  //      }
+  //      public enum cardiacPressureRhythms
+  //      {
+
+  //          NORMAL = Normal
+        
+
+  //  PROLONGADO = Prolongado
+
+  //      }
+  //      public enum cardiacPressureIntensities
+  //      {
+
+  //          NORMAL = Normal
+        
+
+  //  PROLONGADO = Prolongado
+
+  //      }
+  //      public enum gastrointestinalSemiologies
+  //      {
+
+  //          NORMAL = Normal
+        
+
+  //  HEPATO_ESPLENOMEGALIA = Hepato esplenomegalia
+
+  //      }
+  //      public enum pedalPulsesLs
+  //      {
+
+  //          NORMAL = Presente
+        
+
+  //  AUSENTE = Ausente
+        
+
+  //  DISMINUIDO = Disminuido
+
+  //      }
+  //      public enum pedalPulsesRs
+  //      {
+
+  //          NORMAL = Normal
+        
+
+  //  PROLONGADO = Prolongado
+
+  //      }
+  //      public enum radialPulsesRs
+  //      {
+
+  //          NORMAL = Presente
+        
+
+  //  AUSENTE = Ausente
+        
+
+  //  DISMINUIDO = Disminuido
+
+  //      }
+  //      public enum radialPulsesLs
+  //      {
+
+  //          NORMAL = Presente
+        
+
+  //  AUSENTE = Ausente
+        
+
+  //  DISMINUIDO = Disminuido
+
+  //      }
+  //      public enum vesicularWhisperLs
+  //      {
+
+  //          NORMAL = Buen pasaje
+        
+
+  //  RONCANTE = Roncante
+        
+
+  //  SUBCREPITANTE = Subcrepitante
+        
+
+  //  CREPITANTE = Crepitante
+
+  //      }
+  //      public enum vesicularWhisperRs
+  //      {
+
+  //          NORMAL = Buen pasaje
+        
+
+  //  RONCANTE = Roncante
+        
+
+  //  SUBCREPITANTE = Subcrepitante
+        
+
+  //  CREPITANTE = Crepitante
+  //      }
     }
 }
 

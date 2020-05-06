@@ -26,6 +26,8 @@ namespace MedAPI.Service
 
         public User Authenticate(string email, string password)
         {
+            var a = HashPasswordHelper.HashPassword(password);
+
             User mUser = new User();
             mUser = userRepository.Authenticate(email);
             if (mUser != null && HashPasswordHelper.ValidatePassword(password, mUser.PasswordHash))
@@ -77,90 +79,90 @@ namespace MedAPI.Service
 
             mUserResourcesList.maritalStatuses = Enum.GetValues(typeof(MaritalStatus))
                             .Cast<MaritalStatus>()
-                            .Select(d => new ObjectNode() { Id = (int)d, Name = d.ToString() })
+                            .Select(d => new ObjectNode() { id = d.ToString().ToUpper(), name = StringExtensions.FirstCharToUpper(d.ToString()) })
                             .ToList();
 
             mUserResourcesList.bloodTypes = Enum.GetValues(typeof(BloodType))
                             .Cast<BloodType>()
-                            .Select(d => new ObjectNode() { Id = (int)d, Name = d.ToString() })
+                            .Select(d => new ObjectNode() { id = d.ToString().ToUpper(), name = StringExtensions.FirstCharToUpper(d.ToString()) })
                             .ToList();
 
             mUserResourcesList.documentTypes = Enum.GetValues(typeof(DocumentType))
                        .Cast<DocumentType>()
-                       .Select(d => new ObjectNode() { Id = (int)d, Name = d.ToString() })
+                       .Select(d => new ObjectNode() { id = d.ToString().ToUpper(), name = StringExtensions.FirstCharToUpper(d.ToString()) })
                        .ToList();
 
 
             mUserResourcesList.educationalAttainments = Enum.GetValues(typeof(EducationalAttainment))
                        .Cast<EducationalAttainment>()
-                       .Select(d => new ObjectNode() { Id = (int)d, Name = d.ToString() })
+                       .Select(d => new ObjectNode() { id = d.ToString().ToUpper(), name = StringExtensions.FirstCharToUpper(d.ToString()) })
                        .ToList();
 
             mUserResourcesList.homeMaterials = Enum.GetValues(typeof(HomeMaterial))
                        .Cast<HomeMaterial>()
-                       .Select(d => new ObjectNode() { Id = (int)d, Name = d.ToString() })
+                       .Select(d => new ObjectNode() { id = d.ToString().ToUpper(), name = StringExtensions.FirstCharToUpper(d.ToString()) })
                        .ToList();
 
             mUserResourcesList.homeOwnerships = Enum.GetValues(typeof(HomeOwnership))
                        .Cast<HomeOwnership>()
-                       .Select(d => new ObjectNode() { Id = (int)d, Name = d.ToString() })
+                       .Select(d => new ObjectNode() { id = d.ToString().ToUpper(), name = StringExtensions.FirstCharToUpper(d.ToString()) })
                        .ToList();
 
             mUserResourcesList.homeTypes = Enum.GetValues(typeof(HomeType))
                        .Cast<HomeType>()
-                       .Select(d => new ObjectNode() { Id = (int)d, Name = d.ToString() })
+                       .Select(d => new ObjectNode() { id = d.ToString().ToUpper(), name = StringExtensions.FirstCharToUpper(d.ToString()) })
                        .ToList();
 
             mUserResourcesList.physicalActivities = Enum.GetValues(typeof(PhysicalActivity))
                      .Cast<PhysicalActivity>()
-                     .Select(d => new ObjectNode() { Id = (int)d, Name = d.ToString() })
+                     .Select(d => new ObjectNode() { id = d.ToString().ToUpper(), name = StringExtensions.FirstCharToUpper(d.ToString()) })
                      .ToList();
 
             mUserResourcesList.sexes = Enum.GetValues(typeof(Sex))
                      .Cast<Sex>()
-                     .Select(d => new ObjectNode() { Id = (int)d, Name = d.ToString() })
+                     .Select(d => new ObjectNode() { id = d.ToString().ToUpper(), name = StringExtensions.FirstCharToUpper(d.ToString()) })
                      .ToList();
 
             mUserResourcesList.departments = departmentRepository.GetAllDepartment().Select(x => new Domain.ObjectNode()
             {
-                Id = (int)x.id,
-                Name = x.name
+                id = x.id.ToString().ToUpper(),
+                name = x.name
             }).ToList();
 
             mUserResourcesList.countries = countryRepository.GetAllCountry().Select(x => new Domain.ObjectNode()
             {
-                Id = (int)x.id,
-                Name = x.name
+                id = x.id.ToString().ToUpper(),
+                name = x.name
             }).ToList();
 
             mUserResourcesList.medicines = Enum.GetValues(typeof(Medicine))
                      .Cast<Medicine>()
-                     .Select(d => new ObjectNode() { Id = (int)d, Name = d.ToString() })
+                     .Select(d => new ObjectNode() { id = d.ToString().ToUpper(), name = StringExtensions.FirstCharToUpper(d.ToString()) })
                      .ToList();
 
             mUserResourcesList.backgrounds = Enum.GetValues(typeof(Background))
                      .Cast<Background>()
-                     .Select(d => new ObjectNode() { Id = (int)d, Name = d.ToString() })
+                     .Select(d => new ObjectNode() { id = d.ToString().ToUpper(), name = StringExtensions.FirstCharToUpper(d.ToString()) })
                      .ToList();
 
             mUserResourcesList.allergies = Enum.GetValues(typeof(Allergy))
                      .Cast<Allergy>()
-                     .Select(d => new ObjectNode() { Id = (int)d, Name = d.ToString() })
+                     .Select(d => new ObjectNode() { id = d.ToString().ToUpper(), name = StringExtensions.FirstCharToUpper(d.ToString()) })
                      .ToList();
 
             mUserResourcesList.alcoholConsumptions = Enum.GetValues(typeof(Alcohol))
                     .Cast<Alcohol>()
-                    .Select(d => new ObjectNode() { Id = (int)d, Name = d.ToString() })
+                    .Select(d => new ObjectNode() { id = d.ToString().ToUpper(), name = StringExtensions.FirstCharToUpper(d.ToString()) })
                     .ToList();
 
             mUserResourcesList.fvConsumptions = Enum.GetValues(typeof(FruitsVegetables))
                   .Cast<FruitsVegetables>()
-                  .Select(d => new ObjectNode() { Id = (int)d, Name = d.ToString() })
+                  .Select(d => new ObjectNode() { id = d.ToString().ToUpper(), name = StringExtensions.FirstCharToUpper(d.ToString()) })
                   .ToList();
 
             mUserResourcesList.races = Enum.GetValues(typeof(Race))
                 .Cast<FruitsVegetables>()
-                .Select(d => new ObjectNode() { Id = (int)d, Name = d.ToString() })
+                .Select(d => new ObjectNode() { id = d.ToString().ToUpper(), name = StringExtensions.FirstCharToUpper(d.ToString()) })
                 .ToList();
 
             return mUserResourcesList;

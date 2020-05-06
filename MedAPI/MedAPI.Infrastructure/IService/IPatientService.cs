@@ -11,6 +11,6 @@ namespace MedAPI.Infrastructure.IService
         List<Province> GetProvinceByDepartment(long id);
         List<District> GetDistrictByprovinceId(long id);
         Patient SavePatient(Domain.Patient mPatient);
-        /* Patient GetPatientByDocumentNumber(string documentNumber)*/
+        User GetPatientByDocumentNumber(int documentNumber);
     }
 }
