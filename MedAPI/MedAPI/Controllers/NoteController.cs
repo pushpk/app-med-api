@@ -144,6 +144,24 @@ namespace MedAPI.Controllers
             }
             return response;
         }
+
+        //[HttpGet]
+        //[Route("resources/cardiology")]
+        //public HttpResponseMessage ResourcesCardiology()
+        //{
+        //    HttpResponseMessage response = null;
+        //    Domain.NoteResources mNoteResources = new NoteResources();
+        //    try
+        //    {
+        //        mNoteResources = noteService.GetResources();
+        //        response = Request.CreateResponse(HttpStatusCode.OK, mNoteResources);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        response = Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+        //    }
+        //    return response;
+        //}
         public bool IsTRIAGEPermission()
         {
             bool result = false;
