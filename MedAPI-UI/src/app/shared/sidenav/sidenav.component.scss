@@ -1,0 +1,22 @@
+.mat-drawer {
+  border-right: 1px solid #E2E3E3;
+  display: flex;
+  overflow-x: hidden;
+}
+
+mat-drawer-container {
+  ::ng-deep .mat-drawer-content {
+    overflow: initial !important;
+  }
+}
+
+.side-panel {
+  position: fixed;
+  width: 22vw;
+}
+
+.main-sidenav-content {
+  display: flex;
+  height: 100%;
+  min-height: 100vh;
+}

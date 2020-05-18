@@ -1,0 +1,23 @@
+<mat-toolbar color="primary" class="md-whiteframe-z2">
+  <mat-toolbar-row>
+    <ng-container *ngIf="userAuthService.isAuthenticated();">
+      <button mat-icon-button (click)="toggleFilter();">
+        <mat-icon>menu</mat-icon>
+      </button>
+    </ng-container>
+    <h2>
+      <span>Historia Clínica Electrónica</span>
+    </h2>
+    <span class="horizontal-spacer"></span>
+    <ng-container *ngIf="userAuthService.isAuthenticated();">
+      <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Menu">
+        <mat-icon> more_vert</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item aria-label="signout" id="signout" (click)="logout()">
+          <mat-icon>close</mat-icon>&nbsp;&nbsp;Cerrar sesión
+        </button>
+      </mat-menu>
+    </ng-container>
+  </mat-toolbar-row>
+</mat-toolbar>

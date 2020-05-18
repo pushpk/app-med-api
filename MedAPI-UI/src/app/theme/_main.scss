@@ -1,0 +1,221 @@
+body {
+  background: #F5F5F5;
+}
+
+mat-toolbar {
+  &.mat-toolbar {
+    background: #fff;
+  }
+
+  mat-icon {
+    line-height: 1;
+  }
+}
+
+.content {
+  background: $background_color;
+  padding: 48px 52px;
+
+  @media screen and (max-width: $md) {
+    padding: 18px 16px;
+  }
+
+  @media screen and (max-width: $sm) {
+    padding: 12px 8px;
+  }
+}
+
+.maintainer {
+
+  mat-card {
+    margin-bottom: 32px;
+
+    @media screen and (max-width: $sm) {
+      margin-bottom: 8px;
+    }
+
+    mat-card-content {
+      padding: 0;
+    }
+
+    .mat-title {
+      padding: 8px 48px;
+    }
+
+    .mat-title.form-section {
+      padding: 0;
+      margin-top: 1.2em;
+      margin-bottom: 0.4em;
+    }
+
+    .content > * {
+      padding: 12px 24px;
+    }
+
+    .layout-padding {
+      padding: 12px 24px;
+
+      @media screen and (max-width: $md) {
+        padding: 20px;
+      }
+
+      @media screen and (max-width: $sm) {
+        padding: 12px 32px;
+      }
+    }
+
+    p {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+
+    p.mat-caption {
+      margin-top: 4px;
+      color: $secondary_color;
+    }
+  }
+}
+
+.indicator-dialog {
+  mat-dialog-content {
+    padding: 16px;
+  }
+
+  mat-input-container {
+    margin-bottom: 0;
+  }
+}
+
+.atencion-evento {
+  mat-switch {
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+
+input[type=number].no-spinner {
+  -moz-appearance: textfield;
+
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}
+
+// custom chips
+.chip-option {
+  float: left;
+
+  .mat-no-style {
+    padding: 0;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  .mat-button {
+    font-weight: normal;
+    font-size: 0.8em;
+    line-height: 1.2em;
+    text-transform: none;
+    min-width: 75px;
+    min-height: 2.8em;
+  }
+}
+
+// helpers
+
+.text-right {
+  text-align: right;
+}
+
+mat-input-container {
+  margin-top: 8px;
+
+  &.mat-icon-left {
+    padding-left: 36px;
+    padding-right: 0;
+
+    > label {
+      left: 36px;
+      right: auto;
+    }
+  }
+
+  &.mat-icon-right {
+    padding-right: 36px;
+    padding-left: 0;
+  }
+
+  &.mat-has-icon > label {
+    left: 0;
+  }
+
+  &.mat-icon-right.mat-icon-left {
+    padding-right: 36px;
+    padding-left: 36px;
+  }
+}
+
+.indicators, .indicator-dialog {
+  mat-input-container {
+    transition: padding 200ms;
+  }
+
+  .mat-warn.ng-enter, .mat-warn.ng-leave {
+    transition: all cubic-bezier(0.250, 0.460, 0.450, 0.940) 200ms;
+  }
+
+  .mat-warn.ng-enter,
+  .mat-warn.ng-leave.ng-leave-active {
+    opacity: 0;
+  }
+
+  .mat-warn.ng-leave,
+  .mat-warn.ng-enter.ng-enter-active {
+    opacity: 1;
+  }
+
+  mat-icon {
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
+
+.general.symptoms,
+.cardiology.symptoms {
+
+  h2 {
+    margin-top: 12px;
+    margin-bottom: 8px;
+  }
+
+  mat-input-container {
+    margin-top: 16px;
+    margin-bottom: 0;
+  }
+
+  mat-autocomplete mat-input-container {
+    margin-top: 12px;
+    margin-bottom: 0;
+    padding: 0;
+  }
+
+  mat-list {
+    padding: 0;
+  }
+
+  mat-list-item {
+    margin: 0;
+    min-height: 64px;
+  }
+}
+
+.no-records {
+  background: #fff;
+  text-align: center;
+  padding: 24px;
+}

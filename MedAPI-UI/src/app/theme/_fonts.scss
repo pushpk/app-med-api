@@ -1,0 +1,63 @@
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: url('/assets/fonts/MaterialIcons-Regular.eot'); /* For IE6-8 */
+  src: url('/assets/fontsMaterialIcons-Regular.woff2') format('woff2'),
+  url('/assets/fontsMaterialIcons-Regular.woff') format('woff'),
+  url('/assets/fontsMaterialIcons-Regular.ttf') format('truetype');
+}
+
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  word-wrap: normal;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+}
+
+@font-face {
+  font-family: 'RobotoMedium';
+  src: url('/assets/fonts/RobotoMedium.eot');
+  src: url('/assets/fonts/RobotoMedium.eot') format('embedded-opentype'),
+  url('/assets/fonts/RobotoMedium.woff2') format('woff2'),
+  url('/assets/fonts/RobotoMedium.woff') format('woff'),
+  url('/assets/fonts/RobotoMedium.ttf') format('truetype'),
+  url('/assets/fonts/RobotoMedium.svg#RobotoMedium') format('svg');
+}
+
+@font-face {
+  font-family: 'RobotoLight';
+  src: url('/assets/fonts/RobotoLight.eot');
+  src: url('/assets/fonts/RobotoLight.eot') format('embedded-opentype'),
+  url('/assets/fonts/RobotoLight.woff2') format('woff2'),
+  url('/assets/fonts/RobotoLight.woff') format('woff'),
+  url('/assets/fonts/RobotoLight.ttf') format('truetype'),
+  url('/assets/fonts/RobotoLight.svg#RobotoMedium') format('svg');
+}
+
+@font-face {
+  font-family: 'RobotoThin';
+  src: url('/assets/fonts/RobotoThin.eot');
+  src: url('/assets/fonts/RobotoThin.eot') format('embedded-opentype'),
+  url('/assets/fonts/RobotoThin.woff2') format('woff2'),
+  url('/assets/fonts/RobotoThin.woff') format('woff'),
+  url('/assets/fonts/RobotoThin.ttf') format('truetype'),
+  url('/assets/fonts/RobotoThin.svg#RobotoMedium') format('svg');
+}
+
+@font-face {
+  font-family: 'RobotoBold';
+  src: url('/assets/fonts/RobotoBold.eot');
+  src: url('/assets/fonts/RobotoBold.eot') format('embedded-opentype'),
+  url('/assets/fonts/RobotoBold.woff2') format('woff2'),
+  url('/assets/fonts/RobotoBold.woff') format('woff'),
+  url('/assets/fonts/RobotoBold.ttf') format('truetype'),
+  url('/assets/fonts/RobotoBold.svg#RobotoMedium') format('svg');
+}

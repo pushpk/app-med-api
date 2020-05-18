@@ -1,0 +1,7 @@
+<div>
+  <mat-nav-list>
+    <ng-container *ngFor="let menu of navMenus">
+      <mat-list-item (click)="navigateToPage(menu)"> {{menu.name}}</mat-list-item>
+    </ng-container>
+  </mat-nav-list>
+</div>

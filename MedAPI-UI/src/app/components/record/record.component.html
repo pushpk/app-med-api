@@ -1,0 +1,129 @@
+<div>
+  <form name="record" #record="ngForm">
+    <div fxLayout="row" class="mb-16">
+      <mat-form-field fxFlex fxFlexFill *ngIf="askTicket">
+        <mat-label>Código de atención o DNI de paciente</mat-label>
+        <input matInput type="text"
+               name="ticket"
+               [(ngModel)]="ticketNumber"
+               pattern="/\d{3}-\d{6}|\d{8}/"
+               maxlength="10"
+               #ticket="ngModel"
+               (change)="searchTicket()">
+        <mat-hint align="end">{{ticket.value?.length || 0}}/8</mat-hint>
+        <mat-error *ngIf="ticket.errors && (ticket.touched || ticket.dirty)">Ingrese un código de atención correcto, eg. 012-000123</mat-error>
+      </mat-form-field>
+    </div>
+    <mat-progress-bar mode="indeterminate" *ngIf="!askDocumentNumber && waitingTicket"></mat-progress-bar>
+
+    <!-- Invocar al webservice (No. ticketNumber) para saber si paciente existe -->
+    <!--<p *ngIf="askDocumentNumber">
+      El ticket no se ha registrado antes. Por favor ingrese el DNI del paciente:
+    </p>-->
+    <div fxLayout="row" class="mb-16">
+      <mat-form-field fxFlex fxFlexFill *ngIf="askDocumentNumber">
+        <mat-label>DNI de paciente</mat-label>
+        <input matInput type="text"
+               name="documentno"
+               [(ngModel)]="documentNumber"
+               pattern="^[0-9]{8}$"
+               maxlength="8"
+               #documentno="ngModel"
+               (change)="searchDocumentNumber()">
+        <mat-hint align="end">{{documentno.value?.length || 0}}/8</mat-hint>
+        <mat-error *ngIf="documentno.errors && (documentno.touched || documentno.dirty)">Ingrese un número ocho dígitos</mat-error>
+      </mat-form-field>
+    </div>
+    <mat-progress-bar mode="indeterminate" *ngIf="waitingTicket"></mat-progress-bar>
+    <p *ngIf="askPatientRegistration">Este DNI no se encuentra afiliado aún.</p>
+
+  </form>
+  <div fxLayout="column" *ngIf="askPatientRegistration">
+    <button mat-raised-button type="button" color="primary">
+      Afiliar Paciente
+    </button>
+  </div>
+  <div *ngIf="showRecord && !askPatientRegistration">
+    <mat-form-field>
+      <mat-label>Especialidad</mat-label>
+      <mat-select [(ngModel)]="ticket.specialty" [disabled]="ticket.status !== 0">
+        <mat-option *ngFor="let type of specialities" [value]="type.value">
+          {{type.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+
+    <div fxLayout="row" fxLayout.xs="column" class="mt-16" fxLayoutGap="20">
+      <div fxFlex="15" *ngIf="ticket.status === 0">
+        <a mat-raised-button color="primary" class="text-upper" href="javascript:void(0);" routerLink="/records/notes">
+          Atender paciente
+        </a>
+      </div>
+      <div fxFlex="15" *ngIf="ticket.status === 1">
+        <a mat-raised-button color="primary" class="text-upper" href="javascript:void(0);" routerLink="">
+          Continuar atención de este Ticket
+        </a>
+      </div>
+      <p *ngIf="ticket.status === 2"><strong>La atención de este Ticket ha finalizado.</strong></p>
+      <div fxFlex="15" *ngIf="ticket.status === 2">
+        <a mat-raised-button color="primary" class="text-upper" href="javascript:void(0);" routerLink="">
+          Revisar la atención de este Ticket
+        </a>
+      </div>
+      <div fxFlex="15">
+        <a mat-raised-button color="default" class="text-upper" href="javascript:void(0);" [routerLink]="">
+          Ver datos de paciente
+        </a>
+      </div>
+    </div>
+  </div>
+  <div fxLayout="row" *ngIf="showRecord" class="mt-24">
+    <h2 fxFlex="50">Atenciones pasadas:</h2>
+  </div>
+  <div *ngIf="showRecord" id="recordTable">
+    <mat-toolbar color="default" *ngIf="patient">
+      <mat-toolbar-row>
+        <h2 class="mat-title">
+          {{patient.LastNameFather | uppercase}} {{patient.LastNameMother | uppercase}},
+          {{patient.FirstName}}
+        </h2>
+      </mat-toolbar-row>
+    </mat-toolbar>
+    <mat-table [dataSource]="dataSource">
+      <ng-container matColumnDef="id">
+        <mat-header-cell *matHeaderCellDef> # </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="description">
+        <mat-header-cell *matHeaderCellDef> Descripción </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.symptoms.text}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="specialty">
+        <mat-header-cell *matHeaderCellDef> Especialidad </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.specialty.name}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="date">
+        <mat-header-cell *matHeaderCellDef> Fecha </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.registrationDate | date: 'dd/MM/yyyy'}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="action">
+        <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <button type="button" mat-raised-button color="primary">
+            Revisar esta atención
+          </button>
+          <button type="button" mat-raised-button color="primary" target="_blank">
+            Descargar en PDF
+          </button>
+        </mat-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+    <div *ngIf="!(dataSource.length > 0)" class="no-records">
+      El paciente no tiene atenciones anteriores.
+    </div>
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+  </div>
+</div>

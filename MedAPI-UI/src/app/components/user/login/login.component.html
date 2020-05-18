@@ -1,0 +1,18 @@
+<div fxLayout="row" fxLayoutAlign="center center">
+  <form autocomplete="off" name="loginForm" [formGroup]="loginForm"
+        fxFlex="100" fxFlex.gt-sm="50" fxLayout="column" (ngSubmit)="doLogin();">
+    <mat-form-field fxFlex fxFlexFill>
+      <mat-label>Usuario</mat-label>
+      <input matInput type="email" name="username" required [class.is-invalid]="(control('username').touched || control('username').dirty) && control('username').invalid" [class.has-error]="(control('username').touched || control('username').dirty) && control('username').invalid" formControlName="username">
+    </mat-form-field>
+
+    <mat-form-field fxFlex fxFlexFill>
+      <mat-label>Contraseña</mat-label>
+      <input matInput type="password" name="password" required [class.is-invalid]="(control('password').touched || control('password').dirty) && control('password').invalid" [class.has-error]="(control('password').touched || control('password').dirty) && control('password').invalid" formControlName="password">
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" type="submit" class="mt-16">
+      Iniciar sesión
+    </button>
+  </form>
+</div>

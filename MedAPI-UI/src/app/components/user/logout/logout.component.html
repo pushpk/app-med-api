@@ -1,0 +1,12 @@
+<div [ngClass]="{'content':userAuthService.isAuthenticated()}">
+  <mat-card>
+    <mat-card-content>
+      <h2>Gracias por tu visita :)</h2>
+    </mat-card-content>
+    <mat-card-actions fxLayout="row" fxLayoutAlign="end center">
+      <button mat-raised-button color="primary" type="button" (click)="logout()">
+        Iniciar sesión
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>

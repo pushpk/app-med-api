@@ -1,0 +1,8 @@
+<mat-drawer-container autosize>
+  <mat-drawer #drawer [mode]="'over'" class="side-panel">
+    <ng-content select="[sidebar]"></ng-content>
+  </mat-drawer>
+  <div class="main-sidenav-content">
+    <ng-content select="[body]"></ng-content>
+  </div>
+</mat-drawer-container>
