@@ -1,0 +1,255 @@
+<div class="maintainer">
+  <div class="layout-padding" fxLayout="column">
+    <div fxLayout="column">
+      <h2 class="mat-title form-section" fxFlex="100">Funciones biológicas</h2>
+      <div fxLayout="row" fxLayoutGap="24px">
+        <mat-form-field fxFlex>
+          <mat-label>Apetito</mat-label>
+          <mat-select name="hungers" class="max-width" required  #hunger="ngModel"
+                      [(ngModel)]="note.triage.biologicalFunctions.hunger">
+            <mat-option *ngFor="let c of resources.hungers" [value]="c.id">{{c.name}}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="hunger.errors && (hunger.touched || hunger.dirty)">
+            Este campo es requerido
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field fxFlex>
+          <mat-label>Sed</mat-label>
+          <mat-select name="thirsts" class="max-width" #thirst="ngModel"
+                      [(ngModel)]="note.triage.biologicalFunctions.thirst" required>
+            <mat-option *ngFor="let c of resources.thirsts" [value]="c.id">{{c.name}}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="thirst.errors && (thirst.touched || thirst.dirty)">
+            Este campo es requerido
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field fxFlex>
+          <mat-label>Sueño</mat-label>
+          <mat-select name="sleeps" class="max-width" #sleep="ngModel"
+                      [(ngModel)]="note.triage.biologicalFunctions.sleep" required>
+            <mat-option *ngFor="let c of resources.sleeps" [value]="c.id">{{c.name}}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="sleep.errors && (sleep.touched || sleep.dirty)">
+            Este campo es requerido
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div fxLayout="row" fxLayoutGap="24px">
+        <mat-form-field fxFlex>
+          <mat-label>Diuresis</mat-label>
+          <mat-select name="urines" class="max-width" #urine="ngModel"
+                      [(ngModel)]="note.triage.biologicalFunctions.urine" required>
+            <mat-option *ngFor="let c of resources.urines" [value]="c.id">{{c.name}}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="urine.errors && (urine.touched || urine.dirty)">
+            Este campo es requerido
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field fxFlex>
+          <mat-label>Deposiciones</mat-label>
+          <mat-select name="depositions" class="max-width" #deposition="ngModel"
+                      [(ngModel)]="note.triage.biologicalFunctions.deposition" required>
+            <mat-option *ngFor="let c of resources.depositions" [value]="c.id">{{c.name}}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="deposition.errors && (deposition.touched || deposition.dirty)">
+            Este campo es requerido
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field fxFlex>
+          <mat-label>Evolución ponderal</mat-label>
+          <mat-select name="weightEvolutions" class="max-width" #weightEvolution="ngModel"
+                      [(ngModel)]="note.triage.biologicalFunctions.weightEvolution" required>
+            <mat-option *ngFor="let c of resources.weightEvolutions" [value]="c.id">{{c.name}}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="weightEvolution.errors && (weightEvolution.touched || weightEvolution.dirty)">
+            Este campo es requerido
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div fxLayout="column">
+      <h2 class="mat-title form-section" fxFlex="100">Funciones vitales</h2>
+      <div fxLayout="row" fxLayoutGap="24px">
+        <mat-form-field fxFlex>
+          <mat-label>Presión arterial sistólica (mmHg)</mat-label>
+          <!-- -->
+          <input type="number" name="systolic" min="0" matInput #systolic="ngModel"
+                [(ngModel)]="note.triage.vitalFunctions.systolic"(change)="updateComputedFields()" required>
+          <mat-error *ngIf="systolic.errors && (systolic.touched || systolic.dirty)">
+            Este campo es requerido
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field fxFlex>
+          <mat-label>Presión arterial diastólica (mmHg)</mat-label>
+          <input type="number" name="diastolic" min="0" matInput #diastolic="ngModel"
+                 [(ngModel)]="note.triage.vitalFunctions.diastolic" (change)="updateComputedFields()" required>
+          <mat-error *ngIf="diastolic.errors && (diastolic.touched || diastolic.dirty)">
+            Este campo es requerido
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field fxFlex>
+          <mat-label>Frecuencia cardiaca (Hz)</mat-label>
+          <input type="number" name="heartRate" min="0" matInput #heartRate="ngModel"
+                 [(ngModel)]="note.triage.vitalFunctions.heartRate" required>
+          <mat-error *ngIf="heartRate.errors && (heartRate.touched || heartRate.dirty)">
+            Este campo es requerido
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div fxLayout="row" fxLayoutGap="24px">
+        <mat-form-field fxFlex>
+          <mat-label>Frecuencia respiratoria (Hz)</mat-label>
+          <input type="number" name="respiratoryRate" min="0" #respiratoryRate="ngModel" matInput
+                 [(ngModel)]="note.triage.vitalFunctions.respiratoryRate" required>
+          <mat-error *ngIf="respiratoryRate.errors && (respiratoryRate.touched || respiratoryRate.dirty)">
+            Este campo es requerido
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field fxFlex>
+          <mat-label>Temperatura (C°)</mat-label>
+          <input type="number" name="temperature" min="0" matInput #temperature="ngModel"
+                 [(ngModel)]="note.triage.vitalFunctions.temperature" required>
+          <mat-error *ngIf="temperature.errors && (temperature.touched || temperature.dirty)">
+            Este campo es requerido
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field fxFlex>
+          <mat-label>Perímetro abdominal (cm)</mat-label>
+          <input type="number" name="waistCircumference" min="0" matInput #waistCircumference="ngModel"
+                 [(ngModel)]="note.triage.vitalFunctions.waistCircumference"
+                 (change)="updateComputedFields()" required>
+          <mat-error *ngIf="waistCircumference.errors && (waistCircumference.touched || waistCircumference.dirty)">
+            Este campo es requerido
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div fxLayout="row" fxLayoutGap="24px">
+        <mat-form-field fxFlex="32">
+          <mat-label>Talla (m)</mat-label>
+          <input type="number" name="height" min="0" step="0.01" matInput #height="ngModel"
+                 [(ngModel)]="note.triage.vitalFunctions.height" (change)="updateComputedFields()" required>
+          <mat-error *ngIf="height.errors && (height.touched || height.dirty)">
+            Este campo es requerido
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field fxFlex="32">
+          <mat-label>Peso (Kg)</mat-label>
+          <input type="number" name="weight" min="0" matInput #weight="ngModel"
+                 [(ngModel)]="note.triage.vitalFunctions.weight" (change)="updateComputedFields()" required>
+          <mat-error *ngIf="weight.errors && (weight.touched || weight.dirty)">
+            Este campo es requerido
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div fxLayout="column">
+      <h2 class="mat-title form-section" fxFlex="100">Otros</h2>
+      <div fxLayout="row" fxLayoutGap="24px">
+        <mat-form-field fxFlex>
+          <mat-label>Colesterol Total (mg/dL)</mat-label>
+          <input type="number" name="totalCholesterol" min="0" matInput #totalCholesterol="ngModel"
+                 [(ngModel)]="note.triage.others.totalCholesterol"
+                 (change)="updateComputedFields()" required>
+        </mat-form-field>
+        <mat-form-field fxFlex>
+          <mat-label>Colesterol LDL (mg/dL)</mat-label>
+          <input type="number" name="ldlCholesterol" min="0" matInput #ldlCholesterol="ngModel"
+                  [(ngModel)]="note.triage.others.ldlCholesterol" (change)="updateComputedFields()" required>
+        </mat-form-field>
+        <mat-form-field fxFlex>
+          <mat-label>Colesterol HDL (mg/dL)</mat-label>
+          <input type="number" name="hdlCholesterol" min="0" matInput #hdlCholesterol="ngModel"
+                  [(ngModel)]="note.triage.others.hdlCholesterol" (change)="updateComputedFields()" required>
+        </mat-form-field>
+      </div>
+      <div fxLayout="row" fxLayoutGap="24px">
+        <mat-form-field fxFlex>
+          <mat-label>Relación CT/HDL</mat-label>
+          <input type="number" readonly name="hdlCholesterol" matInput
+                 [value]="[note.triage.others.totalCholesterol +' / '+ note.triage.others.hdlCholesterol]">
+        </mat-form-field>
+        <mat-form-field fxFlex>
+          <mat-label>Glicemia (mg/dL)</mat-label>
+          <input type="number" name="glycemia" min="0" matInput #glycemia="ngModel"
+                 [(ngModel)]="note.triage.others.glycemia" (change)="updateComputedFields()" required>
+        </mat-form-field>
+        <mat-form-field fxFlex>
+          <mat-label>Hemoglobina glicosilada (%)</mat-label>
+          <input type="number" name="glycatedHemoglobin" min="0" matInput #glycatedHemoglobin="ngModel"
+                 [(ngModel)]="note.triage.others.glycatedHemoglobin" (change)="updateComputedFields()" required>
+        </mat-form-field>
+      </div>
+      <div fxLayout="row" fxLayoutGap="24px">
+        <mat-form-field fxFlex="32">
+          <mat-label>Albúmina en orina de 24h (mg)</mat-label>
+          <input type="number" name="urineAlbumin" min="0" matInput #urineAlbumin="ngModel"
+                 [(ngModel)]="note.triage.others.urineAlbumin" (change)="updateComputedFields()" required>
+        </mat-form-field>
+        <mat-form-field fxFlex="32">
+          <mat-label>Depuración de creatinina (ml/min)</mat-label>
+          <input type="number" name="creatinineClearance" min="0" matInput #creatinineClearance="ngModel"
+                 [(ngModel)]="note.triage.others.creatinineClearance" (change)="updateComputedFields()" required>
+        </mat-form-field>
+      </div>
+    </div>
+    <div fxLayout="column" class="indicators">
+      <h2 class="mat-title form-section" fxFlex="100">Indicadores</h2>
+      <div fxLayout="row" fxLayoutGap="24px">
+        <mat-form-field fxFlex class="md-icon-right">
+          <mat-label>IMC (Kg/m2)</mat-label>
+          <!--<mat-icon class="md-warn" *ngIf="note.triage.vitalFunctions.bmi > 25"> error_outline</mat-icon>-->
+          <input type="number" readonly name="bmi" matInput #bmi="ngModel"
+                 [(ngModel)]="note.triage.vitalFunctions.bmi" />
+          <mat-icon (click)="showIndicatorDialog('bmi')"> open_in_new</mat-icon>
+        </mat-form-field>
+        <mat-form-field fxFlex>
+          <mat-label>Riesgo cardiovascular Framingham (%)</mat-label>
+          <!--<mat-icon class="md-warn" *ngIf="note.triage.vitalFunctions.cardiovascularRiskFramingham > 20"> error_outline</mat-icon>-->
+          <input type="text" readonly name="cardiovascularRiskFramingham" matInput #cardiovascularRiskFramingham="ngModel"
+                 [(ngModel)]="note.triage.vitalFunctions.cardiovascularRiskFramingham" />
+          <mat-icon (click)="showIndicatorDialog('cardiovascularRiskFramingham')"> open_in_new</mat-icon>
+        </mat-form-field>
+        <mat-form-field fxFlex>
+          <mat-label>Riesgo cardiovascular Reynolds (%)</mat-label>
+          <!--<mat-icon class="md-warn" *ngIf="vm.note.triage.vitalFunctions.cardiovascularRiskReynolds > 7"> error_outline</mat-icon>-->
+          <input type="number" name="cardiovascularRiskReynolds" matInput #cardiovascularRiskReynolds="ngModel"
+                 [(ngModel)]="note.triage.vitalFunctions.cardiovascularRiskReynolds" />
+          <mat-icon (click)="showIndicatorDialog('cardiovascularRiskReynolds')"> open_in_new</mat-icon>
+        </mat-form-field>
+      </div>
+      <div fxLayout="row" fxLayoutGap="24px">
+        <mat-form-field fxFlex>
+          <mat-label>Riesgo de hipertensión, 4 años (%)</mat-label>
+          <!--<mat-icon class="md-warn" *ngIf="vm.note.triage.vitalFunctions.hypertensionRisk > 7"> error_outline</mat-icon>-->
+          <input type="number" name="hypertensionRisk" matInput #hypertensionRisk="ngModel"
+                 [(ngModel)]="note.triage.vitalFunctions.hypertensionRisk" />
+          <mat-icon (click)="showIndicatorDialog('hypertensionRisk')"> open_in_new</mat-icon>
+        </mat-form-field>
+        <mat-form-field fxFlex>
+          <mat-label>Riesgo de Diabetes Melitus, 10 años (%)</mat-label>
+          <!--<mat-icon class="md-warn" ng-if="vm.note.triage.vitalFunctions.diabetesRisk > 7"> error_outline</mat-icon>-->
+          <input type="number" readonly name="diabetesRisk" matInput #diabetesRisk="ngModel"
+                 [(ngModel)]="note.triage.vitalFunctions.diabetesRisk" />
+          <mat-icon (click)="showIndicatorDialog('diabetesRisk')"> open_in_new</mat-icon>
+        </mat-form-field>
+        <mat-form-field fxFlex>
+          <mat-label>Riesgo de Fractura, 10 años (%)</mat-label>
+          <!--<mat-icon class="md-warn" *ngIf="note.triage.vitalFunctions.fractureRisk > 7"> error_outline</mat-icon>-->
+          <input type="text" readonly name="fractureRisk" matInput #fractureRisk="ngModel"
+                 [(ngModel)]="note.triage.vitalFunctions.fractureRisk" />
+          <mat-icon (click)="showIndicatorDialog('fractureRisk')"> open_in_new</mat-icon>
+
+        </mat-form-field>
+      </div>
+      <div fxLayout="row" fxLayoutGap="24px">
+        <mat-form-field fxFlex="32">
+          <mat-label>Edad cardiovascular (años)</mat-label>
+          <!--<mat-icon class="md-warn" *ngIf="note.triage.vitalFunctions.cardiovascularAge > (patient.age + 10)"> error_outline</mat-icon>-->
+          <input type="number" readonly name="cardiovascularAge" matInput #cardiovascularAge="ngModel"
+                 [(ngModel)]="note.triage.vitalFunctions.cardiovascularAge" />
+          <mat-icon (click)="showIndicatorDialog('cardiovascularAge')"> open_in_new</mat-icon>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+</div>

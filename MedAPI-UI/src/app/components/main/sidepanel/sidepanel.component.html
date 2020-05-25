@@ -1,7 +1,7 @@
 <div>
   <mat-nav-list>
     <ng-container *ngFor="let menu of navMenus">
-      <mat-list-item (click)="navigateToPage(menu)"> {{menu.name}}</mat-list-item>
+      <mat-list-item class="text-upper" (click)="navigateToPage(menu.pageUrl)"> {{menu.name}}</mat-list-item>
     </ng-container>
   </mat-nav-list>
 </div>

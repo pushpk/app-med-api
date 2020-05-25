@@ -30,6 +30,10 @@ mat-toolbar {
   mat-card {
     margin-bottom: 32px;
 
+    &.no-pad {
+      padding: 0;
+    }
+
     @media screen and (max-width: $sm) {
       margin-bottom: 8px;
     }
@@ -218,4 +222,48 @@ mat-input-container {
   background: #fff;
   text-align: center;
   padding: 24px;
+}
+
+.mat-tab-label {
+  text-transform: uppercase;
+}
+
+mat-error {
+  &.mat-error {
+    color: rgb(255,171,0);
+  }
+}
+
+.mat-warn .mat-input-element, .mat-form-field-invalid .mat-input-element {
+  caret-color: rgb(255,171,0);
+}
+
+.mat-form-field {
+  &.mat-form-field-invalid {
+    .mat-form-field-label {
+      color: rgb(255,171,0);
+
+      .mat-form-field-required-marker, &.mat-accent {
+        color: rgb(255,171,0);
+      }
+    }
+
+    .mat-form-field-ripple {
+      background: rgb(255,171,0);
+
+      &.mat-accent {
+        background: rgb(255,171,0);
+      }
+    }
+  }
+}
+
+.mat-form-field-underline {
+  .mat-form-field-appearance-legacy {
+    &.mat-form-field-invalid:not(.mat-focused) {
+      .mat-form-field-ripple {
+        height: 2px;
+      }
+    }
+  }
 }

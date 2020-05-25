@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sidepanel',
@@ -7,19 +8,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SidepanelComponent implements OnInit {
 
-  navMenus: any[] = [{ name: 'Inicio', pageUrl: '' },
-    { name: 'Médicos', pageUrl: '' },
-    { name: 'Afiliar paciente', pageUrl: '' },
-    { name: 'Atención General', pageUrl: '' },
-    { name: 'Atención de Cardiología', pageUrl: '' }];
+  navMenus: any[] = [{ name: 'Inicio', pageUrl: 'records' },
+    //{ name: 'Médicos', pageUrl: '' },
+    { name: 'Afiliar paciente', pageUrl: 'patients/new' },
+    { name: 'Atención General', pageUrl: 'records/notes/new/general' },
+    { name: 'Atención de Cardiología', pageUrl: 'records/notes/new/cardiology' }];
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
   }
 
-  navigateToPage(page: any) {
-
+  navigateToPage(url: any) {
+    this.router.navigateByUrl(url);
   }
 
 }

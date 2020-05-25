@@ -1,0 +1,165 @@
+<div class="layout-padding general symptoms" fxLayout="column">
+  <div fxLayout="column">
+    <h2 class="mat-title form-section" fxFlex="100">Síntomas</h2>
+    <div fxLayout="column">
+      <mat-form-field fxFlex>
+        <mat-label>Descripción</mat-label>
+        <textarea matInput name="symptoms" class="max-width" maxlength="250" #symptoms="ngModel"
+                  [(ngModel)]="note.symptoms.description">
+        </textarea>
+        <mat-hint align="end">{{symptoms.value?.length || 0}}/250</mat-hint>
+      </mat-form-field>
+      <div fxLayout="row" fxLayoutGap="24px">
+        <mat-form-field fxFlex="32">
+          <mat-label>Tiempo de síntoma</mat-label>
+          <input type="number" name="symptomDuration" min="0" matInput #symptomDuration="ngModel"
+                 [(ngModel)]="note.symptoms.duration" required>
+          <mat-error *ngIf="symptomDuration.errors && (symptomDuration.touched || symptomDuration.dirty)">
+            Este campo es requerido
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field fxFlex="32">
+          <mat-label>Unidades</mat-label>
+          <mat-select name="durationUnit" class="max-width" #durationUnit="ngModel"
+                      [(ngModel)]="note.symptoms.durationUnit" required>
+            <mat-option *ngFor="let c of resources.durationUnits" [value]="c.id">{{c.name}}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="durationUnit.errors && (durationUnit.touched || durationUnit.dirty)">
+            Este campo es requerido
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <mat-form-field fxFlex>
+        <mat-label>Relato</mat-label>
+        <textarea matInput name="background" class="max-width" maxlength="250" #background="ngModel"
+                  [(ngModel)]="note.symptoms.background">
+        </textarea>
+        <mat-hint align="end">{{background.value?.length || 0}}/250</mat-hint>
+        <mat-error *ngIf="background.errors && (background.touched || background.dirty)">
+          Este campo es requerido
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div fxLayout="column" fxLayoutGap="24px">
+      <h2 class="mat-title form-section" fxFlex="100">Examen físico</h2>
+      <mat-form-field fxFlex>
+        <mat-label>Descripción</mat-label>
+        <textarea matInput name="physicalExam" class="max-width" maxlength="250" #physicalExam="ngModel"
+                  [(ngModel)]="note.physicalExam.text">
+        </textarea>
+        <mat-hint align="end">{{physicalExam.value?.length || 0}}/250</mat-hint>
+        <mat-error *ngIf="physicalExam.errors && (physicalExam.touched || physicalExam.dirty)">
+          Este campo es requerido
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div fxLayout="column" fxLayoutGap="24px">
+      <h2 class="mat-title form-section" fxFlex="100">Diagnóstico</h2>
+      <mat-form-field fxFlex>
+        <mat-label>Buscar CIE10 por código o nombre</mat-label>
+        <input type="text"
+               placeholder="Pick one"
+               aria-label="Number"
+               matInput
+               [formControl]="myControl"
+               [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let option of options" [value]="option">
+            {{option}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <mat-form-field fxFlex>
+        <mat-label>Observaciones</mat-label>
+        <textarea matInput name="diagnosis" class="max-width" maxlength="250" #diagnosis="ngModel"
+                  [(ngModel)]="note.diagnosis.observations">
+        </textarea>
+        <mat-hint align="end">{{diagnosis.value?.length || 0}}/250</mat-hint>
+        <mat-error *ngIf="diagnosis.errors && (diagnosis.touched || diagnosis.dirty)">
+          Este campo es requerido
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div fxLayout="column" fxLayoutGap="24px">
+      <h2 class="mat-title form-section" fxFlex="100">Exámenes</h2>
+      <mat-form-field fxFlex>
+        <mat-label>Buscar exámenes</mat-label>
+        <input type="text"
+               placeholder="Pick one"
+               aria-label="Number"
+               matInput
+               [formControl]="myControl"
+               [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let option of options" [value]="option">
+            {{option}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <mat-form-field fxFlex>
+        <mat-label>Observaciones</mat-label>
+        <textarea matInput name="exams" class="max-width" maxlength="250" #exams="ngModel"
+                  [(ngModel)]="note.exams.observations">
+        </textarea>
+        <mat-hint align="end">{{exams.value?.length || 0}}/250</mat-hint>
+        <mat-error *ngIf="exams.errors && (exams.touched || exams.dirty)">
+          Este campo es requerido
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div fxLayout="column" fxLayoutGap="24px">
+      <h2 class="mat-title form-section" fxFlex="100">Tratamiento</h2>
+      <mat-form-field fxFlex>
+        <mat-label>Buscar medicamentos</mat-label>
+        <input type="text"
+               placeholder="Pick one"
+               aria-label="Number"
+               matInput
+               [formControl]="myControl"
+               [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let option of options" [value]="option">
+            {{option}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <mat-form-field fxFlex>
+        <mat-label>Otros</mat-label>
+        <textarea matInput name="treatments" class="max-width" maxlength="250" #treatments="ngModel"
+                  [(ngModel)]="note.treatments.other">
+        </textarea>
+        <mat-hint align="end">{{treatments.value?.length || 0}}/250</mat-hint>
+        <mat-error *ngIf="treatments.errors && (treatments.touched || treatments.dirty)">
+          Este campo es requerido
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div fxLayout="column" fxLayoutGap="24px">
+      <h2 class="mat-title form-section" fxFlex="100">Interconsulta</h2>
+      <mat-form-field fxFlex>
+        <mat-label>Buscar especialidades</mat-label>
+        <input type="text"
+               placeholder="Pick one"
+               aria-label="Number"
+               matInput
+               [formControl]="myControl"
+               [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let option of options" [value]="option">
+            {{option}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <mat-form-field fxFlex>
+        <mat-label>Motivo</mat-label>
+        <textarea matInput name="interconsultation" class="max-width" maxlength="250" #interconsultation="ngModel"
+                  [(ngModel)]="note.interconsultation.reason">
+        </textarea>
+        <mat-hint align="end">{{interconsultation.value?.length || 0}}/250</mat-hint>
+        <mat-error *ngIf="interconsultation.errors && (interconsultation.touched || interconsultation.dirty)">
+          Este campo es requerido
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+</div>

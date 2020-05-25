@@ -1,0 +1,49 @@
+<div class="summary print layout-padding" fxLayout="column">
+
+  <!-- <div layout="row" layout-wrap *ngIf="form.$error!=={}">
+      <h2>Complete todos los campos obligatorios para continuar.</h2>
+  </div> -->
+
+  <div fxLayout="row">
+    <!--*ngIf="!submit.waiting && !submit.success"-->
+    <h2 fxFlex="100">Ahora puede guardar la atención</h2>
+
+    <!--<div fxFlex="100" *ngIf="!note.id">
+      <mat-button href="{{config.api_host}}/note/{{note.id}}/report/note" target="_blank">
+      Descargar Atención
+    </mat-button>
+
+    <mat-button href="{{config.api_host}}/note/{{note.id}}/report/prescription" target="_blank">
+      Descargar Receta médica
+    </mat-button>
+
+    <mat-button href="{{config.api_host}}/note/{{note.id}}/report/specialty" target="_blank">
+      Descargar Interconsulta
+    </mat-button>
+    </div>-->
+  </div>
+
+  <!--<div fxLayout="row" *ngIf="submit.waiting">
+    <h2>Guardando la atención...</h2>
+  </div>-->
+
+  <!--<div fxLayout="row" *ngIf="!submit.waiting && submit.success">
+    <h2 fxFlex="100">La atención se ha registrado correctamente</h2>
+
+    <div fxFlex="100" *ngIf="!note.id">
+
+      <mat-button href="{{config.api_host}}/note/{{note.id}}/report/note" target="_blank">
+        Descargar Atención
+      </mat-button>
+
+      <mat-button href="{{config.api_host}}/note/{{note.id}}/report/prescription" target="_blank">
+        Descargar Receta médica
+      </mat-button>
+
+      <mat-button href="{{config.api_host}}/note/{{note.id}}/report/specialty" target="_blank">
+        Descargar Interconsulta
+      </mat-button>
+    </div>
+  </div>-->
+
+</div>

@@ -27,6 +27,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { SidenavComponent } from './sidenav/sidenav.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 @NgModule({
   declarations: [HeaderComponent, SidenavComponent],
@@ -42,7 +43,8 @@ import { SidenavComponent } from './sidenav/sidenav.component';
     MatSidenavModule,
     MatToolbarModule,
     FlexLayoutModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatAutocompleteModule
   ],
   exports: [
     HeaderComponent,
@@ -57,7 +59,7 @@ import { SidenavComponent } from './sidenav/sidenav.component';
     MatDividerModule,
     MatExpansionModule,
     MatIconModule,
-    MatInputModule,
+    MatAutocompleteModule,
     MatListModule,
     MatMenuModule,
     MatPaginatorModule,

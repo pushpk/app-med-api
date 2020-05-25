@@ -1,36 +1,31 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../../environments/environment';
+import { HttpUtilService } from '../../../services/http-util.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RecordService {
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpUtilService: HttpUtilService) { }
 
   getPatientsByDocNumber(documentNumber: any) {
     const self = this;
     const apiEndpoint = 'record/patient';
-    const url = environment.apiUrl + apiEndpoint;
-    return self.httpClient.get(url + '?documentNumber=' + documentNumber).toPromise().then(
-      (response) => {
-        return response;
-      }
-    ).catch((error) => {
-      return error;
-    });
+    const params = {
+      key: 'documentNumber',
+      value: documentNumber
+    }
+    return self.httpUtilService.invokeQuery('GET', params, apiEndpoint);
   }
+
   getPatientsByTicketNumber(ticketNumber: any) {
     const self = this;
     const apiEndpoint = 'record/patient';
-    const url = environment.apiUrl + apiEndpoint;
-    return self.httpClient.get(url + '?id=' + ticketNumber).toPromise().then(
-      (response) => {
-        return response;
-      }
-    ).catch((error) => {
-      return error;
-    });
+    const params = {
+      key: 'id',
+      value: ticketNumber
+    }
+    return self.httpUtilService.invokeQuery('GET', params, apiEndpoint);
   }
 }

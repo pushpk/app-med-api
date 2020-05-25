@@ -8,14 +8,13 @@ import { NoteComponent } from '../note/note.component';
 
 const routes: Routes = [
   {
-    path: '', component: RecordComponent, children: [
-      { path: 'notes', component: NoteComponent },
-    ]
-  }
+    path: '', component: RecordComponent
+  },
+  { path: 'notes', loadChildren: () => import('../note/note.module').then(m => m.NoteModule) }
 ];
 
 @NgModule({
-  declarations: [RecordComponent, NoteComponent],
+  declarations: [RecordComponent],
   imports: [
     CommonModule,
     FormsModule,

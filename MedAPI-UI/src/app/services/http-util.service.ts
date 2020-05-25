@@ -33,4 +33,28 @@ export class HttpUtilService {
     return promise;
   }
 
+
+  invokeQuery(method, params, endPoint) {
+    let url = environment.apiUrl + endPoint;
+    const requestHeaders: any = {
+      'Content-Type': 'application/json',
+      Accept: 'application/json'
+    };
+
+    const headers = new HttpHeaders(requestHeaders);
+    url = url + '?' + params.key + '=' + params.value;
+
+    const promise = new Promise((resolve, reject) => {
+      this.httpClient.request(method, url, { headers })
+        .toPromise()
+        .then((response: any) => {
+          return resolve(response);
+        })
+        .catch((error) => {
+          return reject(error);
+        });
+    });
+    return promise;
+  }
+
 }

@@ -27,14 +27,11 @@ export class SidenavComponent implements OnInit {
       this.commonService.slideEmitter.subscribe((open: boolean = false) => {
         if (open) {
           this.drawer.open();
-          this.commonService.sideBarBool = true;
         } else {
           if (this.drawer.opened) {
             this.drawer.close();
-            this.commonService.sideBarBool = false;
           } else {
             this.drawer.open();
-            this.commonService.sideBarBool = true;
           }
         }
       });
@@ -43,13 +40,11 @@ export class SidenavComponent implements OnInit {
 
       if (this.commonService.isSidebarOpened === null) {
         this.commonService.isSidebarOpened = 'false';
-        this.commonService.sideBarBool = false;
       }
 
       const isSidebarOpened = this.commonService.isSidebarOpened.replace(/['"]+/g, '');
       if (isSidebarOpened === 'true') {
         this.drawer.open();
-        this.commonService.sideBarBool = true;
       }
     });
   }
