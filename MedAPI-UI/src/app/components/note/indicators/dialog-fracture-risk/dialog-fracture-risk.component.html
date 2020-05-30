@@ -1,0 +1,44 @@
+<div>
+  <button mat-icon-button class="close-button" [mat-dialog-close]="true">
+    <mat-icon class="close-icon">close</mat-icon>
+  </button>
+
+  <h1 mat-dialog-title>Datos para calcular Riesgo de Fractura a 10 años (%)</h1>
+</div>
+<div mat-dialog-content>
+  <div fxLayout="column" fxLayoutGap="15px">
+    <mat-form-field>
+      <mat-label>Edad</mat-label>
+      <input type="number" matInput min="0" [(ngModel)]="patient.age"
+             (change)="updateComputedFields()">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Peso (Kg)</mat-label>
+      <input type="number" matInput min="0" [(ngModel)]="data.note.triage.vitalFunctions.weight"
+             (change)="updateComputedFields()">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Caídas en el último año (cantidad)</mat-label>
+      <input type="number" matInput min="0" [(ngModel)]="patient.falls"
+             (change)="updateComputedFields()">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Fracturas previas (cantidad)</mat-label>
+      <input type="number" matInput min="0" [(ngModel)]="patient.previousFractures"
+             (change)="updateComputedFields()">
+    </mat-form-field>
+
+    <mat-form-field ngClass="{'mat-icon-left mat-has-icon': data.note.triage.vitalFunctions.fractureRisk > 7}">
+      <label>Riesgo de Fractura, 10 años (%)</label>
+      <mat-icon color="warn" *ngIf="data.note.triage.vitalFunctions.fractureRisk > 7"> error_outline</mat-icon>
+      <input type="text" matInput readonly name="fractureRisk"
+             [(ngModel)]="data.note.triage.vitalFunctions.fractureRisk">
+    </mat-form-field>
+  </div>
+</div>
+<div mat-dialog-actions fxLayout="row" fxLayoutAlign="end">
+  <button mat-button (click)="cancel()">Cancelar</button>
+  <button mat-button color="primary" (click)="answer()" cdkFocusInitial>
+    Aceptar
+  </button>
+</div>

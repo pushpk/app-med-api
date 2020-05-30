@@ -1,0 +1,32 @@
+<div>
+  <button mat-icon-button class="close-button" [mat-dialog-close]="true">
+    <mat-icon class="close-icon">close</mat-icon>
+  </button>
+
+  <h1 mat-dialog-title>Datos para calcular BMI</h1>
+</div>
+<div mat-dialog-content>
+  <div fxLayout="column" fxLayoutGap="15px">
+    <mat-form-field>
+      <mat-label>Talla (m)</mat-label>
+      <input type="number" min="0" step="0.01" matInput [(ngModel)]="data.note.triage.vitalFunctions.height"
+             (change)="updateComputedFields()">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Peso (Kg)</mat-label>
+      <input type="number" min="0" step="0.01" matInput [(ngModel)]="data.note.triage.vitalFunctions.weight"
+             (change)="updateComputedFields()">
+    </mat-form-field>
+    <mat-form-field ngClass="{'mat-icon-left mat-has-icon': data.note.triage.vitalFunctions.bmi > 25}">
+      <mat-label>IMC (Kg/m2)</mat-label>
+      <mat-icon color="warn" *ngIf="data.note.triage.vitalFunctions.bmi > 25">error_outline</mat-icon>
+      <input type="number"matInput readonly name="bmi" [(ngModel)]="data.note.triage.vitalFunctions.bmi">
+    </mat-form-field>
+  </div>
+</div>
+<div mat-dialog-actions fxLayout="row" fxLayoutAlign="end">
+  <button mat-button (click)="cancel()">Cancelar</button>
+  <button mat-button color="primary" (click)="answer()" cdkFocusInitial>
+    Aceptar
+  </button>
+</div>

@@ -1,0 +1,74 @@
+<div>
+  <button mat-icon-button class="close-button" [mat-dialog-close]="true">
+    <mat-icon class="close-icon">close</mat-icon>
+  </button>
+
+  <h1 mat-dialog-title>Datos para calcular Edad cardiovascular (años)</h1>
+</div>
+<div mat-dialog-content>
+  <div fxLayout="column">
+    <div fxFlex fxLayout="row" fxLayout.xs="column" fxLayoutGap="15px">
+      <mat-form-field fxFlex>
+        <mat-label>Sexo</mat-label>
+        <input type="text" matInput
+               [value]="patient.sex === 'M' ? 'Masculino' : 'Femenino'"
+               disabled>
+      </mat-form-field>
+      <mat-form-field fxFlex>
+        <mat-label>Es fumador</mat-label>
+        <input type="text" matInput
+               [value]="patient.cigarettes>0 ? 'Sí' : 'No'"
+               disabled>
+      </mat-form-field>
+    </div>
+    <div fxFlex fxLayout="row" fxLayout.xs="column" fxLayoutGap="15px">
+      <mat-form-field fxFlex>
+        <mat-label>Tratamiento Antihipertensivo</mat-label>
+        <input type="text" matInput [value]="patient.medicines.indexOf('ANTIHIPERTENSIVOS') !== -1 ? 'Sí' : 'No'"
+               disabled>
+      </mat-form-field>
+      <mat-form-field fxFlex>
+        <mat-label>Diabetes Melitus</mat-label>
+        <input type="text" matInput [value]="patient.personalBackground.indexOf('DIABETES_MELITUS_') !== -1 ? 'Sí' : 'No'"
+               disabled>
+      </mat-form-field>
+    </div>
+    <div fxFlex fxLayout="row" fxLayout.xs="column" fxLayoutGap="15px">
+      <mat-form-field fxFlex>
+        <mat-label>Edad</mat-label>
+        <input type="number" min="0" matInput
+               [(ngModel)]="patient.age"
+               (change)="updateComputedFields()">
+      </mat-form-field>
+      <mat-form-field fxFlex>
+        <mat-label>Presión arterial sistólica (mmHg)</mat-label>
+        <input type="number" matInput min="0" [(ngModel)]="data.note.triage.vitalFunctions.systolic"
+               (change)="updateComputedFields()">
+      </mat-form-field>
+    </div>
+    <div fxFlex fxLayout="row" fxLayout.xs="column" fxLayoutGap="15px">
+      <mat-form-field fxFlex>
+        <mat-label>Lipoproteína de alta densidad (mg/dL)</mat-label>
+        <input type="number" matInput min="0" [(ngModel)]="data.note.todo.HDL" ngInit="data.note.todo.HDL=45"
+               (change)="updateComputedFields()">
+      </mat-form-field>
+      <mat-form-field fxFlex>
+        <mat-label>Colesterol total (mg/dL)</mat-label>
+        <input type="number" matInput min="0" [(ngModel)]="data.note.todo.TCH" ngInit="data.note.todo.TCH=180"
+               (change)="updateComputedFields()">
+      </mat-form-field>
+    </div>    
+    <mat-form-field fxFlex ngClass="{'mat-icon-left mat-has-icon': data.note.triage.vitalFunctions.cardiovascularAge > (patient.age + 10)}">
+      <label>Edad cardiovascular (años)</label>
+      <mat-icon color="warn" *ngIf="data.note.triage.vitalFunctions.cardiovascularAge > (patient.age + 10)"> error_outline</mat-icon>
+      <input type="text" matInput readonly name="cardiovascularAge"
+             [(ngModel)]="data.note.triage.vitalFunctions.cardiovascularAge">
+    </mat-form-field>
+  </div>
+</div>
+<div mat-dialog-actions fxLayout="row" fxLayoutAlign="end">
+  <button mat-button (click)="cancel()">Cancelar</button>
+  <button mat-button color="primary" (click)="answer()" cdkFocusInitial>
+    Aceptar
+  </button>
+</div>

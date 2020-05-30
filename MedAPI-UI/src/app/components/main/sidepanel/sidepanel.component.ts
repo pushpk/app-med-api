@@ -9,10 +9,10 @@ import { Router } from '@angular/router';
 export class SidepanelComponent implements OnInit {
 
   navMenus: any[] = [{ name: 'Inicio', pageUrl: 'records' },
-    //{ name: 'Médicos', pageUrl: '' },
+    //{ name: 'Médicos', pageUrl: 'records' },
     { name: 'Afiliar paciente', pageUrl: 'patients/new' },
-    { name: 'Atención General', pageUrl: 'records/notes/new/general' },
-    { name: 'Atención de Cardiología', pageUrl: 'records/notes/new/cardiology' }];
+    { name: 'Atención General', pageUrl: 'records' },
+    { name: 'Atención de Cardiología', pageUrl: 'records' }];
 
   constructor(private router: Router) { }
 

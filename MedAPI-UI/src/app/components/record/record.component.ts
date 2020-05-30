@@ -2,6 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { RecordService } from './services/record.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
+import { Router } from '@angular/router';
+import { CheckEmptyUtil } from '../../shared/util/check-empty.util';
 
 export enum TicketStatus {
   REGISTERED = 0,
@@ -38,14 +40,15 @@ export class RecordComponent implements OnInit {
 
   displayedColumns: string[] = ['id', 'description', 'specialty', 'date', 'action'];
   dataSource: any;
-  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  selectedSpeciality: any;
 
-  specialities = [{ value: 'GENERAL', name: 'Medicina General' },
-  { value: 'CARDIOLOGY', name: 'Cardiología' },
-  { value: 'PEDIATRY', name: 'Pediatría' },
-  { value: 'TRAUMATOLOGY', name: 'Traumatología' }];
+  specialities = [{ value: 'GENERAL', name: 'Medicina General', id: 1 },
+  { value: 'CARDIOLOGY', name: 'Cardiología', id: 2 },
+  { value: 'PEDIATRY', name: 'Pediatría', id: 3 },
+  { value: 'TRAUMATOLOGY', name: 'Traumatología', id: 4 }];
 
-  constructor(private recordService: RecordService) { }
+  constructor(private recordService: RecordService, public router: Router) { }
 
   ngOnInit(): void {
     this.askTicket = false;
@@ -80,7 +83,7 @@ export class RecordComponent implements OnInit {
       self.patient.notes = response.notes;
       self.ticket = response.ticket;
       self.ticket.status = TicketStatus[<string>response.ticket.status];
-
+      //self.recordService.patientId= self.patient
       if (typeof self.patient.notes !== 'undefined' && self.patient.notes !== null) {
         console.log(JSON.stringify(self.patient.notes));
         this.dataSource = new MatTableDataSource<PastAttentions>(self.patient.notes);
@@ -108,7 +111,7 @@ export class RecordComponent implements OnInit {
     let self = this;
 
     self.waitingTicket = true;
-    this.recordService.getPatientsByDocNumber(this.documentNumber).then((response:any) => {
+    this.recordService.getPatientsByDocNumber(this.documentNumber).then((response: any) => {
       console.log(response);
       self.patient = response.patient;
       self.patient.notes = response.notes;
@@ -131,4 +134,41 @@ export class RecordComponent implements OnInit {
     });
   }
 
+  onSpecialityChange(event: any) {
+    if (CheckEmptyUtil.isNotEmptyObject(event)) {
+      this.selectedSpeciality = event.value.toLowerCase();
+      this.recordService.selectedSpecialty.next(this.selectedSpeciality);
+    } else {
+      this.recordService.selectedSpecialty.next('');
+    }
+  }
+
+  navigateToNotes() {
+    let routerPath = '/records/notes/new';
+    if (CheckEmptyUtil.isNotEmpty(event)) {
+      switch (this.selectedSpeciality) {
+        case 'general':
+          routerPath = routerPath + '/general';
+          break;
+        case 'cardiology':
+          routerPath = routerPath + '/cardiology';
+          break;
+        case 'pediatry':
+          routerPath = routerPath + '/pediatry';
+          break;
+        case 'traumatology':
+          routerPath = routerPath + '/traumatology';
+          break;
+        default:
+          routerPath = '/records/notes/new';
+          break;
+      }
+    }
+    this.router.navigateByUrl(routerPath);
+  }
+  navigateToPatient() {
+    let routerPath = '/patients';
+    this.router.navigateByUrl(routerPath);
+  }
+  
 }

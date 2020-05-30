@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { NoteService } from './services/note.service';
 import { FormControl } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { RecordService } from '../record/services/record.service';
+import { CheckEmptyUtil } from '../../shared/util/check-empty.util';
 
 @Component({
   selector: 'app-note',
@@ -31,7 +34,11 @@ export class NoteComponent implements OnInit {
 
   tabs: Array<{ title: string; }>;
 
-  constructor(private noteService: NoteService) {
+  constructor(private noteService: NoteService,
+    public route: ActivatedRoute,
+    public router: Router,
+    private recordService: RecordService
+  ) {
     const self = this;
     self.selectedDiagnosis = null;
     self.searchDiagnosis = '';
@@ -113,6 +120,11 @@ export class NoteComponent implements OnInit {
           creatinineClearance: ''
 
         }
+      },
+      todo: {
+        HSCRP: [],
+        HDL: [],
+        TCH: []
       }
     };
 
@@ -147,18 +159,21 @@ export class NoteComponent implements OnInit {
         }
       };
     }
-
-    self.getResources();
-
-    self.tabs = self.showTabs(this.specialty);
-    console.log(self.tabs, 'self.tabs');
   }
 
   ngOnInit(): void {
+    this.recordService.selectedSpecialty.subscribe((value) => {
+      console.log(value);
+      //this.router.navigateByUrl('/records');      
+      this.specialty = value;
+    });
+
+    this.getResources();
+    this.tabs = this.showTabs(this.specialty);
+    console.log(this.tabs, 'self.tabs');
   }
 
   private showTabs(specialty: string) {
-
     switch (specialty) {
       case 'cardiology':
         return [

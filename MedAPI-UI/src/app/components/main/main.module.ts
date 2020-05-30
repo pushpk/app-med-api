@@ -8,7 +8,8 @@ import { SharedModule } from '../../shared/shared.module';
 const routes: Routes = [
   {
     path: '', component: MainComponent, children: [
-      { path: 'records', loadChildren: () => import('../record/record.module').then(m => m.RecordModule) }
+      { path: 'records', loadChildren: () => import('../record/record.module').then(m => m.RecordModule) },
+      { path: 'patients', loadChildren: () => import('../patient/patient.module').then(m => m.PatientModule) }
     ]
   }
 ];

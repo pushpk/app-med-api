@@ -28,9 +28,10 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { SidenavComponent } from './sidenav/sidenav.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { NgInit } from './directive/nginit.directive';
 
 @NgModule({
-  declarations: [HeaderComponent, SidenavComponent],
+  declarations: [HeaderComponent, SidenavComponent, NgInit],
   imports: [
     CommonModule,
     HttpClientModule,
@@ -73,7 +74,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     MatToolbarModule,
     FlexLayoutModule,
     SidenavComponent,
-    MatProgressBarModule
+    MatProgressBarModule,
+    NgInit
   ]
 })
 export class SharedModule { }

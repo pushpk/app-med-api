@@ -1,11 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { HttpUtilService } from '../../../services/http-util.service';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RecordService {
+  public patientId: BehaviorSubject<any> = new BehaviorSubject('');
+  public ticketNumber: BehaviorSubject<any> = new BehaviorSubject('');
+  public selectedSpecialty: BehaviorSubject<string> = new BehaviorSubject('');
 
   constructor(private httpUtilService: HttpUtilService) { }
 

@@ -5,7 +5,7 @@
       <div fxLayout="row" fxLayoutGap="24px">
         <mat-form-field fxFlex>
           <mat-label>Apetito</mat-label>
-          <mat-select name="hungers" class="max-width" required  #hunger="ngModel"
+          <mat-select name="hungers" class="max-width" required #hunger="ngModel"
                       [(ngModel)]="note.triage.biologicalFunctions.hunger">
             <mat-option *ngFor="let c of resources.hungers" [value]="c.id">{{c.name}}</mat-option>
           </mat-select>
@@ -74,7 +74,7 @@
           <mat-label>Presión arterial sistólica (mmHg)</mat-label>
           <!-- -->
           <input type="number" name="systolic" min="0" matInput #systolic="ngModel"
-                [(ngModel)]="note.triage.vitalFunctions.systolic"(change)="updateComputedFields()" required>
+                 [(ngModel)]="note.triage.vitalFunctions.systolic" (change)="updateComputedFields()" required>
           <mat-error *ngIf="systolic.errors && (systolic.touched || systolic.dirty)">
             Este campo es requerido
           </mat-error>
@@ -154,12 +154,12 @@
         <mat-form-field fxFlex>
           <mat-label>Colesterol LDL (mg/dL)</mat-label>
           <input type="number" name="ldlCholesterol" min="0" matInput #ldlCholesterol="ngModel"
-                  [(ngModel)]="note.triage.others.ldlCholesterol" (change)="updateComputedFields()" required>
+                 [(ngModel)]="note.triage.others.ldlCholesterol" (change)="updateComputedFields()" required>
         </mat-form-field>
         <mat-form-field fxFlex>
           <mat-label>Colesterol HDL (mg/dL)</mat-label>
           <input type="number" name="hdlCholesterol" min="0" matInput #hdlCholesterol="ngModel"
-                  [(ngModel)]="note.triage.others.hdlCholesterol" (change)="updateComputedFields()" required>
+                 [(ngModel)]="note.triage.others.hdlCholesterol" (change)="updateComputedFields()" required>
         </mat-form-field>
       </div>
       <div fxLayout="row" fxLayoutGap="24px">
@@ -195,60 +195,101 @@
     <div fxLayout="column" class="indicators">
       <h2 class="mat-title form-section" fxFlex="100">Indicadores</h2>
       <div fxLayout="row" fxLayoutGap="24px">
-        <mat-form-field fxFlex class="md-icon-right">
-          <mat-label>IMC (Kg/m2)</mat-label>
-          <!--<mat-icon class="md-warn" *ngIf="note.triage.vitalFunctions.bmi > 25"> error_outline</mat-icon>-->
-          <input type="number" readonly name="bmi" matInput #bmi="ngModel"
-                 [(ngModel)]="note.triage.vitalFunctions.bmi" />
-          <mat-icon (click)="showIndicatorDialog('bmi')"> open_in_new</mat-icon>
-        </mat-form-field>
-        <mat-form-field fxFlex>
-          <mat-label>Riesgo cardiovascular Framingham (%)</mat-label>
-          <!--<mat-icon class="md-warn" *ngIf="note.triage.vitalFunctions.cardiovascularRiskFramingham > 20"> error_outline</mat-icon>-->
-          <input type="text" readonly name="cardiovascularRiskFramingham" matInput #cardiovascularRiskFramingham="ngModel"
-                 [(ngModel)]="note.triage.vitalFunctions.cardiovascularRiskFramingham" />
-          <mat-icon (click)="showIndicatorDialog('cardiovascularRiskFramingham')"> open_in_new</mat-icon>
-        </mat-form-field>
-        <mat-form-field fxFlex>
-          <mat-label>Riesgo cardiovascular Reynolds (%)</mat-label>
-          <!--<mat-icon class="md-warn" *ngIf="vm.note.triage.vitalFunctions.cardiovascularRiskReynolds > 7"> error_outline</mat-icon>-->
-          <input type="number" name="cardiovascularRiskReynolds" matInput #cardiovascularRiskReynolds="ngModel"
-                 [(ngModel)]="note.triage.vitalFunctions.cardiovascularRiskReynolds" />
-          <mat-icon (click)="showIndicatorDialog('cardiovascularRiskReynolds')"> open_in_new</mat-icon>
-        </mat-form-field>
+        <div fxFlex fxLayout="row">
+          <mat-form-field fxFlex="80">
+            <mat-label>IMC (Kg/m2)</mat-label>
+            <!--<mat-icon class="md-warn" *ngIf="note.triage.vitalFunctions.bmi > 25"> error_outline</mat-icon>-->
+            <input type="number" readonly name="bmi" matInput #bmi="ngModel"
+                   [(ngModel)]="note.triage.vitalFunctions.bmi" />
+          </mat-form-field>
+          <div fxFlex="20" fxLayout="row" fxLayoutAlign="end">
+            <button mat-icon-button (click)="showIndicatorDialog('bmi')">
+              <mat-icon>open_in_new</mat-icon>
+            </button>
+          </div>
+        </div>
+        <div fxFlex fxLayout="row">
+          <mat-form-field fxFlex="80">
+            <mat-label>Riesgo cardiovascular Framingham (%)</mat-label>
+            <!--<mat-icon class="md-warn" *ngIf="note.triage.vitalFunctions.cardiovascularRiskFramingham > 20"> error_outline</mat-icon>-->
+            <input type="text" readonly name="cardiovascularRiskFramingham" matInput #cardiovascularRiskFramingham="ngModel"
+                   [(ngModel)]="note.triage.vitalFunctions.cardiovascularRiskFramingham" />
+          </mat-form-field>
+          <div fxFlex="20" fxLayout="row" fxLayoutAlign="end">
+            <button mat-icon-button (click)="showIndicatorDialog('cardiovascularRiskFramingham')">
+              <mat-icon>open_in_new</mat-icon>
+            </button>
+          </div>
+        </div>
+        <div fxFlex>
+          <mat-form-field fxFlex="80">
+            <mat-label>Riesgo cardiovascular Reynolds (%)</mat-label>
+            <!--<mat-icon class="md-warn" *ngIf="vm.note.triage.vitalFunctions.cardiovascularRiskReynolds > 7"> error_outline</mat-icon>-->
+            <input type="number" name="cardiovascularRiskReynolds" matInput #cardiovascularRiskReynolds="ngModel"
+                   [(ngModel)]="note.triage.vitalFunctions.cardiovascularRiskReynolds" />
+          </mat-form-field>
+          <div fxFlex="20" fxLayout="row" fxLayoutAlign="end">
+            <button mat-icon-button (click)="showIndicatorDialog('cardiovascularRiskReynolds')">
+              <mat-icon>open_in_new</mat-icon>
+            </button>
+          </div>
+        </div>
       </div>
       <div fxLayout="row" fxLayoutGap="24px">
-        <mat-form-field fxFlex>
-          <mat-label>Riesgo de hipertensión, 4 años (%)</mat-label>
-          <!--<mat-icon class="md-warn" *ngIf="vm.note.triage.vitalFunctions.hypertensionRisk > 7"> error_outline</mat-icon>-->
-          <input type="number" name="hypertensionRisk" matInput #hypertensionRisk="ngModel"
-                 [(ngModel)]="note.triage.vitalFunctions.hypertensionRisk" />
-          <mat-icon (click)="showIndicatorDialog('hypertensionRisk')"> open_in_new</mat-icon>
-        </mat-form-field>
-        <mat-form-field fxFlex>
-          <mat-label>Riesgo de Diabetes Melitus, 10 años (%)</mat-label>
-          <!--<mat-icon class="md-warn" ng-if="vm.note.triage.vitalFunctions.diabetesRisk > 7"> error_outline</mat-icon>-->
-          <input type="number" readonly name="diabetesRisk" matInput #diabetesRisk="ngModel"
-                 [(ngModel)]="note.triage.vitalFunctions.diabetesRisk" />
-          <mat-icon (click)="showIndicatorDialog('diabetesRisk')"> open_in_new</mat-icon>
-        </mat-form-field>
-        <mat-form-field fxFlex>
-          <mat-label>Riesgo de Fractura, 10 años (%)</mat-label>
-          <!--<mat-icon class="md-warn" *ngIf="note.triage.vitalFunctions.fractureRisk > 7"> error_outline</mat-icon>-->
-          <input type="text" readonly name="fractureRisk" matInput #fractureRisk="ngModel"
-                 [(ngModel)]="note.triage.vitalFunctions.fractureRisk" />
-          <mat-icon (click)="showIndicatorDialog('fractureRisk')"> open_in_new</mat-icon>
-
-        </mat-form-field>
+        <div fxFlex>
+          <mat-form-field fxFlex="80">
+            <mat-label>Riesgo de hipertensión, 4 años (%)</mat-label>
+            <!--<mat-icon class="md-warn" *ngIf="vm.note.triage.vitalFunctions.hypertensionRisk > 7"> error_outline</mat-icon>-->
+            <input type="number" name="hypertensionRisk" matInput #hypertensionRisk="ngModel"
+                   [(ngModel)]="note.triage.vitalFunctions.hypertensionRisk" />
+          </mat-form-field>
+          <div fxFlex="20" fxLayout="row" fxLayoutAlign="end">
+            <button mat-icon-button (click)="showIndicatorDialog('hypertensionRisk')">
+              <mat-icon> open_in_new</mat-icon>
+            </button>
+          </div>
+        </div>
+        <div fxFlex>
+          <mat-form-field fxFlex="80">
+            <mat-label>Riesgo de Diabetes Melitus, 10 años (%)</mat-label>
+            <!--<mat-icon class="md-warn" ng-if="vm.note.triage.vitalFunctions.diabetesRisk > 7"> error_outline</mat-icon>-->
+            <input type="number" readonly name="diabetesRisk" matInput #diabetesRisk="ngModel"
+                   [(ngModel)]="note.triage.vitalFunctions.diabetesRisk" />
+          </mat-form-field>
+          <div fxFlex="20" fxLayout="row" fxLayoutAlign="end">
+            <button mat-icon-button (click)="showIndicatorDialog('diabetesRisk')">
+              <mat-icon>open_in_new</mat-icon>
+            </button>
+          </div>
+        </div>
+        <div fxFlex>
+          <mat-form-field fxFlex="80">
+            <mat-label>Riesgo de Fractura, 10 años (%)</mat-label>
+            <!--<mat-icon class="md-warn" *ngIf="note.triage.vitalFunctions.fractureRisk > 7"> error_outline</mat-icon>-->
+            <input type="text" readonly name="fractureRisk" matInput #fractureRisk="ngModel"
+                   [(ngModel)]="note.triage.vitalFunctions.fractureRisk" />
+          </mat-form-field>
+          <div fxFlex="20" fxLayout="row" fxLayoutAlign="end">
+            <button mat-icon-button (click)="showIndicatorDialog('fractureRisk')">
+              <mat-icon>open_in_new</mat-icon>
+            </button>
+          </div>
+        </div>
       </div>
       <div fxLayout="row" fxLayoutGap="24px">
-        <mat-form-field fxFlex="32">
-          <mat-label>Edad cardiovascular (años)</mat-label>
-          <!--<mat-icon class="md-warn" *ngIf="note.triage.vitalFunctions.cardiovascularAge > (patient.age + 10)"> error_outline</mat-icon>-->
-          <input type="number" readonly name="cardiovascularAge" matInput #cardiovascularAge="ngModel"
-                 [(ngModel)]="note.triage.vitalFunctions.cardiovascularAge" />
-          <mat-icon (click)="showIndicatorDialog('cardiovascularAge')"> open_in_new</mat-icon>
-        </mat-form-field>
+        <div fxFlex="32">
+          <mat-form-field fxFlex="80">
+            <mat-label>Edad cardiovascular (años)</mat-label>
+            <!--<mat-icon class="md-warn" *ngIf="note.triage.vitalFunctions.cardiovascularAge > (patient.age + 10)"> error_outline</mat-icon>-->
+            <input type="number" readonly name="cardiovascularAge" matInput #cardiovascularAge="ngModel"
+                   [(ngModel)]="note.triage.vitalFunctions.cardiovascularAge" />
+          </mat-form-field>
+          <div fxFlex="20" fxLayout="row" fxLayoutAlign="end">
+            <button mat-icon-button (click)="showIndicatorDialog('cardiovascularAge')">
+              <mat-icon>open_in_new</mat-icon>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>

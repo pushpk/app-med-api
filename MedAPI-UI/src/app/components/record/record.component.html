@@ -46,7 +46,7 @@
   <div *ngIf="showRecord && !askPatientRegistration">
     <mat-form-field>
       <mat-label>Especialidad</mat-label>
-      <mat-select [(ngModel)]="ticket.specialty" [disabled]="ticket.status !== 0">
+      <mat-select [(ngModel)]="ticket.specialty" [disabled]="ticket.status !== 0" (selectionChange)="onSpecialityChange($event)">
         <mat-option *ngFor="let type of specialities" [value]="type.value">
           {{type.name}}
         </mat-option>
@@ -56,23 +56,23 @@
 
     <div fxLayout="row" fxLayout.xs="column" class="mt-16" fxLayoutGap="20">
       <div fxFlex="15" *ngIf="ticket.status === 0">
-        <a mat-raised-button color="primary" class="text-upper" href="javascript:void(0);" routerLink="/records/notes">
+        <a mat-raised-button color="primary" class="text-upper" href="javascript:void(0);" (click)="navigateToNotes()">
           Atender paciente
         </a>
       </div>
       <div fxFlex="15" *ngIf="ticket.status === 1">
-        <a mat-raised-button color="primary" class="text-upper" href="javascript:void(0);" routerLink="">
+        <a mat-raised-button color="primary" class="text-upper" href="javascript:void(0);" (click)="navigateToNotes()">
           Continuar atención de este Ticket
         </a>
       </div>
       <p *ngIf="ticket.status === 2"><strong>La atención de este Ticket ha finalizado.</strong></p>
       <div fxFlex="15" *ngIf="ticket.status === 2">
-        <a mat-raised-button color="primary" class="text-upper" href="javascript:void(0);" routerLink="">
+        <a mat-raised-button color="primary" class="text-upper" href="javascript:void(0);" (click)="navigateToNotes()">
           Revisar la atención de este Ticket
         </a>
       </div>
       <div fxFlex="15">
-        <a mat-raised-button color="default" class="text-upper" href="javascript:void(0);" [routerLink]="">
+        <a mat-raised-button color="default" class="text-upper" href="javascript:void(0);" (click)="navigateToPatient()">
           Ver datos de paciente
         </a>
       </div>
