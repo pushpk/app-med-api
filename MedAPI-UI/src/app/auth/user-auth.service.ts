@@ -29,6 +29,9 @@ export class UserAuthService {
 
   public clear() {
     localStorage.removeItem(this.keyName);
+    localStorage.removeItem('patient');
+    localStorage.removeItem('notes');
+    localStorage.removeItem('speciality');
   }
 
   public isAuthenticated() {

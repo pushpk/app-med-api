@@ -78,7 +78,8 @@ export class RecordComponent implements OnInit {
 
     self.waitingTicket = true;
     this.recordService.getPatientsByTicketNumber(this.ticketNumber).then((response: any) => {
-      console.log(response);
+      localStorage.setItem('patient', response.patient);
+      localStorage.setItem('notes', response.notes);
       self.patient = response.patient;
       self.patient.notes = response.notes;
       self.ticket = response.ticket;
@@ -112,7 +113,10 @@ export class RecordComponent implements OnInit {
 
     self.waitingTicket = true;
     this.recordService.getPatientsByDocNumber(this.documentNumber).then((response: any) => {
-      console.log(response);
+      localStorage.setItem('patient', JSON.stringify(response.patient));
+      if (CheckEmptyUtil.isNotEmptyObject(response.notes)) {
+        localStorage.setItem('notes', JSON.stringify(response.notes));
+      }
       self.patient = response.patient;
       self.patient.notes = response.notes;
       console.log(self.patient)
@@ -137,6 +141,7 @@ export class RecordComponent implements OnInit {
   onSpecialityChange(event: any) {
     if (CheckEmptyUtil.isNotEmptyObject(event)) {
       this.selectedSpeciality = event.value.toLowerCase();
+      localStorage.setItem('speciality', this.selectedSpeciality);
       this.recordService.selectedSpecialty.next(this.selectedSpeciality);
     } else {
       this.recordService.selectedSpecialty.next('');
@@ -170,5 +175,5 @@ export class RecordComponent implements OnInit {
     let routerPath = '/patients';
     this.router.navigateByUrl(routerPath);
   }
-  
+
 }

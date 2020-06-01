@@ -29,6 +29,8 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { SidenavComponent } from './sidenav/sidenav.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { NgInit } from './directive/nginit.directive';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @NgModule({
   declarations: [HeaderComponent, SidenavComponent, NgInit],
@@ -45,7 +47,10 @@ import { NgInit } from './directive/nginit.directive';
     MatToolbarModule,
     FlexLayoutModule,
     MatProgressBarModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatChipsModule,
+    MatListModule,
+    MatSlideToggleModule
   ],
   exports: [
     HeaderComponent,
@@ -75,7 +80,9 @@ import { NgInit } from './directive/nginit.directive';
     FlexLayoutModule,
     SidenavComponent,
     MatProgressBarModule,
-    NgInit
+    NgInit,
+    MatChipsModule,
+    MatSlideToggleModule
   ]
 })
 export class SharedModule { }

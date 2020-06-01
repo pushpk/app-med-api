@@ -1,0 +1,255 @@
+<div class="layout-padding general symptoms" fxLayout="column">
+  <div fxLayout="column">
+    <h2 class="mat-title form-section" fxFlex="100">Síntomas</h2>
+    <div fxLayout="column">
+      <mat-form-field>
+        <mat-chip-list #chipList aria-label="Symptoms selection">
+          <input #symptomInput
+                 matInput
+                 [formControl]="symptomsCtrl"
+                 [matAutocomplete]="auto"
+                 [matChipInputFor]="chipList"
+                 (matChipInputTokenEnd)="add($event)"
+                 [matChipInputSeparatorKeyCodes]="separatorKeysCodes">
+        </mat-chip-list>
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+          <mat-option *ngFor="let symptom of filteredSymptoms | async" [value]="symptom">
+            {{symptom.name}}
+          </mat-option>
+        </mat-autocomplete>
+        <mat-chip *ngFor="let symptom of selectedSymptoms"
+                  [removable]="removable" class="my-8 mx-8"
+                  (removed)="remove(symptom)">
+          {{symptom.name}}
+          <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+        </mat-chip>
+      </mat-form-field>
+      <div>
+        <mat-chip *ngFor="let symptom of resources.cardiovascularSymptom"
+                  [selectable]="selectable"
+                  (click)="addSymptoms(symptom)"
+                  class="my-8 mx-8"
+                  [removable]="removable"
+                  (removed)="add(symptom)">
+          <div>{{symptom.name}}</div>
+        </mat-chip>
+      </div>
+    </div>
+  </div>
+  <div fxLayout="column">
+    <mat-form-field>
+      <mat-label>Otros síntomas</mat-label>
+      <input type="text" matInput name="otherSymptoms" [(ngModel)]="note.otherSymptoms" maxlength="250"
+             #otherSymptoms="ngModel">
+      <mat-hint align="end">{{otherSymptoms.value?.length || 0}}/250</mat-hint>
+    </mat-form-field>
+    <div fxLayout="row">
+      <mat-form-field fxFlex>
+        <mat-label>Tiempo de síntoma</mat-label>
+        <input type="number" matInput name="symptomDuration" min="0" [(ngModel)]="note.symptoms.duration" required>
+        <mat-error *ngIf="symptomDuration.errors && (symptomDuration.touched || symptomDuration.dirty)">
+          Este campo es requerido
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field fxFlex>
+        <mat-label>Unidades</mat-label>
+        <mat-select name="symptomDuration" class="max-width" #symptomDuration="ngModel"
+                    [(ngModel)]="note.symptoms.durationUnit" required>
+          <mat-option *ngFor="let c of resources.durationUnits" [value]="c.id">{{c.name}}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="symptomDuration.errors && (symptomDuration.touched || symptomDuration.dirty)">
+          Este campo es requerido
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <mat-form-field fxFlex>
+      <mat-label>Antecedentes</mat-label>
+      <textarea matInput name="background" class="max-width" maxlength="250" #background="ngModel"
+                [(ngModel)]="note.symptoms.background">
+        </textarea>
+      <mat-hint align="end">{{background.value?.length || 0}}/250</mat-hint>
+    </mat-form-field>
+  </div>
+  <div fxLayout="column">
+    <h2 class="mat-title form-section" fxFlex="100">Piel</h2>
+    <div fxLayout="row" fxLayoutGap="20px">
+      <mat-form-field fxFlex="30">
+        <mat-label>Llenado capilar miembro inferior izquierdo</mat-label>
+        <mat-select name="capillaryRefillLMs" class="max-width" #capillaryRefillLMs="ngModel"
+                    [(ngModel)]="note.physicalExamination.skin.capillaryRefillLLM" required>
+          <mat-option *ngFor="let c of resources.capillaryRefillLLMs" [value]="c.id">{{c.name}}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="capillaryRefillLMs.errors && (capillaryRefillLMs.touched || capillaryRefillLMs.dirty)">
+          Este campo es requerido
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field fxFlex="30">
+        <mat-label>Llenado capilar miembro inferior derecho</mat-label>
+        <mat-select name="capillaryRefillLRMs" class="max-width" #capillaryRefillLRMs="ngModel"
+                    [(ngModel)]="note.physicalExamination.skin.capillaryRefillLRM" required>
+          <mat-option *ngFor="let c of resources.capillaryRefillLRMs" [value]="c.id">{{c.name}}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="capillaryRefillLRMs.errors && (capillaryRefillLRMs.touched || capillaryRefillLRMs.dirty)">
+          Este campo es requerido
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+  <div fxLayout="column">
+    <h2 class="mat-title form-section" fxFlex="100">Pulsos</h2>
+    <div fxLayout="column">
+      <mat-slide-toggle color="primary" [(ngModel)]="note.physicalExamination.skin.trophicChanges">
+        {{note.physicalExamination.skin.trophicChanges ? 'Presenta cambios tróficos' : 'No presenta cambiostróficos'}}
+      </mat-slide-toggle>
+      <br />
+      <mat-slide-toggle color="primary" [(ngModel)]="note.physicalExamination.skin.edemaAnkle">
+        {{note.physicalExamination.skin.edemaAnkle ? 'Presenta edema de tobillo' : 'No presenta edema de tobillo'}}
+      </mat-slide-toggle>
+      <br />
+      <mat-slide-toggle color="primary" [(ngModel)]="note.physicalExamination.skin.edemaLowerMember">
+        {{note.physicalExamination.skin.edemaLowerMember ? 'Presenta edema de miembros inferiores' : 'No presenta edema de miembros inferiores'}}
+      </mat-slide-toggle>
+      <br />
+      <mat-slide-toggle color="primary" [(ngModel)]="note.physicalExamination.skin.edemaGeneralized">
+        {{note.physicalExamination.skin.edemaLowerMember ? 'Presenta edema generalizado' : 'No presenta edema generalizado'}}
+      </mat-slide-toggle>
+    </div>
+    <div fxLayout="row" class="mt-16" fxLayoutGap="20px">
+      <mat-form-field fxFlex="30">
+        <mat-label>Pulsos miembro inferior izquierdo</mat-label>
+        <mat-select name="pulsesLLMs" class="max-width" #pulsesLLMs="ngModel"
+                    [(ngModel)]="note.physicalExamination.pulses.pulsesLLM" required>
+          <mat-option *ngFor="let c of resources.pulsesLLMs" [value]="c.id">{{c.name}}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="pulsesLLMs.errors && (pulsesLLMs.touched || pulsesLLMs.dirty)">
+          Este campo es requerido
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field fxFlex="30">
+        <mat-label>Pulsos miembro inferior derecho</mat-label>
+        <mat-select name="pulsesLRMs" class="max-width" #pulsesLRMs="ngModel"
+                    [(ngModel)]="note.physicalExamination.pulses.pulsesLRM" required>
+          <mat-option *ngFor="let c of resources.pulsesLRMs" [value]="c.id">{{c.name}}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="pulsesLRMs.errors && (pulsesLRMs.touched || pulsesLRMs.dirty)">
+          Este campo es requerido
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+  <div fxLayout="column">
+    <h2 class="mat-title form-section" fxFlex="100">Aparato respiratorio</h2>
+    <div fxLayout="row" fxLayoutGap="20px">
+      <mat-form-field fxFlex="30">
+        <mat-label>Murmullo vesicular en campo pulmonar izquierdo</mat-label>
+        <mat-select name="vesicularWhisperLs" class="max-width" #vesicularWhisperLs="ngModel"
+                    [(ngModel)]="note.physicalExamination.respiratorySystem.vesicularWhisperL" required>
+          <mat-option *ngFor="let c of resources.vesicularWhisperLs" [value]="c.id">{{c.name}}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="vesicularWhisperLs.errors && (vesicularWhisperLs.touched || vesicularWhisperLs.dirty)">
+          Este campo es requerido
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field fxFlex="30">
+        <mat-label>Murmullo vesicular en campo pulmonar derecho</mat-label>
+        <mat-select name="vesicularWhisperRs" class="max-width" #vesicularWhisperRs="ngModel"
+                    [(ngModel)]="note.physicalExamination.respiratorySystem.vesicularWhisperR" required>
+          <mat-option *ngFor="let c of resources.vesicularWhisperRs" [value]="c.id">{{c.name}}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="vesicularWhisperRs.errors && (vesicularWhisperRs.touched || vesicularWhisperRs.dirty)">
+          Este campo es requerido
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+  <div fxLayout="column">
+    <h2 class="mat-title form-section" fxFlex="100">Aparato cardiovascular</h2>
+    <div fxLayout="row" fxLayoutGap="20px">
+      <mat-form-field fxFlex>
+        <mat-label>Pulsos radiales izquierdos</mat-label>
+        <mat-select name="radialPulsesLs" class="max-width" #radialPulsesLs="ngModel"
+                    [(ngModel)]="note.physicalExamination.cardiovascularSystem.radialPulsesL" required>
+          <mat-option *ngFor="let c of resources.radialPulsesLs" [value]="c.id">{{c.name}}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="radialPulsesLs.errors && (radialPulsesLs.touched || radialPulsesLs.dirty)">
+          Este campo es requerido
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field fxFlex>
+        <mat-label>Pulsos radiales derechos</mat-label>
+        <mat-select name="radialPulsesRs" class="max-width" #radialPulsesRs="ngModel"
+                    [(ngModel)]="note.physicalExamination.cardiovascularSystem.radialPulsesR" required>
+          <mat-option *ngFor="let c of resources.radialPulsesRs" [value]="c.id">{{c.name}}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="radialPulsesRs.errors && (radialPulsesRs.touched || radialPulsesRs.dirty)">
+          Este campo es requerido
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field fxFlex>
+        <mat-label>Pulsos pedios izquierdos</mat-label>
+        <mat-select name="pedalPulsesLs" class="max-width" #pedalPulsesLs="ngModel"
+                    [(ngModel)]="note.physicalExamination.cardiovascularSystem.pedalPulsesL" required>
+          <mat-option *ngFor="let c of resources.pedalPulsesLs" [value]="c.id">{{c.name}}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="pedalPulsesLs.errors && (pedalPulsesLs.touched || pedalPulsesLs.dirty)">
+          Este campo es requerido
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div fxLayout="row" fxLayoutGap="20px">
+      <mat-form-field fxFlex>
+        <mat-label>Pulsos pedios derechos</mat-label>
+        <mat-select name="pedalPulsesRs" class="max-width" #pedalPulsesRs="ngModel"
+                    [(ngModel)]="note.physicalExamination.cardiovascularSystem.pedalPulsesR" required>
+          <mat-option *ngFor="let c of resources.pedalPulsesRs" [value]="c.id">{{c.name}}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="pedalPulsesRs.errors && (pedalPulsesRs.touched || pedalPulsesRs.dirty)">
+          Este campo es requerido
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field fxFlex>
+        <mat-label>Ruidos cardiacos - ritmo</mat-label>
+        <mat-select name="cardiacPressureRhythms" class="max-width" #cardiacPressureRhythms="ngModel"
+                    [(ngModel)]="note.physicalExamination.cardiovascularSystem.cardiacPressureRhythm" required>
+          <mat-option *ngFor="let c of resources.cardiacPressureRhythms" [value]="c.id">{{c.name}}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="cardiacPressureRhythms.errors && (cardiacPressureRhythms.touched || cardiacPressureRhythms.dirty)">
+          Este campo es requerido
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field fxFlex>
+        <mat-label>Ruidos cardiacos - intensidad</mat-label>
+        <mat-select name="cardiacPressureIntensities" class="max-width" #cardiacPressureIntensities="ngModel"
+                    [(ngModel)]="note.physicalExamination.cardiovascularSystem.cardiacPressureIntensity" required>
+          <mat-option *ngFor="let c of resources.cardiacPressureIntensities" [value]="c.id">{{c.name}}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="cardiacPressureIntensities.errors && (cardiacPressureIntensities.touched || cardiacPressureIntensities.dirty)">
+          Este campo es requerido
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+  <div fxLayout="column">
+    <h2 class="mat-title form-section" fxFlex="100">Soplos</h2>
+    <div fxLayout="row" fxLayoutGap="20px">
+      <mat-slide-toggle color="primary" [(ngModel)]="note.physicalExamination.murmurs.murmurs">
+        {{note.physicalExamination.murmurs.murmurs ? 'Presenta soplos' : 'No presenta soplos'}}
+      </mat-slide-toggle>
+    </div>
+  </div>
+  <div fxLayout="column">
+    <h2 class="mat-title form-section" fxFlex="100">Semiología gastrointestinal</h2>
+    <div fxLayout="row" fxLayoutGap="20px">
+      <mat-form-field fxFlex="30">
+        <mat-label>Semiología gastrointestinal</mat-label>
+        <mat-select name="gastrointestinalSemiologies" class="max-width" #gastrointestinalSemiologies="ngModel"
+                    [(ngModel)]="note.physicalExamination.gastrointestinalSemiology.gastrointestinalSemiology" required>
+          <mat-option *ngFor="let c of resources.gastrointestinalSemiologies" [value]="c.id">{{c.name}}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="gastrointestinalSemiologies.errors && (gastrointestinalSemiologies.touched || gastrointestinalSemiologies.dirty)">
+          Este campo es requerido
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+</div>

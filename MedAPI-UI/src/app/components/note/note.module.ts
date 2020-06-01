@@ -18,6 +18,7 @@ import { DialogCardiovascularRiskReynoldsComponent } from './indicators/dialog-c
 import { DialogDiabetesRiskComponent } from './indicators/dialog-diabetes-risk/dialog-diabetes-risk.component';
 import { DialogFractureRiskComponent } from './indicators/dialog-fracture-risk/dialog-fracture-risk.component';
 import { DialogHypertensionRiskComponent } from './indicators/dialog-hypertension-risk/dialog-hypertension-risk.component';
+import { CardioFormSymptomsComponent } from './cardiology/cardio-form-symptoms/cardio-form-symptoms.component';
 
 const routes: Routes = [
   {
@@ -33,7 +34,8 @@ const routes: Routes = [
     DialogMedicineComponent, DialogExamComponent, DialogDiagnosisComponent, FormConclusionComponent,
     DialogBmiComponent, DialogCardiovascularAgeComponent, DialogCardiovascularRiskFraminghamComponent,
     DialogCardiovascularRiskReynoldsComponent, DialogDiabetesRiskComponent, DialogFractureRiskComponent,
-    DialogHypertensionRiskComponent],
+    DialogHypertensionRiskComponent,
+    CardioFormSymptomsComponent],
   imports: [
     CommonModule,
     FormsModule,

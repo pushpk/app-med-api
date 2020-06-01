@@ -1,1 +1,26 @@
-<p>form-conclusion works!</p>
+<div class="layout-padding cardiology symptoms" fxLayout="column">
+  <div fxLayout="column">
+    <h2 class="mat-title form-section" fxFlex="100">Diagnóstico</h2>
+    <div fxLayout="column">
+      <mat-form-field>
+        <input type="text"
+               aria-label="Diagnosis"
+               matInput
+               [formControl]="diagnosisCtrl"
+               [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+          <mat-option *ngFor="let diagnosis of filteredDiagnosis | async" [value]="diagnosis">
+            {{diagnosis.code}} - {{diagnosis.title}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Observaciones</mat-label>
+        <!--[(ngModel)]="note.diagnosis.observations" #diagnosis="ngModel"-->
+        <textarea matInput name="diagnosis" class="max-width" maxlength="250">
+        </textarea>
+        <!--<mat-hint align="end">{{diagnosis.value?.length || 0}}/250</mat-hint>-->
+      </mat-form-field>
+    </div>
+  </div>
+</div>

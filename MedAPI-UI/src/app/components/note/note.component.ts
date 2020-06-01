@@ -13,7 +13,7 @@ import { CheckEmptyUtil } from '../../shared/util/check-empty.util';
 export class NoteComponent implements OnInit {
   patient: any;
   note: any;
-
+  notes: any;
   selectedDiagnosis: any;
   searchDiagnosis: string;
 
@@ -25,7 +25,7 @@ export class NoteComponent implements OnInit {
 
   selectedSpecialty: any;
   searchSpecialty: string;
-  specialty = '';
+  speciality = '';
   index = new FormControl(0);
   submit = {
     waiting: false,
@@ -40,6 +40,7 @@ export class NoteComponent implements OnInit {
     private recordService: RecordService
   ) {
     const self = this;
+    self.speciality = localStorage.getItem('speciality');
     self.selectedDiagnosis = null;
     self.searchDiagnosis = '';
 
@@ -125,12 +126,11 @@ export class NoteComponent implements OnInit {
         HSCRP: [],
         HDL: [],
         TCH: []
-      }
-    };
-
-    self.note.specialty = this.specialty.toUpperCase();
-    if (this.specialty === 'cardiology') {
-      self.note.physicalExamination = {
+      },
+      otherSymptoms: '',
+      selectedSpecialty: this.speciality,
+      specialty: this.speciality.toUpperCase(),
+      physicalExamination: {
         skin: {
           capillaryRefillLLM: 'NORMAL',
           capillaryRefillLRM: 'NORMAL'
@@ -157,49 +157,60 @@ export class NoteComponent implements OnInit {
         gastrointestinalSemiology: {
           gastrointestinalSemiology: 'NORMAL'
         }
-      };
-    }
+      }
+    };
   }
 
   ngOnInit(): void {
+    this.patient = JSON.parse(localStorage.getItem('patient'));
+    this.notes = localStorage.getItem('notes');
+    console.log(this.notes);
+    console.log(this.patient);
     this.recordService.selectedSpecialty.subscribe((value) => {
       console.log(value);
       //this.router.navigateByUrl('/records');      
-      this.specialty = value;
+      this.speciality = value;
     });
 
     this.getResources();
-    this.tabs = this.showTabs(this.specialty);
-    console.log(this.tabs, 'self.tabs');
+    this.tabs = this.showTabs(this.speciality);
+
   }
 
-  private showTabs(specialty: string) {
-    switch (specialty) {
+  private showTabs(speciality: string) {
+    switch (speciality) {
       case 'cardiology':
         return [
           {
-            title: 'Triaje'
+            title: 'Triaje',
+            isCardiology: true
           },
           {
-            title: 'Atención'
+            title: 'Atención',
+            isCardiology: true
           },
           {
-            title: 'Conclusión'
+            title: 'Conclusión',
+            isCardiology: true
           },
           {
-            title: 'Resumen'
+            title: 'Resumen',
+            isCardiology: true
           }
         ];
       default:
         return [
           {
-            title: 'Triaje'
+            title: 'Triaje',
+            isCardiology: false
           },
           {
-            title: 'Atención'
+            title: 'Atención',
+            isCardiology: false
           },
           {
-            title: 'Resumen'
+            title: 'Resumen',
+            isCardiology: false
           }
         ];
     }
@@ -208,12 +219,12 @@ export class NoteComponent implements OnInit {
 
   getResources() {
     let resourcesPath: string = null;
-    switch (this.specialty) {
+    switch (this.speciality) {
       case 'cardiology':
-        resourcesPath = '/record/resources/cardiology';
+        resourcesPath = 'record/resources/cardiology';
         break;
       default:
-        resourcesPath = '/record/resources/note';
+        resourcesPath = 'record/resources/note';
         break;
     }
     this.noteService.getResources(resourcesPath).then((response: any) => {

@@ -1,1 +1,23 @@
-<p>dialog-exam works!</p>
+<div aria-label="Solicitar examen">
+  <div>
+    <button mat-icon-button class="close-button" [mat-dialog-close]="true">
+      <mat-icon class="close-icon">close</mat-icon>
+    </button>
+
+    <h1 mat-dialog-title>Resultados de examen</h1>
+  </div>
+  <div mat-dialog-content>
+    <div fxLayout="column" fxLayoutGap="15px">
+      <mat-form-field>
+        <mat-label>Descripción</mat-label>
+        <textarea type="text" matInput></textarea>
+      </mat-form-field>
+    </div>
+  </div>
+  <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end">
+    <button mat-button (click)="cancel()">Cancelar</button>
+    <button mat-button color="primary" (click)="answer()" cdkFocusInitial>
+      Aceptar
+    </button>
+  </div>
+</div>

@@ -7,7 +7,8 @@
             <mat-tab [label]="tab.title">
               <div>
                 <app-form-triage [note]="note" *ngIf="tab.title==='Triaje'"></app-form-triage>
-                <app-form-symptoms [note]="note" *ngIf="tab.title==='Atención'"></app-form-symptoms>
+                <app-form-symptoms [note]="note" *ngIf="tab.title==='Atención' && !tab.isCardiology"></app-form-symptoms>
+                <app-cardio-form-symptoms [note]="note" *ngIf="tab.title==='Atención' && tab.isCardiology"></app-cardio-form-symptoms>
                 <app-form-conclusion *ngIf="tab.title==='Conclusión'"></app-form-conclusion>
                 <app-form-summary [note]="note" [submit]="submit" *ngIf="tab.title==='Resumen'"></app-form-summary>
               </div>
