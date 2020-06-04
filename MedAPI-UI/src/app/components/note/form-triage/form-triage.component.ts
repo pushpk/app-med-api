@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output, } from '@angular/core';
 import { NoteService } from '../services/note.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { DialogBmiComponent } from '../indicators/dialog-bmi/dialog-bmi.component';
@@ -17,6 +17,8 @@ import { DialogFractureRiskComponent } from '../indicators/dialog-fracture-risk/
 export class FormTriageComponent implements OnInit {
   resources: any;
   @Input() note: any;
+  @Input() patient: any;
+  @Output() computedFieldsChange = new EventEmitter<any>();
 
   constructor(public noteService: NoteService, public dialog: MatDialog) {
   }
@@ -28,8 +30,9 @@ export class FormTriageComponent implements OnInit {
   }
 
   updateComputedFields() {
-
+    this.computedFieldsChange.emit(this.note);
   }
+
   showIndicatorDialog(o: any) {
     console.log(o, 'o');
     const dialogConfig = new MatDialogConfig();

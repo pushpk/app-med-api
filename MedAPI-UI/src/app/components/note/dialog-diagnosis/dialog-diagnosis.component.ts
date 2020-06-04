@@ -21,6 +21,10 @@ export class DialogDiagnosisComponent implements OnInit {
   }
 
   answer() {
-
+    this.dialogRef.close({
+      accept: true,
+      type: this.type,
+      note: this.data.note
+    });
   }
 }

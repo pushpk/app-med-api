@@ -6,11 +6,18 @@
           <ng-container *ngFor="let tab of tabs;let index = index">
             <mat-tab [label]="tab.title">
               <div>
-                <app-form-triage [note]="note" *ngIf="tab.title==='Triaje'"></app-form-triage>
-                <app-form-symptoms [note]="note" *ngIf="tab.title==='Atención' && !tab.isCardiology"></app-form-symptoms>
-                <app-cardio-form-symptoms [note]="note" *ngIf="tab.title==='Atención' && tab.isCardiology"></app-cardio-form-symptoms>
-                <app-form-conclusion *ngIf="tab.title==='Conclusión'"></app-form-conclusion>
-                <app-form-summary [note]="note" [submit]="submit" *ngIf="tab.title==='Resumen'"></app-form-summary>
+                <app-form-triage [note]="note"
+                                 [patient]="patient"
+                                 *ngIf="tab.title==='Triaje'"
+                                 (computedFieldsChange)="handleComputedFieldsChange($event)">
+                </app-form-triage>
+                <!--(diagnosisModalChange)="addDiagnosis($event)"
+                (diagnosisChange)="handleDiagnosisChange($event)"-->
+                <app-form-symptoms [note]="note" [patient]="patient" *ngIf="tab.title==='Atención' && !tab.isCardiology">
+                </app-form-symptoms>
+                <app-cardio-form-symptoms [note]="note" [patient]="patient" *ngIf="tab.title==='Atención' && tab.isCardiology"></app-cardio-form-symptoms>
+                <app-form-conclusion [note]="note" [patient]="patient" *ngIf="tab.title==='Conclusión'"></app-form-conclusion>
+                <app-form-summary [note]="note" [patient]="patient" [submit]="submit" *ngIf="tab.title==='Resumen'"></app-form-summary>
               </div>
             </mat-tab>
           </ng-container>

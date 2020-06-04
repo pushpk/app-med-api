@@ -8,6 +8,7 @@ import { Component, OnInit, Input } from '@angular/core';
 export class FormSummaryComponent implements OnInit {
   @Input() submit: any;
   @Input() note: any;
+  @Input() patient: any;
 
   constructor() { }
 

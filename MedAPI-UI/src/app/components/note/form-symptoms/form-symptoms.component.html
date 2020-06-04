@@ -58,14 +58,17 @@
       <mat-form-field fxFlex>
         <mat-label>Buscar CIE10 por código o nombre</mat-label>
         <input type="text"
-               placeholder="Pick one"
-               aria-label="Number"
+               placeholder="Buscar CIE10 por código o nombre"
+               aria-label="Buscar CIE10 por código o nombre"
                matInput
-               [formControl]="myControl"
+               (keypress)="getDiagnosis()"
+               (keydown.backspace)="getDiagnosis()"
+               [formControl]="diagnosisCtrl"
                [matAutocomplete]="auto">
-        <mat-autocomplete #auto="matAutocomplete">
-          <mat-option *ngFor="let option of options" [value]="option">
-            {{option}}
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)='addDiagnosis($event.option.value)'>
+          <!--<mat-progress-bar mode="indeterminate"></mat-progress-bar>-->
+          <mat-option *ngFor="let o of note.diagnosis.list" [value]="o">
+            {{o.Title}}
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
@@ -85,10 +88,10 @@
       <mat-form-field fxFlex>
         <mat-label>Buscar exámenes</mat-label>
         <input type="text"
-               placeholder="Pick one"
-               aria-label="Number"
+               placeholder="Buscar exámenes"
+               aria-label="Buscar exámenes"
                matInput
-               [formControl]="myControl"
+               [formControl]="examCtrl"
                [matAutocomplete]="auto">
         <mat-autocomplete #auto="matAutocomplete">
           <mat-option *ngFor="let option of options" [value]="option">
@@ -112,10 +115,10 @@
       <mat-form-field fxFlex>
         <mat-label>Buscar medicamentos</mat-label>
         <input type="text"
-               placeholder="Pick one"
-               aria-label="Number"
+               placeholder="Buscar medicamentos"
+               aria-label="Buscar medicamentos"
                matInput
-               [formControl]="myControl"
+               [formControl]="treatmentCtrl"
                [matAutocomplete]="auto">
         <mat-autocomplete #auto="matAutocomplete">
           <mat-option *ngFor="let option of options" [value]="option">
@@ -139,10 +142,10 @@
       <mat-form-field fxFlex>
         <mat-label>Buscar especialidades</mat-label>
         <input type="text"
-               placeholder="Pick one"
-               aria-label="Number"
+               placeholder="Buscar especialidades"
+               aria-label="Buscar especialidades"
                matInput
-               [formControl]="myControl"
+               [formControl]="interconsultationCtrl"
                [matAutocomplete]="auto">
         <mat-autocomplete #auto="matAutocomplete">
           <mat-option *ngFor="let option of options" [value]="option">

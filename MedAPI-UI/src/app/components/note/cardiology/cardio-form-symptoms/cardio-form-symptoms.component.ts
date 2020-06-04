@@ -15,6 +15,7 @@ import { map, startWith } from 'rxjs/operators';
 export class CardioFormSymptomsComponent implements OnInit {
   resources: any;
   @Input() note: any;
+  @Input() patient: any;
   public visible = true;
   public selectable = true;
   public removable = true;

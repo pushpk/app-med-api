@@ -6,18 +6,19 @@ import { environment } from '../../environments/environment';
   providedIn: 'root'
 })
 export class ResourcesService {
-  http: any;
-  constructor($http, public apiEndPoint: any) {
-    this.http = $http;
+
+  constructor(private http: HttpClient) {
   }
 
-  search(query: string) {
+  search(query: string, apiEndPoint) {
     let api_host = environment.apiUrl;
-    return this.http.get(api_host + this.apiEndPoint, { params: { query: query.toLowerCase() } }).toPromise()
-      .then(function (response: { data: any }) {
-        return response.data;
+    return this.http
+      .get(api_host + apiEndPoint, { params: { query: query.toLowerCase() } })
+      .toPromise()
+      .then((response: any) => {
+        return response;
       })
-      .catch((error: any) => {
+      .catch((error) => {
         return error;
       });
   }

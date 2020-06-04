@@ -18,6 +18,7 @@ export class FormConclusionComponent implements OnInit {
   selectedDiagnosis: any[] = [];
   resources: any;
   @Input() note: any;
+  @Input() patient: any;
 
   constructor(public noteService: NoteService) { }
 
