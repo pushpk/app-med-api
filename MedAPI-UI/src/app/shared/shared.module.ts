@@ -31,6 +31,9 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { NgInit } from './directive/nginit.directive';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { ToastrModule } from 'ngx-toastr';
+import { ngfModule } from 'angular-file';
+import { MatGridListModule } from '@angular/material/grid-list';
 
 @NgModule({
   declarations: [HeaderComponent, SidenavComponent, NgInit],
@@ -50,7 +53,10 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     MatAutocompleteModule,
     MatChipsModule,
     MatListModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,    
+    ToastrModule.forRoot(),
+    ngfModule,
+    MatGridListModule
   ],
   exports: [
     HeaderComponent,
@@ -82,7 +88,10 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     MatProgressBarModule,
     NgInit,
     MatChipsModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    ToastrModule,
+    ngfModule,
+    MatGridListModule
   ]
 })
 export class SharedModule { }

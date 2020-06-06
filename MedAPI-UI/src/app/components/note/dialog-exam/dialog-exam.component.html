@@ -7,11 +7,37 @@
     <h1 mat-dialog-title>Resultados de examen</h1>
   </div>
   <div mat-dialog-content>
-    <div fxLayout="column" fxLayoutGap="15px">
-      <mat-form-field>
-        <mat-label>Descripción</mat-label>
-        <textarea type="text" matInput></textarea>
-      </mat-form-field>
+    <div fxLayout="row" fxLayoutGap="15px">
+      <div fxFlex="80" fxFlexFill>
+        <mat-form-field>
+          <mat-label>Descripción</mat-label>
+          <textarea type="text" matInput></textarea>
+        </mat-form-field>
+      </div>
+      <div fxFlex="20" fxFlexFill>
+        <button color="primary"
+                mat-raised-button
+                accept="image/*"
+                multiple="1"
+                [maxSize]="maxSize"
+                [(files)]="files"
+                class="well my-drop-zone"
+                [(lastInvalids)]="lastInvalids"
+                ngfSelect
+                (filesChange)="lastFileAt=getDate()"
+                aria-label="Adjuntar imágenes">
+          Adjuntar imágenes
+        </button>
+      </div>
+    </div>
+    <div>
+      <mat-grid-list cols="2" rowHeight="2:1">
+        <ng-container *ngFor="let item of files;let i=index">
+          <mat-grid-tile class="gray">
+            <img [ngfSrc]="item" />
+          </mat-grid-tile>
+        </ng-container>
+      </mat-grid-list>
     </div>
   </div>
   <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end">

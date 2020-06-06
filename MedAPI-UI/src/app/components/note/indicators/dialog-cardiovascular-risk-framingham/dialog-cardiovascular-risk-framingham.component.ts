@@ -1,5 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { NoteService } from '../../services/note.service';
 
 @Component({
   selector: 'app-dialog-cardiovascular-risk-framingham',
@@ -15,7 +16,7 @@ export class DialogCardiovascularRiskFraminghamComponent implements OnInit {
     age: 20
   }
   constructor(public dialogRef: MatDialogRef<DialogCardiovascularRiskFraminghamComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any) {
+    @Inject(MAT_DIALOG_DATA) public data: any, private noteService: NoteService) {
     console.log(data, 'data');
   }
 
@@ -26,9 +27,14 @@ export class DialogCardiovascularRiskFraminghamComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  answer() {
-
+  answer(): void {
+    this.dialogRef.close({
+      accept: true,
+      note: this.data.note
+    });
   }
+
   updateComputedFields() {
+    this.noteService.updateComputedFieldsEvent.emit(this.data.note);
   }
 }

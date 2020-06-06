@@ -8,7 +8,8 @@ import { ResourcesService } from '../../../services/resources.service';
 })
 export class NoteService {
   resources: BehaviorSubject<[]> = new BehaviorSubject([]);
-  diagnosisList: EventEmitter<[]> = new EventEmitter<[]>();
+  updateComputedFieldsEvent: EventEmitter<[]> = new EventEmitter<[]>();
+  //diagnosisList: EventEmitter<[]> = new EventEmitter<[]>();
 
   constructor(private httpUtilService: HttpUtilService, private resourcesService: ResourcesService) { }
 

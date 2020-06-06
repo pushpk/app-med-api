@@ -1,6 +1,11 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
+enum DiagnosisType {
+  IMAGE = 0,
+  LABORATORY = 1
+}
+
 @Component({
   selector: 'app-dialog-diagnosis',
   templateUrl: './dialog-diagnosis.component.html',

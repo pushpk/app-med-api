@@ -1,5 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { NoteService } from '../../services/note.service';
 
 @Component({
   selector: 'app-dialog-cardiovascular-age',
@@ -19,7 +20,7 @@ export class DialogCardiovascularAgeComponent implements OnInit {
   }
 
   constructor(public dialogRef: MatDialogRef<DialogCardiovascularAgeComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any) {
+    @Inject(MAT_DIALOG_DATA) public data: any, private noteService: NoteService) {
     console.log(data, 'data');
   }
 
@@ -30,9 +31,14 @@ export class DialogCardiovascularAgeComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  answer() {
-
+  answer(): void {
+    this.dialogRef.close({
+      accept: true,
+      note: this.data.note
+    });
   }
+
   updateComputedFields() {
+    this.noteService.updateComputedFieldsEvent.emit(this.data.note);
   }
 }

@@ -203,6 +203,7 @@ export class FormSymptomsComponent implements OnInit {
 
 
   addTreatment(d) {
+    console.log(d, 'd');
     if (!d) {
       return;
     }
@@ -214,7 +215,6 @@ export class FormSymptomsComponent implements OnInit {
       }
     });
     dialogRef.afterClosed().subscribe((response) => {
-
       if (response.accept && response.indications) {
         d.indications = response.indications;
       } else {
@@ -223,9 +223,8 @@ export class FormSymptomsComponent implements OnInit {
 
       const index = this.note.treatments.list.indexOf(d);
       if (index === -1) {
-        this.note.diagnosis.list.push(d);
-      }
-      console.log(this.note.treatments.list, 'this.note.treatments.list');
+        this.note.treatments.list.push(d);
+      }      
       console.log("Dialog output:", response)
     });
 

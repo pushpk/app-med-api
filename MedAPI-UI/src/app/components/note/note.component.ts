@@ -13,6 +13,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogDiagnosisComponent } from './dialog-diagnosis/dialog-diagnosis.component';
 import { ResourcesService } from '../../services/resources.service';
 import { catchError } from 'rxjs/operators';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-note',
@@ -45,7 +46,8 @@ export class NoteComponent implements OnInit {
     public router: Router,
     private recordService: RecordService,
     public dialog: MatDialog,
-    public resourcesService: ResourcesService
+    public resourcesService: ResourcesService,
+    private toastr: ToastrService
   ) {
     const self = this;
     self.speciality = localStorage.getItem('speciality');
@@ -183,6 +185,9 @@ export class NoteComponent implements OnInit {
     this.getResources();
     this.tabs = this.showTabs(this.speciality);
 
+    this.noteService.updateComputedFieldsEvent.subscribe((o) => {
+      this.handleComputedFieldsChange(o);
+    });
   }
 
   private showTabs(speciality: string) {
@@ -404,8 +409,6 @@ export class NoteComponent implements OnInit {
     }
   }
 
-  ///* diagnosis */
-
   //queryDiagnosis(query: string) {
   //  if (!query || query.length < 3) {
   //    return [];
@@ -422,21 +425,20 @@ export class NoteComponent implements OnInit {
   //}
 
   submitRequest() {
-
     let self = this;
 
     self.submit.waiting = true;
 
     this.noteService.save(this.note).then((response: any) => {
       console.log(response);
-      //self.$state.go('record.index');
-      //self.Toast.display('Atención guardada satisfactoriamente.');
+      self.toastr.success('Atención guardada satisfactoriamente.');
       self.submit.waiting = false;
       self.submit.success = true;
       self.note.id = response.id;
+      self.router.navigateByUrl('/record')
     }).catch((errors: any) => {
       console.log(errors);
-      //self.Toast.display('Ocurrió un error al guardar la atención.');
+      self.toastr.error('Ocurrió un error al guardar la atención.');
       self.submit.waiting = false;
       self.submit.success = false;
     });
