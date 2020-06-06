@@ -33,4 +33,40 @@ export class NoteService {
       return error;
     });
   }
+
+  queryExams(query: string): any {
+    if (!query || query.length < 3) {
+      return [];
+    }
+    return this.resourcesService.search(query, '/admin/exam').then((response) => {
+      return response;
+    }).catch((error) => {
+      console.log(error);
+      return error;
+    });
+  }
+
+  queryTreatments(query: string): any {
+    if (!query || query.length < 3) {
+      return [];
+    }
+    return this.resourcesService.search(query, '/admin/medicine').then((response) => {
+      return response;
+    }).catch((error) => {
+      console.log(error);
+      return error;
+    });
+  }
+
+  queryInterconsultations(query: string): any {
+    if (!query || query.length < 3) {
+      return [];
+    }
+    return this.resourcesService.search(query, '/record/specialty').then((response) => {
+      return response;
+    }).catch((error) => {
+      console.log(error);
+      return error;
+    });
+  }
 }

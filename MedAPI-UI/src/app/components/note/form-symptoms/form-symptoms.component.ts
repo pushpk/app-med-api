@@ -5,6 +5,8 @@ import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
 import { DialogDiagnosisComponent } from '../dialog-diagnosis/dialog-diagnosis.component';
 import { MatDialog } from '@angular/material/dialog';
+import { DialogExamComponent } from '../dialog-exam/dialog-exam.component';
+import { DialogMedicineComponent } from '../dialog-medicine/dialog-medicine.component';
 
 export interface State {
   flag: string;
@@ -25,14 +27,30 @@ export class FormSymptomsComponent implements OnInit {
   examCtrl = new FormControl();
   treatmentCtrl = new FormControl();
   interconsultationCtrl = new FormControl();
-  options: string[] = ['One', 'Two', 'Three'];
   tempTimeobj: any;
   filteredDiagnosis: Observable<[]>;
-  showProgressBar = false;
+  showDignosisProgressBar = false;
+  showExamProgressBar = false;
+  showTreatmentProgressBar = false;
+  showInterconsultantionProgressBar = false;
   //@Output() diagnosisChange = new EventEmitter<any>();
   //@Output() diagnosisModalChange = new EventEmitter<any>();
   selectedDiagnosis: any;
   searchDiagnosis: string;
+  diagnosisList: [];
+  physicalExamsList: [];
+  treatmentList: [];
+  interconsultationList: [];
+
+  selectedExam: any;
+  searchExam = '';
+
+  selectedTreatment: any;
+  searchTreatment = '';
+
+  selectedSpecialty: any;
+  searchSpecialty = '';
+
   constructor(public noteService: NoteService, public dialog: MatDialog) {
   }
 
@@ -54,10 +72,11 @@ export class FormSymptomsComponent implements OnInit {
     clearTimeout(this.tempTimeobj);
     this.tempTimeobj = setTimeout(() => {
       if (str.length >= 2) {
-        //this.showProgressBar = true;
+        this.showDignosisProgressBar = true;
         //this.diagnosisChange.emit(str);
         this.noteService.queryDiagnosis(str).then(response => {
-         this.note.diagnosis.list = response;
+          this.showDignosisProgressBar = false;
+          this.diagnosisList = response;
           console.log(response);
         });
       }
@@ -66,7 +85,7 @@ export class FormSymptomsComponent implements OnInit {
 
   displayFn(data?: any): string | undefined {
     console.log(data, 'data');
-    return data ? data.Title : undefined;
+    return data ? '' : undefined;
   }
 
   //openDignosisModal(data: any) {
@@ -100,6 +119,7 @@ export class FormSymptomsComponent implements OnInit {
       if (index === -1) {
         this.note.diagnosis.list.push(diagnosis);
       }
+      console.log(this.note.diagnosis.list, 'this.note.diagnosis.list');
       console.log("Dialog output:", response)
     });
   }
@@ -110,4 +130,151 @@ export class FormSymptomsComponent implements OnInit {
       this.note.diagnosis.list.splice(index, 1);
     }
   }
+
+  getExams() {
+    let str = '';
+    this.examCtrl.valueChanges.subscribe((value: string) => {
+      str += value;
+    });
+    clearTimeout(this.tempTimeobj);
+    this.tempTimeobj = setTimeout(() => {
+      if (str.length >= 2) {
+        this.showExamProgressBar = true;
+        this.noteService.queryExams(str).then(response => {
+          this.showExamProgressBar = false;
+          this.physicalExamsList = response;
+          console.log(response);
+        });
+      }
+    }, 1000);
+  }
+
+  addExams(exam: any) {
+    if (!exam) {
+      return;
+    }
+
+    var index = this.note.exams.list.indexOf(exam);
+    if (index === -1) {
+      this.note.exams.list.push(exam);
+    }
+
+    this.selectedExam = undefined;
+    this.searchExam = '';
+  }
+
+  removeExam(exam: any) {
+    let index = this.note.exams.list.indexOf(exam);
+    if (index !== -1) {
+      this.note.exams.list.splice(index, 1);
+    }
+  }
+
+  showExamDialog(exam: any) {
+    console.log(exam, 'exam');
+    let dialogRef = this.dialog.open(DialogExamComponent, {
+      panelClass: 'custom-dialog',
+      data: {
+        note: this.note
+      }
+    });
+    dialogRef.afterClosed().subscribe((response) => {
+      console.log("Dialog output:", response)
+    });
+  }
+
+  getTreatments() {
+    let str = '';
+    this.treatmentCtrl.valueChanges.subscribe((value: string) => {
+      str += value;
+    });
+    clearTimeout(this.tempTimeobj);
+    this.tempTimeobj = setTimeout(() => {
+      if (str.length >= 2) {
+        this.showTreatmentProgressBar = true;
+        this.noteService.queryTreatments(str).then(response => {
+          this.showTreatmentProgressBar = false;
+          this.treatmentList = response;
+          console.log(response);
+        });
+      }
+    }, 1000);
+  }
+
+
+  addTreatment(d) {
+    if (!d) {
+      return;
+    }
+
+    let dialogRef = this.dialog.open(DialogMedicineComponent, {
+      panelClass: 'custom-dialog',
+      data: {
+        note: this.note
+      }
+    });
+    dialogRef.afterClosed().subscribe((response) => {
+
+      if (response.accept && response.indications) {
+        d.indications = response.indications;
+      } else {
+        d.indications = '';
+      }
+
+      const index = this.note.treatments.list.indexOf(d);
+      if (index === -1) {
+        this.note.diagnosis.list.push(d);
+      }
+      console.log(this.note.treatments.list, 'this.note.treatments.list');
+      console.log("Dialog output:", response)
+    });
+
+    this.selectedTreatment = undefined;
+    this.searchTreatment = '';
+  }
+
+  removeTreatment(d) {
+    let index = this.note.treatments.list.indexOf(d);
+    if (index !== -1) {
+      this.note.treatments.list.splice(index, 1);
+    }
+  }
+
+  getInterconsultations() {
+    let str = '';
+    this.interconsultationCtrl.valueChanges.subscribe((value: string) => {
+      str += value;
+    });
+    clearTimeout(this.tempTimeobj);
+    this.tempTimeobj = setTimeout(() => {
+      if (str.length >= 2) {
+        this.showInterconsultantionProgressBar = true;
+        this.noteService.queryInterconsultations(str).then(response => {
+          this.showInterconsultantionProgressBar = false;
+          this.interconsultationList = response;
+          console.log(response);
+        });
+      }
+    }, 1000);
+  }
+
+  addSpecialty(d) {
+    if (!d) {
+      return;
+    }
+    let index = this.note.referrals.list.indexOf(d);
+    if (index === -1) {
+      this.note.referrals.list.push(d);
+    }
+    this.selectedSpecialty = undefined;
+    this.searchSpecialty = '';
+  }
+
+  removeSpecialty(d) {
+    var index = this.note.referrals.list.indexOf(d);
+    if (index !== -1) {
+      this.note.referrals.list.splice(index, 1);
+    }
+  }
+
 }

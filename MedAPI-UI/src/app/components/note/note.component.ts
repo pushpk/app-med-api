@@ -393,9 +393,9 @@ export class NoteComponent implements OnInit {
     this.note.triage.vitalFunctions = vf;
   }
 
-  handleDiagnosisChange(search: any) {
-    this.queryDiagnosis(search);
-  }
+  //handleDiagnosisChange(search: any) {
+  //  this.queryDiagnosis(search);
+  //}
 
   addSymptom(a) {
     var index = this.note.symptoms.list.indexOf(a);

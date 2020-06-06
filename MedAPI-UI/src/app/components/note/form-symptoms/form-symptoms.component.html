@@ -55,23 +55,44 @@
     </div>
     <div fxLayout="column" fxLayoutGap="24px">
       <h2 class="mat-title form-section" fxFlex="100">Diagnóstico</h2>
-      <mat-form-field fxFlex>
-        <mat-label>Buscar CIE10 por código o nombre</mat-label>
-        <input type="text"
-               placeholder="Buscar CIE10 por código o nombre"
-               aria-label="Buscar CIE10 por código o nombre"
-               matInput
-               (keypress)="getDiagnosis()"
-               (keydown.backspace)="getDiagnosis()"
-               [formControl]="diagnosisCtrl"
-               [matAutocomplete]="auto">
-        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)='addDiagnosis($event.option.value)'>
-          <!--<mat-progress-bar mode="indeterminate"></mat-progress-bar>-->
-          <mat-option *ngFor="let o of note.diagnosis.list" [value]="o">
-            {{o.Title}}
-          </mat-option>
-        </mat-autocomplete>
-      </mat-form-field>
+      <div fxFlex>
+        <div fxLayout="row">
+          <mat-form-field fxFlex fxFlexFill>
+            <mat-label>Buscar CIE10 por código o nombre</mat-label>
+            <input type="text"
+                   placeholder="Buscar CIE10 por código o nombre"
+                   aria-label="Buscar CIE10 por código o nombre"
+                   matInput
+                   (keypress)="getDiagnosis()"
+                   (keydown.backspace)="getDiagnosis()"
+                   [formControl]="diagnosisCtrl"
+                   [matAutocomplete]="diagnosisAuto">
+            <ng-container *ngIf="!diagnosisList && showDignosisProgressBar">
+              <mat-progress-bar mode="indeterminate" class="my-16"></mat-progress-bar>
+            </ng-container>
+            <mat-autocomplete #diagnosisAuto="matAutocomplete" [displayWith]="displayFn" (optionSelected)='addDiagnosis($event.option.value)'>
+              <mat-option *ngFor="let o of diagnosisList" [value]="o">
+                {{o.Title}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+        <div fxLayout="row">
+          <mat-list fxFlex="100" fxFlexFill>
+            <mat-list-item fxLayout="row" class="mat-2-line compact" *ngFor="let diagnosis of note.diagnosis.list">
+              <h3>{{ diagnosis.Title }}</h3>
+              <ng-container [ngSwitch]="diagnosis.type">
+                <p *ngSwitchCase="'PRESUMPTIVE'">{{diagnosis.Code}} - Presuntivo</p>
+                <p *ngSwitchCase="'DEFINITIVE'">{{diagnosis.Code}} - Definitivo</p>
+              </ng-container>
+              <button mat-icon-button type="button" aria-label="Remover diagnóstico"
+                      (click)="removeDiagnosis(diagnosis)">
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-list-item>
+          </mat-list>
+        </div>
+      </div>
       <mat-form-field fxFlex>
         <mat-label>Observaciones</mat-label>
         <textarea matInput name="diagnosis" class="max-width" maxlength="250" #diagnosis="ngModel"
@@ -85,20 +106,47 @@
     </div>
     <div fxLayout="column" fxLayoutGap="24px">
       <h2 class="mat-title form-section" fxFlex="100">Exámenes</h2>
-      <mat-form-field fxFlex>
-        <mat-label>Buscar exámenes</mat-label>
-        <input type="text"
-               placeholder="Buscar exámenes"
-               aria-label="Buscar exámenes"
-               matInput
-               [formControl]="examCtrl"
-               [matAutocomplete]="auto">
-        <mat-autocomplete #auto="matAutocomplete">
-          <mat-option *ngFor="let option of options" [value]="option">
-            {{option}}
-          </mat-option>
-        </mat-autocomplete>
-      </mat-form-field>
+      <div fxFlex>
+        <div fxLayout="row">
+          <mat-form-field fxFlex fxFlexFill>
+            <mat-label>Buscar exámenes</mat-label>
+            <input type="text"
+                   placeholder="Buscar exámenes"
+                   aria-label="Buscar exámenes"
+                   matInput
+                   (keypress)="getExams()"
+                   (keydown.backspace)="getExams()"
+                   [formControl]="examCtrl"
+                   [matAutocomplete]="exam">
+            <ng-container *ngIf="!physicalExamsList && showExamProgressBar">
+              <mat-progress-bar mode="indeterminate" class="my-16"></mat-progress-bar>
+            </ng-container>
+            <mat-autocomplete #exam="matAutocomplete" [displayWith]="displayFn" (optionSelected)='addExams($event.option.value)'>
+              <mat-option *ngFor="let o of physicalExamsList" [value]="o">
+                {{o.Name}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+        <div fxLayout="row">
+          <mat-list fxFlex="100" fxFlexFill>
+            <mat-list-item fxLayout="row" class="mat-2-line compact" *ngFor="let exam of note.exams.list">
+              <h3>{{ exam.Name  }}</h3>
+              <button mat-button type="button" aria-label="Introducir resultados"
+                      (click)="showExamDialog(exam)">
+                Resultados
+              </button>
+              <div fxFlex="20" fxLayout="row" fxLayoutAlign="end">
+                <button mat-icon-button type="button" aria-label="Remover examen"
+                        (click)="removeExam(exam)">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </div>
+            </mat-list-item>
+          </mat-list>
+        </div>
+      </div>
+
       <mat-form-field fxFlex>
         <mat-label>Observaciones</mat-label>
         <textarea matInput name="exams" class="max-width" maxlength="250" #exams="ngModel"
@@ -112,20 +160,45 @@
     </div>
     <div fxLayout="column" fxLayoutGap="24px">
       <h2 class="mat-title form-section" fxFlex="100">Tratamiento</h2>
-      <mat-form-field fxFlex>
-        <mat-label>Buscar medicamentos</mat-label>
-        <input type="text"
-               placeholder="Buscar medicamentos"
-               aria-label="Buscar medicamentos"
-               matInput
-               [formControl]="treatmentCtrl"
-               [matAutocomplete]="auto">
-        <mat-autocomplete #auto="matAutocomplete">
-          <mat-option *ngFor="let option of options" [value]="option">
-            {{option}}
-          </mat-option>
-        </mat-autocomplete>
-      </mat-form-field>
+      <div fxFlex>
+        <div fxLayout="row">
+          <mat-form-field fxFlex fxFlexFill>
+            <mat-label>Buscar medicamentos</mat-label>
+            <input type="text"
+                   placeholder="Buscar medicamentos"
+                   aria-label="Buscar medicamentos"
+                   matInput
+                   (keypress)="getTreatments()"
+                   (keydown.backspace)="getTreatments()"
+                   [formControl]="treatmentCtrl"
+                   [matAutocomplete]="treatment">
+            <ng-container *ngIf="!treatmentList && showTreatmentProgressBar">
+              <mat-progress-bar mode="indeterminate" class="my-16"></mat-progress-bar>
+            </ng-container>
+            <mat-autocomplete #treatment="matAutocomplete" [displayWith]="displayFn" (optionSelected)='addTreatment($event.option.value)'>
+              <mat-option *ngFor="let o of treatmentList" [value]="o">
+                {{o.Name}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+        <div fxLayout="row">
+          <mat-list fxFlex="100" fxFlexFill>
+            <mat-list-item fxLayout="row" class="mat-2-line compact" *ngFor="let treatment of note.treatments.list">
+              <div fxFlex="80">
+                <h3>{{ treatment.Name }}</h3>
+                <p>{{treatment.indications}}</p>
+              </div>
+              <div fxFlex="20" fxLayout="row" fxLayoutAlign="end">
+                <button mat-icon-button type="button" aria-label="Remover medicamentos"
+                        (click)="removeTreatment(treatment)">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </div>
+            </mat-list-item>
+          </mat-list>
+        </div>
+      </div>
       <mat-form-field fxFlex>
         <mat-label>Otros</mat-label>
         <textarea matInput name="treatments" class="max-width" maxlength="250" #treatments="ngModel"
@@ -139,20 +212,40 @@
     </div>
     <div fxLayout="column" fxLayoutGap="24px">
       <h2 class="mat-title form-section" fxFlex="100">Interconsulta</h2>
-      <mat-form-field fxFlex>
-        <mat-label>Buscar especialidades</mat-label>
-        <input type="text"
-               placeholder="Buscar especialidades"
-               aria-label="Buscar especialidades"
-               matInput
-               [formControl]="interconsultationCtrl"
-               [matAutocomplete]="auto">
-        <mat-autocomplete #auto="matAutocomplete">
-          <mat-option *ngFor="let option of options" [value]="option">
-            {{option}}
-          </mat-option>
-        </mat-autocomplete>
-      </mat-form-field>
+      <div fxFlex>
+        <div fxLayout="row">
+          <mat-form-field fxFlex fxFlexFill>
+            <mat-label>Buscar especialidades</mat-label>
+            <input type="text"
+                   placeholder="Buscar especialidades"
+                   aria-label="Buscar especialidades"
+                   matInput
+                   (keypress)="getInterconsultations()"
+                   (keydown.backspace)="getInterconsultations()"
+                   [formControl]="interconsultationCtrl"
+                   [matAutocomplete]="interConsultantation">
+            <ng-container *ngIf="!interconsultationList && showInterconsultantionProgressBar">
+              <mat-progress-bar mode="indeterminate" class="my-16"></mat-progress-bar>
+            </ng-container>
+            <mat-autocomplete #interConsultantation="matAutocomplete" [displayWith]="displayFn" (optionSelected)='addSpecialty($event.option.value)'>
+              <mat-option *ngFor="let o of interconsultationList" [value]="o">
+                {{o}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+        <div fxLayout="row">
+          <mat-list fxFlex="100" fxFlexFill>
+            <mat-list-item fxLayout="row" class="mat-2-line compact" *ngFor="let specialty of note.referrals.list">
+              <h3>{{ specialty }}</h3>
+              <button mat-icon-button type="button" aria-label="Remover especialidades"
+                      (click)="removeSpecialty(specialty)">
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-list-item>
+          </mat-list>
+        </div>
+      </div>
       <mat-form-field fxFlex>
         <mat-label>Motivo</mat-label>
         <textarea matInput name="interconsultation" class="max-width" maxlength="250" #interconsultation="ngModel"
