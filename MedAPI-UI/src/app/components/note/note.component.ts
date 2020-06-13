@@ -64,8 +64,6 @@ export class NoteComponent implements OnInit {
     self.searchSpecialty = '';
 
     self.note = {
-      //patient: patient.id,
-      //ticket: ticket,
       symptoms: {
         list: [],
         description: '',
@@ -175,10 +173,23 @@ export class NoteComponent implements OnInit {
     this.patient = JSON.parse(localStorage.getItem('patient'));
     this.notes = localStorage.getItem('notes');
     console.log(this.notes);
+
+    this.note.patient = this.patient.id;
+    //this.note.ticket = this.ticket;
+    this.patient.cigarettes = 0;
+    this.patient.personalBackground = ['HIPERTENSION','DIABETES_MELITUS_'];
+    this.patient.medicines = ['ANTIHIPERTENSIVOS'];
+    this.patient.age = 0;
+    this.patient.fatherBackground = ['HIPERTENSION','ENFERMEDAD_CARDIOVASCULAR'];
+    this.patient.motherBackground = ['HIPERTENSION','ENFERMEDAD_CARDIOVASCULAR'];
+    this.patient.falls = '';
+    this.patient.previousFractures = '5';
+    this.patient.physicalActivity = 'MODERADA';
+
     console.log(this.patient);
+
     this.recordService.selectedSpecialty.subscribe((value) => {
       console.log(value);
-      //this.router.navigateByUrl('/records');      
       this.speciality = value;
     });
 

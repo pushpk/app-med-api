@@ -1,6 +1,6 @@
 <div class="maintainer">
   <mat-card class="no-pad">
-    <form novalidate name="form" enctype="multipart/form-data">
+    <form novalidate name="form" #f="ngForm" (ngSubmit)="submitRequest()" enctype="multipart/form-data">
       <mat-card-content>
         <mat-tab-group [selectedIndex]="index.value" (selectedIndexChange)="index.setValue($event)">
           <ng-container *ngFor="let tab of tabs;let index = index">

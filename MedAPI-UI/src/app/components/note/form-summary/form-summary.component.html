@@ -4,46 +4,44 @@
       <h2>Complete todos los campos obligatorios para continuar.</h2>
   </div> -->
 
-  <div fxLayout="row">
-    <!--*ngIf="!submit.waiting && !submit.success"-->
+  <div fxLayout="row" *ngIf="!submit.waiting && !submit.success">
+
     <h2 fxFlex="100">Ahora puede guardar la atención</h2>
 
-    <!--<div fxFlex="100" *ngIf="!note.id">
-      <mat-button href="{{config.api_host}}/note/{{note.id}}/report/note" target="_blank">
-      Descargar Atención
-    </mat-button>
+    <div fxFlex="100" *ngIf="!note.id">
+      <a href="javascript: void(0);" mat-button [routerLink]="['/note/'+ note.id +'/report/note']" target="_blank">
+        Descargar Atención
+      </a>
 
-    <mat-button href="{{config.api_host}}/note/{{note.id}}/report/prescription" target="_blank">
-      Descargar Receta médica
-    </mat-button>
+      <a href="javascript: void(0);" mat-button [routerLink]="['/note/'+ note.id + '/report/prescription']" target="_blank">
+        Descargar Receta médica
+      </a>
 
-    <mat-button href="{{config.api_host}}/note/{{note.id}}/report/specialty" target="_blank">
-      Descargar Interconsulta
-    </mat-button>
-    </div>-->
+      <a href="javascript: void(0);" mat-button [routerLink]="['/note/'+ note.id +'/report/specialty']" target="_blank">
+        Descargar Interconsulta
+      </a>
+    </div>
   </div>
 
-  <!--<div fxLayout="row" *ngIf="submit.waiting">
+  <div fxLayout="row" *ngIf="submit.waiting">
     <h2>Guardando la atención...</h2>
-  </div>-->
+  </div>
 
-  <!--<div fxLayout="row" *ngIf="!submit.waiting && submit.success">
+  <div fxLayout="row" *ngIf="!submit.waiting && submit.success">
     <h2 fxFlex="100">La atención se ha registrado correctamente</h2>
 
     <div fxFlex="100" *ngIf="!note.id">
-
-      <mat-button href="{{config.api_host}}/note/{{note.id}}/report/note" target="_blank">
+      <a href="javascript: void(0);" mat-button [routerLink]="['/note/'+ note.id +'/report/note']" target="_blank">
         Descargar Atención
-      </mat-button>
+      </a>
 
-      <mat-button href="{{config.api_host}}/note/{{note.id}}/report/prescription" target="_blank">
+      <a href="javascript: void(0);" mat-button [routerLink]="['/note/'+ note.id + '/report/prescription']" target="_blank">
         Descargar Receta médica
-      </mat-button>
+      </a>
 
-      <mat-button href="{{config.api_host}}/note/{{note.id}}/report/specialty" target="_blank">
+      <a href="javascript: void(0);" mat-button [routerLink]="['/note/'+ note.id +'/report/specialty']" target="_blank">
         Descargar Interconsulta
-      </mat-button>
+      </a>
     </div>
-  </div>-->
-
+  </div>
 </div>

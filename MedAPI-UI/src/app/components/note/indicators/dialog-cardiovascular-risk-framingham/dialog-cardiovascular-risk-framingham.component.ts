@@ -8,13 +8,7 @@ import { NoteService } from '../../services/note.service';
   styleUrls: ['./dialog-cardiovascular-risk-framingham.component.scss']
 })
 export class DialogCardiovascularRiskFraminghamComponent implements OnInit {
-  public patient: any = {
-    sex: 'M',
-    cigarettes: 0,
-    personalBackground: ['DIABETES_MELITUS_'],
-    medicines: ['ANTIHIPERTENSIVOS'],
-    age: 20
-  }
+
   constructor(public dialogRef: MatDialogRef<DialogCardiovascularRiskFraminghamComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any, private noteService: NoteService) {
     console.log(data, 'data');
@@ -30,7 +24,8 @@ export class DialogCardiovascularRiskFraminghamComponent implements OnInit {
   answer(): void {
     this.dialogRef.close({
       accept: true,
-      note: this.data.note
+      note: this.data.note,
+      patient: this.data.patient
     });
   }
 

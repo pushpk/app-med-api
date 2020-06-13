@@ -11,25 +11,25 @@
       <mat-form-field fxFlex>
         <mat-label>Sexo</mat-label>
         <input type="text" matInput
-               [value]="patient.sex === 'M' ? 'Masculino' : 'Femenino'"
+               [value]="data.patient.sex === 'M' ? 'Masculino' : 'Femenino'"
                disabled>
       </mat-form-field>
       <mat-form-field fxFlex>
         <mat-label>Es fumador</mat-label>
         <input type="text" matInput
-               [value]="patient.cigarettes>0 ? 'Sí' : 'No'"
+               [value]="data.patient.cigarettes>0 ? 'Sí' : 'No'"
                disabled>
       </mat-form-field>
     </div>
     <div fxFlex fxLayout="row" fxLayout.xs="column" fxLayoutGap="15px">
       <mat-form-field fxFlex>
         <mat-label>Tratamiento Antihipertensivo</mat-label>
-        <input type="text" matInput [value]="patient.medicines.indexOf('ANTIHIPERTENSIVOS') !== -1 ? 'Sí' : 'No'"
+        <input type="text" matInput [value]="data.patient.medicines.indexOf('ANTIHIPERTENSIVOS') !== -1 ? 'Sí' : 'No'"
                disabled>
       </mat-form-field>
       <mat-form-field fxFlex>
         <mat-label>Diabetes Melitus</mat-label>
-        <input type="text" matInput [value]="patient.personalBackground.indexOf('DIABETES_MELITUS_') !== -1 ? 'Sí' : 'No'"
+        <input type="text" matInput [value]="data.patient.personalBackground.indexOf('DIABETES_MELITUS_') !== -1 ? 'Sí' : 'No'"
                disabled>
       </mat-form-field>
     </div>
@@ -37,7 +37,7 @@
       <mat-form-field fxFlex>
         <mat-label>Edad</mat-label>
         <input type="number" min="0" matInput
-               [(ngModel)]="patient.age"
+               [(ngModel)]="data.patient.age"
                (change)="updateComputedFields()">
       </mat-form-field>
       <mat-form-field fxFlex>
@@ -58,9 +58,9 @@
                (change)="updateComputedFields()">
       </mat-form-field>
     </div>    
-    <mat-form-field fxFlex ngClass="{'mat-icon-left mat-has-icon': data.note.triage.vitalFunctions.cardiovascularAge > (patient.age + 10)}">
+    <mat-form-field fxFlex ngClass="{'mat-icon-left mat-has-icon': data.note.triage.vitalFunctions.cardiovascularAge > (data.patient.age + 10)}">
       <label>Edad cardiovascular (años)</label>
-      <mat-icon color="warn" *ngIf="data.note.triage.vitalFunctions.cardiovascularAge > (patient.age + 10)"> error_outline</mat-icon>
+      <mat-icon color="warn" *ngIf="data.note.triage.vitalFunctions.cardiovascularAge > (data.patient.age + 10)"> error_outline</mat-icon>
       <input type="text" matInput readonly name="cardiovascularAge"
              [(ngModel)]="data.note.triage.vitalFunctions.cardiovascularAge">
     </mat-form-field>

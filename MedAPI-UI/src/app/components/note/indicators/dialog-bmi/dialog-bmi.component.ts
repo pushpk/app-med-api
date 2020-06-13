@@ -28,7 +28,8 @@ export class DialogBmiComponent implements OnInit {
   answer(): void {
     this.dialogRef.close({
       accept: true,
-      note: this.data.note
+      note: this.data.note,
+      patient: this.data.patient
     });
   }
 }

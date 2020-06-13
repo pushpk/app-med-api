@@ -8,16 +8,7 @@ import { NoteService } from '../../services/note.service';
   styleUrls: ['./dialog-hypertension-risk.component.scss']
 })
 export class DialogHypertensionRiskComponent implements OnInit {
-  public patient: any = {
-    sex: 'M',
-    cigarettes: 0,
-    personalBackground: ['HIPERTENSION'],
-    medicines: ['ANTIHIPERTENSIVOS'],
-    age: 20,
-    fatherBackground: ['HIPERTENSION'],
-    motherBackground: ['HIPERTENSION'],
-  }
-
+ 
   constructor(public dialogRef: MatDialogRef<DialogHypertensionRiskComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any, private noteService: NoteService) {
     console.log(data, 'data');
@@ -33,7 +24,8 @@ export class DialogHypertensionRiskComponent implements OnInit {
   answer(): void {
     this.dialogRef.close({
       accept: true,
-      note: this.data.note
+      note: this.data.note,
+      patient: this.data.patient
     });
   }
 

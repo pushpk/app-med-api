@@ -59,7 +59,8 @@ export class FormTriageComponent implements OnInit {
     const dialogRef = this.dialog.open(dialogModal, {
       panelClass: 'custom-dialog',
       data: {
-        note: this.note
+        note: this.note,
+        patient: this.patient
       }
     });
 

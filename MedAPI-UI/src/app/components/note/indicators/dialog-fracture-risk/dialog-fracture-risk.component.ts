@@ -8,18 +8,6 @@ import { NoteService } from '../../services/note.service';
   styleUrls: ['./dialog-fracture-risk.component.scss']
 })
 export class DialogFractureRiskComponent implements OnInit {
-  public patient: any = {
-    sex: 'M',
-    cigarettes: 0,
-    personalBackground: ['HIPERTENSION'],
-    medicines: ['ANTIHIPERTENSIVOS'],
-    age: 20,
-    fatherBackground: ['HIPERTENSION'],
-    motherBackground: ['HIPERTENSION'],
-    falls: '',
-    previousFractures:'5'
-  }
-
   constructor(public dialogRef: MatDialogRef<DialogFractureRiskComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any, private noteService: NoteService) {
     console.log(data, 'data');
@@ -35,7 +23,8 @@ export class DialogFractureRiskComponent implements OnInit {
   answer(): void {
     this.dialogRef.close({
       accept: true,
-      note: this.data.note
+      note: this.data.note,
+      patient: this.data.patient
     });
   }
 

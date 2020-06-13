@@ -10,7 +10,8 @@
     <div fxLayout="column" fxLayoutGap="15px">
       <mat-form-field>
         <mat-label>Indicaciones</mat-label>
-        <textarea type="text" matInput [(ngModel)]="indications" maxlength="250"></textarea>
+        <textarea type="text" matInput name="indication" [(ngModel)]="indications" maxlength="250" #indication="ngModel"></textarea>
+        <mat-hint align="end">{{indication.value?.length || 0}}/250</mat-hint>
       </mat-form-field>
     </div>
   </div>

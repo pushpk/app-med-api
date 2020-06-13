@@ -11,25 +11,25 @@
       <mat-form-field fxFlex>
         <mat-label>Es fumador</mat-label>
         <input type="text" matInput
-               [value]="patient.cigarettes > 0 ? 'Sí' : 'No'"
+               [value]="data.patient.cigarettes > 0 ? 'Sí' : 'No'"
                disabled>
       </mat-form-field>
       <mat-form-field fxFlex>
         <mat-label>Padres con Enfermedad Cardiovascular</mat-label>
         <input type="text" matInput
-               [value]="(patient.fatherBackground.indexOf('ENFERMEDAD_CARDIOVASCULAR') !== -1) || (patient.motherBackground.indexOf('ENFERMEDAD_CARDIOVASCULAR') !== -1) ? 'Sí' : 'No'"
+               [value]="(data.patient.fatherBackground.indexOf('ENFERMEDAD_CARDIOVASCULAR') !== -1) || (data.patient.motherBackground.indexOf('ENFERMEDAD_CARDIOVASCULAR') !== -1) ? 'Sí' : 'No'"
                disabled>
       </mat-form-field>
     </div>
     <div fxFlex fxLayout="row" fxLayout.xs="column" fxLayoutGap="15px">
       <mat-form-field fxFlex>
         <mat-label>Diabetes Melitus</mat-label>
-        <input type="text" matInput [value]="patient.personalBackground.indexOf('DIABETES_MELITUS_') !== -1 ? 'Sí' : 'No'"
+        <input type="text" matInput [value]="data.patient.personalBackground.indexOf('DIABETES_MELITUS_') !== -1 ? 'Sí' : 'No'"
                disabled>
       </mat-form-field>
       <mat-form-field fxFlex>
         <mat-label>Edad</mat-label>
-        <input type="number" matInput min="0" [(ngModel)]="patient.age"
+        <input type="number" matInput min="0" [(ngModel)]="data.patient.age"
                (change)="updateComputedFields()">
       </mat-form-field>
     </div>

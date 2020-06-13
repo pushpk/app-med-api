@@ -33,7 +33,6 @@ export class CardioFormSymptomsComponent implements OnInit {
   ngOnInit(): void {
     this.noteService.resources.subscribe((o) => {
       this.resources = o;
-      console.log(this.resources, '  this.resources');
       this.filteredSymptoms = this.symptomsCtrl.valueChanges.pipe(
         startWith(null),
         map((data: string | null) => data ? this._filter(data) : this.resources.cardiovascularSymptom.slice()));

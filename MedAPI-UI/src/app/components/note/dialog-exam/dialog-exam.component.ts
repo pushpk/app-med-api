@@ -34,7 +34,6 @@ export class DialogExamComponent implements OnInit {
   answer() {
     this.dialogRef.close({
       accept: true,
-      status: this.status,
       text: this.text,
       files: this.files
     });

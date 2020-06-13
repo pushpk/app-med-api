@@ -43,21 +43,21 @@
              #otherSymptoms="ngModel">
       <mat-hint align="end">{{otherSymptoms.value?.length || 0}}/250</mat-hint>
     </mat-form-field>
-    <div fxLayout="row">
+    <div fxLayout="row" fxLayoutGap="20px">
       <mat-form-field fxFlex>
         <mat-label>Tiempo de síntoma</mat-label>
-        <input type="number" matInput name="symptomDuration" min="0" [(ngModel)]="note.symptoms.duration" required>
+        <input type="number" matInput name="symptomDuration" #symptomDuration="ngModel" min="0" [(ngModel)]="note.symptoms.duration" required>
         <mat-error *ngIf="symptomDuration.errors && (symptomDuration.touched || symptomDuration.dirty)">
           Este campo es requerido
         </mat-error>
       </mat-form-field>
       <mat-form-field fxFlex>
         <mat-label>Unidades</mat-label>
-        <mat-select name="symptomDuration" class="max-width" #symptomDuration="ngModel"
+        <mat-select name="durationUnit" class="max-width" #durationUnit="ngModel"
                     [(ngModel)]="note.symptoms.durationUnit" required>
           <mat-option *ngFor="let c of resources.durationUnits" [value]="c.id">{{c.name}}</mat-option>
         </mat-select>
-        <mat-error *ngIf="symptomDuration.errors && (symptomDuration.touched || symptomDuration.dirty)">
+        <mat-error *ngIf="durationUnit.errors && (durationUnit.touched || durationUnit.dirty)">
           Este campo es requerido
         </mat-error>
       </mat-form-field>

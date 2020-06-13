@@ -41,7 +41,7 @@ export class RecordComponent implements OnInit {
   displayedColumns: string[] = ['id', 'description', 'specialty', 'date', 'action'];
   dataSource: any;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-  selectedSpeciality: any;
+  selectedSpeciality: any = '';
 
   specialities = [{ value: 'GENERAL', name: 'Medicina General', id: 1 },
   { value: 'CARDIOLOGY', name: 'Cardiología', id: 2 },
@@ -144,30 +144,31 @@ export class RecordComponent implements OnInit {
       localStorage.setItem('speciality', this.selectedSpeciality);
       this.recordService.selectedSpecialty.next(this.selectedSpeciality);
     } else {
+      localStorage.setItem('speciality', '');
+      this.selectedSpeciality = '';
       this.recordService.selectedSpecialty.next('');
     }
   }
 
   navigateToNotes() {
     let routerPath = '/records/notes/new';
-    if (CheckEmptyUtil.isNotEmpty(event)) {
-      switch (this.selectedSpeciality) {
-        case 'general':
-          routerPath = routerPath + '/general';
-          break;
-        case 'cardiology':
-          routerPath = routerPath + '/cardiology';
-          break;
-        case 'pediatry':
-          routerPath = routerPath + '/pediatry';
-          break;
-        case 'traumatology':
-          routerPath = routerPath + '/traumatology';
-          break;
-        default:
-          routerPath = '/records/notes/new';
-          break;
-      }
+    switch (this.selectedSpeciality) {
+      case 'general':
+        routerPath = routerPath + '/general';
+        break;
+      case 'cardiology':
+        routerPath = routerPath + '/cardiology';
+        break;
+      case 'pediatry':
+        routerPath = routerPath + '/pediatry';
+        break;
+      case 'traumatology':
+        routerPath = routerPath + '/traumatology';
+        break;
+      default:
+        routerPath = '/records/notes/new';
+        localStorage.setItem('speciality', '');
+        break;
     }
     this.router.navigateByUrl(routerPath);
   }

@@ -9,9 +9,9 @@
   <div mat-dialog-content>
     <p>El diagnóstico es</p>
     <div fxLayout="column" fxLayoutGap="15px">
-      <mat-radio-group [(ngModel)]="type" aria-label="Select an option">
-        <mat-radio-button value="PRESUMPTIVE">Presuntivo</mat-radio-button>
-        <mat-radio-button value="DEFINITIVE">Definitivo</mat-radio-button>
+      <mat-radio-group [(ngModel)]="type" aria-label="Select an option" class="radio-group">
+        <mat-radio-button class="radio-button" value="PRESUMPTIVE">Presuntivo</mat-radio-button>
+        <mat-radio-button class="radio-button" value="DEFINITIVE">Definitivo</mat-radio-button>
       </mat-radio-group>
     </div>
   </div>

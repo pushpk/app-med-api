@@ -8,13 +8,12 @@
   </div>
   <div mat-dialog-content>
     <div fxLayout="row" fxLayoutGap="15px">
-      <div fxFlex="80" fxFlexFill>
-        <mat-form-field>
-          <mat-label>Descripción</mat-label>
-          <textarea type="text" matInput></textarea>
-        </mat-form-field>
-      </div>
-      <div fxFlex="20" fxFlexFill>
+      <mat-form-field fxFlex="50" fxFlexFill>
+        <mat-label>Descripción</mat-label>
+        <textarea type="text" [(ngModel)]="text" name="description" matInput maxlength="250" #description="ngModel"></textarea>
+        <mat-hint align="end">{{description.value?.length || 0}}/250</mat-hint>
+      </mat-form-field>
+      <div>
         <button color="primary"
                 mat-raised-button
                 accept="image/*"

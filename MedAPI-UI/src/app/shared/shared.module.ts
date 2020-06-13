@@ -34,9 +34,10 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { ToastrModule } from 'ngx-toastr';
 import { ngfModule } from 'angular-file';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { OrderByPipe } from './order-by.pipe';
 
 @NgModule({
-  declarations: [HeaderComponent, SidenavComponent, NgInit],
+  declarations: [HeaderComponent, SidenavComponent, NgInit, OrderByPipe],
   imports: [
     CommonModule,
     HttpClientModule,
@@ -91,7 +92,8 @@ import { MatGridListModule } from '@angular/material/grid-list';
     MatSlideToggleModule,
     ToastrModule,
     ngfModule,
-    MatGridListModule
+    MatGridListModule,
+    OrderByPipe
   ]
 })
 export class SharedModule { }

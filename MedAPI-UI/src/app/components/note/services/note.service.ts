@@ -18,7 +18,7 @@ export class NoteService {
   }
 
   save(note: any) {
-    return this.httpUtilService.invoke('POST', note, '');
+    return this.httpUtilService.invoke('POST', note, '/record/note');
   }
 
   /* diagnosis */
