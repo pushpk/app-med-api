@@ -8,14 +8,14 @@ namespace MedAPI.Domain
 {
    public class Medicine
     {
-        public long Id { get; set; }
-        public string Concentration { get; set; }
-        public byte[] Deleted { get; set; }
-        public string Form { get; set; }
-        public long? Fractions { get; set; }
-        public string HealthRegistration { get; set; }
-        public string Name { get; set; }
-        public string Owner { get; set; }
-        public string Presentation { get; set; }
+        public long id { get; set; }
+        public string concentration { get; set; }
+        public byte[] deleted { get; set; }
+        public string form { get; set; }
+        public long? fractions { get; set; }
+        public string healthRegistration { get; set; }
+        public string name { get; set; }
+        public string owner { get; set; }
+        public string presentation { get; set; }
     }
 }

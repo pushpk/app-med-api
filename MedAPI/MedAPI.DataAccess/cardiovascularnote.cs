@@ -19,14 +19,14 @@ namespace MedAPI.DataAccess
         public string capillaryRefillLRM { get; set; }
         public string cardiacPressureIntensity { get; set; }
         public string cardiacPressureRhythm { get; set; }
-        public byte[] diastolicPhase { get; set; }
-        public byte[] edemaAnkle { get; set; }
-        public byte[] edemaGeneralized { get; set; }
-        public byte[] edemaLowerMembers { get; set; }
-        public byte[] fourthNoise { get; set; }
+        public bool diastolicPhase { get; set; }
+        public bool edemaAnkle { get; set; }
+        public bool edemaGeneralized { get; set; }
+        public bool edemaLowerMembers { get; set; }
+        public bool fourthNoise { get; set; }
         public string gastrointestinalSemiology { get; set; }
-        public byte[] murmurs { get; set; }
-        public byte[] neckRadiation { get; set; }
+        public bool murmurs { get; set; }
+        public bool neckRadiation { get; set; }
         public string otherSymptoms { get; set; }
         public string pedalPulsesL { get; set; }
         public string pedalPulsesR { get; set; }
@@ -34,9 +34,9 @@ namespace MedAPI.DataAccess
         public string pulsesLRM { get; set; }
         public string radialPulsesL { get; set; }
         public string radialPulsesR { get; set; }
-        public byte[] systolicPhase { get; set; }
-        public byte[] thirdNoise { get; set; }
-        public byte[] trophicChanges { get; set; }
+        public bool systolicPhase { get; set; }
+        public bool thirdNoise { get; set; }
+        public bool trophicChanges { get; set; }
         public string vesicularWhisperL { get; set; }
         public string vesicularWhisperR { get; set; }
         public long id { get; set; }

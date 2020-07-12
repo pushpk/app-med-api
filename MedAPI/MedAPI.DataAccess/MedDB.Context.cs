@@ -13,10 +13,10 @@ namespace MedAPI.DataAccess
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class RegistroclinicoEntities : DbContext
+    public partial class registroclinicoEntities : DbContext
     {
-        public RegistroclinicoEntities()
-            : base("name=RegistroclinicoEntities")
+        public registroclinicoEntities()
+            : base("name=registroclinicoEntities")
         {
         }
     

@@ -14,7 +14,7 @@ namespace MedAPI.Service
         }
         public Triage GetLatest(Patient mPatient)
         {
-            return triageRepository.GetLatest(mPatient.Id);
+            return triageRepository.GetLatest(mPatient.id);
         }
     }
 }

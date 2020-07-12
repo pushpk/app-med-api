@@ -27,7 +27,7 @@ namespace MedAPI.DataAccess
         public string createdTicket { get; set; }
         public Nullable<long> dormNumber { get; set; }
         public string educationalAttainment { get; set; }
-        public byte[] electricity { get; set; }
+        public bool electricity { get; set; }
         public Nullable<long> fractureNumber { get; set; }
         public string fruitsVegetables { get; set; }
         public string highGlucose { get; set; }
@@ -42,8 +42,8 @@ namespace MedAPI.DataAccess
         public string otherPersonalBackground { get; set; }
         public string physicalActivity { get; set; }
         public Nullable<long> residentNumber { get; set; }
-        public byte[] sewage { get; set; }
-        public byte[] water { get; set; }
+        public bool sewage { get; set; }
+        public bool water { get; set; }
         public long id { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

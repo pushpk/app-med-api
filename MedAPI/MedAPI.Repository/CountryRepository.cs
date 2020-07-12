@@ -10,7 +10,7 @@ namespace MedAPI.Repository
     {
         public Country GetByName(string name)
         {
-            using (var context = new DataAccess.RegistroclinicoEntities())
+            using (var context = new DataAccess.registroclinicoEntities())
             {
                 return context.countries.Where(x => x.name == name)
                    .Select(x => new Country()
@@ -30,11 +30,11 @@ namespace MedAPI.Repository
         }
         public List<Country> GetAllCountry()
         {
-            var bytes = BitConverter.GetBytes(true);
-            using (var context = new DataAccess.RegistroclinicoEntities())
+            //var bytes = BitConverter.GetBytes(true);
+            using (var context = new DataAccess.registroclinicoEntities())
             {
                 return (from c in context.countries
-                        where c.deleted != bytes
+                        where c.deleted != true
                         select new Country()
                         {
                             deleted = c.deleted,
@@ -53,10 +53,10 @@ namespace MedAPI.Repository
         }
         public Country GetCountryById(long id)
         {
-            var bytes = BitConverter.GetBytes(true);
-            using (var context = new DataAccess.RegistroclinicoEntities())
+            //var bytes = BitConverter.GetBytes(true);
+            using (var context = new DataAccess.registroclinicoEntities())
             {
-                return context.countries.Where(x => x.id == id && x.deleted != bytes)
+                return context.countries.Where(x => x.id == id && x.deleted != true)
                    .Select(x => new Country()
                    {
                        id = x.id,
@@ -76,12 +76,12 @@ namespace MedAPI.Repository
         public bool DeleteCountryById(long id)
         {
             bool isSuccess = false;
-            using (var context = new DataAccess.RegistroclinicoEntities())
+            using (var context = new DataAccess.registroclinicoEntities())
             {
                 var efCountries = context.countries.Where(m => m.id == id).FirstOrDefault();
                 if (efCountries != null)
                 {
-                    efCountries.deleted = BitConverter.GetBytes(true);
+                    efCountries.deleted = true;// BitConverter.GetBytes(true);
                     context.SaveChanges();
                     isSuccess = true;
                 }
@@ -90,13 +90,13 @@ namespace MedAPI.Repository
         }
         public Country SaveCountry(Country mCountry)
         {
-            using (var context = new DataAccess.RegistroclinicoEntities())
+            using (var context = new DataAccess.registroclinicoEntities())
             {
                 var efCountries = context.countries.Where(m => m.id == mCountry.id).FirstOrDefault();
                 if (efCountries == null)
                 {
                     efCountries = new DataAccess.country();
-                    efCountries.deleted= BitConverter.GetBytes(false);
+                    efCountries.deleted = true;// BitConverter.GetBytes(false);
                     context.countries.Add(efCountries);
                 }
                 efCountries.name = mCountry.name;

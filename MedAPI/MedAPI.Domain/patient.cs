@@ -10,39 +10,39 @@ namespace MedAPI.Domain
     {
         public Patient()
         {
-            this.Notes = new List<Note>();
-            this.Triages = new List<Triage>();
-            User = new User();
+            //this.notes = new List<Note>();
+            //this.triages = new List<Triage>();
+            user = new User();
         }
 
-        public string Alcohol { get; set; }
-        public string BloodType { get; set; }
-        public long? CigaretteNumber { get; set; }
-        public string CreatedTicket { get; set; }
-        public long? DormNumber { get; set; }
-        public string EducationalAttainment { get; set; }
-        public byte[] Electricity { get; set; }
-        public long? FractureNumber { get; set; }
-        public string FruitsVegetables { get; set; }
-        public string HighGlucose { get; set; }
-        public string HomeMaterial { get; set; }
-        public string HomeOwnership { get; set; }
-        public string HomeType { get; set; }
-        public string Occupation { get; set; }
-        public string OtherAllergies { get; set; }
-        public string OtherFatherBackground { get; set; }
-        public string OtherMedicines { get; set; }
-        public string OtherMotherBackground { get; set; }
-        public string OtherPersonalBackground { get; set; }
-        public string PhysicalActivity { get; set; }
-        public long? ResidentNumber { get; set; }
-        public byte[] Sewage { get; set; }
-        public byte[] Water { get; set; }
-        public long Id { get; set; }
+        public string alcohol { get; set; }
+        public string bloodType { get; set; }
+        public long? cigaretteNumber { get; set; }
+        public string createdTicket { get; set; }
+        public long? dormNumber { get; set; }
+        public string educationalAttainment { get; set; }
+        public bool electricity { get; set; }
+        public long? fractureNumber { get; set; }
+        public string fruitsVegetables { get; set; }
+        public string highGlucose { get; set; }
+        public string homeMaterial { get; set; }
+        public string homeOwnership { get; set; }
+        public string homeType { get; set; }
+        public string occupation { get; set; }
+        public string otherAllergies { get; set; }
+        public string otherFatherBackground { get; set; }
+        public string otherMedicines { get; set; }
+        public string otherMotherBackground { get; set; }
+        public string otherPersonalBackground { get; set; }
+        public string physicalActivity { get; set; }
+        public long? residentNumber { get; set; }
+        public bool sewage { get; set; }
+        public bool water { get; set; }
+        public long id { get; set; }
 
-        public List<Note> Notes { get; set; }
-        public List<Triage> Triages { get; set; }
+        //public List<Note> notes { get; set; }
+        //public List<Triage> triages { get; set; }
 
-        public Domain.User User { get; set; }
+        public Domain.User user { get; set; }
     }
 }

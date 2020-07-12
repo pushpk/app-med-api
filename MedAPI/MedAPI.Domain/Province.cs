@@ -14,7 +14,7 @@ namespace MedAPI.Domain
         }
 
         public long Id { get; set; }
-        public byte[] Deleted { get; set; }
+        public bool Deleted { get; set; }
         public string Name { get; set; }
         public long DepartmentId { get; set; }
         public List<District> Districts { get; set; }

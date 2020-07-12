@@ -11,41 +11,41 @@ namespace MedAPI.Repository
 
         public User Authenticate(string email)
         {
-            var bytes = BitConverter.GetBytes(false);
-            using (var context = new DataAccess.RegistroclinicoEntities())
+            //var bytes = BitConverter.GetBytes(false);
+            using (var context = new DataAccess.registroclinicoEntities())
             {
-                return context.users.Where(x => x.email == email  &&x.deleted== bytes)
+                return context.users.Where(x => x.email == email && x.deleted == false)
                       .Select(x => new Domain.User
                       {
-                          Id=x.id,
-                          Address=x.address,
-                          Birthday=x.birthday,
-                          Cellphone=x.cellphone,
-                          CountryId=x.country_id,
-                          CreatedBy=x.createdBy,
-                          CreatedDate=x.createdDate,
-                          DistrictId=x.district_id,
-                          DocumentNumber=x.documentNumber,
-                          DocumentType=x.documentType,
-                          Email=x.email,
-                          FirstName=x.firstName,
-                          LastNameFather=x.lastNameFather,
-                          MaritalStatus=x.maritalStatus,
-                          LastNameMother=x.lastNameFather,
-                          ModifiedBy=x.modifiedBy,
-                          ModifiedDate=x.modifiedDate,
-                          OrganDonor=x.organDonor,
-                          Phone=x.phone,
-                          RoleId=x.role_id,
-                          Since=x.since,
-                          PasswordHash=x.password_hash,
-                          Role=new Role
+                          id = x.id,
+                          address = x.address,
+                          birthday = x.birthday,
+                          cellphone = x.cellphone,
+                          countryId = x.country_id,
+                          createdBy = x.createdBy,
+                          createdDate = x.createdDate,
+                          districtId = x.district_id,
+                          documentNumber = x.documentNumber,
+                          documentType = x.documentType,
+                          email = x.email,
+                          firstName = x.firstName,
+                          lastNameFather = x.lastNameFather,
+                          lastNameMother = x.lastNameFather,
+                          maritalStatus = x.maritalStatus,
+                          modifiedBy = x.modifiedBy,
+                          modifiedDate = x.modifiedDate,
+                          organDonor = x.organDonor,
+                          phone = x.phone,
+                          roleId = x.role_id,
+                          since = x.since,
+                          passwordHash = x.password_hash,
+                          role = new Role
                           {
-                              Id=x.role.id,
-                              Name=x.role.name,
-                              Description=x.role.description
+                              id = x.role.id,
+                              name = x.role.name,
+                              description = x.role.description
                           },
-                           Sex = x.sex
+                          sex = x.sex
                       }).FirstOrDefault();
             }
         }
@@ -53,12 +53,12 @@ namespace MedAPI.Repository
         public bool DeleteUserById(long id)
         {
             bool isSuccess = false;
-            using (var context = new DataAccess.RegistroclinicoEntities())
+            using (var context = new DataAccess.registroclinicoEntities())
             {
                 var efuser = context.users.Where(m => m.id == id).FirstOrDefault();
                 if (efuser != null)
                 {
-                    efuser.deleted= BitConverter.GetBytes(true);
+                    efuser.deleted = true;// BitConverter.GetBytes(true);
                     context.SaveChanges();
                     isSuccess = true;
                 }
@@ -68,113 +68,113 @@ namespace MedAPI.Repository
 
         public List<User> GetAllUser()
         {
-            using (var context = new DataAccess.RegistroclinicoEntities())
+            using (var context = new DataAccess.registroclinicoEntities())
             {
                 return (from us in context.users
                         select new User()
                         {
-                            Id = us.id,
-                            Address = us.address,
-                            Birthday = us.birthday,
-                            Cellphone = us.cellphone,
-                            CreatedBy = us.createdBy,
-                            CreatedDate = us.createdDate,
-                            Deletable = us.deletable,
-                            Deleted = us.deleted,
-                            DocumentNumber = us.documentNumber,
-                            DocumentType = us.documentType,
-                            Email = us.email,
-                            FirstName = us.firstName,
-                            LastNameFather = us.lastNameFather,
-                            LastNameMother = us.lastNameMother,
-                            MaritalStatus = us.maritalStatus,
-                            ModifiedBy = us.modifiedBy,
-                            ModifiedDate = us.modifiedDate,
-                            OrganDonor = us.organDonor,
-                            PasswordHash = us.password_hash,
-                            Phone = us.phone,
-                            Sex = us.sex,
-                            Since = us.since,
-                            CountryId = us.country_id,
-                            DistrictId = us.district_id,
-                            RoleId = us.role_id
+                            id = us.id,
+                            address = us.address,
+                            birthday = us.birthday,
+                            cellphone = us.cellphone,
+                            createdBy = us.createdBy,
+                            createdDate = us.createdDate,
+                            deletable = us.deletable,
+                            deleted = us.deleted,
+                            documentNumber = us.documentNumber,
+                            documentType = us.documentType,
+                            email = us.email,
+                            firstName = us.firstName,
+                            lastNameFather = us.lastNameFather,
+                            lastNameMother = us.lastNameMother,
+                            maritalStatus = us.maritalStatus,
+                            modifiedBy = us.modifiedBy,
+                            modifiedDate = us.modifiedDate,
+                            organDonor = us.organDonor,
+                            passwordHash = us.password_hash,
+                            phone = us.phone,
+                            sex = us.sex,
+                            since = us.since,
+                            countryId = us.country_id,
+                            districtId = us.district_id,
+                            roleId = us.role_id
                         }).ToList();
             }
         }
 
         public User GetUserById(long id)
         {
-            using (var context = new DataAccess.RegistroclinicoEntities())
+            using (var context = new DataAccess.registroclinicoEntities())
             {
                 return context.users.Where(x => x.id == id)
                    .Select(x => new User()
                    {
-                       Id = x.id,
-                       Address = x.address,
-                       Birthday = x.birthday,
-                       Cellphone = x.cellphone,
-                       CreatedBy = x.createdBy,
-                       CreatedDate = x.createdDate,
-                       Deletable = x.deletable,
-                       Deleted = x.deleted,
-                       DocumentNumber = x.documentNumber,
-                       DocumentType = x.documentType,
-                       Email = x.email,
-                       FirstName = x.firstName,
-                       LastNameFather = x.lastNameFather,
-                       LastNameMother = x.lastNameMother,
-                       MaritalStatus = x.maritalStatus,
-                       ModifiedBy = x.modifiedBy,
-                       ModifiedDate = x.modifiedDate,
-                       OrganDonor = x.organDonor,
-                       PasswordHash = x.password_hash,
-                       Phone = x.phone,
-                       Sex = x.sex,
-                       Since = x.since,
-                       CountryId = x.country_id,
-                       DistrictId = x.district_id,
-                       RoleId = x.role_id,
+                       id = x.id,
+                       address = x.address,
+                       birthday = x.birthday,
+                       cellphone = x.cellphone,
+                       createdBy = x.createdBy,
+                       createdDate = x.createdDate,
+                       deletable = x.deletable,
+                       deleted = x.deleted,
+                       documentNumber = x.documentNumber,
+                       documentType = x.documentType,
+                       email = x.email,
+                       firstName = x.firstName,
+                       lastNameFather = x.lastNameFather,
+                       lastNameMother = x.lastNameMother,
+                       maritalStatus = x.maritalStatus,
+                       modifiedBy = x.modifiedBy,
+                       modifiedDate = x.modifiedDate,
+                       organDonor = x.organDonor,
+                       passwordHash = x.password_hash,
+                       phone = x.phone,
+                       sex = x.sex,
+                       since = x.since,
+                       countryId = x.country_id,
+                       districtId = x.district_id,
+                       roleId = x.role_id,
                    }).FirstOrDefault();
             }
         }
 
         public User GetByEmail(string email)
         {
-            var bytes = BitConverter.GetBytes(false);
-            using (var context = new DataAccess.RegistroclinicoEntities())
+            //var bytes = BitConverter.GetBytes(false);
+            using (var context = new DataAccess.registroclinicoEntities())
             {
-                return context.users.Where(x => x.email == email && x.deleted== bytes)
+                return context.users.Where(x => x.email == email && x.deleted == false)
                    .Select(x => new User()
                    {
-                       Id = x.id,
-                       Address = x.address,
-                       Birthday = x.birthday,
-                       Cellphone = x.cellphone,
-                       CreatedBy = x.createdBy,
-                       CreatedDate = x.createdDate,
-                       Deletable = x.deletable,
-                       Deleted = x.deleted,
-                       DocumentNumber = x.documentNumber,
-                       DocumentType = x.documentType,
-                       Email = x.email,
-                       FirstName = x.firstName,
-                       LastNameFather = x.lastNameFather,
-                       LastNameMother = x.lastNameMother,
-                       MaritalStatus = x.maritalStatus,
-                       ModifiedBy = x.modifiedBy,
-                       ModifiedDate = x.modifiedDate,
-                       OrganDonor = x.organDonor,
-                       PasswordHash = x.password_hash,
-                       Phone = x.phone,
-                       Sex = x.sex,
-                       Since = x.since,
-                       CountryId = x.country_id,
-                       DistrictId = x.district_id,
-                       RoleId = x.role_id,
-                       Role=new Domain.Role
+                       id = x.id,
+                       address = x.address,
+                       birthday = x.birthday,
+                       cellphone = x.cellphone,
+                       createdBy = x.createdBy,
+                       createdDate = x.createdDate,
+                       deletable = x.deletable,
+                       deleted = x.deleted,
+                       documentNumber = x.documentNumber,
+                       documentType = x.documentType,
+                       email = x.email,
+                       firstName = x.firstName,
+                       lastNameFather = x.lastNameFather,
+                       lastNameMother = x.lastNameMother,
+                       maritalStatus = x.maritalStatus,
+                       modifiedBy = x.modifiedBy,
+                       modifiedDate = x.modifiedDate,
+                       organDonor = x.organDonor,
+                       passwordHash = x.password_hash,
+                       phone = x.phone,
+                       sex = x.sex,
+                       since = x.since,
+                       countryId = x.country_id,
+                       districtId = x.district_id,
+                       roleId = x.role_id,
+                       role = new Domain.Role
                        {
-                           Id=x.role.id,
-                           Name=x.role.name
+                           id = x.role.id,
+                           name = x.role.name
                        }
                    }).FirstOrDefault();
             }
@@ -182,38 +182,43 @@ namespace MedAPI.Repository
 
         public User SaveUser(User mUser)
         {
-            using (var context = new DataAccess.RegistroclinicoEntities())
+            using (var context = new DataAccess.registroclinicoEntities())
             {
-                var efUser = context.users.Where(m => m.id == mUser.Id).FirstOrDefault();
+                var efUser = context.users.Where(m => m.id == mUser.id).FirstOrDefault();
                 if (efUser == null)
                 {
                     efUser = new DataAccess.user();
-                    efUser.deleted = BitConverter.GetBytes(false);
-                    efUser.deletable = BitConverter.GetBytes(false);
-                    efUser.organDonor = BitConverter.GetBytes(false);
-                    efUser.createdBy = mUser.CreatedBy;
+                    efUser.deleted = false;// BitConverter.GetBytes(false);
+                    efUser.deletable = false;// BitConverter.GetBytes(false);
+                    efUser.organDonor = false;// BitConverter.GetBytes(false);
+                    efUser.createdBy = mUser.createdBy;
                     efUser.createdDate = DateTime.UtcNow;
                     efUser.since = DateTime.UtcNow.Date;
-                    efUser.password_hash = mUser.PasswordHash;
+                    efUser.password_hash = mUser.passwordHash;
                     context.users.Add(efUser);
                 }
-                efUser.firstName = mUser.FirstName;
-                efUser.lastNameFather = mUser.LastNameFather;
-                efUser.lastNameMother = mUser.LastNameMother;
-                efUser.phone = mUser.Phone;
-                efUser.address = mUser.Address;
-                efUser.country_id = mUser.CountryId;
-                efUser.documentType = mUser.DocumentType;
-                efUser.documentNumber = mUser.DocumentNumber;
-                efUser.birthday = mUser.Birthday;
-                efUser.role_id = mUser.RoleId;
-                efUser.email = mUser.Email;
-                efUser.maritalStatus = mUser.MaritalStatus;
-                efUser.cellphone = mUser.Cellphone;
-                efUser.sex = mUser.Sex;
-                efUser.district_id = mUser.DistrictId;
+                else
+                {
+                    efUser.modifiedDate = DateTime.UtcNow;
+                    efUser.modifiedBy = mUser.createdBy;
+                }
+                efUser.firstName = mUser.firstName;
+                efUser.lastNameFather = mUser.lastNameFather;
+                efUser.lastNameMother = mUser.lastNameMother;
+                efUser.phone = mUser.phone;
+                efUser.address = mUser.address;
+                efUser.country_id = mUser.countryId;
+                efUser.documentType = mUser.documentType;
+                efUser.documentNumber = mUser.documentNumber;
+                efUser.birthday = mUser.birthday;
+                efUser.role_id = mUser.roleId;
+                efUser.email = mUser.email;
+                efUser.maritalStatus = mUser.maritalStatus;
+                efUser.cellphone = mUser.cellphone;
+                efUser.sex = mUser.sex;
+                efUser.district_id = mUser.districtId;
                 context.SaveChanges();
-                mUser.Id = efUser.id;
+                mUser.id = efUser.id;
             }
             return mUser;
         }

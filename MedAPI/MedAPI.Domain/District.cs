@@ -15,7 +15,7 @@ namespace MedAPI.Domain
         }
 
         public long Id { get; set; }
-        public byte[] Deleted { get; set; }
+        public bool Deleted { get; set; }
         public string Name { get; set; }
         public long? Ubigeo { get; set; }
         public long ProvinceId { get; set; }

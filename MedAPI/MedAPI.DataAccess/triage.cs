@@ -26,7 +26,7 @@ namespace MedAPI.DataAccess
         public Nullable<double> breathingRate { get; set; }
         public string createdBy { get; set; }
         public Nullable<System.DateTime> createdDate { get; set; }
-        public byte[] deleted { get; set; }
+        public bool deleted { get; set; }
         public string deposition { get; set; }
         public Nullable<double> diastolicBloodPressure { get; set; }
         public Nullable<double> glycemia { get; set; }

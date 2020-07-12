@@ -10,7 +10,7 @@ namespace MedAPI.Repository
     {
         public Department GetByName(string name)
         {
-            using (var context = new DataAccess.RegistroclinicoEntities())
+            using (var context = new DataAccess.registroclinicoEntities())
             {
                 return context.departments.Where(x => x.name == name)
                    .Select(x => new Department()
@@ -29,11 +29,11 @@ namespace MedAPI.Repository
         }
         public List<Department> GetAllDepartment()
         {
-            var bytes = BitConverter.GetBytes(true);
-            using (var context = new DataAccess.RegistroclinicoEntities())
+            //var bytes = BitConverter.GetBytes(true);
+            using (var context = new DataAccess.registroclinicoEntities())
             {
                 return (from c in context.departments
-                        where c.deleted != bytes
+                        where c.deleted != true
                         select new Department()
                         {
                             deleted = c.deleted,
@@ -50,10 +50,10 @@ namespace MedAPI.Repository
         }
         public Department GetDepartmentById(long id)
         {
-            var bytes = BitConverter.GetBytes(true);
-            using (var context = new DataAccess.RegistroclinicoEntities())
+            //var bytes = BitConverter.GetBytes(true);
+            using (var context = new DataAccess.registroclinicoEntities())
             {
-                return context.departments.Where(x => x.id == id && x.deleted!= bytes)
+                return context.departments.Where(x => x.id == id && x.deleted != true)
                    .Select(x => new Department()
                    {
                        id = x.id,
@@ -71,12 +71,12 @@ namespace MedAPI.Repository
         public bool DeleteDepartmentById(long id)
         {
             bool isSuccess = false;
-            using (var context = new DataAccess.RegistroclinicoEntities())
+            using (var context = new DataAccess.registroclinicoEntities())
             {
                 var efDept = context.departments.Where(m => m.id == id).FirstOrDefault();
                 if (efDept != null)
                 {
-                    efDept.deleted = BitConverter.GetBytes(true);
+                    efDept.deleted = true;// BitConverter.GetBytes(true);
                     context.SaveChanges();
                     isSuccess = true;
                 }
@@ -85,13 +85,13 @@ namespace MedAPI.Repository
         }
         public Department SaveDepartment(Department mDepartment)
         {
-            using (var context = new DataAccess.RegistroclinicoEntities())
+            using (var context = new DataAccess.registroclinicoEntities())
             {
                 var efDept = context.departments.Where(m => m.id == mDepartment.id).FirstOrDefault();
                 if (efDept == null)
                 {
                     efDept = new DataAccess.department();
-                    efDept.deleted = BitConverter.GetBytes(false);
+                    efDept.deleted = true; // BitConverter.GetBytes(false);
                     context.departments.Add(efDept);
                 }
                 efDept.name = mDepartment.name;

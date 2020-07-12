@@ -8,11 +8,11 @@ namespace MedAPI.Repository
     {
         public Triage GetLatest(long id)
         {
-            var bytes = BitConverter.GetBytes(false);
-            using (var context = new DataAccess.RegistroclinicoEntities())
+            //var bytes = BitConverter.GetBytes(false);
+            using (var context = new DataAccess.registroclinicoEntities())
             {
                 return (from tr in context.triages
-                        where tr.deleted != bytes  && tr.patient.id==id
+                        where tr.deleted != false && tr.patient.id==id
                         select new Triage
                         {
                             AbdominalPerimeter=tr.abdominalPerimeter,
@@ -50,14 +50,14 @@ namespace MedAPI.Repository
 
         public Triage SaveTriage(Triage triage)
         {
-            using (var context = new DataAccess.RegistroclinicoEntities())
+            using (var context = new DataAccess.registroclinicoEntities())
             {
                 var efTriages = context.triages.Where(m => m.id == triage.Id).FirstOrDefault();
                 if (efTriages == null)
                 {
                     efTriages = new DataAccess.triage();
                     efTriages.createdDate = DateTime.UtcNow;
-                    efTriages.deleted = BitConverter.GetBytes(false);
+                    efTriages.deleted = false;// BitConverter.GetBytes(false);
                     context.triages.Add(efTriages);
                 }
                 efTriages.abdominalPerimeter = triage.AbdominalPerimeter;

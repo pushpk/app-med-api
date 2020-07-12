@@ -20,8 +20,8 @@ namespace MedAPI.DataAccess
         public string cellphone { get; set; }
         public string createdBy { get; set; }
         public Nullable<System.DateTime> createdDate { get; set; }
-        public byte[] deletable { get; set; }
-        public byte[] deleted { get; set; }
+        public bool deletable { get; set; }
+        public bool deleted { get; set; }
         public string documentNumber { get; set; }
         public string documentType { get; set; }
         public string email { get; set; }
@@ -31,7 +31,7 @@ namespace MedAPI.DataAccess
         public string maritalStatus { get; set; }
         public string modifiedBy { get; set; }
         public Nullable<System.DateTime> modifiedDate { get; set; }
-        public byte[] organDonor { get; set; }
+        public bool organDonor { get; set; }
         public string password_hash { get; set; }
         public string phone { get; set; }
         public string sex { get; set; }

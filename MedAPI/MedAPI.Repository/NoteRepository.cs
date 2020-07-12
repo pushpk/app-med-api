@@ -13,11 +13,11 @@ namespace MedAPI.Repository
 
         public List<Note> GetAllNoteByPatient(int id)
         {
-            var bytes = BitConverter.GetBytes(true);
-            using (var context = new DataAccess.RegistroclinicoEntities())
+            //var bytes = BitConverter.GetBytes(true);
+            using (var context = new DataAccess.registroclinicoEntities())
             {
                 return (from nt in context.notes
-                        where nt.deleted != bytes && nt.patient_id == id
+                        where nt.deleted != true && nt.patient_id == id
                         select new Note()
                         {
                             Id = nt.id,
@@ -48,12 +48,12 @@ namespace MedAPI.Repository
         public bool DeleteNoteById(long id)
         {
             bool isSuccess = false;
-            using (var context = new DataAccess.RegistroclinicoEntities())
+            using (var context = new DataAccess.registroclinicoEntities())
             {
                 var efNote = context.notes.Where(m => m.id == id).FirstOrDefault();
                 if (efNote != null)
                 {
-                    efNote.deleted = BitConverter.GetBytes(true);
+                    efNote.deleted = true;// BitConverter.GetBytes(true);
                     context.SaveChanges();
                     isSuccess = true;
                 }
@@ -63,11 +63,11 @@ namespace MedAPI.Repository
 
         public List<Note> GetAllNote()
         {
-            var bytes = BitConverter.GetBytes(true);
-            using (var context = new DataAccess.RegistroclinicoEntities())
+            //var bytes = BitConverter.GetBytes(true);
+            using (var context = new DataAccess.registroclinicoEntities())
             {
                 return (from nt in context.notes
-                        where nt.deleted != bytes
+                        where nt.deleted != true
                         select new Note()
                         {
                             Id = nt.id,
@@ -98,7 +98,7 @@ namespace MedAPI.Repository
 
         public Note GetNoteById(long id)
         {
-            using (var context = new DataAccess.RegistroclinicoEntities())
+            using (var context = new DataAccess.registroclinicoEntities())
             {
                 return context.notes.Where(x => x.id == id)
                    .Select(x => new Note()
@@ -131,13 +131,13 @@ namespace MedAPI.Repository
 
         public Note SaveNote(Note mNote)
         {
-            using (var context = new DataAccess.RegistroclinicoEntities())
+            using (var context = new DataAccess.registroclinicoEntities())
             {
                 var efNotes = context.notes.Where(m => m.id == mNote.Id).FirstOrDefault();
                 if (efNotes == null)
                 {
                     efNotes = new DataAccess.note();
-                    efNotes.deleted = BitConverter.GetBytes(false);
+                    efNotes.deleted = false;// BitConverter.GetBytes(false);
                     efNotes.createdDate = DateTime.UtcNow;
                     context.notes.Add(efNotes);
                 }

@@ -162,7 +162,7 @@ namespace MedAPI.Controllers
             var user = userService.GetByEmail(email);
             if (user != null)
             {
-                if (user.RoleId == (int)Infrastructure.Common.Permission.ADMIN)
+                if (user.roleId == (int)Infrastructure.Common.Permission.ADMIN)
                 {
                     result = true;
                 }

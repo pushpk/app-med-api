@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace MedAPI.Controllers
 {
@@ -100,12 +101,12 @@ namespace MedAPI.Controllers
         }
         [HttpPost]
         [Route("users/{id:int}")]
-        public HttpResponseMessage Update(Domain.User mUser,long id)
+        public HttpResponseMessage Update(Domain.User mUser, long id)
         {
             HttpResponseMessage response = null;
             try
             {
-                mUser.Id = id;
+                mUser.id = id;
                 mUser = userService.SaveUser(mUser);
                 response = Request.CreateResponse(HttpStatusCode.OK, mUser);
             }
@@ -135,25 +136,26 @@ namespace MedAPI.Controllers
         }
 
         [HttpPost]
+        //[EnableCors(origins: "*", headers: "*", methods: "*")]
         [Route("~/login")]
         public HttpResponseMessage authenticate(Domain.Login mLogin)
         {
             Domain.User mUser = new Domain.User();
 
-          
-                HttpResponseMessage response = null;
+
+            HttpResponseMessage response = null;
             try
             {
                 mUser = userService.Authenticate(mLogin.username, mLogin.Password);
                 if (mUser != null)
                 {
                     IEnumerable<string> permissions;
-                    using (var ctx = new DataAccess.RegistroclinicoEntities())
+                    using (var ctx = new DataAccess.registroclinicoEntities())
                     {
-                        permissions = ctx.role_permissions.Where(s => s.Role_id == mUser.RoleId).Select(s => s.permissions).ToArray();
+                        permissions = ctx.role_permissions.Where(s => s.Role_id == mUser.roleId).Select(s => s.permissions).ToArray();
                     }
 
-                    response = Request.CreateResponse(HttpStatusCode.OK, new { id = mUser.Id, permissions = permissions });
+                    response = Request.CreateResponse(HttpStatusCode.OK, new { id = mUser.id, permissions = permissions });
                 }
                 else
                 {
@@ -203,7 +205,7 @@ namespace MedAPI.Controllers
             HttpResponseMessage response = null;
             try
             {
-                    response = Request.CreateResponse(HttpStatusCode.OK, "logout");
+                response = Request.CreateResponse(HttpStatusCode.OK, "logout");
             }
             catch (Exception ex)
             {

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MedAPI.Domain
 {
-   public class Triage
+    public class Triage
     {
         public Triage()
         {
@@ -19,7 +19,7 @@ namespace MedAPI.Domain
         public double? BreathingRate { get; set; }
         public string CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
-        public byte[] Deleted { get; set; }
+        public bool Deleted { get; set; }
         public string Deposition { get; set; }
         public double? DiastolicBloodPressure { get; set; }
         public double? Glycemia { get; set; }

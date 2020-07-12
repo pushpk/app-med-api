@@ -10,13 +10,13 @@ namespace MedAPI.Repository
     {
         public Note getByTicket(string serie, string nroTicket)
         {
-            var bytes = BitConverter.GetBytes(false);
-            using (var context = new DataAccess.RegistroclinicoEntities())
+            //var bytes = BitConverter.GetBytes(false);
+            using (var context = new DataAccess.registroclinicoEntities())
             {
                 return (from n in context.notes
                         join t in context.tickets on n.ticket.id equals t.id
                         where t.serie == serie && t.nroTicket == nroTicket &&
-                        n.deleted != bytes && t.deleted != bytes
+                        n.deleted != false && t.deleted != false
                         select new Domain.Note
                         {
                             Age = n.age,
@@ -55,12 +55,12 @@ namespace MedAPI.Repository
 
         public List<Note> getByPatient(long patientId)
         {
-            var bytes = BitConverter.GetBytes(false);
-            var bytesComplete = BitConverter.GetBytes(true);
-            using (var context = new DataAccess.RegistroclinicoEntities())
+            //var bytes = BitConverter.GetBytes(false);
+            //var bytesComplete = BitConverter.GetBytes(true);
+            using (var context = new DataAccess.registroclinicoEntities())
             {
                 return (from n in context.notes
-                        where n.deleted != bytes && n.patient_id == patientId && n.completed == bytesComplete
+                        where n.deleted != false && n.patient_id == patientId && n.completed == true
                         select new Note()
                         {
                             Age = n.age,
@@ -99,13 +99,13 @@ namespace MedAPI.Repository
 
         public Ticket SaveTicket(Ticket mTicket)
         {
-            using (var context = new DataAccess.RegistroclinicoEntities())
+            using (var context = new DataAccess.registroclinicoEntities())
             {
                 var efTicket = context.tickets.Where(m => m.id == mTicket.id).FirstOrDefault();
                 if (efTicket == null)
                 {
                     efTicket = new DataAccess.ticket();
-                    efTicket.deleted = BitConverter.GetBytes(false);
+                    efTicket.deleted = false;// BitConverter.GetBytes(false);
                     context.tickets.Add(efTicket);
                 }
                 efTicket.closed = mTicket.closed;

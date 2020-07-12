@@ -10,7 +10,7 @@ namespace MedAPI.Repository
     {
         public List<Medic> GetAllMedic()
         {
-            using (var context = new DataAccess.RegistroclinicoEntities())
+            using (var context = new DataAccess.registroclinicoEntities())
             {
                 return (from me in context.medics
                         select new Medic()
@@ -24,7 +24,7 @@ namespace MedAPI.Repository
 
         public Medic GetMedicById(long id)
         {
-            using (var context = new DataAccess.RegistroclinicoEntities())
+            using (var context = new DataAccess.registroclinicoEntities())
             {
                 return context.medics.Where(x => x.id == id)
                    .Select(x => new Medic()
@@ -38,7 +38,7 @@ namespace MedAPI.Repository
         public bool DeleteMedicById(long id)
         {
             bool isSuccess = false;
-            using (var context = new DataAccess.RegistroclinicoEntities())
+            using (var context = new DataAccess.registroclinicoEntities())
             {
                 var efMedics= context.medics.Where(m => m.id == id).FirstOrDefault();
                 if (efMedics != null)
@@ -53,7 +53,7 @@ namespace MedAPI.Repository
 
         public long SaveMedic(Medic mMedic)
         {
-            using (var context = new DataAccess.RegistroclinicoEntities())
+            using (var context = new DataAccess.registroclinicoEntities())
             {
                 var efMedic = context.medics.Where(m => m.id == mMedic.Id).FirstOrDefault();
                 if (efMedic == null)

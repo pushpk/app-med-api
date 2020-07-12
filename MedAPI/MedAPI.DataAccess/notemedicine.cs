@@ -21,7 +21,7 @@ namespace MedAPI.DataAccess
         }
     
         public long id { get; set; }
-        public byte[] deleted { get; set; }
+        public bool deleted { get; set; }
         public Nullable<long> durationTime { get; set; }
         public string durationUnit { get; set; }
         public Nullable<long> frequencyTime { get; set; }

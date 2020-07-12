@@ -9,15 +9,15 @@ namespace MedAPI.Repository
     {
         public Upload Upload(Upload mUpload)
         {
-            using (var context = new DataAccess.RegistroclinicoEntities())
+            using (var context = new DataAccess.registroclinicoEntities())
             {
                 var efUpload = context.uploads.Where(m => m.id == mUpload.Id).FirstOrDefault();
                 if (efUpload == null)
                 {
                     efUpload = new DataAccess.upload();
                     efUpload.createdDate = DateTime.UtcNow;
-                    efUpload.deleted = BitConverter.GetBytes(false);
-                    context.uploads.Add(efUpload);
+                    efUpload.deleted = false; /*BitConverter.GetBytes()*/
+                     context.uploads.Add(efUpload);
                 }
                 efUpload.createdBy = mUpload.CreatedBy;
                 efUpload.path = mUpload.Path;

@@ -13,12 +13,12 @@ namespace MedAPI.Repository
         public bool DeleteMedicineById(long id)
         {
             bool isSuccess = false;
-            using (var context = new DataAccess.RegistroclinicoEntities())
+            using (var context = new DataAccess.registroclinicoEntities())
             {
                 var efMedicine = context.medicines.Where(m => m.id == id).FirstOrDefault();
                 if (efMedicine != null)
                 {
-                    efMedicine.deleted = BitConverter.GetBytes(true);
+                    efMedicine.deleted = true;// BitConverter.GetBytes(true);
                     context.SaveChanges();
                     isSuccess = true;
                 }
@@ -28,62 +28,62 @@ namespace MedAPI.Repository
 
         public List<Medicine> GetAllMedicine()
         {
-            var bytes = BitConverter.GetBytes(true);
-            using (var context = new DataAccess.RegistroclinicoEntities())
+            //var bytes = BitConverter.GetBytes(true);
+            using (var context = new DataAccess.registroclinicoEntities())
             {
                 return (from me in context.medicines
-                        where me.deleted != bytes
+                        where me.deleted != true
                         select new Medicine()
                         {
-                            Id = me.id,
-                            Concentration = me.concentration,
-                            Form = me.form,
-                            Fractions = me.fractions,
-                            HealthRegistration = me.healthRegistration,
-                            Name = me.name,
-                            Owner = me.owner,
-                            Presentation = me.presentation
+                            id = me.id,
+                            concentration = me.concentration,
+                            form = me.form,
+                            fractions = me.fractions,
+                            healthRegistration = me.healthRegistration,
+                            name = me.name,
+                            owner = me.owner,
+                            presentation = me.presentation
                         }).ToList();
             }
         }
 
         public Medicine GetMedicineById(long id)
         {
-            using (var context = new DataAccess.RegistroclinicoEntities())
+            using (var context = new DataAccess.registroclinicoEntities())
             {
                 return context.medicines.Where(x => x.id == id && x.deleted != null)
                    .Select(x => new Medicine()
                    {
-                       Id = x.id,
-                       Concentration = x.concentration,
-                       Form = x.form,
-                       Fractions = x.fractions,
-                       HealthRegistration = x.healthRegistration,
-                       Name = x.name,
-                       Owner = x.owner,
-                       Presentation = x.presentation
+                       id = x.id,
+                       concentration = x.concentration,
+                       form = x.form,
+                       fractions = x.fractions,
+                       healthRegistration = x.healthRegistration,
+                       name = x.name,
+                       owner = x.owner,
+                       presentation = x.presentation
                    }).FirstOrDefault();
             }
         }
 
         public int SaveMedicine(Medicine mMedicine)
         {
-            using (var context = new DataAccess.RegistroclinicoEntities())
+            using (var context = new DataAccess.registroclinicoEntities())
             {
-                var efMedicine = context.medicines.Where(x => x.id == mMedicine.Id).FirstOrDefault();
+                var efMedicine = context.medicines.Where(x => x.id == mMedicine.id).FirstOrDefault();
                 if (efMedicine == null)
                 {
                     efMedicine = new DataAccess.medicine();
-                    efMedicine.deleted = BitConverter.GetBytes(false);
+                    efMedicine.deleted = false;// BitConverter.GetBytes(false);
                     context.medicines.Add(efMedicine);
                 }
-                efMedicine.name = mMedicine.Name;
-                efMedicine.concentration = mMedicine.Concentration;
-                efMedicine.form = mMedicine.Form;
-                efMedicine.fractions = mMedicine.Fractions;
-                efMedicine.healthRegistration = mMedicine.HealthRegistration;
-                efMedicine.owner = mMedicine.Owner;
-                efMedicine.presentation = mMedicine.Presentation;
+                efMedicine.name = mMedicine.name;
+                efMedicine.concentration = mMedicine.concentration;
+                efMedicine.form = mMedicine.form;
+                efMedicine.fractions = mMedicine.fractions;
+                efMedicine.healthRegistration = mMedicine.healthRegistration;
+                efMedicine.owner = mMedicine.owner;
+                efMedicine.presentation = mMedicine.presentation;
                 context.SaveChanges();
                 return Convert.ToInt32(efMedicine.id);
             }
@@ -91,19 +91,19 @@ namespace MedAPI.Repository
 
         public List<Medicine> SearchByName(string name)
         {
-            using (var context = new DataAccess.RegistroclinicoEntities())
+            using (var context = new DataAccess.registroclinicoEntities())
             {
-                return context.medicines.Where(x => x.name.Contains(name) && x.deleted != null)
+                return context.medicines.Where(x => x.name.Contains(name) && x.deleted != false)
                      .Select(x => new Medicine()
                      {
-                         Id = x.id,
-                         Concentration = x.concentration,
-                         Form = x.form,
-                         Fractions = x.fractions,
-                         HealthRegistration = x.healthRegistration,
-                         Name = x.name,
-                         Owner = x.owner,
-                         Presentation = x.presentation
+                         id = x.id,
+                         concentration = x.concentration,
+                         form = x.form,
+                         fractions = x.fractions,
+                         healthRegistration = x.healthRegistration,
+                         name = x.name,
+                         owner = x.owner,
+                         presentation = x.presentation
                      }).ToList();
             }
         }

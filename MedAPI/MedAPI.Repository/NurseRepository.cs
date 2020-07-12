@@ -9,7 +9,7 @@ namespace MedAPI.Repository
     {
         public List<Nurse> GetAll()
         {
-            using (var context = new DataAccess.RegistroclinicoEntities())
+            using (var context = new DataAccess.registroclinicoEntities())
             {
                 return (from n in context.nurses
                         select new Nurse()
@@ -21,7 +21,7 @@ namespace MedAPI.Repository
         }
         public NurseSpecialties GetNurseSpecialtiesById(long id)
         {
-            using (var context = new DataAccess.RegistroclinicoEntities())
+            using (var context = new DataAccess.registroclinicoEntities())
             {
                 return (from n in context.nurse_specialties
                         select new NurseSpecialties
@@ -34,7 +34,7 @@ namespace MedAPI.Repository
 
         public Nurse GetNurseById(long id)
         {
-            using (var context = new DataAccess.RegistroclinicoEntities())
+            using (var context = new DataAccess.registroclinicoEntities())
             {
                 return (from n in context.nurses
                         select new Nurse()
@@ -47,7 +47,7 @@ namespace MedAPI.Repository
 
         public void SaveNurse(Nurse mNurse)
         {
-            using (var context = new DataAccess.RegistroclinicoEntities())
+            using (var context = new DataAccess.registroclinicoEntities())
             {
                 var efNurse = context.nurses.Where(m => m.id == mNurse.Id).FirstOrDefault();
                 if (efNurse == null)
@@ -62,7 +62,7 @@ namespace MedAPI.Repository
         }
         public void SaveSpecialtie(NurseSpecialties mNurseSpecialties)
         {
-            using (var context = new DataAccess.RegistroclinicoEntities())
+            using (var context = new DataAccess.registroclinicoEntities())
             {
                 var efNurseSpecialties = context.nurse_specialties.Where(m => m.Nurse_id == mNurseSpecialties.NurseId).FirstOrDefault();
                 if (efNurseSpecialties == null)

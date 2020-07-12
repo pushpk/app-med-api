@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="registroclinicoModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="registroclinicoModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="cardiovascularnote">
           <Key>
             <PropertyRef Name="id" />
@@ -14,14 +14,14 @@
           <Property Name="capillaryRefillLRM" Type="nvarchar" MaxLength="255" />
           <Property Name="cardiacPressureIntensity" Type="nvarchar" MaxLength="255" />
           <Property Name="cardiacPressureRhythm" Type="nvarchar" MaxLength="255" />
-          <Property Name="diastolicPhase" Type="binary" MaxLength="1" Nullable="false" />
-          <Property Name="edemaAnkle" Type="binary" MaxLength="1" Nullable="false" />
-          <Property Name="edemaGeneralized" Type="binary" MaxLength="1" Nullable="false" />
-          <Property Name="edemaLowerMembers" Type="binary" MaxLength="1" Nullable="false" />
-          <Property Name="fourthNoise" Type="binary" MaxLength="1" Nullable="false" />
+          <Property Name="diastolicPhase" Type="bit" Nullable="false" />
+          <Property Name="edemaAnkle" Type="bit" Nullable="false" />
+          <Property Name="edemaGeneralized" Type="bit" Nullable="false" />
+          <Property Name="edemaLowerMembers" Type="bit" Nullable="false" />
+          <Property Name="fourthNoise" Type="bit" Nullable="false" />
           <Property Name="gastrointestinalSemiology" Type="nvarchar" MaxLength="255" />
-          <Property Name="murmurs" Type="binary" MaxLength="1" Nullable="false" />
-          <Property Name="neckRadiation" Type="binary" MaxLength="1" Nullable="false" />
+          <Property Name="murmurs" Type="bit" Nullable="false" />
+          <Property Name="neckRadiation" Type="bit" Nullable="false" />
           <Property Name="otherSymptoms" Type="nvarchar" MaxLength="255" />
           <Property Name="pedalPulsesL" Type="nvarchar" MaxLength="255" />
           <Property Name="pedalPulsesR" Type="nvarchar" MaxLength="255" />
@@ -29,9 +29,9 @@
           <Property Name="pulsesLRM" Type="nvarchar" MaxLength="255" />
           <Property Name="radialPulsesL" Type="nvarchar" MaxLength="255" />
           <Property Name="radialPulsesR" Type="nvarchar" MaxLength="255" />
-          <Property Name="systolicPhase" Type="binary" MaxLength="1" Nullable="false" />
-          <Property Name="thirdNoise" Type="binary" MaxLength="1" Nullable="false" />
-          <Property Name="trophicChanges" Type="binary" MaxLength="1" Nullable="false" />
+          <Property Name="systolicPhase" Type="bit" Nullable="false" />
+          <Property Name="thirdNoise" Type="bit" Nullable="false" />
+          <Property Name="trophicChanges" Type="bit" Nullable="false" />
           <Property Name="vesicularWhisperL" Type="nvarchar" MaxLength="255" />
           <Property Name="vesicularWhisperR" Type="nvarchar" MaxLength="255" />
           <Property Name="id" Type="bigint" Nullable="false" />
@@ -51,7 +51,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.cardiovascularnote
           </Key>
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="code" Type="nvarchar" MaxLength="255" Nullable="false" />
-          <Property Name="deleted" Type="binary" MaxLength="1" Nullable="false" />
+          <Property Name="deleted" Type="bit" Nullable="false" />
           <Property Name="title" Type="nvarchar" MaxLength="255" Nullable="false" />
         </EntityType>
         <EntityType Name="country">
@@ -59,7 +59,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.cardiovascularnote
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="deleted" Type="binary" MaxLength="1" Nullable="false" />
+          <Property Name="deleted" Type="bit" Nullable="false" />
           <Property Name="name" Type="nvarchar" MaxLength="255" Nullable="false" />
         </EntityType>
         <EntityType Name="department">
@@ -67,7 +67,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.cardiovascularnote
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="deleted" Type="binary" MaxLength="1" Nullable="false" />
+          <Property Name="deleted" Type="bit" Nullable="false" />
           <Property Name="name" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="country_id" Type="bigint" Nullable="false" />
         </EntityType>
@@ -77,7 +77,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.cardiovascularnote
           </Key>
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="code" Type="nvarchar" MaxLength="255" Nullable="false" />
-          <Property Name="deleted" Type="binary" MaxLength="1" Nullable="false" />
+          <Property Name="deleted" Type="bit" Nullable="false" />
           <Property Name="title" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="chapter_id" Type="bigint" Nullable="false" />
         </EntityType>
@@ -86,7 +86,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.cardiovascularnote
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="deleted" Type="binary" MaxLength="1" Nullable="false" />
+          <Property Name="deleted" Type="bit" Nullable="false" />
           <Property Name="name" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="ubigeo" Type="bigint" />
           <Property Name="province_id" Type="bigint" Nullable="false" />
@@ -108,7 +108,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.cardiovascularnote
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="deleted" Type="binary" MaxLength="1" Nullable="false" />
+          <Property Name="deleted" Type="bit" Nullable="false" />
           <Property Name="name" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="type" Type="nvarchar" MaxLength="255" />
         </EntityType>
@@ -135,7 +135,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.medic_specialties'
           </Key>
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="concentration" Type="nvarchar" MaxLength="255" />
-          <Property Name="deleted" Type="binary" MaxLength="1" Nullable="false" />
+          <Property Name="deleted" Type="bit" Nullable="false" />
           <Property Name="form" Type="nvarchar" MaxLength="255" />
           <Property Name="fractions" Type="bigint" />
           <Property Name="healthRegistration" Type="nvarchar" MaxLength="255" />
@@ -149,11 +149,11 @@ warning 6002: The table/view 'registroclinico.registroclinico.medic_specialties'
           </Key>
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="age" Type="nvarchar" MaxLength="255" />
-          <Property Name="completed" Type="binary" MaxLength="1" Nullable="false" />
-          <Property Name="control" Type="binary" MaxLength="1" Nullable="false" />
+          <Property Name="completed" Type="bit" Nullable="false" />
+          <Property Name="control" Type="bit" Nullable="false" />
           <Property Name="createdBy" Type="nvarchar" MaxLength="255" />
           <Property Name="createdDate" Type="date" />
-          <Property Name="deleted" Type="binary" MaxLength="1" Nullable="false" />
+          <Property Name="deleted" Type="bit" Nullable="false" />
           <Property Name="diagnosis" Type="nvarchar(max)" />
           <Property Name="exam" Type="nvarchar(max)" />
           <Property Name="modifiedBy" Type="nvarchar" MaxLength="255" />
@@ -211,7 +211,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.medic_specialties'
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="deleted" Type="binary" MaxLength="1" Nullable="false" />
+          <Property Name="deleted" Type="bit" Nullable="false" />
           <Property Name="diagnosisType" Type="nvarchar" MaxLength="255" />
           <Property Name="diagnosis_id" Type="bigint" />
           <Property Name="note_id" Type="bigint" />
@@ -221,7 +221,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.medic_specialties'
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="deleted" Type="binary" MaxLength="1" Nullable="false" />
+          <Property Name="deleted" Type="bit" Nullable="false" />
           <Property Name="observation" Type="nvarchar" MaxLength="255" />
           <Property Name="specification" Type="nvarchar" MaxLength="255" />
           <Property Name="status" Type="nvarchar" MaxLength="255" />
@@ -243,7 +243,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.noteexam_upload' d
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="deleted" Type="binary" MaxLength="1" Nullable="false" />
+          <Property Name="deleted" Type="bit" Nullable="false" />
           <Property Name="durationTime" Type="bigint" />
           <Property Name="durationUnit" Type="nvarchar" MaxLength="255" />
           <Property Name="frequencyTime" Type="bigint" />
@@ -257,7 +257,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.noteexam_upload' d
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="deleted" Type="binary" MaxLength="1" Nullable="false" />
+          <Property Name="deleted" Type="bit" Nullable="false" />
           <Property Name="reason" Type="nvarchar" MaxLength="255" />
           <Property Name="specialty" Type="nvarchar" MaxLength="255" />
           <Property Name="note_id" Type="bigint" />
@@ -288,7 +288,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.nurse_specialties'
           <Property Name="createdTicket" Type="nvarchar" MaxLength="255" />
           <Property Name="dormNumber" Type="bigint" />
           <Property Name="educationalAttainment" Type="nvarchar" MaxLength="255" />
-          <Property Name="electricity" Type="binary" MaxLength="1" Nullable="false" />
+          <Property Name="electricity" Type="bit" Nullable="false" />
           <Property Name="fractureNumber" Type="bigint" />
           <Property Name="fruitsVegetables" Type="nvarchar" MaxLength="255" />
           <Property Name="highGlucose" Type="nvarchar" MaxLength="255" />
@@ -303,8 +303,8 @@ warning 6002: The table/view 'registroclinico.registroclinico.nurse_specialties'
           <Property Name="otherPersonalBackground" Type="nvarchar" MaxLength="255" />
           <Property Name="physicalActivity" Type="nvarchar" MaxLength="255" />
           <Property Name="residentNumber" Type="bigint" />
-          <Property Name="sewage" Type="binary" MaxLength="1" Nullable="false" />
-          <Property Name="water" Type="binary" MaxLength="1" Nullable="false" />
+          <Property Name="sewage" Type="bit" Nullable="false" />
+          <Property Name="water" Type="bit" Nullable="false" />
           <Property Name="id" Type="bigint" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
@@ -357,7 +357,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.patient_personalba
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="deleted" Type="binary" MaxLength="1" Nullable="false" />
+          <Property Name="deleted" Type="bit" Nullable="false" />
           <Property Name="name" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="department_id" Type="bigint" Nullable="false" />
         </EntityType>
@@ -366,8 +366,8 @@ warning 6002: The table/view 'registroclinico.registroclinico.patient_personalba
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="deletable" Type="binary" MaxLength="1" Nullable="false" />
-          <Property Name="deleted" Type="binary" MaxLength="1" Nullable="false" />
+          <Property Name="deletable" Type="bit" Nullable="false" />
+          <Property Name="deleted" Type="bit" Nullable="false" />
           <Property Name="description" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="name" Type="nvarchar" MaxLength="255" Nullable="false" />
         </EntityType>
@@ -385,8 +385,8 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="closed" Type="binary" MaxLength="1" Nullable="false" />
-          <Property Name="deleted" Type="binary" MaxLength="1" Nullable="false" />
+          <Property Name="closed" Type="bit" Nullable="false" />
+          <Property Name="deleted" Type="bit" Nullable="false" />
           <Property Name="nroTicket" Type="nvarchar" MaxLength="255" />
           <Property Name="serie" Type="nvarchar" MaxLength="255" />
           <Property Name="status" Type="nvarchar" MaxLength="255" />
@@ -401,7 +401,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <Property Name="breathingRate" Type="float" />
           <Property Name="createdBy" Type="nvarchar" MaxLength="255" />
           <Property Name="createdDate" Type="date" />
-          <Property Name="deleted" Type="binary" MaxLength="1" Nullable="false" />
+          <Property Name="deleted" Type="bit" Nullable="false" />
           <Property Name="deposition" Type="nvarchar" MaxLength="255" />
           <Property Name="diastolicBloodPressure" Type="float" />
           <Property Name="glycemia" Type="float" />
@@ -432,7 +432,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="createdBy" Type="nvarchar" MaxLength="255" />
           <Property Name="createdDate" Type="date" />
-          <Property Name="deleted" Type="binary" MaxLength="1" Nullable="false" />
+          <Property Name="deleted" Type="bit" Nullable="false" />
           <Property Name="path" Type="nvarchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="users">
@@ -445,8 +445,8 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <Property Name="cellphone" Type="nvarchar" MaxLength="255" />
           <Property Name="createdBy" Type="nvarchar" MaxLength="255" />
           <Property Name="createdDate" Type="datetime2" Precision="0" />
-          <Property Name="deletable" Type="binary" MaxLength="1" Nullable="false" />
-          <Property Name="deleted" Type="binary" MaxLength="1" Nullable="false" />
+          <Property Name="deletable" Type="bit" Nullable="false" />
+          <Property Name="deleted" Type="bit" Nullable="false" />
           <Property Name="documentNumber" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="documentType" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="email" Type="nvarchar" MaxLength="255" Nullable="false" />
@@ -456,7 +456,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <Property Name="maritalStatus" Type="nvarchar" MaxLength="255" />
           <Property Name="modifiedBy" Type="nvarchar" MaxLength="255" />
           <Property Name="modifiedDate" Type="datetime2" Precision="0" />
-          <Property Name="organDonor" Type="binary" MaxLength="1" Nullable="false" />
+          <Property Name="organDonor" Type="bit" Nullable="false" />
           <Property Name="password_hash" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="phone" Type="nvarchar" MaxLength="255" />
           <Property Name="sex" Type="nvarchar" MaxLength="255" Nullable="false" />
@@ -1288,14 +1288,14 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <Property Name="capillaryRefillLRM" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="cardiacPressureIntensity" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="cardiacPressureRhythm" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="diastolicPhase" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
-          <Property Name="edemaAnkle" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
-          <Property Name="edemaGeneralized" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
-          <Property Name="edemaLowerMembers" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
-          <Property Name="fourthNoise" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
+          <Property Name="diastolicPhase" Type="Boolean" Nullable="false" />
+          <Property Name="edemaAnkle" Type="Boolean" Nullable="false" />
+          <Property Name="edemaGeneralized" Type="Boolean" Nullable="false" />
+          <Property Name="edemaLowerMembers" Type="Boolean" Nullable="false" />
+          <Property Name="fourthNoise" Type="Boolean" Nullable="false" />
           <Property Name="gastrointestinalSemiology" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="murmurs" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
-          <Property Name="neckRadiation" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
+          <Property Name="murmurs" Type="Boolean" Nullable="false" />
+          <Property Name="neckRadiation" Type="Boolean" Nullable="false" />
           <Property Name="otherSymptoms" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="pedalPulsesL" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="pedalPulsesR" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
@@ -1303,9 +1303,9 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <Property Name="pulsesLRM" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="radialPulsesL" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="radialPulsesR" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="systolicPhase" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
-          <Property Name="thirdNoise" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
-          <Property Name="trophicChanges" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
+          <Property Name="systolicPhase" Type="Boolean" Nullable="false" />
+          <Property Name="thirdNoise" Type="Boolean" Nullable="false" />
+          <Property Name="trophicChanges" Type="Boolean" Nullable="false" />
           <Property Name="vesicularWhisperL" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="vesicularWhisperR" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="id" Type="Int64" Nullable="false" />
@@ -1318,7 +1318,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           </Key>
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="code" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="deleted" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
+          <Property Name="deleted" Type="Boolean" Nullable="false" />
           <Property Name="title" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="diagnosis" Relationship="Self.diagnosis_FKdkejwjwwrvhod7ilsu9u62d4r" FromRole="chapter" ToRole="diagnosis" />
         </EntityType>
@@ -1327,7 +1327,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="deleted" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
+          <Property Name="deleted" Type="Boolean" Nullable="false" />
           <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="departments" Relationship="Self.department_FK43w9v6odn5ebkcotastqgn1dw" FromRole="country" ToRole="department" />
           <NavigationProperty Name="users" Relationship="Self.users_FK1eit3dhanvh8r59sd30a3vyaw" FromRole="country" ToRole="users" />
@@ -1337,7 +1337,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="deleted" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
+          <Property Name="deleted" Type="Boolean" Nullable="false" />
           <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="country_id" Type="Int64" Nullable="false" />
           <NavigationProperty Name="country" Relationship="Self.department_FK43w9v6odn5ebkcotastqgn1dw" FromRole="department" ToRole="country" />
@@ -1349,7 +1349,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           </Key>
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="code" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="deleted" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
+          <Property Name="deleted" Type="Boolean" Nullable="false" />
           <Property Name="title" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="chapter_id" Type="Int64" Nullable="false" />
           <NavigationProperty Name="chapter" Relationship="Self.diagnosis_FKdkejwjwwrvhod7ilsu9u62d4r" FromRole="diagnosis" ToRole="chapter" />
@@ -1360,7 +1360,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="deleted" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
+          <Property Name="deleted" Type="Boolean" Nullable="false" />
           <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="ubigeo" Type="Int64" />
           <Property Name="province_id" Type="Int64" Nullable="false" />
@@ -1385,7 +1385,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="deleted" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
+          <Property Name="deleted" Type="Boolean" Nullable="false" />
           <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="type" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="noteexams" Relationship="Self.noteexam_FKitrp9vwk6cmbplyfe6ag2shv" FromRole="exam" ToRole="noteexam" />
@@ -1407,7 +1407,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           </Key>
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="concentration" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="deleted" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
+          <Property Name="deleted" Type="Boolean" Nullable="false" />
           <Property Name="form" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="fractions" Type="Int64" />
           <Property Name="healthRegistration" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
@@ -1422,11 +1422,11 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           </Key>
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="age" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="completed" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
-          <Property Name="control" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
+          <Property Name="completed" Type="Boolean" Nullable="false" />
+          <Property Name="control" Type="Boolean" Nullable="false" />
           <Property Name="createdBy" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="createdDate" Type="DateTime" Precision="0" />
-          <Property Name="deleted" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
+          <Property Name="deleted" Type="Boolean" Nullable="false" />
           <Property Name="diagnosis" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="exam" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="modifiedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
@@ -1468,7 +1468,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="deleted" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
+          <Property Name="deleted" Type="Boolean" Nullable="false" />
           <Property Name="diagnosisType" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="diagnosis_id" Type="Int64" />
           <Property Name="note_id" Type="Int64" />
@@ -1481,7 +1481,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="deleted" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
+          <Property Name="deleted" Type="Boolean" Nullable="false" />
           <Property Name="observation" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="specification" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="status" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
@@ -1497,7 +1497,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="deleted" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
+          <Property Name="deleted" Type="Boolean" Nullable="false" />
           <Property Name="durationTime" Type="Int64" />
           <Property Name="durationUnit" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="frequencyTime" Type="Int64" />
@@ -1514,7 +1514,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="deleted" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
+          <Property Name="deleted" Type="Boolean" Nullable="false" />
           <Property Name="reason" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="specialty" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="note_id" Type="Int64" />
@@ -1540,7 +1540,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <Property Name="createdTicket" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="dormNumber" Type="Int64" />
           <Property Name="educationalAttainment" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="electricity" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
+          <Property Name="electricity" Type="Boolean" Nullable="false" />
           <Property Name="fractureNumber" Type="Int64" />
           <Property Name="fruitsVegetables" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="highGlucose" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
@@ -1555,8 +1555,8 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <Property Name="otherPersonalBackground" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="physicalActivity" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="residentNumber" Type="Int64" />
-          <Property Name="sewage" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
-          <Property Name="water" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
+          <Property Name="sewage" Type="Boolean" Nullable="false" />
+          <Property Name="water" Type="Boolean" Nullable="false" />
           <Property Name="id" Type="Int64" Nullable="false" />
           <NavigationProperty Name="notes" Relationship="Self.note_FK4xax0ys51744q34eyu5f3fjqi" FromRole="patient" ToRole="note" />
           <NavigationProperty Name="user" Relationship="Self.patient_FKs32bk76cxamwpt0gyddps95ow" FromRole="patient" ToRole="users" />
@@ -1572,7 +1572,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="deleted" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
+          <Property Name="deleted" Type="Boolean" Nullable="false" />
           <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="department_id" Type="Int64" Nullable="false" />
           <NavigationProperty Name="department" Relationship="Self.province_FK3joxh8ppnjhvvt1485efkpxm8" FromRole="province" ToRole="department" />
@@ -1583,8 +1583,8 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="deletable" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
-          <Property Name="deleted" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
+          <Property Name="deletable" Type="Boolean" Nullable="false" />
+          <Property Name="deleted" Type="Boolean" Nullable="false" />
           <Property Name="description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="role_permissions" Relationship="Self.role_permissions_FKr5u91l7q7yikdobgi0lhntse6" FromRole="role" ToRole="role_permissions" />
@@ -1595,8 +1595,8 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="closed" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
-          <Property Name="deleted" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
+          <Property Name="closed" Type="Boolean" Nullable="false" />
+          <Property Name="deleted" Type="Boolean" Nullable="false" />
           <Property Name="nroTicket" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="serie" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="status" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
@@ -1613,7 +1613,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <Property Name="breathingRate" Type="Double" />
           <Property Name="createdBy" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="createdDate" Type="DateTime" Precision="0" />
-          <Property Name="deleted" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
+          <Property Name="deleted" Type="Boolean" Nullable="false" />
           <Property Name="deposition" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="diastolicBloodPressure" Type="Double" />
           <Property Name="glycemia" Type="Double" />
@@ -1647,7 +1647,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="createdBy" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="createdDate" Type="DateTime" Precision="0" />
-          <Property Name="deleted" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
+          <Property Name="deleted" Type="Boolean" Nullable="false" />
           <Property Name="path" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="noteexams" Relationship="Self.noteexam_upload" FromRole="upload" ToRole="noteexam" />
         </EntityType>
@@ -1661,8 +1661,8 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <Property Name="cellphone" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="createdBy" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="createdDate" Type="DateTime" Precision="0" />
-          <Property Name="deletable" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
-          <Property Name="deleted" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
+          <Property Name="deletable" Type="Boolean" Nullable="false" />
+          <Property Name="deleted" Type="Boolean" Nullable="false" />
           <Property Name="documentNumber" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="documentType" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="email" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
@@ -1672,7 +1672,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <Property Name="maritalStatus" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="modifiedBy" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="modifiedDate" Type="DateTime" Precision="0" />
-          <Property Name="organDonor" Type="Binary" MaxLength="1" FixedLength="true" Nullable="false" />
+          <Property Name="organDonor" Type="Boolean" Nullable="false" />
           <Property Name="password_hash" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="phone" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="sex" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
@@ -2199,7 +2199,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <End Role="upload" Type="Self.upload" Multiplicity="*" />
           <End Role="noteexam" Type="Self.noteexam" Multiplicity="*" />
         </Association>
-        <EntityContainer Name="RegistroclinicoEntities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="registroclinicoEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="cardiovascularnotes" EntityType="Self.cardiovascularnote" />
           <EntitySet Name="chapters" EntityType="Self.chapter" />
           <EntitySet Name="countries" EntityType="Self.country" />
@@ -2398,7 +2398,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="registroclinicoModelStoreContainer" CdmEntityContainer="RegistroclinicoEntities">
+        <EntityContainerMapping StorageEntityContainer="registroclinicoModelStoreContainer" CdmEntityContainer="registroclinicoEntities">
           <EntitySetMapping Name="cardiovascularnotes">
             <EntityTypeMapping TypeName="registroclinicoModel.cardiovascularnote">
               <MappingFragment StoreEntitySet="cardiovascularnote">

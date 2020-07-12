@@ -30,7 +30,7 @@ namespace MedAPI.Service
 
             User mUser = new User();
             mUser = userRepository.Authenticate(email);
-            if (mUser != null && HashPasswordHelper.ValidatePassword(password, mUser.PasswordHash))
+            if (mUser != null && HashPasswordHelper.ValidatePassword(password, mUser.passwordHash))
             {
                 return mUser;
             }
@@ -42,7 +42,7 @@ namespace MedAPI.Service
         public User Credentials(string email)
         {
             return userRepository.Authenticate(email);
-          
+
         }
 
         public bool DeleteUserById(long id)
@@ -66,9 +66,9 @@ namespace MedAPI.Service
         }
         public User SaveUser(User mUser)
         {
-            if (mUser.Id == 0)
+            if (mUser.id == 0)
             {
-                mUser.PasswordHash = Infrastructure.HashPasswordHelper.HashPassword(mUser.PasswordHash);
+                mUser.passwordHash = Infrastructure.HashPasswordHelper.HashPassword(mUser.passwordHash);
             }
             return userRepository.SaveUser(mUser);
         }
@@ -145,8 +145,8 @@ namespace MedAPI.Service
                      .Select(d => new ObjectNode() { id = d.ToString().ToUpper(), name = StringExtensions.FirstCharToUpper(d.ToString()) })
                      .ToList();
 
-            mUserResourcesList.allergies = Enum.GetValues(typeof(Allergy))
-                     .Cast<Allergy>()
+            mUserResourcesList.allergies = Enum.GetValues(typeof(Domain.Allergy))
+                     .Cast<Domain.Allergy>()
                      .Select(d => new ObjectNode() { id = d.ToString().ToUpper(), name = StringExtensions.FirstCharToUpper(d.ToString()) })
                      .ToList();
 

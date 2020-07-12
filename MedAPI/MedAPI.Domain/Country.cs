@@ -17,7 +17,7 @@ namespace MedAPI.Domain
         }
 
         public long id { get; set; }
-        public byte[] deleted { get; set; }
+        public bool deleted { get; set; }
         public string name { get; set; }
         public List<Domain.Department> Departments { get; set; }
         public virtual ICollection<department> departments { get; set; }

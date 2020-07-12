@@ -42,15 +42,15 @@ namespace MedAPI.Service
 
         public Patient SavePatient(Domain.Patient mPatient)
         {
-            if (mPatient.User.Id == 0)
+            if (mPatient.user.id == 0)
             {
-                mPatient.User.PasswordHash = Infrastructure.HashPasswordHelper.HashPassword(mPatient.User.PasswordHash);
+                mPatient.user.passwordHash = Infrastructure.HashPasswordHelper.HashPassword(mPatient.user.passwordHash);
             }
-            mPatient.User = userRepository.SaveUser(mPatient.User);
+            mPatient.user = userRepository.SaveUser(mPatient.user);
 
-            if (mPatient.User.Id > 0)
+            if (mPatient.user.id > 0)
             {
-                mPatient.Id = mPatient.User.Id;
+                mPatient.id = mPatient.user.id;
                 patientRepository.SavePatient(mPatient);
             }
             return mPatient;

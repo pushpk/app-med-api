@@ -30,11 +30,11 @@ namespace MedAPI.DataAccess
     
         public long id { get; set; }
         public string age { get; set; }
-        public byte[] completed { get; set; }
-        public byte[] control { get; set; }
+        public bool completed { get; set; }
+        public bool control { get; set; }
         public string createdBy { get; set; }
         public Nullable<System.DateTime> createdDate { get; set; }
-        public byte[] deleted { get; set; }
+        public bool deleted { get; set; }
         public string diagnosis { get; set; }
         public string exam { get; set; }
         public string modifiedBy { get; set; }

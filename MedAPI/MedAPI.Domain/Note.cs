@@ -30,11 +30,11 @@ namespace MedAPI.Domain
 
         public long Id { get; set; }
         public string Age { get; set; }
-        public byte[] Completed { get; set; }
-        public byte[] Control { get; set; }
+        public bool Completed { get; set; }
+        public bool Control { get; set; }
         public string CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }
-        public byte[] Deleted { get; set; }
+        public bool Deleted { get; set; }
         public string Diagnosis { get; set; }
         public string Exam { get; set; }
         public string ModifiedBy { get; set; }

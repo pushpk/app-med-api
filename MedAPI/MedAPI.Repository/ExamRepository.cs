@@ -11,12 +11,12 @@ namespace MedAPI.Repository
         public bool DeleteExamById(long id)
         {
             bool isSuccess = false;
-            using (var context = new DataAccess.RegistroclinicoEntities())
+            using (var context = new DataAccess.registroclinicoEntities())
             {
                 var efExam = context.exams.Where(m => m.id == id).FirstOrDefault();
                 if (efExam != null)
                 {
-                    efExam.deleted = BitConverter.GetBytes(true);
+                    efExam.deleted = true;//BitConverter.GetBytes(true);
                     context.SaveChanges();
                     isSuccess = true;
                 }
@@ -26,11 +26,11 @@ namespace MedAPI.Repository
 
         public List<Exam> GetAllExam()
         {
-            var bytes = BitConverter.GetBytes(true);
-            using (var context = new DataAccess.RegistroclinicoEntities())
+            //var bytes = BitConverter.GetBytes(true);
+            using (var context = new DataAccess.registroclinicoEntities())
             {
                 return (from ex in context.exams
-                        where ex.deleted != bytes
+                        where ex.deleted != true
                         select new Exam()
                         {
                             Id = ex.id,
@@ -42,9 +42,9 @@ namespace MedAPI.Repository
 
         public Exam GetExamById(long id)
         {
-            using (var context = new DataAccess.RegistroclinicoEntities())
+            using (var context = new DataAccess.registroclinicoEntities())
             {
-                return context.exams.Where(x => x.id == id && x.deleted != null)
+                return context.exams.Where(x => x.id == id && x.deleted != false)
                    .Select(x => new Exam()
                    {
                        Id = x.id,
@@ -56,7 +56,7 @@ namespace MedAPI.Repository
 
         public int SaveExam(Exam mExam)
         {
-            using (var context = new DataAccess.RegistroclinicoEntities())
+            using (var context = new DataAccess.registroclinicoEntities())
             {
                 var efExam = context.exams.Where(x => x.id == mExam.Id).FirstOrDefault();
                 if (efExam == null)
@@ -73,9 +73,9 @@ namespace MedAPI.Repository
 
         public List<Exam> SearchByName(string name)
         {
-            using (var context = new DataAccess.RegistroclinicoEntities())
+            using (var context = new DataAccess.registroclinicoEntities())
             {
-                return context.exams.Where(x => x.name.Contains(name) && x.deleted != null)
+                return context.exams.Where(x => x.name.Contains(name) && x.deleted != false)
                      .Select(x => new Exam()
                      {
                          Id = x.id,

@@ -11,7 +11,7 @@ namespace MedAPI.Repository
         public List<Establishment> GetAllEstablishment()
         {
             var bytes = BitConverter.GetBytes(true);
-            using (var context = new DataAccess.RegistroclinicoEntities())
+            using (var context = new DataAccess.registroclinicoEntities())
             {
                 return (from c in context.establishments
                         where c.deleted != bytes
@@ -30,7 +30,7 @@ namespace MedAPI.Repository
         public Establishment SaveEstablishment(Establishment mEstablishment)
         {
             var bytes = BitConverter.GetBytes(true);
-            using (var context = new DataAccess.RegistroclinicoEntities())
+            using (var context = new DataAccess.registroclinicoEntities())
             {
                 var efEstablishments = context.establishments.Where(m => m.id == mEstablishment.Id && m.deleted != bytes).FirstOrDefault();
                 if (efEstablishments == null)
@@ -52,7 +52,7 @@ namespace MedAPI.Repository
         public Establishment GetEstablishmentById(long id)
         {
             var bytes = BitConverter.GetBytes(true);
-            using (var context = new DataAccess.RegistroclinicoEntities())
+            using (var context = new DataAccess.registroclinicoEntities())
             {
                 return context.establishments.Where(x => x.id == id && x.deleted != bytes)
                    .Select(x => new Establishment()
@@ -70,7 +70,7 @@ namespace MedAPI.Repository
         public bool DeleteEstablishmentById(long id)
         {
             bool isSuccess = false;
-            using (var context = new DataAccess.RegistroclinicoEntities())
+            using (var context = new DataAccess.registroclinicoEntities())
             {
                 var efEstablishments = context.establishments.Where(m => m.id == id).FirstOrDefault();
                 if (efEstablishments != null)

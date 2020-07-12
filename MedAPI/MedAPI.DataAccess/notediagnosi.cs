@@ -21,7 +21,7 @@ namespace MedAPI.DataAccess
         }
     
         public long id { get; set; }
-        public byte[] deleted { get; set; }
+        public bool deleted { get; set; }
         public string diagnosisType { get; set; }
         public Nullable<long> diagnosis_id { get; set; }
         public Nullable<long> note_id { get; set; }

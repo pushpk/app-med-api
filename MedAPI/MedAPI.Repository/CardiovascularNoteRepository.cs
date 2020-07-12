@@ -12,7 +12,7 @@ namespace MedAPI.Repository
         public bool DeleteCardiovascularNoteById(long id)
         {
             bool isSuccess = false;
-            using (var context = new DataAccess.RegistroclinicoEntities())
+            using (var context = new DataAccess.registroclinicoEntities())
             {
                 var efCardiovascularnotes = context.cardiovascularnotes.Where(m => m.id == id).FirstOrDefault();
                 if (efCardiovascularnotes != null)
@@ -27,7 +27,7 @@ namespace MedAPI.Repository
 
         public List<CardiovascularNote> GetAllCardiovascularNote()
         {
-            using (var context = new DataAccess.RegistroclinicoEntities())
+            using (var context = new DataAccess.registroclinicoEntities())
             {
                 return (from ca in context.cardiovascularnotes
                         select new CardiovascularNote()
@@ -64,7 +64,7 @@ namespace MedAPI.Repository
 
         public CardiovascularNote GetCardiovascularNoteById(long id)
         {
-            using (var context = new DataAccess.RegistroclinicoEntities())
+            using (var context = new DataAccess.registroclinicoEntities())
             {
                 return context.cardiovascularnotes.Where(x => x.id == id)
                    .Select(x => new CardiovascularNote()
@@ -101,7 +101,7 @@ namespace MedAPI.Repository
 
         public int SaveCardiovascularNote(CardiovascularNote mCardiovascularNote)
         {
-            using (var context = new DataAccess.RegistroclinicoEntities())
+            using (var context = new DataAccess.registroclinicoEntities())
             {
                 var efCardiovascularNote = context.cardiovascularnotes.Where(x => x.id == mCardiovascularNote.Id).FirstOrDefault();
                 if (efCardiovascularNote == null)

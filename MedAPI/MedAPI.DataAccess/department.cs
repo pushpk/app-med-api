@@ -21,7 +21,7 @@ namespace MedAPI.DataAccess
         }
     
         public long id { get; set; }
-        public byte[] deleted { get; set; }
+        public bool deleted { get; set; }
         public string name { get; set; }
         public long country_id { get; set; }
     

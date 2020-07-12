@@ -6,7 +6,7 @@ namespace MedAPI.Domain
     {
         public long Id { get; set; }
         public string Code { get; set; }
-        public byte[] Deleted { get; set; }
+        public bool Deleted { get; set; }
         public string Title { get; set; }
         public long ChapterId { get; set; }
         public Chapter Chapter { get; set; }

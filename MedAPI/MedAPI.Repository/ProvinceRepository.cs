@@ -11,7 +11,7 @@ namespace MedAPI.Repository
 
         public List<Province> GetAllProvinceByName(string name)
         {
-            using (var context = new DataAccess.RegistroclinicoEntities())
+            using (var context = new DataAccess.registroclinicoEntities())
             {
                 return (from c in context.provinces
                         where c.name.ToLower().Contains(name.ToLower())
@@ -26,11 +26,11 @@ namespace MedAPI.Repository
         }
         public List<Province> GetAllProvinceByDeparmentId(long departmentId)
         {
-            var bytes = BitConverter.GetBytes(true);
-            using (var context = new DataAccess.RegistroclinicoEntities())
+            //var bytes = BitConverter.GetBytes(true);
+            using (var context = new DataAccess.registroclinicoEntities())
             {
                 return (from c in context.provinces
-                        where c.department_id == departmentId && c.deleted != bytes
+                        where c.department_id == departmentId && c.deleted != true
                         select new Province()
                         {
                             Deleted = c.deleted,
@@ -43,11 +43,11 @@ namespace MedAPI.Repository
 
         public List<Province> GetAllProvince()
         {
-            var bytes = BitConverter.GetBytes(true);
-            using (var context = new DataAccess.RegistroclinicoEntities())
+            //var bytes = BitConverter.GetBytes(true);
+            using (var context = new DataAccess.registroclinicoEntities())
             {
                 return (from c in context.provinces
-                        where c.deleted != bytes
+                        where c.deleted != true
                         select new Province()
                         {
                             Deleted = c.deleted,
@@ -60,14 +60,14 @@ namespace MedAPI.Repository
 
         public Province SaveProvince(Province mProvince)
         {
-            var bytes = BitConverter.GetBytes(true);
-            using (var context = new DataAccess.RegistroclinicoEntities())
+            //var bytes = BitConverter.GetBytes(true);
+            using (var context = new DataAccess.registroclinicoEntities())
             {
-                var efProvince = context.provinces.Where(m => m.id == mProvince.Id && m.deleted != bytes).FirstOrDefault();
+                var efProvince = context.provinces.Where(m => m.id == mProvince.Id && m.deleted != true).FirstOrDefault();
                 if (efProvince == null)
                 {
                     efProvince = new DataAccess.province();
-                    efProvince.deleted = BitConverter.GetBytes(false);
+                    efProvince.deleted = false;// BitConverter.GetBytes(false);
                     context.provinces.Add(efProvince);
                 }
                 efProvince.name = mProvince.Name;
@@ -80,10 +80,10 @@ namespace MedAPI.Repository
 
         public Province GetProvinceById(long id)
         {
-            var bytes = BitConverter.GetBytes(true);
-            using (var context = new DataAccess.RegistroclinicoEntities())
+            //var bytes = BitConverter.GetBytes(true);
+            using (var context = new DataAccess.registroclinicoEntities())
             {
-                return context.provinces.Where(x => x.id == id && x.deleted != bytes)
+                return context.provinces.Where(x => x.id == id && x.deleted != true)
                    .Select(x => new Province()
                    {
                        Id = x.id,
@@ -96,12 +96,12 @@ namespace MedAPI.Repository
         public bool DeleteProvinceById(long id)
         {
             bool isSuccess = false;
-            using (var context = new DataAccess.RegistroclinicoEntities())
+            using (var context = new DataAccess.registroclinicoEntities())
             {
                 var efprovinces = context.provinces.Where(m => m.id == id).FirstOrDefault();
                 if (efprovinces != null)
                 {
-                    efprovinces.deleted = BitConverter.GetBytes(true);
+                    efprovinces.deleted = true;// BitConverter.GetBytes(true);
                     context.SaveChanges();
                     isSuccess = true;
                 }

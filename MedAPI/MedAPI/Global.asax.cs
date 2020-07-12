@@ -19,6 +19,13 @@ namespace MedAPI
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            //WebApiConfig.Register(GlobalConfiguration.Configuration);
         }
+        //protected void Application_BeginRequest()
+        //{
+        //    //string allowedOrigin = "http://localhost:4200";
+        //    HttpContext.Current.Response.AddHeader("Access-Control-Allow-Origin", "*");
+        //    HttpContext.Current.Response.AddHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE");
+        //}
     }
 }

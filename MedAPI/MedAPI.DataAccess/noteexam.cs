@@ -22,7 +22,7 @@ namespace MedAPI.DataAccess
         }
     
         public long id { get; set; }
-        public byte[] deleted { get; set; }
+        public bool deleted { get; set; }
         public string observation { get; set; }
         public string specification { get; set; }
         public string status { get; set; }

@@ -50,18 +50,18 @@ namespace MedAPI.Service
 
         public Nurse SaveNurse(Nurse mNurse)
         {
-            if (mNurse.User.Id == 0)
+            if (mNurse.User.id == 0)
             {
-                mNurse.User.PasswordHash = Infrastructure.HashPasswordHelper.HashPassword(mNurse.User.PasswordHash);
+                mNurse.User.passwordHash = Infrastructure.HashPasswordHelper.HashPassword(mNurse.User.passwordHash);
             }
             mNurse.User = userRepository.SaveUser(mNurse.User);
 
-            if (mNurse.User.Id > 0)
+            if (mNurse.User.id > 0)
             {
-                mNurse.Id = mNurse.User.Id;
+                mNurse.Id = mNurse.User.id;
                 nurseRepository.SaveNurse(mNurse);
 
-                mNurse.NurseSpecialties.NurseId = mNurse.User.Id;
+                mNurse.NurseSpecialties.NurseId = mNurse.User.id;
                 nurseRepository.SaveSpecialtie(mNurse.NurseSpecialties);
             }
             return mNurse;

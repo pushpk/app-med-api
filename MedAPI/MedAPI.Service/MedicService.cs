@@ -17,8 +17,8 @@ namespace MedAPI.Service
 
         public List<Medic> GetAllMedic()
         {
-            var medics= medicRepository.GetAllMedic();
-            if(medics!=null && medics.Count > 0)
+            var medics = medicRepository.GetAllMedic();
+            if (medics != null && medics.Count > 0)
             {
                 foreach (var item in medics)
                 {
@@ -40,15 +40,15 @@ namespace MedAPI.Service
         public Medic SaveMedic(Domain.Medic mMedic)
         {
 
-            if (mMedic.User.Id == 0)
+            if (mMedic.User.id == 0)
             {
-                mMedic.User.PasswordHash = Infrastructure.HashPasswordHelper.HashPassword(mMedic.User.PasswordHash);
+                mMedic.User.passwordHash = Infrastructure.HashPasswordHelper.HashPassword(mMedic.User.passwordHash);
             }
             mMedic.User = userRepository.SaveUser(mMedic.User);
 
-            if (mMedic.User.Id > 0)
+            if (mMedic.User.id > 0)
             {
-                mMedic.Id = mMedic.User.Id;
+                mMedic.Id = mMedic.User.id;
                 medicRepository.SaveMedic(mMedic);
             }
             return mMedic;

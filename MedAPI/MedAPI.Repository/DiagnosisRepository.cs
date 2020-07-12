@@ -12,12 +12,12 @@ namespace MedAPI.Repository
         public bool DeleteDiagnosisById(long id)
         {
             bool isSuccess = false;
-            using (var context = new DataAccess.RegistroclinicoEntities())
+            using (var context = new DataAccess.registroclinicoEntities())
             {
                 var efDiagnosis = context.diagnosis.Where(m => m.id == id).FirstOrDefault();
                 if (efDiagnosis != null)
                 {
-                    efDiagnosis.deleted = BitConverter.GetBytes(true); 
+                    efDiagnosis.deleted = true;//BitConverter.GetBytes(true); 
                     context.SaveChanges();
                     isSuccess = true;
                 }
@@ -27,11 +27,11 @@ namespace MedAPI.Repository
 
         public List<Diagnosis> GetAllDiagnosis()
         {
-            var bytes = BitConverter.GetBytes(true);
-            using (var context = new DataAccess.RegistroclinicoEntities())
+            //var bytes = BitConverter.GetBytes(true);
+            using (var context = new DataAccess.registroclinicoEntities())
             {
                 return (from dg in context.diagnosis
-                        where dg.deleted != bytes
+                        where dg.deleted != true
                         orderby dg.code ascending
                         select new Diagnosis()
                         {
@@ -46,7 +46,7 @@ namespace MedAPI.Repository
 
         public Diagnosis GetDiagnosisById(long id)
         {
-            using (var context = new DataAccess.RegistroclinicoEntities())
+            using (var context = new DataAccess.registroclinicoEntities())
             {
                 return context.diagnosis.Where(x => x.id == id && x.deleted != null)
                    .Select(x => new Diagnosis()
@@ -61,7 +61,7 @@ namespace MedAPI.Repository
 
         public int SaveChapter(Chapter mChapter)
         {
-            using (var context = new DataAccess.RegistroclinicoEntities())
+            using (var context = new DataAccess.registroclinicoEntities())
             {
                 var efChapter = context.chapters.Where(x => x.id == mChapter.Id).FirstOrDefault();
                 if (efChapter == null)
@@ -78,7 +78,7 @@ namespace MedAPI.Repository
 
         public int SaveDiagnosis(Diagnosis mDiagnosis)
         {
-            using (var context = new DataAccess.RegistroclinicoEntities())
+            using (var context = new DataAccess.registroclinicoEntities())
             {
                 var efDiagnosis = context.diagnosis.Where(x => x.id == mDiagnosis.Id).FirstOrDefault();
                 if (efDiagnosis == null)
@@ -97,7 +97,7 @@ namespace MedAPI.Repository
 
         public List<Diagnosis> SearchByCode(string name)
         {
-            using (var context = new DataAccess.RegistroclinicoEntities())
+            using (var context = new DataAccess.registroclinicoEntities())
             {
                 return context.diagnosis.Where(x => x.code.Contains(name) && x.deleted != null)
                      .Select(x => new Diagnosis()
@@ -112,7 +112,7 @@ namespace MedAPI.Repository
 
         public List<Diagnosis> SearchByName(string name)
         {
-            using (var context = new DataAccess.RegistroclinicoEntities())
+            using (var context = new DataAccess.registroclinicoEntities())
             {
                 return context.diagnosis.Where(x => x.title.Contains(name) && x.deleted != null)
                      .Select(x => new Diagnosis()

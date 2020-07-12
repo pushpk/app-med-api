@@ -10,71 +10,71 @@ namespace MedAPI.Repository
         public List<Patient> GetAllPatient()
         {
             var bytes = BitConverter.GetBytes(true);
-            using (var context = new DataAccess.RegistroclinicoEntities())
+            using (var context = new DataAccess.registroclinicoEntities())
             {
                 return (from p in context.patients
                         select new Patient()
                         {
-                            Id = p.id,
-                            Alcohol = p.alcohol,
-                            BloodType = p.bloodType,
-                            CigaretteNumber = p.cigaretteNumber,
-                            CreatedTicket = p.createdTicket,
-                            DormNumber = p.dormNumber,
-                            EducationalAttainment = p.educationalAttainment,
-                            Electricity = p.electricity,
-                            FractureNumber = p.fractureNumber,
-                            FruitsVegetables = p.fruitsVegetables,
-                            HighGlucose = p.highGlucose,
-                            HomeMaterial = p.homeMaterial,
-                            HomeOwnership = p.homeOwnership,
-                            HomeType = p.homeType,
-                            Occupation = p.occupation,
-                            OtherAllergies = p.otherAllergies,
-                            OtherFatherBackground = p.otherFatherBackground,
-                            OtherMedicines = p.otherMedicines,
-                            OtherMotherBackground = p.otherMotherBackground,
-                            OtherPersonalBackground = p.otherPersonalBackground,
-                            PhysicalActivity = p.physicalActivity,
-                            ResidentNumber = p.residentNumber,
-                            Sewage = p.sewage,
-                            Water = p.water
+                            id = p.id,
+                            alcohol = p.alcohol,
+                            bloodType = p.bloodType,
+                            cigaretteNumber = p.cigaretteNumber,
+                            createdTicket = p.createdTicket,
+                            dormNumber = p.dormNumber,
+                            educationalAttainment = p.educationalAttainment,
+                            electricity = p.electricity,
+                            fractureNumber = p.fractureNumber,
+                            fruitsVegetables = p.fruitsVegetables,
+                            highGlucose = p.highGlucose,
+                            homeMaterial = p.homeMaterial,
+                            homeOwnership = p.homeOwnership,
+                            homeType = p.homeType,
+                            occupation = p.occupation,
+                            otherAllergies = p.otherAllergies,
+                            otherFatherBackground = p.otherFatherBackground,
+                            otherMedicines = p.otherMedicines,
+                            otherMotherBackground = p.otherMotherBackground,
+                            otherPersonalBackground = p.otherPersonalBackground,
+                            physicalActivity = p.physicalActivity,
+                            residentNumber = p.residentNumber,
+                            sewage = p.sewage,
+                            water = p.water
                         }).ToList();
             }
         }
 
         public Patient GetPatientById(long id)
         {
-            using (var context = new DataAccess.RegistroclinicoEntities())
+            using (var context = new DataAccess.registroclinicoEntities())
             {
                 return (from p in context.patients
                         where p.id == id
                         select new Patient
                         {
-                            Id = p.id,
-                            Alcohol = p.alcohol,
-                            BloodType = p.bloodType,
-                            CigaretteNumber = p.cigaretteNumber,
-                            CreatedTicket = p.createdTicket,
-                            DormNumber = p.dormNumber,
-                            EducationalAttainment = p.educationalAttainment,
-                            Electricity = p.electricity,
-                            FractureNumber = p.fractureNumber,
-                            FruitsVegetables = p.fruitsVegetables,
-                            HighGlucose = p.highGlucose,
-                            HomeMaterial = p.homeMaterial,
-                            HomeOwnership = p.homeOwnership,
-                            HomeType = p.homeType,
-                            Occupation = p.occupation,
-                            OtherAllergies = p.otherAllergies,
-                            OtherFatherBackground = p.otherFatherBackground,
-                            OtherMedicines = p.otherMedicines,
-                            OtherMotherBackground = p.otherMotherBackground,
-                            OtherPersonalBackground = p.otherPersonalBackground,
-                            PhysicalActivity = p.physicalActivity,
-                            ResidentNumber = p.residentNumber,
-                            Sewage = p.sewage,
-                            Water = p.water
+                            id = p.id,
+                            alcohol = p.alcohol,
+                            bloodType = p.bloodType,
+                            cigaretteNumber = p.cigaretteNumber,
+                            createdTicket = p.createdTicket,
+                            dormNumber = p.dormNumber,
+                            educationalAttainment = p.educationalAttainment,
+                            electricity = p.electricity,
+                            fractureNumber = p.fractureNumber,
+                            fruitsVegetables = p.fruitsVegetables,
+                            highGlucose = p.highGlucose,
+                            homeMaterial = p.homeMaterial,
+                            homeOwnership = p.homeOwnership,
+                            homeType = p.homeType,
+                            occupation = p.occupation,
+                            otherAllergies = p.otherAllergies,
+                            otherFatherBackground = p.otherFatherBackground,
+                            otherMedicines = p.otherMedicines,
+                            otherMotherBackground = p.otherMotherBackground,
+                            otherPersonalBackground = p.otherPersonalBackground,
+                            physicalActivity = p.physicalActivity,
+                            residentNumber = p.residentNumber,
+                            sewage = p.sewage,
+                            water = p.water
                         }).FirstOrDefault();
             }
         }
@@ -82,7 +82,7 @@ namespace MedAPI.Repository
         public bool DeletePatientById(long id)
         {
             bool isSuccess = false;
-            using (var context = new DataAccess.RegistroclinicoEntities())
+            using (var context = new DataAccess.registroclinicoEntities())
             {
                 var efPatient = context.patients.Where(m => m.id == id).FirstOrDefault();
                 if (efPatient != null)
@@ -96,11 +96,11 @@ namespace MedAPI.Repository
         }
         public List<District> GetDistrictByprovinceId(long id)
         {
-            var bytes = BitConverter.GetBytes(true);
-            using (var context = new DataAccess.RegistroclinicoEntities())
+            //var bytes = BitConverter.GetBytes(true);
+            using (var context = new DataAccess.registroclinicoEntities())
             {
                 return (from c in context.districts
-                        where c.deleted != bytes && c.province_id == id
+                        where c.deleted != true && c.province_id == id
                         select new District()
                         {
                             Deleted = c.deleted,
@@ -114,79 +114,79 @@ namespace MedAPI.Repository
 
         public void SavePatient(Patient mPatient)
         {
-            using (var context = new DataAccess.RegistroclinicoEntities())
+            using (var context = new DataAccess.registroclinicoEntities())
             {
-                var efPatients = context.patients.Where(m => m.id == mPatient.Id).FirstOrDefault();
+                var efPatients = context.patients.Where(m => m.id == mPatient.id).FirstOrDefault();
                 if (efPatients == null)
                 {
                     efPatients = new DataAccess.patient();
                     context.patients.Add(efPatients);
                 }
-                efPatients.id = mPatient.Id;
-                efPatients.alcohol = mPatient.Alcohol;
-                efPatients.bloodType = mPatient.BloodType;
-                efPatients.cigaretteNumber = mPatient.CigaretteNumber;
-                efPatients.createdTicket = mPatient.CreatedTicket;
-                efPatients.dormNumber = mPatient.DormNumber;
-                efPatients.educationalAttainment = mPatient.EducationalAttainment;
-                efPatients.electricity = mPatient.Electricity;
-                efPatients.fractureNumber = mPatient.FractureNumber;
-                efPatients.fruitsVegetables = mPatient.FruitsVegetables;
-                efPatients.highGlucose = mPatient.HighGlucose;
-                efPatients.homeMaterial = mPatient.HomeMaterial;
-                efPatients.homeOwnership = mPatient.HomeOwnership;
-                efPatients.homeType = mPatient.HomeType;
-                efPatients.occupation = mPatient.Occupation;
-                efPatients.otherAllergies = mPatient.OtherAllergies;
-                efPatients.otherFatherBackground = mPatient.OtherFatherBackground;
-                efPatients.otherMedicines = mPatient.OtherMedicines;
-                efPatients.otherMotherBackground = mPatient.OtherMotherBackground;
-                efPatients.otherPersonalBackground = mPatient.OtherPersonalBackground;
-                efPatients.physicalActivity = mPatient.PhysicalActivity;
-                efPatients.residentNumber = mPatient.ResidentNumber;
-                efPatients.sewage = mPatient.Sewage;
-                efPatients.water = mPatient.Water;
+                efPatients.id = mPatient.id;
+                efPatients.alcohol = mPatient.alcohol;
+                efPatients.bloodType = mPatient.bloodType;
+                efPatients.cigaretteNumber = mPatient.cigaretteNumber;
+                efPatients.createdTicket = mPatient.createdTicket;
+                efPatients.dormNumber = mPatient.dormNumber;
+                efPatients.educationalAttainment = mPatient.educationalAttainment;
+                efPatients.electricity = mPatient.electricity;
+                efPatients.fractureNumber = mPatient.fractureNumber;
+                efPatients.fruitsVegetables = mPatient.fruitsVegetables;
+                efPatients.highGlucose = mPatient.highGlucose;
+                efPatients.homeMaterial = mPatient.homeMaterial;
+                efPatients.homeOwnership = mPatient.homeOwnership;
+                efPatients.homeType = mPatient.homeType;
+                efPatients.occupation = mPatient.occupation;
+                efPatients.otherAllergies = mPatient.otherAllergies;
+                efPatients.otherFatherBackground = mPatient.otherFatherBackground;
+                efPatients.otherMedicines = mPatient.otherMedicines;
+                efPatients.otherMotherBackground = mPatient.otherMotherBackground;
+                efPatients.otherPersonalBackground = mPatient.otherPersonalBackground;
+                efPatients.physicalActivity = mPatient.physicalActivity;
+                efPatients.residentNumber = mPatient.residentNumber;
+                efPatients.sewage = mPatient.sewage;
+                efPatients.water = mPatient.water;
                 context.SaveChanges();
             }
         }
 
         public User GetPatientByDocumentNumber(int documentNumber)
         {
-            using (var context = new DataAccess.RegistroclinicoEntities())
+            using (var context = new DataAccess.registroclinicoEntities())
             {
                 return (from x in context.users
                         where x.documentNumber == documentNumber.ToString()
                         select new User
                         {
-                            Id = x.id,
-                            Address = x.address,
-                            Birthday = x.birthday,
-                            Cellphone = x.cellphone,
-                            CountryId = x.country_id,
-                            CreatedBy = x.createdBy,
-                            CreatedDate = x.createdDate,
-                            DistrictId = x.district_id,
-                            DocumentNumber = x.documentNumber,
-                            DocumentType = x.documentType,
-                            Email = x.email,
-                            FirstName = x.firstName,
-                            LastNameFather = x.lastNameFather,
-                            MaritalStatus = x.maritalStatus,
-                            LastNameMother = x.lastNameFather,
-                            ModifiedBy = x.modifiedBy,
-                            ModifiedDate = x.modifiedDate,
-                            OrganDonor = x.organDonor,
-                            Phone = x.phone,
-                            RoleId = x.role_id,
-                            Since = x.since,
-                            PasswordHash = x.password_hash,
-                            Role = new Role
+                            id = x.id,
+                            address = x.address,
+                            birthday = x.birthday,
+                            cellphone = x.cellphone,
+                            countryId = x.country_id,
+                            createdBy = x.createdBy,
+                            createdDate = x.createdDate,
+                            districtId = x.district_id,
+                            documentNumber = x.documentNumber,
+                            documentType = x.documentType,
+                            email = x.email,
+                            firstName = x.firstName,
+                            lastNameFather = x.lastNameFather,
+                            lastNameMother = x.lastNameFather,
+                            maritalStatus = x.maritalStatus,
+                            modifiedBy = x.modifiedBy,
+                            modifiedDate = x.modifiedDate,
+                            organDonor = x.organDonor,
+                            phone = x.phone,
+                            roleId = x.role_id,
+                            since = x.since,
+                            passwordHash = x.password_hash,
+                            role = new Role
                             {
-                                Id = x.role.id,
-                                Name = x.role.name,
-                                Description = x.role.description
+                                id = x.role.id,
+                                name = x.role.name,
+                                description = x.role.description
                             },
-                            Sex = x.sex
+                            sex = x.sex
                         }).FirstOrDefault();
             }
         }

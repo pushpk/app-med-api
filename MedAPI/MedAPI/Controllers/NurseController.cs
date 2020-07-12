@@ -104,7 +104,7 @@ namespace MedAPI.Controllers
             {
                 if (IsAdminPermission())
                 {
-                    mNurse.User.Id = id;
+                    mNurse.User.id = id;
                     mNurse = nurseService.SaveNurse(mNurse);
                     response = Request.CreateResponse(HttpStatusCode.OK, mNurse);
                 }
@@ -129,7 +129,7 @@ namespace MedAPI.Controllers
             var user = userService.GetByEmail(email);
             if (user != null)
             {
-                if (user.RoleId == (int)Infrastructure.Common.Permission.ADMIN)
+                if (user.roleId == (int)Infrastructure.Common.Permission.ADMIN)
                 {
                     result = true;
                 }

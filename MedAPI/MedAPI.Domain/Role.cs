@@ -2,10 +2,10 @@
 {
     public class Role
     {
-        public long Id { get; set; }
-        public byte[] Deletable { get; set; }
-        public byte[] Deleted { get; set; }
-        public string Description { get; set; }
-        public string Name { get; set; }
+        public long id { get; set; }
+        public byte[] deletable { get; set; }
+        public byte[] deleted { get; set; }
+        public string description { get; set; }
+        public string name { get; set; }
     }
 }

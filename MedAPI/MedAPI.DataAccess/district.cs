@@ -21,7 +21,7 @@ namespace MedAPI.DataAccess
         }
     
         public long id { get; set; }
-        public byte[] deleted { get; set; }
+        public bool deleted { get; set; }
         public string name { get; set; }
         public Nullable<long> ubigeo { get; set; }
         public long province_id { get; set; }
