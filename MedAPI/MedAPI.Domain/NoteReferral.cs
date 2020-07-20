@@ -10,15 +10,15 @@ namespace MedAPI.Domain
     {
         public NoteReferral()
         {
-            this.Notes = new List<Note>();
+            this.notes = new List<Note>();
         }
 
-        public long Id { get; set; }
-        public byte[] Deleted { get; set; }
-        public string Reason { get; set; }
-        public string Specialty { get; set; }
-        public long? NoteId { get; set; }
+        public long id { get; set; }
+        public byte[] deleted { get; set; }
+        public string reason { get; set; }
+        public string specialty { get; set; }
+        public long? noteId { get; set; }
 
-        public List<Note> Notes { get; set; }
+        public List<Note> notes { get; set; }
     }
 }

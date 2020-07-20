@@ -8,7 +8,7 @@ namespace MedAPI.Domain
 {
    public class PatientAllergies
     {
-        public long PatientId { get; set; }
-        public string Allergies { get; set; }
+        public long patientId { get; set; }
+        public string allergies { get; set; }
     }
 }

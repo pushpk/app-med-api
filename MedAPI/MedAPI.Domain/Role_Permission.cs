@@ -8,7 +8,7 @@ namespace MedAPI.Domain
 {
    public class Role_Permission
     {
-        public long Role_id { get; set; }
+        public long role_id { get; set; }
         public string permissions { get; set; }
 
         public virtual Role role { get; set; }

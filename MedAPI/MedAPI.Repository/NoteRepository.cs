@@ -1,4 +1,5 @@
-﻿using MedAPI.Domain;
+﻿using MedAPI.DataAccess;
+using MedAPI.Domain;
 using MedAPI.Infrastructure.IRepository;
 using System;
 using System.Collections.Generic;
@@ -20,29 +21,94 @@ namespace MedAPI.Repository
                         where nt.deleted != true && nt.patient_id == id
                         select new Note()
                         {
-                            Id = nt.id,
-                            Age = nt.age,
-                            Completed = nt.completed,
-                            Control = nt.control,
-                            Diagnosis = nt.diagnosis,
-                            Exam = nt.exam,
-                            ModifiedBy = nt.modifiedBy,
-                            PhysicalExam = nt.physicalExam,
-                            SecondOpinion = nt.secondOpinion,
-                            SicknessTime = nt.sicknessTime,
-                            SicknessUnit = nt.sicknessUnit,
-                            Specialty = nt.specialty,
-                            Stage = nt.stage,
-                            Story = nt.story,
-                            Symptom = nt.symptom,
-                            Treatment = nt.treatment,
-                            ControlNoteId = nt.controlNote_id,
-                            EstablishmentId = nt.establishment_id,
-                            MedicId = nt.medic_id,
-                            PatientId = nt.patient_id,
-                            TicketId = nt.ticket_id,
-                            TriageId = nt.triage_id
+                            id = nt.id,
+                            age = nt.age,
+                            completed = nt.completed,
+                            control = nt.control,
+                            diagnosis = nt.diagnosis,
+                            exam = nt.exam,
+                            modifiedBy = nt.modifiedBy,
+                            physicalExam = nt.physicalExam,
+                            secondOpinion = nt.secondOpinion,
+                            sicknessTime = nt.sicknessTime,
+                            sicknessUnit = nt.sicknessUnit,
+                            specialty = nt.specialty,
+                            stage = nt.stage,
+                            story = nt.story,
+                            symptom = nt.symptom,
+                            treatment = nt.treatment,
+                            controlNoteId = nt.controlNote_id,
+                            establishmentId = nt.establishment_id,
+                            medicId = nt.medic_id,
+                            patientId = nt.patient_id,
+                            ticketId = nt.ticket_id,
+                            triageId = nt.triage_id,
+                            noteDiagnosis = ((from x in context.notediagnosis
+                                              where x.deleted != true && x.note_id == nt.id
+                                              select new NoteDiagnosi()
+                                              {
+                                                  noteId = x.note_id,
+                                                  diagnosisId = x.diagnosis_id,
+                                                  diagnosisType = x.diagnosisType
+                                              }).ToList()),
+                            noteExams = ((from x in context.noteexams
+                                         where x.deleted != true && x.note_id == nt.id
+                                         select new NoteExam()
+                                         {
+                                             noteId = x.note_id,
+                                             examId = x.exam_id,
+                                             observation = x.observation,
+                                             specification = x.specification,
+                                             status = x.status
+                                         }).ToList()),
+                            noteMedicines = ((from x in context.notemedicines
+                                          where x.deleted != true && x.note_id == nt.id
+                                          select new NoteMedicine()
+                                          {
+                                              noteId = x.note_id,
+                                              durationTime = x.durationTime,
+                                              durationUnit = x.durationUnit,
+                                              frequencyTime = x.frequencyTime,
+                                              indication = x.indication,
+                                              medicineId = x.medicine_id
+                                          }).ToList()),
+                            noteReferrals = ((from x in context.notereferrals
+                                              where x.deleted != true && x.note_id == nt.id
+                                              select new NoteReferral()
+                                              {
+                                                  noteId = x.note_id,
+                                                  reason = x.reason,
+                                                  specialty = x.specialty
+                                              }).ToList())
                         }).ToList();
+                //triage = ((from x in context.triages
+                //           where x.deleted != true && x.patient_id == id
+                //           select new Domain.Triage()
+                //           {
+                //               abdominalPerimeter = x.abdominalPerimeter,
+                //               bmi = x.bmi,
+                //               breathingRate = x.breathingRate,
+                //               deposition = x.deposition,
+                //               diastolicBloodPressure = x.diastolicBloodPressure,
+                //               glycemia = x.glycemia,
+                //               hdlCholesterol = x.hdlCholesterol,
+                //               heartRate = x.heartRate,
+                //               heartRisk = x.heartRisk,
+                //               hunger = x.hunger,
+                //               hypertensionRisk = x.hypertensionRisk,
+                //               ldlCholesterol = x.ldlCholesterol,
+                //               size = x.size,
+                //               sleep = x.sleep,
+                //               systolicBloodPressure = x.systolicBloodPressure,
+                //               temperature = x.temperature,
+                //               thirst = x.thirst,
+                //               totalCholesterol = x.totalCholesterol,
+                //               urine = x.urine,
+                //               weight = x.weight,
+                //               weightEvolution = x.weightEvolution,
+                //               patientId = x.patient_id,
+                //               ticketId = x.ticket_id
+                //           }).ToList())
             }
         }
         public bool DeleteNoteById(long id)
@@ -70,28 +136,28 @@ namespace MedAPI.Repository
                         where nt.deleted != true
                         select new Note()
                         {
-                            Id = nt.id,
-                            Age = nt.age,
-                            Completed = nt.completed,
-                            Control = nt.control,
-                            Diagnosis = nt.diagnosis,
-                            Exam = nt.exam,
-                            ModifiedBy = nt.modifiedBy,
-                            PhysicalExam = nt.physicalExam,
-                            SecondOpinion = nt.secondOpinion,
-                            SicknessTime = nt.sicknessTime,
-                            SicknessUnit = nt.sicknessUnit,
-                            Specialty = nt.specialty,
-                            Stage = nt.stage,
-                            Story = nt.story,
-                            Symptom = nt.symptom,
-                            Treatment = nt.treatment,
-                            ControlNoteId = nt.controlNote_id,
-                            EstablishmentId = nt.establishment_id,
-                            MedicId = nt.medic_id,
-                            PatientId = nt.patient_id,
-                            TicketId = nt.ticket_id,
-                            TriageId = nt.triage_id
+                            id = nt.id,
+                            age = nt.age,
+                            completed = nt.completed,
+                            control = nt.control,
+                            diagnosis = nt.diagnosis,
+                            exam = nt.exam,
+                            modifiedBy = nt.modifiedBy,
+                            physicalExam = nt.physicalExam,
+                            secondOpinion = nt.secondOpinion,
+                            sicknessTime = nt.sicknessTime,
+                            sicknessUnit = nt.sicknessUnit,
+                            specialty = nt.specialty,
+                            stage = nt.stage,
+                            story = nt.story,
+                            symptom = nt.symptom,
+                            treatment = nt.treatment,
+                            controlNoteId = nt.controlNote_id,
+                            establishmentId = nt.establishment_id,
+                            medicId = nt.medic_id,
+                            patientId = nt.patient_id,
+                            ticketId = nt.ticket_id,
+                            triageId = nt.triage_id
                         }).ToList();
             }
         }
@@ -103,28 +169,28 @@ namespace MedAPI.Repository
                 return context.notes.Where(x => x.id == id)
                    .Select(x => new Note()
                    {
-                       Id = x.id,
-                       Age = x.age,
-                       Completed = x.completed,
-                       Control = x.control,
-                       Diagnosis = x.diagnosis,
-                       Exam = x.exam,
-                       ModifiedBy = x.modifiedBy,
-                       PhysicalExam = x.physicalExam,
-                       SecondOpinion = x.secondOpinion,
-                       SicknessTime = x.sicknessTime,
-                       SicknessUnit = x.sicknessUnit,
-                       Specialty = x.specialty,
-                       Stage = x.stage,
-                       Story = x.story,
-                       Symptom = x.symptom,
-                       Treatment = x.treatment,
-                       ControlNoteId = x.controlNote_id,
-                       EstablishmentId = x.establishment_id,
-                       MedicId = x.medic_id,
-                       PatientId = x.patient_id,
-                       TicketId = x.ticket_id,
-                       TriageId = x.triage_id
+                       id = x.id,
+                       age = x.age,
+                       completed = x.completed,
+                       control = x.control,
+                       diagnosis = x.diagnosis,
+                       exam = x.exam,
+                       modifiedBy = x.modifiedBy,
+                       physicalExam = x.physicalExam,
+                       secondOpinion = x.secondOpinion,
+                       sicknessTime = x.sicknessTime,
+                       sicknessUnit = x.sicknessUnit,
+                       specialty = x.specialty,
+                       stage = x.stage,
+                       story = x.story,
+                       symptom = x.symptom,
+                       treatment = x.treatment,
+                       controlNoteId = x.controlNote_id,
+                       establishmentId = x.establishment_id,
+                       medicId = x.medic_id,
+                       patientId = x.patient_id,
+                       ticketId = x.ticket_id,
+                       triageId = x.triage_id
                    }).FirstOrDefault();
             }
         }
@@ -133,7 +199,7 @@ namespace MedAPI.Repository
         {
             using (var context = new DataAccess.registroclinicoEntities())
             {
-                var efNotes = context.notes.Where(m => m.id == mNote.Id).FirstOrDefault();
+                var efNotes = context.notes.Where(m => m.id == mNote.id).FirstOrDefault();
                 if (efNotes == null)
                 {
                     efNotes = new DataAccess.note();
@@ -141,34 +207,153 @@ namespace MedAPI.Repository
                     efNotes.createdDate = DateTime.UtcNow;
                     context.notes.Add(efNotes);
                 }
-                efNotes.age = mNote.Age;
-                efNotes.completed = mNote.Completed;
-                efNotes.control = mNote.Control;
-                efNotes.controlNote_id = mNote.ControlNoteId;
-                efNotes.createdBy = mNote.CreatedBy;
-                efNotes.diagnosis = mNote.Diagnosis;
-                efNotes.establishment_id = mNote.EstablishmentId;
-                efNotes.exam = mNote.Exam;
-                efNotes.medic_id = mNote.MedicId;
-                efNotes.modifiedBy = mNote.ModifiedBy;
-                efNotes.modifiedDate = mNote.ModifiedDate;
-                efNotes.patient_id = mNote.PatientId;
-                efNotes.physicalExam = mNote.PhysicalExam;
-                efNotes.secondOpinion = mNote.SecondOpinion;
-                efNotes.sicknessTime = mNote.SicknessTime;
-                efNotes.sicknessUnit = mNote.SicknessUnit;
-                efNotes.secondOpinion = mNote.SecondOpinion;
-                efNotes.specialty = mNote.Specialty;
-                efNotes.stage = mNote.Stage;
-                efNotes.story = mNote.Story;
-                efNotes.symptom = mNote.Symptom;
-                efNotes.ticket_id = mNote.TicketId;
-                efNotes.treatment = mNote.Treatment;
-                efNotes.triage_id = mNote.TriageId;
+                efNotes.age = mNote.age;
+                efNotes.completed = mNote.completed;
+                efNotes.control = mNote.control;
+                efNotes.controlNote_id = mNote.controlNoteId;
+                efNotes.createdBy = mNote.createdBy;
+                efNotes.diagnosis = mNote.diagnosis;
+                efNotes.establishment_id = mNote.establishmentId;
+                efNotes.exam = mNote.exam;
+                efNotes.medic_id = mNote.medicId;
+                efNotes.modifiedBy = mNote.modifiedBy;
+                efNotes.modifiedDate = mNote.modifiedDate;
+                efNotes.patient_id = mNote.patientId;
+                efNotes.physicalExam = mNote.physicalExam;
+                efNotes.secondOpinion = mNote.secondOpinion;
+                efNotes.sicknessTime = mNote.sicknessTime;
+                efNotes.sicknessUnit = mNote.sicknessUnit;
+                efNotes.secondOpinion = mNote.secondOpinion;
+                efNotes.specialty = mNote.specialty;
+                efNotes.stage = mNote.stage;
+                efNotes.story = mNote.story;
+                efNotes.symptom = mNote.symptom;
+                efNotes.ticket_id = mNote.ticketId;
+                efNotes.treatment = mNote.treatment;
+                efNotes.triage_id = mNote.triageId;
                 context.SaveChanges();
-                mNote.Id = efNotes.id;
+                mNote.id = efNotes.id;
             }
             return mNote;
+        }
+        public bool SaveDiagnosisList(List<NoteDiagnosi> mDiagnosis)
+        {
+            using (var context = new DataAccess.registroclinicoEntities())
+            {
+                try
+                {
+                    foreach (var diagnosis in mDiagnosis)
+                    {
+                        var efDignosos = context.notediagnosis.Where(m => m.id == diagnosis.id).FirstOrDefault();
+                        if (efDignosos == null)
+                        {
+                            efDignosos = new DataAccess.notediagnosi();
+                            efDignosos.deleted = false;// BitConverter.GetBytes(false);   
+                            context.notediagnosis.Add(efDignosos);
+                        }
+                        efDignosos.diagnosisType = diagnosis.diagnosisType;
+                        efDignosos.diagnosis_id = diagnosis.diagnosisId;
+                        efDignosos.note_id = diagnosis.noteId;
+                        context.SaveChanges();
+                    }
+                    return true;
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+            }
+
+        }
+
+        public bool SaveExamsList(List<NoteExam> mExams)
+        {
+            using (var context = new DataAccess.registroclinicoEntities())
+            {
+                try
+                {
+                    foreach (var exam in mExams)
+                    {
+                        var efExams = context.noteexams.Where(m => m.id == exam.id).FirstOrDefault();
+                        if (efExams == null)
+                        {
+                            efExams = new DataAccess.noteexam();
+                            efExams.deleted = false;// BitConverter.GetBytes(false);   
+                            context.noteexams.Add(efExams);
+                        }
+                        efExams.observation = exam.observation;
+                        efExams.exam_id = exam.examId;
+                        efExams.note_id = exam.noteId;
+                        context.SaveChanges();
+                    }
+                    return true;
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+            }
+        }
+        public bool SaveMedicationsList(List<NoteMedicine> mMedications)
+        {
+            using (var context = new DataAccess.registroclinicoEntities())
+            {
+                try
+                {
+                    foreach (var medication in mMedications)
+                    {
+                        var efMedications = context.notemedicines.Where(m => m.id == medication.id).FirstOrDefault();
+                        if (efMedications == null)
+                        {
+                            efMedications = new DataAccess.notemedicine();
+                            efMedications.deleted = false;// BitConverter.GetBytes(false);   
+                            context.notemedicines.Add(efMedications);
+                        }
+                        efMedications.durationTime = medication.durationTime;
+                        efMedications.durationUnit = medication.durationUnit;
+                        efMedications.frequencyTime = medication.frequencyTime;
+                        efMedications.frequencyUnit = medication.frequencyUnit;
+                        efMedications.indication = medication.indication;
+                        efMedications.medicine_id = medication.medicineId;
+                        efMedications.note_id = medication.noteId;
+                        context.SaveChanges();
+                    }
+                    return true;
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+            }
+        }
+
+        public bool SaveReferralsList(List<NoteReferral> mReferrals)
+        {
+            using (var context = new DataAccess.registroclinicoEntities())
+            {
+                try
+                {
+                    foreach (var referral in mReferrals)
+                    {
+                        var efReferrals = context.notereferrals.Where(m => m.id == referral.id).FirstOrDefault();
+                        if (efReferrals == null)
+                        {
+                            efReferrals = new DataAccess.notereferral();
+                            efReferrals.deleted = false;// BitConverter.GetBytes(false);   
+                            context.notereferrals.Add(efReferrals);
+                        }
+                        efReferrals.reason = referral.reason;
+                        efReferrals.specialty = referral.specialty;
+                        efReferrals.note_id = referral.noteId;
+                        context.SaveChanges();
+                    }
+                    return true;
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+            }
         }
     }
 }

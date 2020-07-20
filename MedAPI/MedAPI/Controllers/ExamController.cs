@@ -111,7 +111,7 @@ namespace MedAPI.Controllers
             {
                 if (IsAdminPermission())
                 {
-                    mExam.Id = id;
+                    mExam.id = id;
                     id = examService.SaveExam(mExam);
 
                     if (id > 0)

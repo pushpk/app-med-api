@@ -17,7 +17,7 @@ namespace MedAPI.DataAccess
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public upload()
         {
-            this.noteexams = new HashSet<noteexam>();
+            this.noteexam_upload = new HashSet<noteexam_upload>();
         }
     
         public long id { get; set; }
@@ -27,6 +27,6 @@ namespace MedAPI.DataAccess
         public string path { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<noteexam> noteexams { get; set; }
+        public virtual ICollection<noteexam_upload> noteexam_upload { get; set; }
     }
 }

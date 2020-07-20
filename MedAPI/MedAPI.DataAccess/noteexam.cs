@@ -17,8 +17,8 @@ namespace MedAPI.DataAccess
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public noteexam()
         {
-            this.notes = new HashSet<note>();
-            this.uploads = new HashSet<upload>();
+            this.note_noteexam = new HashSet<note_noteexam>();
+            this.noteexam_upload = new HashSet<noteexam_upload>();
         }
     
         public long id { get; set; }
@@ -32,8 +32,8 @@ namespace MedAPI.DataAccess
         public virtual exam exam { get; set; }
         public virtual note note { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<note> notes { get; set; }
+        public virtual ICollection<note_noteexam> note_noteexam { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<upload> uploads { get; set; }
+        public virtual ICollection<noteexam_upload> noteexam_upload { get; set; }
     }
 }

@@ -35,10 +35,10 @@ namespace MedAPI.Repository
                         orderby dg.code ascending
                         select new Diagnosis()
                         {
-                            Id = dg.id,
-                            Code = dg.code,
-                            Title = dg.title,
-                            ChapterId = dg.chapter_id
+                            id = dg.id,
+                            code = dg.code,
+                            title = dg.title,
+                            chapterId = dg.chapter_id
                         }
                           ).ToList();
             }
@@ -48,13 +48,13 @@ namespace MedAPI.Repository
         {
             using (var context = new DataAccess.registroclinicoEntities())
             {
-                return context.diagnosis.Where(x => x.id == id && x.deleted != null)
+                return context.diagnosis.Where(x => x.id == id && x.deleted != true)
                    .Select(x => new Diagnosis()
                    {
-                       Id = x.id,
-                       Code = x.code,
-                       Title = x.title,
-                       ChapterId = x.chapter_id
+                       id = x.id,
+                       code = x.code,
+                       title = x.title,
+                       chapterId = x.chapter_id
                    }).FirstOrDefault();
             }
         }
@@ -63,14 +63,14 @@ namespace MedAPI.Repository
         {
             using (var context = new DataAccess.registroclinicoEntities())
             {
-                var efChapter = context.chapters.Where(x => x.id == mChapter.Id).FirstOrDefault();
+                var efChapter = context.chapters.Where(x => x.id == mChapter.id).FirstOrDefault();
                 if (efChapter == null)
                 {
                     efChapter = new DataAccess.chapter();
                     context.chapters.Add(efChapter);
                 }
-                efChapter.code = mChapter.Code;
-                efChapter.title = mChapter.Title;
+                efChapter.code = mChapter.code;
+                efChapter.title = mChapter.title;
                 context.SaveChanges();
                 return Convert.ToInt16(efChapter.id);
             }
@@ -80,16 +80,16 @@ namespace MedAPI.Repository
         {
             using (var context = new DataAccess.registroclinicoEntities())
             {
-                var efDiagnosis = context.diagnosis.Where(x => x.id == mDiagnosis.Id).FirstOrDefault();
+                var efDiagnosis = context.diagnosis.Where(x => x.id == mDiagnosis.id).FirstOrDefault();
                 if (efDiagnosis == null)
                 {
                     efDiagnosis = new DataAccess.diagnosi();
                     context.diagnosis.Add(efDiagnosis);
                     //efDiagnosis.CreatedDate = DateTime.Now;
                 }
-                efDiagnosis.code = mDiagnosis.Code;
-                efDiagnosis.title = mDiagnosis.Title;
-                efDiagnosis.chapter_id = mDiagnosis.ChapterId;
+                efDiagnosis.code = mDiagnosis.code;
+                efDiagnosis.title = mDiagnosis.title;
+                efDiagnosis.chapter_id = mDiagnosis.chapterId;
                 context.SaveChanges();
                 return Convert.ToInt16(efDiagnosis.id);
             }
@@ -99,13 +99,13 @@ namespace MedAPI.Repository
         {
             using (var context = new DataAccess.registroclinicoEntities())
             {
-                return context.diagnosis.Where(x => x.code.Contains(name) && x.deleted != null)
+                return context.diagnosis.Where(x => x.code.Contains(name) && x.deleted != true && x.chapter_id==1)
                      .Select(x => new Diagnosis()
                      {
-                         Id = x.id,
-                         Code = x.code,
-                         Title = x.title,
-                         ChapterId = x.chapter_id,
+                         id = x.id,
+                         code = x.code,
+                         title = x.title,
+                         chapterId = x.chapter_id,
                      }).ToList();
             }
         }
@@ -114,13 +114,13 @@ namespace MedAPI.Repository
         {
             using (var context = new DataAccess.registroclinicoEntities())
             {
-                return context.diagnosis.Where(x => x.title.Contains(name) && x.deleted != null)
+                return context.diagnosis.Where(x => x.title.Contains(name) && x.deleted != true)
                      .Select(x => new Diagnosis()
                      {
-                         Id = x.id,
-                         Code = x.code,
-                         Title = x.title,
-                         ChapterId = x.chapter_id,
+                         id = x.id,
+                         code = x.code,
+                         title = x.title,
+                         chapterId = x.chapter_id,
                      }).ToList();
             }
         }

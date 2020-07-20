@@ -19,12 +19,12 @@ namespace MedAPI.Repository
                         where c.deleted != true
                         select new District()
                         {
-                            Deleted = c.deleted,
-                            Name = c.name,
-                            Id = c.id,
-                            ProvinceId = c.province_id,
-                            Ubigeo = c.ubigeo,
-                        }).OrderBy(x => x.Name).ToList();
+                            deleted = c.deleted,
+                            name = c.name,
+                            id = c.id,
+                            provinceId = c.province_id,
+                            ubigeo = c.ubigeo,
+                        }).OrderBy(x => x.name).ToList();
             }
         }
         public District SaveDistrict(District mDistrict)
@@ -32,18 +32,18 @@ namespace MedAPI.Repository
             //var bytes= BitConverter.GetBytes(true);
             using (var context = new DataAccess.registroclinicoEntities())
             {
-                var efDisrict = context.districts.Where(m => m.id == mDistrict.Id && m.deleted != true).FirstOrDefault();
+                var efDisrict = context.districts.Where(m => m.id == mDistrict.id && m.deleted != true).FirstOrDefault();
                 if (efDisrict == null)
                 {
                     efDisrict = new DataAccess.district();
                     efDisrict.deleted = false;// BitConverter.GetBytes(false);
                     context.districts.Add(efDisrict);
                 }
-                efDisrict.name = mDistrict.Name;
-                efDisrict.province_id = mDistrict.ProvinceId;
-                efDisrict.ubigeo = mDistrict.Ubigeo;
+                efDisrict.name = mDistrict.name;
+                efDisrict.province_id = mDistrict.provinceId;
+                efDisrict.ubigeo = mDistrict.ubigeo;
                 context.SaveChanges();
-                mDistrict.Id = efDisrict.id;
+                mDistrict.id = efDisrict.id;
             }
             return mDistrict;
         }
@@ -55,11 +55,11 @@ namespace MedAPI.Repository
                 return context.districts.Where(x => x.id == id && x.deleted != true)
                    .Select(x => new District()
                    {
-                       Id = x.id,
-                       Name = x.name,
-                       Deleted = x.deleted,
-                       ProvinceId = x.province_id,
-                       Ubigeo = x.ubigeo
+                       id = x.id,
+                       name = x.name,
+                       deleted = x.deleted,
+                       provinceId = x.province_id,
+                       ubigeo = x.ubigeo
                    }).FirstOrDefault();
             }
         }

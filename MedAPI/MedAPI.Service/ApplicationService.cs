@@ -17,12 +17,12 @@ namespace MedAPI.Service
         public Upload SaveFile(Upload mUpload)
         {
            
-            string filePath = Path.Combine(HttpContext.Current.Server.MapPath("~/public/assets"),mUpload.Filename);
-            string absultepath = "/public/assets/" + mUpload.Filename;
-            if (mUpload.FileByte != null)
+            string filePath = Path.Combine(HttpContext.Current.Server.MapPath("~/public/assets"),mUpload.filename);
+            string absultepath = "/public/assets/" + mUpload.filename;
+            if (mUpload.fileByte != null)
             {
-                File.WriteAllBytes(filePath, mUpload.FileByte);
-                mUpload.Path = absultepath;
+                File.WriteAllBytes(filePath, mUpload.fileByte);
+                mUpload.path = absultepath;
                 applicationRepository.Upload(mUpload);
             }
             return mUpload;

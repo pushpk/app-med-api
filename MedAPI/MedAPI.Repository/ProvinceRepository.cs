@@ -17,10 +17,10 @@ namespace MedAPI.Repository
                         where c.name.ToLower().Contains(name.ToLower())
                         select new Province()
                         {
-                            Deleted = c.deleted,
-                            Name = c.name,
-                            Id = c.id,
-                            DepartmentId = c.department_id,
+                            deleted = c.deleted,
+                            name = c.name,
+                            id = c.id,
+                            departmentId = c.department_id,
                         }).ToList();
             }
         }
@@ -33,11 +33,11 @@ namespace MedAPI.Repository
                         where c.department_id == departmentId && c.deleted != true
                         select new Province()
                         {
-                            Deleted = c.deleted,
-                            Name = c.name,
-                            Id = c.id,
-                            DepartmentId = c.department_id,
-                        }).OrderBy(x => x.Name).ToList();
+                            deleted = c.deleted,
+                            name = c.name,
+                            id = c.id,
+                            departmentId = c.department_id,
+                        }).OrderBy(x => x.name).ToList();
             }
         }
 
@@ -50,11 +50,11 @@ namespace MedAPI.Repository
                         where c.deleted != true
                         select new Province()
                         {
-                            Deleted = c.deleted,
-                            Name = c.name,
-                            Id = c.id,
-                            DepartmentId = c.department_id,
-                        }).OrderBy(x => x.Name).ToList();
+                            deleted = c.deleted,
+                            name = c.name,
+                            id = c.id,
+                            departmentId = c.department_id,
+                        }).OrderBy(x => x.name).ToList();
             }
         }
 
@@ -63,17 +63,17 @@ namespace MedAPI.Repository
             //var bytes = BitConverter.GetBytes(true);
             using (var context = new DataAccess.registroclinicoEntities())
             {
-                var efProvince = context.provinces.Where(m => m.id == mProvince.Id && m.deleted != true).FirstOrDefault();
+                var efProvince = context.provinces.Where(m => m.id == mProvince.id && m.deleted != true).FirstOrDefault();
                 if (efProvince == null)
                 {
                     efProvince = new DataAccess.province();
                     efProvince.deleted = false;// BitConverter.GetBytes(false);
                     context.provinces.Add(efProvince);
                 }
-                efProvince.name = mProvince.Name;
-                efProvince.department_id = mProvince.DepartmentId;
+                efProvince.name = mProvince.name;
+                efProvince.department_id = mProvince.departmentId;
                 context.SaveChanges();
-                mProvince.Id = efProvince.id;
+                mProvince.id = efProvince.id;
             }
             return mProvince;
         }
@@ -86,10 +86,10 @@ namespace MedAPI.Repository
                 return context.provinces.Where(x => x.id == id && x.deleted != true)
                    .Select(x => new Province()
                    {
-                       Id = x.id,
-                       Name = x.name,
-                       Deleted = x.deleted,
-                       DepartmentId = x.department_id
+                       id = x.id,
+                       name = x.name,
+                       deleted = x.deleted,
+                       departmentId = x.department_id
                    }).FirstOrDefault();
             }
         }

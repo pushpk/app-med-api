@@ -10,18 +10,18 @@ namespace MedAPI.Domain
     {
         public NoteExam()
         {
-            this.Notes = new List<Note>();
-            this.Uploads = new List<Upload>();
+            //this.Notes = new List<Note>();
+            this.uploads = new List<Upload>();
         }
 
-        public long Id { get; set; }
-        public byte[] Deleted { get; set; }
-        public string Observation { get; set; }
-        public string Specification { get; set; }
-        public string Status { get; set; }
-        public long ExamId { get; set; }
-        public long NoteId { get; set; }
-        public List<Note> Notes { get; set; }
-        public List<Upload> Uploads { get; set; }
+        public long id { get; set; }
+        public byte[] deleted { get; set; }
+        public string observation { get; set; }
+        public string specification { get; set; }   
+        public string status { get; set; }
+        public long examId { get; set; }
+        public long noteId { get; set; }
+        //public List<Note> Notes { get; set; }
+        public List<Upload> uploads { get; set; }
     }
 }

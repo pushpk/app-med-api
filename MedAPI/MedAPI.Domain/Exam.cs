@@ -2,9 +2,9 @@
 {
     public class Exam
     {
-        public long Id { get; set; }
-        public byte[] Deleted { get; set; }
-        public string Name { get; set; }
-        public string Type { get; set; }
+        public long id { get; set; }
+        public byte[] deleted { get; set; }
+        public string name { get; set; }
+        public string type { get; set; }
     }
 }

@@ -22,11 +22,11 @@ namespace MedAPI.Service
             {
                 foreach (var item in nurses)
                 {
-                    item.User = userRepository.GetUserById(item.Id);
-                    var nurseSpecialties = nurseRepository.GetNurseSpecialtiesById(item.Id);
+                    item.user = userRepository.GetUserById(item.id);
+                    var nurseSpecialties = nurseRepository.GetNurseSpecialtiesById(item.id);
                     if (nurseSpecialties != null)
                     {
-                        item.NurseSpecialties = nurseSpecialties;
+                        item.nurseSpecialties = nurseSpecialties;
                     }
                 }
             }
@@ -36,13 +36,13 @@ namespace MedAPI.Service
         public Nurse GetNurseById(long id)
         {
             var mNurse= nurseRepository.GetNurseById(id);
-            if (mNurse != null && mNurse.Id>0)
+            if (mNurse != null && mNurse.id>0)
             {
-                mNurse.User= userRepository.GetUserById(mNurse.Id);
-                var nurseSpecialties = nurseRepository.GetNurseSpecialtiesById(mNurse.Id);
+                mNurse.user= userRepository.GetUserById(mNurse.id);
+                var nurseSpecialties = nurseRepository.GetNurseSpecialtiesById(mNurse.id);
                 if (nurseSpecialties != null)
                 {
-                    mNurse.NurseSpecialties = nurseSpecialties;
+                    mNurse.nurseSpecialties = nurseSpecialties;
                 }
             }
             return mNurse;
@@ -50,19 +50,19 @@ namespace MedAPI.Service
 
         public Nurse SaveNurse(Nurse mNurse)
         {
-            if (mNurse.User.id == 0)
+            if (mNurse.user.id == 0)
             {
-                mNurse.User.passwordHash = Infrastructure.HashPasswordHelper.HashPassword(mNurse.User.passwordHash);
+                mNurse.user.passwordHash = Infrastructure.HashPasswordHelper.HashPassword(mNurse.user.passwordHash);
             }
-            mNurse.User = userRepository.SaveUser(mNurse.User);
+            mNurse.user = userRepository.SaveUser(mNurse.user);
 
-            if (mNurse.User.id > 0)
+            if (mNurse.user.id > 0)
             {
-                mNurse.Id = mNurse.User.id;
+                mNurse.id = mNurse.user.id;
                 nurseRepository.SaveNurse(mNurse);
 
-                mNurse.NurseSpecialties.NurseId = mNurse.User.id;
-                nurseRepository.SaveSpecialtie(mNurse.NurseSpecialties);
+                mNurse.nurseSpecialties.nurseId = mNurse.user.id;
+                nurseRepository.SaveSpecialtie(mNurse.nurseSpecialties);
             }
             return mNurse;
         }

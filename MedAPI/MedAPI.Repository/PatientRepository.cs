@@ -103,12 +103,12 @@ namespace MedAPI.Repository
                         where c.deleted != true && c.province_id == id
                         select new District()
                         {
-                            Deleted = c.deleted,
-                            Name = c.name,
-                            Id = c.id,
-                            ProvinceId = c.province_id,
-                            Ubigeo = c.ubigeo,
-                        }).OrderBy(x => x.Name).ToList();
+                            deleted = c.deleted,
+                            name = c.name,
+                            id = c.id,
+                            provinceId = c.province_id,
+                            ubigeo = c.ubigeo,
+                        }).OrderBy(x => x.name).ToList();
             }
         }
 
@@ -150,44 +150,112 @@ namespace MedAPI.Repository
             }
         }
 
-        public User GetPatientByDocumentNumber(int documentNumber)
+        public Patient GetPatientByDocumentNumber(int documentNumber)
         {
             using (var context = new DataAccess.registroclinicoEntities())
             {
-                return (from x in context.users
-                        where x.documentNumber == documentNumber.ToString()
-                        select new User
-                        {
-                            id = x.id,
-                            address = x.address,
-                            birthday = x.birthday,
-                            cellphone = x.cellphone,
-                            countryId = x.country_id,
-                            createdBy = x.createdBy,
-                            createdDate = x.createdDate,
-                            districtId = x.district_id,
-                            documentNumber = x.documentNumber,
-                            documentType = x.documentType,
-                            email = x.email,
-                            firstName = x.firstName,
-                            lastNameFather = x.lastNameFather,
-                            lastNameMother = x.lastNameFather,
-                            maritalStatus = x.maritalStatus,
-                            modifiedBy = x.modifiedBy,
-                            modifiedDate = x.modifiedDate,
-                            organDonor = x.organDonor,
-                            phone = x.phone,
-                            roleId = x.role_id,
-                            since = x.since,
-                            passwordHash = x.password_hash,
-                            role = new Role
-                            {
-                                id = x.role.id,
-                                name = x.role.name,
-                                description = x.role.description
-                            },
-                            sex = x.sex
-                        }).FirstOrDefault();
+                Patient patient = new Patient();
+                var patients = (from x in context.patients
+                                where x.user.documentNumber == documentNumber.ToString()
+                                select new Patient
+                                {
+                                    id = x.id,
+                                    alcohol = x.alcohol,
+                                    bloodType = x.bloodType,
+                                    cigaretteNumber = x.cigaretteNumber,
+                                    createdTicket = x.createdTicket,
+                                    dormNumber = x.dormNumber,
+                                    educationalAttainment = x.educationalAttainment,
+                                    electricity = x.electricity,
+                                    fractureNumber = x.fractureNumber,
+                                    fruitsVegetables = x.fruitsVegetables,
+                                    highGlucose = x.highGlucose,
+                                    homeMaterial = x.homeMaterial,
+                                    homeOwnership = x.homeOwnership,
+                                    homeType = x.homeType,
+                                    occupation = x.occupation,
+                                    otherAllergies = x.otherAllergies,
+                                    otherFatherBackground = x.otherFatherBackground,
+                                    otherMedicines = x.otherMedicines,
+                                    otherMotherBackground = x.otherMotherBackground,
+                                    otherPersonalBackground = x.otherPersonalBackground,
+                                    physicalActivity = x.physicalActivity,
+                                    residentNumber = x.residentNumber,
+                                    sewage = x.sewage,
+                                    water = x.water
+                                    //user = x.user
+                                    //address = x.address,
+                                    //birthday = x.birthday,
+                                    //cellphone = x.cellphone,
+                                    //countryId = x.country_id,
+                                    //deleted = x.deleted,
+                                    //createdBy = x.createdBy,
+                                    //createdDate = x.createdDate,
+                                    //districtId = x.district_id,
+                                    //documentNumber = x.documentNumber,
+                                    //documentType = x.documentType,
+                                    //email = x.email,
+                                    //firstName = x.firstName,
+                                    //lastNameFather = x.lastNameFather,
+                                    //lastNameMother = x.lastNameFather,
+                                    //maritalStatus = x.maritalStatus,
+                                    //modifiedBy = x.modifiedBy,
+                                    //modifiedDate = x.modifiedDate,
+                                    //organDonor = x.organDonor,
+                                    //phone = x.phone,
+                                    //roleId = x.role_id,
+                                    //since = x.since,
+                                    //passwordHash = x.password_hash,
+                                    //role = new Role
+                                    //{
+                                    //    id = x.role.id,
+                                    //    name = x.role.name,
+                                    //    description = x.role.description
+                                    //},
+                                    //sex = x.sex
+                                }).FirstOrDefault();
+
+                var users = (from x in context.users
+                             where x.documentNumber == documentNumber.ToString()
+                             select new User
+                             {
+                                 id = x.id,
+                                 address = x.address,
+                                 birthday = x.birthday,
+                                 cellphone = x.cellphone,
+                                 countryId = x.country_id,
+                                 deleted = x.deleted,
+                                 createdBy = x.createdBy,
+                                 createdDate = x.createdDate,
+                                 districtId = x.district_id,
+                                 documentNumber = x.documentNumber,
+                                 documentType = x.documentType,
+                                 email = x.email,
+                                 firstName = x.firstName,
+                                 lastNameFather = x.lastNameFather,
+                                 lastNameMother = x.lastNameFather,
+                                 maritalStatus = x.maritalStatus,
+                                 modifiedBy = x.modifiedBy,
+                                 modifiedDate = x.modifiedDate,
+                                 organDonor = x.organDonor,
+                                 phone = x.phone,
+                                 roleId = x.role_id,
+                                 since = x.since,
+                                 passwordHash = x.password_hash,
+                                 role = new Role
+                                 {
+                                     id = x.role.id,
+                                     name = x.role.name,
+                                     description = x.role.description
+                                 },
+                                 sex = x.sex
+                             }).FirstOrDefault();
+                if (patients != null)
+                {
+                    patient = patients;
+                }
+                patient.user = users;
+                return patient;
             }
         }
 

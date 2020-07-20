@@ -4,11 +4,11 @@ namespace MedAPI.Domain
 {
     public class Diagnosis
     {
-        public long Id { get; set; }
-        public string Code { get; set; }
-        public bool Deleted { get; set; }
-        public string Title { get; set; }
-        public long ChapterId { get; set; }
-        public Chapter Chapter { get; set; }
+        public long id { get; set; }
+        public string code { get; set; }
+        public bool deleted { get; set; }
+        public string title { get; set; }
+        public long chapterId { get; set; }
+        public Chapter chapter { get; set; }
     }
 }

@@ -2,31 +2,32 @@
 {
     public class CardiovascularNote
     {
-        public string AuscultationSite { get; set; }
-        public string CapillaryRefillLLM { get; set; }
-        public string CapillaryRefillLRM { get; set; }
-        public string CardiacPressureIntensity { get; set; }
-        public string CardiacPressureRhythm { get; set; }
-        public bool DiastolicPhase { get; set; }
-        public bool EdemaAnkle { get; set; }
-        public bool EdemaGeneralized { get; set; }
-        public bool EdemaLowerMembers { get; set; }
-        public bool FourthNoise { get; set; }
-        public string GastrointestinalSemiology { get; set; }
-        public bool Murmurs { get; set; }
-        public bool NeckRadiation { get; set; }
-        public string OtherSymptoms { get; set; }
-        public string PedalPulsesL { get; set; }
-        public string PedalPulsesR { get; set; }
-        public string PulsesLLM { get; set; }
-        public string PulsesLRM { get; set; }
-        public string RadialPulsesL { get; set; }
-        public string RadialPulsesR { get; set; }
-        public bool SystolicPhase { get; set; }
-        public bool ThirdNoise { get; set; }
-        public bool TrophicChanges { get; set; }
-        public string VesicularWhisperL { get; set; }
-        public string VesicularWhisperR { get; set; }
-        public long Id { get; set; }
+        public string auscultationSite { get; set; }
+        public string capillaryRefillLLM { get; set; }
+        public string capillaryRefillLRM { get; set; }
+        public string cardiacPressureIntensity { get; set; }
+        public string cardiacPressureRhythm { get; set; }
+        public bool diastolicPhase { get; set; }
+        public bool edemaAnkle { get; set; }
+        public bool edemaGeneralized { get; set; }
+        public bool edemaLowerMembers { get; set; }
+        public bool fourthNoise { get; set; }
+        public string gastrointestinalSemiology { get; set; }
+        public bool murmurs { get; set; }
+        public bool neckRadiation { get; set; }
+        public string otherSymptoms { get; set; }
+        public string pedalPulsesL { get; set; }
+        public string pedalPulsesR { get; set; }
+        public string pulsesLLM { get; set; }
+        public string pulsesLRM { get; set; }
+        public string radialPulsesL { get; set; }
+        public string radialPulsesR { get; set; }
+        public bool systolicPhase { get; set; }
+        public bool thirdNoise { get; set; }
+        public bool trophicChanges { get; set; }
+        public string vesicularWhisperL { get; set; }
+        public string vesicularWhisperR { get; set; }
+        public long noteId { get; set; }
+        public long id { get; set; }
     }
 }

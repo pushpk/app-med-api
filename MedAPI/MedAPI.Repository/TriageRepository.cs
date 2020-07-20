@@ -4,7 +4,7 @@ using System;
 using System.Linq;
 namespace MedAPI.Repository
 {
-    public class TriageRepository: ITriageRepository
+    public class TriageRepository : ITriageRepository
     {
         public Triage GetLatest(long id)
         {
@@ -12,38 +12,38 @@ namespace MedAPI.Repository
             using (var context = new DataAccess.registroclinicoEntities())
             {
                 return (from tr in context.triages
-                        where tr.deleted != false && tr.patient.id==id
+                        where tr.deleted != false && tr.patient.id == id
                         select new Triage
                         {
-                            AbdominalPerimeter=tr.abdominalPerimeter,
-                            Bmi=tr.bmi,
-                            BreathingRate=tr.breathingRate,
-                            CreatedBy=tr.createdBy,
-                            CreatedDate=tr.createdDate,
-                            Deleted=tr.deleted,
-                            Deposition=tr.deposition,
-                            DiastolicBloodPressure=tr.diastolicBloodPressure,
-                            Glycemia=tr.glycemia,
-                            HdlCholesterol=tr.hdlCholesterol,
-                            HeartRate=tr.heartRate,
-                            HeartRisk=tr.heartRisk,
-                            Hunger=tr.hunger,
-                            HypertensionRisk=tr.hypertensionRisk,
-                            Id=tr.id,
-                            LdlCholesterol=tr.ldlCholesterol,
-                            ModifiedBy=tr.modifiedBy,
-                            ModifiedDate=tr.modifiedDate,
-                           PatientId=tr.patient.id,
-                           Size=tr.size,
-                           Sleep=tr.sleep,
-                           SystolicBloodPressure=tr.systolicBloodPressure,
-                           Temperature=tr.temperature,
-                           Thirst=tr.thirst,
-                           TicketId=tr.ticket_id,
-                           TotalCholesterol=tr.totalCholesterol,
-                           Urine=tr.urine,
-                           Weight=tr.weight,
-                          WeightEvolution=tr.weightEvolution
+                            abdominalPerimeter = tr.abdominalPerimeter,
+                            bmi = tr.bmi,
+                            breathingRate = tr.breathingRate,
+                            createdBy = tr.createdBy,
+                            createdDate = tr.createdDate,
+                            deleted = tr.deleted,
+                            deposition = tr.deposition,
+                            diastolicBloodPressure = tr.diastolicBloodPressure,
+                            glycemia = tr.glycemia,
+                            hdlCholesterol = tr.hdlCholesterol,
+                            heartRate = tr.heartRate,
+                            heartRisk = tr.heartRisk,
+                            hunger = tr.hunger,
+                            hypertensionRisk = tr.hypertensionRisk,
+                            id = tr.id,
+                            ldlCholesterol = tr.ldlCholesterol,
+                            modifiedBy = tr.modifiedBy,
+                            modifiedDate = tr.modifiedDate,
+                            patientId = tr.patient.id,
+                            size = tr.size,
+                            sleep = tr.sleep,
+                            systolicBloodPressure = tr.systolicBloodPressure,
+                            temperature = tr.temperature,
+                            thirst = tr.thirst,
+                            ticketId = tr.ticket_id,
+                            totalCholesterol = tr.totalCholesterol,
+                            urine = tr.urine,
+                            weight = tr.weight,
+                            weightEvolution = tr.weightEvolution
                         }).FirstOrDefault();
             }
         }
@@ -52,7 +52,7 @@ namespace MedAPI.Repository
         {
             using (var context = new DataAccess.registroclinicoEntities())
             {
-                var efTriages = context.triages.Where(m => m.id == triage.Id).FirstOrDefault();
+                var efTriages = context.triages.Where(m => m.id == triage.id).FirstOrDefault();
                 if (efTriages == null)
                 {
                     efTriages = new DataAccess.triage();
@@ -60,36 +60,36 @@ namespace MedAPI.Repository
                     efTriages.deleted = false;// BitConverter.GetBytes(false);
                     context.triages.Add(efTriages);
                 }
-                efTriages.abdominalPerimeter = triage.AbdominalPerimeter;
-                efTriages.bmi = triage.Bmi;
-                efTriages.breathingRate = triage.BreathingRate;
-                efTriages.createdBy = triage.CreatedBy;
-                efTriages.deposition = triage.Deposition;
-                efTriages.diastolicBloodPressure = triage.DiastolicBloodPressure;
+                efTriages.abdominalPerimeter = triage.abdominalPerimeter;
+                efTriages.bmi = triage.bmi;
+                efTriages.breathingRate = triage.breathingRate;
+                efTriages.createdBy = triage.createdBy;
+                efTriages.deposition = triage.deposition;
+                efTriages.diastolicBloodPressure = triage.diastolicBloodPressure;
 
-                efTriages.glycemia = triage.Glycemia;
+                efTriages.glycemia = triage.glycemia;
 
-                efTriages.hdlCholesterol = triage.HdlCholesterol;
-                efTriages.heartRate = triage.HeartRate;
-                efTriages.heartRisk = triage.HeartRisk;
-                efTriages.hunger = triage.Hunger;
-                efTriages.hypertensionRisk = triage.HypertensionRisk;
-                efTriages.ldlCholesterol = triage.LdlCholesterol;
-                efTriages.modifiedBy = triage.ModifiedBy;
-                efTriages.modifiedDate = triage.ModifiedDate;
-                efTriages.patient_id = triage.PatientId;
-                efTriages.size = triage.PatientId;
-                efTriages.sleep = triage.Sleep;
-                efTriages.systolicBloodPressure = triage.SystolicBloodPressure ;
-                efTriages.temperature = triage.Temperature;
-                efTriages.thirst = triage.Thirst;
-                efTriages.ticket_id = triage.TicketId;
-                efTriages.totalCholesterol = triage.TotalCholesterol ;
-                efTriages.urine = triage.Urine;
-                efTriages.weight = triage.Weight;
-                efTriages.weightEvolution = triage.WeightEvolution;
+                efTriages.hdlCholesterol = triage.hdlCholesterol;
+                efTriages.heartRate = triage.heartRate;
+                efTriages.heartRisk = triage.heartRisk;
+                efTriages.hunger = triage.hunger;
+                efTriages.hypertensionRisk = triage.hypertensionRisk;
+                efTriages.ldlCholesterol = triage.ldlCholesterol;
+                efTriages.modifiedBy = triage.modifiedBy;
+                efTriages.modifiedDate = triage.modifiedDate;
+                efTriages.patient_id = triage.patientId;
+                efTriages.size = triage.size;
+                efTriages.sleep = triage.sleep;
+                efTriages.systolicBloodPressure = triage.systolicBloodPressure;
+                efTriages.temperature = triage.temperature;
+                efTriages.thirst = triage.thirst;
+                efTriages.ticket_id = triage.ticketId;
+                efTriages.totalCholesterol = triage.totalCholesterol;
+                efTriages.urine = triage.urine;
+                efTriages.weight = triage.weight;
+                efTriages.weightEvolution = triage.weightEvolution;
                 context.SaveChanges();
-                triage.Id = efTriages.id;
+                triage.id = efTriages.id;
             }
             return triage;
         }

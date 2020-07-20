@@ -10,15 +10,15 @@ namespace MedAPI.Domain
     {
         public NoteDiagnosi()
         {
-            this.Notes = new List<Note>();
+            //this.notes = new List<Note>();
         }
 
-        public long Id { get; set; }
-        public byte[] Deleted { get; set; }
-        public string DiagnosisType { get; set; }
-        public long? Diagnosis_id { get; set; }
-        public long? NoteId { get; set; }
+        public long id { get; set; }
+        public bool deleted { get; set; }
+        public string diagnosisType { get; set; }
+        public long? diagnosisId { get; set; }
+        public long? noteId { get; set; }
 
-        public List<Note> Notes { get; set; }
+        //public List<Note> notes { get; set; }
     }
 }

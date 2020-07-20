@@ -121,7 +121,7 @@ namespace MedAPI.Controllers
             {
                 if (IsAdminPermission())
                 {
-                    mCardiovascularNote.Id = id;
+                    mCardiovascularNote.id = id;
                      id = cardiovascularNoteService.SaveCardiovascularNote(mCardiovascularNote);
 
                     if (id > 0)

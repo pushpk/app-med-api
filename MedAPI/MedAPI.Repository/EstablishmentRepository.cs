@@ -17,14 +17,14 @@ namespace MedAPI.Repository
                         where c.deleted != bytes
                         select new Establishment()
                         {
-                            Deleted = c.deleted,
-                            Name = c.name,
-                            Id = c.id,
-                            Address = c.address,
-                            EstablishmentType = c.establishmentType,
-                            Initials=c.initials,
-                            Phone=c.phone
-                        }).OrderBy(x => x.Name).ToList();
+                            deleted = c.deleted,
+                            name = c.name,
+                            id = c.id,
+                            address = c.address,
+                            establishmentType = c.establishmentType,
+                            initials=c.initials,
+                            phone=c.phone
+                        }).OrderBy(x => x.name).ToList();
             }
         }
         public Establishment SaveEstablishment(Establishment mEstablishment)
@@ -32,20 +32,20 @@ namespace MedAPI.Repository
             var bytes = BitConverter.GetBytes(true);
             using (var context = new DataAccess.registroclinicoEntities())
             {
-                var efEstablishments = context.establishments.Where(m => m.id == mEstablishment.Id && m.deleted != bytes).FirstOrDefault();
+                var efEstablishments = context.establishments.Where(m => m.id == mEstablishment.id && m.deleted != bytes).FirstOrDefault();
                 if (efEstablishments == null)
                 {
                     efEstablishments = new DataAccess.establishment();
                     efEstablishments.deleted = BitConverter.GetBytes(false);
                     context.establishments.Add(efEstablishments);
                 }
-                efEstablishments.name = mEstablishment.Name;
-                efEstablishments.address = mEstablishment.Address;
-                efEstablishments.initials = mEstablishment.Initials;
-                efEstablishments.phone = mEstablishment.Phone;
-                efEstablishments.establishmentType = mEstablishment.EstablishmentType;
+                efEstablishments.name = mEstablishment.name;
+                efEstablishments.address = mEstablishment.address;
+                efEstablishments.initials = mEstablishment.initials;
+                efEstablishments.phone = mEstablishment.phone;
+                efEstablishments.establishmentType = mEstablishment.establishmentType;
                 context.SaveChanges();
-                mEstablishment.Id = efEstablishments.id;
+                mEstablishment.id = efEstablishments.id;
             }
             return mEstablishment;
         }
@@ -57,13 +57,13 @@ namespace MedAPI.Repository
                 return context.establishments.Where(x => x.id == id && x.deleted != bytes)
                    .Select(x => new Establishment()
                    {
-                       Id = x.id,
-                       Name = x.name,
-                       Deleted = x.deleted,
-                       Address = x.address,
-                       Initials = x.initials,
-                       EstablishmentType=x.establishmentType,
-                       Phone=x.phone
+                       id = x.id,
+                       name = x.name,
+                       deleted = x.deleted,
+                       address = x.address,
+                       initials = x.initials,
+                       establishmentType=x.establishmentType,
+                       phone=x.phone
                    }).FirstOrDefault();
             }
         }

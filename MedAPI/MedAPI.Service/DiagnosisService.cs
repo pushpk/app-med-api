@@ -32,9 +32,9 @@ namespace MedAPI.Service
 
         public int SaveDiagnosis(Diagnosis mDiagnosis)
         {
-            if (mDiagnosis.Chapter != null)
+            if (mDiagnosis.chapter != null)
             {
-                int chapterID = diagnosisRepository.SaveChapter(mDiagnosis.Chapter);
+                int chapterID = diagnosisRepository.SaveChapter(mDiagnosis.chapter);
             }
             return diagnosisRepository.SaveDiagnosis(mDiagnosis);
         }

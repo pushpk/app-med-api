@@ -7,73 +7,74 @@ using System.Threading.Tasks;
 
 namespace MedAPI.Domain
 {
-   public class Note
+    public class Note
     {
         public Note()
         {
-            this.Note1 = new List<Note>();
-            this.NoteDiagnosis = new List<NoteDiagnosi>();
-            this.NoteExams = new List<NoteExam>();
-            this.NoteMedicines = new List<NoteMedicine>();
-            this.NoteReferrals = new List<NoteReferral>();
-            this.NoteDiagnosis1 = new List<NoteDiagnosi>();
-            this.NoteExams1 = new List<NoteExam>();
-            this.NoteMedicines1 = new List<NoteMedicine>();
-            this.NoteReferrals1 = new List<NoteReferral>();
-            cardiovascularnote = new cardiovascularnote();
-            establishment = new establishment();
-            medic = new medic();
-            Triage = new Triage();
-            Ticket = new Ticket();
+            this.noteList = new List<Note>();
+            this.noteDiagnosis = new List<NoteDiagnosi>();
+            this.noteExams = new List<NoteExam>();
+            this.noteMedicines = new List<NoteMedicine>();
+            this.noteReferrals = new List<NoteReferral>();
+            //this.NoteDiagnosis1 = new List<NoteDiagnosi>();
+            //this.NoteExams1 = new List<NoteExam>();
+            //this.NoteMedicines1 = new List<NoteMedicine>();
+            //this.NoteReferrals1 = new List<NoteReferral>();
+            //this.medic = new medic();
+            this.cardiovascularnote = new cardiovascularnote();
+            this.establishment = new establishment();
+            this.triage = new Triage();
+            this.ticket = new Ticket();
 
         }
 
-        public long Id { get; set; }
-        public string Age { get; set; }
-        public bool Completed { get; set; }
-        public bool Control { get; set; }
-        public string CreatedBy { get; set; }
-        public DateTime? CreatedDate { get; set; }
-        public bool Deleted { get; set; }
-        public string Diagnosis { get; set; }
-        public string Exam { get; set; }
-        public string ModifiedBy { get; set; }
-        public DateTime? ModifiedDate { get; set; }
-        public string PhysicalExam { get; set; }
-        public string SecondOpinion { get; set; }
-        public long? SicknessTime { get; set; }
-        public string SicknessUnit { get; set; }
-        public string Specialty { get; set; }
-        public long? Stage { get; set; }
-        public string Story { get; set; }
-        public string Symptom { get; set; }
-        public string Treatment { get; set; }
-        public long? ControlNoteId { get; set; }
-        public long? EstablishmentId { get; set; }
-        public long? MedicId { get; set; }
-        public long PatientId { get; set; }
-        public long? TicketId { get; set; }
-        public long? TriageId { get; set; }
+        public long id { get; set; }
+        public string age { get; set; }
+        public bool completed { get; set; }
+        public bool control { get; set; }
+        public string createdBy { get; set; }
+        public DateTime? createdDate { get; set; }
+        public bool deleted { get; set; }
+        public string diagnosis { get; set; }
+        public string exam { get; set; }
+        public string modifiedBy { get; set; }
+        public DateTime? modifiedDate { get; set; }
+        public string physicalExam { get; set; }
+        public string secondOpinion { get; set; }
+        public long? sicknessTime { get; set; }
+        public string sicknessUnit { get; set; }
+        public string specialty { get; set; }
+        public long? stage { get; set; }
+        public string story { get; set; }
+        public string symptom { get; set; }
+        public string treatment { get; set; }
+        public long? controlNoteId { get; set; }
+        public long? establishmentId { get; set; }
+        public long? medicId { get; set; }
+        public long patientId { get; set; }
+        public long? ticketId { get; set; }
+        public long? triageId { get; set; }
 
 
         public virtual cardiovascularnote cardiovascularnote { get; set; }
         public virtual establishment establishment { get; set; }
-        public virtual medic medic { get; set; }
-        public virtual note note2 { get; set; }
+        public ICollection<Note> noteList { get; set; }
+        //public virtual medic medic { get; set; }
+        //public virtual note note2 { get; set; }
         //public virtual patient patient { get; set; }
         //public virtual triage triage { get; set; }
-        public virtual ticket ticket { get; set; }
-        public ICollection<Note> Note1 { get; set; }
-        public ICollection<NoteDiagnosi> NoteDiagnosis { get; set; }
-        public ICollection<NoteExam> NoteExams { get; set; }
-        public ICollection<NoteMedicine> NoteMedicines { get; set; }
-        public ICollection<NoteReferral> NoteReferrals { get; set; }
-        public ICollection<NoteDiagnosi> NoteDiagnosis1 { get; set; }
-        public ICollection<NoteExam> NoteExams1 { get; set; }
-        public ICollection<NoteMedicine> NoteMedicines1 { get; set; }
-        public ICollection<NoteReferral> NoteReferrals1 { get; set; }
+        //public virtual ticket ticket { get; set; }
+        //public ICollection<Note> note { get; set; }
+        public ICollection<NoteDiagnosi> noteDiagnosis { get; set; }
+        public ICollection<NoteExam> noteExams { get; set; }
+        public ICollection<NoteMedicine> noteMedicines { get; set; }
+        public ICollection<NoteReferral> noteReferrals { get; set; }
+        //public ICollection<NoteDiagnosi> NoteDiagnosis1 { get; set; }
+        //public ICollection<NoteExam> NoteExams1 { get; set; }
+        //public ICollection<NoteMedicine> NoteMedicines1 { get; set; }
+        //public ICollection<NoteReferral> NoteReferrals1 { get; set; }
 
-        public Triage Triage { get; set; }
-        public  Ticket Ticket { get; set; }
+        public Triage triage { get; set; }
+        public Ticket ticket { get; set; }
     }
 }

@@ -10,13 +10,13 @@ namespace MedAPI.Domain
     {
         public Nurse()
         {
-            User = new User();
-            NurseSpecialties = new NurseSpecialties();
+            user = new User();
+            nurseSpecialties = new NurseSpecialties();
         }
-        public string MedicRegistration { get; set; }
-        public long Id { get; set; }
+        public string medicRegistration { get; set; }
+        public long id { get; set; }
 
-        public Domain.User User  { get; set; }
-        public Domain.NurseSpecialties NurseSpecialties { get; set; }
+        public Domain.User user  { get; set; }
+        public Domain.NurseSpecialties nurseSpecialties { get; set; }
     }
 }

@@ -8,7 +8,7 @@ namespace MedAPI.Domain
 {
    public class PatientMedicines
     {
-        public long PatientId { get; set; }
-        public string Medicines { get; set; }
+        public long patientId { get; set; }
+        public string medicines { get; set; }
     }
 }

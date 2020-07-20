@@ -67,7 +67,7 @@ namespace MedAPI.Controllers
             {
                 if (IsAdminPermission())
                 {
-                    mDistrict.Id = id;
+                    mDistrict.id = id;
                     mDistrict = districtService.SaveDistrict(mDistrict);
                     response = Request.CreateResponse(HttpStatusCode.OK, mDistrict);
                 }

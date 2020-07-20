@@ -30,15 +30,14 @@ namespace MedAPI.models
 
         public MotherBackground[] motherBackground { get; set; }
         public string otherMotherBackground { get; set; }
-        public long? cigarettes { get; set; }
+        public long? cigaretteNumber { get; set; }
 
         public string name { get; set; }
         public string lastnameFather { get; set; }
         public string lastnameMother { get; set; }
         public long country { get; set; }
         public string documentType { get; set; }
-        public string patientDocumentNumber { get; set; }
-        public string documentNumber { get; set; }
+        public string documentNumber { get; set; }        
         public DateTime birthday { get; set; }
         public string sex { get; set; }
         public string maritalStatus { get; set; }
@@ -48,7 +47,6 @@ namespace MedAPI.models
         public string address { get; set; }
         public string email { get; set; }
         public string phone { get; set; }
-
         public string createdBy { get; set; }
         public DateTime? createdDate { get; set; }
         public bool deletable { get; set; }
@@ -59,5 +57,8 @@ namespace MedAPI.models
         public bool isDonor { get; set; }
         public string passwordHash { get; set; }
 
+        public long? fractureNumber { get; set; }
+        public long? dormNumber { get; set; }
+        public string highGlucose { get; set; }
     }
 }

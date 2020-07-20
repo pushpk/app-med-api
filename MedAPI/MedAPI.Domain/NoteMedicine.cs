@@ -10,19 +10,19 @@ namespace MedAPI.Domain
     {
         public NoteMedicine()
         {
-            this.Notes = new List<Note>();
+            //this.notes = new List<Note>();
         }
 
-        public long Id { get; set; }
-        public byte[] Deleted { get; set; }
-        public long DurationTime { get; set; }
-        public string DurationUnit { get; set; }
-        public long? FrequencyTime { get; set; }
-        public string FrequencyUnit { get; set; }
-        public string Indication { get; set; }
-        public long? MedicineId { get; set; }
-        public long? NoteId { get; set; }
+        public long id { get; set; }
+        public byte[] deleted { get; set; }
+        public long? durationTime { get; set; }
+        public string durationUnit { get; set; }
+        public long? frequencyTime { get; set; }
+        public string frequencyUnit { get; set; }
+        public string indication { get; set; }
+        public long? medicineId { get; set; }
+        public long? noteId { get; set; }
 
-        public List<Note> Notes { get; set; }
+        //public List<Note> notes { get; set; }
     }
 }

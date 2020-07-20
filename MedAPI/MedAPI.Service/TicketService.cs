@@ -16,12 +16,12 @@ namespace MedAPI.Service
 
         public Note getByTicket(string serie, string nroTicket)
         {
-          var note= ticketRepository.getByTicket(serie, nroTicket);
+            var note = ticketRepository.getByTicket(serie, nroTicket);
             if (note != null)
             {
-               List<Domain.Note> mNotes= ticketRepository.getByPatient(note.PatientId);
+                List<Domain.Note> mNotes = ticketRepository.getByPatient(note.patientId);
 
-                note.Note1 = mNotes;
+                note.noteList = mNotes;
             }
             return note;
         }

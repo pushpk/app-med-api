@@ -10,13 +10,13 @@ namespace MedAPI.Domain
     {
         public Province()
         {
-            this.Districts = new List<District>();
+            this.districts = new List<District>();
         }
 
-        public long Id { get; set; }
-        public bool Deleted { get; set; }
-        public string Name { get; set; }
-        public long DepartmentId { get; set; }
-        public List<District> Districts { get; set; }
+        public long id { get; set; }
+        public bool deleted { get; set; }
+        public string name { get; set; }
+        public long departmentId { get; set; }
+        public List<District> districts { get; set; }
     }
 }

@@ -11,16 +11,16 @@ namespace MedAPI.Domain
     {
         public Country()
         {
-            this.departments = new HashSet<department>();
+            //this.departments = new HashSet<department>();
             this.users = new HashSet<user>();
-            Departments = new List<Department>();
+            departments = new List<Department>();
         }
 
         public long id { get; set; }
         public bool deleted { get; set; }
         public string name { get; set; }
-        public List<Domain.Department> Departments { get; set; }
-        public virtual ICollection<department> departments { get; set; }
+        public List<Domain.Department> departments { get; set; }
+        //public virtual ICollection<department> departments { get; set; }
         public virtual ICollection<user> users { get; set; }
     }
 }

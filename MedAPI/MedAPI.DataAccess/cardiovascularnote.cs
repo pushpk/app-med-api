@@ -14,6 +14,8 @@ namespace MedAPI.DataAccess
     
     public partial class cardiovascularnote
     {
+        public long id { get; set; }
+        public Nullable<long> note_id { get; set; }
         public string auscultationSite { get; set; }
         public string capillaryRefillLLM { get; set; }
         public string capillaryRefillLRM { get; set; }
@@ -39,9 +41,8 @@ namespace MedAPI.DataAccess
         public bool trophicChanges { get; set; }
         public string vesicularWhisperL { get; set; }
         public string vesicularWhisperR { get; set; }
-        public long id { get; set; }
     
-        public virtual note note { get; set; }
         public virtual cardiovascularnote_cardiovascularsymptoms cardiovascularnote_cardiovascularsymptoms { get; set; }
+        public virtual note note { get; set; }
     }
 }

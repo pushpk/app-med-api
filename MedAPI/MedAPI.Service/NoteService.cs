@@ -44,16 +44,16 @@ namespace MedAPI.Service
 
         public Note SaveNote(Note mNote)
         {
-            var ticket = ticketRepository.SaveTicket(mNote.Ticket);
+            var ticket = ticketRepository.SaveTicket(mNote.ticket);
             if (ticket.id > 0)
             {
-                mNote.TicketId = ticket.id;
-                mNote.Triage.TicketId = ticket.id;
+                mNote.ticketId = ticket.id;
+                mNote.triage.ticketId = ticket.id;
             }
-            var triage = triageRepository.SaveTriage(mNote.Triage);
-            if (triage.Id > 0)
+            var triage = triageRepository.SaveTriage(mNote.triage);
+            if (triage.id > 0)
             {
-                mNote.TriageId = triage.Id;
+                mNote.triageId = triage.id;
             }
 
             return noteRepository.SaveNote(mNote);
@@ -123,6 +123,22 @@ namespace MedAPI.Service
 
             return mNoteResourcesList;
         }
-
+      
+        public bool SaveDiagnosisList(List<NoteDiagnosi> diagnosi)
+        {
+            return noteRepository.SaveDiagnosisList(diagnosi);
+        }
+        public bool SaveExamsList(List<NoteExam> exams)
+        {
+            return noteRepository.SaveExamsList(exams);
+        }
+        public bool SaveMedicationsList(List<NoteMedicine> mMedications)
+        {
+            return noteRepository.SaveMedicationsList(mMedications);
+        }
+        public bool SaveReferralsList(List<NoteReferral> mReferrals)
+        {
+            return noteRepository.SaveReferralsList(mReferrals);
+        }
     }
 }

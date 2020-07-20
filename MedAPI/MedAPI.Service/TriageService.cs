@@ -16,5 +16,9 @@ namespace MedAPI.Service
         {
             return triageRepository.GetLatest(mPatient.id);
         }
+        public Triage SaveTriage(Triage triage)
+        {
+            return triageRepository.SaveTriage(triage);
+        }
     }
 }

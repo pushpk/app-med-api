@@ -10,39 +10,39 @@ namespace MedAPI.Domain
     {
         public Triage()
         {
-            Notes = new List<Note>();
+            //notes = new List<Note>();
         }
 
-        public long Id { get; set; }
-        public double? AbdominalPerimeter { get; set; }
-        public double? Bmi { get; set; }
-        public double? BreathingRate { get; set; }
-        public string CreatedBy { get; set; }
-        public DateTime? CreatedDate { get; set; }
-        public bool Deleted { get; set; }
-        public string Deposition { get; set; }
-        public double? DiastolicBloodPressure { get; set; }
-        public double? Glycemia { get; set; }
-        public double? HdlCholesterol { get; set; }
-        public double? HeartRate { get; set; }
-        public double? HeartRisk { get; set; }
-        public string Hunger { get; set; }
-        public double? HypertensionRisk { get; set; }
-        public double? LdlCholesterol { get; set; }
-        public string ModifiedBy { get; set; }
-        public DateTime? ModifiedDate { get; set; }
-        public double? Size { get; set; }
-        public string Sleep { get; set; }
-        public double? SystolicBloodPressure { get; set; }
-        public double? Temperature { get; set; }
-        public string Thirst { get; set; }
-        public double? TotalCholesterol { get; set; }
-        public string Urine { get; set; }
-        public double? Weight { get; set; }
-        public string WeightEvolution { get; set; }
-        public long? PatientId { get; set; }
-        public long? TicketId { get; set; }
+        public long id { get; set; }
+        public double? abdominalPerimeter { get; set; }
+        public double? bmi { get; set; }
+        public double? breathingRate { get; set; }
+        public string createdBy { get; set; }
+        public DateTime? createdDate { get; set; }
+        public bool deleted { get; set; }
+        public string deposition { get; set; }
+        public double? diastolicBloodPressure { get; set; }
+        public double? glycemia { get; set; }
+        public double? hdlCholesterol { get; set; }
+        public double? heartRate { get; set; }
+        public double? heartRisk { get; set; }
+        public string hunger { get; set; }
+        public double? hypertensionRisk { get; set; }
+        public double? ldlCholesterol { get; set; }
+        public string modifiedBy { get; set; }
+        public DateTime? modifiedDate { get; set; }
+        public double? size { get; set; }
+        public string sleep { get; set; }
+        public double? systolicBloodPressure { get; set; }
+        public double? temperature { get; set; }
+        public string thirst { get; set; }
+        public double? totalCholesterol { get; set; }
+        public string urine { get; set; }
+        public double? weight { get; set; }
+        public string weightEvolution { get; set; }
+        public long? patientId { get; set; }
+        public long? ticketId { get; set; }
 
-        public List<Note> Notes { get; set; }
+        //public List<Note> notes { get; set; }
     }
 }

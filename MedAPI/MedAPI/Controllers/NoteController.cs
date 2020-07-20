@@ -6,6 +6,8 @@ using System.Net;
 using System.Net.Http;
 using System.Web;
 using System.Web.Http;
+using MedAPI.models;
+using System.Collections.Generic;
 
 namespace MedAPI.Controllers
 {
@@ -14,10 +16,15 @@ namespace MedAPI.Controllers
     {
         private readonly INoteService noteService;
         private readonly IUserService userService;
-        public NoteController(INoteService noteService, IUserService userService)
+        private readonly ITriageService triageService;
+        private readonly ICardiovascularNoteService cardiovascularNoteService;
+        public NoteController(INoteService noteService, IUserService userService,
+            ITriageService triageService, ICardiovascularNoteService cardiovascularNoteService)
         {
             this.noteService = noteService;
             this.userService = userService;
+            this.triageService = triageService;
+            this.cardiovascularNoteService = cardiovascularNoteService;
         }
 
         [HttpGet]
@@ -43,7 +50,7 @@ namespace MedAPI.Controllers
             HttpResponseMessage response = null;
             try
             {
-                Note mNote = noteService.GetNoteById(id);
+                Domain.Note mNote = noteService.GetNoteById(id);
                 if (mNote == null)
                 {
                     response = Request.CreateResponse(HttpStatusCode.NotFound, "Requested entity was not found in database.");
@@ -85,20 +92,38 @@ namespace MedAPI.Controllers
 
         [HttpPost]
         [Route("note")]
-        public HttpResponseMessage Create(Domain.Note mNote)
+        public HttpResponseMessage Create(models.Note mNote)
         {
             HttpResponseMessage response = null;
             try
             {
                 if (IsTRIAGEPermission() || IsAdminPermission())
                 {
-                    mNote = noteService.SaveNote(mNote);
-                    response = Request.CreateResponse(HttpStatusCode.OK, mNote);
+                    var note = setNoteDetails(mNote);
+                    note.triage = setTriageDetails(mNote);
+                    var responseNote = noteService.SaveNote(note);
+                    mNote.id = responseNote.id;
+                    var dignosis = setDignosisList(mNote);
+                    noteService.SaveDiagnosisList(dignosis);
+
+                    var exams = setExamsList(mNote);
+                    noteService.SaveExamsList(exams);
+
+                    var medications = setMedicinesList(mNote);
+                    noteService.SaveMedicationsList(medications);
+
+                    var referrals = setReferralsList(mNote);
+                    noteService.SaveReferralsList(referrals);
+
+                    var mCardiovascularNote = setCardiovascularNote(mNote);
+                    cardiovascularNoteService.SaveCardiovascularNote(mCardiovascularNote);
+                    response = Request.CreateResponse(HttpStatusCode.OK, responseNote);
                 }
                 else
                 {
-                    mNote.Triage = noteService.TriageSave(mNote.Triage);
-                    response = Request.CreateResponse(HttpStatusCode.OK, mNote.Triage);
+                    var triage = setTriageDetails(mNote);
+                    var responseTriage = noteService.TriageSave(triage);
+                    response = Request.CreateResponse(HttpStatusCode.OK, responseTriage);
                 }
 
             }
@@ -111,12 +136,12 @@ namespace MedAPI.Controllers
 
         [HttpPost]
         [Route("note/{id:int}")]
-        public HttpResponseMessage Update(Domain.Note mNote,long id)
+        public HttpResponseMessage Update(Domain.Note mNote, long id)
         {
             HttpResponseMessage response = null;
             try
             {
-                mNote.Id = id;
+                mNote.id = id;
                 mNote = noteService.SaveNote(mNote);
                 response = Request.CreateResponse(HttpStatusCode.OK, mNote);
             }
@@ -191,6 +216,172 @@ namespace MedAPI.Controllers
                 }
             }
             return result;
+        }
+
+        public Domain.Note setNoteDetails(models.Note mNote)
+        {
+            var userData = getUserInfo();
+
+
+            Domain.Note note = new Domain.Note();
+
+            note.id = mNote.id;
+            note.age = null;
+            note.completed = false;
+            note.control = false;
+            if (userData != null)
+            {
+                note.createdBy = Convert.ToString(userData.id);
+                note.createdDate = DateTime.Now;
+            }
+            note.deleted = false;
+            note.diagnosis = mNote.diagnosis.observations;
+            note.exam = mNote.exams.observations;
+            if (note.id > 0)
+            {
+                note.modifiedBy = Convert.ToString(userData.id);
+                note.modifiedDate = DateTime.Now;
+            }
+            note.physicalExam = mNote.physicalExam.text;
+            note.secondOpinion = mNote.otherSymptoms;
+            note.sicknessTime = mNote.symptoms.duration;
+            note.sicknessUnit = mNote.symptoms.durationUnit;
+            note.specialty = mNote.specialty;
+            note.stage = 0;
+            note.story = null;
+            note.symptom = mNote.symptoms.description;
+            note.treatment = mNote.treatments.other;
+            note.patientId = mNote.patientId;
+            note.ticketId = mNote.ticketId;
+            return note;
+        }
+
+        public Domain.User getUserInfo()
+        {
+            var headerValues = HttpContext.Current.Request.Headers.GetValues("email");
+            string email = Convert.ToString(headerValues.FirstOrDefault());
+            return userService.GetByEmail(email); ;
+        }
+
+        public List<Domain.NoteDiagnosi> setDignosisList(models.Note note)
+        {
+            List<Domain.NoteDiagnosi> lstDignosis = new List<Domain.NoteDiagnosi>();
+            Domain.NoteDiagnosi dignosi;
+            foreach (var item in note.diagnosis.list)
+            {
+                dignosi = new Domain.NoteDiagnosi();
+                dignosi.noteId = note.id;
+                dignosi.diagnosisType = item.type;
+                dignosi.diagnosisId = item.id;
+                lstDignosis.Add(dignosi);
+            }
+            return lstDignosis;
+        }
+        public List<Domain.NoteExam> setExamsList(models.Note note)
+        {
+            List<Domain.NoteExam> lstExams = new List<Domain.NoteExam>();
+            Domain.NoteExam exam;
+            foreach (var item in note.exams.list)
+            {
+                exam = new Domain.NoteExam();
+                exam.noteId = note.id; ;
+                exam.observation = note.exams.observations;
+                exam.specification = null;
+                exam.status = null;
+                exam.examId = item.id;
+                lstExams.Add(exam);
+            }
+            return lstExams;
+        }
+        public List<Domain.NoteMedicine> setMedicinesList(models.Note note)
+        {
+            List<Domain.NoteMedicine> lstMedications = new List<Domain.NoteMedicine>();
+            Domain.NoteMedicine medication;
+            foreach (var item in note.treatments.list)
+            {
+                medication = new Domain.NoteMedicine();
+                medication.noteId = note.id;
+                medication.medicineId = item.id;
+                medication.indication = item.indications;
+                lstMedications.Add(medication);
+            }
+            return lstMedications;
+        }
+        public List<Domain.NoteReferral> setReferralsList(models.Note note)
+        {
+            List<Domain.NoteReferral> lstReferrals = new List<Domain.NoteReferral>();
+            Domain.NoteReferral referral;
+            foreach (var item in note.referrals.list)
+            {
+                referral = new Domain.NoteReferral();
+                referral.noteId = note.id;
+                referral.reason = note.interconsultation.reason;
+                referral.specialty = item.name;
+                lstReferrals.Add(referral);
+            }
+            return lstReferrals;
+        }
+
+        public Domain.Triage setTriageDetails(models.Note note)
+        {
+            Domain.Triage triage = new Domain.Triage();
+            triage.abdominalPerimeter = note.triage.vitalFunctions.waistCircumference;
+            triage.bmi = note.triage.vitalFunctions.bmi;
+            triage.breathingRate = note.triage.vitalFunctions.respiratoryRate;
+            triage.diastolicBloodPressure = note.triage.vitalFunctions.diastolic;
+            triage.heartRate = note.triage.vitalFunctions.heartRate;
+            triage.heartRisk = note.triage.vitalFunctions.cardiovascularAge;
+            triage.hypertensionRisk = note.triage.vitalFunctions.hypertensionRisk;
+            triage.systolicBloodPressure = note.triage.vitalFunctions.systolic;
+            triage.temperature = note.triage.vitalFunctions.temperature;
+            triage.weight = note.triage.vitalFunctions.weight;
+            triage.size = note.triage.vitalFunctions.height;
+
+            triage.sleep = note.triage.biologicalFunctions.sleep;
+            triage.hunger = note.triage.biologicalFunctions.hunger;
+            triage.deposition = note.triage.biologicalFunctions.deposition;
+            triage.thirst = note.triage.biologicalFunctions.thirst;
+            triage.urine = note.triage.biologicalFunctions.urine;
+            triage.weightEvolution = note.triage.biologicalFunctions.weightEvolution;
+
+            triage.glycemia = note.triage.others.glycemia;
+            triage.hdlCholesterol = note.triage.others.hdlCholesterol;
+            triage.ldlCholesterol = note.triage.others.ldlCholesterol;
+            triage.totalCholesterol = note.triage.others.totalCholesterol;
+            triage.patientId = note.patientId;
+            return triage;
+        }
+
+        public Domain.CardiovascularNote setCardiovascularNote(models.Note note)
+        {
+            Domain.CardiovascularNote cardiovascularNote = new Domain.CardiovascularNote();
+            cardiovascularNote.noteId = note.id;
+            cardiovascularNote.auscultationSite = null;
+            cardiovascularNote.capillaryRefillLLM = note.cardiovascularNote.skin.capillaryRefillLLM;
+            cardiovascularNote.capillaryRefillLRM = note.cardiovascularNote.skin.capillaryRefillLRM;
+            cardiovascularNote.cardiacPressureIntensity = note.cardiovascularNote.cardiovascularSystem.cardiacPressureIntensity;
+            cardiovascularNote.cardiacPressureRhythm = note.cardiovascularNote.cardiovascularSystem.cardiacPressureRhythm;
+            cardiovascularNote.diastolicPhase = false;
+            cardiovascularNote.edemaAnkle = note.cardiovascularNote.skin.edemaAnkle;
+            cardiovascularNote.edemaGeneralized = note.cardiovascularNote.skin.edemaGeneralized;
+            cardiovascularNote.edemaLowerMembers = note.cardiovascularNote.skin.edemaLowerMember;
+            cardiovascularNote.fourthNoise = false;
+            cardiovascularNote.gastrointestinalSemiology = note.cardiovascularNote.gastrointestinalSemiology.gastrointestinalSemiology;
+            cardiovascularNote.murmurs = note.cardiovascularNote.murmurs.murmurs;
+            cardiovascularNote.neckRadiation = false;
+            cardiovascularNote.otherSymptoms = note.otherSymptoms;
+            cardiovascularNote.pedalPulsesL = note.cardiovascularNote.cardiovascularSystem.pedalPulsesL;
+            cardiovascularNote.pedalPulsesR = note.cardiovascularNote.cardiovascularSystem.pedalPulsesR;
+            cardiovascularNote.pulsesLLM = note.cardiovascularNote.pulses.pulsesLLM;
+            cardiovascularNote.pulsesLRM = note.cardiovascularNote.pulses.pulsesLRM;
+            cardiovascularNote.radialPulsesL = note.cardiovascularNote.cardiovascularSystem.radialPulsesL;
+            cardiovascularNote.radialPulsesR = note.cardiovascularNote.cardiovascularSystem.radialPulsesR;
+            cardiovascularNote.systolicPhase = false;
+            cardiovascularNote.thirdNoise = false;
+            cardiovascularNote.trophicChanges = note.cardiovascularNote.skin.trophicChanges;
+            cardiovascularNote.vesicularWhisperL = note.cardiovascularNote.respiratorySystem.vesicularWhisperL;
+            cardiovascularNote.vesicularWhisperR = note.cardiovascularNote.respiratorySystem.vesicularWhisperR;
+            return cardiovascularNote;
         }
     }
 }

@@ -33,9 +33,9 @@ namespace MedAPI.Repository
                         where ex.deleted != true
                         select new Exam()
                         {
-                            Id = ex.id,
-                            Name = ex.name,
-                            Type = ex.type
+                            id = ex.id,
+                            name = ex.name,
+                            type = ex.type
                         }).ToList();
             }
         }
@@ -47,9 +47,9 @@ namespace MedAPI.Repository
                 return context.exams.Where(x => x.id == id && x.deleted != false)
                    .Select(x => new Exam()
                    {
-                       Id = x.id,
-                       Name = x.name,
-                       Type = x.type
+                       id = x.id,
+                       name = x.name,
+                       type = x.type
                    }).FirstOrDefault();
             }
         }
@@ -58,14 +58,14 @@ namespace MedAPI.Repository
         {
             using (var context = new DataAccess.registroclinicoEntities())
             {
-                var efExam = context.exams.Where(x => x.id == mExam.Id).FirstOrDefault();
+                var efExam = context.exams.Where(x => x.id == mExam.id).FirstOrDefault();
                 if (efExam == null)
                 {
                     efExam = new DataAccess.exam();
                     context.exams.Add(efExam);
                 }
-                efExam.name = mExam.Name;
-                efExam.type = mExam.Type;
+                efExam.name = mExam.name;
+                efExam.type = mExam.type;
                 context.SaveChanges();
                 return Convert.ToInt32(efExam.id);
             }
@@ -78,9 +78,9 @@ namespace MedAPI.Repository
                 return context.exams.Where(x => x.name.Contains(name) && x.deleted != false)
                      .Select(x => new Exam()
                      {
-                         Id = x.id,
-                         Name = x.name,
-                         Type = x.type
+                         id = x.id,
+                         name = x.name,
+                         type = x.type
                      }).ToList();
             }
         }

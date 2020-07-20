@@ -11,7 +11,7 @@ namespace MedAPI.Repository
         {
             using (var context = new DataAccess.registroclinicoEntities())
             {
-                var efUpload = context.uploads.Where(m => m.id == mUpload.Id).FirstOrDefault();
+                var efUpload = context.uploads.Where(m => m.id == mUpload.id).FirstOrDefault();
                 if (efUpload == null)
                 {
                     efUpload = new DataAccess.upload();
@@ -19,10 +19,10 @@ namespace MedAPI.Repository
                     efUpload.deleted = false; /*BitConverter.GetBytes()*/
                      context.uploads.Add(efUpload);
                 }
-                efUpload.createdBy = mUpload.CreatedBy;
-                efUpload.path = mUpload.Path;
+                efUpload.createdBy = mUpload.createdBy;
+                efUpload.path = mUpload.path;
                 context.SaveChanges();
-                mUpload.Id = efUpload.id;
+                mUpload.id = efUpload.id;
             }
             return mUpload;
         }

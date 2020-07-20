@@ -104,7 +104,7 @@ namespace MedAPI.Controllers
             {
                 if (IsAdminPermission())
                 {
-                    mNurse.User.id = id;
+                    mNurse.user.id = id;
                     mNurse = nurseService.SaveNurse(mNurse);
                     response = Request.CreateResponse(HttpStatusCode.OK, mNurse);
                 }

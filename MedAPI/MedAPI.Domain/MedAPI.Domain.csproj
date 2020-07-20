@@ -48,7 +48,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Allergy.cs" />
     <Compile Include="CardiovascularResource.cs" />
     <Compile Include="CardiovascularNote.cs" />
     <Compile Include="Chapter.cs" />

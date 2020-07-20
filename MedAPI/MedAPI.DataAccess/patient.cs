@@ -18,9 +18,15 @@ namespace MedAPI.DataAccess
         public patient()
         {
             this.notes = new HashSet<note>();
+            this.patient_allergies = new HashSet<patient_allergies>();
+            this.patient_fatherbackgrounds = new HashSet<patient_fatherbackgrounds>();
+            this.patient_medicines = new HashSet<patient_medicines>();
+            this.patient_motherbackgrounds = new HashSet<patient_motherbackgrounds>();
+            this.patient_personalbackgrounds = new HashSet<patient_personalbackgrounds>();
             this.triages = new HashSet<triage>();
         }
     
+        public long id { get; set; }
         public string alcohol { get; set; }
         public string bloodType { get; set; }
         public Nullable<long> cigaretteNumber { get; set; }
@@ -44,16 +50,20 @@ namespace MedAPI.DataAccess
         public Nullable<long> residentNumber { get; set; }
         public bool sewage { get; set; }
         public bool water { get; set; }
-        public long id { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<note> notes { get; set; }
         public virtual user user { get; set; }
-        public virtual patient_allergies patient_allergies { get; set; }
-        public virtual patient_fatherbackgrounds patient_fatherbackgrounds { get; set; }
-        public virtual patient_medicines patient_medicines { get; set; }
-        public virtual patient_motherbackgrounds patient_motherbackgrounds { get; set; }
-        public virtual patient_personalbackgrounds patient_personalbackgrounds { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<patient_allergies> patient_allergies { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<patient_fatherbackgrounds> patient_fatherbackgrounds { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<patient_medicines> patient_medicines { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<patient_motherbackgrounds> patient_motherbackgrounds { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<patient_personalbackgrounds> patient_personalbackgrounds { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<triage> triages { get; set; }
     }

@@ -145,8 +145,8 @@ namespace MedAPI.Service
                      .Select(d => new ObjectNode() { id = d.ToString().ToUpper(), name = StringExtensions.FirstCharToUpper(d.ToString()) })
                      .ToList();
 
-            mUserResourcesList.allergies = Enum.GetValues(typeof(Domain.Allergy))
-                     .Cast<Domain.Allergy>()
+            mUserResourcesList.allergies = Enum.GetValues(typeof(Allergy))
+                     .Cast<Allergy>()
                      .Select(d => new ObjectNode() { id = d.ToString().ToUpper(), name = StringExtensions.FirstCharToUpper(d.ToString()) })
                      .ToList();
 

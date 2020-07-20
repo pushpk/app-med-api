@@ -15,9 +15,9 @@ namespace MedAPI.Repository
                 return (from me in context.medics
                         select new Medic()
                         {
-                            Id = me.id,
-                            Cmp = me.cmp,
-                            Rne = me.rne
+                            id = me.id,
+                            cmp = me.cmp,
+                            rne = me.rne
                         }).ToList();
             }
         }
@@ -29,9 +29,9 @@ namespace MedAPI.Repository
                 return context.medics.Where(x => x.id == id)
                    .Select(x => new Medic()
                    {
-                       Id = x.id,
-                       Cmp=x.cmp,
-                       Rne=x.rne
+                       id = x.id,
+                       cmp=x.cmp,
+                       rne=x.rne
                    }).FirstOrDefault();
             }
         }
@@ -55,15 +55,15 @@ namespace MedAPI.Repository
         {
             using (var context = new DataAccess.registroclinicoEntities())
             {
-                var efMedic = context.medics.Where(m => m.id == mMedic.Id).FirstOrDefault();
+                var efMedic = context.medics.Where(m => m.id == mMedic.id).FirstOrDefault();
                 if (efMedic == null)
                 {
                     efMedic = new DataAccess.medic();
                     context.medics.Add(efMedic);
                 }
-                efMedic.id = mMedic.Id;
-                efMedic.rne = mMedic.Rne;
-                efMedic.cmp = mMedic.Cmp;
+                efMedic.id = mMedic.id;
+                efMedic.rne = mMedic.rne;
+                efMedic.cmp = mMedic.cmp;
                 context.SaveChanges();
                 return efMedic.id;
             }

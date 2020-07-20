@@ -188,7 +188,8 @@ namespace MedAPI.Controllers
         [Route("~/record/patient")]
         public HttpResponseMessage GetPatient(int documentNumber)
         {
-            Domain.User pat = patientService.GetPatientByDocumentNumber(documentNumber);
+            //Domain.User pat = patientService.GetPatientByDocumentNumber(documentNumber);
+            Domain.Patient pat = patientService.GetPatientByDocumentNumber(documentNumber);
 
             var notes = noteService.GetAllNoteByPatient(Convert.ToInt32(pat.id));
 
@@ -229,14 +230,14 @@ namespace MedAPI.Controllers
             patient.id = mPatient.id;
             patient.alcohol = mPatient.alcoholConsumption;
             patient.bloodType = mPatient.bloodType;
-            patient.cigaretteNumber = mPatient.cigarettes;
+            patient.cigaretteNumber = mPatient.cigaretteNumber;
             patient.createdTicket = string.Empty;
-            patient.dormNumber = 0;
+            patient.dormNumber = mPatient.dormNumber;
             patient.educationalAttainment = mPatient.educationalAttainment;
             patient.electricity = mPatient.home.electricity;
-            patient.fractureNumber = 0;
+            patient.fractureNumber = mPatient.fractureNumber;
             patient.fruitsVegetables = mPatient.fvConsumption;
-            patient.highGlucose = string.Empty;
+            patient.highGlucose = mPatient.highGlucose;
             patient.homeMaterial = mPatient.home.material;
             patient.homeOwnership = mPatient.home.ownership;
             patient.homeType = mPatient.home.type;
@@ -256,16 +257,18 @@ namespace MedAPI.Controllers
 
         public Domain.User setUserInfo(Patient mPatient)
         {
+            var userData = getUserInfo();
             Domain.User user = new Domain.User();
 
             user.id = mPatient.id;
             user.address = mPatient.address;
             user.birthday = mPatient.birthday;
             user.cellphone = mPatient.phone;
-            user.createdBy = Convert.ToString(mPatient.id);
+            if (userData != null)
+            {
+                user.createdBy = Convert.ToString(userData.id);
+            }
             user.createdDate = DateTime.Now;
-            user.deletable = mPatient.deletable;
-            user.deleted = mPatient.deleted;
             user.documentNumber = mPatient.documentNumber;
             user.documentType = mPatient.documentType;
             user.email = mPatient.email;
@@ -274,25 +277,30 @@ namespace MedAPI.Controllers
             user.lastNameMother = mPatient.lastnameMother;
             user.maritalStatus = mPatient.maritalStatus;
             user.organDonor = mPatient.isDonor;
-            user.modifiedBy = mPatient.modifiedBy;
-            user.modifiedDate = mPatient.modifiedDate;
+            if (mPatient.id > 0)
+            {
+                user.modifiedBy = Convert.ToString(userData.id);
+                user.modifiedDate = DateTime.Now;
+            }
             user.passwordHash = mPatient.passwordHash;
-            user.phone = mPatient.phone;
             user.sex = mPatient.sex;
             user.since = DateTime.Now;
 
             user.countryId = mPatient.country;
             user.districtId = mPatient.district;
 
-            var headerValues = HttpContext.Current.Request.Headers.GetValues("email");
-            string email = Convert.ToString(headerValues.FirstOrDefault());
-            var userData = userService.GetByEmail(email);
             if (userData != null)
             {
                 user.roleId = userData.roleId;
                 user.role = userData.role;
             }
             return user;
+        }
+        public Domain.User getUserInfo()
+        {
+            var headerValues = HttpContext.Current.Request.Headers.GetValues("email");
+            string email = Convert.ToString(headerValues.FirstOrDefault());
+            return userService.GetByEmail(email); ;
         }
     }
 }

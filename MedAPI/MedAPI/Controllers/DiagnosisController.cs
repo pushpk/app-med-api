@@ -116,7 +116,7 @@ namespace MedAPI.Controllers
             {
                 if (IsAdminPermission())
                 {
-                    mDiagnosis.Id = id;
+                    mDiagnosis.id = id;
                      id = diagnosisService.SaveDiagnosis(mDiagnosis);
 
                     if (id > 0)

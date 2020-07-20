@@ -29,7 +29,7 @@ namespace MedAPI.Controllers
             HttpResponseMessage response = null;
             try
             {
-                mUpload.CreatedBy = GetCuurentUser();
+                mUpload.createdBy = GetCuurentUser();
                 response = Request.CreateResponse(HttpStatusCode.OK, applicationService.SaveFile(mUpload));
             }
             catch (Exception ex)

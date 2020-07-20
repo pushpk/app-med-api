@@ -15,6 +15,7 @@ namespace MedAPI.Infrastructure.IRepository
         List<District> GetDistrictByprovinceId(long id);
         void SavePatient(Patient mPatient);
 
-        User GetPatientByDocumentNumber(int documentNumber);
+        //User GetPatientByDocumentNumber(int documentNumber);
+        Patient GetPatientByDocumentNumber(int documentNumber);
     }
 }

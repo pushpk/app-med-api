@@ -14,8 +14,8 @@ namespace MedAPI.Repository
                 return (from n in context.nurses
                         select new Nurse()
                         {
-                            Id = n.id,
-                            MedicRegistration = n.medicRegistration,
+                            id = n.id,
+                            medicRegistration = n.medicRegistration,
                         }).ToList();
             }
         }
@@ -26,8 +26,8 @@ namespace MedAPI.Repository
                 return (from n in context.nurse_specialties
                         select new NurseSpecialties
                         {
-                            NurseId = n.Nurse_id,
-                            Specialties = n.specialties
+                            nurseId = n.Nurse_id,
+                            specialties = n.specialties
                         }).FirstOrDefault();
             }
         }
@@ -39,8 +39,8 @@ namespace MedAPI.Repository
                 return (from n in context.nurses
                         select new Nurse()
                         {
-                            Id = n.id,
-                            MedicRegistration = n.medicRegistration,
+                            id = n.id,
+                            medicRegistration = n.medicRegistration,
                         }).FirstOrDefault();
             }
         }
@@ -49,14 +49,14 @@ namespace MedAPI.Repository
         {
             using (var context = new DataAccess.registroclinicoEntities())
             {
-                var efNurse = context.nurses.Where(m => m.id == mNurse.Id).FirstOrDefault();
+                var efNurse = context.nurses.Where(m => m.id == mNurse.id).FirstOrDefault();
                 if (efNurse == null)
                 {
                     efNurse = new DataAccess.nurse();
                     context.nurses.Add(efNurse);
                 }
-                efNurse.id = mNurse.Id;
-                efNurse.medicRegistration = mNurse.MedicRegistration;
+                efNurse.id = mNurse.id;
+                efNurse.medicRegistration = mNurse.medicRegistration;
                 context.SaveChanges();
             }
         }
@@ -64,14 +64,14 @@ namespace MedAPI.Repository
         {
             using (var context = new DataAccess.registroclinicoEntities())
             {
-                var efNurseSpecialties = context.nurse_specialties.Where(m => m.Nurse_id == mNurseSpecialties.NurseId).FirstOrDefault();
+                var efNurseSpecialties = context.nurse_specialties.Where(m => m.Nurse_id == mNurseSpecialties.nurseId).FirstOrDefault();
                 if (efNurseSpecialties == null)
                 {
                     efNurseSpecialties = new DataAccess.nurse_specialties();
                     context.nurse_specialties.Add(efNurseSpecialties);
                 }
-                efNurseSpecialties.Nurse_id = mNurseSpecialties.NurseId;
-                efNurseSpecialties.specialties = mNurseSpecialties.Specialties;
+                efNurseSpecialties.Nurse_id = mNurseSpecialties.nurseId;
+                efNurseSpecialties.specialties = mNurseSpecialties.specialties;
                 context.SaveChanges();
             }
         }

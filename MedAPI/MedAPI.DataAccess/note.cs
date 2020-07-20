@@ -17,15 +17,16 @@ namespace MedAPI.DataAccess
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public note()
         {
+            this.cardiovascularnotes = new HashSet<cardiovascularnote>();
             this.note1 = new HashSet<note>();
+            this.note_notediagnosis = new HashSet<note_notediagnosis>();
+            this.note_noteexam = new HashSet<note_noteexam>();
+            this.note_notemedicine = new HashSet<note_notemedicine>();
+            this.note_notereferral = new HashSet<note_notereferral>();
             this.notediagnosis = new HashSet<notediagnosi>();
             this.noteexams = new HashSet<noteexam>();
             this.notemedicines = new HashSet<notemedicine>();
             this.notereferrals = new HashSet<notereferral>();
-            this.notediagnosis1 = new HashSet<notediagnosi>();
-            this.noteexams1 = new HashSet<noteexam>();
-            this.notemedicines1 = new HashSet<notemedicine>();
-            this.notereferrals1 = new HashSet<notereferral>();
         }
     
         public long id { get; set; }
@@ -55,7 +56,8 @@ namespace MedAPI.DataAccess
         public Nullable<long> ticket_id { get; set; }
         public Nullable<long> triage_id { get; set; }
     
-        public virtual cardiovascularnote cardiovascularnote { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<cardiovascularnote> cardiovascularnotes { get; set; }
         public virtual establishment establishment { get; set; }
         public virtual medic medic { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -65,6 +67,14 @@ namespace MedAPI.DataAccess
         public virtual triage triage { get; set; }
         public virtual ticket ticket { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<note_notediagnosis> note_notediagnosis { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<note_noteexam> note_noteexam { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<note_notemedicine> note_notemedicine { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<note_notereferral> note_notereferral { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<notediagnosi> notediagnosis { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<noteexam> noteexams { get; set; }
@@ -72,13 +82,5 @@ namespace MedAPI.DataAccess
         public virtual ICollection<notemedicine> notemedicines { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<notereferral> notereferrals { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<notediagnosi> notediagnosis1 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<noteexam> noteexams1 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<notemedicine> notemedicines1 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<notereferral> notereferrals1 { get; set; }
     }
 }

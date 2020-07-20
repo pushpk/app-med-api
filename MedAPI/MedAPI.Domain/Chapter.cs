@@ -8,9 +8,9 @@ namespace MedAPI.Domain
 {
    public class Chapter
     {
-        public long Id { get; set; }
-        public string Code { get; set; }
-        public byte[] Deleted { get; set; }
-        public string Title { get; set; }
+        public long id { get; set; }
+        public string code { get; set; }
+        public byte[] deleted { get; set; }
+        public string title { get; set; }
     }
 }

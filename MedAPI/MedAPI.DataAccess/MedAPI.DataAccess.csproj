@@ -118,10 +118,25 @@
     <Compile Include="noteexam.cs">
       <DependentUpon>MedDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="noteexam_upload.cs">
+      <DependentUpon>MedDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="notemedicine.cs">
       <DependentUpon>MedDB.tt</DependentUpon>
     </Compile>
     <Compile Include="notereferral.cs">
+      <DependentUpon>MedDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="note_notediagnosis.cs">
+      <DependentUpon>MedDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="note_noteexam.cs">
+      <DependentUpon>MedDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="note_notemedicine.cs">
+      <DependentUpon>MedDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="note_notereferral.cs">
       <DependentUpon>MedDB.tt</DependentUpon>
     </Compile>
     <Compile Include="nurse.cs">

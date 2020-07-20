@@ -83,7 +83,7 @@ namespace MedAPI.Controllers
             {
                 if (IsAdminPermission())
                 {
-                    mProvince.Id = id;
+                    mProvince.id = id;
                     mProvince = provinceService.SaveProvince(mProvince);
                     response = Request.CreateResponse(HttpStatusCode.OK, mProvince);
                 }

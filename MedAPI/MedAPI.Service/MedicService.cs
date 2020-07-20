@@ -22,7 +22,7 @@ namespace MedAPI.Service
             {
                 foreach (var item in medics)
                 {
-                    item.User = userRepository.GetUserById(item.Id);
+                    item.user = userRepository.GetUserById(item.id);
                 }
             }
             return medics;
@@ -40,15 +40,15 @@ namespace MedAPI.Service
         public Medic SaveMedic(Domain.Medic mMedic)
         {
 
-            if (mMedic.User.id == 0)
+            if (mMedic.user.id == 0)
             {
-                mMedic.User.passwordHash = Infrastructure.HashPasswordHelper.HashPassword(mMedic.User.passwordHash);
+                mMedic.user.passwordHash = Infrastructure.HashPasswordHelper.HashPassword(mMedic.user.passwordHash);
             }
-            mMedic.User = userRepository.SaveUser(mMedic.User);
+            mMedic.user = userRepository.SaveUser(mMedic.user);
 
-            if (mMedic.User.id > 0)
+            if (mMedic.user.id > 0)
             {
-                mMedic.Id = mMedic.User.id;
+                mMedic.id = mMedic.user.id;
                 medicRepository.SaveMedic(mMedic);
             }
             return mMedic;

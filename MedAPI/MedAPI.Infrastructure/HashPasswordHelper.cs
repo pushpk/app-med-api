@@ -11,7 +11,7 @@
         {
             if (string.IsNullOrEmpty(password))
             {
-                var defaultPassword = "$2a$10$embGpT0ph3zWV7qhw553s.BHFbUGFbuBKCt2BJ2CwkdXRNEJIcoJu";
+                var defaultPassword = "$2a$10$yYVYoz8rpthvx1Qh5wydxu0IGslC13Ul.lxWvOgKLcu4fTTC04ohu";
                 return BCrypt.Net.BCrypt.HashPassword(defaultPassword);
             }
             return BCrypt.Net.BCrypt.HashPassword(password);

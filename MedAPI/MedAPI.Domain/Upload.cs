@@ -10,17 +10,17 @@ namespace MedAPI.Domain
     {
         public Upload()
         {
-            this.NoteExams = new List<NoteExam>();
+            this.noteExams = new List<NoteExam>();
         }
 
-        public long Id { get; set; }
-        public string CreatedBy { get; set; }
-        public DateTime? CreatedDate { get; set; }
-        public byte[] Deleted { get; set; }
-        public string Path { get; set; }
-        public string Filename { get; set; }
-        public byte[] FileByte { get; set; }
+        public long id { get; set; }
+        public string createdBy { get; set; }
+        public DateTime? createdDate { get; set; }
+        public byte[] deleted { get; set; }
+        public string path { get; set; }
+        public string filename { get; set; }
+        public byte[] fileByte { get; set; }
 
-        public List<NoteExam> NoteExams { get; set; }
+        public List<NoteExam> noteExams { get; set; }
     }
 }

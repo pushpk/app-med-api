@@ -14,7 +14,8 @@ namespace MedAPI.DataAccess
     
     public partial class cardiovascularnote_cardiovascularsymptoms
     {
-        public long CardiovascularNote_id { get; set; }
+        public long id { get; set; }
+        public long cardiovascularNote_id { get; set; }
         public string cardiovascularSymptoms { get; set; }
     
         public virtual cardiovascularnote cardiovascularnote { get; set; }

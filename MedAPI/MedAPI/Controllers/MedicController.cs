@@ -129,7 +129,7 @@ namespace MedAPI.Controllers
             {
                 if (IsAdminPermission())
                 {
-                    mMedic.User.id = id;
+                    mMedic.user.id = id;
                     mMedic = medicService.SaveMedic(mMedic);
                     response = Request.CreateResponse(HttpStatusCode.OK, mMedic);
                 }

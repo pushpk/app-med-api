@@ -220,13 +220,35 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="models\Allergy.cs" />
+    <Compile Include="models\BiologicalFunctions.cs" />
+    <Compile Include="models\CardiovascularNote.cs" />
+    <Compile Include="models\CardiovascularSystem.cs" />
+    <Compile Include="models\Chapter.cs" />
+    <Compile Include="models\Diagnosis.cs" />
+    <Compile Include="models\Exams.cs" />
     <Compile Include="models\FatherBackground.cs" />
+    <Compile Include="models\GastrointestinalSemiology.cs" />
     <Compile Include="models\Home.cs" />
+    <Compile Include="models\Interconsultations.cs" />
+    <Compile Include="models\List.cs" />
     <Compile Include="models\Medicine.cs" />
     <Compile Include="models\MotherBackground.cs" />
+    <Compile Include="models\Murmurs.cs" />
+    <Compile Include="models\Note.cs" />
+    <Compile Include="models\Others.cs" />
     <Compile Include="models\Patient.cs" />
     <Compile Include="models\PersonalBackground.cs" />
+    <Compile Include="models\PhysicalExam.cs" />
+    <Compile Include="models\Pulses.cs" />
+    <Compile Include="models\Referrals.cs" />
+    <Compile Include="models\RespiratorySystem.cs" />
+    <Compile Include="models\Skin.cs" />
+    <Compile Include="models\Symptoms.cs" />
+    <Compile Include="models\Todo.cs" />
+    <Compile Include="models\Treatments.cs" />
+    <Compile Include="models\Triage.cs" />
     <Compile Include="models\User.cs" />
+    <Compile Include="models\VitalFunctions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

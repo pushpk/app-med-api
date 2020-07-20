@@ -67,7 +67,7 @@ namespace MedAPI.Controllers
             {
                 if (IsAdminPermission())
                 {
-                    mEstablishment.Id = id;
+                    mEstablishment.id = id;
                     mEstablishment = establishmentService.SaveEstablishment(mEstablishment);
                     response = Request.CreateResponse(HttpStatusCode.OK, mEstablishment);
                 }

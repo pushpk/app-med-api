@@ -18,7 +18,7 @@ namespace MedAPI.Repository
                        id = x.id,
                        name = x.name,
                        deleted = x.deleted,
-                       Departments = x.departments.Select(c => new Department()
+                       departments = x.departments.Select(c => new Department()
                        {
                            country_id = c.country_id,
                            id = c.id,
@@ -40,7 +40,7 @@ namespace MedAPI.Repository
                             deleted = c.deleted,
                             name = c.name,
                             id = c.id,
-                            Departments = c.departments.Select(x=>new Department()
+                            departments = c.departments.Select(x=>new Department()
                             {
                                 country_id=x.country_id,
                                 id=x.id,
@@ -61,7 +61,7 @@ namespace MedAPI.Repository
                    {
                        id = x.id,
                        name = x.name,
-                       Departments = x.departments.Select(c => new Department()
+                       departments = x.departments.Select(c => new Department()
                        {
                            country_id = c.country_id,
                            id = c.id,

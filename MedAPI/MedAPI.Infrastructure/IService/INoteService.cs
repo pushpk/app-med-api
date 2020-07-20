@@ -12,5 +12,10 @@ namespace MedAPI.Infrastructure.IService
         Note SaveNote(Note mNote);
         Triage TriageSave(Triage triage);
         NoteResources GetResources();
+
+        bool SaveDiagnosisList(List<NoteDiagnosi> mDiagnosis);
+        bool SaveExamsList(List<NoteExam> mExams);
+        bool SaveMedicationsList(List<NoteMedicine> mMedications);
+        bool SaveReferralsList(List<NoteReferral> mReferrals);
     }
 }

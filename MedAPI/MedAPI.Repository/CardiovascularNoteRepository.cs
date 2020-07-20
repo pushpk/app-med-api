@@ -32,32 +32,32 @@ namespace MedAPI.Repository
                 return (from ca in context.cardiovascularnotes
                         select new CardiovascularNote()
                         {
-                            AuscultationSite = ca.auscultationSite,
-                            CapillaryRefillLLM = ca.capillaryRefillLLM,
-                            CapillaryRefillLRM = ca.capillaryRefillLRM,
-                            CardiacPressureIntensity = ca.cardiacPressureIntensity,
-                            CardiacPressureRhythm = ca.cardiacPressureRhythm,
-                            DiastolicPhase = ca.diastolicPhase,
-                            EdemaAnkle = ca.edemaAnkle,
-                            EdemaGeneralized = ca.edemaGeneralized,
-                            EdemaLowerMembers = ca.edemaLowerMembers,
-                            FourthNoise = ca.fourthNoise,
-                            GastrointestinalSemiology = ca.gastrointestinalSemiology,
-                            Murmurs = ca.murmurs,
-                            NeckRadiation = ca.neckRadiation,
-                            OtherSymptoms = ca.otherSymptoms,
-                            PedalPulsesL = ca.pedalPulsesL,
-                            PedalPulsesR = ca.pedalPulsesR,
-                            PulsesLLM = ca.pulsesLLM,
-                            PulsesLRM = ca.pulsesLRM,
-                            RadialPulsesL = ca.radialPulsesL,
-                            RadialPulsesR = ca.radialPulsesR,
-                            SystolicPhase = ca.systolicPhase,
-                            ThirdNoise = ca.thirdNoise,
-                            TrophicChanges = ca.trophicChanges,
-                            VesicularWhisperL = ca.vesicularWhisperL,
-                            VesicularWhisperR = ca.vesicularWhisperR,
-                            Id = ca.id
+                            auscultationSite = ca.auscultationSite,
+                            capillaryRefillLLM = ca.capillaryRefillLLM,
+                            capillaryRefillLRM = ca.capillaryRefillLRM,
+                            cardiacPressureIntensity = ca.cardiacPressureIntensity,
+                            cardiacPressureRhythm = ca.cardiacPressureRhythm,
+                            diastolicPhase = ca.diastolicPhase,
+                            edemaAnkle = ca.edemaAnkle,
+                            edemaGeneralized = ca.edemaGeneralized,
+                            edemaLowerMembers = ca.edemaLowerMembers,
+                            fourthNoise = ca.fourthNoise,
+                            gastrointestinalSemiology = ca.gastrointestinalSemiology,
+                            murmurs = ca.murmurs,
+                            neckRadiation = ca.neckRadiation,
+                            otherSymptoms = ca.otherSymptoms,
+                            pedalPulsesL = ca.pedalPulsesL,
+                            pedalPulsesR = ca.pedalPulsesR,
+                            pulsesLLM = ca.pulsesLLM,
+                            pulsesLRM = ca.pulsesLRM,
+                            radialPulsesL = ca.radialPulsesL,
+                            radialPulsesR = ca.radialPulsesR,
+                            systolicPhase = ca.systolicPhase,
+                            thirdNoise = ca.thirdNoise,
+                            trophicChanges = ca.trophicChanges,
+                            vesicularWhisperL = ca.vesicularWhisperL,
+                            vesicularWhisperR = ca.vesicularWhisperR,
+                            id = ca.id
                         }).ToList();
             }
         }
@@ -69,32 +69,32 @@ namespace MedAPI.Repository
                 return context.cardiovascularnotes.Where(x => x.id == id)
                    .Select(x => new CardiovascularNote()
                    {
-                       AuscultationSite = x.auscultationSite,
-                       CapillaryRefillLLM = x.capillaryRefillLLM,
-                       CapillaryRefillLRM = x.capillaryRefillLRM,
-                       CardiacPressureIntensity = x.cardiacPressureIntensity,
-                       CardiacPressureRhythm = x.cardiacPressureRhythm,
-                       DiastolicPhase = x.diastolicPhase,
-                       EdemaAnkle = x.edemaAnkle,
-                       EdemaGeneralized = x.edemaGeneralized,
-                       EdemaLowerMembers = x.edemaLowerMembers,
-                       FourthNoise = x.fourthNoise,
-                       GastrointestinalSemiology = x.gastrointestinalSemiology,
-                       Murmurs = x.murmurs,
-                       NeckRadiation = x.neckRadiation,
-                       OtherSymptoms = x.otherSymptoms,
-                       PedalPulsesL = x.pedalPulsesL,
-                       PedalPulsesR = x.pedalPulsesR,
-                       PulsesLLM = x.pulsesLLM,
-                       PulsesLRM = x.pulsesLRM,
-                       RadialPulsesL = x.radialPulsesL,
-                       RadialPulsesR = x.radialPulsesR,
-                       SystolicPhase = x.systolicPhase,
-                       ThirdNoise = x.thirdNoise,
-                       TrophicChanges = x.trophicChanges,
-                       VesicularWhisperL = x.vesicularWhisperL,
-                       VesicularWhisperR = x.vesicularWhisperR,
-                       Id = x.id,
+                       auscultationSite = x.auscultationSite,
+                       capillaryRefillLLM = x.capillaryRefillLLM,
+                       capillaryRefillLRM = x.capillaryRefillLRM,
+                       cardiacPressureIntensity = x.cardiacPressureIntensity,
+                       cardiacPressureRhythm = x.cardiacPressureRhythm,
+                       diastolicPhase = x.diastolicPhase,
+                       edemaAnkle = x.edemaAnkle,
+                       edemaGeneralized = x.edemaGeneralized,
+                       edemaLowerMembers = x.edemaLowerMembers,
+                       fourthNoise = x.fourthNoise,
+                       gastrointestinalSemiology = x.gastrointestinalSemiology,
+                       murmurs = x.murmurs,
+                       neckRadiation = x.neckRadiation,
+                       otherSymptoms = x.otherSymptoms,
+                       pedalPulsesL = x.pedalPulsesL,
+                       pedalPulsesR = x.pedalPulsesR,
+                       pulsesLLM = x.pulsesLLM,
+                       pulsesLRM = x.pulsesLRM,
+                       radialPulsesL = x.radialPulsesL,
+                       radialPulsesR = x.radialPulsesR,
+                       systolicPhase = x.systolicPhase,
+                       thirdNoise = x.thirdNoise,
+                       trophicChanges = x.trophicChanges,
+                       vesicularWhisperL = x.vesicularWhisperL,
+                       vesicularWhisperR = x.vesicularWhisperR,
+                       id = x.id,
                    }).FirstOrDefault();
             }
         }
@@ -103,37 +103,37 @@ namespace MedAPI.Repository
         {
             using (var context = new DataAccess.registroclinicoEntities())
             {
-                var efCardiovascularNote = context.cardiovascularnotes.Where(x => x.id == mCardiovascularNote.Id).FirstOrDefault();
+                var efCardiovascularNote = context.cardiovascularnotes.Where(x => x.id == mCardiovascularNote.id).FirstOrDefault();
                 if (efCardiovascularNote == null)
                 {
                     efCardiovascularNote = new DataAccess.cardiovascularnote();
                     context.cardiovascularnotes.Add(efCardiovascularNote);
                 }
-                efCardiovascularNote.auscultationSite = mCardiovascularNote.AuscultationSite;
-                efCardiovascularNote.capillaryRefillLLM = mCardiovascularNote.CapillaryRefillLLM;
-                efCardiovascularNote.capillaryRefillLRM = mCardiovascularNote.CapillaryRefillLRM;
-                efCardiovascularNote.cardiacPressureIntensity = mCardiovascularNote.CardiacPressureIntensity;
-                efCardiovascularNote.cardiacPressureRhythm = mCardiovascularNote.CardiacPressureRhythm;
-                efCardiovascularNote.diastolicPhase = mCardiovascularNote.DiastolicPhase;
-                efCardiovascularNote.edemaAnkle = mCardiovascularNote.EdemaAnkle;
-                efCardiovascularNote.edemaGeneralized = mCardiovascularNote.EdemaGeneralized;
-                efCardiovascularNote.edemaLowerMembers = mCardiovascularNote.EdemaLowerMembers;
-                efCardiovascularNote.fourthNoise = mCardiovascularNote.FourthNoise;
-                efCardiovascularNote.gastrointestinalSemiology = mCardiovascularNote.GastrointestinalSemiology;
-                efCardiovascularNote.murmurs = mCardiovascularNote.Murmurs;
-                efCardiovascularNote.neckRadiation = mCardiovascularNote.NeckRadiation;
-                efCardiovascularNote.otherSymptoms = mCardiovascularNote.OtherSymptoms;
-                efCardiovascularNote.pedalPulsesL = mCardiovascularNote.PedalPulsesL;
-                efCardiovascularNote.pedalPulsesR = mCardiovascularNote.PedalPulsesR;
-                efCardiovascularNote.pulsesLLM = mCardiovascularNote.PulsesLLM;
-                efCardiovascularNote.pulsesLRM = mCardiovascularNote.PulsesLRM;
-                efCardiovascularNote.radialPulsesL = mCardiovascularNote.RadialPulsesL;
-                efCardiovascularNote.radialPulsesR = mCardiovascularNote.RadialPulsesR;
-                efCardiovascularNote.systolicPhase = mCardiovascularNote.SystolicPhase;
-                efCardiovascularNote.thirdNoise = mCardiovascularNote.ThirdNoise;
-                efCardiovascularNote.trophicChanges = mCardiovascularNote.TrophicChanges;
-                efCardiovascularNote.vesicularWhisperL = mCardiovascularNote.VesicularWhisperL;
-                efCardiovascularNote.vesicularWhisperR = mCardiovascularNote.VesicularWhisperR;
+                efCardiovascularNote.auscultationSite = mCardiovascularNote.auscultationSite;
+                efCardiovascularNote.capillaryRefillLLM = mCardiovascularNote.capillaryRefillLLM;
+                efCardiovascularNote.capillaryRefillLRM = mCardiovascularNote.capillaryRefillLRM;
+                efCardiovascularNote.cardiacPressureIntensity = mCardiovascularNote.cardiacPressureIntensity;
+                efCardiovascularNote.cardiacPressureRhythm = mCardiovascularNote.cardiacPressureRhythm;
+                efCardiovascularNote.diastolicPhase = mCardiovascularNote.diastolicPhase;
+                efCardiovascularNote.edemaAnkle = mCardiovascularNote.edemaAnkle;
+                efCardiovascularNote.edemaGeneralized = mCardiovascularNote.edemaGeneralized;
+                efCardiovascularNote.edemaLowerMembers = mCardiovascularNote.edemaLowerMembers;
+                efCardiovascularNote.fourthNoise = mCardiovascularNote.fourthNoise;
+                efCardiovascularNote.gastrointestinalSemiology = mCardiovascularNote.gastrointestinalSemiology;
+                efCardiovascularNote.murmurs = mCardiovascularNote.murmurs;
+                efCardiovascularNote.neckRadiation = mCardiovascularNote.neckRadiation;
+                efCardiovascularNote.otherSymptoms = mCardiovascularNote.otherSymptoms;
+                efCardiovascularNote.pedalPulsesL = mCardiovascularNote.pedalPulsesL;
+                efCardiovascularNote.pedalPulsesR = mCardiovascularNote.pedalPulsesR;
+                efCardiovascularNote.pulsesLLM = mCardiovascularNote.pulsesLLM;
+                efCardiovascularNote.pulsesLRM = mCardiovascularNote.pulsesLRM;
+                efCardiovascularNote.radialPulsesL = mCardiovascularNote.radialPulsesL;
+                efCardiovascularNote.radialPulsesR = mCardiovascularNote.radialPulsesR;
+                efCardiovascularNote.systolicPhase = mCardiovascularNote.systolicPhase;
+                efCardiovascularNote.thirdNoise = mCardiovascularNote.thirdNoise;
+                efCardiovascularNote.trophicChanges = mCardiovascularNote.trophicChanges;
+                efCardiovascularNote.vesicularWhisperL = mCardiovascularNote.vesicularWhisperL;
+                efCardiovascularNote.vesicularWhisperR = mCardiovascularNote.vesicularWhisperR;
                 context.SaveChanges();
                 return Convert.ToInt32(efCardiovascularNote.id);
             }

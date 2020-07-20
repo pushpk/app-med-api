@@ -14,7 +14,8 @@ namespace MedAPI.DataAccess
     
     public partial class patient_motherbackgrounds
     {
-        public long Patient_id { get; set; }
+        public long id { get; set; }
+        public long patient_id { get; set; }
         public string motherBackgrounds { get; set; }
     
         public virtual patient patient { get; set; }
