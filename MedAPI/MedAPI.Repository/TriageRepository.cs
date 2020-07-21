@@ -12,7 +12,7 @@ namespace MedAPI.Repository
             using (var context = new DataAccess.registroclinicoEntities())
             {
                 return (from tr in context.triages
-                        where tr.deleted != false && tr.patient.id == id
+                        where tr.deleted != false && tr.patient_id == id
                         select new Triage
                         {
                             abdominalPerimeter = tr.abdominalPerimeter,
@@ -33,7 +33,7 @@ namespace MedAPI.Repository
                             ldlCholesterol = tr.ldlCholesterol,
                             modifiedBy = tr.modifiedBy,
                             modifiedDate = tr.modifiedDate,
-                            patientId = tr.patient.id,
+                            patientId = tr.patient_id,
                             size = tr.size,
                             sleep = tr.sleep,
                             systolicBloodPressure = tr.systolicBloodPressure,

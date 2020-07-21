@@ -14,12 +14,6 @@ namespace MedAPI.DataAccess
     
     public partial class triage
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public triage()
-        {
-            this.notes = new HashSet<note>();
-        }
-    
         public long id { get; set; }
         public Nullable<double> abdominalPerimeter { get; set; }
         public Nullable<double> bmi { get; set; }
@@ -50,9 +44,6 @@ namespace MedAPI.DataAccess
         public Nullable<long> patient_id { get; set; }
         public Nullable<long> ticket_id { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<note> notes { get; set; }
-        public virtual patient patient { get; set; }
         public virtual ticket ticket { get; set; }
     }
 }

@@ -281,6 +281,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.nurse_specialties'
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="user_id" Type="bigint" Nullable="false" />
           <Property Name="alcohol" Type="nvarchar" MaxLength="255" />
           <Property Name="bloodType" Type="nvarchar" MaxLength="255" />
           <Property Name="cigaretteNumber" Type="bigint" />
@@ -317,9 +318,9 @@ warning 6002: The table/view 'registroclinico.registroclinico.nurse_specialties'
           <Key>
             <PropertyRef Name="id" />
           </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="patient_id" Type="bigint" Nullable="false" />
           <Property Name="fatherBackgrounds" Type="nvarchar" MaxLength="255" />
-          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
         <EntityType Name="patient_medicines">
           <Key>
@@ -518,6 +519,66 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_patient_allergies_patient">
+          <End Role="patient" Type="Self.patient" Multiplicity="1" />
+          <End Role="patient_allergies" Type="Self.patient_allergies" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="patient">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="patient_allergies">
+              <PropertyRef Name="patient_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_patient_fatherbackgrounds_patient">
+          <End Role="patient" Type="Self.patient" Multiplicity="1" />
+          <End Role="patient_fatherbackgrounds" Type="Self.patient_fatherbackgrounds" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="patient">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="patient_fatherbackgrounds">
+              <PropertyRef Name="patient_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_patient_patient_medicines">
+          <End Role="patient" Type="Self.patient" Multiplicity="1" />
+          <End Role="patient_medicines" Type="Self.patient_medicines" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="patient">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="patient_medicines">
+              <PropertyRef Name="patient_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_patient_patient_motherbackgrounds">
+          <End Role="patient" Type="Self.patient" Multiplicity="1" />
+          <End Role="patient_motherbackgrounds" Type="Self.patient_motherbackgrounds" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="patient">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="patient_motherbackgrounds">
+              <PropertyRef Name="patient_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_patient_personalbackgrounds_patient">
+          <End Role="patient" Type="Self.patient" Multiplicity="1" />
+          <End Role="patient_personalbackgrounds" Type="Self.patient_personalbackgrounds" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="patient">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="patient_personalbackgrounds">
+              <PropertyRef Name="patient_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="medic$FKa63sueb7mgdy1vvoejcxsafil">
           <End Role="users" Type="Self.users" Multiplicity="1" />
           <End Role="medic" Type="Self.medic" Multiplicity="0..1" />
@@ -551,30 +612,6 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
             </Principal>
             <Dependent Role="note1">
               <PropertyRef Name="controlNote_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="note$FK4xax0ys51744q34eyu5f3fjqi">
-          <End Role="patient" Type="Self.patient" Multiplicity="1" />
-          <End Role="note" Type="Self.note" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="patient">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="note">
-              <PropertyRef Name="patient_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="note$FKcfa530uvyoc47lcpgg193u38x">
-          <End Role="triage" Type="Self.triage" Multiplicity="0..1" />
-          <End Role="note" Type="Self.note" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="triage">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="note">
-              <PropertyRef Name="triage_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -842,75 +879,15 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="patient$FKs32bk76cxamwpt0gyddps95ow">
-          <End Role="users" Type="Self.users" Multiplicity="1" />
+        <Association Name="patient -&gt; triage">
           <End Role="patient" Type="Self.patient" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="users">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="patient">
-              <PropertyRef Name="id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="patient_allergies$FK7rkekxco79081ners3551bw7u">
-          <End Role="patient" Type="Self.patient" Multiplicity="1" />
-          <End Role="patient_allergies" Type="Self.patient_allergies" Multiplicity="*" />
+          <End Role="note" Type="Self.note" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="patient">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="patient_allergies">
-              <PropertyRef Name="patient_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="patient_fatherbackgrounds$FKh57pb8bk2ypmmftpk55s535ff">
-          <End Role="patient" Type="Self.patient" Multiplicity="1" />
-          <End Role="patient_fatherbackgrounds" Type="Self.patient_fatherbackgrounds" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="patient">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="patient_fatherbackgrounds">
-              <PropertyRef Name="patient_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="patient_medicines$FKk7eyrktcc9fxau1bm1wquouk8">
-          <End Role="patient" Type="Self.patient" Multiplicity="1" />
-          <End Role="patient_medicines" Type="Self.patient_medicines" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="patient">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="patient_medicines">
-              <PropertyRef Name="patient_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="patient_motherbackgrounds$FK5u17xwpgftjpdsaeg47as16g7">
-          <End Role="patient" Type="Self.patient" Multiplicity="1" />
-          <End Role="patient_motherbackgrounds" Type="Self.patient_motherbackgrounds" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="patient">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="patient_motherbackgrounds">
-              <PropertyRef Name="patient_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="patient_personalbackgrounds$FKdmyajsvykcawgr02qquin7orr">
-          <End Role="patient" Type="Self.patient" Multiplicity="1" />
-          <End Role="patient_personalbackgrounds" Type="Self.patient_personalbackgrounds" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="patient">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="patient_personalbackgrounds">
-              <PropertyRef Name="patient_id" />
+            <Dependent Role="note">
+              <PropertyRef Name="triage_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -938,7 +915,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="triage$FKf6fatkh465lnjyycdrnmy59b">
+        <Association Name="ticket -&gt; triage">
           <End Role="ticket" Type="Self.ticket" Multiplicity="0..1" />
           <End Role="triage" Type="Self.triage" Multiplicity="*" />
           <ReferentialConstraint>
@@ -950,15 +927,15 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="triage$FKlql3nj4madqcpkv209jturf45">
-          <End Role="patient" Type="Self.patient" Multiplicity="0..1" />
-          <End Role="triage" Type="Self.triage" Multiplicity="*" />
+        <Association Name="user-&gt;patients">
+          <End Role="users" Type="Self.users" Multiplicity="1" />
+          <End Role="patient" Type="Self.patient" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="patient">
+            <Principal Role="users">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="triage">
-              <PropertyRef Name="patient_id" />
+            <Dependent Role="patient">
+              <PropertyRef Name="user_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1071,6 +1048,26 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
             <End Role="note" EntitySet="note" />
             <End Role="cardiovascularnote" EntitySet="cardiovascularnote" />
           </AssociationSet>
+          <AssociationSet Name="FK_patient_allergies_patient" Association="Self.FK_patient_allergies_patient">
+            <End Role="patient" EntitySet="patient" />
+            <End Role="patient_allergies" EntitySet="patient_allergies" />
+          </AssociationSet>
+          <AssociationSet Name="FK_patient_fatherbackgrounds_patient" Association="Self.FK_patient_fatherbackgrounds_patient">
+            <End Role="patient" EntitySet="patient" />
+            <End Role="patient_fatherbackgrounds" EntitySet="patient_fatherbackgrounds" />
+          </AssociationSet>
+          <AssociationSet Name="FK_patient_patient_medicines" Association="Self.FK_patient_patient_medicines">
+            <End Role="patient" EntitySet="patient" />
+            <End Role="patient_medicines" EntitySet="patient_medicines" />
+          </AssociationSet>
+          <AssociationSet Name="FK_patient_patient_motherbackgrounds" Association="Self.FK_patient_patient_motherbackgrounds">
+            <End Role="patient" EntitySet="patient" />
+            <End Role="patient_motherbackgrounds" EntitySet="patient_motherbackgrounds" />
+          </AssociationSet>
+          <AssociationSet Name="FK_patient_personalbackgrounds_patient" Association="Self.FK_patient_personalbackgrounds_patient">
+            <End Role="patient" EntitySet="patient" />
+            <End Role="patient_personalbackgrounds" EntitySet="patient_personalbackgrounds" />
+          </AssociationSet>
           <AssociationSet Name="medic$FKa63sueb7mgdy1vvoejcxsafil" Association="Self.medic$FKa63sueb7mgdy1vvoejcxsafil">
             <End Role="users" EntitySet="users" />
             <End Role="medic" EntitySet="medic" />
@@ -1082,14 +1079,6 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <AssociationSet Name="note$FK1q1iewxl8l8ns1v0ra54rpi1m" Association="Self.note$FK1q1iewxl8l8ns1v0ra54rpi1m">
             <End Role="note" EntitySet="note" />
             <End Role="note1" EntitySet="note" />
-          </AssociationSet>
-          <AssociationSet Name="note$FK4xax0ys51744q34eyu5f3fjqi" Association="Self.note$FK4xax0ys51744q34eyu5f3fjqi">
-            <End Role="patient" EntitySet="patient" />
-            <End Role="note" EntitySet="note" />
-          </AssociationSet>
-          <AssociationSet Name="note$FKcfa530uvyoc47lcpgg193u38x" Association="Self.note$FKcfa530uvyoc47lcpgg193u38x">
-            <End Role="triage" EntitySet="triage" />
-            <End Role="note" EntitySet="note" />
           </AssociationSet>
           <AssociationSet Name="note$FKgh47sx5cegenn53sohwq7qsxg" Association="Self.note$FKgh47sx5cegenn53sohwq7qsxg">
             <End Role="medic" EntitySet="medic" />
@@ -1179,29 +1168,9 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
             <End Role="nurse" EntitySet="nurse" />
             <End Role="nurse_specialties" EntitySet="nurse_specialties" />
           </AssociationSet>
-          <AssociationSet Name="patient$FKs32bk76cxamwpt0gyddps95ow" Association="Self.patient$FKs32bk76cxamwpt0gyddps95ow">
-            <End Role="users" EntitySet="users" />
+          <AssociationSet Name="patient -&gt; triage" Association="Self.patient -&gt; triage">
             <End Role="patient" EntitySet="patient" />
-          </AssociationSet>
-          <AssociationSet Name="patient_allergies$FK7rkekxco79081ners3551bw7u" Association="Self.patient_allergies$FK7rkekxco79081ners3551bw7u">
-            <End Role="patient" EntitySet="patient" />
-            <End Role="patient_allergies" EntitySet="patient_allergies" />
-          </AssociationSet>
-          <AssociationSet Name="patient_fatherbackgrounds$FKh57pb8bk2ypmmftpk55s535ff" Association="Self.patient_fatherbackgrounds$FKh57pb8bk2ypmmftpk55s535ff">
-            <End Role="patient" EntitySet="patient" />
-            <End Role="patient_fatherbackgrounds" EntitySet="patient_fatherbackgrounds" />
-          </AssociationSet>
-          <AssociationSet Name="patient_medicines$FKk7eyrktcc9fxau1bm1wquouk8" Association="Self.patient_medicines$FKk7eyrktcc9fxau1bm1wquouk8">
-            <End Role="patient" EntitySet="patient" />
-            <End Role="patient_medicines" EntitySet="patient_medicines" />
-          </AssociationSet>
-          <AssociationSet Name="patient_motherbackgrounds$FK5u17xwpgftjpdsaeg47as16g7" Association="Self.patient_motherbackgrounds$FK5u17xwpgftjpdsaeg47as16g7">
-            <End Role="patient" EntitySet="patient" />
-            <End Role="patient_motherbackgrounds" EntitySet="patient_motherbackgrounds" />
-          </AssociationSet>
-          <AssociationSet Name="patient_personalbackgrounds$FKdmyajsvykcawgr02qquin7orr" Association="Self.patient_personalbackgrounds$FKdmyajsvykcawgr02qquin7orr">
-            <End Role="patient" EntitySet="patient" />
-            <End Role="patient_personalbackgrounds" EntitySet="patient_personalbackgrounds" />
+            <End Role="note" EntitySet="note" />
           </AssociationSet>
           <AssociationSet Name="province$FK3joxh8ppnjhvvt1485efkpxm8" Association="Self.province$FK3joxh8ppnjhvvt1485efkpxm8">
             <End Role="department" EntitySet="department" />
@@ -1211,13 +1180,13 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
             <End Role="role" EntitySet="role" />
             <End Role="role_permissions" EntitySet="role_permissions" />
           </AssociationSet>
-          <AssociationSet Name="triage$FKf6fatkh465lnjyycdrnmy59b" Association="Self.triage$FKf6fatkh465lnjyycdrnmy59b">
+          <AssociationSet Name="ticket -&gt; triage" Association="Self.ticket -&gt; triage">
             <End Role="ticket" EntitySet="ticket" />
             <End Role="triage" EntitySet="triage" />
           </AssociationSet>
-          <AssociationSet Name="triage$FKlql3nj4madqcpkv209jturf45" Association="Self.triage$FKlql3nj4madqcpkv209jturf45">
+          <AssociationSet Name="user-&gt;patients" Association="Self.user-&gt;patients">
+            <End Role="users" EntitySet="users" />
             <End Role="patient" EntitySet="patient" />
-            <End Role="triage" EntitySet="triage" />
           </AssociationSet>
           <AssociationSet Name="users$FK1eit3dhanvh8r59sd30a3vyaw" Association="Self.users$FK1eit3dhanvh8r59sd30a3vyaw">
             <End Role="country" EntitySet="country" />
@@ -1419,8 +1388,6 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <NavigationProperty Name="medic" Relationship="Self.note_FKgh47sx5cegenn53sohwq7qsxg" FromRole="note" ToRole="medic" />
           <NavigationProperty Name="note1" Relationship="Self.note_FK1q1iewxl8l8ns1v0ra54rpi1m" FromRole="note" ToRole="note1" />
           <NavigationProperty Name="note2" Relationship="Self.note_FK1q1iewxl8l8ns1v0ra54rpi1m" FromRole="note1" ToRole="note" />
-          <NavigationProperty Name="patient" Relationship="Self.note_FK4xax0ys51744q34eyu5f3fjqi" FromRole="note" ToRole="patient" />
-          <NavigationProperty Name="triage" Relationship="Self.note_FKcfa530uvyoc47lcpgg193u38x" FromRole="note" ToRole="triage" />
           <NavigationProperty Name="ticket" Relationship="Self.note_FKnp0l5lfrvxca2ra3ycetknoun" FromRole="note" ToRole="ticket" />
           <NavigationProperty Name="note_notediagnosis" Relationship="Self.note_notediagnosis_FKiarvroh3s4qe0mxrumkyiyv2l" FromRole="note" ToRole="note_notediagnosis" />
           <NavigationProperty Name="note_noteexam" Relationship="Self.note_noteexam_FKq9smmjy4tb6q7s5tfbwgurwpu" FromRole="note" ToRole="note_noteexam" />
@@ -1430,6 +1397,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <NavigationProperty Name="noteexams" Relationship="Self.noteexam_FK8k6pnsf3mvufnyx02okom4m0k" FromRole="note" ToRole="noteexam" />
           <NavigationProperty Name="notemedicines" Relationship="Self.notemedicine_FK56i7lamo0r27xp8mtoog57qep" FromRole="note" ToRole="notemedicine" />
           <NavigationProperty Name="notereferrals" Relationship="Self.notereferral_FKmkcu52sj6rov69cglicgu5qsh" FromRole="note" ToRole="notereferral" />
+          <NavigationProperty Name="patient" Relationship="Self.patient____triage" FromRole="note" ToRole="patient" />
         </EntityType>
         <EntityType Name="note_notediagnosis">
           <Key>
@@ -1553,6 +1521,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="user_id" Type="Int64" Nullable="false" />
           <Property Name="alcohol" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="bloodType" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="cigaretteNumber" Type="Int64" />
@@ -1576,14 +1545,13 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <Property Name="residentNumber" Type="Int64" />
           <Property Name="sewage" Type="Boolean" Nullable="false" />
           <Property Name="water" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="notes" Relationship="Self.note_FK4xax0ys51744q34eyu5f3fjqi" FromRole="patient" ToRole="note" />
-          <NavigationProperty Name="user" Relationship="Self.patient_FKs32bk76cxamwpt0gyddps95ow" FromRole="patient" ToRole="users" />
-          <NavigationProperty Name="patient_allergies" Relationship="Self.patient_allergies_FK7rkekxco79081ners3551bw7u" FromRole="patient" ToRole="patient_allergies" />
-          <NavigationProperty Name="patient_fatherbackgrounds" Relationship="Self.patient_fatherbackgrounds_FKh57pb8bk2ypmmftpk55s535ff" FromRole="patient" ToRole="patient_fatherbackgrounds" />
-          <NavigationProperty Name="patient_medicines" Relationship="Self.patient_medicines_FKk7eyrktcc9fxau1bm1wquouk8" FromRole="patient" ToRole="patient_medicines" />
-          <NavigationProperty Name="patient_motherbackgrounds" Relationship="Self.patient_motherbackgrounds_FK5u17xwpgftjpdsaeg47as16g7" FromRole="patient" ToRole="patient_motherbackgrounds" />
-          <NavigationProperty Name="patient_personalbackgrounds" Relationship="Self.patient_personalbackgrounds_FKdmyajsvykcawgr02qquin7orr" FromRole="patient" ToRole="patient_personalbackgrounds" />
-          <NavigationProperty Name="triages" Relationship="Self.triage_FKlql3nj4madqcpkv209jturf45" FromRole="patient" ToRole="triage" />
+          <NavigationProperty Name="notes" Relationship="Self.patient____triage" FromRole="patient" ToRole="note" />
+          <NavigationProperty Name="patient_allergies" Relationship="Self.FK_patient_allergies_patient" FromRole="patient" ToRole="patient_allergies" />
+          <NavigationProperty Name="patient_fatherbackgrounds" Relationship="Self.FK_patient_fatherbackgrounds_patient" FromRole="patient" ToRole="patient_fatherbackgrounds" />
+          <NavigationProperty Name="patient_medicines" Relationship="Self.FK_patient_patient_medicines" FromRole="patient" ToRole="patient_medicines" />
+          <NavigationProperty Name="patient_motherbackgrounds" Relationship="Self.FK_patient_patient_motherbackgrounds" FromRole="patient" ToRole="patient_motherbackgrounds" />
+          <NavigationProperty Name="patient_personalbackgrounds" Relationship="Self.FK_patient_personalbackgrounds_patient" FromRole="patient" ToRole="patient_personalbackgrounds" />
+          <NavigationProperty Name="user" Relationship="Self.user__patients" FromRole="patient" ToRole="users" />
         </EntityType>
         <EntityType Name="patient_allergies">
           <Key>
@@ -1592,16 +1560,16 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="patient_id" Type="Int64" Nullable="false" />
           <Property Name="allergies" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="patient" Relationship="Self.patient_allergies_FK7rkekxco79081ners3551bw7u" FromRole="patient_allergies" ToRole="patient" />
+          <NavigationProperty Name="patient" Relationship="Self.FK_patient_allergies_patient" FromRole="patient_allergies" ToRole="patient" />
         </EntityType>
         <EntityType Name="patient_fatherbackgrounds">
           <Key>
             <PropertyRef Name="id" />
           </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="patient_id" Type="Int64" Nullable="false" />
           <Property Name="fatherBackgrounds" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <NavigationProperty Name="patient" Relationship="Self.patient_fatherbackgrounds_FKh57pb8bk2ypmmftpk55s535ff" FromRole="patient_fatherbackgrounds" ToRole="patient" />
+          <NavigationProperty Name="patient" Relationship="Self.FK_patient_fatherbackgrounds_patient" FromRole="patient_fatherbackgrounds" ToRole="patient" />
         </EntityType>
         <EntityType Name="patient_medicines">
           <Key>
@@ -1610,7 +1578,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="patient_id" Type="Int64" Nullable="false" />
           <Property Name="medicines" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="patient" Relationship="Self.patient_medicines_FKk7eyrktcc9fxau1bm1wquouk8" FromRole="patient_medicines" ToRole="patient" />
+          <NavigationProperty Name="patient" Relationship="Self.FK_patient_patient_medicines" FromRole="patient_medicines" ToRole="patient" />
         </EntityType>
         <EntityType Name="patient_motherbackgrounds">
           <Key>
@@ -1619,7 +1587,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="patient_id" Type="Int64" Nullable="false" />
           <Property Name="motherBackgrounds" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="patient" Relationship="Self.patient_motherbackgrounds_FK5u17xwpgftjpdsaeg47as16g7" FromRole="patient_motherbackgrounds" ToRole="patient" />
+          <NavigationProperty Name="patient" Relationship="Self.FK_patient_patient_motherbackgrounds" FromRole="patient_motherbackgrounds" ToRole="patient" />
         </EntityType>
         <EntityType Name="patient_personalbackgrounds">
           <Key>
@@ -1628,7 +1596,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="patient_id" Type="Int64" Nullable="false" />
           <Property Name="personalBackgrounds" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="patient" Relationship="Self.patient_personalbackgrounds_FKdmyajsvykcawgr02qquin7orr" FromRole="patient_personalbackgrounds" ToRole="patient" />
+          <NavigationProperty Name="patient" Relationship="Self.FK_patient_personalbackgrounds_patient" FromRole="patient_personalbackgrounds" ToRole="patient" />
         </EntityType>
         <EntityType Name="province">
           <Key>
@@ -1664,7 +1632,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <Property Name="serie" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="status" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="notes" Relationship="Self.note_FKnp0l5lfrvxca2ra3ycetknoun" FromRole="ticket" ToRole="note" />
-          <NavigationProperty Name="triages" Relationship="Self.triage_FKf6fatkh465lnjyycdrnmy59b" FromRole="ticket" ToRole="triage" />
+          <NavigationProperty Name="triages" Relationship="Self.ticket____triage" FromRole="ticket" ToRole="triage" />
         </EntityType>
         <EntityType Name="triage">
           <Key>
@@ -1699,9 +1667,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <Property Name="weightEvolution" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="patient_id" Type="Int64" />
           <Property Name="ticket_id" Type="Int64" />
-          <NavigationProperty Name="notes" Relationship="Self.note_FKcfa530uvyoc47lcpgg193u38x" FromRole="triage" ToRole="note" />
-          <NavigationProperty Name="patient" Relationship="Self.triage_FKlql3nj4madqcpkv209jturf45" FromRole="triage" ToRole="patient" />
-          <NavigationProperty Name="ticket" Relationship="Self.triage_FKf6fatkh465lnjyycdrnmy59b" FromRole="triage" ToRole="ticket" />
+          <NavigationProperty Name="ticket" Relationship="Self.ticket____triage" FromRole="triage" ToRole="ticket" />
         </EntityType>
         <EntityType Name="upload">
           <Key>
@@ -1747,7 +1713,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <NavigationProperty Name="district" Relationship="Self.users_FKdoiykqja8oxn78j7gf3l536ta" FromRole="users" ToRole="district" />
           <NavigationProperty Name="medic" Relationship="Self.medic_FKa63sueb7mgdy1vvoejcxsafil" FromRole="users" ToRole="medic" />
           <NavigationProperty Name="nurse" Relationship="Self.nurse_FKinc1dd4o81eetpkv731etxb34" FromRole="users" ToRole="nurse" />
-          <NavigationProperty Name="patient" Relationship="Self.patient_FKs32bk76cxamwpt0gyddps95ow" FromRole="users" ToRole="patient" />
+          <NavigationProperty Name="patients" Relationship="Self.user__patients" FromRole="users" ToRole="patient" />
           <NavigationProperty Name="role" Relationship="Self.users_FKiod6nq5d7gqshxljomqccs7tp" FromRole="users" ToRole="role" />
         </EntityType>
         <EntityType Name="medic_specialties">
@@ -1966,30 +1932,6 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="note_FK4xax0ys51744q34eyu5f3fjqi">
-          <End Role="patient" Type="Self.patient" Multiplicity="1" />
-          <End Role="note" Type="Self.note" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="patient">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="note">
-              <PropertyRef Name="patient_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="note_FKcfa530uvyoc47lcpgg193u38x">
-          <End Role="triage" Type="Self.triage" Multiplicity="0..1" />
-          <End Role="note" Type="Self.note" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="triage">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="note">
-              <PropertyRef Name="triage_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="note_FKnp0l5lfrvxca2ra3ycetknoun">
           <End Role="ticket" Type="Self.ticket" Multiplicity="0..1" />
           <End Role="note" Type="Self.note" Multiplicity="*" />
@@ -2098,6 +2040,18 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="patient____triage">
+          <End Role="patient" Type="Self.patient" Multiplicity="0..1" />
+          <End Role="note" Type="Self.note" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="patient">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="note">
+              <PropertyRef Name="triage_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="note_notediagnosis_FK3xev2f5hkcif6u646lul1i60u">
           <End Role="notediagnosis" Type="Self.notediagnosi" Multiplicity="1" />
           <End Role="note_notediagnosis" Type="Self.note_notediagnosis" Multiplicity="*" />
@@ -2194,19 +2148,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="patient_FKs32bk76cxamwpt0gyddps95ow">
-          <End Role="users" Type="Self.user" Multiplicity="1" />
-          <End Role="patient" Type="Self.patient" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="users">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="patient">
-              <PropertyRef Name="id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="patient_allergies_FK7rkekxco79081ners3551bw7u">
+        <Association Name="FK_patient_allergies_patient">
           <End Role="patient" Type="Self.patient" Multiplicity="1" />
           <End Role="patient_allergies" Type="Self.patient_allergies" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2218,7 +2160,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="patient_fatherbackgrounds_FKh57pb8bk2ypmmftpk55s535ff">
+        <Association Name="FK_patient_fatherbackgrounds_patient">
           <End Role="patient" Type="Self.patient" Multiplicity="1" />
           <End Role="patient_fatherbackgrounds" Type="Self.patient_fatherbackgrounds" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2230,7 +2172,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="patient_medicines_FKk7eyrktcc9fxau1bm1wquouk8">
+        <Association Name="FK_patient_patient_medicines">
           <End Role="patient" Type="Self.patient" Multiplicity="1" />
           <End Role="patient_medicines" Type="Self.patient_medicines" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2242,7 +2184,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="patient_motherbackgrounds_FK5u17xwpgftjpdsaeg47as16g7">
+        <Association Name="FK_patient_patient_motherbackgrounds">
           <End Role="patient" Type="Self.patient" Multiplicity="1" />
           <End Role="patient_motherbackgrounds" Type="Self.patient_motherbackgrounds" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2254,7 +2196,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="patient_personalbackgrounds_FKdmyajsvykcawgr02qquin7orr">
+        <Association Name="FK_patient_personalbackgrounds_patient">
           <End Role="patient" Type="Self.patient" Multiplicity="1" />
           <End Role="patient_personalbackgrounds" Type="Self.patient_personalbackgrounds" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2266,15 +2208,15 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="triage_FKlql3nj4madqcpkv209jturf45">
-          <End Role="patient" Type="Self.patient" Multiplicity="0..1" />
-          <End Role="triage" Type="Self.triage" Multiplicity="*" />
+        <Association Name="user__patients">
+          <End Role="users" Type="Self.user" Multiplicity="1" />
+          <End Role="patient" Type="Self.patient" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="patient">
+            <Principal Role="users">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="triage">
-              <PropertyRef Name="patient_id" />
+            <Dependent Role="patient">
+              <PropertyRef Name="user_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2302,7 +2244,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="triage_FKf6fatkh465lnjyycdrnmy59b">
+        <Association Name="ticket____triage">
           <End Role="ticket" Type="Self.ticket" Multiplicity="0..1" />
           <End Role="triage" Type="Self.triage" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2416,14 +2358,6 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
             <End Role="note" EntitySet="notes" />
             <End Role="note1" EntitySet="notes" />
           </AssociationSet>
-          <AssociationSet Name="note_FK4xax0ys51744q34eyu5f3fjqi" Association="Self.note_FK4xax0ys51744q34eyu5f3fjqi">
-            <End Role="patient" EntitySet="patients" />
-            <End Role="note" EntitySet="notes" />
-          </AssociationSet>
-          <AssociationSet Name="note_FKcfa530uvyoc47lcpgg193u38x" Association="Self.note_FKcfa530uvyoc47lcpgg193u38x">
-            <End Role="triage" EntitySet="triages" />
-            <End Role="note" EntitySet="notes" />
-          </AssociationSet>
           <AssociationSet Name="note_FKnp0l5lfrvxca2ra3ycetknoun" Association="Self.note_FKnp0l5lfrvxca2ra3ycetknoun">
             <End Role="ticket" EntitySet="tickets" />
             <End Role="note" EntitySet="notes" />
@@ -2460,6 +2394,10 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
             <End Role="note" EntitySet="notes" />
             <End Role="notereferral" EntitySet="notereferrals" />
           </AssociationSet>
+          <AssociationSet Name="patient____triage" Association="Self.patient____triage">
+            <End Role="patient" EntitySet="patients" />
+            <End Role="note" EntitySet="notes" />
+          </AssociationSet>
           <AssociationSet Name="note_notediagnosis_FK3xev2f5hkcif6u646lul1i60u" Association="Self.note_notediagnosis_FK3xev2f5hkcif6u646lul1i60u">
             <End Role="notediagnosis" EntitySet="notediagnosis" />
             <End Role="note_notediagnosis" EntitySet="note_notediagnosis" />
@@ -2492,33 +2430,29 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
             <End Role="nurse" EntitySet="nurses" />
             <End Role="nurse_specialties" EntitySet="nurse_specialties" />
           </AssociationSet>
-          <AssociationSet Name="patient_FKs32bk76cxamwpt0gyddps95ow" Association="Self.patient_FKs32bk76cxamwpt0gyddps95ow">
-            <End Role="users" EntitySet="users" />
-            <End Role="patient" EntitySet="patients" />
-          </AssociationSet>
-          <AssociationSet Name="patient_allergies_FK7rkekxco79081ners3551bw7u" Association="Self.patient_allergies_FK7rkekxco79081ners3551bw7u">
+          <AssociationSet Name="FK_patient_allergies_patient" Association="Self.FK_patient_allergies_patient">
             <End Role="patient" EntitySet="patients" />
             <End Role="patient_allergies" EntitySet="patient_allergies" />
           </AssociationSet>
-          <AssociationSet Name="patient_fatherbackgrounds_FKh57pb8bk2ypmmftpk55s535ff" Association="Self.patient_fatherbackgrounds_FKh57pb8bk2ypmmftpk55s535ff">
+          <AssociationSet Name="FK_patient_fatherbackgrounds_patient" Association="Self.FK_patient_fatherbackgrounds_patient">
             <End Role="patient" EntitySet="patients" />
             <End Role="patient_fatherbackgrounds" EntitySet="patient_fatherbackgrounds" />
           </AssociationSet>
-          <AssociationSet Name="patient_medicines_FKk7eyrktcc9fxau1bm1wquouk8" Association="Self.patient_medicines_FKk7eyrktcc9fxau1bm1wquouk8">
+          <AssociationSet Name="FK_patient_patient_medicines" Association="Self.FK_patient_patient_medicines">
             <End Role="patient" EntitySet="patients" />
             <End Role="patient_medicines" EntitySet="patient_medicines" />
           </AssociationSet>
-          <AssociationSet Name="patient_motherbackgrounds_FK5u17xwpgftjpdsaeg47as16g7" Association="Self.patient_motherbackgrounds_FK5u17xwpgftjpdsaeg47as16g7">
+          <AssociationSet Name="FK_patient_patient_motherbackgrounds" Association="Self.FK_patient_patient_motherbackgrounds">
             <End Role="patient" EntitySet="patients" />
             <End Role="patient_motherbackgrounds" EntitySet="patient_motherbackgrounds" />
           </AssociationSet>
-          <AssociationSet Name="patient_personalbackgrounds_FKdmyajsvykcawgr02qquin7orr" Association="Self.patient_personalbackgrounds_FKdmyajsvykcawgr02qquin7orr">
+          <AssociationSet Name="FK_patient_personalbackgrounds_patient" Association="Self.FK_patient_personalbackgrounds_patient">
             <End Role="patient" EntitySet="patients" />
             <End Role="patient_personalbackgrounds" EntitySet="patient_personalbackgrounds" />
           </AssociationSet>
-          <AssociationSet Name="triage_FKlql3nj4madqcpkv209jturf45" Association="Self.triage_FKlql3nj4madqcpkv209jturf45">
+          <AssociationSet Name="user__patients" Association="Self.user__patients">
+            <End Role="users" EntitySet="users" />
             <End Role="patient" EntitySet="patients" />
-            <End Role="triage" EntitySet="triages" />
           </AssociationSet>
           <AssociationSet Name="role_permissions_FKr5u91l7q7yikdobgi0lhntse6" Association="Self.role_permissions_FKr5u91l7q7yikdobgi0lhntse6">
             <End Role="role" EntitySet="roles" />
@@ -2528,7 +2462,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
             <End Role="role" EntitySet="roles" />
             <End Role="users" EntitySet="users" />
           </AssociationSet>
-          <AssociationSet Name="triage_FKf6fatkh465lnjyycdrnmy59b" Association="Self.triage_FKf6fatkh465lnjyycdrnmy59b">
+          <AssociationSet Name="ticket____triage" Association="Self.ticket____triage">
             <End Role="ticket" EntitySet="tickets" />
             <End Role="triage" EntitySet="triages" />
           </AssociationSet>
@@ -2818,6 +2752,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
             <EntityTypeMapping TypeName="registroclinicoModel.patient">
               <MappingFragment StoreEntitySet="patient">
                 <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
                 <ScalarProperty Name="alcohol" ColumnName="alcohol" />
                 <ScalarProperty Name="bloodType" ColumnName="bloodType" />
                 <ScalarProperty Name="cigaretteNumber" ColumnName="cigaretteNumber" />
@@ -2856,9 +2791,9 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <EntitySetMapping Name="patient_fatherbackgrounds">
             <EntityTypeMapping TypeName="registroclinicoModel.patient_fatherbackgrounds">
               <MappingFragment StoreEntitySet="patient_fatherbackgrounds">
+                <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="patient_id" ColumnName="patient_id" />
                 <ScalarProperty Name="fatherBackgrounds" ColumnName="fatherBackgrounds" />
-                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

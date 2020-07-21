@@ -63,8 +63,6 @@ namespace MedAPI.DataAccess
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<note> note1 { get; set; }
         public virtual note note2 { get; set; }
-        public virtual patient patient { get; set; }
-        public virtual triage triage { get; set; }
         public virtual ticket ticket { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<note_notediagnosis> note_notediagnosis { get; set; }
@@ -82,5 +80,6 @@ namespace MedAPI.DataAccess
         public virtual ICollection<notemedicine> notemedicines { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<notereferral> notereferrals { get; set; }
+        public virtual patient patient { get; set; }
     }
 }

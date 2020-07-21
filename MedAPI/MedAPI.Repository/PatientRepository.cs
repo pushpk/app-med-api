@@ -2,6 +2,7 @@
 using MedAPI.Infrastructure.IRepository;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Validation;
 using System.Linq;
 namespace MedAPI.Repository
 {
@@ -16,6 +17,7 @@ namespace MedAPI.Repository
                         select new Patient()
                         {
                             id = p.id,
+                            userId = p.user_id,
                             alcohol = p.alcohol,
                             bloodType = p.bloodType,
                             cigaretteNumber = p.cigaretteNumber,
@@ -48,10 +50,11 @@ namespace MedAPI.Repository
             using (var context = new DataAccess.registroclinicoEntities())
             {
                 return (from p in context.patients
-                        where p.id == id
+                        where p.user_id == id
                         select new Patient
                         {
                             id = p.id,
+                            userId = p.user_id,
                             alcohol = p.alcohol,
                             bloodType = p.bloodType,
                             cigaretteNumber = p.cigaretteNumber,
@@ -84,7 +87,7 @@ namespace MedAPI.Repository
             bool isSuccess = false;
             using (var context = new DataAccess.registroclinicoEntities())
             {
-                var efPatient = context.patients.Where(m => m.id == id).FirstOrDefault();
+                var efPatient = context.patients.Where(m => m.user_id == id).FirstOrDefault();
                 if (efPatient != null)
                 {
                     context.patients.Remove(efPatient);
@@ -114,39 +117,49 @@ namespace MedAPI.Repository
 
         public void SavePatient(Patient mPatient)
         {
-            using (var context = new DataAccess.registroclinicoEntities())
+            try
             {
-                var efPatients = context.patients.Where(m => m.id == mPatient.id).FirstOrDefault();
-                if (efPatients == null)
+
+                using (var context = new DataAccess.registroclinicoEntities())
                 {
-                    efPatients = new DataAccess.patient();
-                    context.patients.Add(efPatients);
+                    var efPatients = context.patients.Where(m => m.id == mPatient.id).FirstOrDefault();
+                    if (efPatients == null)
+                    {
+                        efPatients = new DataAccess.patient();
+                        context.patients.Add(efPatients);
+                    }
+                    efPatients.id = mPatient.id;
+                    efPatients.user_id = mPatient.userId;
+                    efPatients.alcohol = mPatient.alcohol;
+                    efPatients.bloodType = mPatient.bloodType;
+                    efPatients.cigaretteNumber = mPatient.cigaretteNumber;
+                    efPatients.createdTicket = mPatient.createdTicket;
+                    efPatients.dormNumber = mPatient.dormNumber;
+                    efPatients.educationalAttainment = mPatient.educationalAttainment;
+                    efPatients.electricity = mPatient.electricity;
+                    efPatients.fractureNumber = mPatient.fractureNumber;
+                    efPatients.fruitsVegetables = mPatient.fruitsVegetables;
+                    efPatients.highGlucose = mPatient.highGlucose;
+                    efPatients.homeMaterial = mPatient.homeMaterial;
+                    efPatients.homeOwnership = mPatient.homeOwnership;
+                    efPatients.homeType = mPatient.homeType;
+                    efPatients.occupation = mPatient.occupation;
+                    efPatients.otherAllergies = mPatient.otherAllergies;
+                    efPatients.otherFatherBackground = mPatient.otherFatherBackground;
+                    efPatients.otherMedicines = mPatient.otherMedicines;
+                    efPatients.otherMotherBackground = mPatient.otherMotherBackground;
+                    efPatients.otherPersonalBackground = mPatient.otherPersonalBackground;
+                    efPatients.physicalActivity = mPatient.physicalActivity;
+                    efPatients.residentNumber = mPatient.residentNumber;
+                    efPatients.sewage = mPatient.sewage;
+                    efPatients.water = mPatient.water;
+                    context.SaveChanges();
+                    efPatients.id = efPatients.id;
                 }
-                efPatients.id = mPatient.id;
-                efPatients.alcohol = mPatient.alcohol;
-                efPatients.bloodType = mPatient.bloodType;
-                efPatients.cigaretteNumber = mPatient.cigaretteNumber;
-                efPatients.createdTicket = mPatient.createdTicket;
-                efPatients.dormNumber = mPatient.dormNumber;
-                efPatients.educationalAttainment = mPatient.educationalAttainment;
-                efPatients.electricity = mPatient.electricity;
-                efPatients.fractureNumber = mPatient.fractureNumber;
-                efPatients.fruitsVegetables = mPatient.fruitsVegetables;
-                efPatients.highGlucose = mPatient.highGlucose;
-                efPatients.homeMaterial = mPatient.homeMaterial;
-                efPatients.homeOwnership = mPatient.homeOwnership;
-                efPatients.homeType = mPatient.homeType;
-                efPatients.occupation = mPatient.occupation;
-                efPatients.otherAllergies = mPatient.otherAllergies;
-                efPatients.otherFatherBackground = mPatient.otherFatherBackground;
-                efPatients.otherMedicines = mPatient.otherMedicines;
-                efPatients.otherMotherBackground = mPatient.otherMotherBackground;
-                efPatients.otherPersonalBackground = mPatient.otherPersonalBackground;
-                efPatients.physicalActivity = mPatient.physicalActivity;
-                efPatients.residentNumber = mPatient.residentNumber;
-                efPatients.sewage = mPatient.sewage;
-                efPatients.water = mPatient.water;
-                context.SaveChanges();
+            }
+            catch (DbEntityValidationException e)
+            {
+                throw;
             }
         }
 
@@ -160,6 +173,7 @@ namespace MedAPI.Repository
                                 select new Patient
                                 {
                                     id = x.id,
+                                    userId = x.user_id,
                                     alcohol = x.alcohol,
                                     bloodType = x.bloodType,
                                     cigaretteNumber = x.cigaretteNumber,

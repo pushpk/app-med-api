@@ -23,10 +23,10 @@ namespace MedAPI.DataAccess
             this.patient_medicines = new HashSet<patient_medicines>();
             this.patient_motherbackgrounds = new HashSet<patient_motherbackgrounds>();
             this.patient_personalbackgrounds = new HashSet<patient_personalbackgrounds>();
-            this.triages = new HashSet<triage>();
         }
     
         public long id { get; set; }
+        public long user_id { get; set; }
         public string alcohol { get; set; }
         public string bloodType { get; set; }
         public Nullable<long> cigaretteNumber { get; set; }
@@ -53,7 +53,6 @@ namespace MedAPI.DataAccess
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<note> notes { get; set; }
-        public virtual user user { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<patient_allergies> patient_allergies { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -64,7 +63,6 @@ namespace MedAPI.DataAccess
         public virtual ICollection<patient_motherbackgrounds> patient_motherbackgrounds { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<patient_personalbackgrounds> patient_personalbackgrounds { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<triage> triages { get; set; }
+        public virtual user user { get; set; }
     }
 }

@@ -50,7 +50,7 @@ namespace MedAPI.Service
 
             if (mPatient.user.id > 0)
             {
-                mPatient.id = mPatient.user.id;
+                mPatient.userId = mPatient.user.id;
                 patientRepository.SavePatient(mPatient);
             }
             return mPatient;

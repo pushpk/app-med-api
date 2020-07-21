@@ -14,6 +14,12 @@ namespace MedAPI.DataAccess
     
     public partial class user
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public user()
+        {
+            this.patients = new HashSet<patient>();
+        }
+    
         public long id { get; set; }
         public string address { get; set; }
         public System.DateTime birthday { get; set; }
@@ -44,7 +50,8 @@ namespace MedAPI.DataAccess
         public virtual district district { get; set; }
         public virtual medic medic { get; set; }
         public virtual nurse nurse { get; set; }
-        public virtual patient patient { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<patient> patients { get; set; }
         public virtual role role { get; set; }
     }
 }
