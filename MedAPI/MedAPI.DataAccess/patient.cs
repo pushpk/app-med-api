@@ -18,11 +18,6 @@ namespace MedAPI.DataAccess
         public patient()
         {
             this.notes = new HashSet<note>();
-            this.patient_allergies = new HashSet<patient_allergies>();
-            this.patient_fatherbackgrounds = new HashSet<patient_fatherbackgrounds>();
-            this.patient_medicines = new HashSet<patient_medicines>();
-            this.patient_motherbackgrounds = new HashSet<patient_motherbackgrounds>();
-            this.patient_personalbackgrounds = new HashSet<patient_personalbackgrounds>();
         }
     
         public long id { get; set; }
@@ -53,16 +48,6 @@ namespace MedAPI.DataAccess
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<note> notes { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<patient_allergies> patient_allergies { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<patient_fatherbackgrounds> patient_fatherbackgrounds { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<patient_medicines> patient_medicines { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<patient_motherbackgrounds> patient_motherbackgrounds { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<patient_personalbackgrounds> patient_personalbackgrounds { get; set; }
         public virtual user user { get; set; }
     }
 }

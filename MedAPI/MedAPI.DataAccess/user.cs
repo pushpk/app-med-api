@@ -17,6 +17,7 @@ namespace MedAPI.DataAccess
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public user()
         {
+            this.notes = new HashSet<note>();
             this.patients = new HashSet<patient>();
         }
     
@@ -49,6 +50,8 @@ namespace MedAPI.DataAccess
         public virtual country country { get; set; }
         public virtual district district { get; set; }
         public virtual medic medic { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<note> notes { get; set; }
         public virtual nurse nurse { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<patient> patients { get; set; }

@@ -14,12 +14,6 @@ namespace MedAPI.DataAccess
     
     public partial class notereferral
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public notereferral()
-        {
-            this.note_notereferral = new HashSet<note_notereferral>();
-        }
-    
         public long id { get; set; }
         public bool deleted { get; set; }
         public string reason { get; set; }
@@ -27,7 +21,5 @@ namespace MedAPI.DataAccess
         public Nullable<long> note_id { get; set; }
     
         public virtual note note { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<note_notereferral> note_notereferral { get; set; }
     }
 }

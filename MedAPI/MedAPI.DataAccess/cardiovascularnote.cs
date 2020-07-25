@@ -43,6 +43,5 @@ namespace MedAPI.DataAccess
         public string vesicularWhisperR { get; set; }
     
         public virtual cardiovascularnote_cardiovascularsymptoms cardiovascularnote_cardiovascularsymptoms { get; set; }
-        public virtual note note { get; set; }
     }
 }

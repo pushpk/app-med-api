@@ -14,12 +14,6 @@ namespace MedAPI.DataAccess
     
     public partial class notemedicine
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public notemedicine()
-        {
-            this.note_notemedicine = new HashSet<note_notemedicine>();
-        }
-    
         public long id { get; set; }
         public bool deleted { get; set; }
         public Nullable<long> durationTime { get; set; }
@@ -32,7 +26,5 @@ namespace MedAPI.DataAccess
     
         public virtual medicine medicine { get; set; }
         public virtual note note { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<note_notemedicine> note_notemedicine { get; set; }
     }
 }

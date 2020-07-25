@@ -8,6 +8,7 @@ namespace MedAPI.models
     public class Patient
     {
         public long id { get; set; }
+        public long userId { get; set; }
         public string race { get; set; }
         public string educationalAttainment { get; set; }
         public string occupation { get; set; }
@@ -37,7 +38,7 @@ namespace MedAPI.models
         public string lastnameMother { get; set; }
         public long country { get; set; }
         public string documentType { get; set; }
-        public string documentNumber { get; set; }        
+        public string documentNumber { get; set; }
         public DateTime birthday { get; set; }
         public string sex { get; set; }
         public string maritalStatus { get; set; }

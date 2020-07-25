@@ -167,10 +167,10 @@ warning 6002: The table/view 'registroclinico.registroclinico.medic_specialties'
           <Property Name="story" Type="nvarchar(max)" />
           <Property Name="symptom" Type="nvarchar" MaxLength="255" />
           <Property Name="treatment" Type="nvarchar(max)" />
-          <Property Name="controlNote_id" Type="bigint" />
+          <Property Name="user_id" Type="bigint" />
           <Property Name="establishment_id" Type="bigint" />
           <Property Name="medic_id" Type="bigint" />
-          <Property Name="patient_id" Type="bigint" Nullable="false" />
+          <Property Name="patient_id" Type="bigint" />
           <Property Name="ticket_id" Type="bigint" />
           <Property Name="triage_id" Type="bigint" />
         </EntityType>
@@ -233,8 +233,8 @@ warning 6002: The table/view 'registroclinico.registroclinico.medic_specialties'
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="noteExam_id" Type="bigint" Nullable="false" />
-          <Property Name="uploads_id" Type="bigint" Nullable="false" />
+          <Property Name="noteExam_id" Type="bigint" />
+          <Property Name="uploads_id" Type="bigint" />
         </EntityType>
         <EntityType Name="notemedicine">
           <Key>
@@ -507,75 +507,183 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_cardiovascularnote_note">
+        <Association Name="FK_note_establishment">
+          <End Role="establishment" Type="Self.establishment" Multiplicity="0..1" />
+          <End Role="note" Type="Self.note" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="establishment">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="note">
+              <PropertyRef Name="establishment_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_note_medic">
+          <End Role="medic" Type="Self.medic" Multiplicity="0..1" />
+          <End Role="note" Type="Self.note" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="medic">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="note">
+              <PropertyRef Name="medic_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_note_patient">
+          <End Role="patient" Type="Self.patient" Multiplicity="0..1" />
+          <End Role="note" Type="Self.note" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="patient">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="note">
+              <PropertyRef Name="patient_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_note_ticket">
+          <End Role="ticket" Type="Self.ticket" Multiplicity="0..1" />
+          <End Role="note" Type="Self.note" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ticket">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="note">
+              <PropertyRef Name="ticket_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_note_triage">
+          <End Role="triage" Type="Self.triage" Multiplicity="0..1" />
+          <End Role="note" Type="Self.note" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="triage">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="note">
+              <PropertyRef Name="triage_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_note_users">
+          <End Role="users" Type="Self.users" Multiplicity="0..1" />
+          <End Role="note" Type="Self.note" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="note">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_notediagnosis_diagnosis">
+          <End Role="diagnosis" Type="Self.diagnosis" Multiplicity="0..1" />
+          <End Role="notediagnosis" Type="Self.notediagnosis" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="diagnosis">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="notediagnosis">
+              <PropertyRef Name="diagnosis_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_notediagnosis_note">
           <End Role="note" Type="Self.note" Multiplicity="0..1" />
-          <End Role="cardiovascularnote" Type="Self.cardiovascularnote" Multiplicity="*" />
+          <End Role="notediagnosis" Type="Self.notediagnosis" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="note">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="cardiovascularnote">
+            <Dependent Role="notediagnosis">
               <PropertyRef Name="note_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_patient_allergies_patient">
-          <End Role="patient" Type="Self.patient" Multiplicity="1" />
-          <End Role="patient_allergies" Type="Self.patient_allergies" Multiplicity="*" />
+        <Association Name="FK_noteexam_exam">
+          <End Role="exam" Type="Self.exam" Multiplicity="1" />
+          <End Role="noteexam" Type="Self.noteexam" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="patient">
+            <Principal Role="exam">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="patient_allergies">
-              <PropertyRef Name="patient_id" />
+            <Dependent Role="noteexam">
+              <PropertyRef Name="exam_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_patient_fatherbackgrounds_patient">
-          <End Role="patient" Type="Self.patient" Multiplicity="1" />
-          <End Role="patient_fatherbackgrounds" Type="Self.patient_fatherbackgrounds" Multiplicity="*" />
+        <Association Name="FK_noteexam_note">
+          <End Role="note" Type="Self.note" Multiplicity="1" />
+          <End Role="noteexam" Type="Self.noteexam" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="patient">
+            <Principal Role="note">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="patient_fatherbackgrounds">
-              <PropertyRef Name="patient_id" />
+            <Dependent Role="noteexam">
+              <PropertyRef Name="note_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_patient_patient_medicines">
-          <End Role="patient" Type="Self.patient" Multiplicity="1" />
-          <End Role="patient_medicines" Type="Self.patient_medicines" Multiplicity="*" />
+        <Association Name="FK_noteexam_upload_noteexam">
+          <End Role="noteexam" Type="Self.noteexam" Multiplicity="0..1" />
+          <End Role="noteexam_upload" Type="Self.noteexam_upload" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="patient">
+            <Principal Role="noteexam">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="patient_medicines">
-              <PropertyRef Name="patient_id" />
+            <Dependent Role="noteexam_upload">
+              <PropertyRef Name="noteExam_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_patient_patient_motherbackgrounds">
-          <End Role="patient" Type="Self.patient" Multiplicity="1" />
-          <End Role="patient_motherbackgrounds" Type="Self.patient_motherbackgrounds" Multiplicity="*" />
+        <Association Name="FK_noteexam_upload_upload">
+          <End Role="upload" Type="Self.upload" Multiplicity="0..1" />
+          <End Role="noteexam_upload" Type="Self.noteexam_upload" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="patient">
+            <Principal Role="upload">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="patient_motherbackgrounds">
-              <PropertyRef Name="patient_id" />
+            <Dependent Role="noteexam_upload">
+              <PropertyRef Name="uploads_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_patient_personalbackgrounds_patient">
-          <End Role="patient" Type="Self.patient" Multiplicity="1" />
-          <End Role="patient_personalbackgrounds" Type="Self.patient_personalbackgrounds" Multiplicity="*" />
+        <Association Name="FK_notemedicine_medicine">
+          <End Role="medicine" Type="Self.medicine" Multiplicity="0..1" />
+          <End Role="notemedicine" Type="Self.notemedicine" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="patient">
+            <Principal Role="medicine">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="patient_personalbackgrounds">
-              <PropertyRef Name="patient_id" />
+            <Dependent Role="notemedicine">
+              <PropertyRef Name="medicine_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_notemedicine_note">
+          <End Role="note" Type="Self.note" Multiplicity="0..1" />
+          <End Role="notemedicine" Type="Self.notemedicine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="note">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="notemedicine">
+              <PropertyRef Name="note_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_notereferral_note">
+          <End Role="note" Type="Self.note" Multiplicity="0..1" />
+          <End Role="notereferral" Type="Self.notereferral" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="note">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="notereferral">
+              <PropertyRef Name="note_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -603,258 +711,6 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="note$FK1q1iewxl8l8ns1v0ra54rpi1m">
-          <End Role="note" Type="Self.note" Multiplicity="0..1" />
-          <End Role="note1" Type="Self.note" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="note">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="note1">
-              <PropertyRef Name="controlNote_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="note$FKgh47sx5cegenn53sohwq7qsxg">
-          <End Role="medic" Type="Self.medic" Multiplicity="0..1" />
-          <End Role="note" Type="Self.note" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="medic">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="note">
-              <PropertyRef Name="medic_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="note$FKmj186q811duwyj6vjeq2g0tdq">
-          <End Role="establishment" Type="Self.establishment" Multiplicity="0..1" />
-          <End Role="note" Type="Self.note" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="establishment">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="note">
-              <PropertyRef Name="establishment_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="note$FKnp0l5lfrvxca2ra3ycetknoun">
-          <End Role="ticket" Type="Self.ticket" Multiplicity="0..1" />
-          <End Role="note" Type="Self.note" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ticket">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="note">
-              <PropertyRef Name="ticket_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="note_notediagnosis$FK3xev2f5hkcif6u646lul1i60u">
-          <End Role="notediagnosis" Type="Self.notediagnosis" Multiplicity="1" />
-          <End Role="note_notediagnosis" Type="Self.note_notediagnosis" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="notediagnosis">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="note_notediagnosis">
-              <PropertyRef Name="diagnosisList_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="note_notediagnosis$FKiarvroh3s4qe0mxrumkyiyv2l">
-          <End Role="note" Type="Self.note" Multiplicity="1" />
-          <End Role="note_notediagnosis" Type="Self.note_notediagnosis" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="note">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="note_notediagnosis">
-              <PropertyRef Name="note_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="note_noteexam$FKd9d71447en4pshapqxl8gcxuf">
-          <End Role="noteexam" Type="Self.noteexam" Multiplicity="1" />
-          <End Role="note_noteexam" Type="Self.note_noteexam" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="noteexam">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="note_noteexam">
-              <PropertyRef Name="examList_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="note_noteexam$FKq9smmjy4tb6q7s5tfbwgurwpu">
-          <End Role="note" Type="Self.note" Multiplicity="1" />
-          <End Role="note_noteexam" Type="Self.note_noteexam" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="note">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="note_noteexam">
-              <PropertyRef Name="note_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="note_notemedicine$FKcom12hqvmwlj743rn5ciyi254">
-          <End Role="notemedicine" Type="Self.notemedicine" Multiplicity="1" />
-          <End Role="note_notemedicine" Type="Self.note_notemedicine" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="notemedicine">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="note_notemedicine">
-              <PropertyRef Name="medicineList_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="note_notemedicine$FKjn4o8ugr46j42ll2pyqes1hif">
-          <End Role="note" Type="Self.note" Multiplicity="1" />
-          <End Role="note_notemedicine" Type="Self.note_notemedicine" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="note">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="note_notemedicine">
-              <PropertyRef Name="note_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="note_notereferral$FK5bpver4llrcrppdigcmik8t1v">
-          <End Role="note" Type="Self.note" Multiplicity="1" />
-          <End Role="note_notereferral" Type="Self.note_notereferral" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="note">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="note_notereferral">
-              <PropertyRef Name="note_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="note_notereferral$FK82rp1boh0fiind0fl29kfl1j6">
-          <End Role="notereferral" Type="Self.notereferral" Multiplicity="1" />
-          <End Role="note_notereferral" Type="Self.note_notereferral" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="notereferral">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="note_notereferral">
-              <PropertyRef Name="referralList_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="notediagnosis$FKdsbu75xh53e0laalsslirqjtj">
-          <End Role="diagnosis" Type="Self.diagnosis" Multiplicity="0..1" />
-          <End Role="notediagnosis" Type="Self.notediagnosis" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="diagnosis">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="notediagnosis">
-              <PropertyRef Name="diagnosis_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="notediagnosis$FKt1hhagwvwjxc206n0r05h6g0o">
-          <End Role="note" Type="Self.note" Multiplicity="0..1" />
-          <End Role="notediagnosis" Type="Self.notediagnosis" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="note">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="notediagnosis">
-              <PropertyRef Name="note_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="noteexam$FK8k6pnsf3mvufnyx02okom4m0k">
-          <End Role="note" Type="Self.note" Multiplicity="1" />
-          <End Role="noteexam" Type="Self.noteexam" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="note">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="noteexam">
-              <PropertyRef Name="note_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="noteexam$FKitrp9vwk6cmbplyfe6ag2shv">
-          <End Role="exam" Type="Self.exam" Multiplicity="1" />
-          <End Role="noteexam" Type="Self.noteexam" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="exam">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="noteexam">
-              <PropertyRef Name="exam_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="noteexam_upload$FK1aeir7vd9le5355xnk44tupad">
-          <End Role="upload" Type="Self.upload" Multiplicity="1" />
-          <End Role="noteexam_upload" Type="Self.noteexam_upload" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="upload">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="noteexam_upload">
-              <PropertyRef Name="uploads_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="noteexam_upload$FKc5g15medqnor7apl4iar8wur0">
-          <End Role="noteexam" Type="Self.noteexam" Multiplicity="1" />
-          <End Role="noteexam_upload" Type="Self.noteexam_upload" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="noteexam">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="noteexam_upload">
-              <PropertyRef Name="noteExam_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="notemedicine$FK56i7lamo0r27xp8mtoog57qep">
-          <End Role="note" Type="Self.note" Multiplicity="0..1" />
-          <End Role="notemedicine" Type="Self.notemedicine" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="note">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="notemedicine">
-              <PropertyRef Name="note_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="notemedicine$FKs4qetuf5x8fiw3yy6tud54ox6">
-          <End Role="medicine" Type="Self.medicine" Multiplicity="0..1" />
-          <End Role="notemedicine" Type="Self.notemedicine" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="medicine">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="notemedicine">
-              <PropertyRef Name="medicine_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="notereferral$FKmkcu52sj6rov69cglicgu5qsh">
-          <End Role="note" Type="Self.note" Multiplicity="0..1" />
-          <End Role="notereferral" Type="Self.notereferral" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="note">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="notereferral">
-              <PropertyRef Name="note_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="nurse$FKinc1dd4o81eetpkv731etxb34">
           <End Role="users" Type="Self.users" Multiplicity="1" />
           <End Role="nurse" Type="Self.nurse" Multiplicity="0..1" />
@@ -876,18 +732,6 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
             </Principal>
             <Dependent Role="nurse_specialties">
               <PropertyRef Name="Nurse_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="patient -&gt; triage">
-          <End Role="patient" Type="Self.patient" Multiplicity="0..1" />
-          <End Role="note" Type="Self.note" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="patient">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="note">
-              <PropertyRef Name="triage_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1044,29 +888,65 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
             <End Role="cardiovascularnote" EntitySet="cardiovascularnote" />
             <End Role="cardiovascularnote_cardiovascularsymptoms" EntitySet="cardiovascularnote_cardiovascularsymptoms" />
           </AssociationSet>
-          <AssociationSet Name="FK_cardiovascularnote_note" Association="Self.FK_cardiovascularnote_note">
+          <AssociationSet Name="FK_note_establishment" Association="Self.FK_note_establishment">
+            <End Role="establishment" EntitySet="establishment" />
             <End Role="note" EntitySet="note" />
-            <End Role="cardiovascularnote" EntitySet="cardiovascularnote" />
           </AssociationSet>
-          <AssociationSet Name="FK_patient_allergies_patient" Association="Self.FK_patient_allergies_patient">
-            <End Role="patient" EntitySet="patient" />
-            <End Role="patient_allergies" EntitySet="patient_allergies" />
+          <AssociationSet Name="FK_note_medic" Association="Self.FK_note_medic">
+            <End Role="medic" EntitySet="medic" />
+            <End Role="note" EntitySet="note" />
           </AssociationSet>
-          <AssociationSet Name="FK_patient_fatherbackgrounds_patient" Association="Self.FK_patient_fatherbackgrounds_patient">
+          <AssociationSet Name="FK_note_patient" Association="Self.FK_note_patient">
             <End Role="patient" EntitySet="patient" />
-            <End Role="patient_fatherbackgrounds" EntitySet="patient_fatherbackgrounds" />
+            <End Role="note" EntitySet="note" />
           </AssociationSet>
-          <AssociationSet Name="FK_patient_patient_medicines" Association="Self.FK_patient_patient_medicines">
-            <End Role="patient" EntitySet="patient" />
-            <End Role="patient_medicines" EntitySet="patient_medicines" />
+          <AssociationSet Name="FK_note_ticket" Association="Self.FK_note_ticket">
+            <End Role="ticket" EntitySet="ticket" />
+            <End Role="note" EntitySet="note" />
           </AssociationSet>
-          <AssociationSet Name="FK_patient_patient_motherbackgrounds" Association="Self.FK_patient_patient_motherbackgrounds">
-            <End Role="patient" EntitySet="patient" />
-            <End Role="patient_motherbackgrounds" EntitySet="patient_motherbackgrounds" />
+          <AssociationSet Name="FK_note_triage" Association="Self.FK_note_triage">
+            <End Role="triage" EntitySet="triage" />
+            <End Role="note" EntitySet="note" />
           </AssociationSet>
-          <AssociationSet Name="FK_patient_personalbackgrounds_patient" Association="Self.FK_patient_personalbackgrounds_patient">
-            <End Role="patient" EntitySet="patient" />
-            <End Role="patient_personalbackgrounds" EntitySet="patient_personalbackgrounds" />
+          <AssociationSet Name="FK_note_users" Association="Self.FK_note_users">
+            <End Role="users" EntitySet="users" />
+            <End Role="note" EntitySet="note" />
+          </AssociationSet>
+          <AssociationSet Name="FK_notediagnosis_diagnosis" Association="Self.FK_notediagnosis_diagnosis">
+            <End Role="diagnosis" EntitySet="diagnosis" />
+            <End Role="notediagnosis" EntitySet="notediagnosis" />
+          </AssociationSet>
+          <AssociationSet Name="FK_notediagnosis_note" Association="Self.FK_notediagnosis_note">
+            <End Role="note" EntitySet="note" />
+            <End Role="notediagnosis" EntitySet="notediagnosis" />
+          </AssociationSet>
+          <AssociationSet Name="FK_noteexam_exam" Association="Self.FK_noteexam_exam">
+            <End Role="exam" EntitySet="exam" />
+            <End Role="noteexam" EntitySet="noteexam" />
+          </AssociationSet>
+          <AssociationSet Name="FK_noteexam_note" Association="Self.FK_noteexam_note">
+            <End Role="note" EntitySet="note" />
+            <End Role="noteexam" EntitySet="noteexam" />
+          </AssociationSet>
+          <AssociationSet Name="FK_noteexam_upload_noteexam" Association="Self.FK_noteexam_upload_noteexam">
+            <End Role="noteexam" EntitySet="noteexam" />
+            <End Role="noteexam_upload" EntitySet="noteexam_upload" />
+          </AssociationSet>
+          <AssociationSet Name="FK_noteexam_upload_upload" Association="Self.FK_noteexam_upload_upload">
+            <End Role="upload" EntitySet="upload" />
+            <End Role="noteexam_upload" EntitySet="noteexam_upload" />
+          </AssociationSet>
+          <AssociationSet Name="FK_notemedicine_medicine" Association="Self.FK_notemedicine_medicine">
+            <End Role="medicine" EntitySet="medicine" />
+            <End Role="notemedicine" EntitySet="notemedicine" />
+          </AssociationSet>
+          <AssociationSet Name="FK_notemedicine_note" Association="Self.FK_notemedicine_note">
+            <End Role="note" EntitySet="note" />
+            <End Role="notemedicine" EntitySet="notemedicine" />
+          </AssociationSet>
+          <AssociationSet Name="FK_notereferral_note" Association="Self.FK_notereferral_note">
+            <End Role="note" EntitySet="note" />
+            <End Role="notereferral" EntitySet="notereferral" />
           </AssociationSet>
           <AssociationSet Name="medic$FKa63sueb7mgdy1vvoejcxsafil" Association="Self.medic$FKa63sueb7mgdy1vvoejcxsafil">
             <End Role="users" EntitySet="users" />
@@ -1076,90 +956,6 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
             <End Role="medic" EntitySet="medic" />
             <End Role="medic_specialties" EntitySet="medic_specialties" />
           </AssociationSet>
-          <AssociationSet Name="note$FK1q1iewxl8l8ns1v0ra54rpi1m" Association="Self.note$FK1q1iewxl8l8ns1v0ra54rpi1m">
-            <End Role="note" EntitySet="note" />
-            <End Role="note1" EntitySet="note" />
-          </AssociationSet>
-          <AssociationSet Name="note$FKgh47sx5cegenn53sohwq7qsxg" Association="Self.note$FKgh47sx5cegenn53sohwq7qsxg">
-            <End Role="medic" EntitySet="medic" />
-            <End Role="note" EntitySet="note" />
-          </AssociationSet>
-          <AssociationSet Name="note$FKmj186q811duwyj6vjeq2g0tdq" Association="Self.note$FKmj186q811duwyj6vjeq2g0tdq">
-            <End Role="establishment" EntitySet="establishment" />
-            <End Role="note" EntitySet="note" />
-          </AssociationSet>
-          <AssociationSet Name="note$FKnp0l5lfrvxca2ra3ycetknoun" Association="Self.note$FKnp0l5lfrvxca2ra3ycetknoun">
-            <End Role="ticket" EntitySet="ticket" />
-            <End Role="note" EntitySet="note" />
-          </AssociationSet>
-          <AssociationSet Name="note_notediagnosis$FK3xev2f5hkcif6u646lul1i60u" Association="Self.note_notediagnosis$FK3xev2f5hkcif6u646lul1i60u">
-            <End Role="notediagnosis" EntitySet="notediagnosis" />
-            <End Role="note_notediagnosis" EntitySet="note_notediagnosis" />
-          </AssociationSet>
-          <AssociationSet Name="note_notediagnosis$FKiarvroh3s4qe0mxrumkyiyv2l" Association="Self.note_notediagnosis$FKiarvroh3s4qe0mxrumkyiyv2l">
-            <End Role="note" EntitySet="note" />
-            <End Role="note_notediagnosis" EntitySet="note_notediagnosis" />
-          </AssociationSet>
-          <AssociationSet Name="note_noteexam$FKd9d71447en4pshapqxl8gcxuf" Association="Self.note_noteexam$FKd9d71447en4pshapqxl8gcxuf">
-            <End Role="noteexam" EntitySet="noteexam" />
-            <End Role="note_noteexam" EntitySet="note_noteexam" />
-          </AssociationSet>
-          <AssociationSet Name="note_noteexam$FKq9smmjy4tb6q7s5tfbwgurwpu" Association="Self.note_noteexam$FKq9smmjy4tb6q7s5tfbwgurwpu">
-            <End Role="note" EntitySet="note" />
-            <End Role="note_noteexam" EntitySet="note_noteexam" />
-          </AssociationSet>
-          <AssociationSet Name="note_notemedicine$FKcom12hqvmwlj743rn5ciyi254" Association="Self.note_notemedicine$FKcom12hqvmwlj743rn5ciyi254">
-            <End Role="notemedicine" EntitySet="notemedicine" />
-            <End Role="note_notemedicine" EntitySet="note_notemedicine" />
-          </AssociationSet>
-          <AssociationSet Name="note_notemedicine$FKjn4o8ugr46j42ll2pyqes1hif" Association="Self.note_notemedicine$FKjn4o8ugr46j42ll2pyqes1hif">
-            <End Role="note" EntitySet="note" />
-            <End Role="note_notemedicine" EntitySet="note_notemedicine" />
-          </AssociationSet>
-          <AssociationSet Name="note_notereferral$FK5bpver4llrcrppdigcmik8t1v" Association="Self.note_notereferral$FK5bpver4llrcrppdigcmik8t1v">
-            <End Role="note" EntitySet="note" />
-            <End Role="note_notereferral" EntitySet="note_notereferral" />
-          </AssociationSet>
-          <AssociationSet Name="note_notereferral$FK82rp1boh0fiind0fl29kfl1j6" Association="Self.note_notereferral$FK82rp1boh0fiind0fl29kfl1j6">
-            <End Role="notereferral" EntitySet="notereferral" />
-            <End Role="note_notereferral" EntitySet="note_notereferral" />
-          </AssociationSet>
-          <AssociationSet Name="notediagnosis$FKdsbu75xh53e0laalsslirqjtj" Association="Self.notediagnosis$FKdsbu75xh53e0laalsslirqjtj">
-            <End Role="diagnosis" EntitySet="diagnosis" />
-            <End Role="notediagnosis" EntitySet="notediagnosis" />
-          </AssociationSet>
-          <AssociationSet Name="notediagnosis$FKt1hhagwvwjxc206n0r05h6g0o" Association="Self.notediagnosis$FKt1hhagwvwjxc206n0r05h6g0o">
-            <End Role="note" EntitySet="note" />
-            <End Role="notediagnosis" EntitySet="notediagnosis" />
-          </AssociationSet>
-          <AssociationSet Name="noteexam$FK8k6pnsf3mvufnyx02okom4m0k" Association="Self.noteexam$FK8k6pnsf3mvufnyx02okom4m0k">
-            <End Role="note" EntitySet="note" />
-            <End Role="noteexam" EntitySet="noteexam" />
-          </AssociationSet>
-          <AssociationSet Name="noteexam$FKitrp9vwk6cmbplyfe6ag2shv" Association="Self.noteexam$FKitrp9vwk6cmbplyfe6ag2shv">
-            <End Role="exam" EntitySet="exam" />
-            <End Role="noteexam" EntitySet="noteexam" />
-          </AssociationSet>
-          <AssociationSet Name="noteexam_upload$FK1aeir7vd9le5355xnk44tupad" Association="Self.noteexam_upload$FK1aeir7vd9le5355xnk44tupad">
-            <End Role="upload" EntitySet="upload" />
-            <End Role="noteexam_upload" EntitySet="noteexam_upload" />
-          </AssociationSet>
-          <AssociationSet Name="noteexam_upload$FKc5g15medqnor7apl4iar8wur0" Association="Self.noteexam_upload$FKc5g15medqnor7apl4iar8wur0">
-            <End Role="noteexam" EntitySet="noteexam" />
-            <End Role="noteexam_upload" EntitySet="noteexam_upload" />
-          </AssociationSet>
-          <AssociationSet Name="notemedicine$FK56i7lamo0r27xp8mtoog57qep" Association="Self.notemedicine$FK56i7lamo0r27xp8mtoog57qep">
-            <End Role="note" EntitySet="note" />
-            <End Role="notemedicine" EntitySet="notemedicine" />
-          </AssociationSet>
-          <AssociationSet Name="notemedicine$FKs4qetuf5x8fiw3yy6tud54ox6" Association="Self.notemedicine$FKs4qetuf5x8fiw3yy6tud54ox6">
-            <End Role="medicine" EntitySet="medicine" />
-            <End Role="notemedicine" EntitySet="notemedicine" />
-          </AssociationSet>
-          <AssociationSet Name="notereferral$FKmkcu52sj6rov69cglicgu5qsh" Association="Self.notereferral$FKmkcu52sj6rov69cglicgu5qsh">
-            <End Role="note" EntitySet="note" />
-            <End Role="notereferral" EntitySet="notereferral" />
-          </AssociationSet>
           <AssociationSet Name="nurse$FKinc1dd4o81eetpkv731etxb34" Association="Self.nurse$FKinc1dd4o81eetpkv731etxb34">
             <End Role="users" EntitySet="users" />
             <End Role="nurse" EntitySet="nurse" />
@@ -1167,10 +963,6 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <AssociationSet Name="nurse_specialties$FK6nc16jusxlaag0qyhvwjs89fk" Association="Self.nurse_specialties$FK6nc16jusxlaag0qyhvwjs89fk">
             <End Role="nurse" EntitySet="nurse" />
             <End Role="nurse_specialties" EntitySet="nurse_specialties" />
-          </AssociationSet>
-          <AssociationSet Name="patient -&gt; triage" Association="Self.patient -&gt; triage">
-            <End Role="patient" EntitySet="patient" />
-            <End Role="note" EntitySet="note" />
           </AssociationSet>
           <AssociationSet Name="province$FK3joxh8ppnjhvvt1485efkpxm8" Association="Self.province$FK3joxh8ppnjhvvt1485efkpxm8">
             <End Role="department" EntitySet="department" />
@@ -1238,7 +1030,6 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <Property Name="vesicularWhisperL" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="vesicularWhisperR" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="cardiovascularnote_cardiovascularsymptoms" Relationship="Self.FK_cardiovascularnote_cardiovascularsymptoms_cardiovascularnote" FromRole="cardiovascularnote" ToRole="cardiovascularnote_cardiovascularsymptoms" />
-          <NavigationProperty Name="note" Relationship="Self.FK_cardiovascularnote_note" FromRole="cardiovascularnote" ToRole="note" />
         </EntityType>
         <EntityType Name="cardiovascularnote_cardiovascularsymptoms">
           <Key>
@@ -1290,7 +1081,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <Property Name="title" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="chapter_id" Type="Int64" Nullable="false" />
           <NavigationProperty Name="chapter" Relationship="Self.diagnosis_FKdkejwjwwrvhod7ilsu9u62d4r" FromRole="diagnosis" ToRole="chapter" />
-          <NavigationProperty Name="notediagnosis" Relationship="Self.notediagnosis_FKdsbu75xh53e0laalsslirqjtj" FromRole="diagnosis" ToRole="notediagnosis" />
+          <NavigationProperty Name="notediagnosis" Relationship="Self.FK_notediagnosis_diagnosis" FromRole="diagnosis" ToRole="notediagnosis" />
         </EntityType>
         <EntityType Name="district">
           <Key>
@@ -1315,7 +1106,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <Property Name="initials" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="phone" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="notes" Relationship="Self.note_FKmj186q811duwyj6vjeq2g0tdq" FromRole="establishment" ToRole="note" />
+          <NavigationProperty Name="notes" Relationship="Self.FK_note_establishment" FromRole="establishment" ToRole="note" />
         </EntityType>
         <EntityType Name="exam">
           <Key>
@@ -1325,7 +1116,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <Property Name="deleted" Type="Boolean" Nullable="false" />
           <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="type" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="noteexams" Relationship="Self.noteexam_FKitrp9vwk6cmbplyfe6ag2shv" FromRole="exam" ToRole="noteexam" />
+          <NavigationProperty Name="noteexams" Relationship="Self.FK_noteexam_exam" FromRole="exam" ToRole="noteexam" />
         </EntityType>
         <EntityType Name="medic">
           <Key>
@@ -1334,9 +1125,9 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <Property Name="cmp" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="rne" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="id" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="notes" Relationship="Self.FK_note_medic" FromRole="medic" ToRole="note" />
           <NavigationProperty Name="user" Relationship="Self.medic_FKa63sueb7mgdy1vvoejcxsafil" FromRole="medic" ToRole="users" />
           <NavigationProperty Name="medic_specialties" Relationship="Self.medic_specialties_FKgyco417bacd28ti07gdpxwvsr" FromRole="medic" ToRole="medic_specialties" />
-          <NavigationProperty Name="notes" Relationship="Self.note_FKgh47sx5cegenn53sohwq7qsxg" FromRole="medic" ToRole="note" />
         </EntityType>
         <EntityType Name="medicine">
           <Key>
@@ -1351,7 +1142,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="owner" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="presentation" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="notemedicines" Relationship="Self.notemedicine_FKs4qetuf5x8fiw3yy6tud54ox6" FromRole="medicine" ToRole="notemedicine" />
+          <NavigationProperty Name="notemedicines" Relationship="Self.FK_notemedicine_medicine" FromRole="medicine" ToRole="notemedicine" />
         </EntityType>
         <EntityType Name="note">
           <Key>
@@ -1377,27 +1168,22 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <Property Name="story" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="symptom" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="treatment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="controlNote_id" Type="Int64" />
+          <Property Name="user_id" Type="Int64" />
           <Property Name="establishment_id" Type="Int64" />
           <Property Name="medic_id" Type="Int64" />
-          <Property Name="patient_id" Type="Int64" Nullable="false" />
+          <Property Name="patient_id" Type="Int64" />
           <Property Name="ticket_id" Type="Int64" />
           <Property Name="triage_id" Type="Int64" />
-          <NavigationProperty Name="cardiovascularnotes" Relationship="Self.FK_cardiovascularnote_note" FromRole="note" ToRole="cardiovascularnote" />
-          <NavigationProperty Name="establishment" Relationship="Self.note_FKmj186q811duwyj6vjeq2g0tdq" FromRole="note" ToRole="establishment" />
-          <NavigationProperty Name="medic" Relationship="Self.note_FKgh47sx5cegenn53sohwq7qsxg" FromRole="note" ToRole="medic" />
-          <NavigationProperty Name="note1" Relationship="Self.note_FK1q1iewxl8l8ns1v0ra54rpi1m" FromRole="note" ToRole="note1" />
-          <NavigationProperty Name="note2" Relationship="Self.note_FK1q1iewxl8l8ns1v0ra54rpi1m" FromRole="note1" ToRole="note" />
-          <NavigationProperty Name="ticket" Relationship="Self.note_FKnp0l5lfrvxca2ra3ycetknoun" FromRole="note" ToRole="ticket" />
-          <NavigationProperty Name="note_notediagnosis" Relationship="Self.note_notediagnosis_FKiarvroh3s4qe0mxrumkyiyv2l" FromRole="note" ToRole="note_notediagnosis" />
-          <NavigationProperty Name="note_noteexam" Relationship="Self.note_noteexam_FKq9smmjy4tb6q7s5tfbwgurwpu" FromRole="note" ToRole="note_noteexam" />
-          <NavigationProperty Name="note_notemedicine" Relationship="Self.note_notemedicine_FKjn4o8ugr46j42ll2pyqes1hif" FromRole="note" ToRole="note_notemedicine" />
-          <NavigationProperty Name="note_notereferral" Relationship="Self.note_notereferral_FK5bpver4llrcrppdigcmik8t1v" FromRole="note" ToRole="note_notereferral" />
-          <NavigationProperty Name="notediagnosis" Relationship="Self.notediagnosis_FKt1hhagwvwjxc206n0r05h6g0o" FromRole="note" ToRole="notediagnosis" />
-          <NavigationProperty Name="noteexams" Relationship="Self.noteexam_FK8k6pnsf3mvufnyx02okom4m0k" FromRole="note" ToRole="noteexam" />
-          <NavigationProperty Name="notemedicines" Relationship="Self.notemedicine_FK56i7lamo0r27xp8mtoog57qep" FromRole="note" ToRole="notemedicine" />
-          <NavigationProperty Name="notereferrals" Relationship="Self.notereferral_FKmkcu52sj6rov69cglicgu5qsh" FromRole="note" ToRole="notereferral" />
-          <NavigationProperty Name="patient" Relationship="Self.patient____triage" FromRole="note" ToRole="patient" />
+          <NavigationProperty Name="establishment" Relationship="Self.FK_note_establishment" FromRole="note" ToRole="establishment" />
+          <NavigationProperty Name="medic" Relationship="Self.FK_note_medic" FromRole="note" ToRole="medic" />
+          <NavigationProperty Name="patient" Relationship="Self.FK_note_patient" FromRole="note" ToRole="patient" />
+          <NavigationProperty Name="ticket" Relationship="Self.FK_note_ticket" FromRole="note" ToRole="ticket" />
+          <NavigationProperty Name="triage" Relationship="Self.FK_note_triage" FromRole="note" ToRole="triage" />
+          <NavigationProperty Name="user" Relationship="Self.FK_note_users" FromRole="note" ToRole="users" />
+          <NavigationProperty Name="notediagnosis" Relationship="Self.FK_notediagnosis_note" FromRole="note" ToRole="notediagnosis" />
+          <NavigationProperty Name="noteexams" Relationship="Self.FK_noteexam_note" FromRole="note" ToRole="noteexam" />
+          <NavigationProperty Name="notemedicines" Relationship="Self.FK_notemedicine_note" FromRole="note" ToRole="notemedicine" />
+          <NavigationProperty Name="notereferrals" Relationship="Self.FK_notereferral_note" FromRole="note" ToRole="notereferral" />
         </EntityType>
         <EntityType Name="note_notediagnosis">
           <Key>
@@ -1406,8 +1192,6 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="note_id" Type="Int64" Nullable="false" />
           <Property Name="diagnosisList_id" Type="Int64" Nullable="false" />
-          <NavigationProperty Name="note" Relationship="Self.note_notediagnosis_FKiarvroh3s4qe0mxrumkyiyv2l" FromRole="note_notediagnosis" ToRole="note" />
-          <NavigationProperty Name="notediagnosi" Relationship="Self.note_notediagnosis_FK3xev2f5hkcif6u646lul1i60u" FromRole="note_notediagnosis" ToRole="notediagnosis" />
         </EntityType>
         <EntityType Name="note_noteexam">
           <Key>
@@ -1416,8 +1200,6 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="note_id" Type="Int64" Nullable="false" />
           <Property Name="examList_id" Type="Int64" Nullable="false" />
-          <NavigationProperty Name="note" Relationship="Self.note_noteexam_FKq9smmjy4tb6q7s5tfbwgurwpu" FromRole="note_noteexam" ToRole="note" />
-          <NavigationProperty Name="noteexam" Relationship="Self.note_noteexam_FKd9d71447en4pshapqxl8gcxuf" FromRole="note_noteexam" ToRole="noteexam" />
         </EntityType>
         <EntityType Name="note_notemedicine">
           <Key>
@@ -1426,8 +1208,6 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="note_id" Type="Int64" Nullable="false" />
           <Property Name="medicineList_id" Type="Int64" Nullable="false" />
-          <NavigationProperty Name="note" Relationship="Self.note_notemedicine_FKjn4o8ugr46j42ll2pyqes1hif" FromRole="note_notemedicine" ToRole="note" />
-          <NavigationProperty Name="notemedicine" Relationship="Self.note_notemedicine_FKcom12hqvmwlj743rn5ciyi254" FromRole="note_notemedicine" ToRole="notemedicine" />
         </EntityType>
         <EntityType Name="note_notereferral">
           <Key>
@@ -1436,8 +1216,6 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="note_id" Type="Int64" Nullable="false" />
           <Property Name="referralList_id" Type="Int64" Nullable="false" />
-          <NavigationProperty Name="note" Relationship="Self.note_notereferral_FK5bpver4llrcrppdigcmik8t1v" FromRole="note_notereferral" ToRole="note" />
-          <NavigationProperty Name="notereferral" Relationship="Self.note_notereferral_FK82rp1boh0fiind0fl29kfl1j6" FromRole="note_notereferral" ToRole="notereferral" />
         </EntityType>
         <EntityType Name="notediagnosi">
           <Key>
@@ -1448,9 +1226,8 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <Property Name="diagnosisType" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="diagnosis_id" Type="Int64" />
           <Property Name="note_id" Type="Int64" />
-          <NavigationProperty Name="diagnosi" Relationship="Self.notediagnosis_FKdsbu75xh53e0laalsslirqjtj" FromRole="notediagnosis" ToRole="diagnosis" />
-          <NavigationProperty Name="note" Relationship="Self.notediagnosis_FKt1hhagwvwjxc206n0r05h6g0o" FromRole="notediagnosis" ToRole="note" />
-          <NavigationProperty Name="note_notediagnosis" Relationship="Self.note_notediagnosis_FK3xev2f5hkcif6u646lul1i60u" FromRole="notediagnosis" ToRole="note_notediagnosis" />
+          <NavigationProperty Name="diagnosi" Relationship="Self.FK_notediagnosis_diagnosis" FromRole="notediagnosis" ToRole="diagnosis" />
+          <NavigationProperty Name="note" Relationship="Self.FK_notediagnosis_note" FromRole="notediagnosis" ToRole="note" />
         </EntityType>
         <EntityType Name="noteexam">
           <Key>
@@ -1463,20 +1240,19 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <Property Name="status" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="exam_id" Type="Int64" Nullable="false" />
           <Property Name="note_id" Type="Int64" Nullable="false" />
-          <NavigationProperty Name="exam" Relationship="Self.noteexam_FKitrp9vwk6cmbplyfe6ag2shv" FromRole="noteexam" ToRole="exam" />
-          <NavigationProperty Name="note" Relationship="Self.noteexam_FK8k6pnsf3mvufnyx02okom4m0k" FromRole="noteexam" ToRole="note" />
-          <NavigationProperty Name="note_noteexam" Relationship="Self.note_noteexam_FKd9d71447en4pshapqxl8gcxuf" FromRole="noteexam" ToRole="note_noteexam" />
-          <NavigationProperty Name="noteexam_upload" Relationship="Self.noteexam_upload_FKc5g15medqnor7apl4iar8wur0" FromRole="noteexam" ToRole="noteexam_upload" />
+          <NavigationProperty Name="exam" Relationship="Self.FK_noteexam_exam" FromRole="noteexam" ToRole="exam" />
+          <NavigationProperty Name="note" Relationship="Self.FK_noteexam_note" FromRole="noteexam" ToRole="note" />
+          <NavigationProperty Name="noteexam_upload" Relationship="Self.FK_noteexam_upload_noteexam" FromRole="noteexam" ToRole="noteexam_upload" />
         </EntityType>
         <EntityType Name="noteexam_upload">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="noteExam_id" Type="Int64" Nullable="false" />
-          <Property Name="uploads_id" Type="Int64" Nullable="false" />
-          <NavigationProperty Name="noteexam" Relationship="Self.noteexam_upload_FKc5g15medqnor7apl4iar8wur0" FromRole="noteexam_upload" ToRole="noteexam" />
-          <NavigationProperty Name="upload" Relationship="Self.noteexam_upload_FK1aeir7vd9le5355xnk44tupad" FromRole="noteexam_upload" ToRole="upload" />
+          <Property Name="noteExam_id" Type="Int64" />
+          <Property Name="uploads_id" Type="Int64" />
+          <NavigationProperty Name="noteexam" Relationship="Self.FK_noteexam_upload_noteexam" FromRole="noteexam_upload" ToRole="noteexam" />
+          <NavigationProperty Name="upload" Relationship="Self.FK_noteexam_upload_upload" FromRole="noteexam_upload" ToRole="upload" />
         </EntityType>
         <EntityType Name="notemedicine">
           <Key>
@@ -1491,9 +1267,8 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <Property Name="indication" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="medicine_id" Type="Int64" />
           <Property Name="note_id" Type="Int64" />
-          <NavigationProperty Name="medicine" Relationship="Self.notemedicine_FKs4qetuf5x8fiw3yy6tud54ox6" FromRole="notemedicine" ToRole="medicine" />
-          <NavigationProperty Name="note" Relationship="Self.notemedicine_FK56i7lamo0r27xp8mtoog57qep" FromRole="notemedicine" ToRole="note" />
-          <NavigationProperty Name="note_notemedicine" Relationship="Self.note_notemedicine_FKcom12hqvmwlj743rn5ciyi254" FromRole="notemedicine" ToRole="note_notemedicine" />
+          <NavigationProperty Name="medicine" Relationship="Self.FK_notemedicine_medicine" FromRole="notemedicine" ToRole="medicine" />
+          <NavigationProperty Name="note" Relationship="Self.FK_notemedicine_note" FromRole="notemedicine" ToRole="note" />
         </EntityType>
         <EntityType Name="notereferral">
           <Key>
@@ -1504,8 +1279,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <Property Name="reason" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="specialty" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="note_id" Type="Int64" />
-          <NavigationProperty Name="note" Relationship="Self.notereferral_FKmkcu52sj6rov69cglicgu5qsh" FromRole="notereferral" ToRole="note" />
-          <NavigationProperty Name="note_notereferral" Relationship="Self.note_notereferral_FK82rp1boh0fiind0fl29kfl1j6" FromRole="notereferral" ToRole="note_notereferral" />
+          <NavigationProperty Name="note" Relationship="Self.FK_notereferral_note" FromRole="notereferral" ToRole="note" />
         </EntityType>
         <EntityType Name="nurse">
           <Key>
@@ -1545,12 +1319,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <Property Name="residentNumber" Type="Int64" />
           <Property Name="sewage" Type="Boolean" Nullable="false" />
           <Property Name="water" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="notes" Relationship="Self.patient____triage" FromRole="patient" ToRole="note" />
-          <NavigationProperty Name="patient_allergies" Relationship="Self.FK_patient_allergies_patient" FromRole="patient" ToRole="patient_allergies" />
-          <NavigationProperty Name="patient_fatherbackgrounds" Relationship="Self.FK_patient_fatherbackgrounds_patient" FromRole="patient" ToRole="patient_fatherbackgrounds" />
-          <NavigationProperty Name="patient_medicines" Relationship="Self.FK_patient_patient_medicines" FromRole="patient" ToRole="patient_medicines" />
-          <NavigationProperty Name="patient_motherbackgrounds" Relationship="Self.FK_patient_patient_motherbackgrounds" FromRole="patient" ToRole="patient_motherbackgrounds" />
-          <NavigationProperty Name="patient_personalbackgrounds" Relationship="Self.FK_patient_personalbackgrounds_patient" FromRole="patient" ToRole="patient_personalbackgrounds" />
+          <NavigationProperty Name="notes" Relationship="Self.FK_note_patient" FromRole="patient" ToRole="note" />
           <NavigationProperty Name="user" Relationship="Self.user__patients" FromRole="patient" ToRole="users" />
         </EntityType>
         <EntityType Name="patient_allergies">
@@ -1560,7 +1329,6 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="patient_id" Type="Int64" Nullable="false" />
           <Property Name="allergies" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="patient" Relationship="Self.FK_patient_allergies_patient" FromRole="patient_allergies" ToRole="patient" />
         </EntityType>
         <EntityType Name="patient_fatherbackgrounds">
           <Key>
@@ -1569,7 +1337,6 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="patient_id" Type="Int64" Nullable="false" />
           <Property Name="fatherBackgrounds" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="patient" Relationship="Self.FK_patient_fatherbackgrounds_patient" FromRole="patient_fatherbackgrounds" ToRole="patient" />
         </EntityType>
         <EntityType Name="patient_medicines">
           <Key>
@@ -1578,7 +1345,6 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="patient_id" Type="Int64" Nullable="false" />
           <Property Name="medicines" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="patient" Relationship="Self.FK_patient_patient_medicines" FromRole="patient_medicines" ToRole="patient" />
         </EntityType>
         <EntityType Name="patient_motherbackgrounds">
           <Key>
@@ -1587,7 +1353,6 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="patient_id" Type="Int64" Nullable="false" />
           <Property Name="motherBackgrounds" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="patient" Relationship="Self.FK_patient_patient_motherbackgrounds" FromRole="patient_motherbackgrounds" ToRole="patient" />
         </EntityType>
         <EntityType Name="patient_personalbackgrounds">
           <Key>
@@ -1596,7 +1361,6 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="patient_id" Type="Int64" Nullable="false" />
           <Property Name="personalBackgrounds" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="patient" Relationship="Self.FK_patient_personalbackgrounds_patient" FromRole="patient_personalbackgrounds" ToRole="patient" />
         </EntityType>
         <EntityType Name="province">
           <Key>
@@ -1631,7 +1395,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <Property Name="nroTicket" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="serie" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="status" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="notes" Relationship="Self.note_FKnp0l5lfrvxca2ra3ycetknoun" FromRole="ticket" ToRole="note" />
+          <NavigationProperty Name="notes" Relationship="Self.FK_note_ticket" FromRole="ticket" ToRole="note" />
           <NavigationProperty Name="triages" Relationship="Self.ticket____triage" FromRole="ticket" ToRole="triage" />
         </EntityType>
         <EntityType Name="triage">
@@ -1667,6 +1431,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <Property Name="weightEvolution" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="patient_id" Type="Int64" />
           <Property Name="ticket_id" Type="Int64" />
+          <NavigationProperty Name="notes" Relationship="Self.FK_note_triage" FromRole="triage" ToRole="note" />
           <NavigationProperty Name="ticket" Relationship="Self.ticket____triage" FromRole="triage" ToRole="ticket" />
         </EntityType>
         <EntityType Name="upload">
@@ -1678,7 +1443,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <Property Name="createdDate" Type="DateTime" Precision="0" />
           <Property Name="deleted" Type="Boolean" Nullable="false" />
           <Property Name="path" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="noteexam_upload" Relationship="Self.noteexam_upload_FK1aeir7vd9le5355xnk44tupad" FromRole="upload" ToRole="noteexam_upload" />
+          <NavigationProperty Name="noteexam_upload" Relationship="Self.FK_noteexam_upload_upload" FromRole="upload" ToRole="noteexam_upload" />
         </EntityType>
         <EntityType Name="user">
           <Key>
@@ -1712,6 +1477,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <NavigationProperty Name="country" Relationship="Self.users_FK1eit3dhanvh8r59sd30a3vyaw" FromRole="users" ToRole="country" />
           <NavigationProperty Name="district" Relationship="Self.users_FKdoiykqja8oxn78j7gf3l536ta" FromRole="users" ToRole="district" />
           <NavigationProperty Name="medic" Relationship="Self.medic_FKa63sueb7mgdy1vvoejcxsafil" FromRole="users" ToRole="medic" />
+          <NavigationProperty Name="notes" Relationship="Self.FK_note_users" FromRole="users" ToRole="note" />
           <NavigationProperty Name="nurse" Relationship="Self.nurse_FKinc1dd4o81eetpkv731etxb34" FromRole="users" ToRole="nurse" />
           <NavigationProperty Name="patients" Relationship="Self.user__patients" FromRole="users" ToRole="patient" />
           <NavigationProperty Name="role" Relationship="Self.users_FKiod6nq5d7gqshxljomqccs7tp" FromRole="users" ToRole="role" />
@@ -1749,18 +1515,6 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
             </Principal>
             <Dependent Role="cardiovascularnote_cardiovascularsymptoms">
               <PropertyRef Name="id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_cardiovascularnote_note">
-          <End Role="note" Type="Self.note" Multiplicity="0..1" />
-          <End Role="cardiovascularnote" Type="Self.cardiovascularnote" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="note">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="cardiovascularnote">
-              <PropertyRef Name="note_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1812,7 +1566,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="notediagnosis_FKdsbu75xh53e0laalsslirqjtj">
+        <Association Name="FK_notediagnosis_diagnosis">
           <End Role="diagnosis" Type="Self.diagnosi" Multiplicity="0..1" />
           <End Role="notediagnosis" Type="Self.notediagnosi" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1848,7 +1602,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="note_FKmj186q811duwyj6vjeq2g0tdq">
+        <Association Name="FK_note_establishment">
           <End Role="establishment" Type="Self.establishment" Multiplicity="0..1" />
           <End Role="note" Type="Self.note" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1860,7 +1614,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="noteexam_FKitrp9vwk6cmbplyfe6ag2shv">
+        <Association Name="FK_noteexam_exam">
           <End Role="exam" Type="Self.exam" Multiplicity="1" />
           <End Role="noteexam" Type="Self.noteexam" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1869,6 +1623,18 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
             </Principal>
             <Dependent Role="noteexam">
               <PropertyRef Name="exam_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_note_medic">
+          <End Role="medic" Type="Self.medic" Multiplicity="0..1" />
+          <End Role="note" Type="Self.note" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="medic">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="note">
+              <PropertyRef Name="medic_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1896,19 +1662,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="note_FKgh47sx5cegenn53sohwq7qsxg">
-          <End Role="medic" Type="Self.medic" Multiplicity="0..1" />
-          <End Role="note" Type="Self.note" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="medic">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="note">
-              <PropertyRef Name="medic_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="notemedicine_FKs4qetuf5x8fiw3yy6tud54ox6">
+        <Association Name="FK_notemedicine_medicine">
           <End Role="medicine" Type="Self.medicine" Multiplicity="0..1" />
           <End Role="notemedicine" Type="Self.notemedicine" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1920,19 +1674,19 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="note_FK1q1iewxl8l8ns1v0ra54rpi1m">
-          <End Role="note" Type="Self.note" Multiplicity="0..1" />
-          <End Role="note1" Type="Self.note" Multiplicity="*" />
+        <Association Name="FK_note_patient">
+          <End Role="patient" Type="Self.patient" Multiplicity="0..1" />
+          <End Role="note" Type="Self.note" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="note">
+            <Principal Role="patient">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="note1">
-              <PropertyRef Name="controlNote_id" />
+            <Dependent Role="note">
+              <PropertyRef Name="patient_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="note_FKnp0l5lfrvxca2ra3ycetknoun">
+        <Association Name="FK_note_ticket">
           <End Role="ticket" Type="Self.ticket" Multiplicity="0..1" />
           <End Role="note" Type="Self.note" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1944,55 +1698,31 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="note_notediagnosis_FKiarvroh3s4qe0mxrumkyiyv2l">
-          <End Role="note" Type="Self.note" Multiplicity="1" />
-          <End Role="note_notediagnosis" Type="Self.note_notediagnosis" Multiplicity="*" />
+        <Association Name="FK_note_triage">
+          <End Role="triage" Type="Self.triage" Multiplicity="0..1" />
+          <End Role="note" Type="Self.note" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="note">
+            <Principal Role="triage">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="note_notediagnosis">
-              <PropertyRef Name="note_id" />
+            <Dependent Role="note">
+              <PropertyRef Name="triage_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="note_noteexam_FKq9smmjy4tb6q7s5tfbwgurwpu">
-          <End Role="note" Type="Self.note" Multiplicity="1" />
-          <End Role="note_noteexam" Type="Self.note_noteexam" Multiplicity="*" />
+        <Association Name="FK_note_users">
+          <End Role="users" Type="Self.user" Multiplicity="0..1" />
+          <End Role="note" Type="Self.note" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="note">
+            <Principal Role="users">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="note_noteexam">
-              <PropertyRef Name="note_id" />
+            <Dependent Role="note">
+              <PropertyRef Name="user_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="note_notemedicine_FKjn4o8ugr46j42ll2pyqes1hif">
-          <End Role="note" Type="Self.note" Multiplicity="1" />
-          <End Role="note_notemedicine" Type="Self.note_notemedicine" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="note">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="note_notemedicine">
-              <PropertyRef Name="note_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="note_notereferral_FK5bpver4llrcrppdigcmik8t1v">
-          <End Role="note" Type="Self.note" Multiplicity="1" />
-          <End Role="note_notereferral" Type="Self.note_notereferral" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="note">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="note_notereferral">
-              <PropertyRef Name="note_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="notediagnosis_FKt1hhagwvwjxc206n0r05h6g0o">
+        <Association Name="FK_notediagnosis_note">
           <End Role="note" Type="Self.note" Multiplicity="0..1" />
           <End Role="notediagnosis" Type="Self.notediagnosi" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2004,7 +1734,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="noteexam_FK8k6pnsf3mvufnyx02okom4m0k">
+        <Association Name="FK_noteexam_note">
           <End Role="note" Type="Self.note" Multiplicity="1" />
           <End Role="noteexam" Type="Self.noteexam" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2016,7 +1746,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="notemedicine_FK56i7lamo0r27xp8mtoog57qep">
+        <Association Name="FK_notemedicine_note">
           <End Role="note" Type="Self.note" Multiplicity="0..1" />
           <End Role="notemedicine" Type="Self.notemedicine" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2028,7 +1758,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="notereferral_FKmkcu52sj6rov69cglicgu5qsh">
+        <Association Name="FK_notereferral_note">
           <End Role="note" Type="Self.note" Multiplicity="0..1" />
           <End Role="notereferral" Type="Self.notereferral" Multiplicity="*" />
           <ReferentialConstraint>
@@ -2040,68 +1770,8 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="patient____triage">
-          <End Role="patient" Type="Self.patient" Multiplicity="0..1" />
-          <End Role="note" Type="Self.note" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="patient">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="note">
-              <PropertyRef Name="triage_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="note_notediagnosis_FK3xev2f5hkcif6u646lul1i60u">
-          <End Role="notediagnosis" Type="Self.notediagnosi" Multiplicity="1" />
-          <End Role="note_notediagnosis" Type="Self.note_notediagnosis" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="notediagnosis">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="note_notediagnosis">
-              <PropertyRef Name="diagnosisList_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="note_noteexam_FKd9d71447en4pshapqxl8gcxuf">
-          <End Role="noteexam" Type="Self.noteexam" Multiplicity="1" />
-          <End Role="note_noteexam" Type="Self.note_noteexam" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="noteexam">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="note_noteexam">
-              <PropertyRef Name="examList_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="note_notemedicine_FKcom12hqvmwlj743rn5ciyi254">
-          <End Role="notemedicine" Type="Self.notemedicine" Multiplicity="1" />
-          <End Role="note_notemedicine" Type="Self.note_notemedicine" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="notemedicine">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="note_notemedicine">
-              <PropertyRef Name="medicineList_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="note_notereferral_FK82rp1boh0fiind0fl29kfl1j6">
-          <End Role="notereferral" Type="Self.notereferral" Multiplicity="1" />
-          <End Role="note_notereferral" Type="Self.note_notereferral" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="notereferral">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="note_notereferral">
-              <PropertyRef Name="referralList_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="noteexam_upload_FKc5g15medqnor7apl4iar8wur0">
-          <End Role="noteexam" Type="Self.noteexam" Multiplicity="1" />
+        <Association Name="FK_noteexam_upload_noteexam">
+          <End Role="noteexam" Type="Self.noteexam" Multiplicity="0..1" />
           <End Role="noteexam_upload" Type="Self.noteexam_upload" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="noteexam">
@@ -2112,8 +1782,8 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="noteexam_upload_FK1aeir7vd9le5355xnk44tupad">
-          <End Role="upload" Type="Self.upload" Multiplicity="1" />
+        <Association Name="FK_noteexam_upload_upload">
+          <End Role="upload" Type="Self.upload" Multiplicity="0..1" />
           <End Role="noteexam_upload" Type="Self.noteexam_upload" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="upload">
@@ -2145,66 +1815,6 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
             </Principal>
             <Dependent Role="nurse_specialties">
               <PropertyRef Name="Nurse_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_patient_allergies_patient">
-          <End Role="patient" Type="Self.patient" Multiplicity="1" />
-          <End Role="patient_allergies" Type="Self.patient_allergies" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="patient">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="patient_allergies">
-              <PropertyRef Name="patient_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_patient_fatherbackgrounds_patient">
-          <End Role="patient" Type="Self.patient" Multiplicity="1" />
-          <End Role="patient_fatherbackgrounds" Type="Self.patient_fatherbackgrounds" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="patient">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="patient_fatherbackgrounds">
-              <PropertyRef Name="patient_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_patient_patient_medicines">
-          <End Role="patient" Type="Self.patient" Multiplicity="1" />
-          <End Role="patient_medicines" Type="Self.patient_medicines" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="patient">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="patient_medicines">
-              <PropertyRef Name="patient_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_patient_patient_motherbackgrounds">
-          <End Role="patient" Type="Self.patient" Multiplicity="1" />
-          <End Role="patient_motherbackgrounds" Type="Self.patient_motherbackgrounds" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="patient">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="patient_motherbackgrounds">
-              <PropertyRef Name="patient_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_patient_personalbackgrounds_patient">
-          <End Role="patient" Type="Self.patient" Multiplicity="1" />
-          <End Role="patient_personalbackgrounds" Type="Self.patient_personalbackgrounds" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="patient">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="patient_personalbackgrounds">
-              <PropertyRef Name="patient_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2298,10 +1908,6 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
             <End Role="cardiovascularnote" EntitySet="cardiovascularnotes" />
             <End Role="cardiovascularnote_cardiovascularsymptoms" EntitySet="cardiovascularnote_cardiovascularsymptoms" />
           </AssociationSet>
-          <AssociationSet Name="FK_cardiovascularnote_note" Association="Self.FK_cardiovascularnote_note">
-            <End Role="note" EntitySet="notes" />
-            <End Role="cardiovascularnote" EntitySet="cardiovascularnotes" />
-          </AssociationSet>
           <AssociationSet Name="diagnosis_FKdkejwjwwrvhod7ilsu9u62d4r" Association="Self.diagnosis_FKdkejwjwwrvhod7ilsu9u62d4r">
             <End Role="chapter" EntitySet="chapters" />
             <End Role="diagnosis" EntitySet="diagnosis" />
@@ -2318,7 +1924,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
             <End Role="department" EntitySet="departments" />
             <End Role="province" EntitySet="provinces" />
           </AssociationSet>
-          <AssociationSet Name="notediagnosis_FKdsbu75xh53e0laalsslirqjtj" Association="Self.notediagnosis_FKdsbu75xh53e0laalsslirqjtj">
+          <AssociationSet Name="FK_notediagnosis_diagnosis" Association="Self.FK_notediagnosis_diagnosis">
             <End Role="diagnosis" EntitySet="diagnosis" />
             <End Role="notediagnosis" EntitySet="notediagnosis" />
           </AssociationSet>
@@ -2330,13 +1936,17 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
             <End Role="district" EntitySet="districts" />
             <End Role="users" EntitySet="users" />
           </AssociationSet>
-          <AssociationSet Name="note_FKmj186q811duwyj6vjeq2g0tdq" Association="Self.note_FKmj186q811duwyj6vjeq2g0tdq">
+          <AssociationSet Name="FK_note_establishment" Association="Self.FK_note_establishment">
             <End Role="establishment" EntitySet="establishments" />
             <End Role="note" EntitySet="notes" />
           </AssociationSet>
-          <AssociationSet Name="noteexam_FKitrp9vwk6cmbplyfe6ag2shv" Association="Self.noteexam_FKitrp9vwk6cmbplyfe6ag2shv">
+          <AssociationSet Name="FK_noteexam_exam" Association="Self.FK_noteexam_exam">
             <End Role="exam" EntitySet="exams" />
             <End Role="noteexam" EntitySet="noteexams" />
+          </AssociationSet>
+          <AssociationSet Name="FK_note_medic" Association="Self.FK_note_medic">
+            <End Role="medic" EntitySet="medics" />
+            <End Role="note" EntitySet="notes" />
           </AssociationSet>
           <AssociationSet Name="medic_FKa63sueb7mgdy1vvoejcxsafil" Association="Self.medic_FKa63sueb7mgdy1vvoejcxsafil">
             <End Role="users" EntitySet="users" />
@@ -2346,79 +1956,47 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
             <End Role="medic" EntitySet="medics" />
             <End Role="medic_specialties" EntitySet="medic_specialties" />
           </AssociationSet>
-          <AssociationSet Name="note_FKgh47sx5cegenn53sohwq7qsxg" Association="Self.note_FKgh47sx5cegenn53sohwq7qsxg">
-            <End Role="medic" EntitySet="medics" />
-            <End Role="note" EntitySet="notes" />
-          </AssociationSet>
-          <AssociationSet Name="notemedicine_FKs4qetuf5x8fiw3yy6tud54ox6" Association="Self.notemedicine_FKs4qetuf5x8fiw3yy6tud54ox6">
+          <AssociationSet Name="FK_notemedicine_medicine" Association="Self.FK_notemedicine_medicine">
             <End Role="medicine" EntitySet="medicines" />
             <End Role="notemedicine" EntitySet="notemedicines" />
           </AssociationSet>
-          <AssociationSet Name="note_FK1q1iewxl8l8ns1v0ra54rpi1m" Association="Self.note_FK1q1iewxl8l8ns1v0ra54rpi1m">
-            <End Role="note" EntitySet="notes" />
-            <End Role="note1" EntitySet="notes" />
-          </AssociationSet>
-          <AssociationSet Name="note_FKnp0l5lfrvxca2ra3ycetknoun" Association="Self.note_FKnp0l5lfrvxca2ra3ycetknoun">
-            <End Role="ticket" EntitySet="tickets" />
-            <End Role="note" EntitySet="notes" />
-          </AssociationSet>
-          <AssociationSet Name="note_notediagnosis_FKiarvroh3s4qe0mxrumkyiyv2l" Association="Self.note_notediagnosis_FKiarvroh3s4qe0mxrumkyiyv2l">
-            <End Role="note" EntitySet="notes" />
-            <End Role="note_notediagnosis" EntitySet="note_notediagnosis" />
-          </AssociationSet>
-          <AssociationSet Name="note_noteexam_FKq9smmjy4tb6q7s5tfbwgurwpu" Association="Self.note_noteexam_FKq9smmjy4tb6q7s5tfbwgurwpu">
-            <End Role="note" EntitySet="notes" />
-            <End Role="note_noteexam" EntitySet="note_noteexam" />
-          </AssociationSet>
-          <AssociationSet Name="note_notemedicine_FKjn4o8ugr46j42ll2pyqes1hif" Association="Self.note_notemedicine_FKjn4o8ugr46j42ll2pyqes1hif">
-            <End Role="note" EntitySet="notes" />
-            <End Role="note_notemedicine" EntitySet="note_notemedicine" />
-          </AssociationSet>
-          <AssociationSet Name="note_notereferral_FK5bpver4llrcrppdigcmik8t1v" Association="Self.note_notereferral_FK5bpver4llrcrppdigcmik8t1v">
-            <End Role="note" EntitySet="notes" />
-            <End Role="note_notereferral" EntitySet="note_notereferral" />
-          </AssociationSet>
-          <AssociationSet Name="notediagnosis_FKt1hhagwvwjxc206n0r05h6g0o" Association="Self.notediagnosis_FKt1hhagwvwjxc206n0r05h6g0o">
-            <End Role="note" EntitySet="notes" />
-            <End Role="notediagnosis" EntitySet="notediagnosis" />
-          </AssociationSet>
-          <AssociationSet Name="noteexam_FK8k6pnsf3mvufnyx02okom4m0k" Association="Self.noteexam_FK8k6pnsf3mvufnyx02okom4m0k">
-            <End Role="note" EntitySet="notes" />
-            <End Role="noteexam" EntitySet="noteexams" />
-          </AssociationSet>
-          <AssociationSet Name="notemedicine_FK56i7lamo0r27xp8mtoog57qep" Association="Self.notemedicine_FK56i7lamo0r27xp8mtoog57qep">
-            <End Role="note" EntitySet="notes" />
-            <End Role="notemedicine" EntitySet="notemedicines" />
-          </AssociationSet>
-          <AssociationSet Name="notereferral_FKmkcu52sj6rov69cglicgu5qsh" Association="Self.notereferral_FKmkcu52sj6rov69cglicgu5qsh">
-            <End Role="note" EntitySet="notes" />
-            <End Role="notereferral" EntitySet="notereferrals" />
-          </AssociationSet>
-          <AssociationSet Name="patient____triage" Association="Self.patient____triage">
+          <AssociationSet Name="FK_note_patient" Association="Self.FK_note_patient">
             <End Role="patient" EntitySet="patients" />
             <End Role="note" EntitySet="notes" />
           </AssociationSet>
-          <AssociationSet Name="note_notediagnosis_FK3xev2f5hkcif6u646lul1i60u" Association="Self.note_notediagnosis_FK3xev2f5hkcif6u646lul1i60u">
+          <AssociationSet Name="FK_note_ticket" Association="Self.FK_note_ticket">
+            <End Role="ticket" EntitySet="tickets" />
+            <End Role="note" EntitySet="notes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_note_triage" Association="Self.FK_note_triage">
+            <End Role="triage" EntitySet="triages" />
+            <End Role="note" EntitySet="notes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_note_users" Association="Self.FK_note_users">
+            <End Role="users" EntitySet="users" />
+            <End Role="note" EntitySet="notes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_notediagnosis_note" Association="Self.FK_notediagnosis_note">
+            <End Role="note" EntitySet="notes" />
             <End Role="notediagnosis" EntitySet="notediagnosis" />
-            <End Role="note_notediagnosis" EntitySet="note_notediagnosis" />
           </AssociationSet>
-          <AssociationSet Name="note_noteexam_FKd9d71447en4pshapqxl8gcxuf" Association="Self.note_noteexam_FKd9d71447en4pshapqxl8gcxuf">
+          <AssociationSet Name="FK_noteexam_note" Association="Self.FK_noteexam_note">
+            <End Role="note" EntitySet="notes" />
             <End Role="noteexam" EntitySet="noteexams" />
-            <End Role="note_noteexam" EntitySet="note_noteexam" />
           </AssociationSet>
-          <AssociationSet Name="note_notemedicine_FKcom12hqvmwlj743rn5ciyi254" Association="Self.note_notemedicine_FKcom12hqvmwlj743rn5ciyi254">
+          <AssociationSet Name="FK_notemedicine_note" Association="Self.FK_notemedicine_note">
+            <End Role="note" EntitySet="notes" />
             <End Role="notemedicine" EntitySet="notemedicines" />
-            <End Role="note_notemedicine" EntitySet="note_notemedicine" />
           </AssociationSet>
-          <AssociationSet Name="note_notereferral_FK82rp1boh0fiind0fl29kfl1j6" Association="Self.note_notereferral_FK82rp1boh0fiind0fl29kfl1j6">
+          <AssociationSet Name="FK_notereferral_note" Association="Self.FK_notereferral_note">
+            <End Role="note" EntitySet="notes" />
             <End Role="notereferral" EntitySet="notereferrals" />
-            <End Role="note_notereferral" EntitySet="note_notereferral" />
           </AssociationSet>
-          <AssociationSet Name="noteexam_upload_FKc5g15medqnor7apl4iar8wur0" Association="Self.noteexam_upload_FKc5g15medqnor7apl4iar8wur0">
+          <AssociationSet Name="FK_noteexam_upload_noteexam" Association="Self.FK_noteexam_upload_noteexam">
             <End Role="noteexam" EntitySet="noteexams" />
             <End Role="noteexam_upload" EntitySet="noteexam_upload" />
           </AssociationSet>
-          <AssociationSet Name="noteexam_upload_FK1aeir7vd9le5355xnk44tupad" Association="Self.noteexam_upload_FK1aeir7vd9le5355xnk44tupad">
+          <AssociationSet Name="FK_noteexam_upload_upload" Association="Self.FK_noteexam_upload_upload">
             <End Role="upload" EntitySet="uploads" />
             <End Role="noteexam_upload" EntitySet="noteexam_upload" />
           </AssociationSet>
@@ -2429,26 +2007,6 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <AssociationSet Name="nurse_specialties_FK6nc16jusxlaag0qyhvwjs89fk" Association="Self.nurse_specialties_FK6nc16jusxlaag0qyhvwjs89fk">
             <End Role="nurse" EntitySet="nurses" />
             <End Role="nurse_specialties" EntitySet="nurse_specialties" />
-          </AssociationSet>
-          <AssociationSet Name="FK_patient_allergies_patient" Association="Self.FK_patient_allergies_patient">
-            <End Role="patient" EntitySet="patients" />
-            <End Role="patient_allergies" EntitySet="patient_allergies" />
-          </AssociationSet>
-          <AssociationSet Name="FK_patient_fatherbackgrounds_patient" Association="Self.FK_patient_fatherbackgrounds_patient">
-            <End Role="patient" EntitySet="patients" />
-            <End Role="patient_fatherbackgrounds" EntitySet="patient_fatherbackgrounds" />
-          </AssociationSet>
-          <AssociationSet Name="FK_patient_patient_medicines" Association="Self.FK_patient_patient_medicines">
-            <End Role="patient" EntitySet="patients" />
-            <End Role="patient_medicines" EntitySet="patient_medicines" />
-          </AssociationSet>
-          <AssociationSet Name="FK_patient_patient_motherbackgrounds" Association="Self.FK_patient_patient_motherbackgrounds">
-            <End Role="patient" EntitySet="patients" />
-            <End Role="patient_motherbackgrounds" EntitySet="patient_motherbackgrounds" />
-          </AssociationSet>
-          <AssociationSet Name="FK_patient_personalbackgrounds_patient" Association="Self.FK_patient_personalbackgrounds_patient">
-            <End Role="patient" EntitySet="patients" />
-            <End Role="patient_personalbackgrounds" EntitySet="patient_personalbackgrounds" />
           </AssociationSet>
           <AssociationSet Name="user__patients" Association="Self.user__patients">
             <End Role="users" EntitySet="users" />
@@ -2636,7 +2194,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
                 <ScalarProperty Name="story" ColumnName="story" />
                 <ScalarProperty Name="symptom" ColumnName="symptom" />
                 <ScalarProperty Name="treatment" ColumnName="treatment" />
-                <ScalarProperty Name="controlNote_id" ColumnName="controlNote_id" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
                 <ScalarProperty Name="establishment_id" ColumnName="establishment_id" />
                 <ScalarProperty Name="medic_id" ColumnName="medic_id" />
                 <ScalarProperty Name="patient_id" ColumnName="patient_id" />

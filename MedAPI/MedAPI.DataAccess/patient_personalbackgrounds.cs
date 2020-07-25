@@ -17,7 +17,5 @@ namespace MedAPI.DataAccess
         public long id { get; set; }
         public long patient_id { get; set; }
         public string personalBackgrounds { get; set; }
-    
-        public virtual patient patient { get; set; }
     }
 }

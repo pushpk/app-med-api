@@ -48,10 +48,10 @@ namespace MedAPI.Domain
         public string story { get; set; }
         public string symptom { get; set; }
         public string treatment { get; set; }
-        public long? controlNoteId { get; set; }
+        public long? userId { get; set; }
         public long? establishmentId { get; set; }
         public long? medicId { get; set; }
-        public long patientId { get; set; }
+        public long? patientId { get; set; }
         public long? ticketId { get; set; }
         public long? triageId { get; set; }
 

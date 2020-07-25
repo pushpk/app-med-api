@@ -37,7 +37,7 @@ namespace MedAPI.Repository
                             story = nt.story,
                             symptom = nt.symptom,
                             treatment = nt.treatment,
-                            controlNoteId = nt.controlNote_id,
+                            userId = nt.user_id,
                             establishmentId = nt.establishment_id,
                             medicId = nt.medic_id,
                             patientId = nt.patient_id,
@@ -152,7 +152,7 @@ namespace MedAPI.Repository
                             story = nt.story,
                             symptom = nt.symptom,
                             treatment = nt.treatment,
-                            controlNoteId = nt.controlNote_id,
+                            userId = nt.user_id,
                             establishmentId = nt.establishment_id,
                             medicId = nt.medic_id,
                             patientId = nt.patient_id,
@@ -185,7 +185,7 @@ namespace MedAPI.Repository
                        story = x.story,
                        symptom = x.symptom,
                        treatment = x.treatment,
-                       controlNoteId = x.controlNote_id,
+                       userId = x.user_id,
                        establishmentId = x.establishment_id,
                        medicId = x.medic_id,
                        patientId = x.patient_id,
@@ -210,7 +210,7 @@ namespace MedAPI.Repository
                 efNotes.age = mNote.age;
                 efNotes.completed = mNote.completed;
                 efNotes.control = mNote.control;
-                efNotes.controlNote_id = mNote.controlNoteId;
+                efNotes.user_id = mNote.userId;
                 efNotes.createdBy = mNote.createdBy;
                 efNotes.diagnosis = mNote.diagnosis;
                 efNotes.establishment_id = mNote.establishmentId;

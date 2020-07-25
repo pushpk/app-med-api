@@ -259,8 +259,7 @@ namespace MedAPI.Controllers
         {
             var userData = getUserInfo();
             Domain.User user = new Domain.User();
-
-            user.id = mPatient.id;
+            user.id = mPatient.userId;
             user.address = mPatient.address;
             user.birthday = mPatient.birthday;
             user.cellphone = mPatient.phone;
@@ -277,7 +276,7 @@ namespace MedAPI.Controllers
             user.lastNameMother = mPatient.lastnameMother;
             user.maritalStatus = mPatient.maritalStatus;
             user.organDonor = mPatient.isDonor;
-            if (mPatient.id > 0)
+            if (mPatient.userId > 0)
             {
                 user.modifiedBy = Convert.ToString(userData.id);
                 user.modifiedDate = DateTime.Now;
@@ -300,7 +299,7 @@ namespace MedAPI.Controllers
         {
             var headerValues = HttpContext.Current.Request.Headers.GetValues("email");
             string email = Convert.ToString(headerValues.FirstOrDefault());
-            return userService.GetByEmail(email); ;
+            return userService.GetByEmail(email);
         }
     }
 }

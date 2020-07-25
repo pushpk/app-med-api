@@ -15,8 +15,8 @@ namespace MedAPI.DataAccess
     public partial class noteexam_upload
     {
         public long id { get; set; }
-        public long noteExam_id { get; set; }
-        public long uploads_id { get; set; }
+        public Nullable<long> noteExam_id { get; set; }
+        public Nullable<long> uploads_id { get; set; }
     
         public virtual noteexam noteexam { get; set; }
         public virtual upload upload { get; set; }

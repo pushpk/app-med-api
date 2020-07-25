@@ -24,9 +24,9 @@ namespace MedAPI.DataAccess
         public string rne { get; set; }
         public long id { get; set; }
     
-        public virtual user user { get; set; }
-        public virtual medic_specialties medic_specialties { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<note> notes { get; set; }
+        public virtual user user { get; set; }
+        public virtual medic_specialties medic_specialties { get; set; }
     }
 }

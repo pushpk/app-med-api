@@ -22,7 +22,7 @@ namespace MedAPI.Repository
                             age = n.age,
                             completed = n.completed,
                             control = n.control,
-                            controlNoteId = n.controlNote_id,
+                            userId = n.user_id,
                             createdBy = n.createdBy,
                             createdDate = n.createdDate,
                             diagnosis = n.diagnosis,
@@ -53,7 +53,7 @@ namespace MedAPI.Repository
             }
         }
 
-        public List<Note> getByPatient(long patientId)
+        public List<Note> getByPatient(long? patientId = 0)
         {
             //var bytes = BitConverter.GetBytes(false);
             //var bytesComplete = BitConverter.GetBytes(true);
@@ -66,7 +66,7 @@ namespace MedAPI.Repository
                             age = n.age,
                             completed = n.completed,
                             control = n.control,
-                            controlNoteId = n.controlNote_id,
+                            userId = n.user_id,
                             createdBy = n.createdBy,
                             createdDate = n.createdDate,
                             diagnosis = n.diagnosis,
@@ -113,7 +113,7 @@ namespace MedAPI.Repository
                 efTicket.serie = mTicket.serie;
                 efTicket.nroTicket = mTicket.nroTicket;
                 context.SaveChanges();
-                mTicket.id= efTicket.id;
+                mTicket.id = efTicket.id;
             }
             return mTicket;
         }

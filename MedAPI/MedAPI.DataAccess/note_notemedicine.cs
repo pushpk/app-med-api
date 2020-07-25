@@ -17,8 +17,5 @@ namespace MedAPI.DataAccess
         public long id { get; set; }
         public long note_id { get; set; }
         public long medicineList_id { get; set; }
-    
-        public virtual note note { get; set; }
-        public virtual notemedicine notemedicine { get; set; }
     }
 }
