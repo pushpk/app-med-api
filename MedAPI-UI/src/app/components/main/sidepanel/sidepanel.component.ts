@@ -23,6 +23,7 @@ export class SidepanelComponent implements OnInit {
   navigateToPage(url: any) {
     localStorage.setItem('speciality', '');
     this.recordService.selectedSpecialty.next('');
+    localStorage.setItem('patient', '');
     this.router.navigateByUrl(url);
   }
 

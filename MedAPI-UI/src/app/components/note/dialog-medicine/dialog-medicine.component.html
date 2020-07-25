@@ -1,6 +1,6 @@
 <div aria-label="Agregar medicina">
   <div>
-    <button mat-icon-button class="close-button" [mat-dialog-close]="true">
+    <button type="button" mat-icon-button class="close-button" [mat-dialog-close]="true">
       <mat-icon class="close-icon">close</mat-icon>
     </button>
 
@@ -16,8 +16,8 @@
     </div>
   </div>
   <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end">
-    <button mat-button (click)="cancel()">Cancelar</button>
-    <button mat-button color="primary" (click)="answer()" cdkFocusInitial>
+    <button type="button" mat-button (click)="cancel()">Cancelar</button>
+    <button type="button" mat-button color="primary" (click)="answer()" cdkFocusInitial>
       Aceptar
     </button>
   </div>

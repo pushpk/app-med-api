@@ -35,7 +35,7 @@ export class CardioFormSymptomsComponent implements OnInit {
       this.resources = o;
       this.filteredSymptoms = this.symptomsCtrl.valueChanges.pipe(
         startWith(null),
-        map((data: string | null) => data ? this._filter(data) : this.resources.cardiovascularSymptom.slice()));
+        map((data: string | null) => data ? this._filter(data) : this.resources.cardiovascularSymptom));
     });
   }
   add(event: MatChipInputEvent): void {

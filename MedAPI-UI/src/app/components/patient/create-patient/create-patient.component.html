@@ -1,1 +1,35 @@
-<p>create-patient works!</p>
+<div class="maintainer">
+  <mat-card class="no-pad">
+    <form novalidate name="form" #f="ngForm" (ngSubmit)="submitRequest()">
+      <mat-card-content>
+        <mat-tab-group [selectedIndex]="index.value" (selectedIndexChange)="index.setValue($event)">
+          <ng-container *ngFor="let tab of tabs;let index = index">
+            <mat-tab [label]="tab.title">
+              <app-form-one [patient]="patient" *ngIf="tab.value==='form_1'"></app-form-one>
+              <app-form-two [patient]="patient" *ngIf="tab.value==='form_2'"></app-form-two>
+              <app-form-three [patient]="patient" *ngIf="tab.value==='form_3'"></app-form-three>
+              <app-form-four [patient]="patient" *ngIf="tab.value==='form_4'"></app-form-four>
+              <app-form-summary [patient]="patient" [submit]="submit" *ngIf="tab.value==='form_5'"></app-form-summary>
+            </mat-tab>
+          </ng-container>
+        </mat-tab-group>
+      </mat-card-content>
+      <mat-card-actions fxLayout="row" fxLayoutAlign="end center">
+        <button mat-button type="button" [disabled]="index.value==0" (click)="index.setValue(index.value-1)">Anterior</button>
+
+        <button mat-button color="primary" type="button"
+                *ngIf="index.value<tabs.length-1" (click)="index.setValue(index.value+1)">
+          Siguiente
+        </button>
+        <button mat-button color="primary" type="submit" *ngIf="index.value===tabs.length-1">
+          Enviar
+        </button>
+
+        <!-- TODO Continuar button -->
+        <button mat-button color="primary" type="submit" *ngIf="false">
+          Continuar hacia el triaje
+        </button>
+      </mat-card-actions>
+    </form>
+  </mat-card>
+</div>

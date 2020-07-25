@@ -1,0 +1,107 @@
+import { Home } from './home.models';
+import { CheckEmptyUtil } from '../shared/util/check-empty.util';
+
+export class Patient {
+  id = 0;
+  userId = 0;
+  name = '';
+  lastnameFather = '';
+  lastnameMother = '';
+  country = '';
+  documentType = '';
+  documentNumber = '';
+  birthday = '';
+  sex = '';
+  maritalStatus = '';
+  department = '';
+  province = '';
+  district = '';
+  address = '';
+  isDonor = false;
+  email = '';
+  phone = '';
+  race = '';
+  educationalAttainment = '';
+  occupation = '';
+  bloodType = '';
+  alcoholConsumption = '';
+  physicalActivity = '';
+  fvConsumption = '';
+  home: Home = new Home();
+  allergies = [];
+  otherAllergies = '';
+  medicines = [];
+  otherMedicines = '';
+  personalBackground=[];
+  otherPersonalBackground = '';
+  fatherBackground=[];
+  otherFatherBackground = '';
+  motherBackground=[];
+  otherMotherBackground = '';
+  passwordHash= '';
+  cigarettes = 0;
+  dormNumber = '';
+  fractureNumber = '';
+  createdTicket = '';
+  highGlucose = '';
+  age = 0;
+  falls = '';
+  previousFractures = '';
+  constructor(data?: any) {
+    if (CheckEmptyUtil.isNotEmptyObject(data)) {
+      if (data.id) {
+        this.id = data.id;
+      }
+      this.userId = data.userId;
+      this.name = data.name;
+      this.lastnameFather = data.lastnameFather;
+      this.lastnameMother = data.lastnameMother;
+      this.documentType = data.documentType;
+      this.documentNumber = data.documentNumber;
+      this.birthday = data.birthday;
+      this.sex = data.sex;
+      this.maritalStatus = data.maritalStatus;
+      this.department = data.department;
+      this.province = data.province;
+      this.district = data.district;
+      this.address = data.address;
+      this.isDonor = data.isDonor;
+      this.email = data.email;
+      this.phone = data.phone;
+      this.race = data.race;
+      this.educationalAttainment = data.educationalAttainment;
+      this.occupation = data.occupation;
+      this.bloodType = data.bloodType;
+      this.alcoholConsumption = data.alcoholConsumption;
+      this.physicalActivity = data.physicalActivity;
+      this.fvConsumption = data.fvConsumption;
+      this.home.rooms = data.home.rooms;
+      this.home.population = data.home.population;
+      this.home.type = data.home.type;
+      this.home.ownership = data.home.ownership;
+      this.home.material = data.home.material;
+      this.home.electricity = data.home.electricity;
+      this.home.water = data.home.water;
+      this.home.sewage = data.home.sewage;
+      this.allergies = data.allergies;
+      this.otherAllergies = data.otherAllergies;
+      this.medicines = data.medicines;
+      this.otherMedicines = data.otherMedicines;
+      this.personalBackground = data.personalBackground;
+      this.otherPersonalBackground = data.otherPersonalBackground;
+      this.fatherBackground = data.fatherBackground;
+      this.otherFatherBackground = data.otherFatherBackground;
+      this.motherBackground = data.motherBackground;
+      this.otherMotherBackground = data.otherMotherBackground;
+      this.passwordHash = data.passwordHash;
+      this.cigarettes = data.cigarettes;
+      this.dormNumber = data.dormNumber;
+      this.fractureNumber = data.fractureNumber;
+      this.createdTicket = data.createdTicket;
+      this.highGlucose = data.highGlucose;
+      this.age = data.age;
+      this.falls = data.falls;
+      this.previousFractures = data.previousFractures;
+    }
+  }
+}

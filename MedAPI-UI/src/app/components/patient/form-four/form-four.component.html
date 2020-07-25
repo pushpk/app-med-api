@@ -1,0 +1,60 @@
+<div class="layout-padding" fxLayout="column">
+
+  <div fxLayout="row wrap" fxLayoutGap="20px">
+    <mat-form-field fxFlex="30" fxFlex.md="100" fxFlex.sm="100">
+      <mat-label>Número de dormitorios</mat-label>
+      <input type="number" name="rooms" matInput #rooms="ngModel"
+             [(ngModel)]="patient.home.rooms" maxlength="20">
+    </mat-form-field>
+    <mat-form-field fxFlex="30" fxFlex.md="100" fxFlex.sm="100">
+      <mat-label>Número de habitantes</mat-label>
+      <input type="number" name="population" maxlength="20" matInput #population="ngModel"
+             [(ngModel)]="patient.home.population" required>
+    </mat-form-field>
+  </div>
+  <div fxLayout="row wrap" fxLayoutGap="20px">
+    <mat-form-field fxFlex="30" fxFlex.md="45" fxFlex.sm="100">
+      <mat-label>Tipo de residencia</mat-label>
+      <mat-select name="homeTypes" class="max-width" required #homeTypes="ngModel"
+                  [(ngModel)]="patient.home.type">
+        <mat-option *ngFor="let c of resources.homeTypes" [value]="c.id">{{c.name}}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="homeTypes.errors && (homeTypes.touched || homeTypes.dirty)">
+        Este campo es requerido
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field fxFlex="30" fxFlex.md="45" fxFlex.sm="100">
+      <mat-label>Pertenencia</mat-label>
+      <mat-select name="homeOwnership" class="max-width" required #homeOwnership="ngModel"
+                  [(ngModel)]="patient.home.ownership">
+        <mat-option *ngFor="let c of resources.homeOwnerships" [value]="c.id">{{c.name}}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="homeOwnership.errors && (homeOwnership.touched || homeOwnership.dirty)">
+        Este campo es requerido
+      </mat-error>
+    </mat-form-field>
+  </div>
+  <div fxLayout="row wrap" fxLayoutGap="20px">
+    <mat-form-field fxFlex="30" fxFlex.md="45" fxFlex.sm="100">
+      <mat-label>Material</mat-label>
+      <mat-select name="homeMaterial" class="max-width" required #homeMaterial="ngModel"
+                  [(ngModel)]="patient.home.material">
+        <mat-option *ngFor="let c of resources.homeMaterials" [value]="c.id">{{c.name}}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="homeMaterial.errors && (homeMaterial.touched || homeMaterial.dirty)">
+        Este campo es requerido
+      </mat-error>
+    </mat-form-field>
+  </div>
+  <div class="mt-24" fxLayout="column" fxLayoutGap="20px">
+    <mat-slide-toggle [(ngModel)]="patient.home.electricity">
+      {{patient.home.electricity ? "Sí cuenta con luz eléctrica" : "No cuenta con luz eléctrica"}}
+    </mat-slide-toggle>
+    <mat-slide-toggle [(ngModel)]="patient.home.water">
+      {{patient.home.water ? "Sí cuenta con agua potable" : "No cuenta con agua potable"}}
+    </mat-slide-toggle>
+    <mat-slide-toggle [(ngModel)]="patient.home.sewage">
+      {{patient.home.sewage ? "Sí cuenta con desagüe" : "No cuenta con desagüe"}}
+    </mat-slide-toggle>
+  </div>
+</div>

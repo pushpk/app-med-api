@@ -7,6 +7,7 @@ import { DialogDiagnosisComponent } from '../dialog-diagnosis/dialog-diagnosis.c
 import { MatDialog } from '@angular/material/dialog';
 import { DialogExamComponent } from '../dialog-exam/dialog-exam.component';
 import { DialogMedicineComponent } from '../dialog-medicine/dialog-medicine.component';
+import { CheckEmptyUtil } from '../../../shared/util/check-empty.util';
 
 @Component({
   selector: 'app-form-symptoms',
@@ -27,16 +28,8 @@ export class FormSymptomsComponent implements OnInit {
   //showExamProgressBar = false;
   //showTreatmentProgressBar = false;
   //showInterconsultantionProgressBar = false;
-
-
-
   //@Output() diagnosisChange = new EventEmitter<any>();
   //@Output() diagnosisModalChange = new EventEmitter<any>();
-
-
-
-
-
   //selectedDiagnosis: any;
   //searchDiagnosis: string;
   //diagnosisList: [];
@@ -57,13 +50,19 @@ export class FormSymptomsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.note, 'note');
     this.noteService.resources.subscribe((o) => {
       this.resources = o;
+      if (this.resources.durationUnits === undefined) {
+        this.resources.durationUnits = [{ id: 1, name: 'Hours' },
+        { id: 2, name: 'Days' },
+        { id: 3, name: 'Weeks' },
+        { id: 4, name: 'Months' },
+        { id: 5, name: 'Years' }
+        ];
+      }
     });
 
-    //this.noteService.diagnosisList.subscribe((o) => {
-    //});
+    console.log(this.resources.durationUnits, 'this.resources.durationUnits');
   }
 
   //getDiagnosis() {

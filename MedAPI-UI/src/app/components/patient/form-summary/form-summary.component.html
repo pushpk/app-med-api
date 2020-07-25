@@ -1,0 +1,14 @@
+<div class="layout-padding" fxLayout="column">
+  <div fxLayout="row wrap" *ngIf="!submit.waiting">
+    <h2>Ahora puede afiliar al paciente</h2>
+  </div>
+
+  <div fxLayout="row wrap" *ngIf="submit.waiting">
+    <h2>Afiliando paciente...</h2>
+  </div>
+
+  <div fxLayout="row wrap" *ngIf="true || !submit.waiting && submit.success">
+    <h2>El paciente se ha registrado correctamente</h2> <br />
+  </div>
+
+</div>

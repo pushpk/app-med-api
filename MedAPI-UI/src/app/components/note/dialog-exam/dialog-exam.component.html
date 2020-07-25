@@ -14,7 +14,7 @@
         <mat-hint align="end">{{description.value?.length || 0}}/250</mat-hint>
       </mat-form-field>
       <div>
-        <button color="primary"
+        <button type="button" color="primary"
                 mat-raised-button
                 accept="image/*"
                 multiple="1"
@@ -40,8 +40,8 @@
     </div>
   </div>
   <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end">
-    <button mat-button (click)="cancel()">Cancelar</button>
-    <button mat-button color="primary" (click)="answer()" cdkFocusInitial>
+    <button type="button" mat-button (click)="cancel()">Cancelar</button>
+    <button type="button" mat-button color="primary" (click)="answer()" cdkFocusInitial>
       Aceptar
     </button>
   </div>

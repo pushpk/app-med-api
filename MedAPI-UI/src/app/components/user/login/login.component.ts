@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/fo
 import { Router } from '@angular/router';
 import { UserService } from '../user.service';
 import { UserAuthService } from '../../../auth/user-auth.service';
+import { RecordService } from '../../record/services/record.service';
 
 @Component({
   selector: 'app-login',
@@ -11,8 +12,8 @@ import { UserAuthService } from '../../../auth/user-auth.service';
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
- 
-  constructor(private fb: FormBuilder, public router: Router,
+
+  constructor(private fb: FormBuilder, public router: Router, private recordService: RecordService,
     public userService: UserService, private userAuthService: UserAuthService) { }
 
   ngOnInit(): void {
@@ -32,11 +33,15 @@ export class LoginComponent implements OnInit {
   
   doLogin() {
     const self = this;
+    let username = self.loginForm.get('username').value;
+    let password = self.loginForm.get('password').value;
     let credentials = {
-      'username': self.loginForm.get('username').value,
-      'password': self.loginForm.get('password').value
+      'username': username,
+      'password': password
     }
     this.userService.login(credentials).then((response) => {
+      localStorage.setItem('email', username);
+      this.recordService.passwordHash.next(password);
       this.userAuthService.save(response);
       this.router.navigateByUrl('/records');
     });

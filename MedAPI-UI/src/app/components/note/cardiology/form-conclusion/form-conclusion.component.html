@@ -17,8 +17,8 @@
             <mat-progress-bar mode="indeterminate" class="my-16"></mat-progress-bar>
           </ng-container>
           <mat-autocomplete #diagnosisAuto="matAutocomplete" [displayWith]="displayFn" (optionSelected)='addDiagnosis($event.option.value)'>
-            <mat-option *ngFor="let o of (diagnosisList | orderBy:'Code')" [value]="o">
-              {{o.Code}} - {{o.Title}}
+            <mat-option *ngFor="let o of (diagnosisList) | orderBy:'code'" [value]="o">
+              {{o.code}} - {{o.title}}
             </mat-option>
           </mat-autocomplete>
         </mat-form-field>
@@ -28,11 +28,11 @@
           <mat-list-item *ngFor="let diagnosis of note.diagnosis.list">
             <div fxLayout="row" class="full-width">
               <div fxFlex="80" fxLayout="column">
-                <p fxFlex="100" fxFlexFill>{{ diagnosis.Title }}</p>
+                <p fxFlex="100" fxFlexFill>{{ diagnosis.title }}</p>
                 <div fxFlex="100" fxFlexFill>
                   <ng-container [ngSwitch]="diagnosis.type">
-                    <p *ngSwitchCase="'PRESUMPTIVE'">{{diagnosis.Code}} - Presuntivo</p>
-                    <p *ngSwitchCase="'DEFINITIVE'">{{diagnosis.Code}} - Definitivo</p>
+                    <p *ngSwitchCase="'PRESUMPTIVE'">{{diagnosis.code}} - Presuntivo</p>
+                    <p *ngSwitchCase="'DEFINITIVE'">{{diagnosis.code}} - Definitivo</p>
                   </ng-container>
                 </div>
               </div>
@@ -76,8 +76,8 @@
             <mat-progress-bar mode="indeterminate" class="my-16"></mat-progress-bar>
           </ng-container>
           <mat-autocomplete #exam="matAutocomplete" [displayWith]="displayFn" (optionSelected)='addExams($event.option.value)'>
-            <mat-option *ngFor="let o of (physicalExamsList | orderBy: 'Name')" [value]="o">
-              {{o.Name}}
+           <mat-option *ngFor="let o of (physicalExamsList) | orderBy: 'name'" [value]="o">
+              {{o.name}}
             </mat-option>
           </mat-autocomplete>
         </mat-form-field>
@@ -87,7 +87,7 @@
           <mat-list-item *ngFor="let exam of note.exams.list">
             <div fxLayout="row" class="full-width">
               <div fxFlex="60" fxLayout="column">
-                <p fxFlex="100" fxFlexFill>{{  exam.Name  }}</p>                
+                <p fxFlex="100" fxFlexFill>{{  exam.name  }}</p>                
               </div>
               <div fxFlex="40" fxLayout="row" fxLayoutAlign="end">
                 <button mat-button type="button" class="mr-16" aria-label="Introducir resultados"
@@ -134,8 +134,8 @@
             <mat-progress-bar mode="indeterminate" class="my-16"></mat-progress-bar>
           </ng-container>
           <mat-autocomplete #treatment="matAutocomplete" [displayWith]="displayFn" (optionSelected)='addTreatment($event.option.value)'>
-            <mat-option *ngFor="let o of (treatmentList | orderBy: 'Name')" [value]="o">
-              {{o.Name}}
+            <mat-option *ngFor="let o of (treatmentList) | orderBy: 'name'" [value]="o">
+              {{o.name}}
             </mat-option>
           </mat-autocomplete>
         </mat-form-field>
@@ -145,7 +145,7 @@
           <mat-list-item *ngFor="let treatment of note.treatments.list">
             <div fxLayout="row" class="full-width">
               <div fxFlex="80" fxLayout="column">
-                <p fxFlex="100" fxFlexFill>{{ treatment.Name }}</p>
+                <p fxFlex="100" fxFlexFill>{{ treatment.name }}</p>
                 <div fxFlex="100" fxFlexFill>
                   <p>{{treatment.indications}}</p>
                 </div>
@@ -201,7 +201,7 @@
           <mat-list-item *ngFor="let specialty of note.referrals.list">
             <div fxLayout="row" class="full-width">
               <div fxFlex="80" fxLayout="column">
-                <p fxFlex="100" fxFlexFill>{{specialty }}</p>
+                <p fxFlex="100" fxFlexFill>{{specialty}}</p>
               </div>
               <div fxFlex="20" fxLayout="row" fxLayoutAlign="end">
                 <button mat-icon-button type="button" aria-label="Remover especialidades"

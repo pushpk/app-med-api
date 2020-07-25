@@ -13,7 +13,7 @@ export class UserService {
   login(params: any) {
     const self = this;
     const apiEndpoint = 'login';
-    return self.httpUtilService.invoke('POST', params, apiEndpoint).then(
+    return self.httpUtilService.invoke('POST', params, apiEndpoint, null).then(
       (response: { id: string; permissions: string[] }) => {
         console.log(response);
         self.user = new User(response.id, response.permissions);
@@ -25,7 +25,7 @@ export class UserService {
   logout() {
     const self = this;
     const apiEndpoint = 'logout';
-    return self.httpUtilService.invoke('POST', null, apiEndpoint).then(
+    return self.httpUtilService.invoke('POST', null, apiEndpoint, null).then(
       (response) => {
         return response;
       }

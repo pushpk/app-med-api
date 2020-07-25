@@ -53,6 +53,14 @@ export class FormConclusionComponent implements OnInit {
   ngOnInit(): void {
     this.noteService.resources.subscribe((o) => {
       this.resources = o;
+      if (this.resources.durationUnits === undefined) {
+        this.resources.durationUnits = [{ id: 1, name: 'Hours' },
+          { id: 2, name: 'Days' },
+          { id: 3, name: 'Weeks' },
+          { id: 4, name: 'Months' },
+          { id: 5, name: 'Years' }
+        ];
+      }
       //this.filteredDiagnosis = this.diagnosisCtrl.valueChanges.pipe(
       //  startWith(null),
       //  map((data: string | null) => data ? this._filter(data) : this.resources.cardiovascularSymptom.slice()));
@@ -103,7 +111,7 @@ export class FormConclusionComponent implements OnInit {
         note: this.note
       }
     });
-    dialogRef.afterClosed().subscribe((response) => {
+    dialogRef.afterClosed().subscribe((response: any) => {
 
       if (response.accept && response.type) {
         diagnosis.type = response.type;
@@ -188,7 +196,7 @@ export class FormConclusionComponent implements OnInit {
     this.tempTimeobj = setTimeout(() => {
       if (str.length >= 2) {
         this.showTreatmentProgressBar = true;
-        this.noteService.queryTreatments(str).then(response => {
+        this.noteService.queryTreatments(str).then((response:any) => {
           this.showTreatmentProgressBar = false;
           this.treatmentList = response;
           console.log(response);
@@ -210,7 +218,7 @@ export class FormConclusionComponent implements OnInit {
         note: this.note
       }
     });
-    dialogRef.afterClosed().subscribe((response) => {
+    dialogRef.afterClosed().subscribe((response: any) => {
       if (response.accept && response.indications) {
         d.indications = response.indications;
       } else {
@@ -244,7 +252,7 @@ export class FormConclusionComponent implements OnInit {
     this.tempTimeobj = setTimeout(() => {
       if (str.length >= 2) {
         this.showInterconsultantionProgressBar = true;
-        this.noteService.queryInterconsultations(str).then(response => {
+        this.noteService.queryInterconsultations(str).then((response: any) => {
           this.showInterconsultantionProgressBar = false;
           this.interconsultationList = response;
           console.log(response);

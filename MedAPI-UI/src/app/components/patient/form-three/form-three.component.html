@@ -1,0 +1,207 @@
+<div class="layout-padding general symptoms" fxLayout="column">
+  <div fxLayout="column">
+    <h2 class="mat-title form-section" fxFlex="100">Alergias</h2>
+    <div fxLayout="column">
+      <mat-form-field>
+        <mat-chip-list #chipList aria-label="Alergias selection">
+          <input #allergieInput
+                 matInput
+                 [formControl]="allergiesCtrl"
+                 [matAutocomplete]="auto"
+                 [matChipInputFor]="chipList"
+                 (matChipInputTokenEnd)="addAllergie($event)"
+                 [matChipInputSeparatorKeyCodes]="separatorKeysCodes">
+        </mat-chip-list>
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedAllergie($event)">
+          <mat-option *ngFor="let allergie of filteredAllergies | async" [value]="allergie">
+            {{allergie.name}}
+          </mat-option>
+        </mat-autocomplete>
+        <mat-chip *ngFor="let allergie of patient.allergies"
+                  [removable]="removable" class="my-8 mx-8"
+                  (removed)="removeAllergie(allergie)">
+          {{allergie.name}}
+          <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+        </mat-chip>
+      </mat-form-field>
+      <div>
+        <mat-chip *ngFor="let allergie of resources.allergies"
+                  [selectable]="selectable"
+                  (click)="addAllergieSymptoms(allergie)"
+                  class="my-8 mx-8">
+          <div>{{allergie.name}}</div>
+        </mat-chip>
+      </div>
+    </div>
+    <mat-form-field>
+      <mat-label>Otras alergias</mat-label>
+      <input type="text" matInput name="otherAllergies" [(ngModel)]="patient.otherAllergies" maxlength="250"
+             #otherAllergies="ngModel">
+      <mat-hint align="end">{{otherAllergies.value?.length || 0}}/250</mat-hint>
+    </mat-form-field>
+  </div>
+  <div fxLayout="column">
+    <h2 class="mat-title form-section" fxFlex="100">Medicinas</h2>
+    <div fxLayout="column">
+      <mat-form-field>
+        <mat-chip-list #chipList aria-label="Medicinas selection">
+          <input #allergieInput
+                 matInput
+                 [formControl]="medicineCtrl"
+                 [matAutocomplete]="auto"
+                 [matChipInputFor]="chipList"
+                 (matChipInputTokenEnd)="addMedicine($event)"
+                 [matChipInputSeparatorKeyCodes]="separatorKeysCodes">
+        </mat-chip-list>
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedMedicine($event)">
+          <mat-option *ngFor="let medicine of filteredMedicines | async" [value]="medicine">
+            {{medicine.name}}
+          </mat-option>
+        </mat-autocomplete>
+        <mat-chip *ngFor="let medicine of patient.medicines"
+                  [removable]="removable" class="my-8 mx-8"
+                  (removed)="removeMedicine(medicine)">
+          {{medicine.name}}
+          <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+        </mat-chip>
+      </mat-form-field>
+      <div>
+        <mat-chip *ngFor="let medicine of resources.medicines"
+                  [selectable]="selectable"
+                  (click)="addMedicineSymptoms(medicine)"
+                  class="my-8 mx-8">
+          <div>{{medicine.name}}</div>
+        </mat-chip>
+      </div>
+    </div>
+    <mat-form-field>
+      <mat-label>Otras medicamentos</mat-label>
+      <input type="text" matInput name="otherMedicines" [(ngModel)]="patient.otherMedicines" maxlength="250"
+             #otherMedicines="ngModel">
+      <mat-hint align="end">{{otherMedicines.value?.length || 0}}/250</mat-hint>
+    </mat-form-field>
+  </div>
+  <div fxLayout="column">
+    <h2 class="mat-title form-section" fxFlex="100">Antecedentes personales</h2>
+    <div fxLayout="column">
+      <mat-form-field>
+        <mat-chip-list #chipList aria-label="Antecedentes personales selection">
+          <input #personalBackgroundInput
+                 matInput
+                 [formControl]="personalBackgroundCtrl"
+                 [matAutocomplete]="auto"
+                 [matChipInputFor]="chipList"
+                 (matChipInputTokenEnd)="addPersonalBackground($event)"
+                 [matChipInputSeparatorKeyCodes]="separatorKeysCodes">
+        </mat-chip-list>
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedPersonalBackground($event)">
+          <mat-option *ngFor="let personalBg of filteredPersonalBackgrounds | async" [value]="personalBg">
+            {{personalBg.name}}
+          </mat-option>
+        </mat-autocomplete>
+        <mat-chip *ngFor="let pbg of patient.personalBackground"
+                  [removable]="removable" class="my-8 mx-8"
+                  (removed)="removePersonalBackground(pbg)">
+          {{pbg.name}}
+          <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+        </mat-chip>
+      </mat-form-field>
+      <div>
+        <mat-chip *ngFor="let bg of resources.backgrounds"
+                  [selectable]="selectable"
+                  (click)="addPersonalBackgroundSymptoms(bg)"
+                  class="my-8 mx-8">
+          <div>{{bg.name}}</div>
+        </mat-chip>
+      </div>
+    </div>
+    <mat-form-field>
+      <mat-label>Otras antecedentes</mat-label>
+      <input type="text" matInput name="otherPersonalBackground" [(ngModel)]="patient.otherPersonalBackground" maxlength="250"
+             #otherPersonalBackground="ngModel">
+      <mat-hint align="end">{{otherPersonalBackground.value?.length || 0}}/250</mat-hint>
+    </mat-form-field>
+  </div>
+  <div fxLayout="column">
+    <h2 class="mat-title form-section" fxFlex="100">Antecedentes del Padre</h2>
+    <div fxLayout="column">
+      <mat-form-field>
+        <mat-chip-list #chipList aria-label="Antecedentes del Padre selection">
+          <input #fatherBackgroundInput
+                 matInput
+                 [formControl]="fatherBackgroundCtrl"
+                 [matAutocomplete]="auto"
+                 [matChipInputFor]="chipList"
+                 (matChipInputTokenEnd)="addFatherBackground($event)"
+                 [matChipInputSeparatorKeyCodes]="separatorKeysCodes">
+        </mat-chip-list>
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedFatherBackground($event)">
+          <mat-option *ngFor="let fatherBg of filteredFatherBackgrounds | async" [value]="fatherBg">
+            {{fatherBg.name}}
+          </mat-option>
+        </mat-autocomplete>
+        <mat-chip *ngFor="let fatherBg of patient.fatherBackground"
+                  [removable]="removable" class="my-8 mx-8"
+                  (removed)="removeFatherBackground(fatherBg)">
+          {{fatherBg.name}}
+          <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+        </mat-chip>
+      </mat-form-field>
+      <div>
+        <mat-chip *ngFor="let fatherBg of resources.backgrounds"
+                  [selectable]="selectable"
+                  (click)="addFatherBackgroundSymptoms(fatherBg)"
+                  class="my-8 mx-8">
+          <div>{{fatherBg.name}}</div>
+        </mat-chip>
+      </div>
+    </div>
+    <mat-form-field>
+      <mat-label>Otras antecedentes del Padre</mat-label>
+      <input type="text" matInput name="otherFatherBackground" [(ngModel)]="patient.otherFatherBackground" maxlength="250"
+             #otherFatherBackground="ngModel">
+      <mat-hint align="end">{{otherFatherBackground.value?.length || 0}}/250</mat-hint>
+    </mat-form-field>
+  </div>
+  <div fxLayout="column">
+    <h2 class="mat-title form-section" fxFlex="100">Antecedentes del Madre</h2>
+    <div fxLayout="column">
+      <mat-form-field>
+        <mat-chip-list #chipList aria-label="Antecedentes del Madre selection">
+          <input #motherBackgroundInput
+                 matInput
+                 [formControl]="motherBackgroundCtrl"
+                 [matAutocomplete]="auto"
+                 [matChipInputFor]="chipList"
+                 (matChipInputTokenEnd)="addMotherBackground($event)"
+                 [matChipInputSeparatorKeyCodes]="separatorKeysCodes">
+        </mat-chip-list>
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedMotherBackground($event)">
+          <mat-option *ngFor="let motherBg of filteredMotherBackgrounds | async" [value]="motherBg">
+            {{motherBg.name}}
+          </mat-option>
+        </mat-autocomplete>
+        <mat-chip *ngFor="let motherBg of patient.motherBackground"
+                  [removable]="removable" class="my-8 mx-8"
+                  (removed)="removeMotherBackground(motherBg)">
+          {{motherBg.name}}
+          <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+        </mat-chip>
+      </mat-form-field>
+      <div>
+        <mat-chip *ngFor="let motherBg of resources.backgrounds"
+                  [selectable]="selectable"
+                  (click)="addMotherBackgroundSymptoms(motherBg)"
+                  class="my-8 mx-8">
+          <div>{{motherBg.name}}</div>
+        </mat-chip>
+      </div>
+    </div>
+    <mat-form-field>
+      <mat-label>Otras antecedentes del Madre</mat-label>
+      <input type="text" matInput name="otherMotherBackground" [(ngModel)]="patient.otherMotherBackground" maxlength="250"
+             #otherMotherBackground="ngModel">
+      <mat-hint align="end">{{otherMotherBackground.value?.length || 0}}/250</mat-hint>
+    </mat-form-field>
+  </div>
+</div>

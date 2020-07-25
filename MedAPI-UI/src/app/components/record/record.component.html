@@ -38,8 +38,8 @@
     <p *ngIf="askPatientRegistration">Este DNI no se encuentra afiliado aún.</p>
 
   </form>
-  <div fxLayout="column" *ngIf="askPatientRegistration">
-    <button mat-raised-button type="button" color="primary">
+  <div *ngIf="askPatientRegistration">
+    <button mat-raised-button type="button" color="primary" (click)="navigateToPatient()">
       Afiliar Paciente
     </button>
   </div>
@@ -97,11 +97,15 @@
       </ng-container>
       <ng-container matColumnDef="description">
         <mat-header-cell *matHeaderCellDef> Descripción </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.symptoms.text}} </mat-cell>
+        <mat-cell *matCellDef="let element">
+          <!--{{element.symptoms.text}}-->
+        </mat-cell>
       </ng-container>
       <ng-container matColumnDef="specialty">
         <mat-header-cell *matHeaderCellDef> Especialidad </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.specialty.name}} </mat-cell>
+        <mat-cell *matCellDef="let element">
+        <!--{{element.specialty.name}}-->
+        </mat-cell>
       </ng-container>
       <ng-container matColumnDef="date">
         <mat-header-cell *matHeaderCellDef> Fecha </mat-header-cell>

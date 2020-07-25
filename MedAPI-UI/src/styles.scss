@@ -12,7 +12,7 @@ $medui-secondary-color: ( 50: #f1eff8, 100: #ddd8ed, 200: #c7bee1, 300: #b0a3d5,
 $medui-theme: mat-light-theme(mat-palette($medui-primary-color), mat-palette($medui-secondary-color));
 
 @include angular-material-theme($medui-theme);
-
+@import '~ngx-toastr/toastr';
 @import './app/theme/_variables';
 @import './app/theme/fonts';
 @import './app/theme/_main';

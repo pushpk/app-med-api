@@ -10,10 +10,11 @@ import {
   FractureIndicator, CardiovascularAgeIndicator
 } from './indicators/indicators';
 import { MatDialog } from '@angular/material/dialog';
-import { DialogDiagnosisComponent } from './dialog-diagnosis/dialog-diagnosis.component';
+// import { DialogDiagnosisComponent } from './dialog-diagnosis/dialog-diagnosis.component';
 import { ResourcesService } from '../../services/resources.service';
-import { catchError } from 'rxjs/operators';
+// import { catchError } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
+import { Patient } from '../../models/patient.models';
 
 @Component({
   selector: 'app-note',
@@ -21,7 +22,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./note.component.scss']
 })
 export class NoteComponent implements OnInit {
-  patient: any;
+  patient: Patient = new Patient();
   note: any;
   notes: any;
   selectedExam: any;
@@ -138,7 +139,7 @@ export class NoteComponent implements OnInit {
       otherSymptoms: '',
       selectedSpecialty: this.speciality,
       specialty: this.speciality.toUpperCase(),
-      physicalExamination: {
+      cardiovascularNote: {
         skin: {
           capillaryRefillLLM: 'NORMAL',
           capillaryRefillLRM: 'NORMAL'
@@ -170,18 +171,71 @@ export class NoteComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.patient = JSON.parse(localStorage.getItem('patient'));
+    //this.patient = JSON.parse(localStorage.getItem('patient'));
     this.notes = localStorage.getItem('notes');
     console.log(this.notes);
+    let patientData = localStorage.getItem('patient');
+    if (CheckEmptyUtil.isNotEmpty(patientData)) {
+      const patientDetails = JSON.parse(patientData);
+      console.log(patientDetails, 'patientDetails');
+      this.patient.id = patientDetails.id;
+      this.patient.name = patientDetails.user.firstName;
+      this.patient.lastnameFather = patientDetails.user.lastNameFather;
+      this.patient.lastnameMother = patientDetails.user.lastNameMother;
+      this.patient.country = patientDetails.user.countryId;
+      this.patient.documentType = patientDetails.user.documentType;
+      this.patient.documentNumber = patientDetails.user.documentNumber;
+      this.patient.birthday = patientDetails.user.birthday;
+      this.patient.sex = patientDetails.user.sex;
+      this.patient.maritalStatus = patientDetails.user.maritalStatus;
+      this.patient.maritalStatus = patientDetails.user.maritalStatus;
+      this.patient.province = patientDetails.user.district;
+      this.patient.district = patientDetails.user.districtId;
+      this.patient.address = patientDetails.user.address;
+      if (CheckEmptyUtil.isNotEmpty(patientDetails.user.organDonor)) {
+        this.patient.isDonor = patientDetails.user.organDonor;
+      } else {
+        this.patient.isDonor = false;
+      }
+      this.patient.email = patientDetails.user.email;
+      this.patient.phone = patientDetails.user.cellphone;
 
-    this.note.patient = this.patient.id;
-    //this.note.ticket = this.ticket;
+      this.patient.educationalAttainment = patientDetails.educationalAttainment;
+      this.patient.occupation = patientDetails.occupation;
+      this.patient.bloodType = patientDetails.bloodType;
+      this.patient.alcoholConsumption = patientDetails.alcohol;
+      this.patient.physicalActivity = patientDetails.physicalActivity;
+      this.patient.fvConsumption = patientDetails.fruitsVegetables;
+      this.patient.cigarettes = patientDetails.cigaretteNumber;
+      this.patient.dormNumber = patientDetails.dormNumber;
+      this.patient.fractureNumber = patientDetails.fractureNumber;
+      this.patient.highGlucose = patientDetails.highGlucose;
+      this.patient.home = {
+        rooms: patientDetails.residentNumber,
+        population: '',
+        type: patientDetails.homeType,
+        ownership: patientDetails.homeOwnership,
+        material: patientDetails.homeMaterial,
+        electricity: patientDetails.electricity,
+        water: patientDetails.water,
+        sewage: patientDetails.sewage
+      }
+      this.patient.otherAllergies = patientDetails.otherAllergies;
+      this.patient.otherMedicines = patientDetails.otherMedicines;
+      this.patient.otherPersonalBackground = patientDetails.otherPersonalBackground;
+      this.patient.otherFatherBackground = patientDetails.otherFatherBackground;
+      this.patient.otherMotherBackground = patientDetails.otherMotherBackground;
+      this.patient.passwordHash = patientDetails.user.passwordHash;
+      this.note.patientId = patientDetails.id;
+      this.patient.cigarettes = patientDetails.cigaretteNumber;
+    }
+
     this.patient.cigarettes = 0;
-    this.patient.personalBackground = ['HIPERTENSION','DIABETES_MELITUS_'];
+    this.patient.personalBackground = ['HIPERTENSION', 'DIABETES_MELITUS_'];
     this.patient.medicines = ['ANTIHIPERTENSIVOS'];
     this.patient.age = 0;
-    this.patient.fatherBackground = ['HIPERTENSION','ENFERMEDAD_CARDIOVASCULAR'];
-    this.patient.motherBackground = ['HIPERTENSION','ENFERMEDAD_CARDIOVASCULAR'];
+    this.patient.fatherBackground = ['HIPERTENSION', 'ENFERMEDAD_CARDIOVASCULAR'];
+    this.patient.motherBackground = ['HIPERTENSION', 'ENFERMEDAD_CARDIOVASCULAR'];
     this.patient.falls = '';
     this.patient.previousFractures = '5';
     this.patient.physicalActivity = 'MODERADA';
@@ -439,16 +493,16 @@ export class NoteComponent implements OnInit {
     let self = this;
 
     self.submit.waiting = true;
-
-    this.noteService.save(this.note).then((response: any) => {
+    let currentUserEmail = localStorage.getItem('email');
+    this.noteService.save(this.note, currentUserEmail).then((response: any) => {
       console.log(response);
       self.toastr.success('Atención guardada satisfactoriamente.');
       self.submit.waiting = false;
       self.submit.success = true;
       self.note.id = response.id;
-      self.router.navigateByUrl('/record')
-    }).catch((errors: any) => {
-      console.log(errors);
+      this.router.navigateByUrl('/records');
+    }).catch((error: any) => {
+      console.log(error);
       self.toastr.error('Ocurrió un error al guardar la atención.');
       self.submit.waiting = false;
       self.submit.success = false;

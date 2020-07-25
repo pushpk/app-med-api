@@ -86,7 +86,7 @@ export class RecordComponent implements OnInit {
       self.ticket.status = TicketStatus[<string>response.ticket.status];
       //self.recordService.patientId= self.patient
       if (typeof self.patient.notes !== 'undefined' && self.patient.notes !== null) {
-        console.log(JSON.stringify(self.patient.notes));
+        console.log(JSON.stringify(self.patient.notes),'notes');
         this.dataSource = new MatTableDataSource<PastAttentions>(self.patient.notes);
         this.dataSource.paginator = this.paginator;
       }
@@ -173,7 +173,10 @@ export class RecordComponent implements OnInit {
     this.router.navigateByUrl(routerPath);
   }
   navigateToPatient() {
-    let routerPath = '/patients';
+    let routerPath = '/patients/new';
+    if (CheckEmptyUtil.isNotEmpty(this.patient.Id)) {
+      routerPath = '/patients/' + this.patient.Id;
+    }
     this.router.navigateByUrl(routerPath);
   }
 

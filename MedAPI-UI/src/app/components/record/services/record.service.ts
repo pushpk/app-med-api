@@ -10,6 +10,7 @@ export class RecordService {
   public patientId: BehaviorSubject<any> = new BehaviorSubject('');
   public ticketNumber: BehaviorSubject<any> = new BehaviorSubject('');
   public selectedSpecialty: BehaviorSubject<string> = new BehaviorSubject('');
+  public passwordHash = new BehaviorSubject<string>(undefined);
 
   constructor(private httpUtilService: HttpUtilService) { }
 

@@ -14,11 +14,11 @@ export class NoteService {
   constructor(private httpUtilService: HttpUtilService, private resourcesService: ResourcesService) { }
 
   getResources(resourcesPath: any) {
-    return this.httpUtilService.invoke('GET', null, resourcesPath);
+    return this.httpUtilService.invoke('GET', null, resourcesPath, null);
   }
 
-  save(note: any) {
-    return this.httpUtilService.invoke('POST', note, '/record/note');
+  save(note: any, email: string) {
+    return this.httpUtilService.invoke('POST', note, '/record/note', email);
   }
 
   /* diagnosis */
