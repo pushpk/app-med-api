@@ -10,13 +10,16 @@ export class HttpUtilService {
 
   constructor(private httpClient: HttpClient) { }
 
-  invoke(method, postBody, endPoint) {
+  invoke(method, postBody, endPoint, currentUserEmail) {
     const url = environment.apiUrl + endPoint;
     const requestHeaders: any = {
       'Content-Type': 'application/json',
       Accept: 'application/json'
     };
 
+    if (CheckEmptyUtil.isNotEmpty(currentUserEmail)) {
+      requestHeaders.email = currentUserEmail;
+    }
     const headers = new HttpHeaders(requestHeaders);
     const body = CheckEmptyUtil.isNotEmptyObject(postBody) ? postBody : null;
 

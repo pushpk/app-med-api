@@ -1,6 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-
-import { HttpUtilService } from './http-util-service.service';
+import { HttpUtilService } from './http-util.service';
 
 describe('HttpUtilService', () => {
   let service: HttpUtilService;

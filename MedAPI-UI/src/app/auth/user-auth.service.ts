@@ -32,6 +32,7 @@ export class UserAuthService {
     localStorage.removeItem('patient');
     localStorage.removeItem('notes');
     localStorage.removeItem('speciality');
+    localStorage.removeItem('email');
   }
 
   public isAuthenticated() {

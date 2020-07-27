@@ -31,6 +31,9 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { NgInit } from './directive/nginit.directive';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { ToastrModule } from 'ngx-toastr';
 import { ngfModule } from 'angular-file';
 import { MatGridListModule } from '@angular/material/grid-list';
@@ -55,9 +58,15 @@ import { OrderByPipe } from './order-by.pipe';
     MatChipsModule,
     MatListModule,
     MatSlideToggleModule,    
-    ToastrModule.forRoot(),
+    ToastrModule.forRoot({
+      timeOut: 10000,
+      positionClass: 'toast-bottom-right',
+      preventDuplicates: true,
+    }),
     ngfModule,
-    MatGridListModule
+    MatGridListModule,
+    MatDatepickerModule,
+    MatMomentDateModule
   ],
   exports: [
     HeaderComponent,
@@ -93,7 +102,14 @@ import { OrderByPipe } from './order-by.pipe';
     ToastrModule,
     ngfModule,
     MatGridListModule,
-    OrderByPipe
-  ]
+    OrderByPipe,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatMomentDateModule
+  ],
+  providers: [
+    MatDatepickerModule,
+    MatNativeDateModule
+  ],
 })
 export class SharedModule { }
