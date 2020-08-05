@@ -230,7 +230,7 @@ namespace MedAPI.Controllers
             patient.id = mPatient.id;
             patient.alcohol = mPatient.alcoholConsumption;
             patient.bloodType = mPatient.bloodType;
-            patient.cigaretteNumber = mPatient.cigaretteNumber;
+            patient.cigaretteNumber = mPatient.cigarettes;
             patient.createdTicket = string.Empty;
             patient.dormNumber = mPatient.dormNumber;
             patient.educationalAttainment = mPatient.educationalAttainment;
@@ -251,6 +251,7 @@ namespace MedAPI.Controllers
             patient.residentNumber = 0;
             patient.water = mPatient.home.water;
             patient.sewage = mPatient.home.sewage;
+            patient.departmentId = mPatient.department;
             patient.user = setUserInfo(mPatient);
             return patient;
         }

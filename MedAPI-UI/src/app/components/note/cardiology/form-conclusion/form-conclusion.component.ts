@@ -93,7 +93,6 @@ export class FormConclusionComponent implements OnInit {
   }
 
   displayFn(data?: any): string | undefined {
-    console.log(data, 'data');
     return data ? '' : undefined;
   }
 
@@ -267,7 +266,7 @@ export class FormConclusionComponent implements OnInit {
     }
     let index = this.note.referrals.list.indexOf(d);
     if (index === -1) {
-      this.note.referrals.list.push(d);
+      this.note.referrals.list.push({ name: d });
     }
     this.selectedSpecialty = undefined;
     this.searchSpecialty = '';

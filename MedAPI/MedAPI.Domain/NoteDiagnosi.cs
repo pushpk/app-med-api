@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace MedAPI.Domain
 {
-   public class NoteDiagnosi
+    public class NoteDiagnosi
     {
         public NoteDiagnosi()
         {
             //this.notes = new List<Note>();
+            this.diagnosisList = new List<Diagnosis>();
         }
 
         public long id { get; set; }
@@ -18,7 +19,7 @@ namespace MedAPI.Domain
         public string diagnosisType { get; set; }
         public long? diagnosisId { get; set; }
         public long? noteId { get; set; }
-
+        public List<Diagnosis> diagnosisList { get; set; }
         //public List<Note> notes { get; set; }
     }
 }

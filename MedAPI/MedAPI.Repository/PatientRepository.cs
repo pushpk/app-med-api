@@ -152,6 +152,7 @@ namespace MedAPI.Repository
                     efPatients.physicalActivity = mPatient.physicalActivity;
                     efPatients.residentNumber = mPatient.residentNumber;
                     efPatients.sewage = mPatient.sewage;
+                    efPatients.departmentId = mPatient.departmentId;
                     efPatients.water = mPatient.water;
                     context.SaveChanges();
                     efPatients.id = efPatients.id;
@@ -196,7 +197,8 @@ namespace MedAPI.Repository
                                     physicalActivity = x.physicalActivity,
                                     residentNumber = x.residentNumber,
                                     sewage = x.sewage,
-                                    water = x.water
+                                    water = x.water,
+                                    departmentId = x.departmentId
                                     //user = x.user
                                     //address = x.address,
                                     //birthday = x.birthday,

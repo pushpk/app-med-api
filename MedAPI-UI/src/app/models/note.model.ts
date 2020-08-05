@@ -1,0 +1,45 @@
+import { Cardiovascularnote } from './cardiovascularnote.model';
+import { Establishment } from './establishment.model';
+import { NoteDiagnosis } from './noteDiagnosis.model';
+import { NoteExams } from './noteExams.model';
+import { NoteMedicines } from './noteMedicines.model';
+import { NoteReferrals } from './noteReferrals.model';
+import { Ticket } from './ticket.model';
+import { Triage } from './triage.model';
+
+export class Note {
+  id = 0;
+  age = null;
+  completed = false;
+  control = false;
+  createdBy = null;
+  createdDate = null;
+  deleted = false;
+  diagnosis = '';
+  exam = '';
+  modifiedBy = null;
+  modifiedDate = null;
+  physicalExam = '';
+  secondOpinion = '';
+  sicknessTime = 0;
+  sicknessUnit = 0;
+  specialty = '';
+  stage = 0;
+  story = null;
+  symptom = '';
+  treatment = '';
+  userId = null;
+  establishmentId = null;
+  medicId = null;
+  patientId = 0;
+  ticketId = 0;
+  triageId = 0;
+  cardiovascularnote: Cardiovascularnote = new Cardiovascularnote();
+  establishment: Establishment = new Establishment();
+  noteDiagnosis: NoteDiagnosis = new NoteDiagnosis();
+  noteExams: NoteExams = new NoteExams();
+  noteMedicines: NoteMedicines = new NoteMedicines();
+  noteReferrals: NoteReferrals = new NoteReferrals();
+  ticket: Ticket = new Ticket();
+  triage: Triage = new Triage();
+}

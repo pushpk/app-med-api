@@ -31,7 +31,7 @@ namespace MedAPI.models
 
         public MotherBackground[] motherBackground { get; set; }
         public string otherMotherBackground { get; set; }
-        public long? cigaretteNumber { get; set; }
+        public long? cigarettes { get; set; }
 
         public string name { get; set; }
         public string lastnameFather { get; set; }
@@ -43,7 +43,7 @@ namespace MedAPI.models
         public string sex { get; set; }
         public string maritalStatus { get; set; }
         public long? district { get; set; }
-        public long? department { get; set; }
+        public long department { get; set; }
         public long? province { get; set; }
         public string address { get; set; }
         public string email { get; set; }

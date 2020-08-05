@@ -11,6 +11,7 @@ namespace MedAPI.Domain
         public NoteMedicine()
         {
             //this.notes = new List<Note>();
+            this.medicineList = new List<Medicine>();
         }
 
         public long id { get; set; }
@@ -22,7 +23,7 @@ namespace MedAPI.Domain
         public string indication { get; set; }
         public long? medicineId { get; set; }
         public long? noteId { get; set; }
-
+        public List<Medicine> medicineList { get; set; }
         //public List<Note> notes { get; set; }
     }
 }

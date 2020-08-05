@@ -85,8 +85,8 @@
     <mat-toolbar color="default" *ngIf="patient">
       <mat-toolbar-row>
         <h2 class="mat-title">
-          {{patient.LastNameFather | uppercase}} {{patient.LastNameMother | uppercase}},
-          {{patient.FirstName}}
+          {{patient.lastnameFather | uppercase}} {{patient.lastnameMother | uppercase}},
+          {{patient.name}}
         </h2>
       </mat-toolbar-row>
     </mat-toolbar>
@@ -98,13 +98,13 @@
       <ng-container matColumnDef="description">
         <mat-header-cell *matHeaderCellDef> Descripción </mat-header-cell>
         <mat-cell *matCellDef="let element">
-          <!--{{element.symptoms.text}}-->
+          {{element.symptoms.description}}
         </mat-cell>
       </ng-container>
       <ng-container matColumnDef="specialty">
         <mat-header-cell *matHeaderCellDef> Especialidad </mat-header-cell>
         <mat-cell *matCellDef="let element">
-        <!--{{element.specialty.name}}-->
+          {{element.specialty}}
         </mat-cell>
       </ng-container>
       <ng-container matColumnDef="date">
@@ -114,7 +114,7 @@
       <ng-container matColumnDef="action">
         <mat-header-cell *matHeaderCellDef> </mat-header-cell>
         <mat-cell *matCellDef="let element">
-          <button type="button" mat-raised-button color="primary">
+          <button type="button" class="mx-16" mat-raised-button color="primary" (click)="selectedNotes(element)">
             Revisar esta atención
           </button>
           <button type="button" mat-raised-button color="primary" target="_blank">
@@ -125,7 +125,8 @@
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
       <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
     </mat-table>
-    <div *ngIf="!(dataSource.length > 0)" class="no-records">
+    {{dataSource.length}}
+    <div *ngIf="(dataSource.length <= 0)" class="no-records">
       El paciente no tiene atenciones anteriores.
     </div>
     <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>

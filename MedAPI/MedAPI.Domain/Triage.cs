@@ -43,6 +43,11 @@ namespace MedAPI.Domain
         public long? patientId { get; set; }
         public long? ticketId { get; set; }
 
+        public static implicit operator Triage(List<Triage> v)
+        {
+            throw new NotImplementedException();
+        }
+
         //public List<Note> notes { get; set; }
     }
 }

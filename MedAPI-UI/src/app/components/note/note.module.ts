@@ -22,7 +22,7 @@ import { CardioFormSymptomsComponent } from './cardiology/cardio-form-symptoms/c
 
 const routes: Routes = [
   {
-    path: 'new', component: NoteComponent,
+    path: ':new', component: NoteComponent,
     children: [
       { path: ':speciality', component: NoteComponent }
     ]

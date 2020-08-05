@@ -17,6 +17,7 @@ namespace MedAPI.DataAccess
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public note()
         {
+            this.cardiovascularnotes = new HashSet<cardiovascularnote>();
             this.notediagnosis = new HashSet<notediagnosi>();
             this.noteexams = new HashSet<noteexam>();
             this.notemedicines = new HashSet<notemedicine>();
@@ -46,10 +47,12 @@ namespace MedAPI.DataAccess
         public Nullable<long> user_id { get; set; }
         public Nullable<long> establishment_id { get; set; }
         public Nullable<long> medic_id { get; set; }
-        public Nullable<long> patient_id { get; set; }
+        public long patient_id { get; set; }
         public Nullable<long> ticket_id { get; set; }
         public Nullable<long> triage_id { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<cardiovascularnote> cardiovascularnotes { get; set; }
         public virtual establishment establishment { get; set; }
         public virtual medic medic { get; set; }
         public virtual patient patient { get; set; }

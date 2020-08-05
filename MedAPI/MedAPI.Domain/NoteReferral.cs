@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MedAPI.Domain
 {
-   public class NoteReferral
+    public class NoteReferral
     {
         public NoteReferral()
         {
@@ -14,7 +14,7 @@ namespace MedAPI.Domain
         }
 
         public long id { get; set; }
-        public byte[] deleted { get; set; }
+        public bool deleted { get; set; }
         public string reason { get; set; }
         public string specialty { get; set; }
         public long? noteId { get; set; }

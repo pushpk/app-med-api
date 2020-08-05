@@ -107,7 +107,7 @@ namespace MedAPI.Repository
                     efTicket = new DataAccess.ticket();
                     efTicket.deleted = false;// BitConverter.GetBytes(false);
                     context.tickets.Add(efTicket);
-                }
+                }                
                 efTicket.closed = mTicket.closed;
                 efTicket.status = mTicket.status;
                 efTicket.serie = mTicket.serie;

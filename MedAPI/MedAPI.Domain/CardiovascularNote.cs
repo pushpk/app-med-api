@@ -1,4 +1,6 @@
-﻿namespace MedAPI.Domain
+﻿using System;
+
+namespace MedAPI.Domain
 {
     public class CardiovascularNote
     {
@@ -27,7 +29,7 @@
         public bool trophicChanges { get; set; }
         public string vesicularWhisperL { get; set; }
         public string vesicularWhisperR { get; set; }
-        public long noteId { get; set; }
+        public long? noteId { get; set; }
         public long id { get; set; }
     }
 }

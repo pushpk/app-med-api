@@ -21,8 +21,8 @@ namespace MedAPI.Domain
             //this.NoteMedicines1 = new List<NoteMedicine>();
             //this.NoteReferrals1 = new List<NoteReferral>();
             //this.medic = new medic();
-            this.cardiovascularnote = new cardiovascularnote();
-            this.establishment = new establishment();
+            this.cardiovascularNote = new CardiovascularNote();
+            this.establishment = new Establishment();
             this.triage = new Triage();
             this.ticket = new Ticket();
 
@@ -51,13 +51,13 @@ namespace MedAPI.Domain
         public long? userId { get; set; }
         public long? establishmentId { get; set; }
         public long? medicId { get; set; }
-        public long? patientId { get; set; }
+        public long patientId { get; set; }
         public long? ticketId { get; set; }
         public long? triageId { get; set; }
 
 
-        public virtual cardiovascularnote cardiovascularnote { get; set; }
-        public virtual establishment establishment { get; set; }
+        //public virtual cardiovascularnote cardiovascularnote { get; set; }
+        //public virtual establishment establishment { get; set; }
         public ICollection<Note> noteList { get; set; }
         //public virtual medic medic { get; set; }
         //public virtual note note2 { get; set; }
@@ -65,6 +65,8 @@ namespace MedAPI.Domain
         //public virtual triage triage { get; set; }
         //public virtual ticket ticket { get; set; }
         //public ICollection<Note> note { get; set; }
+        public CardiovascularNote cardiovascularNote { get; set; }
+        public Establishment establishment { get; set; }
         public ICollection<NoteDiagnosi> noteDiagnosis { get; set; }
         public ICollection<NoteExam> noteExams { get; set; }
         public ICollection<NoteMedicine> noteMedicines { get; set; }

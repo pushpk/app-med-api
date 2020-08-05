@@ -62,7 +62,7 @@ export class FormSymptomsComponent implements OnInit {
       }
     });
 
-    console.log(this.resources.durationUnits, 'this.resources.durationUnits');
+    console.log(this.note);
   }
 
   //getDiagnosis() {

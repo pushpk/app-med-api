@@ -10,7 +10,9 @@ namespace MedAPI.models
         public long id { get; set; }
         public long patientId { get; set; }
         public long ticketId { get; set; }
-
+        public long triageId { get; set; }
+        public long medicId { get; set; }
+        public long userId { get; set; }
         public Symptoms symptoms { get; set; }
         public PhysicalExam physicalExam { get; set; }
         public Diagnosis diagnosis { get; set; }

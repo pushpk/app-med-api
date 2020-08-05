@@ -12,6 +12,7 @@ namespace MedAPI.Domain
         {
             //this.Notes = new List<Note>();
             this.uploads = new List<Upload>();
+            this.examList = new List<Exam>();
         }
 
         public long id { get; set; }
@@ -23,5 +24,6 @@ namespace MedAPI.Domain
         public long noteId { get; set; }
         //public List<Note> Notes { get; set; }
         public List<Upload> uploads { get; set; }
+        public List<Exam> examList { get; set; }
     }
 }

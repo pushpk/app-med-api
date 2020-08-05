@@ -17,6 +17,7 @@ namespace MedAPI.DataAccess
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public department()
         {
+            this.patients = new HashSet<patient>();
             this.provinces = new HashSet<province>();
         }
     
@@ -26,6 +27,8 @@ namespace MedAPI.DataAccess
         public long country_id { get; set; }
     
         public virtual country country { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<patient> patients { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<province> provinces { get; set; }
     }

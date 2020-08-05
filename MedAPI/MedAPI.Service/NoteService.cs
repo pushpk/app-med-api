@@ -45,6 +45,7 @@ namespace MedAPI.Service
         public Note SaveNote(Note mNote)
         {
             var ticket = ticketRepository.SaveTicket(mNote.ticket);
+
             if (ticket.id > 0)
             {
                 mNote.ticketId = ticket.id;
@@ -123,7 +124,7 @@ namespace MedAPI.Service
 
             return mNoteResourcesList;
         }
-      
+
         public bool SaveDiagnosisList(List<NoteDiagnosi> diagnosi)
         {
             return noteRepository.SaveDiagnosisList(diagnosi);

@@ -103,12 +103,13 @@ namespace MedAPI.Repository
         {
             using (var context = new DataAccess.registroclinicoEntities())
             {
-                var efCardiovascularNote = context.cardiovascularnotes.Where(x => x.id == mCardiovascularNote.id).FirstOrDefault();
+                var efCardiovascularNote = context.cardiovascularnotes.Where(x => x.note_id == mCardiovascularNote.noteId).FirstOrDefault();
                 if (efCardiovascularNote == null)
                 {
                     efCardiovascularNote = new DataAccess.cardiovascularnote();
                     context.cardiovascularnotes.Add(efCardiovascularNote);
                 }
+                efCardiovascularNote.note_id = mCardiovascularNote.noteId;
                 efCardiovascularNote.auscultationSite = mCardiovascularNote.auscultationSite;
                 efCardiovascularNote.capillaryRefillLLM = mCardiovascularNote.capillaryRefillLLM;
                 efCardiovascularNote.capillaryRefillLRM = mCardiovascularNote.capillaryRefillLRM;
@@ -135,6 +136,7 @@ namespace MedAPI.Repository
                 efCardiovascularNote.vesicularWhisperL = mCardiovascularNote.vesicularWhisperL;
                 efCardiovascularNote.vesicularWhisperR = mCardiovascularNote.vesicularWhisperR;
                 context.SaveChanges();
+                mCardiovascularNote.id = efCardiovascularNote.id;
                 return Convert.ToInt32(efCardiovascularNote.id);
             }
         }

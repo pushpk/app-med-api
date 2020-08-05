@@ -14,7 +14,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { ResourcesService } from '../../services/resources.service';
 // import { catchError } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
-import { Patient } from '../../models/patient.models';
+import { Patient } from '../../models/patient.model';
+import { NoteDetail } from '../../models/noteDetail.model';
 
 @Component({
   selector: 'app-note',
@@ -23,8 +24,8 @@ import { Patient } from '../../models/patient.models';
 })
 export class NoteComponent implements OnInit {
   patient: Patient = new Patient();
-  note: any;
-  notes: any;
+  note: NoteDetail = new NoteDetail();
+  //notes: any;
   selectedExam: any;
   searchExam: string;
 
@@ -39,7 +40,7 @@ export class NoteComponent implements OnInit {
     waiting: false,
     success: false
   };
-
+  selectNoteId: any;
   tabs: Array<{ title: string; }>;
 
   constructor(private noteService: NoteService,
@@ -64,186 +65,117 @@ export class NoteComponent implements OnInit {
     self.selectedSpecialty = null;
     self.searchSpecialty = '';
 
-    self.note = {
-      symptoms: {
-        list: [],
-        description: '',
-        duration: '',
-        durationUnit: '',
-        background: ''
-      },
-      physicalExam: {
-        text: ''
-      },
-      diagnosis: {
-        list: [],
-        observations: ''
-      },
-      exams: {
-        list: [],
-        observations: ''
-      },
-      treatments: {
-        list: [],
-        other: ''
-      },
-      interconsultation: {
-        list: [],
-        reason: ''
-      },
-      referrals: {
-        list: []
-      },
-      triage: {
-        biologicalFunctions: {
-          sleep: 'NORMAL',
-          hunger: 'NORMAL',
-          thirst: 'NORMAL',
-          urine: 'NORMAL',
-          deposition: 'NORMAL',
-          weightEvolution: 'NORMAL'
-        },
-        vitalFunctions: {
-          systolic: '',
-          diastolic: '',
-          heartRate: '',
-          respiratoryRate: '',
-          temperature: '',
-          waistCircumference: '',
-          height: '',
-          weight: '',
-          bmi: '',
-          cardiovascularRiskFramingham: '',
-          cardiovascularRiskReynolds: '',
-          hypertensionRisk: '',
-          diabetesRisk: '',
-          fractureRisk: '',
-          cardiovascularAge: ''
-        },
-        others: {
-          totalCholesterol: '',
-          ldlCholesterol: '',
-          hdlCholesterol: '',
-          glycemia: '',
-          glycatedHemoglobin: '',
-          urineAlbumin: '',
-          creatinineClearance: ''
+    //self.note = {
+    //  symptoms: {
+    //    list: [],
+    //    description: '',
+    //    duration: '',
+    //    durationUnit: '',
+    //    background: ''
+    //  },
+    //  physicalExam: {
+    //    text: ''
+    //  },
+    //  diagnosis: {
+    //    list: [],
+    //    observations: ''
+    //  },
+    //  exams: {
+    //    list: [],
+    //    observations: ''
+    //  },
+    //  treatments: {
+    //    list: [],
+    //    other: ''
+    //  },
+    //  interconsultation: {
+    //    list: [],
+    //    reason: ''
+    //  },
+    //  referrals: {
+    //    list: []
+    //  },
+    //  triage: {
+    //    biologicalFunctions: {
+    //      sleep: 'NORMAL',
+    //      hunger: 'NORMAL',
+    //      thirst: 'NORMAL',
+    //      urine: 'NORMAL',
+    //      deposition: 'NORMAL',
+    //      weightEvolution: 'NORMAL'
+    //    },
+    //    vitalFunctions: {
+    //      systolic: '',
+    //      diastolic: '',
+    //      heartRate: '',
+    //      respiratoryRate: '',
+    //      temperature: '',
+    //      waistCircumference: '',
+    //      height: '',
+    //      weight: '',
+    //      bmi: '',
+    //      cardiovascularRiskFramingham: '',
+    //      cardiovascularRiskReynolds: '',
+    //      hypertensionRisk: '',
+    //      diabetesRisk: '',
+    //      fractureRisk: '',
+    //      cardiovascularAge: ''
+    //    },
+    //    others: {
+    //      totalCholesterol: '',
+    //      ldlCholesterol: '',
+    //      hdlCholesterol: '',
+    //      glycemia: '',
+    //      glycatedHemoglobin: '',
+    //      urineAlbumin: '',
+    //      creatinineClearance: ''
 
-        }
-      },
-      todo: {
-        HSCRP: [],
-        HDL: [],
-        TCH: []
-      },
-      otherSymptoms: '',
-      selectedSpecialty: this.speciality,
-      specialty: this.speciality.toUpperCase(),
-      cardiovascularNote: {
-        skin: {
-          capillaryRefillLLM: 'NORMAL',
-          capillaryRefillLRM: 'NORMAL'
-        },
-        pulses: {
-          pulsesLLM: 'NORMAL',
-          pulsesLRM: 'NORMAL'
-        },
-        respiratorySystem: {
-          vesicularWhisperL: 'NORMAL',
-          vesicularWhisperR: 'NORMAL'
-        },
-        cardiovascularSystem: {
-          radialPulsesL: 'NORMAL',
-          radialPulsesR: 'NORMAL',
-          pedalPulsesL: 'NORMAL',
-          pedalPulsesR: 'NORMAL',
-          cardiacPressureRhythm: 'NORMAL',
-          cardiacPressureIntensity: 'NORMAL'
-        },
-        murmurs: {
-          murmurs: false
-        },
-        gastrointestinalSemiology: {
-          gastrointestinalSemiology: 'NORMAL'
-        }
-      }
-    };
+    //    }
+    //  },
+    //  todo: {
+    //    HSCRP: [],
+    //    HDL: [],
+    //    TCH: []
+    //  },
+    //  otherSymptoms: '',
+    //  selectedSpecialty: this.speciality,
+    //  specialty: this.speciality.toUpperCase(),
+    //  cardiovascularNote: {
+    //    skin: {
+    //      capillaryRefillLLM: 'NORMAL',
+    //      capillaryRefillLRM: 'NORMAL'
+    //    },
+    //    pulses: {
+    //      pulsesLLM: 'NORMAL',
+    //      pulsesLRM: 'NORMAL'
+    //    },
+    //    respiratorySystem: {
+    //      vesicularWhisperL: 'NORMAL',
+    //      vesicularWhisperR: 'NORMAL'
+    //    },
+    //    cardiovascularSystem: {
+    //      radialPulsesL: 'NORMAL',
+    //      radialPulsesR: 'NORMAL',
+    //      pedalPulsesL: 'NORMAL',
+    //      pedalPulsesR: 'NORMAL',
+    //      cardiacPressureRhythm: 'NORMAL',
+    //      cardiacPressureIntensity: 'NORMAL'
+    //    },
+    //    murmurs: {
+    //      murmurs: false
+    //    },
+    //    gastrointestinalSemiology: {
+    //      gastrointestinalSemiology: 'NORMAL'
+    //    }
+    //  }
+    //};
   }
 
   ngOnInit(): void {
     //this.patient = JSON.parse(localStorage.getItem('patient'));
-    this.notes = localStorage.getItem('notes');
-    console.log(this.notes);
-    let patientData = localStorage.getItem('patient');
-    if (CheckEmptyUtil.isNotEmpty(patientData)) {
-      const patientDetails = JSON.parse(patientData);
-      console.log(patientDetails, 'patientDetails');
-      this.patient.id = patientDetails.id;
-      this.patient.name = patientDetails.user.firstName;
-      this.patient.lastnameFather = patientDetails.user.lastNameFather;
-      this.patient.lastnameMother = patientDetails.user.lastNameMother;
-      this.patient.country = patientDetails.user.countryId;
-      this.patient.documentType = patientDetails.user.documentType;
-      this.patient.documentNumber = patientDetails.user.documentNumber;
-      this.patient.birthday = patientDetails.user.birthday;
-      this.patient.sex = patientDetails.user.sex;
-      this.patient.maritalStatus = patientDetails.user.maritalStatus;
-      this.patient.maritalStatus = patientDetails.user.maritalStatus;
-      this.patient.province = patientDetails.user.district;
-      this.patient.district = patientDetails.user.districtId;
-      this.patient.address = patientDetails.user.address;
-      if (CheckEmptyUtil.isNotEmpty(patientDetails.user.organDonor)) {
-        this.patient.isDonor = patientDetails.user.organDonor;
-      } else {
-        this.patient.isDonor = false;
-      }
-      this.patient.email = patientDetails.user.email;
-      this.patient.phone = patientDetails.user.cellphone;
-
-      this.patient.educationalAttainment = patientDetails.educationalAttainment;
-      this.patient.occupation = patientDetails.occupation;
-      this.patient.bloodType = patientDetails.bloodType;
-      this.patient.alcoholConsumption = patientDetails.alcohol;
-      this.patient.physicalActivity = patientDetails.physicalActivity;
-      this.patient.fvConsumption = patientDetails.fruitsVegetables;
-      this.patient.cigarettes = patientDetails.cigaretteNumber;
-      this.patient.dormNumber = patientDetails.dormNumber;
-      this.patient.fractureNumber = patientDetails.fractureNumber;
-      this.patient.highGlucose = patientDetails.highGlucose;
-      this.patient.home = {
-        rooms: patientDetails.residentNumber,
-        population: '',
-        type: patientDetails.homeType,
-        ownership: patientDetails.homeOwnership,
-        material: patientDetails.homeMaterial,
-        electricity: patientDetails.electricity,
-        water: patientDetails.water,
-        sewage: patientDetails.sewage
-      }
-      this.patient.otherAllergies = patientDetails.otherAllergies;
-      this.patient.otherMedicines = patientDetails.otherMedicines;
-      this.patient.otherPersonalBackground = patientDetails.otherPersonalBackground;
-      this.patient.otherFatherBackground = patientDetails.otherFatherBackground;
-      this.patient.otherMotherBackground = patientDetails.otherMotherBackground;
-      this.patient.passwordHash = patientDetails.user.passwordHash;
-      this.note.patientId = patientDetails.id;
-      this.patient.cigarettes = patientDetails.cigaretteNumber;
-    }
-
-    this.patient.cigarettes = 0;
-    this.patient.personalBackground = ['HIPERTENSION', 'DIABETES_MELITUS_'];
-    this.patient.medicines = ['ANTIHIPERTENSIVOS'];
-    this.patient.age = 0;
-    this.patient.fatherBackground = ['HIPERTENSION', 'ENFERMEDAD_CARDIOVASCULAR'];
-    this.patient.motherBackground = ['HIPERTENSION', 'ENFERMEDAD_CARDIOVASCULAR'];
-    this.patient.falls = '';
-    this.patient.previousFractures = '5';
-    this.patient.physicalActivity = 'MODERADA';
-
-    console.log(this.patient);
-
+    this.getPatients();
+    this.getNotes();
     this.recordService.selectedSpecialty.subscribe((value) => {
-      console.log(value);
       this.speciality = value;
     });
 
@@ -253,6 +185,100 @@ export class NoteComponent implements OnInit {
     this.noteService.updateComputedFieldsEvent.subscribe((o) => {
       this.handleComputedFieldsChange(o);
     });
+  }
+
+  public getNotes() {
+    let notesData = localStorage.getItem('notes');
+    if (CheckEmptyUtil.isNotEmpty(notesData)) {
+      let noteDetails = JSON.parse(notesData);
+      console.log(noteDetails, 'details');
+      this.selectNoteId = this.route.snapshot.paramMap.get('new');
+      if (this.selectNoteId === 'new') {
+        console.log(noteDetails, 'details112');
+        this.note = noteDetails[0];
+        this.note.specialty = this.speciality;
+        this.note.userId = this.patient.userId;
+      } else {
+        noteDetails.forEach((note) => {
+          if (note.id == this.selectNoteId) {
+            this.note = note;
+            this.note.userId = this.patient.userId;
+          }
+        });
+      }
+    } else {
+      console.log('else');
+      this.note.patientId = this.patient.id;
+      this.note.specialty = this.speciality;
+      this.note.userId = this.patient.userId;
+    }
+  }
+
+  public getPatients() {
+    let patientData = localStorage.getItem('patient');
+    if (CheckEmptyUtil.isNotEmptyObject(patientData)) {
+      const patientDetails = JSON.parse(patientData);
+      this.patient = patientDetails;
+    }
+    //  console.log(patientDetails, 'patientDetails');
+    //  this.patient.id = patientDetails.id;
+    //  this.patient.name = patientDetails.user.firstName;
+    //  this.patient.lastnameFather = patientDetails.user.lastNameFather;
+    //  this.patient.lastnameMother = patientDetails.user.lastNameMother;
+    //  this.patient.country = patientDetails.user.countryId;
+    //  this.patient.documentType = patientDetails.user.documentType;
+    //  this.patient.documentNumber = patientDetails.user.documentNumber;
+    //  this.patient.birthday = patientDetails.user.birthday;
+    //  this.patient.sex = patientDetails.user.sex;
+    //  this.patient.maritalStatus = patientDetails.user.maritalStatus;
+    //  this.patient.maritalStatus = patientDetails.user.maritalStatus;
+    //  this.patient.province = patientDetails.user.district;
+    //  this.patient.district = patientDetails.user.districtId;
+    //  this.patient.address = patientDetails.user.address;
+    //  if (CheckEmptyUtil.isNotEmpty(patientDetails.user.organDonor)) {
+    //    this.patient.isDonor = patientDetails.user.organDonor;
+    //  } else {
+    //    this.patient.isDonor = false;
+    //  }
+    //  this.patient.email = patientDetails.user.email;
+    //  this.patient.phone = patientDetails.user.cellphone;
+
+    //  this.patient.educationalAttainment = patientDetails.educationalAttainment;
+    //  this.patient.occupation = patientDetails.occupation;
+    //  this.patient.bloodType = patientDetails.bloodType;
+    //  this.patient.alcoholConsumption = patientDetails.alcohol;
+    //  this.patient.physicalActivity = patientDetails.physicalActivity;
+    //  this.patient.fvConsumption = patientDetails.fruitsVegetables;
+    //  this.patient.cigarettes = patientDetails.cigaretteNumber;
+    //  this.patient.dormNumber = patientDetails.dormNumber;
+    //  this.patient.fractureNumber = patientDetails.fractureNumber;
+    //  this.patient.highGlucose = patientDetails.highGlucose;
+    //  this.patient.home = {
+    //    rooms: patientDetails.residentNumber,
+    //    population: '',
+    //    type: patientDetails.homeType,
+    //    ownership: patientDetails.homeOwnership,
+    //    material: patientDetails.homeMaterial,
+    //    electricity: patientDetails.electricity,
+    //    water: patientDetails.water,
+    //    sewage: patientDetails.sewage
+    //  }
+    //  this.patient.otherAllergies = patientDetails.otherAllergies;
+    //  this.patient.otherMedicines = patientDetails.otherMedicines;
+    //  this.patient.otherPersonalBackground = patientDetails.otherPersonalBackground;
+    //  this.patient.otherFatherBackground = patientDetails.otherFatherBackground;
+    //  this.patient.otherMotherBackground = patientDetails.otherMotherBackground;
+    //  this.patient.passwordHash = patientDetails.user.passwordHash;
+    //  this.note.patientId = patientDetails.id;
+    //  this.patient.cigarettes = patientDetails.cigaretteNumber;
+    //}
+
+    this.patient.personalBackground = ['HIPERTENSION', 'DIABETES_MELITUS_'];
+    this.patient.medicines = ['ANTIHIPERTENSIVOS'];
+    this.patient.fatherBackground = ['HIPERTENSION', 'ENFERMEDAD_CARDIOVASCULAR'];
+    this.patient.motherBackground = ['HIPERTENSION', 'ENFERMEDAD_CARDIOVASCULAR'];
+    this.patient.previousFractures = '5';
+    this.patient.physicalActivity = 'MODERADA';
   }
 
   private showTabs(speciality: string) {
@@ -323,7 +349,6 @@ export class NoteComponent implements OnInit {
       vf.bmi = null;
     }
 
-    console.log(vf.bmi);
     /* cardiovascular desease risk */
     let cigarettes = false;
     let medicines_ANTIHIPERTENSIVOS = false;
@@ -494,6 +519,7 @@ export class NoteComponent implements OnInit {
 
     self.submit.waiting = true;
     let currentUserEmail = localStorage.getItem('email');
+    console.log(this.note, 'this.note');
     this.noteService.save(this.note, currentUserEmail).then((response: any) => {
       console.log(response);
       self.toastr.success('Atención guardada satisfactoriamente.');

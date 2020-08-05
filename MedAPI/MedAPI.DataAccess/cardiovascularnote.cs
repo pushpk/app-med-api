@@ -14,6 +14,12 @@ namespace MedAPI.DataAccess
     
     public partial class cardiovascularnote
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public cardiovascularnote()
+        {
+            this.cardiovascularnote_cardiovascularsymptoms = new HashSet<cardiovascularnote_cardiovascularsymptoms>();
+        }
+    
         public long id { get; set; }
         public Nullable<long> note_id { get; set; }
         public string auscultationSite { get; set; }
@@ -42,6 +48,8 @@ namespace MedAPI.DataAccess
         public string vesicularWhisperL { get; set; }
         public string vesicularWhisperR { get; set; }
     
-        public virtual cardiovascularnote_cardiovascularsymptoms cardiovascularnote_cardiovascularsymptoms { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<cardiovascularnote_cardiovascularsymptoms> cardiovascularnote_cardiovascularsymptoms { get; set; }
+        public virtual note note { get; set; }
     }
 }

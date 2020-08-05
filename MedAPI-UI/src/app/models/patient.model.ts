@@ -1,5 +1,6 @@
-import { Home } from './home.models';
+import { Home } from './home.model';
 import { CheckEmptyUtil } from '../shared/util/check-empty.util';
+import { NoteDetail } from './noteDetail.model';
 
 export class Patient {
   id = 0;
@@ -32,13 +33,13 @@ export class Patient {
   otherAllergies = '';
   medicines = [];
   otherMedicines = '';
-  personalBackground=[];
+  personalBackground = [];
   otherPersonalBackground = '';
-  fatherBackground=[];
+  fatherBackground = [];
   otherFatherBackground = '';
-  motherBackground=[];
+  motherBackground = [];
   otherMotherBackground = '';
-  passwordHash= '';
+  passwordHash = '';
   cigarettes = 0;
   dormNumber = '';
   fractureNumber = '';
@@ -47,6 +48,7 @@ export class Patient {
   age = 0;
   falls = '';
   previousFractures = '';
+  notes = [];
   constructor(data?: any) {
     if (CheckEmptyUtil.isNotEmptyObject(data)) {
       if (data.id) {

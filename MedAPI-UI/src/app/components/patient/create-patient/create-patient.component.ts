@@ -5,8 +5,8 @@ import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router, NavigationStart } from '@angular/router';
 import { CheckEmptyUtil } from '../../../shared/util/check-empty.util';
 import { RecordService } from '../../record/services/record.service';
-import { Patient } from '../../../models/patient.models';
-import { Home } from '../../../models/home.models';
+import { Patient } from '../../../models/patient.model';
+import { Home } from '../../../models/home.model';
 
 @Component({
   selector: 'app-create-patient',
@@ -121,54 +121,54 @@ export class CreatePatientComponent implements OnInit {
       });
       const patientDetails = JSON.parse(patientData);
       console.log(patientDetails, 'patientDetails');
+      this.patient = patientDetails;
+      //this.patient.id = patientDetails.id;
+      //this.patient.userId = patientDetails.userId;
+      //this.patient.name = patientDetails.user.firstName;
+      //this.patient.lastnameFather = patientDetails.user.lastNameFather;
+      //this.patient.lastnameMother = patientDetails.user.lastNameMother;
+      //this.patient.country = patientDetails.user.countryId;
+      //this.patient.documentType = patientDetails.user.documentType;
+      //this.patient.documentNumber = patientDetails.user.documentNumber;
+      //this.patient.birthday = patientDetails.user.birthday;
+      //this.patient.sex = patientDetails.user.sex;
+      //this.patient.maritalStatus = patientDetails.user.maritalStatus;
+      //this.patient.maritalStatus = patientDetails.user.maritalStatus;
+      //this.patient.province = patientDetails.user.district;
+      //this.patient.district = patientDetails.user.districtId;
+      //this.patient.address = patientDetails.user.address;
+      //if (CheckEmptyUtil.isNotEmpty(patientDetails.user.organDonor)) {
+      //  this.patient.isDonor = patientDetails.user.organDonor;
+      //} else {
+      //  this.patient.isDonor = false;
+      //}
+      //this.patient.email = patientDetails.user.email;
+      //this.patient.phone = patientDetails.user.cellphone;
 
-      this.patient.id = patientDetails.id;
-      this.patient.userId = patientDetails.userId;
-      this.patient.name = patientDetails.user.firstName;
-      this.patient.lastnameFather = patientDetails.user.lastNameFather;
-      this.patient.lastnameMother = patientDetails.user.lastNameMother;
-      this.patient.country = patientDetails.user.countryId;
-      this.patient.documentType = patientDetails.user.documentType;
-      this.patient.documentNumber = patientDetails.user.documentNumber;
-      this.patient.birthday = patientDetails.user.birthday;
-      this.patient.sex = patientDetails.user.sex;
-      this.patient.maritalStatus = patientDetails.user.maritalStatus;
-      this.patient.maritalStatus = patientDetails.user.maritalStatus;
-      this.patient.province = patientDetails.user.district;
-      this.patient.district = patientDetails.user.districtId;
-      this.patient.address = patientDetails.user.address;
-      if (CheckEmptyUtil.isNotEmpty(patientDetails.user.organDonor)) {
-        this.patient.isDonor = patientDetails.user.organDonor;
-      } else {
-        this.patient.isDonor = false;
-      }
-      this.patient.email = patientDetails.user.email;
-      this.patient.phone = patientDetails.user.cellphone;
-
-      this.patient.educationalAttainment = patientDetails.educationalAttainment;
-      this.patient.occupation = patientDetails.occupation;
-      this.patient.bloodType = patientDetails.bloodType;
-      this.patient.alcoholConsumption = patientDetails.alcohol;
-      this.patient.physicalActivity = patientDetails.physicalActivity;
-      this.patient.fvConsumption = patientDetails.fruitsVegetables;
-      this.patient.cigarettes = patientDetails.cigaretteNumber;
-      this.patient.dormNumber = patientDetails.dormNumber;
-      this.patient.fractureNumber = patientDetails.fractureNumber;
-      this.patient.highGlucose = patientDetails.highGlucose;
-      this.patient.home.rooms = patientDetails.residentNumber;
-      this.patient.home.population = '';
-      this.patient.home.type = patientDetails.homeType;
-      this.patient.home.ownership = patientDetails.homeOwnership;
-      this.patient.home.material = patientDetails.homeMaterial;
-      this.patient.home.electricity = patientDetails.electricity;
-      this.patient.home.water = patientDetails.water;
-      this.patient.home.sewage = patientDetails.sewage;      
-      this.patient.otherAllergies = patientDetails.otherAllergies;
-      this.patient.otherMedicines = patientDetails.otherMedicines;
-      this.patient.otherPersonalBackground = patientDetails.otherPersonalBackground;
-      this.patient.otherFatherBackground = patientDetails.otherFatherBackground;
-      this.patient.otherMotherBackground = patientDetails.otherMotherBackground;
-      this.patient.passwordHash = patientDetails.user.passwordHash;
+      //this.patient.educationalAttainment = patientDetails.educationalAttainment;
+      //this.patient.occupation = patientDetails.occupation;
+      //this.patient.bloodType = patientDetails.bloodType;
+      //this.patient.alcoholConsumption = patientDetails.alcohol;
+      //this.patient.physicalActivity = patientDetails.physicalActivity;
+      //this.patient.fvConsumption = patientDetails.fruitsVegetables;
+      //this.patient.cigarettes = patientDetails.cigaretteNumber;
+      //this.patient.dormNumber = patientDetails.dormNumber;
+      //this.patient.fractureNumber = patientDetails.fractureNumber;
+      //this.patient.highGlucose = patientDetails.highGlucose;
+      //this.patient.home.rooms = patientDetails.residentNumber;
+      //this.patient.home.population = '';
+      //this.patient.home.type = patientDetails.homeType;
+      //this.patient.home.ownership = patientDetails.homeOwnership;
+      //this.patient.home.material = patientDetails.homeMaterial;
+      //this.patient.home.electricity = patientDetails.electricity;
+      //this.patient.home.water = patientDetails.water;
+      //this.patient.home.sewage = patientDetails.sewage;      
+      //this.patient.otherAllergies = patientDetails.otherAllergies;
+      //this.patient.otherMedicines = patientDetails.otherMedicines;
+      //this.patient.otherPersonalBackground = patientDetails.otherPersonalBackground;
+      //this.patient.otherFatherBackground = patientDetails.otherFatherBackground;
+      //this.patient.otherMotherBackground = patientDetails.otherMotherBackground;
+      //this.patient.passwordHash = patientDetails.user.passwordHash;
     }
   }
 

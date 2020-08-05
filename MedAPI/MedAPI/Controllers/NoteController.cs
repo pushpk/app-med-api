@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Http;
 using MedAPI.models;
 using System.Collections.Generic;
+using static MedAPI.Infrastructure.Common;
 
 namespace MedAPI.Controllers
 {
@@ -115,8 +116,11 @@ namespace MedAPI.Controllers
                     var referrals = setReferralsList(mNote);
                     noteService.SaveReferralsList(referrals);
 
-                    var mCardiovascularNote = setCardiovascularNote(mNote);
-                    cardiovascularNoteService.SaveCardiovascularNote(mCardiovascularNote);
+                    if (mNote.cardiovascularNote != null && mNote.specialty == "cardiology")
+                    {
+                        var mCardiovascularNote = setCardiovascularNote(mNote);
+                        cardiovascularNoteService.SaveCardiovascularNote(mCardiovascularNote);
+                    }
                     response = Request.CreateResponse(HttpStatusCode.OK, responseNote);
                 }
                 else
@@ -252,7 +256,10 @@ namespace MedAPI.Controllers
             note.symptom = mNote.symptoms.description;
             note.treatment = mNote.treatments.other;
             note.patientId = mNote.patientId;
+            note.triage.id = mNote.triageId;
             note.ticketId = mNote.ticketId;
+            note.ticket.id = mNote.ticketId;
+            note.userId = mNote.userId;
             return note;
         }
 
@@ -284,7 +291,7 @@ namespace MedAPI.Controllers
             foreach (var item in note.exams.list)
             {
                 exam = new Domain.NoteExam();
-                exam.noteId = note.id; ;
+                exam.noteId = note.id;
                 exam.observation = note.exams.observations;
                 exam.specification = null;
                 exam.status = null;
@@ -311,13 +318,16 @@ namespace MedAPI.Controllers
         {
             List<Domain.NoteReferral> lstReferrals = new List<Domain.NoteReferral>();
             Domain.NoteReferral referral;
-            foreach (var item in note.referrals.list)
+            if (note.referrals.list.Length > 0)
             {
-                referral = new Domain.NoteReferral();
-                referral.noteId = note.id;
-                referral.reason = note.interconsultation.reason;
-                referral.specialty = item.name;
-                lstReferrals.Add(referral);
+                foreach (var item in note.referrals.list)
+                {
+                    referral = new Domain.NoteReferral();
+                    referral.noteId = note.id;
+                    referral.reason = note.interconsultation.reason;
+                    referral.specialty = item.name;
+                    lstReferrals.Add(referral);
+                }
             }
             return lstReferrals;
         }
@@ -325,6 +335,7 @@ namespace MedAPI.Controllers
         public Domain.Triage setTriageDetails(models.Note note)
         {
             Domain.Triage triage = new Domain.Triage();
+            triage.id = note.triageId;
             triage.abdominalPerimeter = note.triage.vitalFunctions.waistCircumference;
             triage.bmi = note.triage.vitalFunctions.bmi;
             triage.breathingRate = note.triage.vitalFunctions.respiratoryRate;

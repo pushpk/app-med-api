@@ -357,160 +357,158 @@ namespace MedAPI.Infrastructure
             MESTIZO = 1
         }
 
-
-        
-  //public enum pulsesLLMs
-  //      {
-  //          NORMAL = "Presente",
+        //public enum pulsesLLMs
+        //      {
+        //          NORMAL = "Presente",
 
 
-  //  AUSENTE = Ausente,
+        //  AUSENTE = Ausente,
 
 
-  //  DISMINUIDO = Disminuido
+        //  DISMINUIDO = Disminuido
 
-  //      }
-  //      public Dic pulsesLRMs
-  //      {
+        //      }
+        //      public Dic pulsesLRMs
+        //      {
 
-  //          NORMAL = 1,
-  //          DISMINUIDO = 2,
-  //          AUMENTADO = 3
+        //          NORMAL = 1,
+        //          DISMINUIDO = 2,
+        //          AUMENTADO = 3
 
-  //      }
-  //      public enum auscultationSites
-  //      {
+        //      }
+        //      public enum auscultationSites
+        //      {
 
-  //          AORTICO = 1,
-        
+        //          AORTICO = 1,
 
-  //  TRICUSPIDEO = 2,        
 
-  //  MITRAL = 3,
-        
+        //  TRICUSPIDEO = 2,        
 
-  //  PULMONAR = 4
+        //  MITRAL = 3,
 
-  //      }
-  //      public enum capillaryRefillLRMs
-  //      {
 
-  //          NORMAL = 1,
-        
+        //  PULMONAR = 4
 
-  //  PROLONGADO = Prolongado
+        //      }
+        //      public enum capillaryRefillLRMs
+        //      {
 
-  //      }
-  //      public enum capillaryRefillLLMs
-  //      {
+        //          NORMAL = 1,
 
-  //          NORMAL = Normal
-        
 
-  //  PROLONGADO = Prolongado
+        //  PROLONGADO = Prolongado
 
-  //      }
-  //      public enum cardiacPressureRhythms
-  //      {
+        //      }
+        //      public enum capillaryRefillLLMs
+        //      {
 
-  //          NORMAL = Normal
-        
+        //          NORMAL = Normal
 
-  //  PROLONGADO = Prolongado
 
-  //      }
-  //      public enum cardiacPressureIntensities
-  //      {
+        //  PROLONGADO = Prolongado
 
-  //          NORMAL = Normal
-        
+        //      }
+        //      public enum cardiacPressureRhythms
+        //      {
 
-  //  PROLONGADO = Prolongado
+        //          NORMAL = Normal
 
-  //      }
-  //      public enum gastrointestinalSemiologies
-  //      {
 
-  //          NORMAL = Normal
-        
+        //  PROLONGADO = Prolongado
 
-  //  HEPATO_ESPLENOMEGALIA = Hepato esplenomegalia
+        //      }
+        //      public enum cardiacPressureIntensities
+        //      {
 
-  //      }
-  //      public enum pedalPulsesLs
-  //      {
+        //          NORMAL = Normal
 
-  //          NORMAL = Presente
-        
 
-  //  AUSENTE = Ausente
-        
+        //  PROLONGADO = Prolongado
 
-  //  DISMINUIDO = Disminuido
+        //      }
+        //      public enum gastrointestinalSemiologies
+        //      {
 
-  //      }
-  //      public enum pedalPulsesRs
-  //      {
+        //          NORMAL = Normal
 
-  //          NORMAL = Normal
-        
 
-  //  PROLONGADO = Prolongado
+        //  HEPATO_ESPLENOMEGALIA = Hepato esplenomegalia
 
-  //      }
-  //      public enum radialPulsesRs
-  //      {
+        //      }
+        //      public enum pedalPulsesLs
+        //      {
 
-  //          NORMAL = Presente
-        
+        //          NORMAL = Presente
 
-  //  AUSENTE = Ausente
-        
 
-  //  DISMINUIDO = Disminuido
+        //  AUSENTE = Ausente
 
-  //      }
-  //      public enum radialPulsesLs
-  //      {
 
-  //          NORMAL = Presente
-        
+        //  DISMINUIDO = Disminuido
 
-  //  AUSENTE = Ausente
-        
+        //      }
+        //      public enum pedalPulsesRs
+        //      {
 
-  //  DISMINUIDO = Disminuido
+        //          NORMAL = Normal
 
-  //      }
-  //      public enum vesicularWhisperLs
-  //      {
 
-  //          NORMAL = Buen pasaje
-        
+        //  PROLONGADO = Prolongado
 
-  //  RONCANTE = Roncante
-        
+        //      }
+        //      public enum radialPulsesRs
+        //      {
 
-  //  SUBCREPITANTE = Subcrepitante
-        
+        //          NORMAL = Presente
 
-  //  CREPITANTE = Crepitante
 
-  //      }
-  //      public enum vesicularWhisperRs
-  //      {
+        //  AUSENTE = Ausente
 
-  //          NORMAL = Buen pasaje
-        
 
-  //  RONCANTE = Roncante
-        
+        //  DISMINUIDO = Disminuido
 
-  //  SUBCREPITANTE = Subcrepitante
-        
+        //      }
+        //      public enum radialPulsesLs
+        //      {
 
-  //  CREPITANTE = Crepitante
-  //      }
+        //          NORMAL = Presente
+
+
+        //  AUSENTE = Ausente
+
+
+        //  DISMINUIDO = Disminuido
+
+        //      }
+        //      public enum vesicularWhisperLs
+        //      {
+
+        //          NORMAL = Buen pasaje
+
+
+        //  RONCANTE = Roncante
+
+
+        //  SUBCREPITANTE = Subcrepitante
+
+
+        //  CREPITANTE = Crepitante
+
+        //      }
+        //      public enum vesicularWhisperRs
+        //      {
+
+        //          NORMAL = Buen pasaje
+
+
+        //  RONCANTE = Roncante
+
+
+        //  SUBCREPITANTE = Subcrepitante
+
+
+        //  CREPITANTE = Crepitante
+        //      }
     }
 }
 

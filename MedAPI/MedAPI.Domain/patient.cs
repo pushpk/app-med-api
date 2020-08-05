@@ -40,7 +40,7 @@ namespace MedAPI.Domain
         public bool water { get; set; }
         public long id { get; set; }
         public long userId { get; set; }
-
+        public long departmentId { get; set; }
         //public List<Note> notes { get; set; }
         //public List<Triage> triages { get; set; }
 
