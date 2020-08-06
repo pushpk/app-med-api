@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Web;
 
 namespace MedAPI.Domain
 {
-   public class PatientMotherbackgrounds
+    public class PatientPersonalBackgrounds
     {
         public long id { get; set; }
         public long patientId { get; set; }
-        public string motherBackgrounds { get; set; }
+        public string personalBackgrounds { get; set; }
     }
 }

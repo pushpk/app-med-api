@@ -51,7 +51,7 @@ namespace MedAPI.Repository
         {
             using (var context = new DataAccess.registroclinicoEntities())
             {
-                return context.medicines.Where(x => x.id == id && x.deleted != null)
+                return context.medicines.Where(x => x.id == id && x.deleted != false)
                    .Select(x => new Medicine()
                    {
                        id = x.id,

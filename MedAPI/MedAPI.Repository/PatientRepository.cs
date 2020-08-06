@@ -198,7 +198,47 @@ namespace MedAPI.Repository
                                     residentNumber = x.residentNumber,
                                     sewage = x.sewage,
                                     water = x.water,
-                                    departmentId = x.departmentId
+                                    departmentId = x.departmentId,
+                                    allergiesList = ((from y in context.patient_allergies
+                                                      where y.patient_id == x.id
+                                                      select new PatientAllergies()
+                                                      {
+                                                          id = y.id,
+                                                          patientId = y.patient_id,
+                                                          allergies = y.allergies
+                                                      }).ToList()),
+                                    medicinesList = ((from y in context.patient_medicines
+                                                      where y.patient_id == x.id
+                                                      select new PatientMedicines()
+                                                      {
+                                                          id = y.id,
+                                                          patientId = y.patient_id,
+                                                          medicines = y.medicines
+                                                      }).ToList()),
+                                    personalBackgroundList = ((from y in context.patient_personalbackgrounds
+                                                      where y.patient_id == x.id
+                                                      select new PatientPersonalBackgrounds()
+                                                      {
+                                                          id = y.id,
+                                                          patientId = y.patient_id,
+                                                          personalBackgrounds = y.personalBackgrounds
+                                                      }).ToList()),
+                                   patientFatherbackgroundList = ((from y in context.patient_fatherbackgrounds
+                                                      where y.patient_id == x.id
+                                                      select new PatientFatherbackgrounds()
+                                                      {
+                                                          id = y.id,
+                                                          patientId = y.patient_id,
+                                                          fatherBackgrounds = y.fatherBackgrounds
+                                                      }).ToList()),
+                                    patientMotherbackgroundList = ((from y in context.patient_motherbackgrounds
+                                                      where y.patient_id == x.id
+                                                      select new PatientMotherbackgrounds()
+                                                      {
+                                                          id = y.id,
+                                                          patientId = y.patient_id,
+                                                          motherBackgrounds = y.motherBackgrounds
+                                                      }).ToList()),
                                     //user = x.user
                                     //address = x.address,
                                     //birthday = x.birthday,
@@ -275,5 +315,140 @@ namespace MedAPI.Repository
             }
         }
 
+        public bool SaveAllergiesList(List<PatientAllergies> mAllergies)
+        {
+            using (var context = new DataAccess.registroclinicoEntities())
+            {
+                try
+                {
+                    foreach (var allergies in mAllergies)
+                    {
+                        var efAllergies = context.patient_allergies.Where(m => m.patient_id == allergies.patientId && m.id == allergies.id).FirstOrDefault();
+                        if (efAllergies == null)
+                        {
+                            efAllergies = new DataAccess.patient_allergies();
+                            context.patient_allergies.Add(efAllergies);
+                        }
+                        efAllergies.patient_id = allergies.patientId;
+                        efAllergies.allergies = allergies.allergies;
+                        context.SaveChanges();
+                        allergies.id = efAllergies.id;
+                    }
+                    return true;
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+            }
+        }
+        public bool SaveMedicinesList(List<PatientMedicines> mMedicines)
+        {
+            using (var context = new DataAccess.registroclinicoEntities())
+            {
+                try
+                {
+                    foreach (var medicines in mMedicines)
+                    {
+                        var efMedicines = context.patient_medicines.Where(m => m.patient_id == medicines.patientId && m.id == medicines.id).FirstOrDefault();
+                        if (efMedicines == null)
+                        {
+                            efMedicines = new DataAccess.patient_medicines();
+                            context.patient_medicines.Add(efMedicines);
+                        }
+                        efMedicines.patient_id = medicines.patientId;
+                        efMedicines.medicines = medicines.medicines;
+                        context.SaveChanges();
+                        medicines.id = efMedicines.id;
+                    }
+                    return true;
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+            }
+        }
+        public bool SavePersonalBackgroundList(List<PatientPersonalBackgrounds> mPersonalBackgrounds)
+        {
+            using (var context = new DataAccess.registroclinicoEntities())
+            {
+                try
+                {
+                    foreach (var personalBackgrounds in mPersonalBackgrounds)
+                    {
+                        var efPersonalBackgrounds = context.patient_personalbackgrounds.Where(m => m.patient_id == personalBackgrounds.patientId && m.id == personalBackgrounds.id).FirstOrDefault();
+                        if (efPersonalBackgrounds == null)
+                        {
+                            efPersonalBackgrounds = new DataAccess.patient_personalbackgrounds();
+                            context.patient_personalbackgrounds.Add(efPersonalBackgrounds);
+                        }
+                        efPersonalBackgrounds.patient_id = personalBackgrounds.patientId;
+                        efPersonalBackgrounds.personalBackgrounds = personalBackgrounds.personalBackgrounds;
+                        context.SaveChanges();
+                        personalBackgrounds.id = efPersonalBackgrounds.id;
+                    }
+                    return true;
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+            }
+        }
+        public bool SaveMotherBackgroundList(List<PatientMotherbackgrounds> mMotherBackgrounds)
+        {
+            using (var context = new DataAccess.registroclinicoEntities())
+            {
+                try
+                {
+                    foreach (var motherBackgrounds in mMotherBackgrounds)
+                    {
+                        var efMotherBackgrounds = context.patient_motherbackgrounds.Where(m => m.patient_id == motherBackgrounds.patientId && m.id == motherBackgrounds.id).FirstOrDefault();
+                        if (efMotherBackgrounds == null)
+                        {
+                            efMotherBackgrounds = new DataAccess.patient_motherbackgrounds();
+                            context.patient_motherbackgrounds.Add(efMotherBackgrounds);
+                        }
+                        efMotherBackgrounds.patient_id = motherBackgrounds.patientId;
+                        efMotherBackgrounds.motherBackgrounds = motherBackgrounds.motherBackgrounds;
+                        context.SaveChanges();
+                        motherBackgrounds.id = efMotherBackgrounds.id;
+                    }
+                    return true;
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+            }
+        }
+        public bool SaveFatherBackgroundList(List<PatientFatherbackgrounds> mFatherBackgrounds)
+        {
+            using (var context = new DataAccess.registroclinicoEntities())
+            {
+                try
+                {
+                    foreach (var fatherBackgrounds in mFatherBackgrounds)
+                    {
+                        var efFatherBackgrounds = context.patient_fatherbackgrounds.Where(m => m.patient_id == fatherBackgrounds.patientId && m.id == fatherBackgrounds.id).FirstOrDefault();
+                        if (efFatherBackgrounds == null)
+                        {
+                            efFatherBackgrounds = new DataAccess.patient_fatherbackgrounds();
+                            context.patient_fatherbackgrounds.Add(efFatherBackgrounds);
+                        }
+                        efFatherBackgrounds.patient_id = fatherBackgrounds.patientId;
+                        efFatherBackgrounds.fatherBackgrounds = fatherBackgrounds.fatherBackgrounds;
+                        context.SaveChanges();
+                        fatherBackgrounds.id = efFatherBackgrounds.id;
+                    }
+                    return true;
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+            }
+        }
     }
 }

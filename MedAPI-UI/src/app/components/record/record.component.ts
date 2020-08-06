@@ -15,6 +15,11 @@ import { NoteSymptom } from '../../models/noteSymptom.model';
 import { NoteTreatment } from '../../models/noteTreatment.model';
 import { NoteInterconsultation } from '../../models/noteInterconsultation.model';
 import { NoteReferrals } from '../../models/noteReferrals.model';
+import { AllergiesList } from '../../models/allergiesList.model';
+import { MedicinesList } from '../../models/medicinesList.model';
+import { PatientFatherbackgroundList } from '../../models/patientFatherbackgroundList.model';
+import { PatientMotherbackgroundList } from '../../models/patientMotherbackgroundList.model';
+import { PersonalBackgroundList } from '../../models/personalBackgroundList.model';
 
 export enum TicketStatus {
   REGISTERED = 0,
@@ -157,11 +162,11 @@ export class RecordComponent implements OnInit {
       this.selectedSpeciality = event.value.toLowerCase();
       localStorage.setItem('speciality', this.selectedSpeciality);
       this.recordService.selectedSpecialty.next(this.selectedSpeciality);
-      this.notes = [];
-      this.patient = null;
-      localStorage.removeItem('notes');
-      localStorage.removeItem('patient');
-      this.searchDocumentNumber();
+      //this.notes = [];
+      //this.patient = null;
+      //localStorage.removeItem('notes');
+      //localStorage.removeItem('patient');
+      //this.searchDocumentNumber();
     } else {
       localStorage.setItem('speciality', '');
       this.selectedSpeciality = '';
@@ -194,7 +199,7 @@ export class RecordComponent implements OnInit {
   }
   navigateToPatient() {
     let routerPath = '/patients/new';
-    if (CheckEmptyUtil.isNotEmpty(this.patient.id)) {
+    if (CheckEmptyUtil.isNotEmptyObject(this.patient)) {
       routerPath = '/patients/' + this.patient.id;
     }
     this.router.navigateByUrl(routerPath);
@@ -430,7 +435,9 @@ export class RecordComponent implements OnInit {
     try {
       if (CheckEmptyUtil.isNotEmpty(data)) {
         this.recordService.passwordHash.subscribe((val) => {
-          this.patient.passwordHash = val;
+          if (CheckEmptyUtil.isNotEmpty(val)) {
+            this.patient.passwordHash = val;
+          }
         });
         let patientDetails = data.patient;
         this.patient.id = patientDetails.id;
@@ -480,6 +487,11 @@ export class RecordComponent implements OnInit {
         this.patient.otherFatherBackground = patientDetails.otherFatherBackground;
         this.patient.otherMotherBackground = patientDetails.otherMotherBackground;
         this.patient.passwordHash = patientDetails.user.passwordHash;
+        this.patient.allergies = this.setAllergiesList(patientDetails);
+        this.patient.medicines = this.setMedicinesList(patientDetails);
+        this.patient.personalBackground = this.setPatientPersonalbackgroundList(patientDetails);
+        this.patient.fatherBackground = this.setPatientFatherbackgroundList(patientDetails);
+        this.patient.motherBackground = this.setPatientMotherbackgroundList(patientDetails);
         localStorage.setItem('patient', JSON.stringify(this.patient));
         let noteDetails = data.notes;
         if (noteDetails && noteDetails.length > 0) {
@@ -490,6 +502,116 @@ export class RecordComponent implements OnInit {
           notes.userId = patientDetails.userId;
           localStorage.setItem('notes', JSON.stringify(notes));
         }
+      }
+    } catch (e) {
+      console.log(e, 'error');
+    }
+  }
+
+  setAllergiesList(patientDetails) {
+    try {
+      if (CheckEmptyUtil.isNotEmpty(patientDetails)) {
+        let allergies = [];
+        let allergy = new AllergiesList();
+        if (patientDetails) {
+          patientDetails.allergiesList.forEach((x: any) => {
+            if (patientDetails.id === x.patientId) {
+              allergy.id = x.id,
+              allergy.patientId = x.patientId,
+              allergy.name = x.allergies
+              allergies.push(allergy);
+            }
+          })
+        }
+        return allergies;
+      }
+    } catch (e) {
+      console.log(e, 'error');
+    }
+  }
+
+  setMedicinesList(patientDetails) {
+    try {
+      if (CheckEmptyUtil.isNotEmpty(patientDetails)) {
+        let medicines = [];
+        let medicine = new MedicinesList();
+        if (patientDetails) {
+          patientDetails.medicinesList.forEach((x: any) => {
+            if (patientDetails.id === x.patientId) {
+              medicine.id = x.id,
+              medicine.patientId = x.patientId,
+              medicine.name = x.medicines
+              medicines.push(medicine);
+            }
+          })
+        }
+        return medicines;
+      }
+    } catch (e) {
+      console.log(e, 'error');
+    }
+  }
+
+  setPatientFatherbackgroundList(patientDetails) {
+    try {
+      if (CheckEmptyUtil.isNotEmpty(patientDetails)) {
+        let fBackgrounds = [];
+        let fBackground = new PatientFatherbackgroundList();
+        if (patientDetails) {
+          patientDetails.patientFatherbackgroundList.forEach((x: any) => {
+            if (patientDetails.id === x.patientId) {
+              fBackground.id = x.id,
+              fBackground.patientId = x.patientId,
+              fBackground.name = x.fatherBackgrounds
+              fBackgrounds.push(fBackground);
+            }
+          })
+        }
+        return fBackgrounds;
+      }
+    } catch (e) {
+      console.log(e, 'error');
+    }
+  }
+
+  setPatientMotherbackgroundList(patientDetails) {
+    try {
+      if (CheckEmptyUtil.isNotEmpty(patientDetails)) {
+        let mBackgrounds = [];
+        let mBackground = new PatientMotherbackgroundList();
+        if (patientDetails) {
+          patientDetails.medicinesList.forEach((x: any) => {
+            if (patientDetails.id === x.patientId) {
+              mBackground.id = x.id,
+              mBackground.patientId = x.patientId,
+              mBackground.name = x.motherBackgrounds
+              mBackgrounds.push(mBackground);
+            }
+          })
+        }
+        return mBackgrounds;
+      }
+    } catch (e) {
+      console.log(e, 'error');
+    }
+  }
+
+  setPatientPersonalbackgroundList(patientDetails) {
+    try {
+      if (CheckEmptyUtil.isNotEmpty(patientDetails)) {
+        let pBackgrounds = [];
+        let pBackground = new PersonalBackgroundList();
+        if (patientDetails) {
+          patientDetails.medicinesList.forEach((x: any) => {
+            if (patientDetails.id === x.patientId) {
+              pBackground.id = x.id,
+              pBackground.patientId = x.patientId,
+              pBackground.name = x.personalBackgrounds
+              pBackgrounds.push(pBackground);
+            }
+          })
+        }
+        return pBackgrounds;
       }
     } catch (e) {
       console.log(e, 'error');

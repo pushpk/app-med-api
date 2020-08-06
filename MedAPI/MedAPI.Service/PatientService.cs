@@ -59,5 +59,26 @@ namespace MedAPI.Service
         {
             return patientRepository.GetPatientByDocumentNumber(documentNumber);
         }
+
+        public bool SaveAllergiesList(List<PatientAllergies> mAllergies)
+        {
+            return patientRepository.SaveAllergiesList(mAllergies);
+        }
+        public bool SaveMedicinesList(List<PatientMedicines> mMedicines)
+        {
+            return patientRepository.SaveMedicinesList(mMedicines);
+        }
+        public bool SavePersonalBackgroundList(List<PatientPersonalBackgrounds> mPersonalBackgrounds)
+        {
+            return patientRepository.SavePersonalBackgroundList(mPersonalBackgrounds);
+        }
+        public bool SaveMotherBackgroundList(List<PatientMotherbackgrounds> mMotherBackgrounds)
+        {
+            return patientRepository.SaveMotherBackgroundList(mMotherBackgrounds);
+        }
+        public bool SaveFatherBackgroundList(List<PatientFatherbackgrounds> mFatherBackgrounds)
+        {
+            return patientRepository.SaveFatherBackgroundList(mFatherBackgrounds);
+        }
     }
 }

@@ -8,6 +8,7 @@ namespace MedAPI.Domain
 {
    public class PatientFatherbackgrounds
     {
+        public long id { get; set; }
         public long patientId { get; set; }
         public string fatherBackgrounds { get; set; }
     }

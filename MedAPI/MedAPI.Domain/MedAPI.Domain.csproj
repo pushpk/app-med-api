@@ -78,7 +78,7 @@
     <Compile Include="PatientFatherbackgrounds.cs" />
     <Compile Include="PatientMedicines.cs" />
     <Compile Include="PatientMotherbackgrounds.cs" />
-    <Compile Include="PersonalBackground.cs" />
+    <Compile Include="PatientPersonalBackgrounds.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Province.cs" />
     <Compile Include="Role.cs" />

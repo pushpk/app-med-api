@@ -13,5 +13,11 @@ namespace MedAPI.Infrastructure.IService
         Domain.Patient SavePatient(Domain.Patient mPatient);
         //User GetPatientByDocumentNumber(int documentNumber);        
         Domain.Patient GetPatientByDocumentNumber(int documentNumber);
+
+        bool SaveAllergiesList(List<PatientAllergies> mAllergies);
+        bool SaveMedicinesList(List<PatientMedicines> mMedicines);
+        bool SavePersonalBackgroundList(List<PatientPersonalBackgrounds> mPersonalBackgrounds);
+        bool SaveMotherBackgroundList(List<PatientMotherbackgrounds> mMotherBackgrounds);
+        bool SaveFatherBackgroundList(List<PatientFatherbackgrounds> mFatherBackgrounds);
     }
 }

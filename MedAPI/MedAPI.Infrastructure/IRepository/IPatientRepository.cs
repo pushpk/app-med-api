@@ -17,5 +17,10 @@ namespace MedAPI.Infrastructure.IRepository
 
         //User GetPatientByDocumentNumber(int documentNumber);
         Patient GetPatientByDocumentNumber(int documentNumber);
+        bool SaveAllergiesList(List<PatientAllergies> mAllergies);
+        bool SaveMedicinesList(List<PatientMedicines> mMedicines);
+        bool SavePersonalBackgroundList(List<PatientPersonalBackgrounds> mPersonalBackgrounds);
+        bool SaveMotherBackgroundList(List<PatientMotherbackgrounds> mMotherBackgrounds);
+        bool SaveFatherBackgroundList(List<PatientFatherbackgrounds> mFatherBackgrounds);
     }
 }

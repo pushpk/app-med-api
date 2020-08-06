@@ -7,6 +7,7 @@ namespace MedAPI.models
 {
     public class Medicine
     {
+        public long medicineId { get; set; }
         public string id { get; set; }
         public string name { get; set; }
     }

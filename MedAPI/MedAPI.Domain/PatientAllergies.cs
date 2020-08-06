@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace MedAPI.Domain
 {
-   public class PatientAllergies
+    public class PatientAllergies
     {
+        public long id { get; set; }
         public long patientId { get; set; }
         public string allergies { get; set; }
     }
