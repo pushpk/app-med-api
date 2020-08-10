@@ -155,7 +155,7 @@ namespace MedAPI.Repository
                     efPatients.departmentId = mPatient.departmentId;
                     efPatients.water = mPatient.water;
                     context.SaveChanges();
-                    efPatients.id = efPatients.id;
+                    mPatient.id = efPatients.id;
                 }
             }
             catch (DbEntityValidationException e)
@@ -216,29 +216,29 @@ namespace MedAPI.Repository
                                                           medicines = y.medicines
                                                       }).ToList()),
                                     personalBackgroundList = ((from y in context.patient_personalbackgrounds
-                                                      where y.patient_id == x.id
-                                                      select new PatientPersonalBackgrounds()
-                                                      {
-                                                          id = y.id,
-                                                          patientId = y.patient_id,
-                                                          personalBackgrounds = y.personalBackgrounds
-                                                      }).ToList()),
-                                   patientFatherbackgroundList = ((from y in context.patient_fatherbackgrounds
-                                                      where y.patient_id == x.id
-                                                      select new PatientFatherbackgrounds()
-                                                      {
-                                                          id = y.id,
-                                                          patientId = y.patient_id,
-                                                          fatherBackgrounds = y.fatherBackgrounds
-                                                      }).ToList()),
+                                                               where y.patient_id == x.id
+                                                               select new PatientPersonalBackgrounds()
+                                                               {
+                                                                   id = y.id,
+                                                                   patientId = y.patient_id,
+                                                                   personalBackgrounds = y.personalBackgrounds
+                                                               }).ToList()),
+                                    patientFatherbackgroundList = ((from y in context.patient_fatherbackgrounds
+                                                                    where y.patient_id == x.id
+                                                                    select new PatientFatherbackgrounds()
+                                                                    {
+                                                                        id = y.id,
+                                                                        patientId = y.patient_id,
+                                                                        fatherBackgrounds = y.fatherBackgrounds
+                                                                    }).ToList()),
                                     patientMotherbackgroundList = ((from y in context.patient_motherbackgrounds
-                                                      where y.patient_id == x.id
-                                                      select new PatientMotherbackgrounds()
-                                                      {
-                                                          id = y.id,
-                                                          patientId = y.patient_id,
-                                                          motherBackgrounds = y.motherBackgrounds
-                                                      }).ToList()),
+                                                                    where y.patient_id == x.id
+                                                                    select new PatientMotherbackgrounds()
+                                                                    {
+                                                                        id = y.id,
+                                                                        patientId = y.patient_id,
+                                                                        motherBackgrounds = y.motherBackgrounds
+                                                                    }).ToList()),
                                     //user = x.user
                                     //address = x.address,
                                     //birthday = x.birthday,

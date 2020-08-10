@@ -40,7 +40,7 @@ namespace MedAPI.Service
             return patientRepository.GetDistrictByprovinceId(id);
         }
 
-        public Patient SavePatient(Domain.Patient mPatient)
+        public Domain.Patient SavePatient(Domain.Patient mPatient)
         {
             if (mPatient.user.id == 0)
             {
