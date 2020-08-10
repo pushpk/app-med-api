@@ -6,6 +6,7 @@ import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { map, startWith } from 'rxjs/operators';
+import { CardiovascularSymptoms } from '../../../../models/cardiovascularSymptoms.model';
 
 @Component({
   selector: 'app-cardio-form-symptoms',
@@ -23,7 +24,7 @@ export class CardioFormSymptomsComponent implements OnInit {
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   symptomsCtrl = new FormControl();
   filteredSymptoms: Observable<string[]>;
-  selectedSymptoms: any[] = [];
+  //selectedSymptoms: any[] = [];
   @ViewChild('symptomInput') symptomInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
 
@@ -43,7 +44,7 @@ export class CardioFormSymptomsComponent implements OnInit {
     const value = event.value;
 
     if ((value || '').trim()) {
-      this.selectedSymptoms.push(event);
+      this.note.cardiovascularSymptoms.push(event);
     }
 
     if (input) {
@@ -53,17 +54,17 @@ export class CardioFormSymptomsComponent implements OnInit {
     this.symptomsCtrl.setValue(null);
   }
 
-  remove(o: string): void {
-    const index = this.selectedSymptoms.indexOf(o);
+  remove(o): void {
+    const index = this.note.cardiovascularSymptoms.indexOf(o);
 
     if (index >= 0) {
-      this.selectedSymptoms.splice(index, 1);
+      this.note.cardiovascularSymptoms.splice(index, 1);
     }
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
-    if (this.selectedSymptoms.indexOf(event.option.value) === -1) {
-      this.selectedSymptoms.push(event.option.value);
+    if (this.note.cardiovascularSymptoms.indexOf(event.option.value) === -1) {
+      this.note.cardiovascularSymptoms.push(event.option.value);
     }
     this.symptomInput.nativeElement.value = '';
     this.symptomsCtrl.setValue(null);
@@ -75,8 +76,13 @@ export class CardioFormSymptomsComponent implements OnInit {
   }
 
   addSymptoms(data) {
-    if (this.selectedSymptoms.indexOf(data) === -1) {
-      this.selectedSymptoms.push(data);
+    if (this.note.cardiovascularSymptoms.indexOf(data) === -1) {
+      let symptoms: CardiovascularSymptoms = {
+        id: data.$id,
+        cardiovascularSymptoms: data.name,
+        cardiovascularNoteId: this.note.id
+      }
+      this.note.cardiovascularSymptoms.push(symptoms);
     }
   }
 }

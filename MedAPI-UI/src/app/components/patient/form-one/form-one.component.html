@@ -34,7 +34,7 @@
       <mat-label>País de nacimiento</mat-label>
       <mat-select name="country" class="max-width" required #country="ngModel"
                   [(ngModel)]="patient.country">
-        <mat-option *ngFor="let c of resources.countries" [value]="c.id">{{c.name}}</mat-option>
+        <mat-option *ngFor="let c of resources.countries" [(value)]="c.id">{{c.name}}</mat-option>
       </mat-select>
       <mat-error *ngIf="country.errors && (country.touched || country.dirty)">
         Este campo es requerido
@@ -44,7 +44,7 @@
       <mat-label>Tipo de documento</mat-label>
       <mat-select name="documentType" class="max-width" required #documentType="ngModel"
                   [(ngModel)]="patient.documentType">
-        <mat-option *ngFor="let dt of resources.documentTypes" [value]="dt.id">{{dt.name}}</mat-option>
+        <mat-option *ngFor="let dt of resources.documentTypes" [(value)]="dt.id">{{dt.name}}</mat-option>
       </mat-select>
       <mat-error *ngIf="documentType.errors && (documentType.touched || documentType.dirty)">
         Este campo es requerido
@@ -72,9 +72,9 @@
     </mat-form-field>
     <mat-form-field fxFlex="30" fxFlex.md="45" fxFlex.sm="100">
       <mat-label>Sexo</mat-label>
-      <mat-select name="sex" class="max-width" required #sex="ngModel"
+      <mat-select name="sex" class="max-width" [(value)]="patient.sex" required #sex="ngModel"
                   [(ngModel)]="patient.sex">
-        <mat-option *ngFor="let s of resources.sexes" [value]="s.id">{{s.name}}</mat-option>
+        <mat-option *ngFor="let s of resources.sexes" [(value)]="s.id">{{s.name}}</mat-option>
       </mat-select>
       <mat-error *ngIf="sex.errors && (sex.touched || sex.dirty)">
         Este campo es requerido
@@ -82,9 +82,9 @@
     </mat-form-field>
     <mat-form-field fxFlex="30" fxFlex.md="45" fxFlex.sm="100">
       <mat-label>Estado civil</mat-label>
-      <mat-select name="maritalStatus" class="max-width" required #maritalStatus="ngModel"
+      <mat-select name="maritalStatus" class="max-width" [(value)]="patient.maritalStatus" required #maritalStatus="ngModel"
                   [(ngModel)]="patient.maritalStatus">
-        <mat-option *ngFor="let s of resources.maritalStatuses" [value]="s.id">{{s.name}}</mat-option>
+        <mat-option *ngFor="let s of resources.maritalStatuses" [(value)]="s.id">{{s.name}}</mat-option>
       </mat-select>
       <mat-error *ngIf="maritalStatus.errors && (maritalStatus.touched || maritalStatus.dirty)">
         Este campo es requerido
@@ -93,30 +93,30 @@
   </div>
   <div fxLayout="row wrap" fxLayoutGap="20px" fxLayoutAlign="center center">
     <mat-form-field fxFlex="30" fxFlex.md="45" fxFlex.sm="100">
-      <mat-label>Departamento</mat-label>
-      <mat-select name="department" class="max-width" required #department="ngModel"
-                  [(ngModel)]="patient.department" (change)="updateProvinces()">
-        <mat-option *ngFor="let s of resources.departments" [value]="s.id">{{s.name}}</mat-option>
-      </mat-select>
-      <mat-error *ngIf="department.errors && (department.touched || department.dirty)">
-        Este campo es requerido
-      </mat-error>
-    </mat-form-field>
+    <mat-label>Departamento</mat-label>
+    <mat-select name="department" class="max-width" required #department="ngModel"
+                [(ngModel)]="patient.department" (change)="updateProvinces()">
+      <mat-option *ngFor="let s of resources.departments" [(value)]="s.id">{{s.name}}</mat-option>
+    </mat-select>
+    <mat-error *ngIf="department.errors && (department.touched || department.dirty)">
+      Este campo es requerido
+    </mat-error>
+  </mat-form-field>  
     <mat-form-field fxFlex="30" fxFlex.md="45" fxFlex.sm="100">
       <mat-label>Provincia</mat-label>
       <mat-select name="province" class="max-width" required #province="ngModel"
                   [(ngModel)]="patient.province" (change)="updateDistricts()">
-        <mat-option *ngFor="let s of provinces" [value]="s.id">{{s.name}}</mat-option>
+        <mat-option *ngFor="let s of resources.provinces" [(value)]="s.id">{{s.name}}</mat-option>
       </mat-select>
       <mat-error *ngIf="province.errors && (province.touched || province.dirty)">
         Este campo es requerido
       </mat-error>
     </mat-form-field>
     <mat-form-field fxFlex="30" fxFlex.md="45" fxFlex.sm="100">
-      <mat-label>Distrito</mat-label>
+      <mat-label>Distrito{{patient.district}}</mat-label>
       <mat-select name="district" class="max-width" required #district="ngModel"
                   [(ngModel)]="patient.district">
-        <mat-option *ngFor="let s of districts" [value]="s.id">{{s.name}}</mat-option>
+        <mat-option *ngFor="let s of resources.districts" [(value)]="s.id">{{s.name}}</mat-option>
       </mat-select>
       <mat-error *ngIf="district.errors && (district.touched || district.dirty)">
         Este campo es requerido

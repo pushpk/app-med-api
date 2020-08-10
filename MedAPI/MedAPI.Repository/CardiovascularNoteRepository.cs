@@ -140,5 +140,37 @@ namespace MedAPI.Repository
                 return Convert.ToInt32(efCardiovascularNote.id);
             }
         }
+
+        public bool SaveCardiovascularSymptoms(List<CardiovascularSymptoms> CardiovascularSymptoms)
+        {
+            using (var context = new DataAccess.registroclinicoEntities())
+            {
+                try
+                {
+                    foreach (var cardiovascularSymptom in CardiovascularSymptoms)
+                    {
+                        var efCardiovascularSymptom = context.cardiovascularnote_cardiovascularsymptoms.Where(x => x.id == cardiovascularSymptom.id 
+                        && x.cardiovascularNote_id== cardiovascularSymptom.cardiovascularNoteId).FirstOrDefault();
+                        
+                        if (efCardiovascularSymptom == null)
+                        {
+                            efCardiovascularSymptom = new DataAccess.cardiovascularnote_cardiovascularsymptoms();
+                            context.cardiovascularnote_cardiovascularsymptoms.Add(efCardiovascularSymptom);
+                        }
+
+                        efCardiovascularSymptom.cardiovascularNote_id = cardiovascularSymptom.cardiovascularNoteId;
+                        efCardiovascularSymptom.cardiovascularSymptoms = cardiovascularSymptom.cardiovascularSymptoms;
+                        context.SaveChanges();
+                    }
+
+                    return true;
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+            }
+        }
     }
 }

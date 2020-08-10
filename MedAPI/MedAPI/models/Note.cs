@@ -26,5 +26,6 @@ namespace MedAPI.models
         public string selectedSpecialty { get; set; }
         public string specialty { get; set; }
         public CardiovascularNote cardiovascularNote { get; set; }
+        public List<CardiovascularSymptoms> cardiovascularSymptoms { get; set; }
     }
 }

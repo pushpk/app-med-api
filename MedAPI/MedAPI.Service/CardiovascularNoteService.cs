@@ -37,6 +37,11 @@ namespace MedAPI.Service
         {
             return cardiovascularNoteRepository.SaveCardiovascularNote(mCardiovascularNote);
         }
+        public bool SaveCardiovascularSymptoms(List<CardiovascularSymptoms> mCardiovascularSymptom)
+        {
+            return cardiovascularNoteRepository.SaveCardiovascularSymptoms(mCardiovascularSymptom);
+        }
+        
         public CardiovascularResource GetResources()
         {
             CardiovascularResource mCardiovascularResourceList = new CardiovascularResource();

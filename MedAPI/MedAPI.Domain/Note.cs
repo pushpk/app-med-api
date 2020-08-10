@@ -22,6 +22,7 @@ namespace MedAPI.Domain
             //this.NoteReferrals1 = new List<NoteReferral>();
             //this.medic = new medic();
             this.cardiovascularNote = new CardiovascularNote();
+            this.cardiovascularSymptoms = new List<CardiovascularSymptoms>();
             this.establishment = new Establishment();
             this.triage = new Triage();
             this.ticket = new Ticket();
@@ -71,6 +72,7 @@ namespace MedAPI.Domain
         public ICollection<NoteExam> noteExams { get; set; }
         public ICollection<NoteMedicine> noteMedicines { get; set; }
         public ICollection<NoteReferral> noteReferrals { get; set; }
+        public ICollection<CardiovascularSymptoms> cardiovascularSymptoms { get; set; }
         //public ICollection<NoteDiagnosi> NoteDiagnosis1 { get; set; }
         //public ICollection<NoteExam> NoteExams1 { get; set; }
         //public ICollection<NoteMedicine> NoteMedicines1 { get; set; }

@@ -46,9 +46,13 @@ namespace MedAPI.DataAccess
         public long country_id { get; set; }
         public Nullable<long> district_id { get; set; }
         public Nullable<long> role_id { get; set; }
+        public Nullable<long> department_id { get; set; }
+        public Nullable<long> province_id { get; set; }
     
         public virtual country country { get; set; }
+        public virtual department department { get; set; }
         public virtual district district { get; set; }
+        public virtual district district1 { get; set; }
         public virtual medic medic { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<note> notes { get; set; }

@@ -217,6 +217,8 @@ namespace MedAPI.Repository
                 efUser.cellphone = mUser.cellphone;
                 efUser.sex = mUser.sex;
                 efUser.district_id = mUser.districtId;
+                efUser.department_id = mUser.departmentId;
+                efUser.province_id = mUser.provinceId;
                 context.SaveChanges();
                 mUser.id = efUser.id;
             }

@@ -11,5 +11,6 @@ namespace MedAPI.Domain
         public long id { get; set; }
         public long patientId { get; set; }
         public string motherBackgrounds { get; set; }
+        public bool isDeleted { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { PatientService } from '../service/patient.service';
+import { Patient } from '../../../models/patient.model';
 
 @Component({
   selector: 'app-form-one',
@@ -7,11 +8,9 @@ import { PatientService } from '../service/patient.service';
   styleUrls: ['./form-one.component.scss']
 })
 export class FormOneComponent implements OnInit {
-  @Input() patient: any;
+  @Input() patient;
   resources: any;
-  provinces: [];
-  districts: [];
-
+ 
   constructor(private patientService: PatientService) { }
 
   ngOnInit(): void {
@@ -25,7 +24,7 @@ export class FormOneComponent implements OnInit {
 
     this.patientService.updateProvinces(resourcesPath).then((response: any) => {
       console.log(response, 'response');
-      this.provinces = response;
+      this.resources.provinces = response;
     }).catch((error) => {
       console.log(error);
     });
@@ -36,7 +35,7 @@ export class FormOneComponent implements OnInit {
 
     this.patientService.updateDistricts(resourcesPath).then((response: any) => {
       console.log(response, 'response');
-      this.districts = response;
+      this.resources.districts = response;
     }).catch((error) => {
       console.log(error);
     });

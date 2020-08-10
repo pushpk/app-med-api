@@ -15,12 +15,22 @@ namespace MedAPI.Service
         private readonly IUserRepository userRepository;
         private readonly IDepartmentRepository departmentRepository;
         private readonly ICountryRepository countryRepository;
+        private readonly IDistrictRepository districtRepository;
+        private readonly IProvinceRepository provinceRepository;
 
-        public UserService(IUserRepository userRepository, IDepartmentRepository departmentRepository, ICountryRepository countryRepository)
+
+        public UserService(IUserRepository userRepository,
+            IDepartmentRepository departmentRepository,
+            ICountryRepository countryRepository,
+             IDistrictRepository districtRepository,
+             IProvinceRepository provinceRepository
+            )
         {
             this.userRepository = userRepository;
             this.departmentRepository = departmentRepository;
             this.countryRepository = countryRepository;
+            this.districtRepository = districtRepository;
+            this.provinceRepository = provinceRepository;
         }
 
 
@@ -165,6 +175,17 @@ namespace MedAPI.Service
                 .Select(d => new ObjectNode() { id = d.ToString().ToUpper(), name = StringExtensions.FirstCharToUpper(d.ToString()) })
                 .ToList();
 
+            mUserResourcesList.provinces = provinceRepository.GetAllProvince().Select(x => new Domain.ObjectNode()
+            {
+                id = x.id.ToString().ToUpper(),
+                name = x.name
+            }).ToList();
+
+            mUserResourcesList.districts = districtRepository.GetAllDistrict().Select(x => new Domain.ObjectNode()
+            {
+                id = x.id.ToString().ToUpper(),
+                name = x.name
+            }).ToList();
             return mUserResourcesList;
         }
 

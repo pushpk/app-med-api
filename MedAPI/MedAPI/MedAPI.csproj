@@ -222,6 +222,7 @@
     <Compile Include="models\Allergy.cs" />
     <Compile Include="models\BiologicalFunctions.cs" />
     <Compile Include="models\CardiovascularNote.cs" />
+    <Compile Include="models\CardiovascularSymptoms.cs" />
     <Compile Include="models\CardiovascularSystem.cs" />
     <Compile Include="models\Chapter.cs" />
     <Compile Include="models\Diagnosis.cs" />

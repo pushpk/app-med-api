@@ -17,6 +17,7 @@ namespace MedAPI.DataAccess
         public long id { get; set; }
         public long cardiovascularNote_id { get; set; }
         public string cardiovascularSymptoms { get; set; }
+        public bool isDelete { get; set; }
     
         public virtual cardiovascularnote cardiovascularnote { get; set; }
     }

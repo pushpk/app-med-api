@@ -10,5 +10,6 @@ namespace MedAPI.Infrastructure.IService
         bool DeleteCardiovascularNoteById(long id);
         int SaveCardiovascularNote(CardiovascularNote mCardiovascularNote);
         CardiovascularResource GetResources();
+        bool SaveCardiovascularSymptoms(List<CardiovascularSymptoms> mCardiovascularSymptom);
     }
 }

@@ -10,5 +10,6 @@ namespace MedAPI.models
         public long fatherBackgroundId { get; set; }
         public string id { get; set; }
         public string name { get; set; }
+        public bool isDeleted { get; set; }
     }
 }

@@ -116,11 +116,21 @@ namespace MedAPI.Controllers
                     var referrals = setReferralsList(mNote);
                     noteService.SaveReferralsList(referrals);
 
-                    if (mNote.cardiovascularNote != null && mNote.specialty == "cardiology")
+                    if (mNote.specialty == "cardiology")
                     {
-                        var mCardiovascularNote = setCardiovascularNote(mNote);
-                        cardiovascularNoteService.SaveCardiovascularNote(mCardiovascularNote);
+                        long cardiovascularNoteId = 0;
+                        if (mNote.cardiovascularNote != null)
+                        {
+                            var mCardiovascularNote = setCardiovascularNote(mNote);
+                            cardiovascularNoteId = cardiovascularNoteService.SaveCardiovascularNote(mCardiovascularNote);
+                        }
+                        if (mNote.cardiovascularSymptoms != null)
+                        {
+                            var mCardiovascularSymptoms = setCardiovascularSymptomList(mNote, cardiovascularNoteId);
+                            cardiovascularNoteService.SaveCardiovascularSymptoms(mCardiovascularSymptoms);
+                        }
                     }
+
                     response = Request.CreateResponse(HttpStatusCode.OK, responseNote);
                 }
                 else
@@ -394,5 +404,21 @@ namespace MedAPI.Controllers
             cardiovascularNote.vesicularWhisperR = note.cardiovascularNote.respiratorySystem.vesicularWhisperR;
             return cardiovascularNote;
         }
+
+        public List<Domain.CardiovascularSymptoms> setCardiovascularSymptomList(models.Note note, long cardiovascularNoteId)
+        {
+            List<Domain.CardiovascularSymptoms> cardiovascularSymptoms = new List<Domain.CardiovascularSymptoms>();
+            Domain.CardiovascularSymptoms cardiovascularSymptom;
+            foreach (var item in note.cardiovascularSymptoms)
+            {
+                cardiovascularSymptom = new Domain.CardiovascularSymptoms();
+                cardiovascularSymptom.cardiovascularNoteId = cardiovascularNoteId;
+                cardiovascularSymptom.id = item.id;
+                cardiovascularSymptom.cardiovascularSymptoms = item.cardiovascularSymptoms;
+                cardiovascularSymptoms.Add(cardiovascularSymptom);
+            }
+            return cardiovascularSymptoms;
+        }
+
     }
 }

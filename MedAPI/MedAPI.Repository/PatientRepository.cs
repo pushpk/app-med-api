@@ -284,6 +284,8 @@ namespace MedAPI.Repository
                                  createdBy = x.createdBy,
                                  createdDate = x.createdDate,
                                  districtId = x.district_id,
+                                 departmentId = x.department_id,
+                                 provinceId = x.province_id,
                                  documentNumber = x.documentNumber,
                                  documentType = x.documentType,
                                  email = x.email,

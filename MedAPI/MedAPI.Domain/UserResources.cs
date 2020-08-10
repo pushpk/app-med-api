@@ -27,6 +27,8 @@ namespace MedAPI.Domain
             alcoholConsumptions = new List<ObjectNode>();
             fvConsumptions = new List<ObjectNode>();
             races = new List<ObjectNode>();
+            provinces = new List<ObjectNode>();
+            districts = new List<ObjectNode>();
         }
 
         public List<ObjectNode> maritalStatuses { get; set; }
@@ -46,5 +48,7 @@ namespace MedAPI.Domain
         public List<ObjectNode> alcoholConsumptions { get; set; }
         public List<ObjectNode> fvConsumptions { get; set; }
         public List<ObjectNode> races { get; set; }
+        public List<ObjectNode> provinces { get; set; }
+        public List<ObjectNode> districts { get; set; }
     }
 }

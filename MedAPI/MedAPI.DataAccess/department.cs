@@ -18,6 +18,7 @@ namespace MedAPI.DataAccess
         public department()
         {
             this.patients = new HashSet<patient>();
+            this.users = new HashSet<user>();
             this.provinces = new HashSet<province>();
         }
     
@@ -29,6 +30,8 @@ namespace MedAPI.DataAccess
         public virtual country country { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<patient> patients { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<user> users { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<province> provinces { get; set; }
     }

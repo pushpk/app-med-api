@@ -33,6 +33,8 @@ namespace MedAPI.Domain
         public DateTime since { get; set; }
         public long countryId { get; set; }
         public long? districtId { get; set; }
+        public long? provinceId { get; set; }
+        public long? departmentId { get; set; }
         public long? roleId { get; set; }
 
 

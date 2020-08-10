@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="CardiovascularResource.cs" />
     <Compile Include="CardiovascularNote.cs" />
+    <Compile Include="CardiovascularSymptoms.cs" />
     <Compile Include="Chapter.cs" />
     <Compile Include="Country.cs" />
     <Compile Include="Department.cs" />

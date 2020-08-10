@@ -8,6 +8,7 @@ import { NoteReferrals } from './noteReferrals.model';
 import { Triage } from './triage.model';
 import { Todo } from './todo.model';
 import { Cardiovascularnote } from './cardiovascularnote.model';
+import { CardiovascularSymptoms } from './cardiovascularSymptoms.model';
 
 export class NoteDetail {
   id = 0;
@@ -29,6 +30,7 @@ export class NoteDetail {
   selectedSpecialty = '';
   specialty = '';
   cardiovascularNote: Cardiovascularnote = new Cardiovascularnote();
+  cardiovascularSymptoms = [];
   secondOpinion = null;
   completed = true;
   control = '';

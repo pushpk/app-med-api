@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace MedAPI.Domain
 {
-   public class PatientFatherbackgrounds
+    public class CardiovascularSymptoms
     {
         public long id { get; set; }
-        public long patientId { get; set; }
-        public string fatherBackgrounds { get; set; }
-        public bool isDeleted { get; set; }
+        public long cardiovascularNoteId { get; set; }
+        public string cardiovascularSymptoms { get; set; }
+        public bool isDelete { get; set; }
     }
 }

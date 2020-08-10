@@ -304,7 +304,8 @@ namespace MedAPI.Controllers
 
             user.countryId = mPatient.country;
             user.districtId = mPatient.district;
-
+            user.departmentId = mPatient.department;
+            user.provinceId = mPatient.province;
             if (userData != null)
             {
                 user.roleId = userData.roleId;
@@ -340,7 +341,7 @@ namespace MedAPI.Controllers
         {
             List<Domain.PatientMedicines> lstMedicines = new List<Domain.PatientMedicines>();
             Domain.PatientMedicines medicines;
-            if (patient.allergies.Length > 0)
+            if (patient.medicines.Length > 0)
             {
                 foreach (var item in patient.medicines)
                 {
@@ -357,7 +358,7 @@ namespace MedAPI.Controllers
         {
             List<Domain.PatientMotherbackgrounds> lstMotherbackgrounds = new List<Domain.PatientMotherbackgrounds>();
             Domain.PatientMotherbackgrounds mBackground;
-            if (patient.allergies.Length > 0)
+            if (patient.motherBackground.Length > 0)
             {
                 foreach (var item in patient.motherBackground)
                 {
@@ -374,7 +375,7 @@ namespace MedAPI.Controllers
         {
             List<Domain.PatientFatherbackgrounds> lstFatherbackgrounds = new List<Domain.PatientFatherbackgrounds>();
             Domain.PatientFatherbackgrounds fBackground;
-            if (patient.allergies.Length > 0)
+            if (patient.fatherBackground.Length > 0)
             {
                 foreach (var item in patient.fatherBackground)
                 {
@@ -391,7 +392,7 @@ namespace MedAPI.Controllers
         {
             List<Domain.PatientPersonalBackgrounds> lstPersonalbackgrounds = new List<Domain.PatientPersonalBackgrounds>();
             Domain.PatientPersonalBackgrounds pBackground;
-            if (patient.allergies.Length > 0)
+            if (patient.personalBackground.Length > 0)
             {
                 foreach (var item in patient.personalBackground)
                 {

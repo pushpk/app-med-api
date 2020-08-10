@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace MedAPI.Domain
+namespace MedAPI.models
 {
-    public class PatientPersonalBackgrounds
+    public class CardiovascularSymptoms
     {
         public long id { get; set; }
-        public long patientId { get; set; }
-        public string personalBackgrounds { get; set; }
+        public long cardiovascularNoteId { get; set; }
+        public string cardiovascularSymptoms { get; set; }
         public bool isDeleted { get; set; }
     }
 }

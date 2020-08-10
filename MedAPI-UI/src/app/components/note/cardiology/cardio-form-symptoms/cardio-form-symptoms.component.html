@@ -17,10 +17,10 @@
             {{symptom.name}}
           </mat-option>
         </mat-autocomplete>
-        <mat-chip *ngFor="let symptom of selectedSymptoms"
+        <mat-chip *ngFor="let symptom of note.cardiovascularSymptoms"
                   [removable]="removable" class="my-8 mx-8"
                   (removed)="remove(symptom)">
-          {{symptom.name}}
+          {{symptom.cardiovascularSymptoms}}
           <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
         </mat-chip>
       </mat-form-field>

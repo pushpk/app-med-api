@@ -150,7 +150,7 @@ export class FormThreeComponent implements OnInit {
       input.value = '';
     }
 
-    this.personalBackgroundCtrl.setValue(null);
+    this.fatherBackgroundCtrl.setValue(null);
   }
 
   removeFatherBackground(o: string): void {
@@ -173,7 +173,7 @@ export class FormThreeComponent implements OnInit {
       input.value = '';
     }
 
-    this.personalBackgroundCtrl.setValue(null);
+    this.motherBackgroundCtrl.setValue(null);
   }
 
   removeMotherBackground(o: string): void {
@@ -239,31 +239,56 @@ export class FormThreeComponent implements OnInit {
 
   addAllergieSymptoms(a) {
     if (this.patient.allergies.indexOf(a) === -1) {
-      this.patient.allergies.push(a);
+      let allergie = {
+        id: this.patient.allergies.id ? 0 : this.patient.allergies.id,
+        patientId: this.patient.id,
+        name: a.name
+      }
+      this.patient.allergies.push(allergie);
     }
   }
 
   addMedicineSymptoms(a) {
     if (this.patient.medicines.indexOf(a) === -1) {
-      this.patient.medicines.push(a);
+      let medicine = {
+        id: this.patient.medicines.id ? 0 : this.patient.medicines.id,
+        patientId: this.patient.id,
+        name: a.name
+      }
+      this.patient.medicines.push(medicine);
     }
   }
 
   addPersonalBackgroundSymptoms(a) {
     if (this.patient.personalBackground.indexOf(a) === -1) {
-      this.patient.personalBackground.push(a);
+      let pBackground = {
+        id: this.patient.personalBackground.id ? 0 : this.patient.personalBackground.id,
+        patientId: this.patient.id,
+        name: a.name
+      }
+      this.patient.personalBackground.push(pBackground);
     }
   }
 
   addFatherBackgroundSymptoms(a) {
     if (this.patient.fatherBackground.indexOf(a) === -1) {
-      this.patient.fatherBackground.push(a);
+      let fBackground = {
+        id: this.patient.fatherBackground.id ? 0 : this.patient.fatherBackground.id,
+        patientId: this.patient.id,
+        name: a.name
+      }
+      this.patient.fatherBackground.push(fBackground);
     }
   }
 
   addMotherBackgroundSymptoms(a) {
     if (this.patient.motherBackground.indexOf(a) === -1) {
-      this.patient.motherBackground.push(a);
+      let mBackground = {
+        id: this.patient.motherBackground.id ? 0 : this.patient.motherBackground.id,
+        patientId: this.patient.id,
+        name: a.name
+      }
+      this.patient.motherBackground.push(mBackground);
     }
   }
 

@@ -47,6 +47,7 @@ namespace MedAPI.DataAccess
         public bool trophicChanges { get; set; }
         public string vesicularWhisperL { get; set; }
         public string vesicularWhisperR { get; set; }
+        public bool isDelete { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<cardiovascularnote_cardiovascularsymptoms> cardiovascularnote_cardiovascularsymptoms { get; set; }

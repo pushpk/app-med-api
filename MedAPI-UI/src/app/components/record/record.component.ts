@@ -20,6 +20,7 @@ import { MedicinesList } from '../../models/medicinesList.model';
 import { PatientFatherbackgroundList } from '../../models/patientFatherbackgroundList.model';
 import { PatientMotherbackgroundList } from '../../models/patientMotherbackgroundList.model';
 import { PersonalBackgroundList } from '../../models/personalBackgroundList.model';
+import { CardiovascularSymptoms } from '../../models/cardiovascularSymptoms.model';
 
 export enum TicketStatus {
   REGISTERED = 0,
@@ -120,7 +121,8 @@ export class RecordComponent implements OnInit {
     this.askPatientRegistration = false;
     this.showRecord = false;
     this.ticketNumber = '000-000000';
-
+    localStorage.setItem('notes','');
+    localStorage.setItem('patient','');
     if (!this.documentNumber) {
       return;
     }
@@ -164,8 +166,6 @@ export class RecordComponent implements OnInit {
       this.recordService.selectedSpecialty.next(this.selectedSpeciality);
       //this.notes = [];
       //this.patient = null;
-      //localStorage.removeItem('notes');
-      //localStorage.removeItem('patient');
       //this.searchDocumentNumber();
     } else {
       localStorage.setItem('speciality', '');
@@ -236,6 +236,7 @@ export class RecordComponent implements OnInit {
           if (CheckEmptyUtil.isNotEmptyObject(note.cardiovascularNote)) {
             notes.otherSymptoms = note.cardiovascularNote.otherSymptoms;
           }
+          notes.cardiovascularSymptoms = this.setCardioSympotms(note);
           notes.cardiovascularNote = this.setCardiovascularnote(note);
           this.notes.push(notes);
         });
@@ -441,19 +442,20 @@ export class RecordComponent implements OnInit {
         });
         let patientDetails = data.patient;
         this.patient.id = patientDetails.id;
-        this.patient.department = patientDetails.departmentId;
         this.patient.userId = patientDetails.userId;
         this.patient.name = patientDetails.user.firstName;
         this.patient.lastnameFather = patientDetails.user.lastNameFather;
         this.patient.lastnameMother = patientDetails.user.lastNameMother;
-        this.patient.country = patientDetails.user.countryId;
+       
         this.patient.documentType = patientDetails.user.documentType;
         this.patient.documentNumber = patientDetails.user.documentNumber;
         this.patient.birthday = patientDetails.user.birthday;
         this.patient.sex = patientDetails.user.sex;
         this.patient.maritalStatus = patientDetails.user.maritalStatus;
-        this.patient.province = patientDetails.user.district;
-        this.patient.district = patientDetails.user.districtId;
+        this.patient.province = String(patientDetails.user.provinceId);
+        this.patient.district = String(patientDetails.user.districtId);
+        this.patient.department = String(patientDetails.user.departmentId);
+        this.patient.country = String(patientDetails.user.countryId);
         this.patient.address = patientDetails.user.address;
         if (CheckEmptyUtil.isNotEmpty(patientDetails.user.organDonor)) {
           this.patient.isDonor = patientDetails.user.organDonor;
@@ -512,10 +514,10 @@ export class RecordComponent implements OnInit {
     try {
       if (CheckEmptyUtil.isNotEmpty(patientDetails)) {
         let allergies = [];
-        let allergy = new AllergiesList();
         if (patientDetails) {
           patientDetails.allergiesList.forEach((x: any) => {
             if (patientDetails.id === x.patientId) {
+              let allergy = new AllergiesList();
               allergy.id = x.id,
               allergy.patientId = x.patientId,
               allergy.name = x.allergies
@@ -534,10 +536,10 @@ export class RecordComponent implements OnInit {
     try {
       if (CheckEmptyUtil.isNotEmpty(patientDetails)) {
         let medicines = [];
-        let medicine = new MedicinesList();
         if (patientDetails) {
           patientDetails.medicinesList.forEach((x: any) => {
             if (patientDetails.id === x.patientId) {
+              let medicine = new MedicinesList();
               medicine.id = x.id,
               medicine.patientId = x.patientId,
               medicine.name = x.medicines
@@ -553,13 +555,14 @@ export class RecordComponent implements OnInit {
   }
 
   setPatientFatherbackgroundList(patientDetails) {
+    console.log(JSON.stringify(patientDetails));
     try {
       if (CheckEmptyUtil.isNotEmpty(patientDetails)) {
         let fBackgrounds = [];
-        let fBackground = new PatientFatherbackgroundList();
         if (patientDetails) {
           patientDetails.patientFatherbackgroundList.forEach((x: any) => {
             if (patientDetails.id === x.patientId) {
+              let fBackground = new PatientFatherbackgroundList();
               fBackground.id = x.id,
               fBackground.patientId = x.patientId,
               fBackground.name = x.fatherBackgrounds
@@ -578,10 +581,10 @@ export class RecordComponent implements OnInit {
     try {
       if (CheckEmptyUtil.isNotEmpty(patientDetails)) {
         let mBackgrounds = [];
-        let mBackground = new PatientMotherbackgroundList();
         if (patientDetails) {
-          patientDetails.medicinesList.forEach((x: any) => {
+          patientDetails.patientMotherbackgroundList.forEach((x: any) => {
             if (patientDetails.id === x.patientId) {
+              let mBackground = new PatientMotherbackgroundList();
               mBackground.id = x.id,
               mBackground.patientId = x.patientId,
               mBackground.name = x.motherBackgrounds
@@ -600,18 +603,43 @@ export class RecordComponent implements OnInit {
     try {
       if (CheckEmptyUtil.isNotEmpty(patientDetails)) {
         let pBackgrounds = [];
-        let pBackground = new PersonalBackgroundList();
         if (patientDetails) {
-          patientDetails.medicinesList.forEach((x: any) => {
+          patientDetails.personalBackgroundList.forEach((x: any) => {
             if (patientDetails.id === x.patientId) {
+              let pBackground = new PersonalBackgroundList();
               pBackground.id = x.id,
-              pBackground.patientId = x.patientId,
-              pBackground.name = x.personalBackgrounds
+                pBackground.patientId = x.patientId,
+                pBackground.name = x.personalBackgrounds
               pBackgrounds.push(pBackground);
             }
           })
         }
         return pBackgrounds;
+      }
+    } catch (e) {
+      console.log(e, 'error');
+    }
+  }
+
+  setCardioSympotms(notes) {
+    try {
+      if (CheckEmptyUtil.isNotEmpty(notes)) {
+        let cardiovascularSymptoms = [], cardiovascularNoteId=0;
+        if (CheckEmptyUtil.isNotEmptyObject(notes.cardiovascularNote)) {
+          cardiovascularNoteId = notes.cardiovascularNote.id;
+        }
+        if (notes) {
+          notes.cardiovascularSymptoms.forEach((x: any) => {
+            if (cardiovascularNoteId === x.cardiovascularNoteId) {
+              let cardiovascularSymptom = new CardiovascularSymptoms();
+              cardiovascularSymptom.id = x.id,
+              cardiovascularSymptom.cardiovascularNoteId = x.cardiovascularNoteId,
+              cardiovascularSymptom.cardiovascularSymptoms = x.cardiovascularSymptoms
+              cardiovascularSymptoms.push(cardiovascularSymptom);
+            }
+          })
+        }
+        return cardiovascularSymptoms;
       }
     } catch (e) {
       console.log(e, 'error');

@@ -119,7 +119,7 @@ namespace MedAPI.Repository
                                                        specialty = x.specialty
                                                    }).ToList()),
                                  triage = (from x in context.triages
-                                           where x.deleted != true && x.patient_id == nt.patient_id && x.id== nt.triage_id
+                                           where x.deleted != true && x.patient_id == nt.patient_id && x.id == nt.triage_id
                                            select new Triage()
                                            {
                                                id = x.id,
@@ -181,7 +181,15 @@ namespace MedAPI.Repository
                                                            vesicularWhisperL = x.vesicularWhisperL,
                                                            vesicularWhisperR = x.vesicularWhisperR,
                                                            noteId = x.note_id
-                                                       }).FirstOrDefault()
+                                                       }).FirstOrDefault(),
+                                 cardiovascularSymptoms = ((from x in context.cardiovascularnote_cardiovascularsymptoms
+                                                            where x.cardiovascularNote_id == (context.cardiovascularnotes.Where(y=> y.note_id == nt.id).FirstOrDefault().id)
+                                                            select new CardiovascularSymptoms()
+                                                            {
+                                                                id = x.id,
+                                                                cardiovascularNoteId = x.cardiovascularNote_id,
+                                                                cardiovascularSymptoms = x.cardiovascularSymptoms
+                                                            }).ToList())
                              }).ToList();
 
                 return notes;

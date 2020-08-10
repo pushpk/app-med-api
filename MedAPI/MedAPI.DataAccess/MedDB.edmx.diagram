@@ -4,53 +4,55 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="362e3ff658304e3f8333793e5a741b60" Name="Diagram1">
-        <EntityTypeShape EntityType="registroclinicoModel.cardiovascularnote" Width="1.5" PointX="19.5" PointY="21.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="registroclinicoModel.cardiovascularnote_cardiovascularsymptoms" Width="1.5" PointX="21.75" PointY="24" IsExpanded="true" />
-        <EntityTypeShape EntityType="registroclinicoModel.chapter" Width="1.5" PointX="18" PointY="34.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="registroclinicoModel.country" Width="1.5" PointX="0.75" PointY="22.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="registroclinicoModel.department" Width="1.5" PointX="3" PointY="22.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="registroclinicoModel.diagnosi" Width="1.5" PointX="20.25" PointY="34.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="registroclinicoModel.district" Width="1.5" PointX="7.5" PointY="34.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="registroclinicoModel.establishment" Width="1.5" PointX="15" PointY="19.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="registroclinicoModel.exam" Width="1.5" PointX="17.25" PointY="31.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="registroclinicoModel.medic" Width="1.5" PointX="12" PointY="27.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="registroclinicoModel.medicine" Width="1.5" PointX="20.25" PointY="17.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="registroclinicoModel.note" Width="1.5" PointX="17.25" PointY="22.375" IsExpanded="true" />
+      <Diagram DiagramId="4aabd51c6f5340b2aebd8ace60793f4f" Name="Diagram1">
+        <EntityTypeShape EntityType="registroclinicoModel.cardiovascularnote" Width="1.5" PointX="19.5" PointY="24.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="registroclinicoModel.cardiovascularnote_cardiovascularsymptoms" Width="1.5" PointX="21.75" PointY="27.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="registroclinicoModel.chapter" Width="1.5" PointX="18" PointY="37.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="registroclinicoModel.country" Width="1.5" PointX="0.75" PointY="25.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="registroclinicoModel.department" Width="1.5" PointX="3" PointY="24.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="registroclinicoModel.diagnosi" Width="1.5" PointX="20.25" PointY="37.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="registroclinicoModel.district" Width="1.5" PointX="7.5" PointY="38.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="registroclinicoModel.establishment" Width="1.5" PointX="15" PointY="22.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="registroclinicoModel.exam" Width="1.5" PointX="17.25" PointY="34.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="registroclinicoModel.medic" Width="1.5" PointX="12" PointY="30.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="registroclinicoModel.medicine" Width="1.5" PointX="20.25" PointY="20.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="registroclinicoModel.note" Width="1.5" PointX="17.25" PointY="25.625" IsExpanded="true" />
         <EntityTypeShape EntityType="registroclinicoModel.note_notediagnosis" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="registroclinicoModel.note_noteexam" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="registroclinicoModel.note_notemedicine" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="registroclinicoModel.note_notereferral" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="registroclinicoModel.notediagnosi" Width="1.5" PointX="22.5" PointY="27.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="registroclinicoModel.noteexam" Width="1.5" PointX="19.5" PointY="29.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="registroclinicoModel.noteexam_upload" Width="1.5" PointX="21.75" PointY="30.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="registroclinicoModel.notemedicine" Width="1.5" PointX="22.5" PointY="19.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="registroclinicoModel.notereferral" Width="1.5" PointX="19.5" PointY="39.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="registroclinicoModel.nurse" Width="1.5" PointX="12" PointY="30.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="registroclinicoModel.patient" Width="1.5" PointX="5.25" PointY="19.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="registroclinicoModel.patient_allergies" Width="1.5" PointX="7.5" PointY="27.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="registroclinicoModel.patient_fatherbackgrounds" Width="1.5" PointX="7.5" PointY="30.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="registroclinicoModel.patient_medicines" Width="1.5" PointX="7.5" PointY="38.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="registroclinicoModel.patient_motherbackgrounds" Width="1.5" PointX="7.5" PointY="41.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="registroclinicoModel.patient_personalbackgrounds" Width="1.5" PointX="7.5" PointY="43.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="registroclinicoModel.province" Width="1.5" PointX="5.25" PointY="34.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="registroclinicoModel.role" Width="1.5" PointX="7.5" PointY="23.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="registroclinicoModel.ticket" Width="1.5" PointX="15" PointY="22.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="registroclinicoModel.triage" Width="1.5" PointX="15" PointY="33.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="registroclinicoModel.upload" Width="1.5" PointX="19.5" PointY="43.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="registroclinicoModel.user" Width="1.5" PointX="9.75" PointY="26.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="registroclinicoModel.medic_specialties" Width="1.5" PointX="14.25" PointY="27.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="registroclinicoModel.nurse_specialties" Width="1.5" PointX="14.25" PointY="30.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="registroclinicoModel.role_permissions" Width="1.5" PointX="9.75" PointY="22.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="registroclinicoModel.notediagnosi" Width="1.5" PointX="22.5" PointY="30.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="registroclinicoModel.noteexam" Width="1.5" PointX="19.5" PointY="33.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="registroclinicoModel.noteexam_upload" Width="1.5" PointX="21.75" PointY="33.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="registroclinicoModel.notemedicine" Width="1.5" PointX="22.5" PointY="23.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="registroclinicoModel.notereferral" Width="1.5" PointX="19.5" PointY="43" IsExpanded="true" />
+        <EntityTypeShape EntityType="registroclinicoModel.nurse" Width="1.5" PointX="12" PointY="33.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="registroclinicoModel.patient" Width="1.5" PointX="5.25" PointY="22.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="registroclinicoModel.patient_allergies" Width="1.5" PointX="7.5" PointY="30.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="registroclinicoModel.patient_fatherbackgrounds" Width="1.5" PointX="7.5" PointY="32.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="registroclinicoModel.patient_medicines" Width="1.5" PointX="7.5" PointY="35.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="registroclinicoModel.patient_motherbackgrounds" Width="1.5" PointX="7.5" PointY="42.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="registroclinicoModel.patient_personalbackgrounds" Width="1.5" PointX="7.5" PointY="45.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="registroclinicoModel.province" Width="1.5" PointX="5.25" PointY="38.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="registroclinicoModel.role" Width="1.5" PointX="7.5" PointY="26.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="registroclinicoModel.ticket" Width="1.5" PointX="15" PointY="26.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="registroclinicoModel.triage" Width="1.5" PointX="15" PointY="36.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="registroclinicoModel.upload" Width="1.5" PointX="19.5" PointY="46.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="registroclinicoModel.user" Width="1.5" PointX="9.75" PointY="29" IsExpanded="true" />
+        <EntityTypeShape EntityType="registroclinicoModel.medic_specialties" Width="1.5" PointX="14.25" PointY="30.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="registroclinicoModel.nurse_specialties" Width="1.5" PointX="14.25" PointY="33.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="registroclinicoModel.role_permissions" Width="1.5" PointX="9.75" PointY="26.125" IsExpanded="true" />
         <AssociationConnector Association="registroclinicoModel.FK_cardiovascularnote_cardiovascularsymptoms_cardiovascularnote" ManuallyRouted="false" />
         <AssociationConnector Association="registroclinicoModel.FK_cardiovascularnote_note" ManuallyRouted="false" />
         <AssociationConnector Association="registroclinicoModel.diagnosis_FKdkejwjwwrvhod7ilsu9u62d4r" ManuallyRouted="false" />
         <AssociationConnector Association="registroclinicoModel.department_FK43w9v6odn5ebkcotastqgn1dw" ManuallyRouted="false" />
         <AssociationConnector Association="registroclinicoModel.users_FK1eit3dhanvh8r59sd30a3vyaw" ManuallyRouted="false" />
         <AssociationConnector Association="registroclinicoModel.FK_patient_department" ManuallyRouted="false" />
+        <AssociationConnector Association="registroclinicoModel.FK_users_department" ManuallyRouted="false" />
         <AssociationConnector Association="registroclinicoModel.province_FK3joxh8ppnjhvvt1485efkpxm8" ManuallyRouted="false" />
         <AssociationConnector Association="registroclinicoModel.FK_notediagnosis_diagnosis" ManuallyRouted="false" />
         <AssociationConnector Association="registroclinicoModel.district_FKft8pluvn8a75sbmt3bn3o11ph" ManuallyRouted="false" />
+        <AssociationConnector Association="registroclinicoModel.FK_users_district" ManuallyRouted="false" />
         <AssociationConnector Association="registroclinicoModel.users_FKdoiykqja8oxn78j7gf3l536ta" ManuallyRouted="false" />
         <AssociationConnector Association="registroclinicoModel.FK_note_establishment" ManuallyRouted="false" />
         <AssociationConnector Association="registroclinicoModel.FK_noteexam_exam" ManuallyRouted="false" />

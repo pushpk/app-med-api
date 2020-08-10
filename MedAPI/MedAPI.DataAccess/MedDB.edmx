@@ -36,6 +36,7 @@
           <Property Name="trophicChanges" Type="bit" Nullable="false" />
           <Property Name="vesicularWhisperL" Type="nvarchar" MaxLength="255" />
           <Property Name="vesicularWhisperR" Type="nvarchar" MaxLength="255" />
+          <Property Name="isDelete" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="cardiovascularnote_cardiovascularsymptoms">
           <Key>
@@ -44,6 +45,7 @@
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="cardiovascularNote_id" Type="bigint" Nullable="false" />
           <Property Name="cardiovascularSymptoms" Type="nvarchar" MaxLength="255" />
+          <Property Name="isDelete" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="chapter">
           <Key>
@@ -314,6 +316,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.nurse_specialties'
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="patient_id" Type="bigint" Nullable="false" />
           <Property Name="allergies" Type="nvarchar" MaxLength="255" />
+          <Property Name="isDeleted" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="patient_fatherbackgrounds">
           <Key>
@@ -322,6 +325,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.nurse_specialties'
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="patient_id" Type="bigint" Nullable="false" />
           <Property Name="fatherBackgrounds" Type="nvarchar" MaxLength="255" />
+          <Property Name="isDeleted" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="patient_medicines">
           <Key>
@@ -330,6 +334,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.nurse_specialties'
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="patient_id" Type="bigint" Nullable="false" />
           <Property Name="medicines" Type="nvarchar" MaxLength="255" />
+          <Property Name="isDeleted" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="patient_motherbackgrounds">
           <Key>
@@ -338,6 +343,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.nurse_specialties'
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="patient_id" Type="bigint" Nullable="false" />
           <Property Name="motherBackgrounds" Type="nvarchar" MaxLength="255" />
+          <Property Name="isDeleted" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="patient_personalbackgrounds">
           <Key>
@@ -346,6 +352,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.nurse_specialties'
           <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="patient_id" Type="bigint" Nullable="false" />
           <Property Name="personalBackgrounds" Type="nvarchar" MaxLength="255" />
+          <Property Name="isDeleted" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="province">
           <Key>
@@ -459,6 +466,8 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <Property Name="country_id" Type="bigint" Nullable="false" />
           <Property Name="district_id" Type="bigint" />
           <Property Name="role_id" Type="bigint" />
+          <Property Name="department_id" Type="bigint" />
+          <Property Name="province_id" Type="bigint" />
         </EntityType>
         <Association Name="department$FK43w9v6odn5ebkcotastqgn1dw">
           <End Role="country" Type="Self.country" Multiplicity="1" />
@@ -772,6 +781,30 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_users_department">
+          <End Role="department" Type="Self.department" Multiplicity="0..1" />
+          <End Role="users" Type="Self.users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="department">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="users">
+              <PropertyRef Name="department_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_users_district">
+          <End Role="district" Type="Self.district" Multiplicity="0..1" />
+          <End Role="users" Type="Self.users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="district">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="users">
+              <PropertyRef Name="district_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="medic$FKa63sueb7mgdy1vvoejcxsafil">
           <End Role="users" Type="Self.users" Multiplicity="1" />
           <End Role="medic" Type="Self.medic" Multiplicity="0..1" />
@@ -1061,6 +1094,14 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
             <End Role="patient" EntitySet="patient" />
             <End Role="patient_personalbackgrounds" EntitySet="patient_personalbackgrounds" />
           </AssociationSet>
+          <AssociationSet Name="FK_users_department" Association="Self.FK_users_department">
+            <End Role="department" EntitySet="department" />
+            <End Role="users" EntitySet="users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_users_district" Association="Self.FK_users_district">
+            <End Role="district" EntitySet="district" />
+            <End Role="users" EntitySet="users" />
+          </AssociationSet>
           <AssociationSet Name="medic$FKa63sueb7mgdy1vvoejcxsafil" Association="Self.medic$FKa63sueb7mgdy1vvoejcxsafil">
             <End Role="users" EntitySet="users" />
             <End Role="medic" EntitySet="medic" />
@@ -1142,6 +1183,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <Property Name="trophicChanges" Type="Boolean" Nullable="false" />
           <Property Name="vesicularWhisperL" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="vesicularWhisperR" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="isDelete" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="cardiovascularnote_cardiovascularsymptoms" Relationship="Self.FK_cardiovascularnote_cardiovascularsymptoms_cardiovascularnote" FromRole="cardiovascularnote" ToRole="cardiovascularnote_cardiovascularsymptoms" />
           <NavigationProperty Name="note" Relationship="Self.FK_cardiovascularnote_note" FromRole="cardiovascularnote" ToRole="note" />
         </EntityType>
@@ -1152,6 +1194,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="cardiovascularNote_id" Type="Int64" Nullable="false" />
           <Property Name="cardiovascularSymptoms" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="isDelete" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="cardiovascularnote" Relationship="Self.FK_cardiovascularnote_cardiovascularsymptoms_cardiovascularnote" FromRole="cardiovascularnote_cardiovascularsymptoms" ToRole="cardiovascularnote" />
         </EntityType>
         <EntityType Name="chapter">
@@ -1184,6 +1227,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <Property Name="country_id" Type="Int64" Nullable="false" />
           <NavigationProperty Name="country" Relationship="Self.department_FK43w9v6odn5ebkcotastqgn1dw" FromRole="department" ToRole="country" />
           <NavigationProperty Name="patients" Relationship="Self.FK_patient_department" FromRole="department" ToRole="patient" />
+          <NavigationProperty Name="users" Relationship="Self.FK_users_department" FromRole="department" ToRole="users" />
           <NavigationProperty Name="provinces" Relationship="Self.province_FK3joxh8ppnjhvvt1485efkpxm8" FromRole="department" ToRole="province" />
         </EntityType>
         <EntityType Name="diagnosi">
@@ -1208,7 +1252,8 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <Property Name="ubigeo" Type="Int64" />
           <Property Name="province_id" Type="Int64" Nullable="false" />
           <NavigationProperty Name="province" Relationship="Self.district_FKft8pluvn8a75sbmt3bn3o11ph" FromRole="district" ToRole="province" />
-          <NavigationProperty Name="users" Relationship="Self.users_FKdoiykqja8oxn78j7gf3l536ta" FromRole="district" ToRole="users" />
+          <NavigationProperty Name="users" Relationship="Self.FK_users_district" FromRole="district" ToRole="users" />
+          <NavigationProperty Name="users1" Relationship="Self.users_FKdoiykqja8oxn78j7gf3l536ta" FromRole="district" ToRole="users" />
         </EntityType>
         <EntityType Name="establishment">
           <Key>
@@ -1452,6 +1497,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="patient_id" Type="Int64" Nullable="false" />
           <Property Name="allergies" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="isDeleted" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="patient" Relationship="Self.FK_patient_allergies_patient" FromRole="patient_allergies" ToRole="patient" />
         </EntityType>
         <EntityType Name="patient_fatherbackgrounds">
@@ -1461,6 +1507,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="patient_id" Type="Int64" Nullable="false" />
           <Property Name="fatherBackgrounds" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="isDeleted" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="patient" Relationship="Self.FK_patient_fatherbackgrounds_patient" FromRole="patient_fatherbackgrounds" ToRole="patient" />
         </EntityType>
         <EntityType Name="patient_medicines">
@@ -1470,6 +1517,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="patient_id" Type="Int64" Nullable="false" />
           <Property Name="medicines" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="isDeleted" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="patient" Relationship="Self.FK_patient_medicines_patient" FromRole="patient_medicines" ToRole="patient" />
         </EntityType>
         <EntityType Name="patient_motherbackgrounds">
@@ -1479,6 +1527,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="patient_id" Type="Int64" Nullable="false" />
           <Property Name="motherBackgrounds" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="isDeleted" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="patient" Relationship="Self.FK_patient_motherbackgrounds_patient" FromRole="patient_motherbackgrounds" ToRole="patient" />
         </EntityType>
         <EntityType Name="patient_personalbackgrounds">
@@ -1488,6 +1537,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="patient_id" Type="Int64" Nullable="false" />
           <Property Name="personalBackgrounds" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="isDeleted" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="patient" Relationship="Self.FK_patient_personalbackgrounds_patient" FromRole="patient_personalbackgrounds" ToRole="patient" />
         </EntityType>
         <EntityType Name="province">
@@ -1602,8 +1652,12 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <Property Name="country_id" Type="Int64" Nullable="false" />
           <Property Name="district_id" Type="Int64" />
           <Property Name="role_id" Type="Int64" />
+          <Property Name="department_id" Type="Int64" />
+          <Property Name="province_id" Type="Int64" />
           <NavigationProperty Name="country" Relationship="Self.users_FK1eit3dhanvh8r59sd30a3vyaw" FromRole="users" ToRole="country" />
-          <NavigationProperty Name="district" Relationship="Self.users_FKdoiykqja8oxn78j7gf3l536ta" FromRole="users" ToRole="district" />
+          <NavigationProperty Name="department" Relationship="Self.FK_users_department" FromRole="users" ToRole="department" />
+          <NavigationProperty Name="district" Relationship="Self.FK_users_district" FromRole="users" ToRole="district" />
+          <NavigationProperty Name="district1" Relationship="Self.users_FKdoiykqja8oxn78j7gf3l536ta" FromRole="users" ToRole="district" />
           <NavigationProperty Name="medic" Relationship="Self.medic_FKa63sueb7mgdy1vvoejcxsafil" FromRole="users" ToRole="medic" />
           <NavigationProperty Name="notes" Relationship="Self.FK_note_users" FromRole="users" ToRole="note" />
           <NavigationProperty Name="nurse" Relationship="Self.nurse_FKinc1dd4o81eetpkv731etxb34" FromRole="users" ToRole="nurse" />
@@ -1706,6 +1760,18 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_users_department">
+          <End Role="department" Type="Self.department" Multiplicity="0..1" />
+          <End Role="users" Type="Self.user" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="department">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="users">
+              <PropertyRef Name="department_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="province_FK3joxh8ppnjhvvt1485efkpxm8">
           <End Role="department" Type="Self.department" Multiplicity="1" />
           <End Role="province" Type="Self.province" Multiplicity="*" />
@@ -1739,6 +1805,18 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
             </Principal>
             <Dependent Role="district">
               <PropertyRef Name="province_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_users_district">
+          <End Role="district" Type="Self.district" Multiplicity="0..1" />
+          <End Role="users" Type="Self.user" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="district">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="users">
+              <PropertyRef Name="district_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2140,6 +2218,10 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
             <End Role="department" EntitySet="departments" />
             <End Role="patient" EntitySet="patients" />
           </AssociationSet>
+          <AssociationSet Name="FK_users_department" Association="Self.FK_users_department">
+            <End Role="department" EntitySet="departments" />
+            <End Role="users" EntitySet="users" />
+          </AssociationSet>
           <AssociationSet Name="province_FK3joxh8ppnjhvvt1485efkpxm8" Association="Self.province_FK3joxh8ppnjhvvt1485efkpxm8">
             <End Role="department" EntitySet="departments" />
             <End Role="province" EntitySet="provinces" />
@@ -2151,6 +2233,10 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <AssociationSet Name="district_FKft8pluvn8a75sbmt3bn3o11ph" Association="Self.district_FKft8pluvn8a75sbmt3bn3o11ph">
             <End Role="province" EntitySet="provinces" />
             <End Role="district" EntitySet="districts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_users_district" Association="Self.FK_users_district">
+            <End Role="district" EntitySet="districts" />
+            <End Role="users" EntitySet="users" />
           </AssociationSet>
           <AssociationSet Name="users_FKdoiykqja8oxn78j7gf3l536ta" Association="Self.users_FKdoiykqja8oxn78j7gf3l536ta">
             <End Role="district" EntitySet="districts" />
@@ -2301,6 +2387,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
                 <ScalarProperty Name="trophicChanges" ColumnName="trophicChanges" />
                 <ScalarProperty Name="vesicularWhisperL" ColumnName="vesicularWhisperL" />
                 <ScalarProperty Name="vesicularWhisperR" ColumnName="vesicularWhisperR" />
+                <ScalarProperty Name="isDelete" ColumnName="isDelete" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2310,6 +2397,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="cardiovascularNote_id" ColumnName="cardiovascularNote_id" />
                 <ScalarProperty Name="cardiovascularSymptoms" ColumnName="cardiovascularSymptoms" />
+                <ScalarProperty Name="isDelete" ColumnName="isDelete" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2584,6 +2672,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="patient_id" ColumnName="patient_id" />
                 <ScalarProperty Name="allergies" ColumnName="allergies" />
+                <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2593,6 +2682,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="patient_id" ColumnName="patient_id" />
                 <ScalarProperty Name="fatherBackgrounds" ColumnName="fatherBackgrounds" />
+                <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2602,6 +2692,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="patient_id" ColumnName="patient_id" />
                 <ScalarProperty Name="medicines" ColumnName="medicines" />
+                <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2611,6 +2702,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="patient_id" ColumnName="patient_id" />
                 <ScalarProperty Name="motherBackgrounds" ColumnName="motherBackgrounds" />
+                <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2620,6 +2712,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="patient_id" ColumnName="patient_id" />
                 <ScalarProperty Name="personalBackgrounds" ColumnName="personalBackgrounds" />
+                <ScalarProperty Name="isDeleted" ColumnName="isDeleted" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2730,6 +2823,8 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
                 <ScalarProperty Name="country_id" ColumnName="country_id" />
                 <ScalarProperty Name="district_id" ColumnName="district_id" />
                 <ScalarProperty Name="role_id" ColumnName="role_id" />
+                <ScalarProperty Name="department_id" ColumnName="department_id" />
+                <ScalarProperty Name="province_id" ColumnName="province_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
