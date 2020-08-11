@@ -308,7 +308,7 @@ export class RecordComponent implements OnInit {
         symptom.description = note.symptom;
         symptom.duration = note.sicknessTime;
         symptom.durationUnit = note.sicknessUnit;
-        symptom.background = '';
+        symptom.background = note.story;
       }
       return symptom;
     } catch (e) {
