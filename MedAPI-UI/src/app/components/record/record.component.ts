@@ -21,6 +21,8 @@ import { PatientFatherbackgroundList } from '../../models/patientFatherbackgroun
 import { PatientMotherbackgroundList } from '../../models/patientMotherbackgroundList.model';
 import { PersonalBackgroundList } from '../../models/personalBackgroundList.model';
 import { CardiovascularSymptoms } from '../../models/cardiovascularSymptoms.model';
+import { jsPDF } from "jspdf";
+
 
 export enum TicketStatus {
   REGISTERED = 0,
@@ -79,6 +81,37 @@ export class RecordComponent implements OnInit {
     this.documentNumber = '';
 
     //this.patient = {};
+  }
+
+
+  downloadAttentionPdf(notes){
+
+   
+    var doc = new jsPDF();
+    // var col = ["Details", "Values"];
+    // var rows = [];
+
+    // for(var key in item){
+    //     var temp = [key, item[key]];
+    //     rows.push(temp);
+    // }
+
+    doc.setFontSize(35);
+    doc.text("Atención medica", 14, 15);
+
+    doc.setFontSize(15);
+
+    //console.log(doc.getFontList());
+
+    var fontName = doc.getFontList();
+    doc.setFont("helvetica","bold");
+    doc.text("Paciente", 14, 30);
+
+    doc.setFont("helvetica",null);
+
+    
+
+    doc.save('Test.pdf');
   }
 
   searchTicket() {
