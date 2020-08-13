@@ -22,6 +22,7 @@ import { PatientMotherbackgroundList } from '../../models/patientMotherbackgroun
 import { PersonalBackgroundList } from '../../models/personalBackgroundList.model';
 import { CardiovascularSymptoms } from '../../models/cardiovascularSymptoms.model';
 import { jsPDF } from "jspdf";
+import 'jspdf-autotable';
 
 
 export enum TicketStatus {
@@ -138,12 +139,39 @@ export class RecordComponent implements OnInit {
 
 
 
-             //Diagno
+             //Diagnóstico
              doc.setFont("helvetica","bold");
-             doc.text("Examen físico", 14, 95);
+             doc.text("Diagnóstico", 14, 130);
        
              doc.setFont("helvetica",null);
-             doc.text(note.physicalExam.text, 14, 103);
+             doc.text("", 14, 123);
+
+             var item = {
+              "Name" : "XYZ",
+              "Age" : "22",
+              "Gender" : "Male"
+            };
+           
+            var col = ["#", "CIE-10","Descripción", "Tipo"];
+            var rows = [];
+        
+            for(var i = 0; i < note.diagnosis.list.length; i++)
+            {
+
+              var temp = [i, note.diagnosis.list[i].code,note.diagnosis.list[i].title,note.diagnosis.list[i].type ];
+              rows.push(temp);
+
+            }
+            // for(var key in item){
+            //     var temp = [key, item[key]];
+            //     rows.push(temp);
+            // }
+        
+            doc.autoTable({
+              margin: { top: 135 },
+              body: rows,
+              columns: col
+            });
 
              
 
