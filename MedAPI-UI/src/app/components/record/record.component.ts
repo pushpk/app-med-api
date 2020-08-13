@@ -84,7 +84,7 @@ export class RecordComponent implements OnInit {
   }
 
 
-  downloadAttentionPdf(notes){
+  downloadAttentionPdf(note :NoteDetail){
 
    
     var doc = new jsPDF();
@@ -99,17 +99,68 @@ export class RecordComponent implements OnInit {
     doc.setFontSize(35);
     doc.text("Atención medica", 14, 15);
 
-    doc.setFontSize(15);
+    doc.setFontSize(23);
 
     //console.log(doc.getFontList());
 
-    var fontName = doc.getFontList();
+    
+    //Name
     doc.setFont("helvetica","bold");
     doc.text("Paciente", 14, 30);
 
     doc.setFont("helvetica",null);
+    doc.text(this.patient.name, 14, 38);
 
     
+
+    // Patient Doc Number
+    doc.setFont("helvetica","bold");
+    doc.text("DNI", 14, 50);
+
+    doc.setFont("helvetica",null);
+    doc.text(this.patient.documentNumber, 14, 58);
+
+    
+      // Patient Background Information
+      doc.setFont("helvetica","bold");
+      doc.text("Relato", 14, 70);
+
+      doc.setFont("helvetica",null);
+      doc.text(note.symptoms.background, 14, 78);
+      
+      //Note Examen físico
+       doc.setFont("helvetica","bold");
+       doc.text("Examen físico", 14, 95);
+ 
+       doc.setFont("helvetica",null);
+       doc.text(note.physicalExam.text, 14, 103);
+
+
+
+
+             //Diagno
+             doc.setFont("helvetica","bold");
+             doc.text("Examen físico", 14, 95);
+       
+             doc.setFont("helvetica",null);
+             doc.text(note.physicalExam.text, 14, 103);
+
+             
+
+     //Patient Sex
+     doc.setFont("helvetica","bold");
+     doc.text("Sexo", 156, 30);
+
+     doc.setFont("helvetica",null);
+     doc.text(this.patient.sex, 156, 38);
+
+      // Patient Date of Birth
+      doc.setFont("helvetica","bold");
+      doc.text("DNI", 156, 50);
+
+
+      doc.setFont("helvetica",null);
+      doc.text(this.patient.documentNumber, 156, 58);
 
     doc.save('Test.pdf');
   }
