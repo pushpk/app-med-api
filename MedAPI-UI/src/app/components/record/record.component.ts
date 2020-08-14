@@ -100,7 +100,7 @@ export class RecordComponent implements OnInit {
     doc.setFontSize(35);
     doc.text("Atención medica", 14, 15);
 
-    doc.setFontSize(23);
+    doc.setFontSize(20);
 
     //console.log(doc.getFontList());
 
@@ -158,7 +158,7 @@ export class RecordComponent implements OnInit {
             for(var i = 0; i < note.diagnosis.list.length; i++)
             {
 
-              var temp = [i, note.diagnosis.list[i].code,note.diagnosis.list[i].title,note.diagnosis.list[i].type ];
+              var temp = [i + 1, note.diagnosis.list[i].code,note.diagnosis.list[i].title,note.diagnosis.list[i].type ];
               rows.push(temp);
 
             }
@@ -171,7 +171,11 @@ export class RecordComponent implements OnInit {
               styles: { theme: 'plain' },
               margin: { top: 135 },
               body: rows,
-              columns: col
+              columns: col,
+              theme : 'grid',
+              headStyles : {fontSize : 18, fontStyle : 'bold', fillColor : 'white', textColor : 'black', lineColor : 'black', lineWidth : 0.5},
+              bodyStyles : {fontSize : 18,  textColor : 'black', lineColor : 'black',  lineWidth : 0.5}
+
             });
 
              
