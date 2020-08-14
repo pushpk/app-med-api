@@ -168,6 +168,7 @@ export class RecordComponent implements OnInit {
             // }
         
             doc.autoTable({
+              styles: { theme: 'plain' },
               margin: { top: 135 },
               body: rows,
               columns: col
