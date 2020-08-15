@@ -331,7 +331,8 @@ namespace MedAPI.Controllers
                     allergies = new Domain.PatientAllergies();
                     allergies.patientId = patient.id;
                     allergies.allergies = item.name;
-                    allergies.id = item.allergyId;
+                    allergies.id = item.id;
+                    allergies.isDeleted = item.isDeleted;
                     lstAllergies.Add(allergies);
                 }
             }
@@ -348,7 +349,8 @@ namespace MedAPI.Controllers
                     medicines = new Domain.PatientMedicines();
                     medicines.patientId = patient.id;
                     medicines.medicines = item.name;
-                    medicines.id = item.medicineId;
+                    medicines.id = item.id;
+                    medicines.isDeleted = item.isDeleted;
                     lstMedicines.Add(medicines);
                 }
             }
@@ -365,7 +367,8 @@ namespace MedAPI.Controllers
                     mBackground = new Domain.PatientMotherbackgrounds();
                     mBackground.patientId = patient.id;
                     mBackground.motherBackgrounds = item.name;
-                    mBackground.id = item.motherBackgroundId;
+                    mBackground.id = item.id;
+                    mBackground.isDeleted = item.isDeleted;
                     lstMotherbackgrounds.Add(mBackground);
                 }
             }
@@ -382,7 +385,8 @@ namespace MedAPI.Controllers
                     fBackground = new Domain.PatientFatherbackgrounds();
                     fBackground.patientId = patient.id;
                     fBackground.fatherBackgrounds = item.name;
-                    fBackground.id = item.fatherBackgroundId;
+                    fBackground.id = item.id;
+                    fBackground.isDeleted = item.isDeleted;
                     lstFatherbackgrounds.Add(fBackground);
                 }
             }
@@ -399,7 +403,8 @@ namespace MedAPI.Controllers
                     pBackground = new Domain.PatientPersonalBackgrounds();
                     pBackground.patientId = patient.id;
                     pBackground.personalBackgrounds = item.name;
-                    pBackground.id = item.personalBackgroundId;
+                    pBackground.id = item.id;
+                    pBackground.isDeleted = item.isDeleted;
                     lstPersonalbackgrounds.Add(pBackground);
                 }
             }

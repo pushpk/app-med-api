@@ -516,11 +516,12 @@ export class RecordComponent implements OnInit {
         let allergies = [];
         if (patientDetails) {
           patientDetails.allergiesList.forEach((x: any) => {
-            if (patientDetails.id === x.patientId) {
+            if (patientDetails.id === x.patientId && !x.isDeleted) {
               let allergy = new AllergiesList();
               allergy.id = x.id,
               allergy.patientId = x.patientId,
-              allergy.name = x.allergies
+              allergy.name = x.allergies,
+              allergy.isDeleted = x.isDeleted
               allergies.push(allergy);
             }
           })
@@ -538,11 +539,12 @@ export class RecordComponent implements OnInit {
         let medicines = [];
         if (patientDetails) {
           patientDetails.medicinesList.forEach((x: any) => {
-            if (patientDetails.id === x.patientId) {
+            if (patientDetails.id === x.patientId && !x.isDeleted) {
               let medicine = new MedicinesList();
               medicine.id = x.id,
               medicine.patientId = x.patientId,
-              medicine.name = x.medicines
+              medicine.name = x.medicines,
+              medicine.isDeleted = x.isDeleted
               medicines.push(medicine);
             }
           })
@@ -561,11 +563,12 @@ export class RecordComponent implements OnInit {
         let fBackgrounds = [];
         if (patientDetails) {
           patientDetails.patientFatherbackgroundList.forEach((x: any) => {
-            if (patientDetails.id === x.patientId) {
+            if (patientDetails.id === x.patientId && !x.isDeleted) {
               let fBackground = new PatientFatherbackgroundList();
               fBackground.id = x.id,
               fBackground.patientId = x.patientId,
-              fBackground.name = x.fatherBackgrounds
+              fBackground.name = x.fatherBackgrounds,
+              fBackground.isDeleted = x.isDeleted
               fBackgrounds.push(fBackground);
             }
           })
@@ -583,11 +586,12 @@ export class RecordComponent implements OnInit {
         let mBackgrounds = [];
         if (patientDetails) {
           patientDetails.patientMotherbackgroundList.forEach((x: any) => {
-            if (patientDetails.id === x.patientId) {
+            if (patientDetails.id === x.patientId && !x.isDeleted) {
               let mBackground = new PatientMotherbackgroundList();
               mBackground.id = x.id,
               mBackground.patientId = x.patientId,
-              mBackground.name = x.motherBackgrounds
+              mBackground.name = x.motherBackgrounds,
+              mBackground.isDeleted = x.isDeleted
               mBackgrounds.push(mBackground);
             }
           })
@@ -605,11 +609,12 @@ export class RecordComponent implements OnInit {
         let pBackgrounds = [];
         if (patientDetails) {
           patientDetails.personalBackgroundList.forEach((x: any) => {
-            if (patientDetails.id === x.patientId) {
+            if (patientDetails.id === x.patientId && !x.isDeleted) {
               let pBackground = new PersonalBackgroundList();
               pBackground.id = x.id,
-                pBackground.patientId = x.patientId,
-                pBackground.name = x.personalBackgrounds
+              pBackground.patientId = x.patientId,
+              pBackground.name = x.personalBackgrounds,
+              pBackground.isDeleted = x.isDeleted
               pBackgrounds.push(pBackground);
             }
           })

@@ -17,8 +17,9 @@
             {{allergie.name}}
           </mat-option>
         </mat-autocomplete>
-        <mat-chip *ngFor="let allergie of patient.allergies"
+        <mat-chip *ngFor="let allergie of selectedAllergies"
                   [removable]="removable" class="my-8 mx-8"
+                  v-if="!allergie.isDeleted"
                   (removed)="removeAllergie(allergie)">
           {{allergie.name}}
           <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
@@ -58,8 +59,9 @@
             {{medicine.name}}
           </mat-option>
         </mat-autocomplete>
-        <mat-chip *ngFor="let medicine of patient.medicines"
+        <mat-chip *ngFor="let medicine of selectedMedicines"
                   [removable]="removable" class="my-8 mx-8"
+                  v-if="!medicine.isDeleted"
                   (removed)="removeMedicine(medicine)">
           {{medicine.name}}
           <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
@@ -99,8 +101,9 @@
             {{personalBg.name}}
           </mat-option>
         </mat-autocomplete>
-        <mat-chip *ngFor="let pbg of patient.personalBackground"
+        <mat-chip *ngFor="let pbg of selectedPersonalBackgrounds"
                   [removable]="removable" class="my-8 mx-8"
+                  v-if="!pbg.isDeleted"
                   (removed)="removePersonalBackground(pbg)">
           {{pbg.name}}
           <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
@@ -140,8 +143,9 @@
             {{fatherBg.name}}
           </mat-option>
         </mat-autocomplete>
-        <mat-chip *ngFor="let fatherBg of patient.fatherBackground"
+        <mat-chip *ngFor="let fatherBg of selectedFatherBackgrounds"
                   [removable]="removable" class="my-8 mx-8"
+                  v-if="!fatherBg.isDeleted"
                   (removed)="removeFatherBackground(fatherBg)">
           {{fatherBg.name}}
           <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
@@ -181,8 +185,9 @@
             {{motherBg.name}}
           </mat-option>
         </mat-autocomplete>
-        <mat-chip *ngFor="let motherBg of patient.motherBackground"
+        <mat-chip *ngFor="let motherBg of selectedMotherBackgrounds"
                   [removable]="removable" class="my-8 mx-8"
+                  v-if="!motherBg.isDeleted"
                   (removed)="removeMotherBackground(motherBg)">
           {{motherBg.name}}
           <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>

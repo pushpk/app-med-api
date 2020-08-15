@@ -200,7 +200,7 @@ namespace MedAPI.Repository
                                     water = x.water,
                                     departmentId = x.departmentId,
                                     allergiesList = ((from y in context.patient_allergies
-                                                      where y.patient_id == x.id
+                                                      where y.patient_id == x.id && y.isDeleted==false
                                                       select new PatientAllergies()
                                                       {
                                                           id = y.id,
@@ -208,7 +208,7 @@ namespace MedAPI.Repository
                                                           allergies = y.allergies
                                                       }).ToList()),
                                     medicinesList = ((from y in context.patient_medicines
-                                                      where y.patient_id == x.id
+                                                      where y.patient_id == x.id && y.isDeleted == false
                                                       select new PatientMedicines()
                                                       {
                                                           id = y.id,
@@ -216,7 +216,7 @@ namespace MedAPI.Repository
                                                           medicines = y.medicines
                                                       }).ToList()),
                                     personalBackgroundList = ((from y in context.patient_personalbackgrounds
-                                                               where y.patient_id == x.id
+                                                               where y.patient_id == x.id && y.isDeleted == false
                                                                select new PatientPersonalBackgrounds()
                                                                {
                                                                    id = y.id,
@@ -224,7 +224,7 @@ namespace MedAPI.Repository
                                                                    personalBackgrounds = y.personalBackgrounds
                                                                }).ToList()),
                                     patientFatherbackgroundList = ((from y in context.patient_fatherbackgrounds
-                                                                    where y.patient_id == x.id
+                                                                    where y.patient_id == x.id && y.isDeleted == false
                                                                     select new PatientFatherbackgrounds()
                                                                     {
                                                                         id = y.id,
@@ -232,7 +232,7 @@ namespace MedAPI.Repository
                                                                         fatherBackgrounds = y.fatherBackgrounds
                                                                     }).ToList()),
                                     patientMotherbackgroundList = ((from y in context.patient_motherbackgrounds
-                                                                    where y.patient_id == x.id
+                                                                    where y.patient_id == x.id && y.isDeleted == false
                                                                     select new PatientMotherbackgrounds()
                                                                     {
                                                                         id = y.id,
@@ -333,6 +333,7 @@ namespace MedAPI.Repository
                         }
                         efAllergies.patient_id = allergies.patientId;
                         efAllergies.allergies = allergies.allergies;
+                        efAllergies.isDeleted = allergies.isDeleted;
                         context.SaveChanges();
                         allergies.id = efAllergies.id;
                     }
@@ -360,6 +361,7 @@ namespace MedAPI.Repository
                         }
                         efMedicines.patient_id = medicines.patientId;
                         efMedicines.medicines = medicines.medicines;
+                        efMedicines.isDeleted = medicines.isDeleted;
                         context.SaveChanges();
                         medicines.id = efMedicines.id;
                     }
@@ -387,6 +389,7 @@ namespace MedAPI.Repository
                         }
                         efPersonalBackgrounds.patient_id = personalBackgrounds.patientId;
                         efPersonalBackgrounds.personalBackgrounds = personalBackgrounds.personalBackgrounds;
+                        efPersonalBackgrounds.isDeleted = personalBackgrounds.isDeleted;
                         context.SaveChanges();
                         personalBackgrounds.id = efPersonalBackgrounds.id;
                     }
@@ -414,6 +417,7 @@ namespace MedAPI.Repository
                         }
                         efMotherBackgrounds.patient_id = motherBackgrounds.patientId;
                         efMotherBackgrounds.motherBackgrounds = motherBackgrounds.motherBackgrounds;
+                        efMotherBackgrounds.isDeleted = motherBackgrounds.isDeleted;
                         context.SaveChanges();
                         motherBackgrounds.id = efMotherBackgrounds.id;
                     }
@@ -441,6 +445,7 @@ namespace MedAPI.Repository
                         }
                         efFatherBackgrounds.patient_id = fatherBackgrounds.patientId;
                         efFatherBackgrounds.fatherBackgrounds = fatherBackgrounds.fatherBackgrounds;
+                        efFatherBackgrounds.isDeleted = fatherBackgrounds.isDeleted;
                         context.SaveChanges();
                         fatherBackgrounds.id = efFatherBackgrounds.id;
                     }
