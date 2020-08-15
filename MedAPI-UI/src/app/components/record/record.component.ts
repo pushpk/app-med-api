@@ -146,12 +146,6 @@ export class RecordComponent implements OnInit {
              doc.setFont("helvetica",null);
              doc.text("", 14, 123);
 
-             var item = {
-              "Name" : "XYZ",
-              "Age" : "22",
-              "Gender" : "Male"
-            };
-           
             var col = ["#", "CIE-10","Descripción", "Tipo"];
             var rows = [];
         
@@ -162,10 +156,8 @@ export class RecordComponent implements OnInit {
               rows.push(temp);
 
             }
-            // for(var key in item){
-            //     var temp = [key, item[key]];
-            //     rows.push(temp);
-            // }
+           
+            var diagossisHeight
         
             doc.autoTable({
               styles: { theme: 'plain' },
@@ -174,11 +166,60 @@ export class RecordComponent implements OnInit {
               columns: col,
               theme : 'grid',
               headStyles : {fontSize : 18, fontStyle : 'bold', fillColor : 'white', textColor : 'black', lineColor : 'black', lineWidth : 0.5},
-              bodyStyles : {fontSize : 18,  textColor : 'black', lineColor : 'black',  lineWidth : 0.5}
+              bodyStyles : {fontSize : 18,  textColor : 'black', lineColor : 'black',  lineWidth : 0.5},
+              didParseCell: function (data) {
+
+                console.log(data);
+                diagossisHeight = data.table.height
+            }
 
             });
 
-             
+       //Examenes solicitados
+
+      //  doc.autoPrint()
+
+      //  doc.autoTable({
+      //   margin: { top: 135 },
+      //   body: [],
+      //   columns: ['Examenes solicitados'],
+      //   theme : 'plain',
+      //   headStyles : {fontSize : 18, fontStyle : 'bold', fillColor : 'white', textColor : 'black'},
+      //   bodyStyles : {fontSize : 18,  textColor : 'black'}
+
+      // });
+
+      console.log(diagossisHeight);
+       doc.setFont("helvetica","bold");
+       doc.text("Examenes solicitados", 14, 130 + diagossisHeight);
+ 
+      //  doc.setFont("helvetica",null);
+      //  doc.text("", 14, 190);
+
+       var colExams = ["#", "Nombre","Especificación"];
+       var rowsExam = [];
+   
+       console.log(note);
+
+       for(var i = 0; i < note.exams.list.length; i++)
+       {
+
+         var temp = [i + 1, note.exams.list[i].name,"-" ];
+         rowsExam.push(temp);
+
+       }
+      
+   
+       doc.autoTable({
+         styles: { theme: 'plain' },
+         margin: { top: 135 },
+         body: rowsExam,
+         columns: colExams,
+         theme : 'grid',
+         headStyles : {fontSize : 18, fontStyle : 'bold', fillColor : 'white', textColor : 'black', lineColor : 'black', lineWidth : 0.5},
+         bodyStyles : {fontSize : 18,  textColor : 'black', lineColor : 'black',  lineWidth : 0.5}
+
+       });
 
      //Patient Sex
      doc.setFont("helvetica","bold");
@@ -212,7 +253,11 @@ export class RecordComponent implements OnInit {
 
     self.waitingTicket = true;
     this.recordService.getPatientsByTicketNumber(this.ticketNumber).then((response: any) => {
+
+      
+
       this.setPatientDetails(response);
+
       //localStorage.setItem('patient', response.patient);
       //localStorage.setItem('notes', response.notes);
       //self.patient = response.patient;
@@ -248,6 +293,10 @@ export class RecordComponent implements OnInit {
 
     self.waitingTicket = true;
     this.recordService.getPatientsByDocNumber(this.documentNumber).then((response: any) => {
+
+      console.log("---");
+      console.log(response);
+      console.log("---");
       this.setPatientDetails(response);
       //localStorage.setItem('patient', JSON.stringify(response.patient));
       //if (CheckEmptyUtil.isNotEmptyObject(response.notes)) {
@@ -441,8 +490,11 @@ export class RecordComponent implements OnInit {
         note.noteExams.forEach((x: any) => {
           let list = new Lists();
           list.id = x.examId;
-          list.deleted = x.examList.deleted;
+          if(x.examList.length > 0)
+          {
+          list.deleted = x.examList[0].deleted;
           list.type = x.examList.type;
+          }
           x.examList.filter(y => y.id === x.examId).map((m) => {
             list.name = m.name
           });
