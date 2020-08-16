@@ -167,10 +167,11 @@ export class RecordComponent implements OnInit {
               theme : 'grid',
               headStyles : {fontSize : 18, fontStyle : 'bold', fillColor : 'white', textColor : 'black', lineColor : 'black', lineWidth : 0.5},
               bodyStyles : {fontSize : 18,  textColor : 'black', lineColor : 'black',  lineWidth : 0.5},
-              didParseCell: function (data) {
+              didDrawPage: function (data) {
 
-                console.log(data);
-                diagossisHeight = data.table.height
+                //console.log(data);
+               // diagossisHeight = data.table.finalY
+                
             }
 
             });
@@ -189,9 +190,9 @@ export class RecordComponent implements OnInit {
 
       // });
 
-      console.log(diagossisHeight);
        doc.setFont("helvetica","bold");
-       doc.text("Examenes solicitados", 14, 130 + diagossisHeight);
+       doc.text("Examenes solicitados", 14, 12 + doc.lastAutoTable.finalY); // The y position on the page
+       
  
       //  doc.setFont("helvetica",null);
       //  doc.text("", 14, 190);
@@ -199,7 +200,6 @@ export class RecordComponent implements OnInit {
        var colExams = ["#", "Nombre","Especificación"];
        var rowsExam = [];
    
-       console.log(note);
 
        for(var i = 0; i < note.exams.list.length; i++)
        {
@@ -212,7 +212,8 @@ export class RecordComponent implements OnInit {
    
        doc.autoTable({
          styles: { theme: 'plain' },
-         margin: { top: 135 },
+         margin: { top: 190},
+         startY: doc.lastAutoTable.finalY + 17,
          body: rowsExam,
          columns: colExams,
          theme : 'grid',
@@ -220,6 +221,13 @@ export class RecordComponent implements OnInit {
          bodyStyles : {fontSize : 18,  textColor : 'black', lineColor : 'black',  lineWidth : 0.5}
 
        });
+
+       doc.setFont("helvetica","bold");
+       doc.text("Médico", 14, 12 + doc.lastAutoTable.finalY); // The y position on the page
+       
+
+       doc.setFont("helvetica","bold");
+       doc.text(this.user, 14, 12 + doc.lastAutoTable.finalY);
 
      //Patient Sex
      doc.setFont("helvetica","bold");
