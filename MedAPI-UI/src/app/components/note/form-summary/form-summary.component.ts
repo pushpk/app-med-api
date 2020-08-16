@@ -22,10 +22,15 @@ export class FormSummaryComponent implements OnInit {
   
   downloadAttention(){
 
-    this.commonService.generateAttentionPDF(this.patient, this.note);
+    this.commonService.generatePDF(this.patient, this.note, "Attention");
   }
 
-  downloadPrescription(){}
+  downloadPrescription(){
 
-  downloadInter(){}
+    this.commonService.generatePDF(this.patient, this.note, "Prescription");
+  }
+
+  downloadInter(){
+    this.commonService.generatePDF(this.patient, this.note, "Interconsultation");
+  }
 }

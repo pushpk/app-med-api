@@ -4,6 +4,7 @@ import { BehaviorSubject } from 'rxjs';
 import { jsPDF } from "jspdf";
 import 'jspdf-autotable';
 import { Patient } from '../models/patient.model';
+import { NoteDetail } from '../models/noteDetail.model';
 
 @Injectable({
   providedIn: 'root'
@@ -29,8 +30,14 @@ export class CommonService {
     localStorage.setItem('openSide', item);
   }
 
-  public generateAttentionPDF(patient: Patient, note : NoteDetail){
+  public generatePDF(patient: Patient, note : NoteDetail, type : string){
     try {
+
+      //Attention
+      //Prescription
+      //Interconsultation
+
+
       var doc = new jsPDF();
      
       doc.setFontSize(35);
@@ -51,6 +58,8 @@ export class CommonService {
       doc.setFont("helvetica", null);
       doc.text(patient.documentNumber, 14, 58);
 
+      if(type === "Attention")
+      {
       // Patient Background Information
       doc.setFont("helvetica", "bold");
       doc.text("Relato", 14, 70);
@@ -102,19 +111,7 @@ export class CommonService {
 
       });
 
-      //Examenes solicitados
-
-      //  doc.autoPrint()
-
-      //  doc.autoTable({
-      //   margin: { top: 135 },
-      //   body: [],
-      //   columns: ['Examenes solicitados'],
-      //   theme : 'plain',
-      //   headStyles : {fontSize : 18, fontStyle : 'bold', fillColor : 'white', textColor : 'black'},
-      //   bodyStyles : {fontSize : 18,  textColor : 'black'}
-
-      // });
+      
 
       doc.setFont("helvetica", "bold");
       doc.text("Examenes solicitados", 14, 12 + doc.lastAutoTable.finalY); // The y position on the page
@@ -146,15 +143,29 @@ export class CommonService {
         bodyStyles: { fontSize: 18, textColor: 'black', lineColor: 'black', lineWidth: 0.5 }
 
       });
+    }
+
+
+    if(type === "Prescription"){
+    
+
+    }
+
+    if(type === "Interconsultation"){
+    
+
+    }
+
+var finalY = doc.lastAutoTable ?  doc.lastAutoTable.finalY : 0;
 
       doc.setFont("helvetica", "bold");
-      doc.text("Médico", 14, 12 + doc.lastAutoTable.finalY); // The y position on the page
+      doc.text("Médico", 14, 12 + finalY); // The y position on the page
 
       var medicData = JSON.parse(localStorage.getItem("userData"));
       var medicName = medicData["name"];
 
       doc.setFont("helvetica", "");
-      doc.text(medicName, 14, 22 + doc.lastAutoTable.finalY);
+      doc.text(medicName, 14, 22 + finalY);
 
       //Patient Sex
       doc.setFont("helvetica", "bold");
@@ -165,11 +176,11 @@ export class CommonService {
 
       // Patient Date of Birth
       doc.setFont("helvetica", "bold");
-      doc.text("DNI", 156, 50);
+      doc.text("Fecha", 156, 50);
 
 
       doc.setFont("helvetica", null);
-      doc.text(patient.documentNumber, 156, 58);
+      doc.text(patient.birthday, 156, 58);
 
       doc.save('Test.pdf');
     }

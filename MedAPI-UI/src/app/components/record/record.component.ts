@@ -87,7 +87,7 @@ export class RecordComponent implements OnInit {
 
 
   downloadAttentionPdf(note: NoteDetail) {
-    this.commonService.generateAttentionPDF(this.patient,note);
+    this.commonService.generatePDF(this.patient,note,"Attention");
   }
 
   searchTicket() {
