@@ -5,6 +5,7 @@ import { jsPDF } from "jspdf";
 import 'jspdf-autotable';
 import { Patient } from '../models/patient.model';
 import { NoteDetail } from '../models/noteDetail.model';
+import { DatePipe } from '@angular/common'
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,7 @@ export class CommonService {
   public currentUrl = new BehaviorSubject<string>(undefined);
   slideEmitter: EventEmitter<any> = new EventEmitter<boolean>(false);
 
-  constructor() {
+  constructor(public datepipe: DatePipe) {
   }
 
   get isSidebarOpened(): string {
@@ -41,7 +42,19 @@ export class CommonService {
       var doc = new jsPDF();
      
       doc.setFontSize(35);
-      doc.text("Atención medica", 14, 15);
+
+      if(type === "Prescription"){
+        doc.text("Receta medica", 14, 15);
+      }
+      else if(type === "Interconsultation"){
+        doc.text("Solicitud de interconsulta", 14, 15);
+      }
+      else{
+        doc.text("Atención medica", 14, 15);
+      }
+
+
+
       doc.setFontSize(20);
 
       //Name
@@ -151,26 +164,25 @@ export class CommonService {
     if(type === "Prescription"){
 
      
-      var colExams = ["#", "Descripción", "Indicaciones"];
-      var rowsExam = [];
+      var colTreatments = ["#", "Descripción", "Indicaciones"];
+      var rowsTreatments  = [];
 
       console.log(note.treatments.list);
       console.log(note.interconsultation.list);
 
       for (var i = 0; i < note.treatments.list.length; i++) {
 
-        var temp = [i + 1, note.treatments.list[i].name, "-"];
-        rowsExam.push(temp);
+        var temp = [i + 1, note.treatments.list[i].name, note.treatments.list[i].indications];
+        rowsTreatments.push(temp);
 
       }
 
 
       doc.autoTable({
         styles: { theme: 'plain' },
-        margin: { top: 190 },
-        startY: doc.lastAutoTable.finalY + 17,
-        body: rowsExam,
-        columns: colExams,
+        margin: { top: 70 },
+        body: rowsTreatments,
+        columns: colTreatments,
         theme: 'grid',
         headStyles: { fontSize: 18, fontStyle: 'bold', fillColor: 'white', textColor: 'black', lineColor: 'black', lineWidth: 0.5 },
         bodyStyles: { fontSize: 18, textColor: 'black', lineColor: 'black', lineWidth: 0.5 }
@@ -183,14 +195,38 @@ export class CommonService {
     }
 
     if(type === "Interconsultation"){
+
+      var colInterconsultation = ["#", "Especialidad", "Motivo"];
+      var rowsInterconsultation = [];
+
+      console.log(note.treatments.list);
+      console.log(note.interconsultation.list);
+
+      for (var i = 0; i < note.interconsultation.list.length; i++) {
+
+        var temp = [i + 1, note.interconsultation.list[i].specialty, note.interconsultation.list[i].reason];
+        rowsInterconsultation.push(temp);
+
+      }
+
+
+      doc.autoTable({
+        styles: { theme: 'plain' },
+        margin: { top: 70 },
+        body: rowsInterconsultation,
+        columns: colInterconsultation,
+        theme: 'grid',
+        headStyles: { fontSize: 18, fontStyle: 'bold', fillColor: 'white', textColor: 'black', lineColor: 'black', lineWidth: 0.5 },
+        bodyStyles: { fontSize: 18, textColor: 'black', lineColor: 'black', lineWidth: 0.5 }
+
+      });
     
       finalY = doc.lastAutoTable ?  doc.lastAutoTable.finalY : 65;
     }
 
   
       doc.setFont("helvetica", "bold");
-      doc.text("Médico", 14, 12 + finalY); // The y position on the page
-
+      doc.text("Médico", 14, 12 + finalY); 
       var medicData = JSON.parse(localStorage.getItem("userData"));
       var medicName = medicData["name"];
 
@@ -210,7 +246,7 @@ export class CommonService {
 
 
       doc.setFont("helvetica", null);
-      doc.text(patient.birthday, 156, 58);
+      doc.text(this.datepipe.transform(patient.birthday, 'yyyy-MM-dd'), 156, 58);
 
       doc.save('Test.pdf');
     }
