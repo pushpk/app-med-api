@@ -152,7 +152,7 @@ namespace MedAPI.Service
 
             mUserResourcesList.backgrounds = Enum.GetValues(typeof(Background))
                      .Cast<Background>()
-                     .Select(d => new ObjectNode() { id = d.ToString().ToUpper(), name = StringExtensions.FirstCharToUpper(d.ToString()) })
+                     .Select(d => new ObjectNode() { id = d.ToString().ToUpper(), name = StringExtensions.FirstCharToUpper(d.ToString().Replace('_',' ')) })
                      .ToList();
 
             mUserResourcesList.allergies = Enum.GetValues(typeof(Allergy))

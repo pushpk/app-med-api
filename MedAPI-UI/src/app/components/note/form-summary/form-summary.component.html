@@ -8,16 +8,17 @@
 
     <h2 fxFlex="100">Ahora puede guardar la atención</h2>
 
-    <div fxFlex="100" *ngIf="!note.id">
-      <a href="javascript: void(0);" mat-button [routerLink]="['/note/'+ note.id +'/report/note']" target="_blank">
+    <!-- <div fxFlex="100" *ngIf="!note.id"> -->
+      <div fxFlex="100" >
+      <a href="javascript: void(0);" mat-button (click)="downloadAttention()" >
         Descargar Atención
       </a>
 
-      <a href="javascript: void(0);" mat-button [routerLink]="['/note/'+ note.id + '/report/prescription']" target="_blank">
+      <a href="javascript: void(0);" mat-button (click)="downloadPrescription()" >
         Descargar Receta médica
       </a>
 
-      <a href="javascript: void(0);" mat-button [routerLink]="['/note/'+ note.id +'/report/specialty']" target="_blank">
+      <a href="javascript: void(0);" mat-button (click)="downloadInter()">
         Descargar Interconsulta
       </a>
     </div>
@@ -31,15 +32,17 @@
     <h2 fxFlex="100">La atención se ha registrado correctamente</h2>
 
     <div fxFlex="100" *ngIf="!note.id">
-      <a href="javascript: void(0);" mat-button [routerLink]="['/note/'+ note.id +'/report/note']" target="_blank">
+      <a href="javascript: void(0);" mat-button  (click)="downloadAttention()" >
         Descargar Atención
       </a>
 
-      <a href="javascript: void(0);" mat-button [routerLink]="['/note/'+ note.id + '/report/prescription']" target="_blank">
+     
+
+      <a href="javascript: void(0);" mat-button (click)="downloadPrescription()" >
         Descargar Receta médica
       </a>
 
-      <a href="javascript: void(0);" mat-button [routerLink]="['/note/'+ note.id +'/report/specialty']" target="_blank">
+      <a href="javascript: void(0);" mat-button (click)="downloadInter()" >
         Descargar Interconsulta
       </a>
     </div>

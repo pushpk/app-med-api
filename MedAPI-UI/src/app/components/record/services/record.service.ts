@@ -33,4 +33,18 @@ export class RecordService {
     }
     return self.httpUtilService.invokeQuery('GET', params, apiEndpoint);
   }
+
+
+  getAttentionByNoteId(noteId: number)
+  {
+    const self = this;
+    const apiEndpoint = 'record/note';
+    const params = {
+      key: 'id',
+      value: noteId
+    }
+
+    return self.httpUtilService.invokeQuery('GET', params, apiEndpoint);
+
+  }
 }

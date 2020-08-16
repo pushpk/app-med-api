@@ -262,7 +262,7 @@ namespace MedAPI.Controllers
             note.sicknessUnit = mNote.symptoms.durationUnit;
             note.specialty = mNote.specialty;
             note.stage = 0;
-            note.story = null;
+            note.story = mNote.symptoms.background;
             note.symptom = mNote.symptoms.description;
             note.treatment = mNote.treatments.other;
             note.patientId = mNote.patientId;

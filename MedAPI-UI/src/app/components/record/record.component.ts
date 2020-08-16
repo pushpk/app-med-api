@@ -21,6 +21,10 @@ import { PatientFatherbackgroundList } from '../../models/patientFatherbackgroun
 import { PatientMotherbackgroundList } from '../../models/patientMotherbackgroundList.model';
 import { PersonalBackgroundList } from '../../models/personalBackgroundList.model';
 import { CardiovascularSymptoms } from '../../models/cardiovascularSymptoms.model';
+import { jsPDF } from "jspdf";
+import 'jspdf-autotable';
+import { CommonService } from 'src/app/services/common.service';
+
 
 export enum TicketStatus {
   REGISTERED = 0,
@@ -65,7 +69,7 @@ export class RecordComponent implements OnInit {
   { value: 'PEDIATRY', name: 'Pediatría', id: 3 },
   { value: 'TRAUMATOLOGY', name: 'Traumatología', id: 4 }];
 
-  constructor(private recordService: RecordService, public router: Router, private changeDetectorRefs: ChangeDetectorRef) { }
+  constructor(private recordService: RecordService, public router: Router, private changeDetectorRefs: ChangeDetectorRef, private commonService : CommonService) { }
 
   ngOnInit(): void {
     this.askTicket = false;
@@ -79,6 +83,11 @@ export class RecordComponent implements OnInit {
     this.documentNumber = '';
 
     //this.patient = {};
+  }
+
+
+  downloadAttentionPdf(note: NoteDetail) {
+    this.commonService.generatePDF(this.patient,note,"Attention");
   }
 
   searchTicket() {
@@ -95,7 +104,11 @@ export class RecordComponent implements OnInit {
 
     self.waitingTicket = true;
     this.recordService.getPatientsByTicketNumber(this.ticketNumber).then((response: any) => {
+
+
+
       this.setPatientDetails(response);
+
       //localStorage.setItem('patient', response.patient);
       //localStorage.setItem('notes', response.notes);
       //self.patient = response.patient;
@@ -121,8 +134,8 @@ export class RecordComponent implements OnInit {
     this.askPatientRegistration = false;
     this.showRecord = false;
     this.ticketNumber = '000-000000';
-    localStorage.setItem('notes','');
-    localStorage.setItem('patient','');
+    localStorage.setItem('notes', '');
+    localStorage.setItem('patient', '');
     if (!this.documentNumber) {
       return;
     }
@@ -131,6 +144,10 @@ export class RecordComponent implements OnInit {
 
     self.waitingTicket = true;
     this.recordService.getPatientsByDocNumber(this.documentNumber).then((response: any) => {
+
+      console.log("---");
+      console.log(response);
+      console.log("---");
       this.setPatientDetails(response);
       //localStorage.setItem('patient', JSON.stringify(response.patient));
       //if (CheckEmptyUtil.isNotEmptyObject(response.notes)) {
@@ -308,7 +325,7 @@ export class RecordComponent implements OnInit {
         symptom.description = note.symptom;
         symptom.duration = note.sicknessTime;
         symptom.durationUnit = note.sicknessUnit;
-        symptom.background = '';
+        symptom.background = note.story;
       }
       return symptom;
     } catch (e) {
@@ -324,8 +341,10 @@ export class RecordComponent implements OnInit {
         note.noteExams.forEach((x: any) => {
           let list = new Lists();
           list.id = x.examId;
-          list.deleted = x.examList.deleted;
-          list.type = x.examList.type;
+          if (x.examList.length > 0) {
+            list.deleted = x.examList[0].deleted;
+            list.type = x.examList.type;
+          }
           x.examList.filter(y => y.id === x.examId).map((m) => {
             list.name = m.name
           });
@@ -446,7 +465,7 @@ export class RecordComponent implements OnInit {
         this.patient.name = patientDetails.user.firstName;
         this.patient.lastnameFather = patientDetails.user.lastNameFather;
         this.patient.lastnameMother = patientDetails.user.lastNameMother;
-       
+
         this.patient.documentType = patientDetails.user.documentType;
         this.patient.documentNumber = patientDetails.user.documentNumber;
         this.patient.birthday = patientDetails.user.birthday;
@@ -542,9 +561,11 @@ export class RecordComponent implements OnInit {
             if (patientDetails.id === x.patientId && !x.isDeleted) {
               let medicine = new MedicinesList();
               medicine.id = x.id,
+
               medicine.patientId = x.patientId,
               medicine.name = x.medicines,
               medicine.isDeleted = x.isDeleted
+
               medicines.push(medicine);
             }
           })
@@ -566,9 +587,11 @@ export class RecordComponent implements OnInit {
             if (patientDetails.id === x.patientId && !x.isDeleted) {
               let fBackground = new PatientFatherbackgroundList();
               fBackground.id = x.id,
+
               fBackground.patientId = x.patientId,
               fBackground.name = x.fatherBackgrounds,
               fBackground.isDeleted = x.isDeleted
+
               fBackgrounds.push(fBackground);
             }
           })
@@ -589,9 +612,11 @@ export class RecordComponent implements OnInit {
             if (patientDetails.id === x.patientId && !x.isDeleted) {
               let mBackground = new PatientMotherbackgroundList();
               mBackground.id = x.id,
+
               mBackground.patientId = x.patientId,
               mBackground.name = x.motherBackgrounds,
               mBackground.isDeleted = x.isDeleted
+
               mBackgrounds.push(mBackground);
             }
           })
@@ -629,7 +654,7 @@ export class RecordComponent implements OnInit {
   setCardioSympotms(notes) {
     try {
       if (CheckEmptyUtil.isNotEmpty(notes)) {
-        let cardiovascularSymptoms = [], cardiovascularNoteId=0;
+        let cardiovascularSymptoms = [], cardiovascularNoteId = 0;
         if (CheckEmptyUtil.isNotEmptyObject(notes.cardiovascularNote)) {
           cardiovascularNoteId = notes.cardiovascularNote.id;
         }
@@ -638,8 +663,8 @@ export class RecordComponent implements OnInit {
             if (cardiovascularNoteId === x.cardiovascularNoteId) {
               let cardiovascularSymptom = new CardiovascularSymptoms();
               cardiovascularSymptom.id = x.id,
-              cardiovascularSymptom.cardiovascularNoteId = x.cardiovascularNoteId,
-              cardiovascularSymptom.cardiovascularSymptoms = x.cardiovascularSymptoms
+                cardiovascularSymptom.cardiovascularNoteId = x.cardiovascularNoteId,
+                cardiovascularSymptom.cardiovascularSymptoms = x.cardiovascularSymptoms
               cardiovascularSymptoms.push(cardiovascularSymptom);
             }
           })
