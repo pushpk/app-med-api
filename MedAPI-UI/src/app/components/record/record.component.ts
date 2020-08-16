@@ -85,98 +85,81 @@ export class RecordComponent implements OnInit {
   }
 
 
-  downloadAttentionPdf(note :NoteDetail){
+  downloadAttentionPdf(note: NoteDetail) {
 
-   
-    var doc = new jsPDF();
-    // var col = ["Details", "Values"];
-    // var rows = [];
+    try {
+      var doc = new jsPDF();
+     
+      doc.setFontSize(35);
+      doc.text("Atención medica", 14, 15);
+      doc.setFontSize(20);
 
-    // for(var key in item){
-    //     var temp = [key, item[key]];
-    //     rows.push(temp);
-    // }
+      //Name
+      doc.setFont("helvetica", "bold");
+      doc.text("Paciente", 14, 30);
 
-    doc.setFontSize(35);
-    doc.text("Atención medica", 14, 15);
+      doc.setFont("helvetica", null);
+      doc.text(this.patient.name, 14, 38);
 
-    doc.setFontSize(20);
+      // Patient Doc Number
+      doc.setFont("helvetica", "bold");
+      doc.text("DNI", 14, 50);
 
-    //console.log(doc.getFontList());
+      doc.setFont("helvetica", null);
+      doc.text(this.patient.documentNumber, 14, 58);
 
-    
-    //Name
-    doc.setFont("helvetica","bold");
-    doc.text("Paciente", 14, 30);
-
-    doc.setFont("helvetica",null);
-    doc.text(this.patient.name, 14, 38);
-
-    
-
-    // Patient Doc Number
-    doc.setFont("helvetica","bold");
-    doc.text("DNI", 14, 50);
-
-    doc.setFont("helvetica",null);
-    doc.text(this.patient.documentNumber, 14, 58);
-
-    
       // Patient Background Information
-      doc.setFont("helvetica","bold");
+      doc.setFont("helvetica", "bold");
       doc.text("Relato", 14, 70);
+  
+      if(note.symptoms.background)
+      {
+        doc.setFont("helvetica", null);
+        doc.text(note.symptoms.background, 14, 78);
+      }
 
-      doc.setFont("helvetica",null);
-      doc.text(note.symptoms.background, 14, 78);
-      
       //Note Examen físico
-       doc.setFont("helvetica","bold");
-       doc.text("Examen físico", 14, 95);
- 
-       doc.setFont("helvetica",null);
-       doc.text(note.physicalExam.text, 14, 103);
+      doc.setFont("helvetica", "bold");
+      doc.text("Examen físico", 14, 95);
 
+      doc.setFont("helvetica", null);
+      doc.text(note.physicalExam.text, 14, 103);
 
+      //Diagnóstico
+      doc.setFont("helvetica", "bold");
+      doc.text("Diagnóstico", 14, 130);
 
+      doc.setFont("helvetica", null);
+      doc.text("", 14, 123);
 
-             //Diagnóstico
-             doc.setFont("helvetica","bold");
-             doc.text("Diagnóstico", 14, 130);
-       
-             doc.setFont("helvetica",null);
-             doc.text("", 14, 123);
+      var col = ["#", "CIE-10", "Descripción", "Tipo"];
+      var rows = [];
 
-            var col = ["#", "CIE-10","Descripción", "Tipo"];
-            var rows = [];
-        
-            for(var i = 0; i < note.diagnosis.list.length; i++)
-            {
+      for (var i = 0; i < note.diagnosis.list.length; i++) {
 
-              var temp = [i + 1, note.diagnosis.list[i].code,note.diagnosis.list[i].title,note.diagnosis.list[i].type ];
-              rows.push(temp);
+        var temp = [i + 1, note.diagnosis.list[i].code, note.diagnosis.list[i].title, note.diagnosis.list[i].type];
+        rows.push(temp);
 
-            }
-           
-            var diagossisHeight
-        
-            doc.autoTable({
-              styles: { theme: 'plain' },
-              margin: { top: 135 },
-              body: rows,
-              columns: col,
-              theme : 'grid',
-              headStyles : {fontSize : 18, fontStyle : 'bold', fillColor : 'white', textColor : 'black', lineColor : 'black', lineWidth : 0.5},
-              bodyStyles : {fontSize : 18,  textColor : 'black', lineColor : 'black',  lineWidth : 0.5},
-              didDrawPage: function (data) {
+      }
 
-                //console.log(data);
-               // diagossisHeight = data.table.finalY
-                
-            }
+      doc.autoTable({
+        styles: { theme: 'plain' },
+        margin: { top: 135 },
+        body: rows,
+        columns: col,
+        theme: 'grid',
+        headStyles: { fontSize: 18, fontStyle: 'bold', fillColor: 'white', textColor: 'black', lineColor: 'black', lineWidth: 0.5 },
+        bodyStyles: { fontSize: 18, textColor: 'black', lineColor: 'black', lineWidth: 0.5 },
+        didDrawPage: function (data) {
 
-            });
+          //console.log(data);
+          // diagossisHeight = data.table.finalY
 
-       //Examenes solicitados
+        }
+
+      });
+
+      //Examenes solicitados
 
       //  doc.autoPrint()
 
@@ -190,61 +173,66 @@ export class RecordComponent implements OnInit {
 
       // });
 
-       doc.setFont("helvetica","bold");
-       doc.text("Examenes solicitados", 14, 12 + doc.lastAutoTable.finalY); // The y position on the page
-       
- 
+      doc.setFont("helvetica", "bold");
+      doc.text("Examenes solicitados", 14, 12 + doc.lastAutoTable.finalY); // The y position on the page
+
+
       //  doc.setFont("helvetica",null);
       //  doc.text("", 14, 190);
 
-       var colExams = ["#", "Nombre","Especificación"];
-       var rowsExam = [];
-   
+      var colExams = ["#", "Nombre", "Especificación"];
+      var rowsExam = [];
 
-       for(var i = 0; i < note.exams.list.length; i++)
-       {
 
-         var temp = [i + 1, note.exams.list[i].name,"-" ];
-         rowsExam.push(temp);
+      for (var i = 0; i < note.exams.list.length; i++) {
 
-       }
-      
-   
-       doc.autoTable({
-         styles: { theme: 'plain' },
-         margin: { top: 190},
-         startY: doc.lastAutoTable.finalY + 17,
-         body: rowsExam,
-         columns: colExams,
-         theme : 'grid',
-         headStyles : {fontSize : 18, fontStyle : 'bold', fillColor : 'white', textColor : 'black', lineColor : 'black', lineWidth : 0.5},
-         bodyStyles : {fontSize : 18,  textColor : 'black', lineColor : 'black',  lineWidth : 0.5}
+        var temp = [i + 1, note.exams.list[i].name, "-"];
+        rowsExam.push(temp);
 
-       });
+      }
 
-       doc.setFont("helvetica","bold");
-       doc.text("Médico", 14, 12 + doc.lastAutoTable.finalY); // The y position on the page
-       
 
-       doc.setFont("helvetica","bold");
-       doc.text(this.user, 14, 12 + doc.lastAutoTable.finalY);
+      doc.autoTable({
+        styles: { theme: 'plain' },
+        margin: { top: 190 },
+        startY: doc.lastAutoTable.finalY + 17,
+        body: rowsExam,
+        columns: colExams,
+        theme: 'grid',
+        headStyles: { fontSize: 18, fontStyle: 'bold', fillColor: 'white', textColor: 'black', lineColor: 'black', lineWidth: 0.5 },
+        bodyStyles: { fontSize: 18, textColor: 'black', lineColor: 'black', lineWidth: 0.5 }
 
-     //Patient Sex
-     doc.setFont("helvetica","bold");
-     doc.text("Sexo", 156, 30);
+      });
 
-     doc.setFont("helvetica",null);
-     doc.text(this.patient.sex, 156, 38);
+      doc.setFont("helvetica", "bold");
+      doc.text("Médico", 14, 12 + doc.lastAutoTable.finalY); // The y position on the page
+
+      var medicData = JSON.parse(localStorage.getItem("userData"));
+      var medicName = medicData["name"];
+
+      doc.setFont("helvetica", "");
+      doc.text(medicName, 14, 22 + doc.lastAutoTable.finalY);
+
+      //Patient Sex
+      doc.setFont("helvetica", "bold");
+      doc.text("Sexo", 156, 30);
+
+      doc.setFont("helvetica", null);
+      doc.text(this.patient.sex, 156, 38);
 
       // Patient Date of Birth
-      doc.setFont("helvetica","bold");
+      doc.setFont("helvetica", "bold");
       doc.text("DNI", 156, 50);
 
 
-      doc.setFont("helvetica",null);
+      doc.setFont("helvetica", null);
       doc.text(this.patient.documentNumber, 156, 58);
 
-    doc.save('Test.pdf');
+      doc.save('Test.pdf');
+    }
+    catch (err) {
+      console.log(err);
+    }
   }
 
   searchTicket() {
@@ -262,7 +250,7 @@ export class RecordComponent implements OnInit {
     self.waitingTicket = true;
     this.recordService.getPatientsByTicketNumber(this.ticketNumber).then((response: any) => {
 
-      
+
 
       this.setPatientDetails(response);
 
@@ -291,8 +279,8 @@ export class RecordComponent implements OnInit {
     this.askPatientRegistration = false;
     this.showRecord = false;
     this.ticketNumber = '000-000000';
-    localStorage.setItem('notes','');
-    localStorage.setItem('patient','');
+    localStorage.setItem('notes', '');
+    localStorage.setItem('patient', '');
     if (!this.documentNumber) {
       return;
     }
@@ -498,10 +486,9 @@ export class RecordComponent implements OnInit {
         note.noteExams.forEach((x: any) => {
           let list = new Lists();
           list.id = x.examId;
-          if(x.examList.length > 0)
-          {
-          list.deleted = x.examList[0].deleted;
-          list.type = x.examList.type;
+          if (x.examList.length > 0) {
+            list.deleted = x.examList[0].deleted;
+            list.type = x.examList.type;
           }
           x.examList.filter(y => y.id === x.examId).map((m) => {
             list.name = m.name
@@ -623,7 +610,7 @@ export class RecordComponent implements OnInit {
         this.patient.name = patientDetails.user.firstName;
         this.patient.lastnameFather = patientDetails.user.lastNameFather;
         this.patient.lastnameMother = patientDetails.user.lastNameMother;
-       
+
         this.patient.documentType = patientDetails.user.documentType;
         this.patient.documentNumber = patientDetails.user.documentNumber;
         this.patient.birthday = patientDetails.user.birthday;
@@ -696,8 +683,8 @@ export class RecordComponent implements OnInit {
             if (patientDetails.id === x.patientId) {
               let allergy = new AllergiesList();
               allergy.id = x.id,
-              allergy.patientId = x.patientId,
-              allergy.name = x.allergies
+                allergy.patientId = x.patientId,
+                allergy.name = x.allergies
               allergies.push(allergy);
             }
           })
@@ -718,8 +705,8 @@ export class RecordComponent implements OnInit {
             if (patientDetails.id === x.patientId) {
               let medicine = new MedicinesList();
               medicine.id = x.id,
-              medicine.patientId = x.patientId,
-              medicine.name = x.medicines
+                medicine.patientId = x.patientId,
+                medicine.name = x.medicines
               medicines.push(medicine);
             }
           })
@@ -741,8 +728,8 @@ export class RecordComponent implements OnInit {
             if (patientDetails.id === x.patientId) {
               let fBackground = new PatientFatherbackgroundList();
               fBackground.id = x.id,
-              fBackground.patientId = x.patientId,
-              fBackground.name = x.fatherBackgrounds
+                fBackground.patientId = x.patientId,
+                fBackground.name = x.fatherBackgrounds
               fBackgrounds.push(fBackground);
             }
           })
@@ -763,8 +750,8 @@ export class RecordComponent implements OnInit {
             if (patientDetails.id === x.patientId) {
               let mBackground = new PatientMotherbackgroundList();
               mBackground.id = x.id,
-              mBackground.patientId = x.patientId,
-              mBackground.name = x.motherBackgrounds
+                mBackground.patientId = x.patientId,
+                mBackground.name = x.motherBackgrounds
               mBackgrounds.push(mBackground);
             }
           })
@@ -801,7 +788,7 @@ export class RecordComponent implements OnInit {
   setCardioSympotms(notes) {
     try {
       if (CheckEmptyUtil.isNotEmpty(notes)) {
-        let cardiovascularSymptoms = [], cardiovascularNoteId=0;
+        let cardiovascularSymptoms = [], cardiovascularNoteId = 0;
         if (CheckEmptyUtil.isNotEmptyObject(notes.cardiovascularNote)) {
           cardiovascularNoteId = notes.cardiovascularNote.id;
         }
@@ -810,8 +797,8 @@ export class RecordComponent implements OnInit {
             if (cardiovascularNoteId === x.cardiovascularNoteId) {
               let cardiovascularSymptom = new CardiovascularSymptoms();
               cardiovascularSymptom.id = x.id,
-              cardiovascularSymptom.cardiovascularNoteId = x.cardiovascularNoteId,
-              cardiovascularSymptom.cardiovascularSymptoms = x.cardiovascularSymptoms
+                cardiovascularSymptom.cardiovascularNoteId = x.cardiovascularNoteId,
+                cardiovascularSymptom.cardiovascularSymptoms = x.cardiovascularSymptoms
               cardiovascularSymptoms.push(cardiovascularSymptom);
             }
           })

@@ -16,7 +16,7 @@ export class UserService {
     return self.httpUtilService.invoke('POST', params, apiEndpoint, null).then(
       (response: { id: string; name : string, permissions: string[] }) => {
         console.log(response);
-        self.user = new User(response.id, response.permissions);
+        self.user = new User(response.id, response.name, response.permissions);
         return self.user;
       }
     );
