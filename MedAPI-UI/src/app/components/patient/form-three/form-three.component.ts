@@ -28,7 +28,13 @@ export class FormThreeComponent implements OnInit {
   filteredPersonalBackgrounds: Observable<string[]>;
   filteredFatherBackgrounds: Observable<string[]>;
   filteredMotherBackgrounds: Observable<string[]>;
-  
+
+  selectedAllergies = [];
+  selectedMedicines = [];
+  selectedFatherBackgrounds = [];
+  selectedMotherBackgrounds = [];
+  selectedPersonalBackgrounds = [];
+
   @ViewChild('allergieInput') allergieInput: ElementRef<HTMLInputElement>;
   @ViewChild('medicineInput') medicineInput: ElementRef<HTMLInputElement>;
   @ViewChild('personalBackgroundInput') personalBackgroundInput: ElementRef<HTMLInputElement>;
@@ -41,31 +47,36 @@ export class FormThreeComponent implements OnInit {
   ngOnInit(): void {
     this.patientService.resources.subscribe((o) => {
       this.resources = o;
-      console.log(this.resources, 'this.resources');
       this.filteredAllergies = this.allergiesCtrl.valueChanges.pipe(
         delay(1000),
         startWith(null),
         map((data: string | null) => data ? this._filterAllergies(data) : this.resources.allergies));
 
+      this.selectedAllergies = this.patient.allergies.filter(x => !x.isDeleted);
+
       this.filteredMedicines = this.medicineCtrl.valueChanges.pipe(
         delay(1000),
         startWith(null),
         map((data: string | null) => data ? this._filterMedicines(data) : this.resources.medicines));
+      this.selectedMedicines = this.patient.medicines.filter(x => !x.isDeleted);
 
       this.filteredPersonalBackgrounds = this.personalBackgroundCtrl.valueChanges.pipe(
         delay(1000),
         startWith(null),
         map((data: string | null) => data ? this._filterBackgrounds(data) : this.resources.backgrounds));
+      this.selectedPersonalBackgrounds = this.patient.personalBackground.filter(x => !x.isDeleted);
 
       this.filteredFatherBackgrounds = this.fatherBackgroundCtrl.valueChanges.pipe(
         delay(1000),
         startWith(null),
         map((data: string | null) => data ? this._filterBackgrounds(data) : this.resources.backgrounds));
+      this.selectedFatherBackgrounds = this.patient.fatherBackground.filter(x => !x.isDeleted);
 
       this.filteredMotherBackgrounds = this.motherBackgroundCtrl.valueChanges.pipe(
         delay(1000),
         startWith(null),
         map((data: string | null) => data ? this._filterBackgrounds(data) : this.resources.backgrounds));
+      this.selectedMotherBackgrounds = this.patient.motherBackground.filter(x => !x.isDeleted);
     });
   }
 
@@ -84,11 +95,14 @@ export class FormThreeComponent implements OnInit {
     this.allergiesCtrl.setValue(null);
   }
 
-  removeAllergie(o: string): void {
+  removeAllergie(o: any): void {
     const index = this.patient.allergies.indexOf(o);
 
     if (index >= 0) {
-      this.patient.allergies.splice(index, 1);
+      o.isDeleted = true;
+      this.patient.allergies.map(obj => (o.id === obj.id) || obj);
+      this.selectedAllergies = this.patient.allergies.filter(x => !x.isDeleted);
+      //this.patient.allergies.splice(index, 1);
     }
   }
 
@@ -107,11 +121,14 @@ export class FormThreeComponent implements OnInit {
     this.medicineCtrl.setValue(null);
   }
 
-  removeMedicine(o: string): void {
+  removeMedicine(o): void {
     const index = this.patient.medicines.indexOf(o);
 
     if (index >= 0) {
-      this.patient.medicines.splice(index, 1);
+      o.isDeleted = true;
+      this.patient.medicines.map(obj => (o.id === obj.id) || obj);
+      this.selectedMedicines = this.patient.medicines.filter(x => !x.isDeleted);      
+      //this.patient.medicines.splice(index, 1);
     }
   }
 
@@ -130,11 +147,14 @@ export class FormThreeComponent implements OnInit {
     this.personalBackgroundCtrl.setValue(null);
   }
 
-  removePersonalBackground(o: string): void {
+  removePersonalBackground(o): void {
     const index = this.patient.personalBackground.indexOf(o);
 
     if (index >= 0) {
-      this.patient.personalBackground.splice(index, 1);
+      o.isDeleted = true;
+      this.patient.personalBackground.map(obj => (o.id === obj.id) || obj);
+      this.selectedPersonalBackgrounds = this.patient.personalBackground.filter(x => !x.isDeleted);
+      //this.patient.personalBackground.splice(index, 1);
     }
   }
 
@@ -153,11 +173,14 @@ export class FormThreeComponent implements OnInit {
     this.fatherBackgroundCtrl.setValue(null);
   }
 
-  removeFatherBackground(o: string): void {
+  removeFatherBackground(o): void {
     const index = this.patient.fatherBackground.indexOf(o);
 
     if (index >= 0) {
-      this.patient.fatherBackground.splice(index, 1);
+      o.isDeleted = true;
+      this.patient.fatherBackground.map(obj => (o.id === obj.id) || obj);
+      this.selectedFatherBackgrounds = this.patient.fatherBackground.filter(x => !x.isDeleted);
+      // this.patient.fatherBackground.splice(index, 1);
     }
   }
 
@@ -176,16 +199,18 @@ export class FormThreeComponent implements OnInit {
     this.motherBackgroundCtrl.setValue(null);
   }
 
-  removeMotherBackground(o: string): void {
+  removeMotherBackground(o): void {
     const index = this.patient.motherBackground.indexOf(o);
-
     if (index >= 0) {
-      this.patient.motherBackground.splice(index, 1);
+      o.isDeleted = true;
+      this.patient.motherBackground.map(obj => (o.id === obj.id) || obj);
+      this.selectedMotherBackgrounds = this.patient.motherBackground.filter(x => !x.isDeleted);
+      // this.patient.motherBackground.splice(index, 1);
     }
   }
 
   selectedAllergie(event: MatAutocompleteSelectedEvent): void {
-    if (this.patient.allergies.indexOf(event.option.value) === -1) {
+    if (this.patient.allergies.indexOf(event.option.value) === -1 && !this.patient.allergies.isDeleted) {
       this.patient.allergies.push(event.option.value);
     }
     this.allergieInput.nativeElement.value = '';
@@ -193,7 +218,7 @@ export class FormThreeComponent implements OnInit {
   }
 
   selectedMedicine(event: MatAutocompleteSelectedEvent): void {
-    if (this.patient.medicines.indexOf(event.option.value) === -1) {
+    if (this.patient.medicines.indexOf(event.option.value) === -1 && !this.patient.allergies.isDeleted) {
       this.patient.medicines.push(event.option.value);
     }
     this.medicineInput.nativeElement.value = '';
@@ -238,57 +263,82 @@ export class FormThreeComponent implements OnInit {
   }
 
   addAllergieSymptoms(a) {
-    if (this.patient.allergies.indexOf(a) === -1) {
-      let allergie = {
-        id: this.patient.allergies.id ? 0 : this.patient.allergies.id,
-        patientId: this.patient.id,
-        name: a.name
+    if (this.patient.allergies.indexOf(a) === -1 && !this.patient.allergies.isDeleted) {
+      let patients = this.patient.allergies.filter(x => !x.isDeleted && x.name === a.name);
+      if (patients.length === 0) {
+        let allergie = {
+          id: this.patient.allergies.id ? 0 : this.patient.allergies.id,
+          patientId: this.patient.id,
+          name: a.name,
+          isDeleted: false
+        }
+        this.patient.allergies.push(allergie);
+        this.selectedAllergies = this.patient.allergies.filter(x => !x.isDeleted);
       }
-      this.patient.allergies.push(allergie);
     }
   }
 
   addMedicineSymptoms(a) {
-    if (this.patient.medicines.indexOf(a) === -1) {
-      let medicine = {
-        id: this.patient.medicines.id ? 0 : this.patient.medicines.id,
-        patientId: this.patient.id,
-        name: a.name
+    if (this.patient.medicines.indexOf(a) === -1 && !this.patient.medicines.isDeleted) {
+      let patients = this.patient.medicines.filter(x => !x.isDeleted && x.name === a.name);
+      if (patients.length === 0) {
+        let medicine = {
+          id: this.patient.medicines.id ? 0 : this.patient.medicines.id,
+          patientId: this.patient.id,
+          name: a.name,
+          isDeleted: false
+        }
+
+        this.patient.medicines.push(medicine);
+        this.selectedMedicines = this.patient.medicines.filter(x => !x.isDeleted);
       }
-      this.patient.medicines.push(medicine);
     }
   }
 
   addPersonalBackgroundSymptoms(a) {
-    if (this.patient.personalBackground.indexOf(a) === -1) {
-      let pBackground = {
-        id: this.patient.personalBackground.id ? 0 : this.patient.personalBackground.id,
-        patientId: this.patient.id,
-        name: a.name
+    if (this.patient.personalBackground.indexOf(a) === -1 && !this.patient.personalBackground.isDeleted) {
+      let patients = this.patient.personalBackground.filter(x => !x.isDeleted && x.name === a.name);
+      if (patients.length === 0) {
+        let pBackground = {
+          id: this.patient.personalBackground.id ? 0 : this.patient.personalBackground.id,
+          patientId: this.patient.id,
+          name: a.name,
+          isDeleted: false
+        }
+        this.patient.personalBackground.push(pBackground);
+        this.selectedPersonalBackgrounds = this.patient.personalBackground.filter(x => !x.isDeleted);
       }
-      this.patient.personalBackground.push(pBackground);
     }
   }
 
   addFatherBackgroundSymptoms(a) {
-    if (this.patient.fatherBackground.indexOf(a) === -1) {
-      let fBackground = {
-        id: this.patient.fatherBackground.id ? 0 : this.patient.fatherBackground.id,
-        patientId: this.patient.id,
-        name: a.name
+    if (this.patient.fatherBackground.indexOf(a) === -1 && !this.patient.fatherBackground.isDeleted) {
+      let patients = this.patient.fatherBackground.filter(x => !x.isDeleted && x.name === a.name);
+      if (patients.length === 0) {
+        let fBackground = {
+          id: this.patient.fatherBackground.id ? 0 : this.patient.fatherBackground.id,
+          patientId: this.patient.id,
+          name: a.name
+        }
+        this.patient.fatherBackground.push(fBackground);
+        this.selectedFatherBackgrounds = this.patient.fatherBackground.filter(x => !x.isDeleted);
       }
-      this.patient.fatherBackground.push(fBackground);
     }
   }
 
   addMotherBackgroundSymptoms(a) {
-    if (this.patient.motherBackground.indexOf(a) === -1) {
-      let mBackground = {
-        id: this.patient.motherBackground.id ? 0 : this.patient.motherBackground.id,
-        patientId: this.patient.id,
-        name: a.name
+    if (this.patient.motherBackground.indexOf(a) === -1 && !this.patient.motherBackground.isDeleted) {
+      let patients = this.patient.motherBackground.filter(x => !x.isDeleted && x.name === a.name);
+      if (patients.length === 0) {
+        let mBackground = {
+          id: this.patient.motherBackground.id ? 0 : this.patient.motherBackground.id,
+          patientId: this.patient.id,
+          name: a.name,
+          isDeleted: false
+        }
+        this.patient.motherBackground.push(mBackground);
+        this.selectedMotherBackgrounds = this.patient.motherBackground.filter(x => !x.isDeleted);
       }
-      this.patient.motherBackground.push(mBackground);
     }
   }
 
