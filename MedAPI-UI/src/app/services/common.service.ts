@@ -58,6 +58,8 @@ export class CommonService {
       doc.setFont("helvetica", null);
       doc.text(patient.documentNumber, 14, 58);
 
+      var  finalY = 0;
+
       if(type === "Attention")
       {
       // Patient Background Information
@@ -80,9 +82,6 @@ export class CommonService {
       //Diagnóstico
       doc.setFont("helvetica", "bold");
       doc.text("Diagnóstico", 14, 130);
-
-      doc.setFont("helvetica", null);
-      doc.text("", 14, 123);
 
       var col = ["#", "CIE-10", "Descripción", "Tipo"];
       var rows = [];
@@ -143,21 +142,52 @@ export class CommonService {
         bodyStyles: { fontSize: 18, textColor: 'black', lineColor: 'black', lineWidth: 0.5 }
 
       });
+
+
+      finalY = doc.lastAutoTable ?  doc.lastAutoTable.finalY : 140;
     }
 
 
     if(type === "Prescription"){
+
+     
+      var colExams = ["#", "Descripción", "Indicaciones"];
+      var rowsExam = [];
+
+      console.log(note.treatments.list);
+      console.log(note.interconsultation.list);
+
+      for (var i = 0; i < note.treatments.list.length; i++) {
+
+        var temp = [i + 1, note.treatments.list[i].name, "-"];
+        rowsExam.push(temp);
+
+      }
+
+
+      doc.autoTable({
+        styles: { theme: 'plain' },
+        margin: { top: 190 },
+        startY: doc.lastAutoTable.finalY + 17,
+        body: rowsExam,
+        columns: colExams,
+        theme: 'grid',
+        headStyles: { fontSize: 18, fontStyle: 'bold', fillColor: 'white', textColor: 'black', lineColor: 'black', lineWidth: 0.5 },
+        bodyStyles: { fontSize: 18, textColor: 'black', lineColor: 'black', lineWidth: 0.5 }
+
+      });
+
     
+      finalY = doc.lastAutoTable ?  doc.lastAutoTable.finalY : 65;
 
     }
 
     if(type === "Interconsultation"){
     
-
+      finalY = doc.lastAutoTable ?  doc.lastAutoTable.finalY : 65;
     }
 
-var finalY = doc.lastAutoTable ?  doc.lastAutoTable.finalY : 0;
-
+  
       doc.setFont("helvetica", "bold");
       doc.text("Médico", 14, 12 + finalY); // The y position on the page
 
