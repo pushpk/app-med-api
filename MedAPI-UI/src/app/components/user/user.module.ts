@@ -7,19 +7,24 @@ import { SharedModule } from '../../shared/shared.module';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UserService } from './user.service';
+import { MedicRegistrationComponent } from './medic-registration/medic-registration.component';
 
 const routes: Routes = [
   {
     path: '', component: LoginComponent
+
   },
   {
     path: 'logout', component: LogoutComponent
+  },{
+    
+    path: 'register register', component: MedicRegistrationComponent,
   }
 ];
 
 
 @NgModule({
-  declarations: [LoginComponent, LogoutComponent],
+  declarations: [LoginComponent, LogoutComponent, MedicRegistrationComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),

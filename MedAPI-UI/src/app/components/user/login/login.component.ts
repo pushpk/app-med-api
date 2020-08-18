@@ -32,6 +32,7 @@ export class LoginComponent implements OnInit {
   }
   
   doLogin() {
+    
     const self = this;
     let username = self.loginForm.get('username').value;
     let password = self.loginForm.get('password').value;
