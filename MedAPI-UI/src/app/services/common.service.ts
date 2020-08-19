@@ -187,7 +187,7 @@ export class CommonService {
       
       doc.setFont("helvetica", "");
       // @ts-ignore
-      doc.text(note.exams.observations, 14, 15 + doc.lastAutoTable.finalY); 
+      doc.text(note.exams.observations, 14, 17 + doc.lastAutoTable.finalY); 
 
 // @ts-ignore
       finalY = doc.lastAutoTable ?  doc.lastAutoTable.finalY + 30 : 180;
@@ -259,8 +259,24 @@ export class CommonService {
       finalY = doc.lastAutoTable ?  doc.lastAutoTable.finalY : 65;
     }
 
-    var pageHeight= doc.internal.pageSize.height;
+    //Patient Sex
+    doc.setFont("helvetica", "bold");
+    doc.text("Sexo", 156, 30);
 
+    doc.setFont("helvetica", null);
+    doc.text(patient.sex, 156, 38);
+
+    // Patient Date of Birth
+    doc.setFont("helvetica", "bold");
+    doc.text("Fecha", 156, 50);
+
+
+    doc.setFont("helvetica", null);
+    doc.text(this.datepipe.transform(patient.birthday, 'yyyy-MM-dd'), 156, 58);
+
+
+
+    var pageHeight= doc.internal.pageSize.height;
     
     if(finalY > pageHeight)
     {
@@ -275,22 +291,9 @@ export class CommonService {
       var medicName = medicData["name"];
 
       doc.setFont("helvetica", "");
-      doc.text(medicName, 14, 12 + finalY);
+      doc.text(medicName, 14, 18 + finalY);
 
-      //Patient Sex
-      doc.setFont("helvetica", "bold");
-      doc.text("Sexo", 156, 30);
-
-      doc.setFont("helvetica", null);
-      doc.text(patient.sex, 156, 38);
-
-      // Patient Date of Birth
-      doc.setFont("helvetica", "bold");
-      doc.text("Fecha", 156, 50);
-
-
-      doc.setFont("helvetica", null);
-      doc.text(this.datepipe.transform(patient.birthday, 'yyyy-MM-dd'), 156, 58);
+      
 
       doc.save('Test.pdf');
     }
