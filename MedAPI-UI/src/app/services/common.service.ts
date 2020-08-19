@@ -1,16 +1,25 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { BehaviorSubject } from 'rxjs';
+
 import { jsPDF } from "jspdf";
-import 'jspdf-autotable';
+
+// import 'jspdf-autotable';
+
+
 import { Patient } from '../models/patient.model';
 import { NoteDetail } from '../models/noteDetail.model';
 import { DatePipe } from '@angular/common'
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class CommonService {
+
+ 
+
+
   public sideBar: MatSidenav;
 
   public currentUrl = new BehaviorSubject<string>(undefined);
@@ -105,7 +114,7 @@ export class CommonService {
         rows.push(temp);
 
       }
-
+// @ts-ignore
       doc.autoTable({
         styles: { theme: 'plain' },
         margin: { top: 135 },
@@ -126,6 +135,7 @@ export class CommonService {
       
 
       doc.setFont("helvetica", "bold");
+      // @ts-ignore
       doc.text("Examenes solicitados", 14, 12 + doc.lastAutoTable.finalY); // The y position on the page
 
 
@@ -143,10 +153,11 @@ export class CommonService {
 
       }
 
-
+// @ts-ignore
       doc.autoTable({
         styles: { theme: 'plain' },
         margin: { top: 190 },
+        // @ts-ignore
         startY: doc.lastAutoTable.finalY + 17,
         body: rowsExam,
         columns: colExams,
@@ -156,7 +167,7 @@ export class CommonService {
 
       });
 
-
+// @ts-ignore
       finalY = doc.lastAutoTable ?  doc.lastAutoTable.finalY : 140;
     }
 
@@ -177,7 +188,7 @@ export class CommonService {
 
       }
 
-
+// @ts-ignore
       doc.autoTable({
         styles: { theme: 'plain' },
         margin: { top: 70 },
@@ -189,7 +200,7 @@ export class CommonService {
 
       });
 
-    
+    // @ts-ignore
       finalY = doc.lastAutoTable ?  doc.lastAutoTable.finalY : 65;
 
     }
@@ -209,7 +220,7 @@ export class CommonService {
 
       }
 
-
+  // @ts-ignore
       doc.autoTable({
         styles: { theme: 'plain' },
         margin: { top: 70 },
@@ -220,7 +231,8 @@ export class CommonService {
         bodyStyles: { fontSize: 18, textColor: 'black', lineColor: 'black', lineWidth: 0.5 }
 
       });
-    
+
+    // @ts-ignore
       finalY = doc.lastAutoTable ?  doc.lastAutoTable.finalY : 65;
     }
 
