@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DataComparison>
+  <Version>10</Version>
+  <ConnectionProperties1>
+    <ConnectionString>Data Source=DESKTOP-8JJ6GUN\SQLEXPRESS;Initial Catalog=registroclinico;Integrated Security=True;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Connect Timeout=60;Encrypt=False;TrustServerCertificate=False</ConnectionString>
+    <FullDisplayName>DESKTOP-8JJ6GUN\SQLEXPRESS.registroclinico (DESKTOP-8JJ6GUN\pushp)</FullDisplayName>
+  </ConnectionProperties1>
+  <ConnectionProperties2>
+    <ConnectionString>Data Source=webapisql.database.windows.net,1433;Initial Catalog=registroclinico;Persist Security Info=True;User ID=registroclinico;Pooling=False;MultipleActiveResultSets=False;Connect Timeout=60;Encrypt=False;TrustServerCertificate=False</ConnectionString>
+    <FullDisplayName>webapisql.database.windows.net,1433.registroclinico (registroclinico)</FullDisplayName>
+  </ConnectionProperties2>
+  <SessionSettings>Default</SessionSettings>
+  <DeselectedTable>[registroclinico].[country]</DeselectedTable>
+  <DeselectedTable>[registroclinico].[department]</DeselectedTable>
+  <DeselectedTable>[registroclinico].[district]</DeselectedTable>
+</DataComparison>

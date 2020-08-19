@@ -132,23 +132,34 @@ export class CommonService {
 
       });
 
+     
       
+      doc.setFont("helvetica", "bold");
+      // @ts-ignore
+      doc.text("Observaciones", 14, 12 + doc.lastAutoTable.finalY); 
+
+
+      
+      doc.setFont("helvetica", "");
+      // @ts-ignore
+      doc.text(note.diagnosis.observations, 14, 20 + doc.lastAutoTable.finalY); 
+
+
+
 
       doc.setFont("helvetica", "bold");
       // @ts-ignore
-      doc.text("Examenes solicitados", 14, 12 + doc.lastAutoTable.finalY); // The y position on the page
+      doc.text("Examenes solicitados", 14, 30 + doc.lastAutoTable.finalY); 
 
 
-      //  doc.setFont("helvetica",null);
-      //  doc.text("", 14, 190);
 
-      var colExams = ["#", "Nombre", "Especificación"];
+      var colExams = ["#", "Nombre"];
       var rowsExam = [];
 
 
       for (var i = 0; i < note.exams.list.length; i++) {
 
-        var temp = [i + 1, note.exams.list[i].name, "-"];
+        var temp = [i + 1, note.exams.list[i].name];
         rowsExam.push(temp);
 
       }
@@ -158,7 +169,7 @@ export class CommonService {
         styles: { theme: 'plain' },
         margin: { top: 190 },
         // @ts-ignore
-        startY: doc.lastAutoTable.finalY + 17,
+        startY: doc.lastAutoTable.finalY + 35,
         body: rowsExam,
         columns: colExams,
         theme: 'grid',
@@ -167,8 +178,20 @@ export class CommonService {
 
       });
 
+
+      doc.setFont("helvetica", "bold");
+      // @ts-ignore
+      doc.text("Observaciones", 14, 10 + doc.lastAutoTable.finalY); 
+
+
+      
+      doc.setFont("helvetica", "");
+      // @ts-ignore
+      doc.text(note.exams.observations, 14, 15 + doc.lastAutoTable.finalY); 
+
 // @ts-ignore
-      finalY = doc.lastAutoTable ?  doc.lastAutoTable.finalY : 140;
+      finalY = doc.lastAutoTable ?  doc.lastAutoTable.finalY + 30 : 180;
+
     }
 
 
@@ -236,14 +259,23 @@ export class CommonService {
       finalY = doc.lastAutoTable ?  doc.lastAutoTable.finalY : 65;
     }
 
+    var pageHeight= doc.internal.pageSize.height;
+
+    
+    if(finalY > pageHeight)
+    {
+      doc.addPage();
+      finalY = 0;
+    }
   
+
       doc.setFont("helvetica", "bold");
       doc.text("Médico", 14, 12 + finalY); 
       var medicData = JSON.parse(localStorage.getItem("userData"));
       var medicName = medicData["name"];
 
       doc.setFont("helvetica", "");
-      doc.text(medicName, 14, 22 + finalY);
+      doc.text(medicName, 14, 12 + finalY);
 
       //Patient Sex
       doc.setFont("helvetica", "bold");
