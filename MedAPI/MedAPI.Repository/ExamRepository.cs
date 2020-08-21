@@ -1,4 +1,5 @@
-﻿using MedAPI.Domain;
+﻿using AutoMapper;
+using MedAPI.Domain;
 using MedAPI.Infrastructure.IRepository;
 using System;
 using System.Collections.Generic;
@@ -75,13 +76,8 @@ namespace MedAPI.Repository
         {
             using (var context = new DataAccess.registroclinicoEntities())
             {
-                return context.exams.Where(x => x.name.Contains(name) && x.deleted != false)
-                     .Select(x => new Exam()
-                     {
-                         id = x.id,
-                         name = x.name,
-                         type = x.type
-                     }).ToList();
+                return Mapper.Map<List<Exam>>(context.exams.Where(x => x.name.Contains(name) && !x.deleted).ToList());
+                
             }
         }
     }

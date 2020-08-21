@@ -23,7 +23,7 @@ namespace MedAPI.Controllers
         }
 
         [HttpGet]
-        [Route("medicine/{query?}")]
+        [Route("medicine")]
         public HttpResponseMessage Search(string query=null)
         {
             HttpResponseMessage response = null;
@@ -38,21 +38,21 @@ namespace MedAPI.Controllers
             return response;
         }
 
-        [HttpGet]
-        [Route("medicine")]
-        public HttpResponseMessage List()
-        {
-            HttpResponseMessage response = null;
-            try
-            {
-                response = Request.CreateResponse(HttpStatusCode.OK, medicineService.GetAllMedicine());
-            }
-            catch (Exception ex)
-            {
-                response = Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
-            }
-            return response;
-        }
+        //[HttpGet]
+        //[Route("medicine")]
+        //public HttpResponseMessage List()
+        //{
+        //    HttpResponseMessage response = null;
+        //    try
+        //    {
+        //        response = Request.CreateResponse(HttpStatusCode.OK, medicineService.GetAllMedicine());
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        response = Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+        //    }
+        //    return response;
+        //}
 
         [HttpGet]
         [Route("medicine/{id:int}")]

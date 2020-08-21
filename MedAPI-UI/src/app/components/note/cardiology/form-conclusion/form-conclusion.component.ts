@@ -135,11 +135,12 @@ export class FormConclusionComponent implements OnInit {
     }
   }
 
-  getExams() {
-    let str = '';
-    this.examCtrl.valueChanges.subscribe((value: string) => {
-      str += value;
-    });
+  getExams(termEntered : string) {
+    let str = termEntered;
+    // this.examCtrl.valueChanges.subscribe((value: string) => {
+    //   str += value;
+    // });
+
     clearTimeout(this.tempTimeobj);
     this.tempTimeobj = setTimeout(() => {
       if (str.length >= 2) {
@@ -187,11 +188,11 @@ export class FormConclusionComponent implements OnInit {
     });
   }
 
-  getTreatments() {
-    let str = '';
-    this.treatmentCtrl.valueChanges.subscribe((value: string) => {
-      str += value;
-    });
+  getTreatments(termEntered : string) {
+    let str = termEntered;
+    // this.treatmentCtrl.valueChanges.subscribe((value: string) => {
+    //   str += value;
+    // });
     clearTimeout(this.tempTimeobj);
     this.tempTimeobj = setTimeout(() => {
       if (str.length >= 2) {
@@ -243,11 +244,11 @@ export class FormConclusionComponent implements OnInit {
     }
   }
 
-  getInterconsultations() {
-    let str = '';
-    this.interconsultationCtrl.valueChanges.subscribe((value: string) => {
-      str += value;
-    });
+  getInterconsultations(termEntered:string) {
+    let str = termEntered;
+    // this.interconsultationCtrl.valueChanges.subscribe((value: string) => {
+    //   str += value;
+    // });
     clearTimeout(this.tempTimeobj);
     this.tempTimeobj = setTimeout(() => {
       if (str.length >= 2) {

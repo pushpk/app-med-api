@@ -68,8 +68,8 @@
                  placeholder="Buscar exámenes"
                  aria-label="Buscar exámenes"
                  matInput
-                 (keypress)="getExams()"
-                 (keydown.backspace)="getExams()"
+                 (keyup)="getExams($event.target.value)"
+                 (keydown.backspace)="getExams($event.target.value)"
                  [formControl]="examCtrl"
                  [matAutocomplete]="exam">
           <ng-container *ngIf="!physicalExamsList && showExamProgressBar">
@@ -126,8 +126,8 @@
                  placeholder="Buscar medicamentos"
                  aria-label="Buscar medicamentos"
                  matInput
-                 (keypress)="getTreatments()"
-                 (keydown.backspace)="getTreatments()"
+                 (keyup)="getTreatments($event.target.value)"
+                 (keydown.backspace)="getTreatments($event.target.value)"
                  [formControl]="treatmentCtrl"
                  [matAutocomplete]="treatment">
           <ng-container *ngIf="!treatmentList && showTreatmentProgressBar">
@@ -182,8 +182,8 @@
                  placeholder="Buscar especialidades"
                  aria-label="Buscar especialidades"
                  matInput
-                 (keypress)="getInterconsultations()"
-                 (keydown.backspace)="getInterconsultations()"
+                 (keyup)="getInterconsultations($event.target.value)"
+                 (keydown.backspace)="getInterconsultations($event.target.value)"
                  [formControl]="interconsultationCtrl"
                  [matAutocomplete]="interConsultantation">
           <ng-container *ngIf="!interconsultationList && showInterconsultantionProgressBar">
