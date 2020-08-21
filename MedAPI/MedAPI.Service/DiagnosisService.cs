@@ -39,18 +39,20 @@ namespace MedAPI.Service
             return diagnosisRepository.SaveDiagnosis(mDiagnosis);
         }
 
-        public List<Diagnosis> SearchByCode(string name)
+        public List<Diagnosis> SearchByNameOrCode(string name)
         {
             List<Diagnosis> mDiagnosisList = new List<Diagnosis>();
+
+
             if (!string.IsNullOrEmpty(name))
             {
-                mDiagnosisList = diagnosisRepository.SearchByCode(name);
+                mDiagnosisList = diagnosisRepository.SearchByNameOrCode(name);
             }
-            if (!string.IsNullOrEmpty(name))
-            {
-                List<Diagnosis> diagnosisName = diagnosisRepository.SearchByName(name);
-                mDiagnosisList.Concat(diagnosisName).ToList();
-            }
+            //if (!string.IsNullOrEmpty(name))
+            //{
+            //    List<Diagnosis> diagnosisName = diagnosisRepository.SearchByName(name);
+            //    mDiagnosisList.Concat(diagnosisName).ToList();
+            //}
             return mDiagnosisList;
         }
 

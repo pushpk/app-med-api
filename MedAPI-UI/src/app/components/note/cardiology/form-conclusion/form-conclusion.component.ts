@@ -73,11 +73,12 @@ export class FormConclusionComponent implements OnInit {
   //  return this.resources.cardiovascularSymptom.filter(x => x.name.toLowerCase().indexOf(filterValue) === 0);
   //}
 
-  getDiagnosis() {
-    let str = '';
-    this.diagnosisCtrl.valueChanges.subscribe((value: string) => {
-      str += value;
-    });
+  getDiagnosis(valueEntered : string) {
+    console.log(valueEntered);
+    let str =  valueEntered;
+    // this.diagnosisCtrl.valueChanges.subscribe((value: string) => {
+    //   str += value;
+    // });
     clearTimeout(this.tempTimeobj);
     this.tempTimeobj = setTimeout(() => {
       if (str.length >= 2) {

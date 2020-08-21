@@ -5,7 +5,7 @@ namespace MedAPI.Infrastructure.IRepository
 {
     public interface IDiagnosisRepository
     {
-        List<Diagnosis> SearchByCode(string name);
+        List<Diagnosis> SearchByNameOrCode(string name);
         List<Diagnosis> SearchByName(string name);
         List<Diagnosis> GetAllDiagnosis();
         Diagnosis GetDiagnosisById(long id);

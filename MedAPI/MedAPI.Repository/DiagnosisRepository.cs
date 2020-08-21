@@ -95,11 +95,11 @@ namespace MedAPI.Repository
             }
         }
 
-        public List<Diagnosis> SearchByCode(string name)
+        public List<Diagnosis> SearchByNameOrCode(string name)
         {
             using (var context = new DataAccess.registroclinicoEntities())
             {
-                return context.diagnosis.Where(x => x.code.Contains(name) && x.deleted != true && x.chapter_id==1)
+                return context.diagnosis.Where(x => (x.code.Contains(name) || x.title.Contains(name)) && x.deleted != true && x.chapter_id==1)
                      .Select(x => new Diagnosis()
                      {
                          id = x.id,

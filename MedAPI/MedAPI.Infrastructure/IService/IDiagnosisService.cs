@@ -5,7 +5,7 @@ namespace MedAPI.Infrastructure.IService
 {
     public interface IDiagnosisService
     {
-        List<Diagnosis> SearchByCode(string name);
+        List<Diagnosis> SearchByNameOrCode(string name);
         List<Diagnosis> GetAllDiagnosis();
         Diagnosis GetDiagnosisById(long id);
         int SaveDiagnosis(Diagnosis mDiagnosis);

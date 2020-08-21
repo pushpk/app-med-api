@@ -9,8 +9,8 @@
                  placeholder="Buscar CIE10 por código o nombre"
                  aria-label="Buscar CIE10 por código o nombre"
                  matInput
-                 (keypress)="getDiagnosis()"
-                 (keydown.backspace)="getDiagnosis()"
+                 (keyup)="getDiagnosis($event.target.value)"
+                 (keydown.backspace)="getDiagnosis($event.target.value)"
                  [formControl]="diagnosisCtrl"
                  [matAutocomplete]="diagnosisAuto">
           <ng-container *ngIf="!diagnosisList && showDignosisProgressBar">
