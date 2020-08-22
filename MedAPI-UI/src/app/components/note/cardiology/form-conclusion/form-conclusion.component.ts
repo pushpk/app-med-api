@@ -184,7 +184,7 @@ export class FormConclusionComponent implements OnInit {
       }
     });
     dialogRef.afterClosed().subscribe((response) => {
-      console.log("Dialog output:", response)
+    //  console.log("Dialog output:", response)
     });
   }
 
@@ -200,7 +200,7 @@ export class FormConclusionComponent implements OnInit {
         this.noteService.queryTreatments(str).then((response:any) => {
           this.showTreatmentProgressBar = false;
           this.treatmentList = response;
-          console.log(response);
+         // console.log(response);
         });
       }
     }, 1000);
@@ -230,7 +230,7 @@ export class FormConclusionComponent implements OnInit {
       if (index === -1) {
         this.note.treatments.list.push(d);
       }
-      console.log("Dialog output:", response)
+      //console.log("Dialog output:", response)
     });
 
     this.selectedTreatment = undefined;
@@ -256,7 +256,6 @@ export class FormConclusionComponent implements OnInit {
         this.noteService.queryInterconsultations(str).then((response: any) => {
           this.showInterconsultantionProgressBar = false;
           this.interconsultationList = response;
-          console.log(response);
         });
       }
     }, 1000);
