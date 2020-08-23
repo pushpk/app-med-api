@@ -51,59 +51,112 @@ export class CommonService {
       var doc = new jsPDF();
      
       doc.setFontSize(35);
-
+      var currentY = 15
       if(type === "Prescription"){
-        doc.text("Receta medica", 14, 15);
+        doc.text("Receta medica", 14, currentY);
       }
       else if(type === "Interconsultation"){
-        doc.text("Solicitud de interconsulta", 14, 15);
+        doc.text("Solicitud de interconsulta", 14, currentY);
       }
       else{
-        doc.text("Atención medica", 14, 15);
+        doc.text("Atención medica", 14, currentY);
       }
 
 
+   
 
-      doc.setFontSize(20);
+    doc.setFontSize(20);
+
+       //Right Side of the page  
+    //Patient Sex
+    doc.setFont("helvetica", "bold");
+    doc.text("Sexo", 156, 30);
+
+    doc.setFont("helvetica", null);
+    doc.text(patient.sex, 156, 38);
+
+    // Patient Date of Birth
+    doc.setFont("helvetica", "bold");
+    doc.text("Fecha", 156, 50);
+
+
+    doc.setFont("helvetica", null);
+    doc.text(this.datepipe.transform(patient.birthday, 'yyyy-MM-dd'), 156, 58);
 
       //Name
       doc.setFont("helvetica", "bold");
-      doc.text("Paciente", 14, 30);
+      doc.text("Paciente", 14, currentY +=15);
 
       doc.setFont("helvetica", null);
-      doc.text(patient.name, 14, 38);
+      doc.text(patient.name, 14, currentY +=8);
 
       // Patient Doc Number
       doc.setFont("helvetica", "bold");
-      doc.text("DNI", 14, 50);
+      doc.text("DNI", 14, currentY +=15);
 
       doc.setFont("helvetica", null);
-      doc.text(patient.documentNumber, 14, 58);
+      doc.text(patient.documentNumber, 14, currentY +=8);
 
       var  finalY = 0;
 
       if(type === "Attention")
       {
-      // Patient Background Information
+
+      // Patient PErsonal History
       doc.setFont("helvetica", "bold");
-      doc.text("Relato", 14, 70);
+      doc.text("antecedentes personales ", 14, currentY +=15);
+
+      doc.setFont("helvetica", null);
+      doc.text(patient.personalBackground.map(s => s.name).join(';'), 14, currentY += 8);
+
+      // Patient Allergies
+      doc.setFont("helvetica", "bold");
+      doc.text("alergias", 14, currentY +=15);
+      
+      doc.setFont("helvetica", null);
+      doc.text(patient.allergies.map(s => s.name).join(';'), 14, currentY += 8);
+
+      // Symptom Description
+      doc.setFont("helvetica", "bold");
+      doc.text("symptom description", 14, currentY +=15);
+      
+      doc.setFont("helvetica", null);
+      doc.text(note.symptoms.description, 14, currentY += 8);
+
+      // Patient Background Information from NOTE
+      doc.setFont("helvetica", "bold");
+      doc.text("Relato", 14, currentY +=15);
   
       if(note.symptoms.background)
       {
         doc.setFont("helvetica", null);
-        doc.text(note.symptoms.background, 14, 78);
+        doc.text(note.symptoms.background, 14, currentY += 8);
+      }
+
+
+      if(currentY > pageHeight)
+      {
+        doc.addPage();
+        currentY = 0;
       }
 
       //Note Examen físico
       doc.setFont("helvetica", "bold");
-      doc.text("Examen físico", 14, 95);
+      doc.text("Examen físico", 14, currentY += 15);
 
       doc.setFont("helvetica", null);
-      doc.text(note.physicalExam.text, 14, 103);
+      doc.text(note.physicalExam.text, 14, currentY += 8);
 
+
+      if(currentY > pageHeight)
+      {
+        doc.addPage();
+        currentY = 0;
+      }
+      
       //Diagnóstico
       doc.setFont("helvetica", "bold");
-      doc.text("Diagnóstico", 14, 130);
+      doc.text("Diagnóstico", 14, currentY += 15);
 
       var col = ["#", "CIE-10", "Descripción", "Tipo"];
       var rows = [];
@@ -117,7 +170,7 @@ export class CommonService {
 // @ts-ignore
       doc.autoTable({
         styles: { theme: 'plain' },
-        margin: { top: 135 },
+        margin: { top: currentY += 8 },
         body: rows,
         columns: col,
         theme: 'grid',
@@ -132,24 +185,29 @@ export class CommonService {
 
       });
 
-     
+    // @ts-ignore
+     currentY = 12 + doc.lastAutoTable.finalY
       
       doc.setFont("helvetica", "bold");
-      // @ts-ignore
-      doc.text("Observaciones", 14, 12 + doc.lastAutoTable.finalY); 
+     
+      doc.text("Observaciones", 14, currentY); 
 
 
       
       doc.setFont("helvetica", "");
       // @ts-ignore
-      doc.text(note.diagnosis.observations, 14, 20 + doc.lastAutoTable.finalY); 
+      doc.text(note.diagnosis.observations, 14,currentY += 8); 
 
 
-
+      if(currentY > pageHeight)
+      {
+        doc.addPage();
+        currentY = 0;
+      }
 
       doc.setFont("helvetica", "bold");
       // @ts-ignore
-      doc.text("Examenes solicitados", 14, 30 + doc.lastAutoTable.finalY); 
+      doc.text("Examenes solicitados", 14, currentY += 15); 
 
 
 
@@ -167,9 +225,7 @@ export class CommonService {
 // @ts-ignore
       doc.autoTable({
         styles: { theme: 'plain' },
-        margin: { top: 190 },
-        // @ts-ignore
-        startY: doc.lastAutoTable.finalY + 35,
+        startY: currentY += 8,
         body: rowsExam,
         columns: colExams,
         theme: 'grid',
@@ -179,15 +235,17 @@ export class CommonService {
       });
 
 
+      if(currentY > pageHeight)
+      {
+        doc.addPage();
+        currentY = 0;
+      }
+
       doc.setFont("helvetica", "bold");
-      // @ts-ignore
-      doc.text("Observaciones", 14, 10 + doc.lastAutoTable.finalY); 
-
-
+      doc.text("Observaciones", 14, currentY += 15); 
       
       doc.setFont("helvetica", "");
-      // @ts-ignore
-      doc.text(note.exams.observations, 14, 17 + doc.lastAutoTable.finalY); 
+      doc.text(note.exams.observations, 14, currentY += 8); 
 
 // @ts-ignore
       finalY = doc.lastAutoTable ?  doc.lastAutoTable.finalY + 30 : 180;
@@ -259,20 +317,7 @@ export class CommonService {
       finalY = doc.lastAutoTable ?  doc.lastAutoTable.finalY : 65;
     }
 
-    //Patient Sex
-    doc.setFont("helvetica", "bold");
-    doc.text("Sexo", 156, 30);
-
-    doc.setFont("helvetica", null);
-    doc.text(patient.sex, 156, 38);
-
-    // Patient Date of Birth
-    doc.setFont("helvetica", "bold");
-    doc.text("Fecha", 156, 50);
-
-
-    doc.setFont("helvetica", null);
-    doc.text(this.datepipe.transform(patient.birthday, 'yyyy-MM-dd'), 156, 58);
+   
 
 
 
