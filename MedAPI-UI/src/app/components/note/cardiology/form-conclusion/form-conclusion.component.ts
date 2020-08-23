@@ -200,7 +200,7 @@ export class FormConclusionComponent implements OnInit {
         this.noteService.queryTreatments(str).then((response:any) => {
           this.showTreatmentProgressBar = false;
           this.treatmentList = response;
-         // console.log(response);
+         //// console.log(response);
         });
       }
     }, 1000);
