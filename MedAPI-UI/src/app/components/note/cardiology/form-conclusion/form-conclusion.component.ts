@@ -190,9 +190,7 @@ export class FormConclusionComponent implements OnInit {
 
   getTreatments(termEntered : string) {
     let str = termEntered;
-    // this.treatmentCtrl.valueChanges.subscribe((value: string) => {
-    //   str += value;
-    // });
+   
     clearTimeout(this.tempTimeobj);
     this.tempTimeobj = setTimeout(() => {
       if (str.length >= 2) {
