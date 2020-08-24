@@ -1,1 +1,70 @@
-<p>medic-registration works!</p>
+<div class="layout-padding" fxLayout="column">
+    <div style="margin-top: 15px;">
+
+    </div>
+    <div fxLayout="row wrap" fxLayoutGap="20px" fxLayoutAlign="center center">
+        <mat-form-field fxFlex="30" fxFlex.md="100" fxFlex.sm="100">
+          <mat-label>Apellido</mat-label>
+          <input type="text" name="lastName" matInput 
+                  maxlength="250"  matInput #lastName="ngModel"
+                  [(ngModel)]="medic.lastName" required>
+          <mat-hint align="end">{{lastName.value?.length || 0}}/250</mat-hint>
+          <mat-error *ngIf="lastName.errors && (lastName.touched || lastName.dirty)">
+            Este campo es requerido
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="30" fxFlex.md="100" fxFlex.sm="100">
+            <mat-label>Apellido</mat-label>
+            <input type="text" name="firstName" matInput 
+                    maxlength="250"  matInput #firstName="ngModel"
+                    [(ngModel)]="medic.firstName" required>
+            <mat-hint align="end">{{firstName.value?.length || 0}}/250</mat-hint>
+            <mat-error *ngIf="firstName.errors && (firstName.touched || firstName.dirty)">
+              Este campo es requerido
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field fxFlex="30" fxFlex.md="100" fxFlex.sm="100">
+            <mat-label>Apellido Paterno</mat-label>
+            <input type="text" name="patientLastnameFather" maxlength="250" matInput 
+                   required>
+            <!-- <mat-hint align="end">{{patientLastnameFather.value?.length || 0}}/250</mat-hint>
+            <mat-error *ngIf="patientLastnameFather.errors && (patientLastnameFather.touched || patientLastnameFather.dirty)">
+              Este campo es requerido
+            </mat-error> -->
+          </mat-form-field>
+
+    </div>
+    <div fxLayout="row wrap" fxLayoutGap="20px" fxLayoutAlign="center center">
+        <mat-form-field fxFlex="30" fxFlex.md="100" fxFlex.sm="100">
+          <mat-label>Nombres</mat-label>
+          <input type="text" name="patientName" matInput 
+                  maxlength="250" required>
+          <!-- <mat-hint align="end">{{patientName.value?.length || 0}}/250</mat-hint>
+          <mat-error *ngIf="patientName.errors && (patientName.touched || patientName.dirty)">
+            Este campo es requerido
+          </mat-error> -->
+        </mat-form-field>
+
+        <mat-form-field fxFlex="30" fxFlex.md="100" fxFlex.sm="100">
+            <mat-label>Apellido Paterno</mat-label>
+            <input type="text" name="patientLastnameFather" maxlength="250" matInput 
+                   required>
+            <!-- <mat-hint align="end">{{patientLastnameFather.value?.length || 0}}/250</mat-hint>
+            <mat-error *ngIf="patientLastnameFather.errors && (patientLastnameFather.touched || patientLastnameFather.dirty)">
+              Este campo es requerido
+            </mat-error> -->
+          </mat-form-field>
+          <mat-form-field fxFlex="30" fxFlex.md="100" fxFlex.sm="100">
+            <mat-label>Apellido Paterno</mat-label>
+            <input type="text" name="patientLastnameFather" maxlength="250" matInput 
+                   required>
+            <!-- <mat-hint align="end">{{patientLastnameFather.value?.length || 0}}/250</mat-hint>
+            <mat-error *ngIf="patientLastnameFather.errors && (patientLastnameFather.touched || patientLastnameFather.dirty)">
+              Este campo es requerido
+            </mat-error> -->
+          </mat-form-field>
+
+    </div>
+
+</div>

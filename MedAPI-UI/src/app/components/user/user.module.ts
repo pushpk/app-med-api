@@ -16,9 +16,6 @@ const routes: Routes = [
   },
   {
     path: 'logout', component: LogoutComponent
-  },{
-    
-    path: 'register register', component: MedicRegistrationComponent,
   }
 ];
 

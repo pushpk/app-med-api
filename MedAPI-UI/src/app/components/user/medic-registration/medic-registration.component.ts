@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Medic } from 'src/app/models/medic.model';
 
 @Component({
   selector: 'app-medic-registration',
@@ -7,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MedicRegistrationComponent implements OnInit {
 
+  medic: Medic = new Medic();
   constructor() { }
 
   ngOnInit(): void {
