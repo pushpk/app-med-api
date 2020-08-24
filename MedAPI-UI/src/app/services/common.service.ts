@@ -99,7 +99,7 @@ export class CommonService {
 
       var  finalY = 0;
 
-      if(type === "Attention")
+      if(type === "Attention" || type === "Interconsultation")
       {
 
       // Patient PErsonal History
@@ -139,6 +139,9 @@ export class CommonService {
         doc.addPage();
         currentY = 0;
       }
+    }
+    if(type === "Attention")
+      {
 
       //Note Examen físico
       doc.setFont("helvetica", "bold");
@@ -304,7 +307,7 @@ export class CommonService {
   // @ts-ignore
       doc.autoTable({
         styles: { theme: 'plain' },
-        margin: { top: 70 },
+        margin: { top: currentY + 15 },
         body: rowsInterconsultation,
         columns: colInterconsultation,
         theme: 'grid',
@@ -314,7 +317,7 @@ export class CommonService {
       });
 
     // @ts-ignore
-      finalY = doc.lastAutoTable ?  doc.lastAutoTable.finalY : 65;
+      finalY = doc.lastAutoTable ?  doc.lastAutoTable.finalY : currentY;
     }
 
    

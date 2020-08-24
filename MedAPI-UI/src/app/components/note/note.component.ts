@@ -219,6 +219,10 @@ export class NoteComponent implements OnInit {
     if (CheckEmptyUtil.isNotEmptyObject(patientData)) {
       const patientDetails = JSON.parse(patientData);
       this.patient = patientDetails;
+
+      console.log("==========");
+      console.log(this.patient);
+      console.log("==========");
     }
     //  console.log(patientDetails, 'patientDetails');
     //  this.patient.id = patientDetails.id;
@@ -273,12 +277,12 @@ export class NoteComponent implements OnInit {
     //  this.patient.cigarettes = patientDetails.cigaretteNumber;
     //}
 
-    this.patient.personalBackground = ['HIPERTENSION', 'DIABETES_MELITUS_'];
-    this.patient.medicines = ['ANTIHIPERTENSIVOS'];
-    this.patient.fatherBackground = ['HIPERTENSION', 'ENFERMEDAD_CARDIOVASCULAR'];
-    this.patient.motherBackground = ['HIPERTENSION', 'ENFERMEDAD_CARDIOVASCULAR'];
-    this.patient.previousFractures = '5';
-    this.patient.physicalActivity = 'MODERADA';
+    // this.patient.personalBackground = ['HIPERTENSION', 'DIABETES_MELITUS_'];
+    // this.patient.medicines = ['ANTIHIPERTENSIVOS'];
+    // this.patient.fatherBackground = ['HIPERTENSION', 'ENFERMEDAD_CARDIOVASCULAR'];
+    // this.patient.motherBackground = ['HIPERTENSION', 'ENFERMEDAD_CARDIOVASCULAR'];
+    // this.patient.previousFractures = '5';
+    // this.patient.physicalActivity = 'MODERADA';
   }
 
   private showTabs(speciality: string) {
