@@ -104,21 +104,21 @@ export class CommonService {
 
       // Patient PErsonal History
       doc.setFont("helvetica", "bold");
-      doc.text("antecedentes personales ", 14, currentY +=15);
+      doc.text("Antecedentes Personales ", 14, currentY +=15);
 
       doc.setFont("helvetica", null);
-      doc.text(patient.personalBackground.map(s => s.name).join(';'), 14, currentY += 8);
+      doc.text(patient.personalBackground.map(s => s.name).join(','), 14, currentY += 8);
 
       // Patient Allergies
       doc.setFont("helvetica", "bold");
-      doc.text("alergias", 14, currentY +=15);
+      doc.text("Alergias", 14, currentY +=15);
       
       doc.setFont("helvetica", null);
-      doc.text(patient.allergies.map(s => s.name).join(';'), 14, currentY += 8);
+      doc.text(patient.allergies.map(s => s.name).join(','), 14, currentY += 8);
 
       // Symptom Description
       doc.setFont("helvetica", "bold");
-      doc.text("symptom description", 14, currentY +=15);
+      doc.text("Síntomas Descripción", 14, currentY +=15);
       
       doc.setFont("helvetica", null);
       doc.text(note.symptoms.description, 14, currentY += 8);
@@ -166,7 +166,7 @@ export class CommonService {
 
       for (var i = 0; i < note.diagnosis.list.length; i++) {
 
-        var temp = [i + 1, note.diagnosis.list[i].code, note.diagnosis.list[i].title, note.diagnosis.list[i].type];
+        var temp = [i + 1, note.diagnosis.list[i].code, note.diagnosis.list[i].title, note.diagnosis.list[i].type === "PRESUMPTIVE" ? "Presumptivo" :  note.diagnosis.list[i].type ===  "DEFINATIVE" ? "Definitivo" : ""]
         rows.push(temp);
 
       }
