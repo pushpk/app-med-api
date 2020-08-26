@@ -1,17 +1,8 @@
+import { MedicUser } from './medicuser.model';
+
 export class Medic  {
-    id = 0;
-    
-    firstName = '';
-    lastName = ''
-    email = '';
-    password = '';
-    confirmPassword = '';
-    documentNumber = '';
-    phone = '';
-    country: String = null;
-    department: String = null;
-    province: String = null;
-    district: String = null;
+  
+    user : MedicUser
     speciality : string  = '';
     CMP : string = '';
     RNE : string = '';

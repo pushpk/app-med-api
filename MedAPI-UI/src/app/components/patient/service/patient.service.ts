@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpUtilService } from '../../../services/http-util.service';
 import { BehaviorSubject } from 'rxjs';
+import { Medic } from 'src/app/models/medic.model';
 
 @Injectable({
   providedIn: 'root'
@@ -25,5 +26,10 @@ export class PatientService {
 
   save(patient: any, email: string) {
     return this.httpUtilService.invoke('POST', patient, 'users/patient', email);
+  }
+
+  createMedic(medic : Medic)
+  {
+    return this.httpUtilService.invoke('POST', medic, 'users/medic', null);
   }
 }

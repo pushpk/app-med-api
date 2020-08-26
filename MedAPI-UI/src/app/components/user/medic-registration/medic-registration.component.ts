@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Medic } from 'src/app/models/medic.model';
+import { PatientService } from '../../patient/service/patient.service';
+import {  MedicUser } from 'src/app/models/medicuser.model';
 
 @Component({
   selector: 'app-medic-registration',
@@ -7,11 +9,69 @@ import { Medic } from 'src/app/models/medic.model';
   styleUrls: ['./medic-registration.component.scss']
 })
 export class MedicRegistrationComponent implements OnInit {
+  [x: string]: any;
 
   medic: Medic = new Medic();
-  constructor() { }
+  
+  constructor(private patientService: PatientService) { 
+    
+    this.medic.user = new MedicUser();
+    this.medic.user.roleId = 2;
+
+  }
 
   ngOnInit(): void {
+
+    let resourcesPath: string = 'users/resources';
+
+    this.patientService.getResources(resourcesPath).then((response: any) => {
+      this.patientService.resources.next(response);
+    }).catch((error) => {
+      console.log(error);
+    });
+
+    this.patientService.resources.subscribe((o) => {
+      this.resources = o;
+    });
+  }
+
+  submitRequest(){
+    console.log(this.medic);
+    this.patientService.createMedic(this.medic).then((response: any) => {
+      console.log(response);
+      // this.submit.waiting = false;
+      // this.submit.success = true;
+      // this.toastr.success('Paciente afiliado correctamente.');
+      // this.router.navigateByUrl('/records');
+    }).catch((error) => {
+      console.log(error);
+      // this.submit.waiting = false;
+      // this.submit.success = false;
+      // this.toastr.error('Ocurrió un error al afiliar el paciente.');
+    });
+    
+  }
+
+  updateProvinces() {
+    let resourcesPath: string = 'department/' + this.patient.department + '/provinces';
+
+    this.patientService.updateProvinces(resourcesPath).then((response: any) => {
+      console.log(response, 'response');
+      this.resources.provinces = response;
+    }).catch((error) => {
+      console.log(error);
+    });
+  }
+
+  updateDistricts() {
+    let resourcesPath: string = 'province/' + this.patient.province + '/districts';
+
+    this.patientService.updateDistricts(resourcesPath).then((response: any) => {
+      console.log(response, 'response');
+      this.resources.districts = response;
+    }).catch((error) => {
+      console.log(error);
+    });
   }
 
 }
