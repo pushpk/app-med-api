@@ -8,7 +8,7 @@ export class MedicUser  {
     password = '';
     confirmPassword = '';
     documentNumber = '';
-    phone = '';
+    cellphone = '';
     countryId: String = null;
     departmentId: String = null;
     provinceId: String = null;

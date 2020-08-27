@@ -35,6 +35,7 @@ namespace MedAPI.DataAccess
         public virtual DbSet<establishment> establishments { get; set; }
         public virtual DbSet<exam> exams { get; set; }
         public virtual DbSet<medic> medics { get; set; }
+        public virtual DbSet<medic_specialties> medic_specialties { get; set; }
         public virtual DbSet<medicine> medicines { get; set; }
         public virtual DbSet<note> notes { get; set; }
         public virtual DbSet<note_notediagnosis> note_notediagnosis { get; set; }
@@ -59,7 +60,6 @@ namespace MedAPI.DataAccess
         public virtual DbSet<triage> triages { get; set; }
         public virtual DbSet<upload> uploads { get; set; }
         public virtual DbSet<user> users { get; set; }
-        public virtual DbSet<medic_specialties> medic_specialties { get; set; }
         public virtual DbSet<nurse_specialties> nurse_specialties { get; set; }
         public virtual DbSet<role_permissions> role_permissions { get; set; }
     }

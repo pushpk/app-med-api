@@ -84,7 +84,7 @@ namespace MedAPI.Controllers
 
 
         [HttpPost]
-        [Route("users")]
+        [Route("create")]
         public HttpResponseMessage Create(Domain.User mUser)
         {
             HttpResponseMessage response = null;

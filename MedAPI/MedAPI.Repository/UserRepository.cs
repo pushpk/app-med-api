@@ -182,6 +182,22 @@ namespace MedAPI.Repository
 
         public User SaveUser(User mUser)
         {
+
+    //        firstName = '';
+    //        lastName = ''
+    //        email = '';
+    //        password = '';
+    //        confirmPassword = '';
+    //        documentNumber = '';
+    //        phone = '';
+    //    country: String = null;
+    //    department: String = null;
+    //    province: String = null;
+    //    district: String = null;
+    //    speciality: string  = '';
+    //    CMP: string = '';
+    //    RNE: string = '';
+
             using (var context = new DataAccess.registroclinicoEntities())
             {
                 var efUser = context.users.Where(m => m.id == mUser.id).FirstOrDefault();
@@ -201,6 +217,16 @@ namespace MedAPI.Repository
                 {
                     efUser.modifiedDate = DateTime.UtcNow;
                     efUser.modifiedBy = mUser.createdBy;
+                }
+
+                //Following properties does not apply to medic, hence setting as empty to avoid validation error
+                if(mUser.roleId == 2)
+                {
+                    mUser.lastNameFather = string.Empty;
+                    mUser.address = string.Empty;
+                    mUser.lastNameMother = string.Empty;
+                    mUser.sex = string.Empty;
+                    mUser.documentType = string.Empty;
                 }
                 efUser.firstName = mUser.firstName;
                 efUser.lastNameFather = mUser.lastNameFather;

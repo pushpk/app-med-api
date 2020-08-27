@@ -10,7 +10,6 @@ namespace MedAPI.Domain
     {
         public Medic()
         {
-            this.notes = new List<Note>();
             user = new User();
         }
 
@@ -18,6 +17,7 @@ namespace MedAPI.Domain
         public string rne { get; set; }
         public long id { get; set; }
         public User user { get; set; }
-        public List<Note> notes { get; set; }
+
+        public string Speciality { get; set; }
     }
 }

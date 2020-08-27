@@ -85,7 +85,7 @@
         <mat-label>Teléfono</mat-label>
         <input type="number" name="phone" matInput 
                 matInput #phone="ngModel"
-                [(ngModel)]="medic.user.phone" required>
+                [(ngModel)]="medic.user.cellphone" required>
         
         <mat-error *ngIf="phone.errors && (phone.touched || phone.dirty)">
           Este campo es requerido

@@ -64,7 +64,21 @@ namespace MedAPI.Repository
                 efMedic.id = mMedic.id;
                 efMedic.rne = mMedic.rne;
                 efMedic.cmp = mMedic.cmp;
+
                 context.SaveChanges();
+                var efMedicSp = context.medic_specialties.Where(m => m.Medic_id == mMedic.id).FirstOrDefault();
+                if (efMedicSp == null)
+                {
+
+                    efMedicSp = new DataAccess.medic_specialties();
+                    context.medic_specialties.Add(efMedicSp);
+                }
+                
+                efMedicSp.Medic_id = mMedic.id;
+                efMedicSp.specialties = mMedic.Speciality;
+
+                context.SaveChanges();
+
                 return efMedic.id;
             }
         }

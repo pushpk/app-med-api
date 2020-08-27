@@ -59,156 +59,156 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="cardiovascularnote.cs">
-      <DependentUpon>MedDB.tt</DependentUpon>
+      <DependentUpon>MedDb.tt</DependentUpon>
     </Compile>
     <Compile Include="cardiovascularnote_cardiovascularsymptoms.cs">
-      <DependentUpon>MedDB.tt</DependentUpon>
+      <DependentUpon>MedDb.tt</DependentUpon>
     </Compile>
     <Compile Include="chapter.cs">
-      <DependentUpon>MedDB.tt</DependentUpon>
+      <DependentUpon>MedDb.tt</DependentUpon>
     </Compile>
     <Compile Include="country.cs">
-      <DependentUpon>MedDB.tt</DependentUpon>
+      <DependentUpon>MedDb.tt</DependentUpon>
     </Compile>
     <Compile Include="department.cs">
-      <DependentUpon>MedDB.tt</DependentUpon>
+      <DependentUpon>MedDb.tt</DependentUpon>
     </Compile>
     <Compile Include="diagnosi.cs">
-      <DependentUpon>MedDB.tt</DependentUpon>
+      <DependentUpon>MedDb.tt</DependentUpon>
     </Compile>
     <Compile Include="district.cs">
-      <DependentUpon>MedDB.tt</DependentUpon>
+      <DependentUpon>MedDb.tt</DependentUpon>
     </Compile>
     <Compile Include="establishment.cs">
-      <DependentUpon>MedDB.tt</DependentUpon>
+      <DependentUpon>MedDb.tt</DependentUpon>
     </Compile>
     <Compile Include="exam.cs">
-      <DependentUpon>MedDB.tt</DependentUpon>
+      <DependentUpon>MedDb.tt</DependentUpon>
     </Compile>
-    <Compile Include="MedDB.Context.cs">
+    <Compile Include="MedDb.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>MedDB.Context.tt</DependentUpon>
+      <DependentUpon>MedDb.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="MedDB.cs">
+    <Compile Include="MedDb.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>MedDB.tt</DependentUpon>
+      <DependentUpon>MedDb.tt</DependentUpon>
     </Compile>
-    <Compile Include="MedDB.Designer.cs">
+    <Compile Include="MedDb.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>MedDB.edmx</DependentUpon>
+      <DependentUpon>MedDb.edmx</DependentUpon>
     </Compile>
     <Compile Include="medic.cs">
-      <DependentUpon>MedDB.tt</DependentUpon>
+      <DependentUpon>MedDb.tt</DependentUpon>
     </Compile>
     <Compile Include="medicine.cs">
-      <DependentUpon>MedDB.tt</DependentUpon>
+      <DependentUpon>MedDb.tt</DependentUpon>
     </Compile>
     <Compile Include="medic_specialties.cs">
-      <DependentUpon>MedDB.tt</DependentUpon>
+      <DependentUpon>MedDb.tt</DependentUpon>
     </Compile>
     <Compile Include="note.cs">
-      <DependentUpon>MedDB.tt</DependentUpon>
+      <DependentUpon>MedDb.tt</DependentUpon>
     </Compile>
     <Compile Include="notediagnosi.cs">
-      <DependentUpon>MedDB.tt</DependentUpon>
+      <DependentUpon>MedDb.tt</DependentUpon>
     </Compile>
     <Compile Include="noteexam.cs">
-      <DependentUpon>MedDB.tt</DependentUpon>
+      <DependentUpon>MedDb.tt</DependentUpon>
     </Compile>
     <Compile Include="noteexam_upload.cs">
-      <DependentUpon>MedDB.tt</DependentUpon>
+      <DependentUpon>MedDb.tt</DependentUpon>
     </Compile>
     <Compile Include="notemedicine.cs">
-      <DependentUpon>MedDB.tt</DependentUpon>
+      <DependentUpon>MedDb.tt</DependentUpon>
     </Compile>
     <Compile Include="notereferral.cs">
-      <DependentUpon>MedDB.tt</DependentUpon>
+      <DependentUpon>MedDb.tt</DependentUpon>
     </Compile>
     <Compile Include="note_notediagnosis.cs">
-      <DependentUpon>MedDB.tt</DependentUpon>
+      <DependentUpon>MedDb.tt</DependentUpon>
     </Compile>
     <Compile Include="note_noteexam.cs">
-      <DependentUpon>MedDB.tt</DependentUpon>
+      <DependentUpon>MedDb.tt</DependentUpon>
     </Compile>
     <Compile Include="note_notemedicine.cs">
-      <DependentUpon>MedDB.tt</DependentUpon>
+      <DependentUpon>MedDb.tt</DependentUpon>
     </Compile>
     <Compile Include="note_notereferral.cs">
-      <DependentUpon>MedDB.tt</DependentUpon>
+      <DependentUpon>MedDb.tt</DependentUpon>
     </Compile>
     <Compile Include="nurse.cs">
-      <DependentUpon>MedDB.tt</DependentUpon>
+      <DependentUpon>MedDb.tt</DependentUpon>
     </Compile>
     <Compile Include="nurse_specialties.cs">
-      <DependentUpon>MedDB.tt</DependentUpon>
+      <DependentUpon>MedDb.tt</DependentUpon>
     </Compile>
     <Compile Include="patient.cs">
-      <DependentUpon>MedDB.tt</DependentUpon>
+      <DependentUpon>MedDb.tt</DependentUpon>
     </Compile>
     <Compile Include="patient_allergies.cs">
-      <DependentUpon>MedDB.tt</DependentUpon>
+      <DependentUpon>MedDb.tt</DependentUpon>
     </Compile>
     <Compile Include="patient_fatherbackgrounds.cs">
-      <DependentUpon>MedDB.tt</DependentUpon>
+      <DependentUpon>MedDb.tt</DependentUpon>
     </Compile>
     <Compile Include="patient_medicines.cs">
-      <DependentUpon>MedDB.tt</DependentUpon>
+      <DependentUpon>MedDb.tt</DependentUpon>
     </Compile>
     <Compile Include="patient_motherbackgrounds.cs">
-      <DependentUpon>MedDB.tt</DependentUpon>
+      <DependentUpon>MedDb.tt</DependentUpon>
     </Compile>
     <Compile Include="patient_personalbackgrounds.cs">
-      <DependentUpon>MedDB.tt</DependentUpon>
+      <DependentUpon>MedDb.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="province.cs">
-      <DependentUpon>MedDB.tt</DependentUpon>
+      <DependentUpon>MedDb.tt</DependentUpon>
     </Compile>
     <Compile Include="role.cs">
-      <DependentUpon>MedDB.tt</DependentUpon>
+      <DependentUpon>MedDb.tt</DependentUpon>
     </Compile>
     <Compile Include="role_permissions.cs">
-      <DependentUpon>MedDB.tt</DependentUpon>
+      <DependentUpon>MedDb.tt</DependentUpon>
     </Compile>
     <Compile Include="ticket.cs">
-      <DependentUpon>MedDB.tt</DependentUpon>
+      <DependentUpon>MedDb.tt</DependentUpon>
     </Compile>
     <Compile Include="triage.cs">
-      <DependentUpon>MedDB.tt</DependentUpon>
+      <DependentUpon>MedDb.tt</DependentUpon>
     </Compile>
     <Compile Include="upload.cs">
-      <DependentUpon>MedDB.tt</DependentUpon>
+      <DependentUpon>MedDb.tt</DependentUpon>
     </Compile>
     <Compile Include="user.cs">
-      <DependentUpon>MedDB.tt</DependentUpon>
+      <DependentUpon>MedDb.tt</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <EntityDeploy Include="MedDB.edmx">
+    <EntityDeploy Include="MedDb.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>MedDB.Designer.cs</LastGenOutput>
+      <LastGenOutput>MedDb.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="MedDB.edmx.diagram">
-      <DependentUpon>MedDB.edmx</DependentUpon>
+    <None Include="MedDb.edmx.diagram">
+      <DependentUpon>MedDb.edmx</DependentUpon>
     </None>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="MedDB.Context.tt">
+    <Content Include="MedDb.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>MedDB.edmx</DependentUpon>
-      <LastGenOutput>MedDB.Context.cs</LastGenOutput>
+      <DependentUpon>MedDb.edmx</DependentUpon>
+      <LastGenOutput>MedDb.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="MedDB.tt">
+    <Content Include="MedDb.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>MedDB.edmx</DependentUpon>
-      <LastGenOutput>MedDB.cs</LastGenOutput>
+      <DependentUpon>MedDb.edmx</DependentUpon>
+      <LastGenOutput>MedDb.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

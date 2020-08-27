@@ -103,15 +103,16 @@ namespace MedAPI.Controllers
             HttpResponseMessage response = null;
             try
             {
-                if (IsAdminPermission())
-                {
-                    mMedic = medicService.SaveMedic(mMedic);
-                    response = Request.CreateResponse(HttpStatusCode.OK, mMedic);
-                }
-                else
-                {
-                    response = Request.CreateResponse(HttpStatusCode.Unauthorized);
-                }
+                mMedic = medicService.SaveMedic(mMedic);
+                response = Request.CreateResponse(HttpStatusCode.OK, mMedic);
+                //if (IsAdminPermission())
+                //{
+                   
+                //}
+                //else
+                //{
+                //    response = Request.CreateResponse(HttpStatusCode.Unauthorized);
+                //}
 
             }
             catch (Exception ex)

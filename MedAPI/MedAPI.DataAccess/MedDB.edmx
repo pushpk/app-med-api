@@ -122,8 +122,6 @@
           <Property Name="rne" Type="nvarchar" MaxLength="255" />
           <Property Name="id" Type="bigint" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'registroclinico.registroclinico.medic_specialties' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="medic_specialties">
           <Key>
             <PropertyRef Name="Medic_id" />
@@ -948,6 +946,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <EntitySet Name="establishment" EntityType="Self.establishment" Schema="registroclinico" store:Type="Tables" />
           <EntitySet Name="exam" EntityType="Self.exam" Schema="registroclinico" store:Type="Tables" />
           <EntitySet Name="medic" EntityType="Self.medic" Schema="registroclinico" store:Type="Tables" />
+          <EntitySet Name="medic_specialties" EntityType="Self.medic_specialties" Schema="registroclinico" store:Type="Tables" />
           <EntitySet Name="medicine" EntityType="Self.medicine" Schema="registroclinico" store:Type="Tables" />
           <EntitySet Name="note" EntityType="Self.note" Schema="registroclinico" store:Type="Tables" />
           <EntitySet Name="note_notediagnosis" EntityType="Self.note_notediagnosis" Schema="registroclinico" store:Type="Tables" />
@@ -972,12 +971,6 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <EntitySet Name="triage" EntityType="Self.triage" Schema="registroclinico" store:Type="Tables" />
           <EntitySet Name="upload" EntityType="Self.upload" Schema="registroclinico" store:Type="Tables" />
           <EntitySet Name="users" EntityType="Self.users" Schema="registroclinico" store:Type="Tables" />
-          <EntitySet Name="medic_specialties" EntityType="Self.medic_specialties" store:Type="Tables" store:Schema="registroclinico">
-            <DefiningQuery>SELECT 
-    [medic_specialties].[Medic_id] AS [Medic_id], 
-    [medic_specialties].[specialties] AS [specialties]
-    FROM [registroclinico].[medic_specialties] AS [medic_specialties]</DefiningQuery>
-          </EntitySet>
           <EntitySet Name="nurse_specialties" EntityType="Self.nurse_specialties" store:Type="Tables" store:Schema="registroclinico">
             <DefiningQuery>SELECT 
     [nurse_specialties].[Nurse_id] AS [Nurse_id], 
@@ -1288,6 +1281,14 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <NavigationProperty Name="notes" Relationship="Self.FK_note_medic" FromRole="medic" ToRole="note" />
           <NavigationProperty Name="user" Relationship="Self.medic_FKa63sueb7mgdy1vvoejcxsafil" FromRole="medic" ToRole="users" />
           <NavigationProperty Name="medic_specialties" Relationship="Self.medic_specialties_FKgyco417bacd28ti07gdpxwvsr" FromRole="medic" ToRole="medic_specialties" />
+        </EntityType>
+        <EntityType Name="medic_specialties">
+          <Key>
+            <PropertyRef Name="Medic_id" />
+          </Key>
+          <Property Name="Medic_id" Type="Int64" Nullable="false" />
+          <Property Name="specialties" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="medic" Relationship="Self.medic_specialties_FKgyco417bacd28ti07gdpxwvsr" FromRole="medic_specialties" ToRole="medic" />
         </EntityType>
         <EntityType Name="medicine">
           <Key>
@@ -1663,14 +1664,6 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <NavigationProperty Name="nurse" Relationship="Self.nurse_FKinc1dd4o81eetpkv731etxb34" FromRole="users" ToRole="nurse" />
           <NavigationProperty Name="patients" Relationship="Self.user__patients" FromRole="users" ToRole="patient" />
           <NavigationProperty Name="role" Relationship="Self.users_FKiod6nq5d7gqshxljomqccs7tp" FromRole="users" ToRole="role" />
-        </EntityType>
-        <EntityType Name="medic_specialties">
-          <Key>
-            <PropertyRef Name="Medic_id" />
-          </Key>
-          <Property Name="Medic_id" Type="Int64" Nullable="false" />
-          <Property Name="specialties" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="medic" Relationship="Self.medic_specialties_FKgyco417bacd28ti07gdpxwvsr" FromRole="medic_specialties" ToRole="medic" />
         </EntityType>
         <EntityType Name="nurse_specialties">
           <Key>
@@ -2156,7 +2149,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="registroclinicoEntities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="registroclinicoEntities1" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="cardiovascularnotes" EntityType="Self.cardiovascularnote" />
           <EntitySet Name="cardiovascularnote_cardiovascularsymptoms" EntityType="Self.cardiovascularnote_cardiovascularsymptoms" />
           <EntitySet Name="chapters" EntityType="Self.chapter" />
@@ -2167,6 +2160,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <EntitySet Name="establishments" EntityType="Self.establishment" />
           <EntitySet Name="exams" EntityType="Self.exam" />
           <EntitySet Name="medics" EntityType="Self.medic" />
+          <EntitySet Name="medic_specialties" EntityType="Self.medic_specialties" />
           <EntitySet Name="medicines" EntityType="Self.medicine" />
           <EntitySet Name="notes" EntityType="Self.note" />
           <EntitySet Name="note_notediagnosis" EntityType="Self.note_notediagnosis" />
@@ -2191,7 +2185,6 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <EntitySet Name="triages" EntityType="Self.triage" />
           <EntitySet Name="uploads" EntityType="Self.upload" />
           <EntitySet Name="users" EntityType="Self.user" />
-          <EntitySet Name="medic_specialties" EntityType="Self.medic_specialties" />
           <EntitySet Name="nurse_specialties" EntityType="Self.nurse_specialties" />
           <EntitySet Name="role_permissions" EntityType="Self.role_permissions" />
           <AssociationSet Name="FK_cardiovascularnote_cardiovascularsymptoms_cardiovascularnote" Association="Self.FK_cardiovascularnote_cardiovascularsymptoms_cardiovascularnote">
@@ -2356,7 +2349,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="registroclinicoModelStoreContainer" CdmEntityContainer="registroclinicoEntities">
+        <EntityContainerMapping StorageEntityContainer="registroclinicoModelStoreContainer" CdmEntityContainer="registroclinicoEntities1">
           <EntitySetMapping Name="cardiovascularnotes">
             <EntityTypeMapping TypeName="registroclinicoModel.cardiovascularnote">
               <MappingFragment StoreEntitySet="cardiovascularnote">
@@ -2481,6 +2474,14 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
                 <ScalarProperty Name="cmp" ColumnName="cmp" />
                 <ScalarProperty Name="rne" ColumnName="rne" />
                 <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="medic_specialties">
+            <EntityTypeMapping TypeName="registroclinicoModel.medic_specialties">
+              <MappingFragment StoreEntitySet="medic_specialties">
+                <ScalarProperty Name="Medic_id" ColumnName="Medic_id" />
+                <ScalarProperty Name="specialties" ColumnName="specialties" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2825,14 +2826,6 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
                 <ScalarProperty Name="role_id" ColumnName="role_id" />
                 <ScalarProperty Name="department_id" ColumnName="department_id" />
                 <ScalarProperty Name="province_id" ColumnName="province_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="medic_specialties">
-            <EntityTypeMapping TypeName="registroclinicoModel.medic_specialties">
-              <MappingFragment StoreEntitySet="medic_specialties">
-                <ScalarProperty Name="Medic_id" ColumnName="Medic_id" />
-                <ScalarProperty Name="specialties" ColumnName="specialties" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

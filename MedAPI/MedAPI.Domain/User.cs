@@ -21,6 +21,7 @@ namespace MedAPI.Domain
         public string documentType { get; set; }
         public string email { get; set; }
         public string firstName { get; set; }
+        public string lastName { get; set; }
         public string lastNameFather { get; set; }
         public string lastNameMother { get; set; }
         public string maritalStatus { get; set; }
