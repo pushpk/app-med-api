@@ -39,15 +39,13 @@ export class MedicRegistrationComponent implements OnInit {
     console.log(this.medic);
     this.patientService.createMedic(this.medic).then((response: any) => {
       console.log(response);
-      // this.submit.waiting = false;
-      // this.submit.success = true;
-      // this.toastr.success('Paciente afiliado correctamente.');
-      // this.router.navigateByUrl('/records');
+      
+      this.toastr.success('Médica registrada con éxito.');
+      this.router.navigateByUrl('/login');
     }).catch((error) => {
       console.log(error);
-      // this.submit.waiting = false;
-      // this.submit.success = false;
-      // this.toastr.error('Ocurrió un error al afiliar el paciente.');
+      
+      this.toastr.error('Se produjo un error al crear medic.');
     });
     
   }

@@ -33,3 +33,4 @@ export class PatientService {
     return this.httpUtilService.invoke('POST', medic, 'users/medic', null);
   }
 
+}

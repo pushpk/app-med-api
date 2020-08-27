@@ -3,7 +3,7 @@ export class MedicUser  {
 
   roleId : number = 0;
     firstName = '';
-    lastName = ''
+    lastNameFather = ''
     email = '';
     password = '';
     confirmPassword = '';
