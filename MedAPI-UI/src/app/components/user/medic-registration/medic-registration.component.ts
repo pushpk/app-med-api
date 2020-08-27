@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Medic } from 'src/app/models/medic.model';
 import { PatientService } from '../../patient/service/patient.service';
 import {  MedicUser } from 'src/app/models/medicuser.model';
+import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-medic-registration',
@@ -13,7 +15,7 @@ export class MedicRegistrationComponent implements OnInit {
 
   medic: Medic = new Medic();
   
-  constructor(private patientService: PatientService) { 
+  constructor(public router: Router, private patientService: PatientService, public toastr: ToastrService) { 
     
     this.medic.user = new MedicUser();
     this.medic.user.roleId = 2;
