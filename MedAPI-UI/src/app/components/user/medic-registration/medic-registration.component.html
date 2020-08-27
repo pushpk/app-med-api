@@ -1,6 +1,6 @@
 <div class="maintainer">
   <mat-card class="no-pad">
-    <form novalidate name="form" #f="ngForm" (ngSubmit)="submitRequest()">
+    <form novalidate name="form" #f="ngForm" (ngSubmit)="submitRequest()" [mustMatch]="['password', 'confirmPassword']">
       <mat-card-content>
 <div class="layout-padding" fxLayout="column">
 
@@ -59,7 +59,7 @@
           <mat-label>Contraseña</mat-label>
           <input type="password" name="password" matInput 
                   maxlength="16"  matInput #password="ngModel"
-                  [(ngModel)]="medic.user.password" required>
+                  [(ngModel)]="medic.user.passwordHash" required>
                   <mat-hint align="end">{{password.value?.length || 0}}/16</mat-hint>
           <mat-error *ngIf="password.errors && (password.touched || password.dirty)">
             Este campo es requerido
@@ -70,11 +70,26 @@
           <mat-label>Confirmar Contraseña</mat-label>
           <input type="password" name="confirmPassword" matInput 
                   maxlength="16"  matInput #confirmPassword="ngModel"
-                  [(ngModel)]="medic.user.confirmPassword" required>
+                  [(ngModel)]="medic.user.confirmPasswordHash" required>
                   <mat-hint align="end">{{confirmPassword.value?.length || 0}}/16</mat-hint>
-          <mat-error *ngIf="confirmPassword.errors && (confirmPassword.touched || confirmPassword.dirty)">
-            Este campo es requerido
+                  <!-- *ngIf="confirmPassword.errors && (confirmPassword.touched || confirmPassword.dirty) -->
+          <mat-error *ngIf="confirmPassword.invalid && confirmPassword.errors.required && (confirmPassword.touched || confirmPassword.dirty)"  >
+        
+            <!-- Este campo es requerido -->
+
+                   Confirm Password is required
+                            <!-- <div *ngIf="confirmPassword.errors.mustMatch">Passwords must match</div> -->
           </mat-error>
+
+          <mat-error *ngIf="confirmPassword.invalid && confirmPassword.errors.mustMatch && (confirmPassword.touched || confirmPassword.dirty)"  >
+        
+          Passwords must match
+          </mat-error>
+          
+        
+            <!-- Este campo es requerido -->
+          
+         
         </mat-form-field>
 
     </div>
@@ -185,7 +200,7 @@
 
 </mat-card-content>
 <mat-card-actions fxLayout="row" fxLayoutAlign="end center">
-  <button mat-button color="primary" type="submit" >
+  <button mat-button color="primary" type="submit" [disabled]="!f.valid">
     Registrarse
   </button>
 

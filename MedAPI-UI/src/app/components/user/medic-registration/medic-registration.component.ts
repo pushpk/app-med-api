@@ -4,6 +4,7 @@ import { PatientService } from '../../patient/service/patient.service';
 import {  MedicUser } from 'src/app/models/medicuser.model';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import { MustMatchDirective } from 'src/app/shared/directive/mustMatch.directive';
 
 @Component({
   selector: 'app-medic-registration',
@@ -14,7 +15,7 @@ export class MedicRegistrationComponent implements OnInit {
   [x: string]: any;
 
   medic: Medic = new Medic();
-  
+   
   constructor(public router: Router, private patientService: PatientService, public toastr: ToastrService) { 
     
     this.medic.user = new MedicUser();

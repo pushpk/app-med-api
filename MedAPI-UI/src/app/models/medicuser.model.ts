@@ -1,12 +1,12 @@
 export class MedicUser  {
   
 
-  roleId : number = 0;
+    roleId : number = 0;
     firstName = '';
     lastNameFather = ''
     email = '';
-    password = '';
-    confirmPassword = '';
+    passwordHash = '';
+    confirmPasswordHash = '';
     documentNumber = '';
     cellphone = '';
     countryId: String = null;
