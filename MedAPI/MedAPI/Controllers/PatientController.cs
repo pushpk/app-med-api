@@ -306,11 +306,17 @@ namespace MedAPI.Controllers
             user.districtId = mPatient.district;
             user.departmentId = mPatient.department;
             user.provinceId = mPatient.province;
-            if (userData != null)
-            {
-                user.roleId = userData.roleId;
-                user.role = userData.role;
-            }
+
+            //Patient Ger Role ID = 4
+
+            user.roleId = 4;
+            //user.role
+            
+            //if (userData != null)
+            //{
+            //    user.roleId = userData.roleId;
+            //    user.role = userData.role;
+            //}
             return user;
         }
         public Domain.User getUserInfo()
