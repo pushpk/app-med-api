@@ -13,6 +13,7 @@ import { MustMatchDirective } from 'src/app/shared/directive/mustMatch.directive
 })
 export class MedicRegistrationComponent implements OnInit {
   [x: string]: any;
+  specialities : string[];
 
   medic: Medic = new Medic();
    
@@ -36,6 +37,67 @@ export class MedicRegistrationComponent implements OnInit {
     this.patientService.resources.subscribe((o) => {
       this.resources = o;
     });
+
+    this.specialities = ["ALEGOLOGIA",
+    "ANESTESIOLOGIA",
+    "CARDIOLOGIA",
+    "GASTROENTEROLOGIA",
+    "ENDOCRINOLOGIA",
+    "GERIATRIA",
+    "HEMATOLOGIA",
+    "HIDROLOGIA MEDICA",
+    "INFECTOLOGIA",
+    "MEDICINA AEROESPACIAL",
+    "MEDICINA DEL DEPORTE",
+    "MEDICINA DEL TRABAJO",
+    "MEDICINA DE URGENCIAS",
+    "MEDICINA FAMILIAR",
+    "MEDICINA FISICA Y REHABILITACION",
+    "MEDICINA INTENSIVA",
+    "MEDICINA INTERNA",
+    "MEDICINA LEGAL Y FORENSE",
+    "MEDICINA PREVENTIVA",
+    "NEFROLOGIA",
+    "NEUMOLOGIA",
+    "NEUROLOGIA",
+    "NUTRIOLOGIA",
+    "ODONTOLOGIA",
+    "OFTALMOLOGIA",
+    "ONCOLOGIA MEDICA",
+    "ONCOLOGIA RADIOTERAPICA",
+    "OTORRINOLARINGOLOGIA",
+    "PEDIATRIA",
+    "PROCTOLOGIA",
+    "PSIQUIATRIA",
+    "REHABILITACION",
+    "REUMATOLOGIA",
+    "TRAUMATOLOGIA",
+    "TOXICOLOGIA",
+    "UROLOGIA",
+    "QUIRUGICAS",
+    "CIRUGIA VASCULAR",
+    "DERMATOLOGIA",
+    "ESTOMATOLOGIA",
+    "GINECOLOGIA Y OBSTETRICIA",
+    "CIRUGIA CARDIOVASCULAR",
+    "CIRUGIA GENERAL",
+    "CIRUGIA ORAL Y MAXILOFACIAL",
+    "CIRUGIA ORTOPEDICA Y TRAUMATOLOGIA",
+    "CIRUGIA PEDIATRICA",
+    "CIRUGIA PLASTICA",
+    "CIRUGIA TORACICA",
+    "NEUROCIRUGIA",
+    "ANALISIS CLINICOS",
+    "ANATOMIA PATOLOGICA",
+    "BIOQUIMICA CLINICA",
+    "FARMACOLOGIA CLINICA",
+    "GENETICA MEDICA",
+    "INMUNOLOGIA",
+    "MEDICINA NUCLEAR",
+    "MICROBIOLOGIA Y PARASITOLOGIA",
+    "NEUROFISIOLOGIA CLINICA",
+    "RADIOLOGIA"
+    ];
   }
 
   submitRequest(){
@@ -74,5 +136,10 @@ export class MedicRegistrationComponent implements OnInit {
       console.log(error);
     });
   }
+
+  numberOnly(ele : any) {
+   var regex = /[^0-9]/gi;
+   ele.value = ele.value.replace(regex, "");
+}
 
 }

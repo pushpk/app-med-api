@@ -169,6 +169,9 @@ export class CreatePatientComponent implements OnInit {
       //this.patient.otherFatherBackground = patientDetails.otherFatherBackground;
       //this.patient.otherMotherBackground = patientDetails.otherMotherBackground;
       //this.patient.passwordHash = patientDetails.user.passwordHash;
+
+
+      
     }
   }
 

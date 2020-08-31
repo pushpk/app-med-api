@@ -1,227 +1,222 @@
 <div class="maintainer">
+  <form novalidate name="form" #f="ngForm" (ngSubmit)="submitRequest()" [mustMatch]="['password', 'confirmPassword']">
   <mat-card class="no-pad">
-    <form novalidate name="form" #f="ngForm" (ngSubmit)="submitRequest()" [mustMatch]="['password', 'confirmPassword']">
+  
       <mat-card-content>
-<div class="layout-padding" fxLayout="column">
+        <div class="layout-padding" fxLayout="column">
 
 
+          <div style="margin-top: 15px;">
+
+          </div>
+          <div fxLayout="row wrap" fxLayoutGap="20px" fxLayoutAlign="center center">
+            <mat-form-field fxFlex="30" fxFlex.md="100" fxFlex.sm="100">
+              <mat-label>Apellido</mat-label>
+              <input type="text" name="lastName" matInput matInput #lastName="ngModel"
+                [(ngModel)]="medic.user.lastNameFather" required>
+
+              <mat-error *ngIf="lastName.errors && (lastName.touched || lastName.dirty)">
+                Este campo es requerido
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field fxFlex="30" fxFlex.md="100" fxFlex.sm="100">
+              <mat-label>Nombre</mat-label>
+              <input type="text" name="firstName" matInput matInput #firstName="ngModel"
+                [(ngModel)]="medic.user.firstName" required>
+
+              <mat-error *ngIf="firstName.errors && (firstName.touched || firstName.dirty)">
+                Este campo es requerido
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field fxFlex="30" fxFlex.md="100" fxFlex.sm="100">
+              <mat-label>DNI</mat-label>
+              <input type="text" name="documentNumber" matInput #documentNumber="ngModel" pattern="\d*" maxlength="8"
+                [(ngModel)]="medic.user.documentNumber" required>
+              <mat-hint align="end">{{documentNumber.value?.length || 0}}/8</mat-hint>
+              <mat-error *ngIf="documentNumber.errors && (documentNumber.touched || documentNumber.dirty)">
+                Este campo es requerido
+              </mat-error>
+
+            </mat-form-field>
+
+          </div>
+         
+
+          <div fxLayout="row wrap" fxLayoutGap="20px" style="margin-left: 70px;">
+            <mat-form-field fxFlex="30" fxFlex.md="100" fxFlex.sm="100">
+              <mat-label>Teléfono</mat-label>
+              <input type="number" name="phone" matInput matInput #phone="ngModel" [(ngModel)]="medic.user.cellphone"
+                required>
+
+              <mat-error *ngIf="phone.errors && (phone.touched || phone.dirty)">
+                Este campo es requerido
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field fxFlex="30" fxFlex.md="100" fxFlex.sm="100" class="Form-Field-Right">
+              <mat-label>País</mat-label>
+              <mat-select name="country" class="max-width" required #country="ngModel"
+                [(ngModel)]="medic.user.countryId">
+                <mat-option *ngFor="let c of resources.countries" [(value)]="c.id">{{c.name}}</mat-option>
+              </mat-select>
+              <mat-error *ngIf="country.errors && (country.touched || country.dirty)">
+                Este campo es requerido
+              </mat-error>
+            </mat-form-field>
+
+
+
+          </div>
+
+          <div fxLayout="row wrap" fxLayoutGap="20px" fxLayoutAlign="center center">
+            <mat-form-field fxFlex="30" fxFlex.md="45" fxFlex.sm="100">
+              <mat-label>Departamento</mat-label>
+              <mat-select name="department" class="max-width" required #department="ngModel"
+                [(ngModel)]="medic.user.departmentId" (change)="updateProvinces()">
+                <mat-option *ngFor="let s of resources.departments" [(value)]="s.id">{{s.name}}</mat-option>
+              </mat-select>
+              <mat-error *ngIf="department.errors && (department.touched || department.dirty)">
+                Este campo es requerido
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field fxFlex="30" fxFlex.md="45" fxFlex.sm="100">
+              <mat-label>Provincia</mat-label>
+              <mat-select name="province" class="max-width" required #province="ngModel"
+                [(ngModel)]="medic.user.provinceId" (change)="updateDistricts()">
+                <mat-option *ngFor="let s of resources.provinces" [(value)]="s.id">{{s.name}}</mat-option>
+              </mat-select>
+              <mat-error *ngIf="province.errors && (province.touched || province.dirty)">
+                Este campo es requerido
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field fxFlex="30" fxFlex.md="45" fxFlex.sm="100">
+              <mat-label>Distrito</mat-label>
+              <mat-select name="district" class="max-width" required #district="ngModel"
+                [(ngModel)]="medic.user.districtId">
+                <mat-option *ngFor="let s of resources.districts" [(value)]="s.id">{{s.name}}</mat-option>
+              </mat-select>
+              <mat-error *ngIf="district.errors && (district.touched || district.dirty)">
+                Este campo es requerido
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+
+          <div class="ml-24" fxLayout="row wrap" fxLayoutGap="20px" style="margin-left: 70px;">
+            <mat-form-field fxFlex="66" fxFlex.md="100" fxFlex.sm="100">
+              <mat-label>Especialidad</mat-label>
+              <mat-select name="speciality" class="max-width" [(value)]="medic.speciality" required #speciality="ngModel"  [(ngModel)]="medic.speciality">
+          
+                  <mat-option *ngFor="let str of this.specialities" [value]="str">{{str}}</mat-option>
+    
+  </mat-select>
+
+
+              <mat-error *ngIf="speciality.errors && (speciality.touched || speciality.dirty)">
+                Este campo es requerido
+              </mat-error>
+            </mat-form-field>
+
+          </div>
+
+
+          <div fxLayout="row wrap" fxLayoutGap="20px" style="margin-left: 70px;">
+            <mat-form-field fxFlex="30" fxFlex.md="100" fxFlex.sm="100">
+              <mat-label>CMP</mat-label>
+              <input type="text" name="CMP" matInput maxlength="6" matInput #CMP="ngModel" [(ngModel)]="medic.CMP" (keyup)="numberOnly($event.target);"
+                required>
+              <mat-hint align="end">{{CMP.value?.length || 0}}/6</mat-hint>
+              <mat-error *ngIf="CMP.errors && (CMP.touched || CMP.dirty)">
+                Este campo es requerido
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field fxFlex="30" fxFlex.md="100" fxFlex.sm="100" class="Form-Field-Right">
+              <mat-label>RNE</mat-label>
+              <input type="text" name="RNE" matInput maxlength="6" matInput #RNE="ngModel" [(ngModel)]="medic.RNE" (keyup)="numberOnly($event.target);"
+                required>
+              <mat-hint align="end">{{RNE.value?.length || 0}}/6</mat-hint>
+              <mat-error *ngIf="RNE.errors && (RNE.touched || RNE.dirty)">
+                Este campo es requerido
+              </mat-error>
+            </mat-form-field>
+
+
+
+          </div>
+
+        </div>
+
+      </mat-card-content>
+     
+    
+  </mat-card>
+  <mat-card class="no-pad">
     <div style="margin-top: 15px;">
 
     </div>
-    <div fxLayout="row wrap" fxLayoutGap="20px" fxLayoutAlign="center center">
-        <mat-form-field fxFlex="30" fxFlex.md="100" fxFlex.sm="100">
-          <mat-label>Apellido</mat-label>
-          <input type="text" name="lastName" matInput 
-                  matInput #lastName="ngModel"
-                  [(ngModel)]="medic.user.lastNameFather" required>
-          
-          <mat-error *ngIf="lastName.errors && (lastName.touched || lastName.dirty)">
-            Este campo es requerido
-          </mat-error>
-        </mat-form-field>
+    <mat-card-content>
+      <div class="layout-padding" fxLayout="column">
+        <div fxLayout="row wrap" fxLayoutGap="20px" fxLayoutAlign="center center">
+          <mat-form-field fxFlex="30" fxFlex.md="100" fxFlex.sm="100">
+            <mat-label>Correo electrónico</mat-label>
+            <input type="email" name="email" matInput matInput #email="ngModel" [(ngModel)]="medic.user.email" 
+          email  required>
+            <mat-error *ngIf="email.invalid && email.errors.required && (email.touched || email.dirty)">
+              Este campo es requerido
+            </mat-error>
 
-        <mat-form-field fxFlex="30" fxFlex.md="100" fxFlex.sm="100">
-            <mat-label>Nombre</mat-label>
-            <input type="text" name="firstName" matInput 
-                     matInput #firstName="ngModel"
-                    [(ngModel)]="medic.user.firstName" required>
-            
-            <mat-error *ngIf="firstName.errors && (firstName.touched || firstName.dirty)">
+
+            <mat-error *ngIf="email.invalid && email.errors.email && (email.touched || email.dirty)">
+              Ingrese el correo electrónico correcto
+            </mat-error>
+
+
+          </mat-form-field>
+
+          <mat-form-field fxFlex="30" fxFlex.md="100" fxFlex.sm="100">
+            <mat-label>Contraseña</mat-label>
+            <input type="password" name="password" matInput maxlength="16" matInput #password="ngModel"
+              [(ngModel)]="medic.user.passwordHash" required>
+            <mat-hint align="end">{{password.value?.length || 0}}/16</mat-hint>
+            <mat-error *ngIf="password.errors && (password.touched || password.dirty)">
               Este campo es requerido
             </mat-error>
           </mat-form-field>
 
           <mat-form-field fxFlex="30" fxFlex.md="100" fxFlex.sm="100">
-            <mat-label>DNI</mat-label>
-            <input type="text" name="documentNumber"  matInput #documentNumber="ngModel" pattern="\d*"  maxlength="8" 
-            [(ngModel)]="medic.user.documentNumber"
-                   required>
-                   <mat-hint align="end">{{documentNumber.value?.length || 0}}/8</mat-hint>
-            <mat-error *ngIf="documentNumber.errors && (documentNumber.touched || documentNumber.dirty)">
-              Este campo es requerido
+            <mat-label>Confirmar Contraseña</mat-label>
+            <input type="password" name="confirmPassword" matInput maxlength="16" matInput #confirmPassword="ngModel"
+              [(ngModel)]="medic.user.confirmPasswordHash" required>
+            <mat-hint align="end">{{confirmPassword.value?.length || 0}}/16</mat-hint>
+            <!-- *ngIf="confirmPassword.errors && (confirmPassword.touched || confirmPassword.dirty) -->
+            <mat-error *ngIf="confirmPassword.invalid && confirmPassword.errors.required && (confirmPassword.touched || confirmPassword.dirty)">
+              Este campo es requerido 
             </mat-error>
-         
+
+            <mat-error
+              *ngIf="confirmPassword.invalid && confirmPassword.errors.mustMatch && (confirmPassword.touched || confirmPassword.dirty)">
+              Las contraseñas y la confirmación de contraseña deben coincidir
+            </mat-error>
+
+
+            <!-- Este campo es requerido -->
+
+
           </mat-form-field>
 
-    </div>
-    <div fxLayout="row wrap" fxLayoutGap="20px" fxLayoutAlign="center center">
-      <mat-form-field fxFlex="30" fxFlex.md="100" fxFlex.sm="100">
-        <mat-label>Correo electrónico</mat-label>
-        <input type="text" name="email" matInput 
-                 matInput #email="ngModel"
-                [(ngModel)]="medic.user.email" required>
-        <mat-error *ngIf="email.errors && (email.touched || email.dirty)">
-          Este campo es requerido
-        </mat-error>
-      </mat-form-field>
-
-      <mat-form-field fxFlex="30" fxFlex.md="100" fxFlex.sm="100">
-          <mat-label>Contraseña</mat-label>
-          <input type="password" name="password" matInput 
-                  maxlength="16"  matInput #password="ngModel"
-                  [(ngModel)]="medic.user.passwordHash" required>
-                  <mat-hint align="end">{{password.value?.length || 0}}/16</mat-hint>
-          <mat-error *ngIf="password.errors && (password.touched || password.dirty)">
-            Este campo es requerido
-          </mat-error>
-        </mat-form-field>
-
-        <mat-form-field fxFlex="30" fxFlex.md="100" fxFlex.sm="100">
-          <mat-label>Confirmar Contraseña</mat-label>
-          <input type="password" name="confirmPassword" matInput 
-                  maxlength="16"  matInput #confirmPassword="ngModel"
-                  [(ngModel)]="medic.user.confirmPasswordHash" required>
-                  <mat-hint align="end">{{confirmPassword.value?.length || 0}}/16</mat-hint>
-                  <!-- *ngIf="confirmPassword.errors && (confirmPassword.touched || confirmPassword.dirty) -->
-          <mat-error *ngIf="confirmPassword.invalid && confirmPassword.errors.required && (confirmPassword.touched || confirmPassword.dirty)"  >
-        
-            <!-- Este campo es requerido -->
-
-                   Confirm Password is required
-                            <!-- <div *ngIf="confirmPassword.errors.mustMatch">Passwords must match</div> -->
-          </mat-error>
-
-          <mat-error *ngIf="confirmPassword.invalid && confirmPassword.errors.mustMatch && (confirmPassword.touched || confirmPassword.dirty)"  >
-        
-          Passwords must match
-          </mat-error>
-          
-        
-            <!-- Este campo es requerido -->
-          
-         
-        </mat-form-field>
-
-    </div>
-
-    <div fxLayout="row wrap" fxLayoutGap="20px" style="margin-left: 70px;">
-      <mat-form-field fxFlex="30" fxFlex.md="100" fxFlex.sm="100">
-        <mat-label>Teléfono</mat-label>
-        <input type="number" name="phone" matInput 
-                matInput #phone="ngModel"
-                [(ngModel)]="medic.user.cellphone" required>
-        
-        <mat-error *ngIf="phone.errors && (phone.touched || phone.dirty)">
-          Este campo es requerido
-        </mat-error>
-      </mat-form-field>
-
-      <mat-form-field fxFlex="30" fxFlex.md="100" fxFlex.sm="100" class="Form-Field-Right">
-          <mat-label>País</mat-label>
-          <mat-select name="country" class="max-width" required #country="ngModel"
-          [(ngModel)]="medic.user.countryId">
-             <mat-option *ngFor="let c of resources.countries" [(value)]="c.id">{{c.name}}</mat-option>
-          </mat-select>
-          <mat-error *ngIf="country.errors && (country.touched || country.dirty)">
-                Este campo es requerido
-          </mat-error>
-        </mat-form-field>
-
-       
-
-    </div>
-
-    <div fxLayout="row wrap" fxLayoutGap="20px" fxLayoutAlign="center center">
-      <mat-form-field fxFlex="30" fxFlex.md="45" fxFlex.sm="100">
-      <mat-label>Departamento</mat-label>
-      <mat-select name="department" class="max-width" required #department="ngModel"
-                  [(ngModel)]="medic.user.departmentId" (change)="updateProvinces()">
-        <mat-option *ngFor="let s of resources.departments" [(value)]="s.id">{{s.name}}</mat-option>
-      </mat-select>
-      <mat-error *ngIf="department.errors && (department.touched || department.dirty)">
-        Este campo es requerido
-      </mat-error>
-    </mat-form-field>  
-      <mat-form-field fxFlex="30" fxFlex.md="45" fxFlex.sm="100">
-        <mat-label>Provincia</mat-label>
-        <mat-select name="province" class="max-width" required #province="ngModel"
-                    [(ngModel)]="medic.user.provinceId" (change)="updateDistricts()">
-          <mat-option *ngFor="let s of resources.provinces" [(value)]="s.id">{{s.name}}</mat-option>
-        </mat-select>
-        <mat-error *ngIf="province.errors && (province.touched || province.dirty)">
-          Este campo es requerido
-        </mat-error>
-      </mat-form-field>
-      <mat-form-field fxFlex="30" fxFlex.md="45" fxFlex.sm="100">
-        <mat-label>Distrito</mat-label>
-        <mat-select name="district" class="max-width" required #district="ngModel"
-                    [(ngModel)]="medic.user.districtId">
-          <mat-option *ngFor="let s of resources.districts" [(value)]="s.id">{{s.name}}</mat-option>
-        </mat-select>
-        <mat-error *ngIf="district.errors && (district.touched || district.dirty)">
-          Este campo es requerido
-        </mat-error>
-      </mat-form-field>
-    </div>
+        </div>
+      </div>
 
 
-    <div class="ml-24" fxLayout="row wrap" fxLayoutGap="20px" style="margin-left: 70px;">
-      <mat-form-field fxFlex="66" fxFlex.md="100" fxFlex.sm="100">
-        <mat-label>Especialidad</mat-label>
-        <input type="text" name="speciality" maxlength="250" matInput #speciality="ngModel"
-               [(ngModel)]="medic.speciality" required>
-        <mat-hint align="end">{{speciality.value?.length || 0}}/250</mat-hint>
-        <mat-error *ngIf="speciality.errors && (speciality.touched || speciality.dirty)">
-          Este campo es requerido
-        </mat-error>
-      </mat-form-field>
-     
-    </div>
+    </mat-card-content>
+    <mat-card-actions fxLayout="row" fxLayoutAlign="end center">
+      <button mat-button color="primary" type="submit" [disabled]="!f.valid">Registrarse</button>
+      <a mat-button  color="default" href="javascript:void(0)" [routerLink]='["/login"]'>Cancelar</a>
+    </mat-card-actions>
+  </mat-card>
 
-
-   <div fxLayout="row wrap" fxLayoutGap="20px" style="margin-left: 70px;">
-      <mat-form-field fxFlex="30" fxFlex.md="100" fxFlex.sm="100">
-        <mat-label>CMP</mat-label>
-        <input type="tel"  name="CMP" matInput maxlength="6"
-                matInput #CMP="ngModel"
-                [(ngModel)]="medic.CMP" required>
-      <mat-hint align="end">{{CMP.value?.length || 0}}/6</mat-hint>
-        <mat-error *ngIf="CMP.errors && (CMP.touched || CMP.dirty)">
-          Este campo es requerido
-        </mat-error>
-      </mat-form-field>
-
-      <mat-form-field fxFlex="30" fxFlex.md="100" fxFlex.sm="100" class="Form-Field-Right">
-        <mat-label>RNE</mat-label>
-        <input type="tel"  name="RNE" matInput  maxlength="6"
-                matInput #RNE="ngModel"
-                [(ngModel)]="medic.RNE" required>
-          <mat-hint align="end">{{RNE.value?.length || 0}}/6</mat-hint>
-        <mat-error *ngIf="RNE.errors && (RNE.touched || RNE.dirty)">
-          Este campo es requerido
-        </mat-error>
-      </mat-form-field>
-
-       
-
-    </div>
-
-</div>
-
-</mat-card-content>
-<mat-card-actions fxLayout="row" fxLayoutAlign="end center">
-  <button mat-button color="primary" type="submit" [disabled]="!f.valid">
-    Registrarse
-  </button>
-
-  <button mat-button type="button" >Cancelar</button>
-
-</mat-card-actions>
 </form>
-</mat-card>
 </div>
-<!-- 
-firstName = '';
-    lastName = ''
-    email = '';
-    password = '';
-    confirmPassword = '';
-    documentNumber = '';
-    phone = '';
-    country: String = null;
-    department: String = null;
-    province: String = null;
-    district: String = null;
-    speciality : string  = '';
-    CMP : string = '';
-    RNE : string = ''; -->
