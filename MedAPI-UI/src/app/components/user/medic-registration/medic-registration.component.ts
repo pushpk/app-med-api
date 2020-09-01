@@ -38,7 +38,8 @@ export class MedicRegistrationComponent implements OnInit {
       this.resources = o;
     });
 
-    this.specialities = ["ALEGOLOGIA",
+    this.specialities = [
+      "ALEGOLOGIA",
     "ANESTESIOLOGIA",
     "CARDIOLOGIA",
     "GASTROENTEROLOGIA",

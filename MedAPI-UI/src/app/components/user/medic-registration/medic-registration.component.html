@@ -103,16 +103,13 @@
             </mat-form-field>
           </div>
 
-
           <div class="ml-24" fxLayout="row wrap" fxLayoutGap="20px" style="margin-left: 70px;">
             <mat-form-field fxFlex="66" fxFlex.md="100" fxFlex.sm="100">
               <mat-label>Especialidad</mat-label>
               <mat-select name="speciality" class="max-width" [(value)]="medic.speciality" required #speciality="ngModel"  [(ngModel)]="medic.speciality">
           
                   <mat-option *ngFor="let str of this.specialities" [value]="str">{{str}}</mat-option>
-    
   </mat-select>
-
 
               <mat-error *ngIf="speciality.errors && (speciality.touched || speciality.dirty)">
                 Este campo es requerido
