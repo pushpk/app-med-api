@@ -137,7 +137,7 @@ namespace MedAPI.Controllers
 
         [HttpPost]
         //[EnableCors(origins: "*", headers: "*", methods: "*")]
-        [Route("~/login")]
+        [Route("login")]
         public HttpResponseMessage authenticate(Domain.Login mLogin)
         {
             Domain.User mUser = new Domain.User();
