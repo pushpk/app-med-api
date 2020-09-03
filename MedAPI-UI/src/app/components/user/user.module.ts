@@ -9,6 +9,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UserService } from './user.service';
 import { MedicRegistrationComponent } from './medic-registration/medic-registration.component';
 import { MustMatchDirective } from 'src/app/shared/directive/mustMatch.directive';
+import { PatientRegistrationComponent } from './patient-registration/patient-registration.component';
 
 const routes: Routes = [
   {
@@ -22,7 +23,7 @@ const routes: Routes = [
 
 
 @NgModule({
-  declarations: [LoginComponent, LogoutComponent, MedicRegistrationComponent, MustMatchDirective],
+  declarations: [LoginComponent, LogoutComponent, MedicRegistrationComponent, MustMatchDirective, PatientRegistrationComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
