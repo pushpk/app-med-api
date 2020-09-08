@@ -74,7 +74,7 @@
             <mat-form-field fxFlex="30" fxFlex.md="45" fxFlex.sm="100">
               <mat-label>Departamento</mat-label>
               <mat-select name="department" class="max-width" required #department="ngModel"
-                [(ngModel)]="medic.user.departmentId" (change)="updateProvinces()">
+                [(ngModel)]="medic.user.departmentId" (selectionChange)="updateProvinces()">
                 <mat-option *ngFor="let s of resources.departments" [(value)]="s.id">{{s.name}}</mat-option>
               </mat-select>
               <mat-error *ngIf="department.errors && (department.touched || department.dirty)">
@@ -84,7 +84,7 @@
             <mat-form-field fxFlex="30" fxFlex.md="45" fxFlex.sm="100">
               <mat-label>Provincia</mat-label>
               <mat-select name="province" class="max-width" required #province="ngModel"
-                [(ngModel)]="medic.user.provinceId" (change)="updateDistricts()">
+                [(ngModel)]="medic.user.provinceId" (selectionChange)="updateDistricts()">
                 <mat-option *ngFor="let s of resources.provinces" [(value)]="s.id">{{s.name}}</mat-option>
               </mat-select>
               <mat-error *ngIf="province.errors && (province.touched || province.dirty)">

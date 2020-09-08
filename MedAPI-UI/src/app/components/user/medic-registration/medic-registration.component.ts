@@ -117,7 +117,7 @@ export class MedicRegistrationComponent implements OnInit {
   }
 
   updateProvinces() {
-    let resourcesPath: string = 'department/' + this.patient.department + '/provinces';
+    let resourcesPath: string = 'department/' + this.medic.user.departmentId + '/provinces';
 
     this.patientService.updateProvinces(resourcesPath).then((response: any) => {
       console.log(response, 'response');
@@ -128,7 +128,7 @@ export class MedicRegistrationComponent implements OnInit {
   }
 
   updateDistricts() {
-    let resourcesPath: string = 'province/' + this.patient.province + '/districts';
+    let resourcesPath: string = 'province/' + this.medic.user.provinceId + '/districts';
 
     this.patientService.updateDistricts(resourcesPath).then((response: any) => {
       console.log(response, 'response');
