@@ -49,4 +49,7 @@ export class Patient {
   falls = '';
   previousFractures = '';
   notes = [];
+  roleId = 0;
+  confirmPasswordHash = '';
+  
 }
