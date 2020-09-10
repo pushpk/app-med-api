@@ -28,6 +28,10 @@ export class PatientService {
     return this.httpUtilService.invoke('POST', patient, 'users/patient', email);
   }
 
+  registerPatient(patient: any){
+    return this.httpUtilService.invoke('POST', patient, 'users/RegisterPatient', null);
+  }
+  
   createMedic(medic : Medic)
   {
     return this.httpUtilService.invoke('POST', medic, 'users/medic', null);

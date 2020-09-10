@@ -23,6 +23,8 @@ export class PatientRegistrationComponent implements OnInit {
   patient: Patient = new Patient();
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   allergiesCtrl = new FormControl();
+  medicineCtrl = new FormControl();
+  personalBackgroundCtrl = new FormControl();
   filteredAllergies: Observable<string[]>;
   filteredMedicines: Observable<string[]>;
   filteredPersonalBackgrounds: Observable<string[]>;
@@ -32,10 +34,11 @@ export class PatientRegistrationComponent implements OnInit {
   selectedPersonalBackgrounds = [];
 
   @ViewChild('allergieInput') allergieInput: ElementRef<HTMLInputElement>;
+  @ViewChild('medicineInput') medicineInput: ElementRef<HTMLInputElement>;
+  @ViewChild('personalBackgroundInput') personalBackgroundInput: ElementRef<HTMLInputElement>;
 
 
   constructor(public router: Router, private patientService: PatientService, public toastr: ToastrService) {
-   
     this.patient.roleId = 4;
    }
 
@@ -57,6 +60,20 @@ export class PatientRegistrationComponent implements OnInit {
 
   submitRequest(){
 
+    // this.submit.waiting = true;
+    let currentUserEmail = localStorage.getItem('email');
+    this.patientService.registerPatient(this.patient).then((response: any) => {
+      console.log(response);
+      // this.submit.waiting = false;
+      // this.submit.success = true;
+      this.toastr.success('Paciente afiliado correctamente.');
+      this.router.navigateByUrl('/records');
+    }).catch((error) => {
+      console.log(error);
+      // this.submit.waiting = false;
+      // this.submit.success = false;
+      this.toastr.error('Ocurrió un error al afiliar el paciente.');
+    });
   }
 
   addAllergie(event: MatChipInputEvent): void {
@@ -109,7 +126,119 @@ export class PatientRegistrationComponent implements OnInit {
     }
   }
 
- 
+  addMedicine(event: MatChipInputEvent): void {
+    const input = event.input;
+    const value = event.value;
+
+    if ((value || '').trim()) {
+      this.patient.medicines.push(event);
+    }
+
+    if (input) {
+      input.value = '';
+    }
+
+    this.medicineCtrl.setValue(null);
+  }
+
+  removeMedicine(o): void {
+    const index = this.patient.medicines.indexOf(o);
+
+    if (index >= 0) {
+      o.isDeleted = true;
+      this.patient.medicines.map(obj => (o.id === obj.id) || obj);
+      this.selectedMedicines = this.patient.medicines.filter(x => !x.isDeleted);      
+      //this.patient.medicines.splice(index, 1);
+    }
+  }
+
+  selectedMedicine(event: MatAutocompleteSelectedEvent): void {
+    if (this.patient.medicines.indexOf(event.option.value) === -1 && !this.patient.allergies['isDeleted']) {
+      this.patient.medicines.push(event.option.value);
+    }
+    this.medicineInput.nativeElement.value = '';
+    this.medicineCtrl.setValue(null);
+  }
+
+  _filterMedicines(value: any): string[] {
+    const filterValue = value.name.toLowerCase();
+    return this.resources.medicines.filter(x => x.name.toLowerCase().indexOf(filterValue) === 0);
+  }
+
+
+  //Personal History
+  addPersonalBackground(event: MatChipInputEvent): void {
+    const input = event.input;
+    const value = event.value;
+
+    if ((value || '').trim()) {
+      this.patient.personalBackground.push(event);
+    }
+
+    if (input) {
+      input.value = '';
+    }
+
+    this.personalBackgroundCtrl.setValue(null);
+  }
+
+  removePersonalBackground(o): void {
+    const index = this.patient.personalBackground.indexOf(o);
+
+    if (index >= 0) {
+      o.isDeleted = true;
+      this.patient.personalBackground.map(obj => (o.id === obj.id) || obj);
+      this.selectedPersonalBackgrounds = this.patient.personalBackground.filter(x => !x.isDeleted);
+      //this.patient.personalBackground.splice(index, 1);
+    }
+  }
+
+  selectedPersonalBackground(event: MatAutocompleteSelectedEvent) {
+    if (this.patient.personalBackground.indexOf(event.option.value) === -1) {
+      this.patient.personalBackground.push(event.option.value);
+    }
+    this.personalBackgroundInput.nativeElement.value = '';
+    this.personalBackgroundCtrl.setValue(null);
+  }
+
+  _filterBackgrounds(value: any): string[] {
+    const filterValue = value.name.toLowerCase();
+    return this.resources.backgrounds.filter(x => x.name.toLowerCase().indexOf(filterValue) === 0);
+  }
+
+  addPersonalBackgroundSymptoms(a) {
+    if (this.patient.personalBackground.indexOf(a) === -1 && !this.patient.personalBackground['isDeleted']) {
+      let patients = this.patient.personalBackground.filter(x => !x.isDeleted && x.name === a.name);
+      if (patients.length === 0) {
+        let pBackground = {
+          id: this.patient.personalBackground['id'] ? 0 : this.patient.personalBackground['id'],
+          patientId: this.patient.id,
+          name: a.name,
+          isDeleted: false
+        }
+        this.patient.personalBackground.push(pBackground);
+        this.selectedPersonalBackgrounds = this.patient.personalBackground.filter(x => !x.isDeleted);
+      }
+    }
+  }
+
+  addMedicineSymptoms(a) {
+    if (this.patient.medicines.indexOf(a) === -1 && !this.patient.medicines['isDeleted']) {
+      let patients = this.patient.medicines.filter(x => !x.isDeleted && x.name === a.name);
+      if (patients.length === 0) {
+        let medicine = {
+          id: this.patient.medicines['id'] ? 0 : this.patient.medicines['id'],
+          patientId: this.patient.id,
+          name: a.name,
+          isDeleted: false
+        }
+
+        this.patient.medicines.push(medicine);
+        this.selectedMedicines = this.patient.medicines.filter(x => !x.isDeleted);
+      }
+    }
+  }
+
   updateProvinces() {
     let resourcesPath: string = 'department/' + this.patient.department + '/provinces';
 
