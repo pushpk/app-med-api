@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { RecordService } from './services/record.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { CheckEmptyUtil } from '../../shared/util/check-empty.util';
 import { NoteDetail } from '../../models/noteDetail.model';
 import { Patient } from '../../models/patient.model';
@@ -69,7 +69,8 @@ export class RecordComponent implements OnInit {
   { value: 'PEDIATRY', name: 'Pediatría', id: 3 },
   { value: 'TRAUMATOLOGY', name: 'Traumatología', id: 4 }];
 
-  constructor(private recordService: RecordService, public router: Router, private changeDetectorRefs: ChangeDetectorRef, private commonService : CommonService) { }
+  constructor(private recordService: RecordService, public router: Router, private changeDetectorRefs: ChangeDetectorRef, 
+    private commonService : CommonService, private activatedRouter: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.askTicket = false;
@@ -83,6 +84,10 @@ export class RecordComponent implements OnInit {
     this.documentNumber = '';
 
     //this.patient = {};
+
+    this.activatedRouter.queryParams.subscribe(params => {
+      console.log(params);
+    });
   }
 
 
@@ -127,6 +132,7 @@ export class RecordComponent implements OnInit {
       self.waitingTicket = false;
     });
   }
+
 
   searchDocumentNumber() {
     this.askTicket = false; // true;

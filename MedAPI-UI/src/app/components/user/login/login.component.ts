@@ -40,11 +40,26 @@ export class LoginComponent implements OnInit {
       'username': username,
       'password': password
     }
-    this.userService.login(credentials).then((response) => {
+    this.userService.login(credentials).then((response : any) => {
+
+      console.log("-------------");
+      console.log(response);
+      console.log(response['role']);
+      console.log("-------------");
+
       localStorage.setItem('email', username);
       this.recordService.passwordHash.next(password);
       this.userAuthService.save(response);
-      this.router.navigateByUrl('/records');
+
+      if(response['role'] == "4")
+      {
+        this.router.navigateByUrl('/records/response.role');
+
+      }
+      else
+      {
+        this.router.navigateByUrl('/records');
+      }
     });
   }
 }
