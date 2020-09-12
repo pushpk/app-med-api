@@ -53,6 +53,7 @@ export class LoginComponent implements OnInit {
 
       if(response['role'] == "4")
       {
+        localStorage.setItem('role','patient')
         var rt = "/records/"+response.docNumber;
 
         console.log(rt);
@@ -61,6 +62,7 @@ export class LoginComponent implements OnInit {
       }
       else
       {
+        localStorage.setItem('role','admin')
         this.router.navigateByUrl('/records');
       }
     });

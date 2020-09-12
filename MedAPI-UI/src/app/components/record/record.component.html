@@ -29,7 +29,7 @@
                pattern="^[0-9]{8}$"
                maxlength="8"
                #documentno="ngModel"
-               (change)="searchDocumentNumber()">
+               (change)="searchDocumentNumber()" [disabled]="!this.isUserAdmin">
         <mat-hint align="end">{{documentno.value?.length || 0}}/8</mat-hint>
         <mat-error *ngIf="documentno.errors && (documentno.touched || documentno.dirty)">Ingrese un número ocho dígitos</mat-error>
       </mat-form-field>
@@ -38,12 +38,12 @@
     <p *ngIf="askPatientRegistration">Este DNI no se encuentra afiliado aún.</p>
 
   </form>
-  <div *ngIf="askPatientRegistration">
-    <button mat-raised-button type="button" color="primary" (click)="navigateToPatient()">
+  <div *ngIf="askPatientRegistration && this.isUserAdmin">
+    <button mat-raised-button type="button" color="primary" (click)="navigateToPatient()" >
       Afiliar Paciente
     </button>
   </div>
-  <div *ngIf="showRecord && !askPatientRegistration">
+  <div *ngIf="showRecord && !askPatientRegistration && this.isUserAdmin" >
     <mat-form-field>
       <mat-label>Especialidad</mat-label>
       <mat-select [(ngModel)]="ticket.specialty" [disabled]="ticket.status !== 0" (selectionChange)="onSpecialityChange($event)">
