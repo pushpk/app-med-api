@@ -85,9 +85,15 @@ export class RecordComponent implements OnInit {
 
     //this.patient = {};
 
-    this.activatedRouter.queryParams.subscribe(params => {
-      console.log(params);
-    });
+    var docNumber = this.activatedRouter.snapshot.paramMap.get("id");
+
+    if(docNumber)
+    {
+      this.documentNumber = docNumber;
+      this.searchDocumentNumber();
+    }
+
+    
   }
 
 
