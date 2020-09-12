@@ -53,7 +53,10 @@ export class LoginComponent implements OnInit {
 
       if(response['role'] == "4")
       {
-        this.router.navigateByUrl('/records/response.role');
+        var rt = "/records/"+response.docNumber;
+
+        console.log(rt);
+        this.router.navigateByUrl(rt);
 
       }
       else
