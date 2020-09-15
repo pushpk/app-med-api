@@ -103,6 +103,17 @@ export class RecordComponent implements OnInit {
     this.commonService.generatePDF(this.patient,note,"Attention");
   }
 
+  downloadPrescription(note: NoteDetail){
+
+    this.commonService.generatePDF(this.patient, note, "Prescription");
+  }
+
+  downloadInter(note: NoteDetail){
+
+    console.log(this.patient)
+    this.commonService.generatePDF(this.patient, note, "Interconsultation");
+  }
+
   searchTicket() {
     this.askTicket = true;
     this.askDocumentNumber = false;

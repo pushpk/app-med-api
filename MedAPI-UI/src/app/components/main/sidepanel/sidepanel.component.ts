@@ -14,11 +14,14 @@ export class SidepanelComponent implements OnInit {
     { name: 'Afiliar paciente', pageUrl: 'patients/new' },
     { name: 'Atención General', pageUrl: 'records' },
     { name: 'Atención de Cardiología', pageUrl: 'records' }];
+  isUserAdmin: boolean;
 
   constructor(private router: Router, private recordService: RecordService) { }
 
   ngOnInit(): void {
+    this.isUserAdmin = localStorage.getItem('role') !== 'patient';
   }
+
 
   navigateToPage(url: any) {
     localStorage.setItem('speciality', '');

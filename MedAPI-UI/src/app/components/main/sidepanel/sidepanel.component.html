@@ -1,4 +1,4 @@
-<div>
+<div *ngIf="this.isUserAdmin">
   <mat-nav-list>
     <ng-container *ngFor="let menu of navMenus">
       <mat-list-item class="text-upper" (click)="navigateToPage(menu.pageUrl)"> {{menu.name}}</mat-list-item>

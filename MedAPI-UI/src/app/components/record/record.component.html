@@ -114,11 +114,17 @@
       <ng-container matColumnDef="action">
         <mat-header-cell *matHeaderCellDef> </mat-header-cell>
         <mat-cell *matCellDef="let element">
-          <button type="button" class="mx-16" mat-raised-button color="primary" (click)="selectedNotes(element)">
+          <button type="button" class="mx-16" mat-raised-button color="primary" (click)="selectedNotes(element)" *ngIf="this.isUserAdmin">
             Revisar esta atención
           </button>
-          <button type="button" mat-raised-button color="primary" target="_blank" (click)="downloadAttentionPdf(element)">
+          <button type="button"  mat-raised-button color="primary" target="_blank" (click)="downloadAttentionPdf(element)" >
             Descargar en PDF
+          </button>
+          <button type="button"   mat-raised-button color="primary" target="_blank" (click)="downloadPrescription(element)" style="margin-left: 5px;"> 
+            Descargar Receta médica
+          </button>
+          <button type="button" mat-raised-button color="primary" target="_blank" (click)="downloadInter(element)" style="margin-left: 5px;">
+            Descargar Interconsulta
           </button>
         </mat-cell>
       </ng-container>

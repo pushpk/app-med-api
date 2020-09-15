@@ -1,8 +1,10 @@
-<app-sidenav [ngClass]="{'side-open': commonService.sideBar ? commonService.sideBar.opened: false }">
+<!-- <app-sidenav [ngClass]="{'side-open': commonService.sideBar ? commonService.sideBar.opened: false }"> -->
+  <app-sidenav>
   <div sidebar>
     <app-sidepanel></app-sidepanel>
   </div>
-  <div body style="width: 100%" [ngClass]="{'content':userAuthService.isAuthenticated()}">
+  <!-- <div body style="width: 100%" [ngClass]="{'content':userAuthService.isAuthenticated()}"> -->
+    <div body style="width: 100%" >
     <router-outlet (activate)="onActivate($event)"></router-outlet>
   </div>
 </app-sidenav>
