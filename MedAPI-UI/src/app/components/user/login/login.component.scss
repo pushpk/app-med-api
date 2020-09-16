@@ -1,0 +1,13 @@
+.flex-container {
+    display: flex;
+    justify-content: space-between;
+    
+  }
+  
+  .flex-container > a {
+    
+    flex-grow: 4;
+    margin: 2px;
+    padding: 15px 0;
+  
+  }
