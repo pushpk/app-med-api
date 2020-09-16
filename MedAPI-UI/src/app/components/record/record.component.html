@@ -43,8 +43,8 @@
       Afiliar Paciente
     </button>
   </div>
-  <div *ngIf="showRecord && !askPatientRegistration && this.isUserAdmin" >
-    <mat-form-field>
+  <div *ngIf="showRecord && !askPatientRegistration " >
+    <mat-form-field *ngIf="this.isUserAdmin">
       <mat-label>Especialidad</mat-label>
       <mat-select [(ngModel)]="ticket.specialty" [disabled]="ticket.status !== 0" (selectionChange)="onSpecialityChange($event)">
         <mat-option *ngFor="let type of specialities" [value]="type.value">
@@ -54,19 +54,19 @@
     </mat-form-field>
 
 
-    <div fxLayout="row" fxLayout.xs="column" class="mt-16" fxLayoutGap="20">
-      <div fxFlex="15" *ngIf="ticket.status === 0">
+    <div fxLayout="row" fxLayout.xs="column" class="mt-16" fxLayoutGap="20" >
+      <div fxFlex="15" *ngIf="ticket.status === 0 && this.isUserAdmin">
         <a mat-raised-button color="primary" class="text-upper" href="javascript:void(0);" (click)="navigateToNotes()">
           Atender paciente
         </a>
       </div>
-      <div fxFlex="15" *ngIf="ticket.status === 1">
+      <div fxFlex="15" *ngIf="ticket.status === 1 && this.isUserAdmin">
         <a mat-raised-button color="primary" class="text-upper" href="javascript:void(0);" (click)="navigateToNotes()">
           Continuar atención de este Ticket
         </a>
       </div>
-      <p *ngIf="ticket.status === 2"><strong>La atención de este Ticket ha finalizado.</strong></p>
-      <div fxFlex="15" *ngIf="ticket.status === 2">
+      <p *ngIf="ticket.status === 2 && this.isUserAdmin"><strong>La atención de este Ticket ha finalizado.</strong></p>
+      <div fxFlex="15" *ngIf="ticket.status === 2 && this.isUserAdmin">
         <a mat-raised-button color="primary" class="text-upper" href="javascript:void(0);" (click)="navigateToNotes()">
           Revisar la atención de este Ticket
         </a>
@@ -111,12 +111,13 @@
         <mat-header-cell *matHeaderCellDef> Fecha </mat-header-cell>
         <mat-cell *matCellDef="let element"> {{element.registrationDate | date: 'dd/MM/yyyy'}} </mat-cell>
       </ng-container>
+     
       <ng-container matColumnDef="action">
         <mat-header-cell *matHeaderCellDef> </mat-header-cell>
-        <mat-cell *matCellDef="let element">
-          <button type="button" class="mx-16" mat-raised-button color="primary" (click)="selectedNotes(element)" *ngIf="this.isUserAdmin">
+        <mat-cell *matCellDef="let element" style="width: 40%;">
+          <button type="button" class="mx-16" mat-raised-button color="primary" (click)="selectedNotes(element)" >
             Revisar esta atención
-          </button>
+          </button> 
           <button type="button"  mat-raised-button color="primary" target="_blank" (click)="downloadAttentionPdf(element)" >
             Descargar en PDF
           </button>

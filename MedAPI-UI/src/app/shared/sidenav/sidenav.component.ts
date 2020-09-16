@@ -26,7 +26,7 @@ export class SidenavComponent implements OnInit {
 
       this.commonService.slideEmitter.subscribe((open: boolean = false) => {
         if (open) {
-          this.drawer.open();
+          this.drawer.close();
         } else {
           if (this.drawer.opened) {
             this.drawer.close();

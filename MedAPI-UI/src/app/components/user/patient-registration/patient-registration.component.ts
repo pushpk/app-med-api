@@ -67,7 +67,7 @@ export class PatientRegistrationComponent implements OnInit {
       // this.submit.waiting = false;
       // this.submit.success = true;
       this.toastr.success('Paciente afiliado correctamente.');
-      this.router.navigateByUrl('/records');
+      this.router.navigateByUrl('/login');
     }).catch((error) => {
       console.log(error);
       // this.submit.waiting = false;
