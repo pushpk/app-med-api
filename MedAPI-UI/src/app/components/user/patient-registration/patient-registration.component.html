@@ -119,7 +119,7 @@
         </mat-error>
       </mat-form-field>
       <mat-form-field fxFlex="30" fxFlex.md="45" fxFlex.sm="100">
-        <mat-label>Distrito{{patient.district}}</mat-label>
+        <mat-label>Distrito</mat-label>
         <mat-select name="district" class="max-width" required #district="ngModel"
                     [(ngModel)]="patient.district">
           <mat-option *ngFor="let s of resources.districts" [(value)]="s.id">{{s.name}}</mat-option>

@@ -53,11 +53,11 @@ export class FormSymptomsComponent implements OnInit {
     this.noteService.resources.subscribe((o) => {
       this.resources = o;
       if (this.resources.durationUnits === undefined) {
-        this.resources.durationUnits = [{ id: 1, name: 'Hours' },
-        { id: 2, name: 'Days' },
-        { id: 3, name: 'Weeks' },
-        { id: 4, name: 'Months' },
-        { id: 5, name: 'Years' }
+        this.resources.durationUnits = [{ id: 1, name: 'Horas' },
+        { id: 2, name: 'Dias' },
+        { id: 3, name: 'Semanas' },
+        { id: 4, name: 'Meses' },
+        { id: 5, name: 'Años' }
         ];
       }
     });
