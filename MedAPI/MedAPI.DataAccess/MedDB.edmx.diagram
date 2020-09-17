@@ -81,6 +81,7 @@
         <AssociationConnector Association="registroclinicoModel.role_permissions_FKr5u91l7q7yikdobgi0lhntse6" ManuallyRouted="false" />
         <AssociationConnector Association="registroclinicoModel.users_FKiod6nq5d7gqshxljomqccs7tp" ManuallyRouted="false" />
         <AssociationConnector Association="registroclinicoModel.ticket____triage" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="registroclinicoModel.speciality" Width="1.5" PointX="5.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

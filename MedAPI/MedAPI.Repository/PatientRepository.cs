@@ -1,4 +1,5 @@
 ﻿using MedAPI.Domain;
+using MedAPI.DataAccess;
 using MedAPI.Infrastructure.IRepository;
 using System;
 using System.Collections.Generic;
