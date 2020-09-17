@@ -17,13 +17,14 @@ namespace MedAPI.Service
         private readonly ICountryRepository countryRepository;
         private readonly IDistrictRepository districtRepository;
         private readonly IProvinceRepository provinceRepository;
-
+        private readonly IBloodTypeService bloodTypeService;
 
         public UserService(IUserRepository userRepository,
             IDepartmentRepository departmentRepository,
             ICountryRepository countryRepository,
              IDistrictRepository districtRepository,
-             IProvinceRepository provinceRepository
+             IProvinceRepository provinceRepository,
+             IBloodTypeService bloodTypeService
             )
         {
             this.userRepository = userRepository;
@@ -31,6 +32,7 @@ namespace MedAPI.Service
             this.countryRepository = countryRepository;
             this.districtRepository = districtRepository;
             this.provinceRepository = provinceRepository;
+            this.bloodTypeService = bloodTypeService;
         }
 
 
@@ -92,8 +94,8 @@ namespace MedAPI.Service
                             .Select(d => new ObjectNode() { id = d.ToString().ToUpper(), name = StringExtensions.FirstCharToUpper(d.ToString()) })
                             .ToList();
 
-            mUserResourcesList.bloodTypes = Enum.GetValues(typeof(BloodType))
-                            .Cast<BloodType>()
+            mUserResourcesList.bloodTypes = bloodTypeService.GetAllBloodType()
+                            .Cast<string>()
                             .Select(d => new ObjectNode() { id = d.ToString().ToUpper(), name = StringExtensions.FirstCharToUpper(d.ToString()) })
                             .ToList();
 
@@ -147,7 +149,7 @@ namespace MedAPI.Service
 
             mUserResourcesList.medicines = Enum.GetValues(typeof(Medicine))
                      .Cast<Medicine>()
-                     .Select(d => new ObjectNode() { id = d.ToString().ToUpper(), name = StringExtensions.FirstCharToUpper(d.ToString()) })
+                     .Select(d => new ObjectNode() { id = d.ToString().ToUpper(), name = StringExtensions.FirstCharToUpper(d.ToString().Replace('_', ' ')) })
                      .ToList();
 
             mUserResourcesList.backgrounds = Enum.GetValues(typeof(Background))

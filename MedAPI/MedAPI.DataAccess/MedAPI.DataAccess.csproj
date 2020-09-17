@@ -173,6 +173,9 @@
     <Compile Include="role_permissions.cs">
       <DependentUpon>MedDb.tt</DependentUpon>
     </Compile>
+    <Compile Include="speciality.cs">
+      <DependentUpon>MedDb.tt</DependentUpon>
+    </Compile>
     <Compile Include="ticket.cs">
       <DependentUpon>MedDb.tt</DependentUpon>
     </Compile>

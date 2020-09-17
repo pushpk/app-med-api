@@ -308,7 +308,7 @@ namespace MedAPI.Infrastructure
             ANTIHIPERTENSIVOS = 1,
             ANTICOAGULANTES = 2,
             HIPOLIPEMIANTES = 3,
-            ANTIAGREGANTESPLAQUETARIOS = 4,
+            ANTIAGREGANTES_PLAQUETARIOS = 4,
             AINESMED = 5
         }
         public enum Background

@@ -47,6 +47,7 @@ export class NoteService {
     });
   }
 
+  //treatments
   queryTreatments(query: string): any {
     if (!query || query.length < 3) {
       return [];

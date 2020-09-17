@@ -69,30 +69,14 @@ namespace MedAPI.Controllers
 
         [HttpPost]
         [Route("patient")]
-        public HttpResponseMessage Create(Patient mPatient)
+        public HttpResponseMessage Create(models.Patient mPatient)
         {
             HttpResponseMessage response = null;
             try
             {
                 if (IsAdminPermission())
                 {
-                    var patient = setPatientInfo(mPatient);
-                    var responsePatient = patientService.SavePatient(patient);
-                    mPatient.id = responsePatient.id;
-                    var patientAllergies = setAllergyList(mPatient);
-                    patientService.SaveAllergiesList(patientAllergies);
-
-                    var patientMedicines = setMedicinesList(mPatient);
-                    patientService.SaveMedicinesList(patientMedicines);
-
-                    var patientPersonalBackgrounds = setPersonalbackgroundsList(mPatient);
-                    patientService.SavePersonalBackgroundList(patientPersonalBackgrounds);
-
-                    var patientMotherBackgrounds = setMotherbackgroundsList(mPatient);
-                    patientService.SaveMotherBackgroundList(patientMotherBackgrounds);
-
-                    var patientFatherBackgrounds = setFatherbackgroundsList(mPatient);
-                    patientService.SaveFatherBackgroundList(patientFatherBackgrounds);
+                    Domain.Patient responsePatient = CreatePatient(mPatient);
 
                     response = Request.CreateResponse(HttpStatusCode.OK, responsePatient);
                 }
@@ -113,9 +97,56 @@ namespace MedAPI.Controllers
             }
             return response;
         }
+
+        [HttpPost]
+        [Route("RegisterPatient")]
+        public HttpResponseMessage RegisterPatient(models.Patient mPatient)
+        {
+            HttpResponseMessage response = null;
+            try
+            {
+                Domain.Patient responsePatient = CreatePatient(mPatient);
+                response = Request.CreateResponse(HttpStatusCode.OK, responsePatient);
+            }
+            catch (DbEntityValidationException e)
+            {
+                var newException = new FormattedDbEntityValidationException(e);
+                response = Request.CreateResponse(HttpStatusCode.InternalServerError, newException);
+            }
+            catch (Exception ex)
+            {
+                response = Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+            return response;
+        }
+
+
+
+        private Domain.Patient CreatePatient(models.Patient mPatient)
+        {
+            var patient = setPatientInfo(mPatient);
+            var responsePatient = patientService.SavePatient(patient);
+            mPatient.id = responsePatient.id;
+            var patientAllergies = setAllergyList(mPatient);
+            patientService.SaveAllergiesList(patientAllergies);
+
+            var patientMedicines = setMedicinesList(mPatient);
+            patientService.SaveMedicinesList(patientMedicines);
+
+            var patientPersonalBackgrounds = setPersonalbackgroundsList(mPatient);
+            patientService.SavePersonalBackgroundList(patientPersonalBackgrounds);
+
+            var patientMotherBackgrounds = setMotherbackgroundsList(mPatient);
+            patientService.SaveMotherBackgroundList(patientMotherBackgrounds);
+
+            var patientFatherBackgrounds = setFatherbackgroundsList(mPatient);
+            patientService.SaveFatherBackgroundList(patientFatherBackgrounds);
+            return responsePatient;
+        }
+
         [HttpPost]
         [Route("patient/{id:int}")]
-        public HttpResponseMessage Create(Patient mPatient, long id)
+        public HttpResponseMessage Create(models.Patient mPatient, long id)
         {
             HttpResponseMessage response = null;
             try
@@ -240,7 +271,7 @@ namespace MedAPI.Controllers
             return result;
         }
 
-        public Domain.Patient setPatientInfo(Patient mPatient)
+        public Domain.Patient setPatientInfo(models.Patient mPatient)
         {
             Domain.Patient patient = new Domain.Patient();
             patient.id = mPatient.id;
@@ -272,8 +303,9 @@ namespace MedAPI.Controllers
             return patient;
         }
 
-        public Domain.User setUserInfo(Patient mPatient)
+        public Domain.User setUserInfo(models.Patient mPatient)
         {
+            
             var userData = getUserInfo();
             Domain.User user = new Domain.User();
             user.id = mPatient.userId;
@@ -311,7 +343,7 @@ namespace MedAPI.Controllers
 
             user.roleId = 4;
             //user.role
-            
+
             //if (userData != null)
             //{
             //    user.roleId = userData.roleId;
@@ -322,8 +354,15 @@ namespace MedAPI.Controllers
         public Domain.User getUserInfo()
         {
             var headerValues = HttpContext.Current.Request.Headers.GetValues("email");
-            string email = Convert.ToString(headerValues.FirstOrDefault());
-            return userService.GetByEmail(email);
+            if (headerValues != null)
+            {
+                string email = Convert.ToString(headerValues.FirstOrDefault());
+                return userService.GetByEmail(email);
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public List<Domain.PatientAllergies> setAllergyList(models.Patient patient)

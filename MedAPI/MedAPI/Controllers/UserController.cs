@@ -155,7 +155,7 @@ namespace MedAPI.Controllers
                         permissions = ctx.role_permissions.Where(s => s.Role_id == mUser.roleId).Select(s => s.permissions).ToArray();
                     }
 
-                    response = Request.CreateResponse(HttpStatusCode.OK, new { id = mUser.id, name = $"{mUser.firstName} {mUser.lastNameFather} {mUser.lastNameMother}", permissions = permissions });
+                    response = Request.CreateResponse(HttpStatusCode.OK, new { id = mUser.id, role = mUser.roleId , docNumber = mUser.documentNumber, name = $"{mUser.firstName} {mUser.lastNameFather} {mUser.lastNameMother}", permissions = permissions });
                 }
                 else
                 {
