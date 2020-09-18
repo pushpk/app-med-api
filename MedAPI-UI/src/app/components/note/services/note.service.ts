@@ -36,7 +36,7 @@ export class NoteService {
   }
 
   queryExams(query: string): any {
-    if (!query || query.length < 3) {
+    if (!query || query.length < 2) {
       return [];
     }
     return this.resourcesService.search(query, '/admin/exam').then((response) => {
@@ -61,7 +61,7 @@ export class NoteService {
   }
 
   queryInterconsultations(query: string): any {
-    if (!query || query.length < 3) {
+    if (!query || query.length < 2) {
       return [];
     }
     return this.resourcesService.search(query, '/record/specialty').then((response) => {

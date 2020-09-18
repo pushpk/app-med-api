@@ -81,7 +81,7 @@ export class FormConclusionComponent implements OnInit {
     // });
     clearTimeout(this.tempTimeobj);
     this.tempTimeobj = setTimeout(() => {
-      if (str.length >= 2) {
+      if (str.length >= 3) {
         this.showDignosisProgressBar = true;
         //this.diagnosisChange.emit(str);
         this.noteService.queryDiagnosis(str).then(response => {
@@ -193,7 +193,7 @@ export class FormConclusionComponent implements OnInit {
    
     clearTimeout(this.tempTimeobj);
     this.tempTimeobj = setTimeout(() => {
-      if (str.length >= 2) {
+      if (str.length >= 3) {
         this.showTreatmentProgressBar = true;
         this.noteService.queryTreatments(str).then((response:any) => {
           this.showTreatmentProgressBar = false;
