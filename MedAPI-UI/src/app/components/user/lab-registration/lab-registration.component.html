@@ -12,10 +12,10 @@
             <div fxLayout="row wrap" fxLayoutGap="20px" fxLayoutAlign="center center">
                 <mat-form-field fxFlex="30" fxFlex.md="100" fxFlex.sm="100">
                     <mat-label>Nombre</mat-label>
-                    <input type="text" name="firstName" matInput matInput #firstName="ngModel"
-                      [(ngModel)]="medic.user.firstName" required>
+                    <input type="text" name="parentCompany" matInput matInput #parentCompany="ngModel"
+                      [(ngModel)]="labUser.parentCompany" required>
       
-                    <mat-error *ngIf="firstName.errors && (firstName.touched || firstName.dirty)">
+                    <mat-error *ngIf="parentCompany.errors && (parentCompany.touched || parentCompany.dirty)">
                       Este campo es requerido
                     </mat-error>
                   </mat-form-field>
