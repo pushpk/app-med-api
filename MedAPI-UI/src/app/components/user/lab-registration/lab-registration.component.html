@@ -11,11 +11,29 @@
             </div>
             <div fxLayout="row wrap" fxLayoutGap="20px" fxLayoutAlign="center center">
                 <mat-form-field fxFlex="30" fxFlex.md="100" fxFlex.sm="100">
-                    <mat-label>Nombre</mat-label>
+                    <mat-label>Compañía matriz</mat-label>
                     <input type="text" name="parentCompany" matInput matInput #parentCompany="ngModel"
                       [(ngModel)]="labUser.parentCompany" required>
       
                     <mat-error *ngIf="parentCompany.errors && (parentCompany.touched || parentCompany.dirty)">
+                      Este campo es requerido
+                    </mat-error>
+                  </mat-form-field>
+                  <mat-form-field fxFlex="30" fxFlex.md="100" fxFlex.sm="100">
+                    <mat-label>Nombre del laboratorio</mat-label>
+                    <input type="text" name="labName" matInput matInput #labName="ngModel"
+                      [(ngModel)]="labUser.labName" required>
+      
+                    <mat-error *ngIf="labName.errors && (labName.touched || labName.dirty)">
+                      Este campo es requerido
+                    </mat-error>
+                  </mat-form-field>
+                  <mat-form-field fxFlex="30" fxFlex.md="100" fxFlex.sm="100">
+                    <mat-label>RUC</mat-label>
+                    <input type="text" name="ruc" matInput matInput #ruc="ngModel"
+                      [(ngModel)]="labUser.RUC" required>
+      
+                    <mat-error *ngIf="ruc.errors && (ruc.touched || ruc.dirty)">
                       Este campo es requerido
                     </mat-error>
                   </mat-form-field>
