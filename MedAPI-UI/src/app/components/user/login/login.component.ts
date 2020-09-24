@@ -57,6 +57,7 @@ export class LoginComponent implements OnInit {
         var rt = "/records/"+response.docNumber;
 
         console.log(rt);
+        
         this.router.navigateByUrl(rt);
 
       }

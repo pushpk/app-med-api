@@ -17,9 +17,9 @@ export class MedicRegistrationComponent implements OnInit {
 
   medic: Medic = new Medic();
    
-  constructor(public router: Router, private patientService: PatientService, public toastr: ToastrService) { 
+ constructor(public router: Router, private patientService: PatientService, public toastr: ToastrService) { 
     
-    this.medic.user = new MedicUser();
+   this.medic.user = new MedicUser();
     this.medic.user.roleId = 2;
 
   }

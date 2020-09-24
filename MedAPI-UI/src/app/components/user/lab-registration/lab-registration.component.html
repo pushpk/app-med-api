@@ -1,5 +1,27 @@
-<p>lab-registration works!</p>
-
-<div>
-    this is test
+<div class="maintainer">
+    <form novalidate name="form" #f="ngForm" (ngSubmit)="submitRequest()" [mustMatch]="['password', 'confirmPassword']">
+      <mat-card class="no-pad">
+  
+        <mat-card-content>
+          <div class="layout-padding" fxLayout="column">
+  
+  
+            <div style="margin-top: 15px;">
+  
+            </div>
+            <div fxLayout="row wrap" fxLayoutGap="20px" fxLayoutAlign="center center">
+                <mat-form-field fxFlex="30" fxFlex.md="100" fxFlex.sm="100">
+                    <mat-label>Nombre</mat-label>
+                    <input type="text" name="firstName" matInput matInput #firstName="ngModel"
+                      [(ngModel)]="medic.user.firstName" required>
+      
+                    <mat-error *ngIf="firstName.errors && (firstName.touched || firstName.dirty)">
+                      Este campo es requerido
+                    </mat-error>
+                  </mat-form-field>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </form>
 </div>
