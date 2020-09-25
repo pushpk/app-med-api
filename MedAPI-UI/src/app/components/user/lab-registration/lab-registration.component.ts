@@ -16,7 +16,7 @@ export class LabRegistrationComponent implements OnInit {
 
   constructor(public router: Router, private patientService: PatientService, public toastr: ToastrService) { 
     this.labUser.user = new MedicUser();
-    this.labUser.user.roleId = 2;
+    this.labUser.user.roleId = 5;
   }
 
   ngOnInit(): void {

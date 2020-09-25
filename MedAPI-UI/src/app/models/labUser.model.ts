@@ -5,6 +5,6 @@ export class LabUser  {
     user : MedicUser
     parentCompany : string  = '';
     labName : string = '';
-    RUC : string = '';
+    RUC : number = 0;
     
   }
