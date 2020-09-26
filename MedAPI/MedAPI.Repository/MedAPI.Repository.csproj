@@ -63,6 +63,7 @@
     <Compile Include="CardiovascularNoteRepository.cs" />
     <Compile Include="CountryRepository.cs" />
     <Compile Include="DepartmentRepository.cs" />
+    <Compile Include="LabRepository.cs" />
     <Compile Include="SpecialtyRepository.cs" />
     <Compile Include="DiagnosisRepository.cs" />
     <Compile Include="DistrictRepository.cs" />

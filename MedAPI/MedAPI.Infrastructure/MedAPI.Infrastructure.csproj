@@ -62,6 +62,7 @@
     <Compile Include="IRepository\IDistrictRepository.cs" />
     <Compile Include="IRepository\IEstablishmentRepository.cs" />
     <Compile Include="IRepository\IExamRepository.cs" />
+    <Compile Include="IRepository\ILabRepository.cs" />
     <Compile Include="IRepository\IMedicineRepository.cs" />
     <Compile Include="IRepository\IMedicRepository.cs" />
     <Compile Include="IRepository\INoteRepository.cs" />

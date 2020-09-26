@@ -114,6 +114,15 @@
           <Property Name="name" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="type" Type="nvarchar" MaxLength="255" />
         </EntityType>
+        <EntityType Name="lab">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="parentCompany" Type="nvarchar" MaxLength="255" />
+          <Property Name="labName" Type="nvarchar" MaxLength="255" />
+          <Property Name="ruc" Type="bigint" Nullable="false" />
+          <Property Name="id" Type="bigint" Nullable="false" />
+        </EntityType>
         <EntityType Name="medic">
           <Key>
             <PropertyRef Name="id" />
@@ -811,6 +820,18 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="lab$FKa63sueb7mgdy1vvoejcxsafil">
+          <End Role="users" Type="Self.users" Multiplicity="1" />
+          <End Role="lab" Type="Self.lab" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="lab">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="medic$FKa63sueb7mgdy1vvoejcxsafil">
           <End Role="users" Type="Self.users" Multiplicity="1" />
           <End Role="medic" Type="Self.medic" Multiplicity="0..1" />
@@ -953,6 +974,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <EntitySet Name="district" EntityType="Self.district" Schema="registroclinico" store:Type="Tables" />
           <EntitySet Name="establishment" EntityType="Self.establishment" Schema="registroclinico" store:Type="Tables" />
           <EntitySet Name="exam" EntityType="Self.exam" Schema="registroclinico" store:Type="Tables" />
+          <EntitySet Name="lab" EntityType="Self.lab" Schema="registroclinico" store:Type="Tables" />
           <EntitySet Name="medic" EntityType="Self.medic" Schema="registroclinico" store:Type="Tables" />
           <EntitySet Name="medic_specialties" EntityType="Self.medic_specialties" Schema="registroclinico" store:Type="Tables" />
           <EntitySet Name="medicine" EntityType="Self.medicine" Schema="registroclinico" store:Type="Tables" />
@@ -1103,6 +1125,10 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <AssociationSet Name="FK_users_district" Association="Self.FK_users_district">
             <End Role="district" EntitySet="district" />
             <End Role="users" EntitySet="users" />
+          </AssociationSet>
+          <AssociationSet Name="lab$FKa63sueb7mgdy1vvoejcxsafil" Association="Self.lab$FKa63sueb7mgdy1vvoejcxsafil">
+            <End Role="users" EntitySet="users" />
+            <End Role="lab" EntitySet="lab" />
           </AssociationSet>
           <AssociationSet Name="medic$FKa63sueb7mgdy1vvoejcxsafil" Association="Self.medic$FKa63sueb7mgdy1vvoejcxsafil">
             <End Role="users" EntitySet="users" />
@@ -1672,6 +1698,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <NavigationProperty Name="nurse" Relationship="Self.nurse_FKinc1dd4o81eetpkv731etxb34" FromRole="users" ToRole="nurse" />
           <NavigationProperty Name="patients" Relationship="Self.user__patients" FromRole="users" ToRole="patient" />
           <NavigationProperty Name="role" Relationship="Self.users_FKiod6nq5d7gqshxljomqccs7tp" FromRole="users" ToRole="role" />
+          <NavigationProperty Name="lab" Relationship="registroclinicoModel.lab_FKa63sueb7mgdy1vvoejcxsafil" FromRole="user" ToRole="lab" />
         </EntityType>
         <EntityType Name="nurse_specialties">
           <Key>
@@ -2352,6 +2379,11 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
             <End Role="triage" EntitySet="triages" />
           </AssociationSet>
           <EntitySet Name="specialities" EntityType="registroclinicoModel.speciality" />
+          <EntitySet Name="labs" EntityType="registroclinicoModel.lab" />
+          <AssociationSet Name="lab_FKa63sueb7mgdy1vvoejcxsafil" Association="registroclinicoModel.lab_FKa63sueb7mgdy1vvoejcxsafil">
+            <End Role="user" EntitySet="users" />
+            <End Role="lab" EntitySet="labs" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="speciality">
           <Key>
@@ -2361,6 +2393,28 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <Property Name="deleted" Type="Boolean" Nullable="false" />
           <Property Name="name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="lab">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="parentCompany" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="labName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ruc" Type="Int64" Nullable="false" />
+          <Property Name="id" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="user" Relationship="registroclinicoModel.lab_FKa63sueb7mgdy1vvoejcxsafil" FromRole="lab" ToRole="user" />
+        </EntityType>
+        <Association Name="lab_FKa63sueb7mgdy1vvoejcxsafil">
+          <End Type="registroclinicoModel.user" Role="user" Multiplicity="1" />
+          <End Type="registroclinicoModel.lab" Role="lab" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="lab">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2868,6 +2922,16 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="deleted" ColumnName="deleted" />
                 <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="labs">
+            <EntityTypeMapping TypeName="registroclinicoModel.lab">
+              <MappingFragment StoreEntitySet="lab">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="ruc" ColumnName="ruc" />
+                <ScalarProperty Name="labName" ColumnName="labName" />
+                <ScalarProperty Name="parentCompany" ColumnName="parentCompany" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

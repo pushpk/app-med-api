@@ -94,7 +94,8 @@ namespace MedAPI.Repository
         {
             using (var context = new DataAccess.registroclinicoEntities())
             {
-                return Mapper.Map<List<Medicine>>(context.medicines.Where(x => x.name.Contains(name) && !x.deleted).ToList());
+                var result =  Mapper.Map<List<Medicine>>(context.medicines.Where(x => x.name.Contains(name) && !x.deleted).ToList());
+                return result;
             }
         }
     }

@@ -57,6 +57,8 @@
     <Compile Include="Diagnosis.cs" />
     <Compile Include="District.cs" />
     <Compile Include="Establishment.cs" />
+    <Compile Include="Lab.cs" />
+    <Compile Include="Speciality.cs" />
     <Compile Include="Exam.cs" />
     <Compile Include="FatherBackground.cs" />
     <Compile Include="Home.cs" />

@@ -222,9 +222,8 @@ namespace MedAPI.Repository
                 //Following properties does not apply to medic, hence setting as empty to avoid validation error
                 if(mUser.roleId == 2)
                 {
-                    mUser.lastNameFather = string.Empty;
+                    
                     mUser.address = string.Empty;
-                    mUser.lastNameMother = string.Empty;
                     mUser.sex = string.Empty;
                     mUser.documentType = string.Empty;
                 }

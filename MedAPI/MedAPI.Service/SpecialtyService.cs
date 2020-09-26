@@ -38,7 +38,7 @@ namespace MedAPI.Service
            
             List<string> specialtyList = new List<string>();
 
-            specialtyList = this.specialtyRepository.SearchByName(name).Select(s => s.specialties).ToList();
+            specialtyList = this.specialtyRepository.SearchByName(name).Select(s => s.name).ToList();
 
             //Type enumType = typeof(Common.Specialty);
             //Type descriptionAttributeType = typeof(DescriptionAttribute);

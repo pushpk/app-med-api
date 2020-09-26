@@ -10,15 +10,15 @@ namespace MedAPI.Repository
     public class SpecialtyRepository : ISpecialtyRepository
     {
        
-        public List<MedicSpecialties> SearchByName(string name)
+        public List<Speciality> SearchByName(string name)
         {
             using (var context = new DataAccess.registroclinicoEntities())
             {
-                return context.medic_specialties.Where(x => x.specialties.Contains(name))
-                     .Select(x => new MedicSpecialties()
+                return context.specialities.Where(x => x.name.Contains(name))
+                     .Select(x => new Speciality()
                      {
-                         medicId = x.Medic_id,
-                         specialties = x.specialties
+                         id = x.id,
+                         name = x.name
                          
                      }).ToList();
             }

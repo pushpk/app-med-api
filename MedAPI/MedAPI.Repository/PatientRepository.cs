@@ -292,7 +292,7 @@ namespace MedAPI.Repository
                                  email = x.email,
                                  firstName = x.firstName,
                                  lastNameFather = x.lastNameFather,
-                                 lastNameMother = x.lastNameFather,
+                                 lastNameMother = x.lastNameMother,
                                  maritalStatus = x.maritalStatus,
                                  modifiedBy = x.modifiedBy,
                                  modifiedDate = x.modifiedDate,

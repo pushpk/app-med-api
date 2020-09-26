@@ -6,6 +6,6 @@ namespace MedAPI.Infrastructure.IRepository
     public interface ISpecialtyRepository
     {
 
-        List<MedicSpecialties> SearchByName(string name);
+        List<Speciality> SearchByName(string name);
     }
 }
