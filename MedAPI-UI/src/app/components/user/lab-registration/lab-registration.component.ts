@@ -23,7 +23,17 @@ export class LabRegistrationComponent implements OnInit {
   }
 
   submitRequest(){
-
+    console.log(this.labUser);
+    this.patientService.createLab(this.labUser).then((response: any) => {
+      console.log(response);
+      
+      this.toastr.success('Médica registrada con éxito.');
+      this.router.navigateByUrl('/login');
+    }).catch((error) => {
+      console.log(error);
+      
+      this.toastr.error('Se produjo un error al crear medic.');
+    });
   }
 
 }

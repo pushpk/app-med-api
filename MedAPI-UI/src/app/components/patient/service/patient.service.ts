@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpUtilService } from '../../../services/http-util.service';
 import { BehaviorSubject } from 'rxjs';
 import { Medic } from 'src/app/models/medic.model';
+import { LabUser } from 'src/app/models/labUser.model';
 
 @Injectable({
   providedIn: 'root'
@@ -37,4 +38,8 @@ export class PatientService {
     return this.httpUtilService.invoke('POST', medic, 'users/medic', null);
   }
 
+  createLab(lab : LabUser)
+  {
+    return this.httpUtilService.invoke('POST', lab, 'users/lab', null);
+  }
 }
