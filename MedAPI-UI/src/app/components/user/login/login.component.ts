@@ -61,6 +61,12 @@ export class LoginComponent implements OnInit {
         this.router.navigateByUrl(rt);
 
       }
+      else if (response['role'] == "5")
+      {
+
+        localStorage.setItem('role','lab')
+        this.router.navigateByUrl('/records');
+      }
       else
       {
         localStorage.setItem('role','admin')

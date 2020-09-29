@@ -70,6 +70,7 @@ export class RecordComponent implements OnInit {
   { value: 'TRAUMATOLOGY', name: 'Traumatología', id: 4 }];
 
   isUserAdmin : boolean = false;
+  isUserLabPerson: boolean = false;
 
   constructor(private recordService: RecordService, public router: Router, private changeDetectorRefs: ChangeDetectorRef, 
     private commonService : CommonService, private activatedRouter: ActivatedRoute) { }
@@ -95,7 +96,8 @@ export class RecordComponent implements OnInit {
       this.searchDocumentNumber();
     }
 
-    this.isUserAdmin = localStorage.getItem('role') !== 'patient';
+    this.isUserAdmin = localStorage.getItem('role') !== 'patient' &&  localStorage.getItem('role') !== 'lab' ;
+    this.isUserLabPerson = localStorage.getItem('role') === 'lab';
   }
 
 
