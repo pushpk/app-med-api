@@ -75,6 +75,7 @@
     <Compile Include="MaritalStatusService.cs" />
     <Compile Include="MedicineService.cs" />
     <Compile Include="MedicService.cs" />
+    <Compile Include="LabService.cs" />
     <Compile Include="NoteService.cs" />
     <Compile Include="NurseService.cs" />
     <Compile Include="PatientService.cs" />

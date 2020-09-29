@@ -19,6 +19,7 @@ namespace MedAPI.DataAccess
         {
             this.notes = new HashSet<note>();
             this.patients = new HashSet<patient>();
+            this.labs = new HashSet<lab>();
         }
     
         public long id { get; set; }
@@ -60,5 +61,7 @@ namespace MedAPI.DataAccess
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<patient> patients { get; set; }
         public virtual role role { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<lab> labs { get; set; }
     }
 }

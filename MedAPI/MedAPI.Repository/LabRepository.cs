@@ -6,80 +6,27 @@ using System.Linq;
 
 namespace MedAPI.Repository
 {
-    public class MedicRepository : IMedicRepository
+    public class LabRepository : ILabRepository
     {
-        public List<Medic> GetAllMedic()
+        public long SaveLab(Lab lab)
         {
             using (var context = new DataAccess.registroclinicoEntities())
             {
-                return (from me in context.medics
-                        select new Medic()
-                        {
-                            id = me.id,
-                            cmp = me.cmp,
-                            rne = me.rne
-                        }).ToList();
-            }
-        }
-
-        public Medic GetMedicById(long id)
-        {
-            using (var context = new DataAccess.registroclinicoEntities())
-            {
-                return context.medics.Where(x => x.id == id)
-                   .Select(x => new Medic()
-                   {
-                       id = x.id,
-                       cmp=x.cmp,
-                       rne=x.rne
-                   }).FirstOrDefault();
-            }
-        }
-        public bool DeleteMedicById(long id)
-        {
-            bool isSuccess = false;
-            using (var context = new DataAccess.registroclinicoEntities())
-            {
-                var efMedics= context.medics.Where(m => m.id == id).FirstOrDefault();
-                if (efMedics != null)
+                var efLab = context.labs.Where(m => m.id == lab.id).FirstOrDefault();
+                if (efLab == null)
                 {
-                    context.medics.Remove(efMedics);
-                    context.SaveChanges();
-                    isSuccess = true;
+                    efLab = new DataAccess.lab();
+                    context.labs.Add(efLab);
                 }
-                return isSuccess;
-            }
-        }
-
-        public long SaveMedic(Medic mMedic)
-        {
-            using (var context = new DataAccess.registroclinicoEntities())
-            {
-                var efMedic = context.medics.Where(m => m.id == mMedic.id).FirstOrDefault();
-                if (efMedic == null)
-                {
-                    efMedic = new DataAccess.medic();
-                    context.medics.Add(efMedic);
-                }
-                efMedic.id = mMedic.id;
-                efMedic.rne = mMedic.rne;
-                efMedic.cmp = mMedic.cmp;
-
-                context.SaveChanges();
-                var efMedicSp = context.medic_specialties.Where(m => m.Medic_id == mMedic.id).FirstOrDefault();
-                if (efMedicSp == null)
-                {
-
-                    efMedicSp = new DataAccess.medic_specialties();
-                    context.medic_specialties.Add(efMedicSp);
-                }
-                
-                efMedicSp.Medic_id = mMedic.id;
-                efMedicSp.specialties = mMedic.Speciality;
+                efLab.id = lab.id;
+                efLab.ruc = lab.ruc;
+                efLab.user_id = lab.userId;
+                efLab.parentCompany = lab.parentCompany;
+                efLab.labName = lab.labName;
 
                 context.SaveChanges();
 
-                return efMedic.id;
+                return efLab.id;
             }
         }
     }

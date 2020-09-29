@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace MedAPI.Repository
 {
-    public class MedicRepository : ILabRepository
+    public class MedicRepository : IMedicRepository
     {
         public List<Medic> GetAllMedic()
         {

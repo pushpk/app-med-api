@@ -204,6 +204,7 @@
     <Compile Include="Controllers\HomeTypeController.cs" />
     <Compile Include="Controllers\MaritalStatusController.cs" />
     <Compile Include="Controllers\MedicController.cs" />
+    <Compile Include="Controllers\LabController.cs" />
     <Compile Include="Controllers\MedicineController.cs" />
     <Compile Include="Controllers\NoteController.cs" />
     <Compile Include="Controllers\NurseController.cs" />

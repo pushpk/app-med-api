@@ -47,6 +47,7 @@ namespace MedAPI
             container.RegisterType<IMedicService, MedicService>();
             container.RegisterType<IPatientService, PatientService>();
             container.RegisterType<ISpecialtyService, SpecialtyService>();
+            container.RegisterType<ILabService, LabService>();
 
             container.RegisterType<IApplicationService, ApplicationService>();
             container.RegisterType<IEmailService, EmailService>();
@@ -69,6 +70,7 @@ namespace MedAPI
             container.RegisterType<IApplicationRepository, ApplicationRepository>();
             container.RegisterType<INurseRepository, NurseRepository>();
             container.RegisterType<ISpecialtyRepository, SpecialtyRepository>();
+            container.RegisterType<ILabRepository, LabRepository>();
 
             GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);
         }

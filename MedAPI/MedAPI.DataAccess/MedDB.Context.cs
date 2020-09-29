@@ -35,6 +35,10 @@ namespace MedAPI.DataAccess
         public virtual DbSet<establishment> establishments { get; set; }
         public virtual DbSet<exam> exams { get; set; }
         public virtual DbSet<medic> medics { get; set; }
+
+        public virtual DbSet<lab> labs { get; set; }
+
+
         public virtual DbSet<medic_specialties> medic_specialties { get; set; }
         public virtual DbSet<medicine> medicines { get; set; }
         public virtual DbSet<note> notes { get; set; }

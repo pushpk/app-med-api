@@ -1,7 +1,9 @@
-﻿namespace MedAPI.Repository
+﻿using MedAPI.Domain;
+
+namespace MedAPI.Repository
 {
     public interface ILabRepository
     {
-        long SaveLab(Medic mMedic);
+        long SaveLab(Lab mMedic);
     }
 }

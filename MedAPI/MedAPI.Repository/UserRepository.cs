@@ -200,6 +200,7 @@ namespace MedAPI.Repository
 
             using (var context = new DataAccess.registroclinicoEntities())
             {
+                
                 var efUser = context.users.Where(m => m.id == mUser.id).FirstOrDefault();
                 if (efUser == null)
                 {
@@ -219,14 +220,25 @@ namespace MedAPI.Repository
                     efUser.modifiedBy = mUser.createdBy;
                 }
 
-                //Following properties does not apply to medic, hence setting as empty to avoid validation error
-                if(mUser.roleId == 2)
+                //Following properties does not apply to medic OR Lab, hence setting as empty to avoid validation error
+                if(mUser.roleId == 2 || mUser.roleId == 5)
                 {
                     
                     mUser.address = string.Empty;
                     mUser.sex = string.Empty;
                     mUser.documentType = string.Empty;
+
+                    if(mUser.roleId == 5)
+                    {
+                        mUser.countryId = context.countries.FirstOrDefault().id;
+                        mUser.departmentId = context.departments.FirstOrDefault().id;
+                        mUser.provinceId = context.provinces.FirstOrDefault().id;
+                        mUser.districtId = context.districts.FirstOrDefault().id;
+
+                    }
                 }
+
+
                 efUser.firstName = mUser.firstName;
                 efUser.lastNameFather = mUser.lastNameFather;
                 efUser.lastNameMother = mUser.lastNameMother;

@@ -82,8 +82,8 @@
         <AssociationConnector Association="registroclinicoModel.users_FKiod6nq5d7gqshxljomqccs7tp" ManuallyRouted="false" />
         <AssociationConnector Association="registroclinicoModel.ticket____triage" ManuallyRouted="false" />
         <EntityTypeShape EntityType="registroclinicoModel.speciality" Width="1.5" PointX="5.375" PointY="0.75" />
-        <EntityTypeShape EntityType="registroclinicoModel.lab" Width="1.5" PointX="12" PointY="36.125" />
-        <AssociationConnector Association="registroclinicoModel.lab_FKa63sueb7mgdy1vvoejcxsafil" />
+        <EntityTypeShape EntityType="registroclinicoModel.lab" Width="1.5" PointX="12" PointY="37" />
+        <AssociationConnector Association="registroclinicoModel.user__labs" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
