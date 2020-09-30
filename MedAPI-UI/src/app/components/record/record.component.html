@@ -29,7 +29,7 @@
                pattern="^[0-9]{8}$"
                maxlength="8"
                #documentno="ngModel"
-               (change)="searchDocumentNumber()" [disabled]="!this.isUserAdmin">
+               (change)="searchDocumentNumber()" [disabled]="!this.isUserAdmin && !this.isUserLabPerson">
         <mat-hint align="end">{{documentno.value?.length || 0}}/8</mat-hint>
         <mat-error *ngIf="documentno.errors && (documentno.touched || documentno.dirty)">Ingrese un número ocho dígitos</mat-error>
       </mat-form-field>
@@ -38,7 +38,19 @@
     <p *ngIf="askPatientRegistration">Este DNI no se encuentra afiliado aún.</p>
 
   </form>
+
+  <div *ngIf="showRecord" > 
+    <button mat-raised-button type="button" color="primary" (click)="uploadTestResult()" >
+      Upload Test Result
+    </button>
+    <form>
+      
+    </form>
+  </div>
+
+
   <div *ngIf="!this.isUserLabPerson">
+   
   <div *ngIf="askPatientRegistration && this.isUserAdmin">
     <button mat-raised-button type="button" color="primary" (click)="navigateToPatient()" >
       Afiliar Paciente

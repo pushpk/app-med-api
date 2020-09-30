@@ -116,6 +116,10 @@ export class RecordComponent implements OnInit {
     this.commonService.generatePDF(this.patient, note, "Interconsultation");
   }
 
+  uploadTestResult(){
+    
+  }
+
   searchTicket() {
     this.askTicket = true;
     this.askDocumentNumber = false;
