@@ -44,35 +44,46 @@
       Upload Test Result
     </button>
     <br />
+    <form>
     <mat-card class="no-pad">
+     
       <div style="margin-top: 15px;">
   
       </div>
       <mat-card-content>
-          <div class="layout-padding" fxLayout="column">
-  
-              <div fxLayout="column" style="margin-left: 70px;">
-                  <h2 class="mat-title form-section" fxFlex="100">Upload Result</h2>
-                  <div fxLayout="column">
-                    <form>
-                      <mat-form-field>
-                      <input #csvInput hidden="true" type="file" onclick="this.value=null" (change)="csvInputChange($event)" accept=".csv"/>
+        <div class="layout-padding" fxLayout="column">
+    
+          <div fxLayout="column" style="margin-left: 70px;">
+              <h2 class="mat-title form-section" fxFlex="100">Upload Result</h2>
+              <div fxLayout="column">
+                
+                    <mat-form-field>
+                     <input #csvInput hidden="true" type="file" onclick="this.value=null" (change)="csvInputChange($event)" accept=".csv"/>
                       <button mat-flat-button color="primary" (click)="csvInput.click()">Choose Spreadsheet File (CSV)</button>
-                    </mat-form-field>
-                
-                    <mat-form-field >
+                    </mat-form-field> 
+                    <br />
+                    <br />
+                    
+                    <mat-form-field>
+                      
+                     
+
                       <mat-label>Leave a comment</mat-label>
-                      <input type="text" matInput maxlength="250" />
+                      <input matInput type="text"
+                      name="documentno2"
+                      maxlength="250"
+                     >
                     </mat-form-field>
                 
-                    </form>
+                  
                   </div>
               </div>
           </div>
       </mat-card-content>
+    
     </mat-card>
     
-                    
+  </form>      
    
   </div>
 
