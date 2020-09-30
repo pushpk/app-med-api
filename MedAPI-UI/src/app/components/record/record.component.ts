@@ -117,7 +117,11 @@ export class RecordComponent implements OnInit {
   }
 
   uploadTestResult(){
-    
+
+  }
+
+  csvInputChange(fileInputEvent: any) {
+    console.log(fileInputEvent.target.files[0]);
   }
 
   searchTicket() {
