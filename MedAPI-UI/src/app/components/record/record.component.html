@@ -3,15 +3,11 @@
     <div fxLayout="row" class="mb-16">
       <mat-form-field fxFlex fxFlexFill *ngIf="askTicket">
         <mat-label>Código de atención o DNI de paciente</mat-label>
-        <input matInput type="text"
-               name="ticket"
-               [(ngModel)]="ticketNumber"
-               pattern="/\d{3}-\d{6}|\d{8}/"
-               maxlength="10"
-               #ticket="ngModel"
-               (change)="searchTicket()">
+        <input matInput type="text" name="ticket" [(ngModel)]="ticketNumber" pattern="/\d{3}-\d{6}|\d{8}/"
+          maxlength="10" #ticket="ngModel" (change)="searchTicket()">
         <mat-hint align="end">{{ticket.value?.length || 0}}/8</mat-hint>
-        <mat-error *ngIf="ticket.errors && (ticket.touched || ticket.dirty)">Ingrese un código de atención correcto, eg. 012-000123</mat-error>
+        <mat-error *ngIf="ticket.errors && (ticket.touched || ticket.dirty)">Ingrese un código de atención correcto, eg.
+          012-000123</mat-error>
       </mat-form-field>
     </div>
     <mat-progress-bar mode="indeterminate" *ngIf="!askDocumentNumber && waitingTicket"></mat-progress-bar>
@@ -23,15 +19,12 @@
     <div fxLayout="row" class="mb-16">
       <mat-form-field fxFlex fxFlexFill *ngIf="askDocumentNumber">
         <mat-label>DNI de paciente</mat-label>
-        <input matInput type="text"
-               name="documentno"
-               [(ngModel)]="documentNumber"
-               pattern="^[0-9]{8}$"
-               maxlength="8"
-               #documentno="ngModel"
-               (change)="searchDocumentNumber()" [disabled]="!this.isUserAdmin && !this.isUserLabPerson">
+        <input matInput type="text" name="documentno" [(ngModel)]="documentNumber" pattern="^[0-9]{8}$" maxlength="8"
+          #documentno="ngModel" (change)="searchDocumentNumber()"
+          [disabled]="!this.isUserAdmin && !this.isUserLabPerson">
         <mat-hint align="end">{{documentno.value?.length || 0}}/8</mat-hint>
-        <mat-error *ngIf="documentno.errors && (documentno.touched || documentno.dirty)">Ingrese un número ocho dígitos</mat-error>
+        <mat-error *ngIf="documentno.errors && (documentno.touched || documentno.dirty)">Ingrese un número ocho dígitos
+        </mat-error>
       </mat-form-field>
     </div>
     <mat-progress-bar mode="indeterminate" *ngIf="waitingTicket"></mat-progress-bar>
@@ -39,157 +32,176 @@
 
   </form>
 
-  <div *ngIf="showRecord" > 
-    <button mat-raised-button type="button" color="primary" (click)="uploadTestResult()" >
+  <div *ngIf="showRecord">
+    <button mat-raised-button type="button" color="primary">
       Upload Test Result
     </button>
     <br />
-    <form>
-    <mat-card class="no-pad">
-     
-      <div style="margin-top: 15px;">
-  
-      </div>
-      <mat-card-content>
-        <div class="layout-padding" fxLayout="column">
-    
-          <div fxLayout="column" style="margin-left: 70px;">
+    <form name="form-upload" #f="ngForm" (ngSubmit)="submitUploadResult()">
+      <mat-card class="no-pad">
+
+        <div style="margin-top: 15px;">
+
+        </div>
+        <mat-card-content>
+          <div class="layout-padding" fxLayout="column">
+
+            <div fxLayout="column" style="margin-left: 70px;">
               <h2 class="mat-title form-section" fxFlex="100">Upload Result</h2>
               <div fxLayout="column">
-                
-                    <mat-form-field>
-                     <input #csvInput hidden="true" type="file" onclick="this.value=null" (change)="csvInputChange($event)" accept=".csv"/>
-                      <button mat-flat-button color="primary" (click)="csvInput.click()">Choose Spreadsheet File (CSV)</button>
-                    </mat-form-field> 
-                    <br />
-                    <br />
-                    
-                    <mat-form-field>
-                      
-                     
 
-                      <mat-label>Leave a comment</mat-label>
-                      <input matInput type="text"
-                      name="documentno2"
-                      maxlength="250"
-                     >
-                    </mat-form-field>
-                
-                  
-                  </div>
+                <div>
+                  <input #csvInput hidden="true" type="file" onclick="this.value=null" (change)="csvInputChange($event)"
+                    accept=".pdf" />
+                  <button mat-flat-button color="primary" (click)="csvInput.click()">Choose Spreadsheet File
+                    (PDF)</button>
+                </div>
+                <br />
+
+
+                <mat-form-field>
+
+
+
+                  <mat-label>Leave a comment</mat-label>
+                  <input matInput type="text" name="comment" #comment="ngModel" [(ngModel)]="labUploadResult.comment"
+                    maxlength="250" required>
+
+                  <mat-error *ngIf="comment.invalid && comment.errors.required && (comment.touched || comment.dirty)">
+                    Este campo es requerido
+                  </mat-error>
+
+
+                </mat-form-field>
+
+
               </div>
+            </div>
           </div>
-      </mat-card-content>
-    
-    </mat-card>
-    
-  </form>      
-   
+        </mat-card-content>
+        <mat-card-actions fxLayout="row" fxLayoutAlign="end center">
+          <button mat-button color="primary" type="submit">Upload</button>
+          <a mat-button color="default" href="javascript:void(0)" [routerLink]='["/login"]'>Cancelar</a>
+        </mat-card-actions>
+      </mat-card>
+
+    </form>
+
   </div>
 
 
   <div *ngIf="!this.isUserLabPerson">
-   
-  <div *ngIf="askPatientRegistration && this.isUserAdmin">
-    <button mat-raised-button type="button" color="primary" (click)="navigateToPatient()" >
-      Afiliar Paciente
-    </button>
-  </div>
-  <div *ngIf="showRecord && !askPatientRegistration " >
-    <mat-form-field *ngIf="this.isUserAdmin">
-      <mat-label>Especialidad</mat-label>
-      <mat-select [(ngModel)]="ticket.specialty" [disabled]="ticket.status !== 0" (selectionChange)="onSpecialityChange($event)">
-        <mat-option *ngFor="let type of specialities" [value]="type.value">
-          {{type.name}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+
+    <div *ngIf="askPatientRegistration && this.isUserAdmin">
+      <button mat-raised-button type="button" color="primary" (click)="navigateToPatient()">
+        Afiliar Paciente
+      </button>
+    </div>
+    <div *ngIf="showRecord && !askPatientRegistration ">
+      <mat-form-field *ngIf="this.isUserAdmin">
+        <mat-label>Especialidad</mat-label>
+        <mat-select [(ngModel)]="ticket.specialty" [disabled]="ticket.status !== 0"
+          (selectionChange)="onSpecialityChange($event)">
+          <mat-option *ngFor="let type of specialities" [value]="type.value">
+            {{type.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
 
 
-    <div fxLayout="row" fxLayout.xs="column" class="mt-16" fxLayoutGap="20" >
-      <div fxFlex="15" *ngIf="ticket.status === 0 && this.isUserAdmin">
-        <a mat-raised-button color="primary" class="text-upper" href="javascript:void(0);" (click)="navigateToNotes()">
-          Atender paciente
-        </a>
-      </div>
-      <div fxFlex="15" *ngIf="ticket.status === 1 && this.isUserAdmin">
-        <a mat-raised-button color="primary" class="text-upper" href="javascript:void(0);" (click)="navigateToNotes()">
-          Continuar atención de este Ticket
-        </a>
-      </div>
-      <p *ngIf="ticket.status === 2 && this.isUserAdmin"><strong>La atención de este Ticket ha finalizado.</strong></p>
-      <div fxFlex="15" *ngIf="ticket.status === 2 && this.isUserAdmin">
-        <a mat-raised-button color="primary" class="text-upper" href="javascript:void(0);" (click)="navigateToNotes()">
-          Revisar la atención de este Ticket
-        </a>
-      </div>
-      <div fxFlex="15">
-        <a mat-raised-button color="default" class="text-upper" href="javascript:void(0);" (click)="navigateToPatient()">
-          Ver datos de paciente
-        </a>
+      <div fxLayout="row" fxLayout.xs="column" class="mt-16" fxLayoutGap="20">
+        <div fxFlex="15" *ngIf="ticket.status === 0 && this.isUserAdmin">
+          <a mat-raised-button color="primary" class="text-upper" href="javascript:void(0);"
+            (click)="navigateToNotes()">
+            Atender paciente
+          </a>
+        </div>
+        <div fxFlex="15" *ngIf="ticket.status === 1 && this.isUserAdmin">
+          <a mat-raised-button color="primary" class="text-upper" href="javascript:void(0);"
+            (click)="navigateToNotes()">
+            Continuar atención de este Ticket
+          </a>
+        </div>
+        <p *ngIf="ticket.status === 2 && this.isUserAdmin"><strong>La atención de este Ticket ha finalizado.</strong>
+        </p>
+        <div fxFlex="15" *ngIf="ticket.status === 2 && this.isUserAdmin">
+          <a mat-raised-button color="primary" class="text-upper" href="javascript:void(0);"
+            (click)="navigateToNotes()">
+            Revisar la atención de este Ticket
+          </a>
+        </div>
+        <div fxFlex="15">
+          <a mat-raised-button color="default" class="text-upper" href="javascript:void(0);"
+            (click)="navigateToPatient()">
+            Ver datos de paciente
+          </a>
+        </div>
       </div>
     </div>
-  </div>
-  <div fxLayout="row" *ngIf="showRecord" class="mt-24">
-    <h2 fxFlex="50">Atenciones pasadas:</h2>
-  </div>
-  <div *ngIf="showRecord" id="recordTable">
-    <mat-toolbar color="default" *ngIf="patient">
-      <mat-toolbar-row>
-        <h2 class="mat-title">
-          {{patient.lastnameFather | uppercase}} {{patient.lastnameMother | uppercase}},
-          {{patient.name}}
-        </h2>
-      </mat-toolbar-row>
-    </mat-toolbar>
-    <mat-table [dataSource]="dataSource">
-      <ng-container matColumnDef="id">
-        <mat-header-cell *matHeaderCellDef> # </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
-      </ng-container>
-      <ng-container matColumnDef="description">
-        <mat-header-cell *matHeaderCellDef> Descripción </mat-header-cell>
-        <mat-cell *matCellDef="let element">
-          {{element.symptoms.description}}
-        </mat-cell>
-      </ng-container>
-      <ng-container matColumnDef="specialty">
-        <mat-header-cell *matHeaderCellDef> Especialidad </mat-header-cell>
-        <mat-cell *matCellDef="let element">
-          {{element.specialty}}
-        </mat-cell>
-      </ng-container>
-      <ng-container matColumnDef="date">
-        <mat-header-cell *matHeaderCellDef> Fecha </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.registrationDate | date: 'dd/MM/yyyy'}} </mat-cell>
-      </ng-container>
-     
-      <ng-container matColumnDef="action">
-        <mat-header-cell *matHeaderCellDef style="flex-grow: 1 !important;"> </mat-header-cell>
-        <mat-cell *matCellDef="let element" style="flex-grow: 1 !important;">
-          <button type="button" class="mx-16" mat-raised-button color="primary" (click)="selectedNotes(element)" disabled>
-            Revisar esta atención
-          </button> 
-          <button type="button"  mat-raised-button color="primary" target="_blank" (click)="downloadAttentionPdf(element)" >
-            Descargar en PDF
-          </button>
-          <button type="button"   mat-raised-button color="primary" target="_blank" (click)="downloadPrescription(element)" style="margin-left: 5px;"> 
-            Descargar Receta médica
-          </button>
-          <button type="button" mat-raised-button color="primary" target="_blank" (click)="downloadInter(element)" style="margin-left: 5px;">
-            Descargar Interconsulta
-          </button>
-        </mat-cell>
-      </ng-container>
-      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-    </mat-table>
-    {{dataSource.length}}
-    <div *ngIf="(dataSource.length <= 0)" class="no-records">
-      El paciente no tiene atenciones anteriores.
+    <div fxLayout="row" *ngIf="showRecord" class="mt-24">
+      <h2 fxFlex="50">Atenciones pasadas:</h2>
     </div>
-    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
-  </div>
+    <div *ngIf="showRecord" id="recordTable">
+      <mat-toolbar color="default" *ngIf="patient">
+        <mat-toolbar-row>
+          <h2 class="mat-title">
+            {{patient.lastnameFather | uppercase}} {{patient.lastnameMother | uppercase}},
+            {{patient.name}}
+          </h2>
+        </mat-toolbar-row>
+      </mat-toolbar>
+      <mat-table [dataSource]="dataSource">
+        <ng-container matColumnDef="id">
+          <mat-header-cell *matHeaderCellDef> # </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="description">
+          <mat-header-cell *matHeaderCellDef> Descripción </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            {{element.symptoms.description}}
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="specialty">
+          <mat-header-cell *matHeaderCellDef> Especialidad </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            {{element.specialty}}
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="date">
+          <mat-header-cell *matHeaderCellDef> Fecha </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.registrationDate | date: 'dd/MM/yyyy'}} </mat-cell>
+        </ng-container>
 
-</div>
+        <ng-container matColumnDef="action">
+          <mat-header-cell *matHeaderCellDef style="flex-grow: 1 !important;"> </mat-header-cell>
+          <mat-cell *matCellDef="let element" style="flex-grow: 1 !important;">
+            <button type="button" class="mx-16" mat-raised-button color="primary" (click)="selectedNotes(element)"
+              disabled>
+              Revisar esta atención
+            </button>
+            <button type="button" mat-raised-button color="primary" target="_blank"
+              (click)="downloadAttentionPdf(element)">
+              Descargar en PDF
+            </button>
+            <button type="button" mat-raised-button color="primary" target="_blank"
+              (click)="downloadPrescription(element)" style="margin-left: 5px;">
+              Descargar Receta médica
+            </button>
+            <button type="button" mat-raised-button color="primary" target="_blank" (click)="downloadInter(element)"
+              style="margin-left: 5px;">
+              Descargar Interconsulta
+            </button>
+          </mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      </mat-table>
+      {{dataSource.length}}
+      <div *ngIf="(dataSource.length <= 0)" class="no-records">
+        El paciente no tiene atenciones anteriores.
+      </div>
+      <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+    </div>
+
+  </div>
 </div>

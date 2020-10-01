@@ -24,6 +24,7 @@ import { CardiovascularSymptoms } from '../../models/cardiovascularSymptoms.mode
 import { jsPDF } from "jspdf";
 import 'jspdf-autotable';
 import { CommonService } from 'src/app/services/common.service';
+import { LabUploadResult } from 'src/app/models/labUploadResult';
 
 
 export enum TicketStatus {
@@ -49,6 +50,7 @@ export interface PastAttentions {
 export class RecordComponent implements OnInit {
   notes: NoteDetail[];
   patient: Patient = new Patient();
+  labUploadResult: LabUploadResult = new LabUploadResult();
   ticket: any;
   ticketNumber: string;
   documentNumber: string;
@@ -71,6 +73,7 @@ export class RecordComponent implements OnInit {
 
   isUserAdmin : boolean = false;
   isUserLabPerson: boolean = false;
+  uploadedFile: any;
 
   constructor(private recordService: RecordService, public router: Router, private changeDetectorRefs: ChangeDetectorRef, 
     private commonService : CommonService, private activatedRouter: ActivatedRoute) { }
@@ -116,12 +119,15 @@ export class RecordComponent implements OnInit {
     this.commonService.generatePDF(this.patient, note, "Interconsultation");
   }
 
-  uploadTestResult(){
-
-  }
+ 
 
   csvInputChange(fileInputEvent: any) {
+    this.uploadedFile = fileInputEvent.target.files[0]
     console.log(fileInputEvent.target.files[0]);
+  }
+
+  submitUploadResult(){
+
   }
 
   searchTicket() {
