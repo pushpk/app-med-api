@@ -25,6 +25,7 @@ import { jsPDF } from "jspdf";
 import 'jspdf-autotable';
 import { CommonService } from 'src/app/services/common.service';
 import { LabUploadResult } from 'src/app/models/labUploadResult';
+import { ToastrService } from 'ngx-toastr';
 
 
 export enum TicketStatus {
@@ -76,7 +77,7 @@ export class RecordComponent implements OnInit {
   uploadedFile: any;
 
   constructor(private recordService: RecordService, public router: Router, private changeDetectorRefs: ChangeDetectorRef, 
-    private commonService : CommonService, private activatedRouter: ActivatedRoute) { }
+    private commonService : CommonService, private activatedRouter: ActivatedRoute, public toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.askTicket = false;
@@ -127,7 +128,25 @@ export class RecordComponent implements OnInit {
   }
 
   submitUploadResult(){
-    console.log(this.labUploadResult)
+    this.labUploadResult.userId = this.patient.userId;
+    console.log(this.labUploadResult.comments)
+
+    if(this.labUploadResult.comments != null && this.labUploadResult.comments != ''){
+      let formData: FormData = new FormData();  
+      formData.append('uploadFile', this.labUploadResult.file, this.labUploadResult.file.name);  
+
+       this.recordService.uploadResult(formData).then((response: any) => {
+      console.log(response);
+      
+      this.toastr.success('Médica registrada con éxito.');
+      this.router.navigateByUrl('/login');
+    }).catch((error) => {
+      console.log(error);
+      
+      this.toastr.error('Se produjo un error al crear medic.');
+    });
+
+  }
   }
 
   searchTicket() {

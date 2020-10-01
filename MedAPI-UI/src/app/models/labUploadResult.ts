@@ -5,6 +5,7 @@ export class LabUploadResult  {
     
     file : File;
     comments : string = '';
+    userId : number = 0;
     
     
   }

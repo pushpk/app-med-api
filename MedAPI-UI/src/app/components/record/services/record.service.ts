@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { HttpUtilService } from '../../../services/http-util.service';
 import { BehaviorSubject } from 'rxjs';
+import { LabUploadResult } from 'src/app/models/labUploadResult';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,11 @@ export class RecordService {
   public passwordHash = new BehaviorSubject<string>(undefined);
 
   constructor(private httpUtilService: HttpUtilService) { }
+
+  uploadResult(formData : FormData)
+  {
+    return this.httpUtilService.invoke('POST', formData, 'users/lab-upload-result', null);
+  }
 
   getPatientsByDocNumber(documentNumber: any) {
     const self = this;

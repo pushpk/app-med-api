@@ -60,14 +60,11 @@
 
 
                 <mat-form-field>
-
-
-
                   <mat-label>Leave a comment</mat-label>
-                  <input matInput type="text" name="comment" #comment="ngModel" [(ngModel)]="labUploadResult.comment"
+                  <input matInput type="text" name="comments" #comments="ngModel" [(ngModel)]="labUploadResult.comments"
                     maxlength="250" required>
 
-                  <mat-error *ngIf="comment.invalid && comment.errors.required && (comment.touched || comment.dirty)">
+                  <mat-error *ngIf="comments.invalid && comments.errors.required && (comments.touched || comments.dirty)">
                     Este campo es requerido
                   </mat-error>
 
