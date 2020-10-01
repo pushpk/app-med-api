@@ -122,12 +122,12 @@ export class RecordComponent implements OnInit {
  
 
   csvInputChange(fileInputEvent: any) {
-    this.uploadedFile = fileInputEvent.target.files[0]
+    this.labUploadResult.file = fileInputEvent.target.files[0]
     console.log(fileInputEvent.target.files[0]);
   }
 
   submitUploadResult(){
-
+    console.log(this.labUploadResult)
   }
 
   searchTicket() {
