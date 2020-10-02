@@ -51,6 +51,7 @@ export interface PastAttentions {
 export class RecordComponent implements OnInit {
   notes: NoteDetail[];
   patient: Patient = new Patient();
+  formData: FormData = new FormData();  
   labUploadResult: LabUploadResult = new LabUploadResult();
   ticket: any;
   ticketNumber: string;
@@ -123,28 +124,31 @@ export class RecordComponent implements OnInit {
  
 
   csvInputChange(fileInputEvent: any) {
-    this.labUploadResult.file = fileInputEvent.target.files[0]
-    console.log(fileInputEvent.target.files[0]);
+    this.labUploadResult.file = fileInputEvent.target.files[0];
+    this.formData.set('uploadFile', fileInputEvent.target.files[0]);  
   }
 
   submitUploadResult(){
     this.labUploadResult.userId = this.patient.userId;
-    console.log(this.labUploadResult.comments)
 
     if(this.labUploadResult.comments != null && this.labUploadResult.comments != ''){
-      let formData: FormData = new FormData();  
-      formData.append('uploadFile', this.labUploadResult.file, this.labUploadResult.file.name);  
+      this.labUploadResult.labOrMedicId = Number(localStorage.getItem('loggedInID'));
 
-       this.recordService.uploadResult(formData).then((response: any) => {
-      console.log(response);
+       this.recordService.uploadResult(this.labUploadResult.file, this.labUploadResult).subscribe((response: any) => {
       
       this.toastr.success('Médica registrada con éxito.');
       this.router.navigateByUrl('/login');
-    }).catch((error) => {
-      console.log(error);
+    },(error) => {
+       console.log(error);
+        
+        this.toastr.error('Se produjo un error al crear medic.');
+       });
+
+    // .catch((error) => {
+    //   console.log(error);
       
-      this.toastr.error('Se produjo un error al crear medic.');
-    });
+    //   this.toastr.error('Se produjo un error al crear medic.');
+    // });
 
   }
   }

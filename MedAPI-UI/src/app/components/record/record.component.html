@@ -51,10 +51,8 @@
               <div fxLayout="column">
 
                 <div>
-                  <input #csvInput hidden="true" type="file" onclick="this.value=null" (change)="csvInputChange($event)"
-                    accept=".pdf" />
-                  <button mat-flat-button color="primary" (click)="csvInput.click()">Choose Spreadsheet File
-                    (PDF)</button>
+                  <input #csvInput  type="file"  (change)="csvInputChange($event)"                     accept=".pdf" />
+                  
                 </div>
                 <br />
 

@@ -51,6 +51,7 @@ export class LoginComponent implements OnInit {
       this.recordService.passwordHash.next(password);
       this.userAuthService.save(response);
 
+      localStorage.setItem('loggedInID',response.id);
       if(response['role'] == "4")
       {
         localStorage.setItem('role','patient')

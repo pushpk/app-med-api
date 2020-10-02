@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { HttpUtilService } from '../../../services/http-util.service';
 import { BehaviorSubject } from 'rxjs';
 import { LabUploadResult } from 'src/app/models/labUploadResult';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -13,11 +14,17 @@ export class RecordService {
   public selectedSpecialty: BehaviorSubject<string> = new BehaviorSubject('');
   public passwordHash = new BehaviorSubject<string>(undefined);
 
-  constructor(private httpUtilService: HttpUtilService) { }
+  constructor(private httpUtilService: HttpUtilService, private httpClient: HttpClient) { }
 
-  uploadResult(formData : FormData)
+  uploadResult(fileToUpload : File, labUploadResult : LabUploadResult)
   {
-    return this.httpUtilService.invoke('POST', formData, 'users/lab-upload-result', null);
+    const formData: FormData = new FormData();
+    formData.append('uploadFile', fileToUpload, fileToUpload.name);
+    formData.append('comments', labUploadResult.comments);
+    formData.append('userId', labUploadResult.userId.toString());
+    formData.append('labOrMedicId', labUploadResult.labOrMedicId.toString());
+    return this.httpClient.post(environment.apiUrl + 'users/lab-upload-result', formData);
+    //return this.httpUtilService.invoke('POST', formData, , null);
   }
 
   getPatientsByDocNumber(documentNumber: any) {
