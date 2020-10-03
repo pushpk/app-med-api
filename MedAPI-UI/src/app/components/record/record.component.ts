@@ -132,7 +132,15 @@ export class RecordComponent implements OnInit {
     this.labUploadResult.userId = this.patient.userId;
 
     if(this.labUploadResult.comments != null && this.labUploadResult.comments != ''){
-      this.labUploadResult.labOrMedicId = Number(localStorage.getItem('loggedInID'));
+
+      if(this.isUserAdmin)
+      {
+      this.labUploadResult.medicId = Number(localStorage.getItem('loggedInID'));
+      }
+      else if(this.isUserLabPerson)
+      {
+        this.labUploadResult.labId = Number(localStorage.getItem('loggedInID'));
+      }
 
        this.recordService.uploadResult(this.labUploadResult.file, this.labUploadResult).subscribe((response: any) => {
       

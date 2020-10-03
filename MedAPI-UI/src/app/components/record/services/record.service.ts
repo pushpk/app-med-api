@@ -22,7 +22,20 @@ export class RecordService {
     formData.append('uploadFile', fileToUpload, fileToUpload.name);
     formData.append('comments', labUploadResult.comments);
     formData.append('userId', labUploadResult.userId.toString());
-    formData.append('labOrMedicId', labUploadResult.labOrMedicId.toString());
+
+    if(labUploadResult.labId == 0)
+    {
+      formData.append('labId', null);
+      formData.append('medicId', labUploadResult.medicId.toString());
+
+    }
+    else{
+      formData.append('labId', labUploadResult.labId.toString());
+      formData.append('medicId', null);
+    }
+    
+    
+    
     return this.httpClient.post(environment.apiUrl + 'users/lab-upload-result', formData);
     //return this.httpUtilService.invoke('POST', formData, , null);
   }
