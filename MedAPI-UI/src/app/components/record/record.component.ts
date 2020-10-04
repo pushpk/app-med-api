@@ -57,6 +57,7 @@ export class RecordComponent implements OnInit {
   ticket: any;
   ticketNumber: string;
   documentNumber: string;
+  isUploadFormShow : boolean = false;
 
   askTicket: boolean;
   waitingTicket: boolean;
@@ -122,10 +123,13 @@ export class RecordComponent implements OnInit {
           }).catch((error : any) => {
              console.log(error);
           });
-      
     }
+    
   }
 
+  toggleUploadCard(){
+    this.isUploadFormShow = !this.isUploadFormShow;
+  }
 
   downloadAttentionPdf(note: NoteDetail) {
     this.commonService.generatePDF(this.patient,note,"Attention");
@@ -165,15 +169,21 @@ export class RecordComponent implements OnInit {
 
        this.recordService.uploadResult(this.labUploadResult.file, this.labUploadResult).subscribe((response: any) => {
       
-        
-        this.recordService.getUploadResultByLabID(this.labUploadResult.labId).then((response : LabUploadResult[]) => {
-
-          this.uploadResultsByLab.data = response;
-
-
-        }).catch((error : any) => {
-           console.log(error);
-        });
+        if(this.isUserLabPerson)
+        {
+          this.recordService.getUploadResultByLabID(this.labUploadResult.labId).then((response : LabUploadResult[]) => {
+            this.uploadResultsByLab.data = response;
+          }).catch((error : any) => {
+            console.log(error);
+          });
+        }
+        else{
+          this.recordService.getUploadResultByLabID(this.patient.userId).then((response : LabUploadResult[]) => {
+            this.uploadResultsByLab.data = response;
+          }).catch((error : any) => {
+            console.log(error);
+          });
+        }
 
       this.toastr.success('Médica registrada con éxito.');
       
@@ -221,9 +231,13 @@ export class RecordComponent implements OnInit {
       if (typeof self.patient.notes !== 'undefined' && self.patient.notes !== null) {
         this.dataSource = new MatTableDataSource<PastAttentions>(self.patient.notes);
         this.dataSource.paginator = this.paginator;
+
       }
       self.showRecord = true;
       self.waitingTicket = false;
+
+     
+
     }).catch(() => {
       self.askDocumentNumber = true;
       self.waitingTicket = false;
@@ -271,6 +285,17 @@ export class RecordComponent implements OnInit {
 
       self.showRecord = true;
       self.waitingTicket = false;
+
+      if(!this.isUserLabPerson)
+      {
+       this.recordService.getUploadResultByPatientID(this.patient.userId).then((response : LabUploadResult[]) => {
+        this.uploadResultsByLab.data = response;
+      }).catch((error : any) => {
+         console.log(error);
+      });
+    }
+
+
     }).catch(() => {
       localStorage.removeItem('notes');
       localStorage.removeItem('patient');

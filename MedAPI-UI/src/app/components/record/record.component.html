@@ -33,11 +33,11 @@
   </form>
 
   <div *ngIf="showRecord">
-    <button mat-raised-button type="button" color="primary">
+    <button mat-raised-button type="button" color="primary" (click)="toggleUploadCard()">
       Upload Test Result
     </button>
     <br />
-    <form name="form-upload" #f="ngForm" (ngSubmit)="submitUploadResult()">
+    <form name="form-upload" #f="ngForm" (ngSubmit)="submitUploadResult()" [hidden]="isUploadFormShow">
       <mat-card class="no-pad">
 
         <div style="margin-top: 15px;">
@@ -81,11 +81,8 @@
       </mat-card>
 
     </form>
-
+    <br />
     <mat-card class="no-pad">
-
-
-
       <mat-card-content>
         <table mat-table [dataSource]="this.uploadResultsByLab" class="mat-elevation-z8">
           
@@ -238,4 +235,6 @@
     </div>
 
   </div>
+
+
 </div>
