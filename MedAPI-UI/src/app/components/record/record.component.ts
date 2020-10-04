@@ -80,7 +80,7 @@ export class RecordComponent implements OnInit {
   uploadedFile: any;
   labId: number;
   uploadResultsByLab =  new MatTableDataSource<LabUploadResult>([]);
-  displayedColumnsUpload: string[] = ['user_Id', 'fileName', 'dateUploaded', 'comments'];
+  displayedColumnsUpload: string[] = ['user_id', 'fileName', 'dateUploaded', 'comments'];
 
   constructor(private recordService: RecordService, public router: Router, private changeDetectorRefs: ChangeDetectorRef, 
     private commonService : CommonService, private activatedRouter: ActivatedRoute, public toastr: ToastrService) { }
@@ -154,7 +154,7 @@ export class RecordComponent implements OnInit {
   }
 
   submitUploadResult(){
-    this.labUploadResult.user_Id = this.patient.userId;
+    this.labUploadResult.user_id = this.patient.userId;
 
     if(this.labUploadResult.comments != null && this.labUploadResult.comments != ''){
 

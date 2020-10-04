@@ -21,7 +21,7 @@ export class RecordService {
     const formData: FormData = new FormData();
     formData.append('uploadFile', fileToUpload, fileToUpload.name);
     formData.append('comments', labUploadResult.comments);
-    formData.append('userId', labUploadResult.user_Id.toString());
+    formData.append('userId', labUploadResult.user_id.toString());
 
     if(labUploadResult.labId == 0)
     {
