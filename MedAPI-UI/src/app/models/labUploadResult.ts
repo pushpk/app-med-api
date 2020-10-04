@@ -5,7 +5,9 @@ export class LabUploadResult  {
     
     file : File;
     comments : string = '';
-    userId : number = 0;
+    fileName : string = '';
+    user_Id : number = 0;
+    dateUploaded : Date = new Date();
     labId : number = 0;
     medicId : number = 0;
     

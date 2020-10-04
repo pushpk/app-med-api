@@ -21,7 +21,7 @@ export class RecordService {
     const formData: FormData = new FormData();
     formData.append('uploadFile', fileToUpload, fileToUpload.name);
     formData.append('comments', labUploadResult.comments);
-    formData.append('userId', labUploadResult.userId.toString());
+    formData.append('userId', labUploadResult.user_Id.toString());
 
     if(labUploadResult.labId == 0)
     {
@@ -40,6 +40,28 @@ export class RecordService {
     //return this.httpUtilService.invoke('POST', formData, , null);
   }
 
+  getUploadResultByLabID(labId : number){
+    const self = this;
+    const apiEndpoint = 'users/lab-uploads-by-lab';
+    const params = {
+      key: 'labId',
+      value: labId
+    }
+
+    return self.httpUtilService.invokeQuery('GET', params, apiEndpoint);
+  }
+
+  
+  getUploadResultByPatientID(patientId : number){
+    const self = this;
+    const apiEndpoint = 'users/lab-uploads-by-patient';
+    const params = {
+      key: 'patientId',
+      value: patientId
+    }
+
+    return self.httpUtilService.invokeQuery('GET', params, apiEndpoint);
+  }
   getPatientsByDocNumber(documentNumber: any) {
     const self = this;
     const apiEndpoint = 'record/patient';

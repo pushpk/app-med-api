@@ -43,6 +43,7 @@ export interface PastAttentions {
 }
 
 
+
 @Component({
   selector: 'app-record',
   templateUrl: './record.component.html',
@@ -76,11 +77,16 @@ export class RecordComponent implements OnInit {
   isUserAdmin : boolean = false;
   isUserLabPerson: boolean = false;
   uploadedFile: any;
+  labId: number;
+  uploadResultsByLab =  new MatTableDataSource<LabUploadResult>([]);
+  displayedColumnsUpload: string[] = ['user_Id', 'fileName', 'dateUploaded', 'comments'];
 
   constructor(private recordService: RecordService, public router: Router, private changeDetectorRefs: ChangeDetectorRef, 
     private commonService : CommonService, private activatedRouter: ActivatedRoute, public toastr: ToastrService) { }
 
   ngOnInit(): void {
+
+    
     this.askTicket = false;
     this.waitingTicket = false;
     this.askDocumentNumber = true; // false;
@@ -103,6 +109,21 @@ export class RecordComponent implements OnInit {
 
     this.isUserAdmin = localStorage.getItem('role') !== 'patient' &&  localStorage.getItem('role') !== 'lab' ;
     this.isUserLabPerson = localStorage.getItem('role') === 'lab';
+
+    if(this.isUserLabPerson)
+    {
+      this.labId = Number(localStorage.getItem('loggedInID'));
+
+          this.recordService.getUploadResultByLabID(this.labId).then((response : LabUploadResult[]) => {
+
+            this.uploadResultsByLab.data = response;
+
+
+          }).catch((error : any) => {
+             console.log(error);
+          });
+      
+    }
   }
 
 
@@ -129,7 +150,7 @@ export class RecordComponent implements OnInit {
   }
 
   submitUploadResult(){
-    this.labUploadResult.userId = this.patient.userId;
+    this.labUploadResult.user_Id = this.patient.userId;
 
     if(this.labUploadResult.comments != null && this.labUploadResult.comments != ''){
 
@@ -144,8 +165,18 @@ export class RecordComponent implements OnInit {
 
        this.recordService.uploadResult(this.labUploadResult.file, this.labUploadResult).subscribe((response: any) => {
       
+        
+        this.recordService.getUploadResultByLabID(this.labUploadResult.labId).then((response : LabUploadResult[]) => {
+
+          this.uploadResultsByLab.data = response;
+
+
+        }).catch((error : any) => {
+           console.log(error);
+        });
+
       this.toastr.success('Médica registrada con éxito.');
-      this.router.navigateByUrl('/login');
+      
     },(error) => {
        console.log(error);
         
