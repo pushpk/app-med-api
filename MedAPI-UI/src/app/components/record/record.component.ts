@@ -80,7 +80,7 @@ export class RecordComponent implements OnInit {
   uploadedFile: any;
   labId: number;
   uploadResultsByLab =  new MatTableDataSource<LabUploadResult>([]);
-  displayedColumnsUpload: string[] = ['user_id', 'fileName', 'dateUploaded', 'comments'];
+  displayedColumnsUpload: string[] = ['user_id', 'fileName', 'dateUploaded', 'comments','action'];
 
   constructor(private recordService: RecordService, public router: Router, private changeDetectorRefs: ChangeDetectorRef, 
     private commonService : CommonService, private activatedRouter: ActivatedRoute, public toastr: ToastrService) { }
@@ -146,6 +146,15 @@ export class RecordComponent implements OnInit {
     this.commonService.generatePDF(this.patient, note, "Interconsultation");
   }
 
+  downloadTestResult(id: number){
+
+    console.log(id);
+    this.recordService.downloadTestResult(id).subscribe(res => {
+      const data = new Blob([res], { type: 'text/plain;charset=utf-8' });
+     saveAs(data, 'text.docx');
+     console.log(data);
+   });
+  }
  
 
   csvInputChange(fileInputEvent: any) {
