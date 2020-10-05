@@ -104,7 +104,7 @@
   <!-- Weight Column -->
   <ng-container matColumnDef="dateUploaded">
     <th mat-header-cell *matHeaderCellDef> Date </th>
-    <td mat-cell *matCellDef="let element"> {{element.dateUploaded}} </td>
+    <td mat-cell *matCellDef="let element"> {{element.dateUploaded | date : 'shortDate'}} </td>
   </ng-container>
 
   <!-- Weight Column -->
