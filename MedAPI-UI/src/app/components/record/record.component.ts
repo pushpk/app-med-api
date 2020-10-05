@@ -147,12 +147,11 @@ export class RecordComponent implements OnInit {
     this.commonService.generatePDF(this.patient, note, "Interconsultation");
   }
 
-  downloadTestResult(id: number){
-
-    console.log(id);
+  downloadTestResult(id: number, fileName: string){
 
     this.recordService.getUploadResultFile(id).subscribe((data) => {  
-      importedSaveAs(data, "test.pdf")  
+      console.log(data);
+      importedSaveAs(data, fileName)  
   });
    
   }

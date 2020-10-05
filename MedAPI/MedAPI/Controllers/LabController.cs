@@ -148,16 +148,20 @@ namespace MedAPI.Controllers
 
         }
 
-        [HttpGet]
-        [Route("GetTestResultFile/{id:int}")]
+        [HttpPost]
+        [Route("GetTestResultFile")]
         //download file api  
-        public HttpResponseMessage GetFile(int Id)
+        public HttpResponseMessage GetFile()
         {
+            var httpRequest = HttpContext.Current.Request;
+            int id = int.Parse(httpRequest.Form["id"].ToString());
+
+
             //Create HTTP Response.  
             HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK);
 
 
-            var uploadResult = this.labService.GetTestResultById(Id);
+            var uploadResult = this.labService.GetTestResultById(id);
             //Set the Response Content.  
             response.Content = new ByteArrayContent(uploadResult.fileContent);
             //Set the Response Content Length.  
@@ -167,6 +171,7 @@ namespace MedAPI.Controllers
             response.Content.Headers.ContentDisposition.FileName = uploadResult.fileName + ".pdf";
             //Set the File Content Type.  
             response.Content.Headers.ContentType = new MediaTypeHeaderValue(MimeMapping.GetMimeMapping(uploadResult.fileName + ".pdf"));
+            response.Headers.Add("fileNname", uploadResult.fileName);
             return response;
         }
 

@@ -65,10 +65,11 @@ export class RecordService {
 
   
     public getUploadResultFile(id: number): Observable<Blob> {  
-      const apiEndpoint = 'users/GetTestResultFile';
-      return this.httpClient.get(apiEndpoint+ '?Id=' + id, {  
-          responseType: 'blob'  
-      });  
+      const apiEndpoint = environment.apiUrl + 'users/GetTestResultFile';
+      const formData: FormData = new FormData();
+      formData.append('id', id.toString());
+      
+      return this.httpClient.post(apiEndpoint, formData, {responseType: 'blob'});  
   }  
   
   getPatientsByDocNumber(documentNumber: any) {
