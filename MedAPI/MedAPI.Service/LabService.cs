@@ -16,7 +16,21 @@ namespace MedAPI.Service
             this.userRepository = userRepository;
         }
 
-      
+        public List<LabUploadResult> GetAllUploadsByLab(int LabId)
+        {
+            return labRepository.GetAllUploadsByLab(LabId);
+        }
+
+        public List<LabUploadResult> GetAllUploadsByPatient(int patientId)
+        {
+            return labRepository.GetAllUploadsByPatient(patientId);
+        }
+
+        public LabUploadResult GetTestResultById(int id)
+        {
+            return labRepository.GetTestResultById(id);
+        }
+
         public Lab SaveLab(Domain.Lab mLab)
         {
 
@@ -32,6 +46,12 @@ namespace MedAPI.Service
                 labRepository.SaveLab(mLab);
             }
             return mLab;
+        }
+
+        public LabUploadResult SaveUploadedFile(Domain.LabUploadResult mLabUploadResult)
+        {
+            labRepository.SaveUploadedFile(mLabUploadResult);
+            return mLabUploadResult;
         }
     }
 

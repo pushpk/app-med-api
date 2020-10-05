@@ -88,6 +88,9 @@
     <Compile Include="lab.cs">
       <DependentUpon>MedDb.tt</DependentUpon>
     </Compile>
+    <Compile Include="lab_upload_result.cs">
+      <DependentUpon>MedDb.tt</DependentUpon>
+    </Compile>
     <Compile Include="MedDb.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

@@ -12,22 +12,19 @@ namespace MedAPI.DataAccess
     using System;
     using System.Collections.Generic;
     
-    public partial class lab
+    public partial class lab_upload_result
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public lab()
-        {
-            this.lab_upload_result = new HashSet<lab_upload_result>();
-        }
-    
         public long id { get; set; }
         public long user_id { get; set; }
-        public string parentCompany { get; set; }
-        public string labName { get; set; }
-        public long ruc { get; set; }
+        public Nullable<long> lab_id { get; set; }
+        public Nullable<long> medic_user_id { get; set; }
+        public string fileName { get; set; }
+        public string comments { get; set; }
+        public byte[] fileContent { get; set; }
+        public Nullable<System.DateTime> dateUploaded { get; set; }
     
+        public virtual lab lab { get; set; }
+        public virtual medic medic { get; set; }
         public virtual user user { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<lab_upload_result> lab_upload_result { get; set; }
     }
 }

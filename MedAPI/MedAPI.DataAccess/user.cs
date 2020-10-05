@@ -20,6 +20,7 @@ namespace MedAPI.DataAccess
             this.notes = new HashSet<note>();
             this.patients = new HashSet<patient>();
             this.labs = new HashSet<lab>();
+            this.lab_upload_result = new HashSet<lab_upload_result>();
         }
     
         public long id { get; set; }
@@ -63,5 +64,7 @@ namespace MedAPI.DataAccess
         public virtual role role { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<lab> labs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<lab_upload_result> lab_upload_result { get; set; }
     }
 }

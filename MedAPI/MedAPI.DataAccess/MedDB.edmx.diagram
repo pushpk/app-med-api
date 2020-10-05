@@ -84,6 +84,10 @@
         <EntityTypeShape EntityType="registroclinicoModel.speciality" Width="1.5" PointX="5.375" PointY="0.75" />
         <EntityTypeShape EntityType="registroclinicoModel.lab" Width="1.5" PointX="12" PointY="37" />
         <AssociationConnector Association="registroclinicoModel.user__labs" />
+        <EntityTypeShape EntityType="registroclinicoModel.lab_upload_result" Width="1.5" PointX="17.25" PointY="40.75" />
+        <AssociationConnector Association="registroclinicoModel.lab__lab_upload_result" />
+        <AssociationConnector Association="registroclinicoModel.medic__lab_upload_result" />
+        <AssociationConnector Association="registroclinicoModel.user__lab_upload_result" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

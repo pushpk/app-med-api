@@ -26,6 +26,7 @@ import 'jspdf-autotable';
 import { CommonService } from 'src/app/services/common.service';
 import { LabUploadResult } from 'src/app/models/labUploadResult';
 import { ToastrService } from 'ngx-toastr';
+import {  saveAs as importedSaveAs  } from "file-saver";
 
 
 export enum TicketStatus {
@@ -149,11 +150,11 @@ export class RecordComponent implements OnInit {
   downloadTestResult(id: number){
 
     console.log(id);
-    this.recordService.downloadTestResult(id).subscribe(res => {
-      const data = new Blob([res], { type: 'text/plain;charset=utf-8' });
-     saveAs(data, 'text.docx');
-     console.log(data);
-   });
+
+    this.recordService.getUploadResultFile(id).subscribe((data) => {  
+      importedSaveAs(data, "test.pdf")  
+  });
+   
   }
  
 

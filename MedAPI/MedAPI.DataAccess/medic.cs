@@ -18,6 +18,7 @@ namespace MedAPI.DataAccess
         public medic()
         {
             this.notes = new HashSet<note>();
+            this.lab_upload_result = new HashSet<lab_upload_result>();
         }
     
         public string cmp { get; set; }
@@ -28,5 +29,7 @@ namespace MedAPI.DataAccess
         public virtual ICollection<note> notes { get; set; }
         public virtual user user { get; set; }
         public virtual medic_specialties medic_specialties { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<lab_upload_result> lab_upload_result { get; set; }
     }
 }

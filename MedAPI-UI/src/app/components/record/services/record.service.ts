@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { HttpUtilService } from '../../../services/http-util.service';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { LabUploadResult } from 'src/app/models/labUploadResult';
 import { environment } from 'src/environments/environment';
 
@@ -62,6 +62,15 @@ export class RecordService {
 
     return self.httpUtilService.invokeQuery('GET', params, apiEndpoint);
   }
+
+  
+    public getUploadResultFile(id: number): Observable<Blob> {  
+      const apiEndpoint = 'users/GetTestResultFile';
+      return this.httpClient.get(apiEndpoint+ '?Id=' + id, {  
+          responseType: 'blob'  
+      });  
+  }  
+  
   getPatientsByDocNumber(documentNumber: any) {
     const self = this;
     const apiEndpoint = 'record/patient';

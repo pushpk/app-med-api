@@ -14,6 +14,8 @@ namespace MedAPI.Extention
         {
             CreateMap<exam, Exam>();
             CreateMap<medicine, Medicine>();
+            CreateMap<LabUploadResult, lab_upload_result>();
+            CreateMap<lab_upload_result, LabUploadResult>();
         }
     }
 }

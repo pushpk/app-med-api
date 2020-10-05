@@ -7,11 +7,16 @@ using System.Threading.Tasks;
 
 namespace MedAPI.Infrastructure.IService
 {
-   public interface IMedicService
+   public interface ILabService
     {
-        List<Medic> GetAllMedic();
-        Medic GetMedicById(long id);
-        bool DeleteMedicById(long id);
-        Medic SaveMedic(Domain.Medic mMedic);
+        Lab SaveLab(Domain.Lab mLab);
+
+        LabUploadResult SaveUploadedFile(Domain.LabUploadResult mLabUploadResult);
+
+        List<LabUploadResult> GetAllUploadsByLab(int LabId);
+
+        List<LabUploadResult> GetAllUploadsByPatient(int patientId);
+
+        LabUploadResult GetTestResultById(int id);
     }
 }

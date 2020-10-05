@@ -90,8 +90,8 @@
     <Compile Include="IService\IHomeTypeService.cs" />
     <Compile Include="IService\IMaritalStatusService.cs" />
     <Compile Include="IService\IMedicineService.cs" />
-    <Compile Include="IService\ILabService.cs" />
     <Compile Include="IService\IMedicService.cs" />
+    <Compile Include="IService\ILabService.cs" />
     <Compile Include="IService\INoteService.cs" />
     <Compile Include="IService\INurseService.cs" />
     <Compile Include="IService\IPatientService.cs" />

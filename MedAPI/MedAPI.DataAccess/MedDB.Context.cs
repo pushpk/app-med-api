@@ -38,6 +38,8 @@ namespace MedAPI.DataAccess
 
         public virtual DbSet<lab> labs { get; set; }
 
+        public virtual DbSet<lab_upload_result> lab_Upload_Results { get; set; }
+
 
         public virtual DbSet<medic_specialties> medic_specialties { get; set; }
         public virtual DbSet<medicine> medicines { get; set; }
