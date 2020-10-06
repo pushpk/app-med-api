@@ -58,7 +58,7 @@ export class RecordComponent implements OnInit {
   ticket: any;
   ticketNumber: string;
   documentNumber: string;
-  isUploadFormShow : boolean = false;
+  isUploadFormShow : boolean = true;
 
   askTicket: boolean;
   waitingTicket: boolean;
