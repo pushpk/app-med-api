@@ -30,9 +30,10 @@
                   </mat-form-field>
                   <mat-form-field fxFlex="30" fxFlex.md="100" fxFlex.sm="100">
                     <mat-label>RUC</mat-label>
+                    
                     <input type="text" name="ruc" matInput matInput #ruc="ngModel"
-                      [(ngModel)]="labUser.RUC" required>
-      
+                      [(ngModel)]="labUser.RUC" required  maxlength="11" (keyup)="numberOnly($event.target);">
+                      <mat-hint align="end">{{ruc.value?.length || 0}}/11</mat-hint>
                     <mat-error *ngIf="ruc.errors && (ruc.touched || ruc.dirty)">
                       Este campo es requerido
                     </mat-error>

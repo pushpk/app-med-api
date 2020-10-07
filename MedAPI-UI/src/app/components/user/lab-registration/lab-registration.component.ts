@@ -31,9 +31,13 @@ export class LabRegistrationComponent implements OnInit {
       this.router.navigateByUrl('/login');
     }).catch((error) => {
       console.log(error);
-      
       this.toastr.error('Se produjo un error al crear medic.');
     });
   }
+
+  numberOnly(ele : any) {
+    var regex = /[^0-9]/gi;
+    ele.value = ele.value.replace(regex, "");
+ }
 
 }
