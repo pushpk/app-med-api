@@ -52,9 +52,9 @@ export class LoginComponent implements OnInit {
       this.userAuthService.save(response);
 
       localStorage.setItem('loggedInID',response.id);
-      if(response['id'] == "1"){
+      if(response['id'] == 1){
 
-        this.router.navigateByUrl('/records');
+        this.router.navigateByUrl('/admin');
       }
       if(response['role'] == "4")
       {

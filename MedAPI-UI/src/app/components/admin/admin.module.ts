@@ -7,7 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { AdminComponent } from './admin.component';
 
 const routes: Routes = [
-  { path: 'admin', component: AdminComponent,  pathMatch: 'full'}
+  { path: '', component: AdminComponent,  pathMatch: 'full'}
   
 ];
 
