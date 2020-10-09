@@ -1,12 +1,9 @@
 <div class="alert alert-danger" role="alert" *ngIf="this.reason == 'not-approved'">
    Your Account is not verified yet! Please allow us 24 hours to process.
   </div>
-
-
   <div class="alert alert-danger" role="alert" *ngIf="this.reason == 'freezed'">
     We were not able to verified your account. Please contact us for more information!
    </div>
-
    <div>
    <button mat-raised-button color="primary" type="button" class="mt-16" [routerLink]='["/login"]'>
    Back to Home
