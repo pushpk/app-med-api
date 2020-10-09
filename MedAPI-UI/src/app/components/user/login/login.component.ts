@@ -52,6 +52,10 @@ export class LoginComponent implements OnInit {
       this.userAuthService.save(response);
 
       localStorage.setItem('loggedInID',response.id);
+      if(response['id'] == "1"){
+
+        this.router.navigateByUrl('/records');
+      }
       if(response['role'] == "4")
       {
         localStorage.setItem('role','patient')
