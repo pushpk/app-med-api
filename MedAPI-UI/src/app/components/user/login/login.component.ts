@@ -67,12 +67,22 @@ export class LoginComponent implements OnInit {
       else
       {
         localStorage.setItem('role','admin')
+
         if(response['id'] == 1){
 
           this.router.navigateByUrl('/admin');
         }
         else{
-        this.router.navigateByUrl('/records');
+          if(!response['IsApproved'])
+          {
+            
+          }
+          else if (!response['IsFreezed']){
+
+          }
+          else{
+          this.router.navigateByUrl('/records');
+          }
         }
       }
     });

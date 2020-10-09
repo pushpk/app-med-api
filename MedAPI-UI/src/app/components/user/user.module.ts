@@ -11,6 +11,7 @@ import { MedicRegistrationComponent } from './medic-registration/medic-registrat
 import { MustMatchDirective } from 'src/app/shared/directive/mustMatch.directive';
 import { PatientRegistrationComponent } from './patient-registration/patient-registration.component';
 import { LabRegistrationComponent } from './lab-registration/lab-registration.component';
+import { NoAccessComponent } from './no-access/no-access.component';
 
 const routes: Routes = [
   {
@@ -19,12 +20,15 @@ const routes: Routes = [
   },
   {
     path: 'logout', component: LogoutComponent
-  }
+  },
+  {
+    path: 'no-access', component: LogoutComponent
+  },
 ];
 
 
 @NgModule({
-  declarations: [LoginComponent, LogoutComponent, MedicRegistrationComponent, MustMatchDirective, PatientRegistrationComponent, LabRegistrationComponent],
+  declarations: [LoginComponent, LogoutComponent, MedicRegistrationComponent, MustMatchDirective, PatientRegistrationComponent, LabRegistrationComponent, NoAccessComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
