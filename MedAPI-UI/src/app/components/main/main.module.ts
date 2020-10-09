@@ -9,7 +9,8 @@ const routes: Routes = [
   {
     path: '', component: MainComponent, children: [
       { path: 'records', loadChildren: () => import('../record/record.module').then(m => m.RecordModule) },
-      { path: 'patients', loadChildren: () => import('../patient/patient.module').then(m => m.PatientModule) }
+      { path: 'patients', loadChildren: () => import('../patient/patient.module').then(m => m.PatientModule) },
+      { path: 'admin', loadChildren: () => import('../admin/admin.module').then(m => m.AdminModule) }
     ]
   }
 ];
