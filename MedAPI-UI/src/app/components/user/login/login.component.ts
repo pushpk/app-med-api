@@ -75,10 +75,14 @@ export class LoginComponent implements OnInit {
         else{
           if(!response['IsApproved'])
           {
-            
+            localStorage.clear();
+            localStorage.setItem('reason','not-approved');
+            this.router.navigateByUrl('/no-access');
           }
-          else if (!response['IsFreezed']){
-
+          else if (response['IsFreezed']){
+            localStorage.clear();
+            localStorage.setItem('reason','freezed');
+            this.router.navigateByUrl('/no-access');
           }
           else{
           this.router.navigateByUrl('/records');

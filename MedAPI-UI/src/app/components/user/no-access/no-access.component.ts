@@ -6,10 +6,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./no-access.component.scss']
 })
 export class NoAccessComponent implements OnInit {
+  reason: string;
 
   constructor() { }
 
   ngOnInit(): void {
+
+    this.reason =  localStorage.getItem('reason');
+
   }
 
 }
