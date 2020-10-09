@@ -42,26 +42,18 @@ export class LoginComponent implements OnInit {
     }
     this.userService.login(credentials).then((response : any) => {
 
-      console.log("-------------");
-      console.log(response);
-      console.log(response['role']);
-      console.log("-------------");
-
+     
       localStorage.setItem('email', username);
       this.recordService.passwordHash.next(password);
       this.userAuthService.save(response);
 
       localStorage.setItem('loggedInID',response.id);
-      if(response['id'] == 1){
-
-        this.router.navigateByUrl('/admin');
-      }
+     
       if(response['role'] == "4")
       {
         localStorage.setItem('role','patient')
         var rt = "/records/"+response.docNumber;
 
-        console.log(rt);
         
         this.router.navigateByUrl(rt);
 
@@ -75,6 +67,10 @@ export class LoginComponent implements OnInit {
       else
       {
         localStorage.setItem('role','admin')
+        if(response['id'] == 1){
+
+          this.router.navigateByUrl('/admin');
+        }
         this.router.navigateByUrl('/records');
       }
     });
