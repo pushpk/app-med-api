@@ -71,7 +71,9 @@ export class LoginComponent implements OnInit {
 
           this.router.navigateByUrl('/admin');
         }
+        else{
         this.router.navigateByUrl('/records');
+        }
       }
     });
   }
