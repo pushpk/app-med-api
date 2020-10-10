@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { AuthModule } from './auth/auth.module';
 import { LabRegistrationComponent } from './components/user/lab-registration/lab-registration.component';
 import { MedicRegistrationComponent } from './components/user/medic-registration/medic-registration.component';
+import { NoAccessComponent } from './components/user/no-access/no-access.component';
 import { PatientRegistrationComponent } from './components/user/patient-registration/patient-registration.component';
 
 const routes: Routes = [
@@ -11,7 +12,8 @@ const routes: Routes = [
   { path: 'login', loadChildren: () => import('../app/components/user/user.module').then(m => m.UserModule) },
   { path: 'register', component : MedicRegistrationComponent },
   { path: 'patient-register', component : PatientRegistrationComponent },
-  { path: 'lab-register', component : LabRegistrationComponent }
+  { path: 'lab-register', component : LabRegistrationComponent },
+  { path: 'no-access', component : NoAccessComponent }
   //{ path: '**', redirectTo: 'login', data: { isRedirect: true } }
  ];
 
