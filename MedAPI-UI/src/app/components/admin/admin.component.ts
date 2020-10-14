@@ -15,7 +15,7 @@ import { AdminService } from './services/admin.service';
 export class AdminComponent implements OnInit {
 
   nonApprovedMedics =  new MatTableDataSource<Medic>([]);
-  displayedColumnsUpload: string[] = ['name','action'];
+  displayedColumnsUpload: string[] = ['user.firstName','user.lastNameMother','user.lastNameFather', 'rne','cmp','action'];
 
   constructor(private adminService: AdminService, public router: Router, private changeDetectorRefs: ChangeDetectorRef, 
     private commonService : CommonService, private activatedRouter: ActivatedRoute, public toastr: ToastrService) { }
