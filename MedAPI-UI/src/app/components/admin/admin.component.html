@@ -39,7 +39,7 @@
     <ng-container matColumnDef="action">
       <th mat-header-cell *matHeaderCellDef> Acción </th>
       <td mat-cell *matCellDef="let element">
-        <button mat-raised-button type="button" color="primary" [disabled]="element.user.IsApproved">
+        <button mat-raised-button type="button" color="primary" [disabled]="element.user.IsApproved" (click)="approveeMedic(element.user.id)">
           Approve
         </button>
           </td>
@@ -48,7 +48,7 @@
     <ng-container matColumnDef="action2">
       <th mat-header-cell *matHeaderCellDef> Acción </th>
       <td mat-cell *matCellDef="let element">
-        <button mat-raised-button type="button" color="primary" >
+        <button mat-raised-button type="button" color="primary" (click)="freezeMedic(element.user.id)">
           {{ element.user.IsFreezed == true ? 'Un-Freeze' : 'Freeze' }} 
         </button>
           </td>
