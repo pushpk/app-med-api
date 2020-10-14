@@ -40,7 +40,16 @@
       <th mat-header-cell *matHeaderCellDef> Acción </th>
       <td mat-cell *matCellDef="let element">
         <button mat-raised-button type="button" color="primary" >
-          Descargar
+          Approve
+        </button>
+          </td>
+    </ng-container>
+
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef> Acción </th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-raised-button type="button" color="primary" >
+          Freeze
         </button>
           </td>
     </ng-container>
