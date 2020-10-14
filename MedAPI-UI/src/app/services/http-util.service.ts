@@ -45,8 +45,12 @@ export class HttpUtilService {
     };
 
     const headers = new HttpHeaders(requestHeaders);
-    url = url + '?' + params.key + '=' + params.value;
 
+    if(params)
+    {
+      url = url + '?' + params.key + '=' + params.value;
+    }
+    
     const promise = new Promise((resolve, reject) => {
       this.httpClient.request(method, url, { headers })
         .toPromise()

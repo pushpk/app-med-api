@@ -18,7 +18,7 @@ export class AdminService {
 
  
 
-  getNonApprovedMedics(labId : number){
+  getNonApprovedMedics(){
     const self = this;
     const apiEndpoint = 'users/not-approved-medics';
     
