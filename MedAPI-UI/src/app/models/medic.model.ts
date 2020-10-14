@@ -6,5 +6,7 @@ export class Medic  {
     speciality : string  = '';
     CMP : string = '';
     RNE : string = '';
+    IsApproved : boolean;
+    IsFreezed : boolean;
     
   }
