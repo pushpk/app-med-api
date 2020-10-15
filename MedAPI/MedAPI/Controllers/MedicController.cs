@@ -65,6 +65,63 @@ namespace MedAPI.Controllers
             return response;
         }
 
+
+        [HttpGet]
+        [Route("freeze-medic")]
+        public HttpResponseMessage FreezeMedic(long id)
+        {
+            HttpResponseMessage response = null;
+            try
+            {
+                Medic mMedic = medicService.GetMedicById(id);
+
+                mMedic.IsFreezed = !mMedic.IsFreezed;
+                mMedic = medicService.UpdateMedic(mMedic);
+
+                if (mMedic == null)
+                {
+                    response = Request.CreateResponse(HttpStatusCode.NotFound, "Requested entity was not found in database.");
+                }
+                else
+                {
+                    response = Request.CreateResponse(HttpStatusCode.OK, mMedic);
+                }
+            }
+            catch (Exception ex)
+            {
+                response = Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+            return response;
+        }
+
+        [HttpGet]
+        [Route("approve-medic")]
+        public HttpResponseMessage AprroveMedic(long id)
+        {
+            HttpResponseMessage response = null;
+            try
+            {
+                Medic mMedic = medicService.GetMedicById(id);
+
+                mMedic.IsApproved = true;
+                mMedic = medicService.UpdateMedic(mMedic);
+
+                if (mMedic == null)
+                {
+                    response = Request.CreateResponse(HttpStatusCode.NotFound, "Requested entity was not found in database.");
+                }
+                else
+                {
+                    response = Request.CreateResponse(HttpStatusCode.OK, mMedic);
+                }
+            }
+            catch (Exception ex)
+            {
+                response = Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+            return response;
+        }
+
         [HttpDelete]
         [Route("medic/{id:int}")]
         public HttpResponseMessage Delete(long id)

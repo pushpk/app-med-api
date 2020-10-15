@@ -13,5 +13,6 @@ namespace MedAPI.Infrastructure.IService
         Medic GetMedicById(long id);
         bool DeleteMedicById(long id);
         Medic SaveMedic(Domain.Medic mMedic);
+        Medic UpdateMedic(Medic mMedic);
     }
 }

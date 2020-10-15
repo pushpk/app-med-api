@@ -53,6 +53,16 @@ namespace MedAPI.Service
             }
             return mMedic;
         }
+
+        public Medic UpdateMedic(Domain.Medic mMedic)
+        {
+
+                medicRepository.UpdateMedic(mMedic);
+            
+            return mMedic;
+        }
     }
+
+
 
 }

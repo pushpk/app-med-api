@@ -12,6 +12,8 @@ namespace MedAPI.Domain
         {
             user = new User();
         }
+        public bool IsFreezed { get; set; }
+        public bool IsApproved { get; set; }
 
         public string cmp { get; set; }
         public string rne { get; set; }

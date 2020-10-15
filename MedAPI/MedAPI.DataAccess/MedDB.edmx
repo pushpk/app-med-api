@@ -144,6 +144,8 @@
           <Property Name="cmp" Type="nvarchar" MaxLength="255" />
           <Property Name="rne" Type="nvarchar" MaxLength="255" />
           <Property Name="id" Type="bigint" Nullable="false" />
+          <Property Name="IsFreezed" Type="bit" Nullable="false" />
+          <Property Name="IsApproved" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="medic_specialties">
           <Key>
@@ -1379,6 +1381,8 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <NavigationProperty Name="user" Relationship="Self.medic_FKa63sueb7mgdy1vvoejcxsafil" FromRole="medic" ToRole="users" />
           <NavigationProperty Name="medic_specialties" Relationship="Self.medic_specialties_FKgyco417bacd28ti07gdpxwvsr" FromRole="medic" ToRole="medic_specialties" />
           <NavigationProperty Name="lab_upload_result" Relationship="registroclinicoModel.medic__lab_upload_result" FromRole="medic" ToRole="lab_upload_result" />
+          <Property Name="IsFreezed" Type="Boolean" Nullable="false" />
+          <Property Name="IsApproved" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="medic_specialties">
           <Key>
@@ -2674,6 +2678,8 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <EntitySetMapping Name="medics">
             <EntityTypeMapping TypeName="registroclinicoModel.medic">
               <MappingFragment StoreEntitySet="medic">
+                <ScalarProperty Name="IsApproved" ColumnName="IsApproved" />
+                <ScalarProperty Name="IsFreezed" ColumnName="IsFreezed" />
                 <ScalarProperty Name="cmp" ColumnName="cmp" />
                 <ScalarProperty Name="rne" ColumnName="rne" />
                 <ScalarProperty Name="id" ColumnName="id" />

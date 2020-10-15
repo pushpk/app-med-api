@@ -30,8 +30,10 @@ namespace MedAPI.Repository
                    .Select(x => new Medic()
                    {
                        id = x.id,
-                       cmp=x.cmp,
-                       rne=x.rne
+                       cmp = x.cmp,
+                       rne = x.rne, 
+                       IsApproved = x.IsApproved,
+                       IsFreezed = x.IsFreezed
                    }).FirstOrDefault();
             }
         }
@@ -40,7 +42,7 @@ namespace MedAPI.Repository
             bool isSuccess = false;
             using (var context = new DataAccess.registroclinicoEntities())
             {
-                var efMedics= context.medics.Where(m => m.id == id).FirstOrDefault();
+                var efMedics = context.medics.Where(m => m.id == id).FirstOrDefault();
                 if (efMedics != null)
                 {
                     context.medics.Remove(efMedics);
@@ -65,6 +67,7 @@ namespace MedAPI.Repository
                 efMedic.rne = mMedic.rne;
                 efMedic.cmp = mMedic.cmp;
 
+
                 context.SaveChanges();
                 var efMedicSp = context.medic_specialties.Where(m => m.Medic_id == mMedic.id).FirstOrDefault();
                 if (efMedicSp == null)
@@ -73,13 +76,25 @@ namespace MedAPI.Repository
                     efMedicSp = new DataAccess.medic_specialties();
                     context.medic_specialties.Add(efMedicSp);
                 }
-                
+
                 efMedicSp.Medic_id = mMedic.id;
                 efMedicSp.specialties = mMedic.Speciality;
 
                 context.SaveChanges();
 
                 return efMedic.id;
+            }
+        }
+
+        public void UpdateMedic(Medic mMedic)
+        {
+            using (var context = new DataAccess.registroclinicoEntities())
+            {
+                var efMedic = context.medics.Where(m => m.id == mMedic.id).FirstOrDefault();
+                efMedic.IsFreezed = mMedic.IsFreezed;
+                efMedic.IsApproved = mMedic.IsApproved;
+
+                context.SaveChanges();
             }
         }
     }

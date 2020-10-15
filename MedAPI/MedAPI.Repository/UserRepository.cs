@@ -1,4 +1,5 @@
-﻿using MedAPI.Domain;
+﻿using AutoMapper;
+using MedAPI.Domain;
 using MedAPI.Infrastructure.IRepository;
 using System;
 using System.Collections.Generic;
@@ -261,5 +262,55 @@ namespace MedAPI.Repository
             }
             return mUser;
         }
+
+        public List<Medic> GetAllNonApprovedMedics()
+        {
+            using (var context = new DataAccess.registroclinicoEntities())
+            {
+               // var abc = context.medics.Include("user").Where(s => s.user.role_id == 2 && (!s.IsApproved || s.IsFreezed)).ToList();
+
+                var abc =  (from us in context.medics.Include("user").Where(s => s.user.role_id == 2)
+                        select new Medic()
+                        {
+                            cmp = us.cmp,
+                            rne = us.rne,
+                            IsApproved = us.IsApproved,
+                            IsFreezed = us.IsFreezed,
+                            user = new User { 
+
+                            id = us.user.id,
+                            address = us.user.address,
+                            birthday = us.user.birthday,
+                            cellphone = us.user.cellphone,
+                            createdBy = us.user.createdBy,
+                            createdDate = us.user.createdDate,
+                            deletable = us.user.deletable,
+                            deleted = us.user.deleted,
+                            documentNumber = us.user.documentNumber,
+                            documentType = us.user.documentType,
+                            email = us.user.email,
+                            firstName = us.user.firstName,
+                            lastNameFather = us.user.lastNameFather,
+                            lastNameMother = us.user.lastNameMother,
+                            maritalStatus = us.user.maritalStatus,
+                            modifiedBy = us.user.modifiedBy,
+                            modifiedDate = us.user.modifiedDate,
+                            organDonor = us.user.organDonor,
+                            passwordHash = us.user.password_hash,
+                            phone = us.user.phone,
+                            sex = us.user.sex,
+                            since = us.user.since,
+                            countryId = us.user.country_id,
+                            districtId = us.user.district_id,
+                            roleId = us.user.role_id,
+                           
+                            }
+                            
+                        }).ToList();
+
+                return abc;
+            }
+        }
     }
 }
+

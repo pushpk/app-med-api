@@ -191,5 +191,9 @@ namespace MedAPI.Service
             return mUserResourcesList;
         }
 
+        public List<Medic> GetAllNonApprovedMedics()
+        {
+            return userRepository.GetAllNonApprovedMedics();
+        }
     }
 }

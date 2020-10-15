@@ -39,6 +39,8 @@ namespace MedAPI.Domain
         public long? roleId { get; set; }
 
 
+        public Medic medic { get; set; }
+
         public virtual Country country { get; set; }
         public virtual District district { get; set; }
         //public virtual Medic medic { get; set; }

@@ -171,7 +171,6 @@ namespace MedAPI.Controllers
             response.Content.Headers.ContentDisposition.FileName = uploadResult.fileName + ".pdf";
             //Set the File Content Type.  
             response.Content.Headers.ContentType = new MediaTypeHeaderValue(MimeMapping.GetMimeMapping(uploadResult.fileName + ".pdf"));
-            response.Headers.Add("fileNname", uploadResult.fileName);
             return response;
         }
 

@@ -12,7 +12,12 @@ namespace MedAPI.Extention
     {
         public AutoMapperConfigProfile()
         {
+            CreateMap<User, user>();
+            CreateMap<user, User>();
             CreateMap<exam, Exam>();
+            CreateMap<medic, Medic> ();
+            CreateMap<Medic, medic>();
+            
             CreateMap<medicine, Medicine>();
             CreateMap<LabUploadResult, lab_upload_result>();
             CreateMap<lab_upload_result, LabUploadResult>();

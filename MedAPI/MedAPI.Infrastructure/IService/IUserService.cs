@@ -13,5 +13,6 @@ namespace MedAPI.Infrastructure.IService
         UserResources GetResources();
         User Authenticate(string email, string password);
         User Credentials(string email);
+        List<Medic> GetAllNonApprovedMedics();
     }
 }

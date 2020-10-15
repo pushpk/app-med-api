@@ -36,6 +36,23 @@ namespace MedAPI.Controllers
             return response;
         }
 
+
+        [HttpGet]
+        [Route("not-approved-medics")]
+        public HttpResponseMessage GetAllNonApprovedMedics()
+        {
+            HttpResponseMessage response = null;
+            try
+            {
+                response = Request.CreateResponse(HttpStatusCode.OK, userService.GetAllNonApprovedMedics());
+            }
+            catch (Exception ex)
+            {
+                response = Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+            return response;
+        }
+
         [HttpGet]
         [Route("users/{id:int}")]
         public HttpResponseMessage Show(long id)
@@ -153,9 +170,27 @@ namespace MedAPI.Controllers
                     using (var ctx = new DataAccess.registroclinicoEntities())
                     {
                         permissions = ctx.role_permissions.Where(s => s.Role_id == mUser.roleId).Select(s => s.permissions).ToArray();
-                    }
 
-                    response = Request.CreateResponse(HttpStatusCode.OK, new { id = mUser.id, role = mUser.roleId , docNumber = mUser.documentNumber, name = $"{mUser.firstName} {mUser.lastNameFather} {mUser.lastNameMother}", permissions = permissions });
+                        var medic = ctx.medics.FirstOrDefault(s => s.id == mUser.id);
+
+                        if (mUser.roleId == 2)
+                        {
+                            response = Request.CreateResponse(HttpStatusCode.OK, new { id = mUser.id,
+                                role = mUser.roleId,
+                                docNumber = mUser.documentNumber,
+                                name = $"{mUser.firstName} {mUser.lastNameFather} {mUser.lastNameMother}",
+                                permissions = permissions,
+                                IsApproved = medic.IsApproved,
+                                IsFreezed = medic.IsFreezed
+                            });
+                        }
+                        else
+                        {
+                            response = Request.CreateResponse(HttpStatusCode.OK, new { id = mUser.id, role = mUser.roleId, 
+                                docNumber = mUser.documentNumber, name = $"{mUser.firstName} {mUser.lastNameFather} {mUser.lastNameMother}", 
+                                permissions = permissions });
+                        }
+                    }
                 }
                 else
                 {

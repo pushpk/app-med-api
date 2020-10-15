@@ -13,5 +13,6 @@ namespace MedAPI.Infrastructure.IRepository
         Medic GetMedicById(long id);
         bool DeleteMedicById(long id);
         long SaveMedic(Medic mMedic);
+        void UpdateMedic(Medic mMedic);
     }
 }
