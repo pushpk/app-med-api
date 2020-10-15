@@ -37,6 +37,7 @@ export class AdminComponent implements OnInit {
 
   approveeMedic(id: number){
 
+    
   }
 
   freezeMedic(id: number){
