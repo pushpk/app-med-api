@@ -22,8 +22,30 @@ export class AdminService {
     const self = this;
     const apiEndpoint = 'users/not-approved-medics';
     
-
     return self.httpUtilService.invokeQuery('GET', null,apiEndpoint);
+  }
+
+  
+  approveMedic(id : number){
+    const self = this;
+    const apiEndpoint = 'users/approve-medic';
+    const params = {
+      key: 'id',
+      value: id
+    }
+    return self.httpUtilService.invokeQuery('GET', params,apiEndpoint);
+  }
+
+  
+  freezeMedic(id : number){
+    const self = this;
+    const apiEndpoint = 'users/freeze-medic';
+    const params = {
+      key: 'id',
+      value: id
+    }
+
+    return self.httpUtilService.invokeQuery('GET', params,apiEndpoint);
   }
 
   

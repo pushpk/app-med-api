@@ -37,11 +37,39 @@ export class AdminComponent implements OnInit {
 
   approveeMedic(id: number){
 
+    this.adminService.approveMedic(id).then((response : Medic) => {
+      
+      this.adminService.getNonApprovedMedics().then((response : Medic[]) => {
+        //f
+        console.log(response);
+        this.nonApprovedMedicsData = response;
+        this.nonApprovedMedics.data = response;
+      }).catch((error : any) => {
+         console.log(error);
+      });
+      
+    }).catch((error : any) => {
+       console.log(error);
+    });
     
   }
 
   freezeMedic(id: number){
 
+    this.adminService.freezeMedic(id).then((response : Medic) => {
+      
+      this.adminService.getNonApprovedMedics().then((response : Medic[]) => {
+        //f
+        console.log(response);
+        this.nonApprovedMedicsData = response;
+        this.nonApprovedMedics.data = response;
+      }).catch((error : any) => {
+         console.log(error);
+      });
+      
+    }).catch((error : any) => {
+       console.log(error);
+    });
   }
 
 }
