@@ -35,30 +35,34 @@
  
 
 
-  <div *ngIf="!this.isUserLabPerson">
+  <div *ngIf="!this.isUserLabPerson && showRecord">
 
     <mat-card class="no-pad">
       <mat-card-content>
         <div fxLayout="row"  class="mt-24">
           <h2 fxFlex="50" style="margin-left: 10px;">
-            Patient Symptoms:</h2>
+            Síntomas de la paciente:</h2>
         </div>
 
-        <div style="width: 95% !important; margin-bottom: 10px;" class="ml-24" >
        
-        <ng-multiselect-dropdown
-  [placeholder]="'Select Symptoms'"
-  [data]="symptomsDropDownList"
-  [(ngModel)]="  selectedSymptomsDropDownList"
-  [settings]="symptomsDropDownSettings"
-  (onSelect)="onItemSelect($event)"
-  (onSelectAll)="onSelectAll($event)">
+<div style="width: 95% !important; margin-bottom: 10px;" class="ml-24" >
+       
+  <ng-multiselect-dropdown 
+[placeholder]="'Seleccionar síntomas'"
+[data]="symptomsDropDownList"
+[(ngModel)]="  selectedSymptomsDropDownList"
+[settings]="symptomsDropDownSettings"
+(onSelect)="onItemSelect($event)"
+(onSelectAll)="onSelectAll($event)"
+>
 </ng-multiselect-dropdown>
+
 </div>
+
 <div class="ml-24" fxLayout="row wrap" fxLayoutGap="20px" >
 <mat-form-field fxFlex="66" fxFlex.md="100" fxFlex.sm="100">
-  <mat-label>Other Symptoms</mat-label>
-  <input type="text" name="customSymptoms" maxlength="250" matInput required [(ngModel)]="customSymptoms">
+  <mat-label>Otros síntomas (separados por comas)</mat-label>
+  <input type="text" name="customSymptoms" maxlength="250" matInput required [(ngModel)]="customSymptoms" [disabled]="this.isUserAdmin">
   
   
 </mat-form-field>
@@ -68,7 +72,8 @@
 
       </mat-card-content>
       <mat-card-actions fxLayout="row" fxLayoutAlign="end center">
-        <button mat-button color="primary" type="button" (click)="SaveSymptoms();" >Save</button>
+        <button mat-button color="primary" type="button" (click)="SaveSymptoms();" [disabled]="this.isUserAdmin">
+          Salvar</button>
         
       </mat-card-actions>
     </mat-card>

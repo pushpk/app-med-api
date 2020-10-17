@@ -96,15 +96,6 @@ export class RecordComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.symptomsDropDownSettings = {
-      singleSelection: false,
-      idField: 'id',
-      textField: 'name',
-      selectAllText: 'Select All',
-      unSelectAllText: 'UnSelect All',
-      itemsShowLimit: 3,
-      allowSearchFilter: true
-    };
 
     
     this.askTicket = false;
@@ -130,6 +121,18 @@ export class RecordComponent implements OnInit {
     this.isUserAdmin = localStorage.getItem('role') !== 'patient' &&  localStorage.getItem('role') !== 'lab' ;
     this.isUserLabPerson = localStorage.getItem('role') === 'lab';
 
+    
+    this.symptomsDropDownSettings = {
+      singleSelection: false,
+      idField: 'id',
+      textField: 'name',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      itemsShowLimit: 3,
+      allowSearchFilter: true
+      
+    };
+
     if(this.isUserLabPerson)
     {
       this.labId = Number(localStorage.getItem('loggedInID'));
@@ -150,15 +153,16 @@ export class RecordComponent implements OnInit {
       this.recordService.getSymptoms().then((response : Symptoms[]) => {
         this.symptomsDropDownList = response["symptoms"];
        
-
-        this.recordService.getSymptomsForPatient(this.documentNumber).then((response : Symptoms[]) => {
-          this.selectedSymptomsDropDownList = response["symptoms"];
-          this.customSymptoms = response["Custom_Symptom"];
+        if(!this.isUserAdmin )
+        {
+          this.recordService.getSymptomsForPatient(this.documentNumber).then((response : any) => {
+              this.selectedSymptomsDropDownList = response["symptoms"]["symptoms"];
+              this.customSymptoms = response["symptoms"]["Custom_Symptom"];
          
-        }).catch((error : any) => {
-           console.log(error);
-        });
-
+          }).catch((error : any) => {
+              console.log(error);
+            });
+        }
       }).catch((error : any) => {
          console.log(error);
       });
@@ -330,9 +334,7 @@ export class RecordComponent implements OnInit {
     self.waitingTicket = true;
     this.recordService.getPatientsByDocNumber(this.documentNumber).then((response: any) => {
 
-      console.log("---");
-      console.log(response);
-      console.log("---");
+     
       this.setPatientDetails(response);
       //localStorage.setItem('patient', JSON.stringify(response.patient));
       //if (CheckEmptyUtil.isNotEmptyObject(response.notes)) {
@@ -358,9 +360,22 @@ export class RecordComponent implements OnInit {
       {
        this.recordService.getUploadResultByPatientID(this.patient.userId).then((response : LabUploadResult[]) => {
         this.uploadResultsByLab.data = response;
+
+
       }).catch((error : any) => {
          console.log(error);
       });
+
+      if(this.isUserAdmin)
+      {
+      this.recordService.getSymptomsForPatient(this.documentNumber).then((response : any) => {
+        this.selectedSymptomsDropDownList = response["symptoms"]["symptoms"];
+        this.customSymptoms = response["symptoms"]["Custom_Symptom"];
+   
+      }).catch((error : any) => {
+        console.log(error);
+      });
+    }
     }
 
 
