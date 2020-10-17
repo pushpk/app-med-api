@@ -27,6 +27,9 @@ import { CommonService } from 'src/app/services/common.service';
 import { LabUploadResult } from 'src/app/models/labUploadResult';
 import { ToastrService } from 'ngx-toastr';
 import {  saveAs as importedSaveAs  } from "file-saver";
+import {  IDropdownSettings } from 'ng-multiselect-dropdown';
+import { Symptoms } from 'src/app/models/symptoms.model';
+
 
 
 export enum TicketStatus {
@@ -83,10 +86,25 @@ export class RecordComponent implements OnInit {
   uploadResultsByLab =  new MatTableDataSource<LabUploadResult>([]);
   displayedColumnsUpload: string[] = ['user_id', 'fileName', 'dateUploaded', 'comments','action'];
 
+  symptomsDropDownList = [];
+  selectedSymptomsDropDownList = [];
+  symptomsDropDownSettings: IDropdownSettings = {};
+  customSymptoms : string;
+
   constructor(private recordService: RecordService, public router: Router, private changeDetectorRefs: ChangeDetectorRef, 
     private commonService : CommonService, private activatedRouter: ActivatedRoute, public toastr: ToastrService) { }
 
   ngOnInit(): void {
+
+    this.symptomsDropDownSettings = {
+      singleSelection: false,
+      idField: 'id',
+      textField: 'name',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      itemsShowLimit: 3,
+      allowSearchFilter: true
+    };
 
     
     this.askTicket = false;
@@ -125,7 +143,40 @@ export class RecordComponent implements OnInit {
              console.log(error);
           });
     }
+    else{
+
+        
+      this.recordService.getSymptoms().then((response : Symptoms[]) => {
+
+        this.symptomsDropDownList = response["symptoms"];
+
+       
+
+      }).catch((error : any) => {
+         console.log(error);
+      });
+    }
     
+  }
+
+  SaveSymptoms(){
+
+    console.log(this.selectedSymptomsDropDownList);
+    console.log(this.customSymptoms);
+    this.recordService.saveSymptoms(this.documentNumber,this.selectedSymptomsDropDownList, this.customSymptoms).then((response : any) => {
+
+      console.log("success");
+      //this.uploadResultsByLab.data = response;
+    }).catch((error : any) => {
+      console.log(error);
+    });
+
+  }
+  onItemSelect(item: any) {
+    this.selectedSymptomsDropDownList.push(item);
+  }
+  onSelectAll(items: any) {
+    this.selectedSymptomsDropDownList.push(items);
   }
 
   toggleUploadCard(){

@@ -4,6 +4,7 @@ import { HttpUtilService } from '../../../services/http-util.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { LabUploadResult } from 'src/app/models/labUploadResult';
 import { environment } from 'src/environments/environment';
+import { Symptoms } from 'src/app/models/symptoms.model';
 
 @Injectable({
   providedIn: 'root'
@@ -63,8 +64,29 @@ export class RecordService {
     return self.httpUtilService.invokeQuery('GET', params, apiEndpoint);
   }
 
+
+  getSymptoms(){  
+      const self = this;
+      const apiEndpoint = 'users/GetPatientSymptoms';
+    
+    return self.httpUtilService.invokeQuery('GET', null, apiEndpoint);
+  }
   
-    public getUploadResultFile(id: number): Observable<Blob> {  
+  saveSymptoms(docNum: string, symptoms : Symptoms[], customSymptoms : any)
+  {
+
+    var symptomsPatient = { 
+
+      documentNumber : docNum,
+      symptoms : symptoms,
+      Custom_Symptom : customSymptoms
+    };
+
+    return this.httpUtilService.invoke('POST', symptomsPatient, '/users/SavePatientSymptoms', null);
+  }
+  
+  
+  getUploadResultFile(id: number): Observable<Blob> {  
       const apiEndpoint = environment.apiUrl + 'users/GetTestResultFile';
       const formData: FormData = new FormData();
       formData.append('id', id.toString());

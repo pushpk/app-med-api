@@ -5,6 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { SharedModule } from '../../shared/shared.module';
 import { FormsModule } from '@angular/forms';
 import { NoteComponent } from '../note/note.component';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 const routes: Routes = [
   { path: '', component: RecordComponent,  pathMatch: 'full'},
@@ -18,7 +19,8 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     RouterModule.forChild(routes),
-    SharedModule
+    SharedModule,
+    NgMultiSelectDropDownModule.forRoot()
   ]
 })
 export class RecordModule { }
