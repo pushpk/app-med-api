@@ -173,7 +173,8 @@ export class RecordComponent implements OnInit {
 
   }
   onItemSelect(item: any) {
-    this.selectedSymptomsDropDownList.push(item);
+    console.log(this.selectedSymptomsDropDownList);
+    //this.selectedSymptomsDropDownList.push(item);
   }
   onSelectAll(items: any) {
     this.selectedSymptomsDropDownList.push(items);
