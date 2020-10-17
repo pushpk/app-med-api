@@ -145,12 +145,19 @@ export class RecordComponent implements OnInit {
     }
     else{
 
+
         
       this.recordService.getSymptoms().then((response : Symptoms[]) => {
-
         this.symptomsDropDownList = response["symptoms"];
-
        
+
+        this.recordService.getSymptomsForPatient(this.documentNumber).then((response : Symptoms[]) => {
+          this.selectedSymptomsDropDownList = response["symptoms"];
+          this.customSymptoms = response["Custom_Symptom"];
+         
+        }).catch((error : any) => {
+           console.log(error);
+        });
 
       }).catch((error : any) => {
          console.log(error);

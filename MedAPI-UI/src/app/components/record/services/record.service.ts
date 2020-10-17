@@ -71,6 +71,17 @@ export class RecordService {
     
     return self.httpUtilService.invokeQuery('GET', null, apiEndpoint);
   }
+
+  getSymptomsForPatient(docNumber : string ){  
+    const self = this;
+    const apiEndpoint = 'users/GetSymptomsByPatientID';
+  
+    const params = {
+      key: 'documentNumber',
+      value: docNumber
+    }
+  return self.httpUtilService.invokeQuery('GET', params, apiEndpoint);
+}
   
   saveSymptoms(docNum: string, symptoms : Symptoms[], customSymptoms : any)
   {
