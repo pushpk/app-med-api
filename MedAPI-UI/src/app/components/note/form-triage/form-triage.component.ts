@@ -19,6 +19,12 @@ export class FormTriageComponent implements OnInit {
   @Input() note: any;
   @Input() patient: any;
   @Output() computedFieldsChange = new EventEmitter<any>();
+  showInterconsultantionProgressBarTriage = false;
+  tempTimeobjTriage: any;
+  interconsultationListTriage: [];
+  selectedSpecialty: any;
+  searchSpecialty: string;
+
 
   constructor(public noteService: NoteService, public dialog: MatDialog) {
   }
@@ -32,6 +38,44 @@ export class FormTriageComponent implements OnInit {
   updateComputedFields() {
     this.computedFieldsChange.emit(this.note);
   }
+
+  getInterconsultations(termEntered:string) {
+    console.log(termEntered);
+    let str = termEntered;
+    // this.interconsultationCtrl.valueChanges.subscribe((value: string) => {
+    //   str += value;
+    // });
+    clearTimeout(this.tempTimeobjTriage);
+    this.tempTimeobjTriage = setTimeout(() => {
+      if (str.length >= 2) {
+        this.showInterconsultantionProgressBarTriage = true;
+        this.noteService.queryInterconsultations(str).then((response: any) => {
+          this.showInterconsultantionProgressBarTriage = false;
+          this.interconsultationListTriage = response;
+        });
+      }
+    }, 1000);
+  }
+
+  addSpecialty(d) {
+    if (!d) {
+      return;
+    }
+    let index = this.note.referrals.list.indexOf(d);
+    if (index === -1) {
+      this.note.referrals.list.push({ name: d });
+    }
+    this.selectedSpecialty = undefined;
+    this.searchSpecialty = '';
+  }
+
+  removeSpecialty(d) {
+    var index = this.note.referrals.list.indexOf(d);
+    if (index !== -1) {
+      this.note.referrals.list.splice(index, 1);
+    }
+  }
+
 
   showIndicatorDialog(o: any) {
     console.log(o, 'o');
