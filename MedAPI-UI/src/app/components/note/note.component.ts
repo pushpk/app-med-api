@@ -220,9 +220,6 @@ export class NoteComponent implements OnInit {
       const patientDetails = JSON.parse(patientData);
       this.patient = patientDetails;
 
-      console.log("==========");
-      console.log(this.patient);
-      console.log("==========");
     }
     //  console.log(patientDetails, 'patientDetails');
     //  this.patient.id = patientDetails.id;

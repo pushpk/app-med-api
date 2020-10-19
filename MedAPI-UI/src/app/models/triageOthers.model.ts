@@ -6,4 +6,5 @@ export class TriageOthers {
   glycatedHemoglobin = '';
   urineAlbumin = '';
   creatinineClearance = '';
+  specialities = '';
 }

@@ -655,6 +655,9 @@ export class RecordComponent implements OnInit {
         triage.others.glycatedHemoglobin = note.triage.glycatedHemoglobin;
         triage.others.urineAlbumin = note.triage.urineAlbumin;
         triage.others.creatinineClearance = note.triage.creatinineClearance;
+
+        triage.others.specialities = note.triage.specialities;
+        
       }
       return triage;
 
