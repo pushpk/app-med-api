@@ -73,75 +73,60 @@
         <mat-form-field fxFlex>
           <mat-label>Presión arterial sistólica (mmHg)</mat-label>
           <input type="number" name="systolic" min="0" matInput #systolic="ngModel"
-                 [(ngModel)]="note.triage.vitalFunctions.systolic" (change)="updateComputedFields()" required>
-          <mat-error *ngIf="systolic.errors && (systolic.touched || systolic.dirty)">
-            Este campo es requerido
-          </mat-error>
+                 [(ngModel)]="note.triage.vitalFunctions.systolic" (change)="updateComputedFields()" >
+          
+          
         </mat-form-field>
         <mat-form-field fxFlex>
           <mat-label>Presión arterial diastólica (mmHg)</mat-label>
           <input type="number" name="diastolic" min="0" matInput #diastolic="ngModel"
-                 [(ngModel)]="note.triage.vitalFunctions.diastolic" (change)="updateComputedFields()" required>
-          <mat-error *ngIf="diastolic.errors && (diastolic.touched || diastolic.dirty)">
-            Este campo es requerido
-          </mat-error>
+                 [(ngModel)]="note.triage.vitalFunctions.diastolic" (change)="updateComputedFields()" >
+       
         </mat-form-field>
         <mat-form-field fxFlex>
           <mat-label>Frecuencia cardiaca (Hz)</mat-label>
           <input type="number" name="heartRate" min="0" matInput #heartRate="ngModel"
-                 [(ngModel)]="note.triage.vitalFunctions.heartRate" required>
-          <mat-error *ngIf="heartRate.errors && (heartRate.touched || heartRate.dirty)">
-            Este campo es requerido
-          </mat-error>
+                 [(ngModel)]="note.triage.vitalFunctions.heartRate" >
+        
         </mat-form-field>
       </div>
       <div fxLayout="row" fxLayoutGap="24px">
         <mat-form-field fxFlex>
           <mat-label>Frecuencia respiratoria (Hz)</mat-label>
           <input type="number" name="respiratoryRate" min="0" #respiratoryRate="ngModel" matInput
-                 [(ngModel)]="note.triage.vitalFunctions.respiratoryRate" required>
-          <mat-error *ngIf="respiratoryRate.errors && (respiratoryRate.touched || respiratoryRate.dirty)">
-            Este campo es requerido
-          </mat-error>
+                 [(ngModel)]="note.triage.vitalFunctions.respiratoryRate" >
+         
         </mat-form-field>
         <mat-form-field fxFlex>
           <mat-label>Temperatura (C°)</mat-label>
           <input type="number" name="temperature" min="0" matInput #temperature="ngModel"
                  [(ngModel)]="note.triage.vitalFunctions.temperature" required>
-          <mat-error *ngIf="temperature.errors && (temperature.touched || temperature.dirty)">
-            Este campo es requerido
-          </mat-error>
+        
         </mat-form-field>
         <mat-form-field fxFlex>
           <mat-label>Perímetro abdominal (cm)</mat-label>
           <input type="number" name="waistCircumference" min="0" matInput #waistCircumference="ngModel"
                  [(ngModel)]="note.triage.vitalFunctions.waistCircumference"
-                 (change)="updateComputedFields()" required>
-          <mat-error *ngIf="waistCircumference.errors && (waistCircumference.touched || waistCircumference.dirty)">
-            Este campo es requerido
-          </mat-error>
+                 (change)="updateComputedFields()" >
+        
         </mat-form-field>
       </div>
       <div fxLayout="row" fxLayoutGap="24px">
         <mat-form-field fxFlex="32">
           <mat-label>Talla (m)</mat-label>
           <input type="number" name="height" min="0" step="0.01" matInput #height="ngModel"
-                 [(ngModel)]="note.triage.vitalFunctions.height" (change)="updateComputedFields()" required>
-          <mat-error *ngIf="height.errors && (height.touched || height.dirty)">
-            Este campo es requerido
-          </mat-error>
+                 [(ngModel)]="note.triage.vitalFunctions.height" (change)="updateComputedFields()" >
+         
         </mat-form-field>
         <mat-form-field fxFlex="32">
           <mat-label>Peso (Kg)</mat-label>
           <input type="number" name="weight" min="0" matInput #weight="ngModel"
-                 [(ngModel)]="note.triage.vitalFunctions.weight" (change)="updateComputedFields()" required>
-          <mat-error *ngIf="weight.errors && (weight.touched || weight.dirty)">
-            Este campo es requerido
-          </mat-error>
+                 [(ngModel)]="note.triage.vitalFunctions.weight" (change)="updateComputedFields()" >
+        
         </mat-form-field>
       </div>
     </div>
-    <div fxLayout="column">
+    <!-- <div fxLayout="column">
       <h2 class="mat-title form-section" fxFlex="100">Otros</h2>
       <div fxLayout="row" fxLayoutGap="24px">
         <mat-form-field fxFlex>
@@ -320,6 +305,6 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 </div>
