@@ -1,11 +1,11 @@
 <div class="maintainer">
   <div class="layout-padding" fxLayout="column">
     <div fxLayout="column">
-      <h2 class="mat-title form-section" fxFlex="100">Specialities</h2>
+      <h2 class="mat-title form-section" fxFlex="100">Especialidades</h2>
       <div fxLayout="row" fxLayoutGap="24px">
 
         <mat-form-field fxFlex>
-          <mat-label>Apetito</mat-label>
+          <mat-label>Especialidades</mat-label>
           <mat-select name="specialities" class="max-width" required #specialities="ngModel"
                       [(ngModel)]="note.triage.others.specialities">
             <mat-option *ngFor="let c of resources.specialities" [value]="c.id">{{c.name}}</mat-option>
