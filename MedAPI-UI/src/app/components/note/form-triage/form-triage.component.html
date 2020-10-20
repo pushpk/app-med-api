@@ -8,32 +8,14 @@
           <mat-label>Apetito</mat-label>
           <mat-select name="specialities" class="max-width" required #specialities="ngModel"
                       [(ngModel)]="note.triage.others.specialities">
-            <mat-option *ngFor="let c of resources.hungers" [value]="c.id">{{c.name}}</mat-option>
+            <mat-option *ngFor="let c of resources.specialities" [value]="c.id">{{c.name}}</mat-option>
           </mat-select>
-          <mat-error *ngIf="hunger.errors && (hunger.touched || hunger.dirty)">
+          <mat-error *ngIf="specialities.errors && (specialities.touched || specialities.dirty)">
             Este campo es requerido
           </mat-error>
         </mat-form-field>
 
-        <mat-form-field fxFlex fxFlexFill>
-          <mat-label>Buscar especialidades</mat-label>
-          <input type="text"
-                 placeholder="Buscar especialidades"
-                 aria-label="Buscar especialidades"
-                 matInput
-                 (keyup)="getInterconsultations($event.target.value)"
-                 (keydown.backspace)="getInterconsultations($event.target.value)"
-                 [formControl]="interconsultationCtrl"
-                 [matAutocomplete]="interConsultantation">
-          <ng-container *ngIf="!interconsultationList && showInterconsultantionProgressBar">
-            <mat-progress-bar mode="indeterminate" class="my-16"></mat-progress-bar>
-          </ng-container>
-          <mat-autocomplete #interConsultantation="matAutocomplete" [displayWith]="displayFn" (optionSelected)='addSpecialty($event.option.value)'>
-            <mat-option *ngFor="let o of (interconsultationListTriage)" [value]="o">
-              {{o}}
-            </mat-option>
-          </mat-autocomplete>
-        </mat-form-field>
+       
 
 
 

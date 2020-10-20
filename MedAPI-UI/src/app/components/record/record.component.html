@@ -84,7 +84,7 @@
       </button>
     </div>
     <div *ngIf="showRecord && !askPatientRegistration ">
-      <mat-form-field *ngIf="this.isUserAdmin">
+      <!-- <mat-form-field *ngIf="this.isUserAdmin">
         <mat-label>Especialidad</mat-label>
         <mat-select [(ngModel)]="ticket.specialty" [disabled]="ticket.status !== 0"
           (selectionChange)="onSpecialityChange($event)">
@@ -92,7 +92,7 @@
             {{type.name}}
           </mat-option>
         </mat-select>
-      </mat-form-field>
+      </mat-form-field> -->
 
 
       <div fxLayout="row" fxLayout.xs="column" class="mt-16" fxLayoutGap="20">

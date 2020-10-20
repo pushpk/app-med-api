@@ -103,6 +103,9 @@ export class RecordComponent implements OnInit {
     this.askDocumentNumber = true; // false;
     this.askPatientRegistration = false;
     this.showRecord = false;
+    this.selectedSpeciality = 'general';
+    localStorage.setItem('speciality', this.selectedSpeciality);
+    this.recordService.selectedSpecialty.next(this.selectedSpeciality);
 
     this.ticketNumber = '';
     //this.ticket.status   = TicketStatus.REGISTERED;
@@ -387,20 +390,19 @@ export class RecordComponent implements OnInit {
     });
   }
 
-  onSpecialityChange(event: any) {
-    if (CheckEmptyUtil.isNotEmptyObject(event)) {
-      this.selectedSpeciality = event.value.toLowerCase();
-      localStorage.setItem('speciality', this.selectedSpeciality);
-      this.recordService.selectedSpecialty.next(this.selectedSpeciality);
-      //this.notes = [];
-      //this.patient = null;
-      //this.searchDocumentNumber();
-    } else {
-      localStorage.setItem('speciality', '');
-      this.selectedSpeciality = '';
-      this.recordService.selectedSpecialty.next('');
-    }
-  }
+  // onSpecialityChange(event: any) {
+  //   if (CheckEmptyUtil.isNotEmptyObject(event)) {
+  //     this.selectedSpeciality = event.value.toLowerCase();
+     
+  //     //this.notes = [];
+  //     //this.patient = null;
+  //     //this.searchDocumentNumber();
+  //   } else {
+  //     localStorage.setItem('speciality', '');
+  //     this.selectedSpeciality = '';
+  //     this.recordService.selectedSpecialty.next('');
+  //   }
+  // }
 
   navigateToNotes() {
     let routerPath = '/records/notes/new';
