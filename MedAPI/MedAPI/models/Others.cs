@@ -14,5 +14,7 @@ namespace MedAPI.models
         public long glycatedHemoglobin { get; set; }
         public long urineAlbumin { get; set; }
         public long creatinineClearance { get; set; }
+
+        public string specialities { get; set; }
     }
 }

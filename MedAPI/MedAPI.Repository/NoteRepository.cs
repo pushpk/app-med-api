@@ -131,6 +131,7 @@ namespace MedAPI.Repository
                                                deleted = x.deleted,
                                                deposition = x.deposition,
                                                diastolicBloodPressure = x.diastolicBloodPressure,
+                                               specialities = x.speciality,
                                                glycemia = x.glycemia,
                                                hdlCholesterol = x.hdlCholesterol,
                                                heartRate = x.heartRate,

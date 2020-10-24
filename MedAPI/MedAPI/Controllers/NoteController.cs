@@ -369,6 +369,9 @@ namespace MedAPI.Controllers
             triage.hdlCholesterol = note.triage.others.hdlCholesterol;
             triage.ldlCholesterol = note.triage.others.ldlCholesterol;
             triage.totalCholesterol = note.triage.others.totalCholesterol;
+
+            triage.specialities = note.triage.others.specialities;
+
             triage.patientId = note.patientId;
             return triage;
         }

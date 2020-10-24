@@ -1,4 +1,5 @@
 ﻿using MedAPI.Domain;
+using System.Collections.Generic;
 
 namespace MedAPI.Infrastructure.IRepository
 {
@@ -6,5 +7,6 @@ namespace MedAPI.Infrastructure.IRepository
     {
         Triage GetLatest(long id);
         Triage SaveTriage(Triage triage);
+        List<Speciality> getSpecialities();
     }
 }

@@ -5,6 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity.Validation;
 using System.Linq;
+using AutoMapper;
+
 namespace MedAPI.Repository
 {
     public class PatientRepository : IPatientRepository
@@ -201,7 +203,7 @@ namespace MedAPI.Repository
                                     water = x.water,
                                     departmentId = x.departmentId,
                                     allergiesList = ((from y in context.patient_allergies
-                                                      where y.patient_id == x.id && y.isDeleted==false
+                                                      where y.patient_id == x.id && y.isDeleted == false
                                                       select new PatientAllergies()
                                                       {
                                                           id = y.id,
@@ -456,6 +458,89 @@ namespace MedAPI.Repository
                 {
                     return false;
                 }
+            }
+        }
+
+        public bool SaveSymptoms(SymptomsWithCustom mSymptoms)
+        {
+            using (var context = new DataAccess.registroclinicoEntities())
+            {
+                long userId = context.users.FirstOrDefault(s => s.documentNumber == mSymptoms.documentNumber).id;
+                long patientId = context.patients.FirstOrDefault(s => s.user_id == userId).id;
+
+                try
+                {
+                    foreach (var Symptom in mSymptoms.symptoms)
+                    {
+                        var efSymptomsExisting = context.patient_symptoms.Where(m => m.patient_id == patientId);
+                        if (efSymptomsExisting != null)
+                        {
+                            context.patient_symptoms.RemoveRange(efSymptomsExisting);
+                            context.SaveChanges();
+                        }
+
+                        
+                        var efSymptoms = new DataAccess.patient_symptoms();
+                        context.patient_symptoms.Add(efSymptoms);
+                        
+                        efSymptoms.patient_id = patientId;
+                        efSymptoms.symptoms_id = Symptom.id;
+                        efSymptoms.custom_symptom = mSymptoms.Custom_Symptom;
+
+                        context.SaveChanges();
+                        Symptom.id = efSymptoms.id;
+                    }
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    return false;
+                }
+            }
+        }
+
+
+        public SymptomsWithCustom GetSymptomsByPatientId(string docNum)
+        {
+            using (var context = new DataAccess.registroclinicoEntities())
+            {
+                long userId = context.users.FirstOrDefault(s => s.documentNumber == docNum).id;
+                long patientId = context.patients.FirstOrDefault(s => s.user_id == userId).id;
+
+                List<Symptoms> pSym = new List<Symptoms>();
+                var ps = context.patient_symptoms.Include("symptom").Where(s => s.patient_id == patientId);
+                foreach (var item in ps)
+                {
+                    pSym.Add(new Symptoms
+                    {
+
+                        id = item.symptom.id,
+                        name = item.symptom.name
+                    });
+
+                }
+
+                return new SymptomsWithCustom
+                {
+                    Custom_Symptom = ps.FirstOrDefault().custom_symptom,
+                    symptoms = pSym.ToArray()
+                };
+
+
+            }
+        }
+
+        public List<Symptoms> GetAllSymptoms()
+        {
+            using (var context = new DataAccess.registroclinicoEntities())
+            {
+                return context.symptoms
+                    .Select(s => new Symptoms() { 
+                    id = s.id,
+                    name = s.name,
+                    deleted = s.deleted
+                }).ToList();
+
             }
         }
     }

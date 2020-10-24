@@ -59,6 +59,7 @@
     <Compile Include="Establishment.cs" />
     <Compile Include="Lab.cs" />
     <Compile Include="LabUploadResult.cs" />
+    <Compile Include="PatientSymptoms.cs" />
     <Compile Include="Speciality.cs" />
     <Compile Include="Exam.cs" />
     <Compile Include="FatherBackground.cs" />
@@ -87,6 +88,8 @@
     <Compile Include="Province.cs" />
     <Compile Include="Role.cs" />
     <Compile Include="Role_Permission.cs" />
+    <Compile Include="SymptomsWithCustom.cs" />
+    <Compile Include="Symptoms.cs" />
     <Compile Include="Ticket.cs" />
     <Compile Include="Triage.cs" />
     <Compile Include="Upload.cs" />

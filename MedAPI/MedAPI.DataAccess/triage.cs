@@ -49,6 +49,7 @@ namespace MedAPI.DataAccess
         public string weightEvolution { get; set; }
         public Nullable<long> patient_id { get; set; }
         public Nullable<long> ticket_id { get; set; }
+        public string speciality { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<note> notes { get; set; }

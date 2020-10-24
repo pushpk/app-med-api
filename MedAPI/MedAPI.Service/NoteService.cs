@@ -72,6 +72,10 @@ namespace MedAPI.Service
                             .Select(d => new ObjectNode() { id = d.ToString().ToUpper(), name = StringExtensions.FirstCharToUpper(d.ToString()) })
                             .ToList();
 
+            mNoteResourcesList.specialities = this.triageRepository.getSpecialities()
+                            .Select(d => new ObjectNode() { id = d.id.ToString().ToUpper(), name = d.name })
+                            .ToList();
+
             mNoteResourcesList.thirsts = Enum.GetValues(typeof(Thirst))
                             .Cast<Thirst>()
                             .Select(d => new ObjectNode() { id = d.ToString().ToUpper(), name = StringExtensions.FirstCharToUpper(d.ToString()) })
