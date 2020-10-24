@@ -1,4 +1,5 @@
-﻿using MedAPI.ExceptionFormatter;
+﻿using MedAPI.Domain;
+using MedAPI.ExceptionFormatter;
 using MedAPI.Infrastructure.IService;
 using MedAPI.models;
 using System;
@@ -250,10 +251,72 @@ namespace MedAPI.Controllers
                 response = Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
             return response;
+         }
+
+
+        [HttpGet]
+        [Route("GetPatientSymptoms")]
+        public HttpResponseMessage GetSymptoms()
+        {
+            //Domain.User pat = patientService.GetPatientByDocumentNumber(documentNumber);
+           var symptoms = patientService.GetAllSymptoms();
+
+            HttpResponseMessage response = null;
+            try
+            {
+                response = Request.CreateResponse(HttpStatusCode.OK, new { symptoms = symptoms});
+            }
+            catch (Exception ex)
+            {
+                response = Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+            return response;
 
 
         }
 
+
+        [HttpGet]
+        [Route("GetSymptomsByPatientID")]
+        public HttpResponseMessage GetSymptomsByPatient(string documentNumber)
+        {
+            //Domain.User pat = patientService.GetPatientByDocumentNumber(documentNumber);
+            var symptoms = patientService.GetSymptomsByPatientId(documentNumber);
+
+            HttpResponseMessage response = null;
+            try
+            {
+                response = Request.CreateResponse(HttpStatusCode.OK, new { symptoms = symptoms });
+            }
+            catch (Exception ex)
+            {
+                response = Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+            return response;
+
+
+        }
+
+        [HttpPost]
+        [Route("SavePatientSymptoms")]
+        public HttpResponseMessage SaveSymptoms(SymptomsWithCustom symptoms)
+        {
+            //Domain.User pat = patientService.GetPatientByDocumentNumber(documentNumber);
+            var result = patientService.SaveSymptoms(symptoms);
+
+            HttpResponseMessage response = null;
+            try
+            {
+                response = Request.CreateResponse(HttpStatusCode.OK, new { success = result});
+            }
+            catch (Exception ex)
+            {
+                response = Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+            return response;
+
+
+        }
 
         public bool IsAdminPermission()
         {
@@ -455,5 +518,7 @@ namespace MedAPI.Controllers
             }
             return lstPersonalbackgrounds;
         }
+
+       
     }
 }

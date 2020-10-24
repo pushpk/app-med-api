@@ -22,5 +22,8 @@ namespace MedAPI.Infrastructure.IRepository
         bool SavePersonalBackgroundList(List<PatientPersonalBackgrounds> mPersonalBackgrounds);
         bool SaveMotherBackgroundList(List<PatientMotherbackgrounds> mMotherBackgrounds);
         bool SaveFatherBackgroundList(List<PatientFatherbackgrounds> mFatherBackgrounds);
+        bool SaveSymptoms(SymptomsWithCustom mSymptoms);
+        SymptomsWithCustom GetSymptomsByPatientId(string docNum);
+        List<Symptoms> GetAllSymptoms();
     }
 }

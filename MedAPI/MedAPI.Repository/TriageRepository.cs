@@ -1,6 +1,7 @@
 ﻿using MedAPI.Domain;
 using MedAPI.Infrastructure.IRepository;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 namespace MedAPI.Repository
 {
@@ -23,6 +24,7 @@ namespace MedAPI.Repository
                             deleted = tr.deleted,
                             deposition = tr.deposition,
                             diastolicBloodPressure = tr.diastolicBloodPressure,
+                            specialities = tr.speciality,
                             glycemia = tr.glycemia,
                             hdlCholesterol = tr.hdlCholesterol,
                             heartRate = tr.heartRate,
@@ -48,6 +50,19 @@ namespace MedAPI.Repository
             }
         }
 
+        public List<Speciality> getSpecialities()
+        {
+            using (var context = new DataAccess.registroclinicoEntities())
+            {
+                return context.specialities.Select(s => new Speciality
+                {
+                    id = s.id,
+                    name = s.name
+                }).ToList();
+
+            }
+        }
+
         public Triage SaveTriage(Triage triage)
         {
             using (var context = new DataAccess.registroclinicoEntities())
@@ -66,6 +81,7 @@ namespace MedAPI.Repository
                 efTriages.createdBy = triage.createdBy;
                 efTriages.deposition = triage.deposition;
                 efTriages.diastolicBloodPressure = triage.diastolicBloodPressure;
+                efTriages.speciality = triage.specialities;
 
                 efTriages.glycemia = triage.glycemia;
 

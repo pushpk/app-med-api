@@ -80,5 +80,23 @@ namespace MedAPI.Service
         {
             return patientRepository.SaveFatherBackgroundList(mFatherBackgrounds);
         }
+
+        public bool SaveSymptoms(SymptomsWithCustom mSymptoms)
+        {
+            return patientRepository.SaveSymptoms(mSymptoms);
+        }
+
+
+        public SymptomsWithCustom GetSymptomsByPatientId(string docNum)
+        {
+            return patientRepository.GetSymptomsByPatientId(docNum);
+        }
+
+        public List<Symptoms> GetAllSymptoms()
+        {
+            return patientRepository.GetAllSymptoms();
+
+
+        }
     }
 }

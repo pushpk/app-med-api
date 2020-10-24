@@ -23,6 +23,7 @@ namespace MedAPI.DataAccess
             this.patient_medicines = new HashSet<patient_medicines>();
             this.patient_motherbackgrounds = new HashSet<patient_motherbackgrounds>();
             this.patient_personalbackgrounds = new HashSet<patient_personalbackgrounds>();
+            this.patient_symptoms = new HashSet<patient_symptoms>();
         }
     
         public long id { get; set; }
@@ -66,5 +67,7 @@ namespace MedAPI.DataAccess
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<patient_personalbackgrounds> patient_personalbackgrounds { get; set; }
         public virtual user user { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<patient_symptoms> patient_symptoms { get; set; }
     }
 }

@@ -69,5 +69,9 @@ namespace MedAPI.DataAccess
         public virtual DbSet<nurse_specialties> nurse_specialties { get; set; }
         public virtual DbSet<role_permissions> role_permissions { get; set; }
         public virtual DbSet<speciality> specialities { get; set; }
+
+        public virtual DbSet<symptom> symptoms { get; set; }
+
+        public virtual DbSet<patient_symptoms> patient_symptoms { get; set; }
     }
 }
