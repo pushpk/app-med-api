@@ -32,34 +32,70 @@
 
   </form>
 
- 
-
-
   <div *ngIf="!this.isUserLabPerson && showRecord">
-
+    <h2>Información Básica</h2>
+    <a *ngIf="this.isUserAdmin" mat-button color="primary" href="javascript:void(0);" style="margin-bottom:20px; background-color: rgb(237, 238, 243);"
+    (click)="navigateToPatient()">
+    Info Detallada
+    </a>
+    <a *ngIf="this.isUserPatient" mat-button color="primary" href="javascript:void(0);" style="margin-bottom:20px; background-color: rgb(237, 238, 243);"
+    (click)="navigateToPatient()">
+    Editar Info
+    </a>
     <mat-card class="no-pad">
       <mat-card-content>
-        <div fxLayout="row"  class="mt-24">
-          <h2 fxFlex="50" style="margin-left: 10px;">
-            Síntomas de la paciente:</h2>
+    <!-- <mat-toolbar color="default">
+      <mat-toolbar-row> -->
+        <div fxLayout="row wrap" fxLayoutAlign="left center">
+          <div fxFlex="15" fxFlex.md="20" fxFlex.sm="25" fxFlex.xs="30">
+            <h2 style="margin-top:15px; margin-left: 30px">Nombre:</h2>
+          </div>
+          <div fxFlex="75" fxFlex.md="70" fxFlex.sm="65" fxFlex.xs="60">
+            <h2 style="margin-top:15px; font-weight:normal">
+              {{patient.lastnameFather | uppercase}} {{patient.lastnameMother | uppercase}},
+              {{patient.name}}
+            </h2>
+          </div> 
         </div>
 
-       
-<div style="width: 95% !important; margin-bottom: 10px;" class="ml-24" >
-       
-  <ng-multiselect-dropdown 
-[placeholder]="'Seleccionar síntomas'"
-[data]="symptomsDropDownList"
-[(ngModel)]="  selectedSymptomsDropDownList"
-[settings]="symptomsDropDownSettings"
-(onSelect)="onItemSelect($event)"
-(onSelectAll)="onSelectAll($event)"
->
-</ng-multiselect-dropdown>
 
-</div>
 
-<div class="ml-24" fxLayout="row wrap" fxLayoutGap="20px" >
+
+      <!-- </mat-toolbar-row>
+    </mat-toolbar> -->
+
+    <div fxLayout="row wrap" fxLayoutAlign="left center" style="margin-right: 10px; margin-top: 10px;">
+      <div fxFlex="15" fxFlex.md="20" fxFlex.sm="25" fxFlex.xs="30">
+        <h2 style="margin-top:10px; margin-left: 30px">Síntomas:</h2>
+      </div>
+      <div fxFlex="75" fxFlex.md="70" fxFlex.sm="65" fxFlex.xs="60">
+        <ng-multiselect-dropdown 
+        [placeholder]="'Seleccionar síntomas'"
+        [data]="symptomsDropDownList"
+        [(ngModel)]="selectedSymptomsDropDownList"
+        [settings]="symptomsDropDownSettings"
+        (onSelect)="onItemSelect($event)"
+        (onSelectAll)="onSelectAll($event)"
+        >
+        </ng-multiselect-dropdown>
+      </div> 
+    </div>
+    <div fxLayout="row wrap" fxLayoutAlign="left center" style="margin-left: 10px; margin-right: 10px; margin-top: 10px;">
+      <div fxFlex="15" fxFlex.md="20" fxFlex.sm="25" fxFlex.xs="30">
+        <h2 style="margin-top:10px; margin-left: 20px"></h2>
+      </div>
+      <mat-form-field fxFlex="77" fxFlex.md="73" fxFlex.sm="68" fxFlex.xs="62">
+        <mat-label>Otros síntomas (separados por comas)</mat-label>
+        <input type="text" name="customSymptoms" maxlength="250" matInput required [(ngModel)]="customSymptoms" [disabled]="this.isUserAdmin">
+      </mat-form-field>
+    </div>
+
+
+
+       
+<!-- <div style="width: 95% !important; margin-bottom: 10px; margin-top: 10px !important;" class="ml-24" > -->
+       
+<!-- <div class="ml-24" fxLayout="row wrap" fxLayoutGap="20px" >
 <mat-form-field fxFlex="66" fxFlex.md="100" fxFlex.sm="100">
   <mat-label>Otros síntomas (separados por comas)</mat-label>
   <input type="text" name="customSymptoms" maxlength="250" matInput required [(ngModel)]="customSymptoms" [disabled]="this.isUserAdmin">
@@ -68,12 +104,12 @@
 </mat-form-field>
 
 
-</div>
+</div> -->
 
-      </mat-card-content>
+</mat-card-content>
       <mat-card-actions fxLayout="row" fxLayoutAlign="end center">
-        <button mat-button color="primary" type="button" (click)="SaveSymptoms();" [disabled]="this.isUserAdmin">
-          Salvar</button>
+        <button mat-button color="primary" type="button" (click)="SaveSymptoms();" *ngIf="this.isUserPatient">
+          Guardar</button>
         
       </mat-card-actions>
     </mat-card>
@@ -96,46 +132,49 @@
 
 
       <div fxLayout="row" fxLayout.xs="column" class="mt-16" fxLayoutGap="20">
-        <div fxFlex="15" *ngIf="ticket.status === 0 && this.isUserAdmin">
-          <a mat-raised-button color="primary" class="text-upper" href="javascript:void(0);"
-            (click)="navigateToNotes()">
-            Atender paciente
+        <!-- <div fxFlex="15" *ngIf="this.isUserPatient">
+          <a mat-raised-button color="default" href="javascript:void(0);"
+          (click)="navigateToPatient()">
+          Editar Información
           </a>
-        </div>
-        <div fxFlex="15" *ngIf="ticket.status === 1 && this.isUserAdmin">
-          <a mat-raised-button color="primary" class="text-upper" href="javascript:void(0);"
+        </div> -->
+        <div fxFlex="15" *ngIf="ticket.status === '1' && this.isUserAdmin">
+          <a mat-raised-button color="primary" href="javascript:void(0);"
             (click)="navigateToNotes()">
             Continuar atención de este Ticket
           </a>
         </div>
-        <p *ngIf="ticket.status === 2 && this.isUserAdmin"><strong>La atención de este Ticket ha finalizado.</strong>
+        <p *ngIf="ticket.status === '2' && this.isUserAdmin"><strong>La atención de este Ticket ha finalizado.</strong>
         </p>
-        <div fxFlex="15" *ngIf="ticket.status === 2 && this.isUserAdmin">
-          <a mat-raised-button color="primary" class="text-upper" href="javascript:void(0);"
+        <div fxFlex="15" *ngIf="ticket.status === '2' && this.isUserAdmin">
+          <a mat-raised-button color="primary" href="javascript:void(0);"
             (click)="navigateToNotes()">
             Revisar la atención de este Ticket
-          </a>
-        </div>
-        <div fxFlex="15">
-          <a mat-raised-button color="default" class="text-upper" href="javascript:void(0);"
-            (click)="navigateToPatient()">
-            Ver datos de paciente
           </a>
         </div>
       </div>
     </div>
     <div fxLayout="row" *ngIf="showRecord" class="mt-24">
-      <h2 fxFlex="50">Atenciones pasadas:</h2>
+      <h2 fxFlex="50">Atenciones</h2>
     </div>
+    
     <div *ngIf="showRecord" id="recordTable">
-      <mat-toolbar color="default" *ngIf="patient">
+      <!-- <div fxFlex="100" *ngIf="ticket.status === 0 && this.isUserAdmin"> -->
+        <a mat-button color="primary" href="javascript:void(0);" *ngIf="this.isUserAdmin" style="margin-bottom:20px; background-color:   rgb(237, 238, 243);"
+          (click)="navigateToNotes()">
+          Nueva atención
+        </a>
+        <br />
+
+      <!-- </div> -->
+      <!-- <mat-toolbar color="default" *ngIf="patient">
         <mat-toolbar-row>
           <h2 class="mat-title">
             {{patient.lastnameFather | uppercase}} {{patient.lastnameMother | uppercase}},
             {{patient.name}}
           </h2>
         </mat-toolbar-row>
-      </mat-toolbar>
+      </mat-toolbar> -->
       <mat-table [dataSource]="dataSource">
         <ng-container matColumnDef="id">
           <mat-header-cell *matHeaderCellDef> # </mat-header-cell>
@@ -155,28 +194,33 @@
         </ng-container>
         <ng-container matColumnDef="date">
           <mat-header-cell *matHeaderCellDef> Fecha </mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element.registrationDate | date: 'dd/MM/yyyy'}} </mat-cell>
+          <mat-cell *matCellDef="let element"> {{element.registrationDate | date : 'shortDate'}} </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="action">
-          <mat-header-cell *matHeaderCellDef style="flex-grow: 1 !important;"> </mat-header-cell>
-          <mat-cell *matCellDef="let element" style="flex-grow: 1 !important;">
-            <button type="button" class="mx-16" mat-raised-button color="primary" (click)="selectedNotes(element)"
+          <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <span class="download" (click)="selectedNotes(element)" *ngIf="this.isUserAdmin" style="cursor: pointer;"
               disabled>
-              Revisar esta atención
-            </button>
-            <button type="button" mat-raised-button color="primary" target="_blank"
-              (click)="downloadAttentionPdf(element)">
-              Descargar en PDF
-            </button>
-            <button type="button" mat-raised-button color="primary" target="_blank"
-              (click)="downloadPrescription(element)" style="margin-left: 5px;">
-              Descargar Receta médica
-            </button>
-            <button type="button" mat-raised-button color="primary" target="_blank" (click)="downloadInter(element)"
-              style="margin-left: 5px;">
-              Descargar Interconsulta
-            </button>
+              Revisar
+            </span>
+            <mat-form-field fxFlex="25" *ngIf="this.isUserPatient">
+              <mat-label>Descargar</mat-label>
+              <mat-select>
+                <mat-option type="button" mat-raised-button color="primary" target="_blank" class="btn btn-inline"
+                (click)="downloadAttentionPdf(element)">
+                Atención
+              </mat-option>
+              <mat-option type="button" mat-raised-button color="primary" target="_blank" class="btn btn-inline"
+                (click)="downloadPrescription(element)" style="margin-left: 5px;">
+                Receta
+              </mat-option>
+              <mat-option type="button" mat-raised-button color="primary" target="_blank" (click)="downloadInter(element)" class="btn btn-inline"
+                style="margin-left: 5px;">
+                Interconsulta
+              </mat-option>
+              </mat-select>
+            </mat-form-field>
           </mat-cell>
         </ng-container>
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
@@ -192,9 +236,12 @@
   </div>
 
   <div *ngIf="showRecord ">
+    <div fxLayout="row" *ngIf="showRecord" class="mt-24">
+      <h2 fxFlex="50">Resultados de Exámenes</h2>
+    </div>
     <div *ngIf="this.isUserAdmin || this.isUserLabPerson">
-    <button mat-raised-button type="button" color="primary" (click)="toggleUploadCard()">
-      Cargar resultado de prueba
+    <button mat-button type="button" color="primary" style="background-color: rgb(237, 238, 243);" (click)="toggleUploadCard()">
+      Cargar resultado nuevo
     </button>
     <br />
     <form name="form-upload" #f="ngForm" (ngSubmit)="submitUploadResult()" [hidden]="isUploadFormShow">
@@ -206,7 +253,7 @@
         <mat-card-content>
           <div class="layout-padding" fxLayout="column">
 
-            <div fxLayout="column" style="margin-left: 70px;">
+            <div fxLayout="column" style="margin-left: 20px;">
               <h2 class="mat-title form-section" fxFlex="100">Subir resultado</h2>
               <div fxLayout="column">
 
@@ -236,7 +283,7 @@
         </mat-card-content>
         <mat-card-actions fxLayout="row" fxLayoutAlign="end center">
           <button mat-button color="primary" type="submit">Subir</button>
-          <a mat-button color="default" href="javascript:void(0)" [routerLink]='["/login"]'>Cancelar</a>
+          <a mat-button color="default" href="javascript:void(0)" (click)="isUploadFormShow=!isUploadFormShow">Cancelar</a>
         </mat-card-actions>
       </mat-card>
 
@@ -246,15 +293,15 @@
 
     <mat-card class="no-pad">
       <mat-card-content>
-        <div fxLayout="row" *ngIf="showRecord" class="mt-24">
+        <!-- <div fxLayout="row" *ngIf="showRecord" class="mt-24">
           <h2 fxFlex="50" style="margin-left: 10px;">
             Resultado de carga de prueba:</h2>
-        </div>
-        <table mat-table [dataSource]="this.uploadResultsByLab" class="mat-elevation-z8">
+        </div> -->
+        <table mat-table [dataSource]="this.uploadResultsByLab">
           
            <!-- Position Column -->
   <ng-container matColumnDef="user_id">
-    <th mat-header-cell *matHeaderCellDef> Usuaria </th>
+    <th mat-header-cell *matHeaderCellDef> Usuario </th>
     <td mat-cell *matCellDef="let element"> {{element.user_id}} </td>
   </ng-container>
 
@@ -280,9 +327,9 @@
   <ng-container matColumnDef="action">
     <th mat-header-cell *matHeaderCellDef> Acción </th>
     <td mat-cell *matCellDef="let element">
-      <button mat-raised-button type="button" color="primary" (click)="downloadTestResult(element.id, element.fileName)">
+      <span class="download" (click)="downloadTestResult(element.id, element.fileName)" style="cursor: pointer;">
         Descargar
-      </button>
+      </span>
         </td>
   </ng-container>
 

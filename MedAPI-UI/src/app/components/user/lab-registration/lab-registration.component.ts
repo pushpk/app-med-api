@@ -14,7 +14,7 @@ export class LabRegistrationComponent implements OnInit {
 
   labUser: LabUser = new LabUser();
 
-  constructor(public router: Router, private patientService: PatientService, public toastr: ToastrService) { 
+  constructor(public router: Router, private patientService: PatientService, public toastr: ToastrService) {
     this.labUser.user = new MedicUser();
     this.labUser.user.roleId = 5;
   }
@@ -27,11 +27,11 @@ export class LabRegistrationComponent implements OnInit {
     this.patientService.createLab(this.labUser).then((response: any) => {
       console.log(response);
       
-      this.toastr.success('Médica registrada con éxito.');
+      this.toastr.success('Laboratorio registrado con éxito.');
       this.router.navigateByUrl('/login');
     }).catch((error) => {
       console.log(error);
-      this.toastr.error('Se produjo un error al crear medic.');
+      this.toastr.error('Se produjo un error al crear la cuenta.');
     });
   }
 

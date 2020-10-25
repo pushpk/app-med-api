@@ -81,6 +81,7 @@ export class RecordComponent implements OnInit {
 
   isUserAdmin : boolean = false;
   isUserLabPerson: boolean = false;
+  isUserPatient: boolean = false;
   uploadedFile: any;
   labId: number;
   uploadResultsByLab =  new MatTableDataSource<LabUploadResult>([]);
@@ -123,6 +124,7 @@ export class RecordComponent implements OnInit {
 
     this.isUserAdmin = localStorage.getItem('role') !== 'patient' &&  localStorage.getItem('role') !== 'lab' ;
     this.isUserLabPerson = localStorage.getItem('role') === 'lab';
+    this.isUserPatient = localStorage.getItem('role') === 'patient';
 
     
     this.symptomsDropDownSettings = {
@@ -242,7 +244,7 @@ export class RecordComponent implements OnInit {
         this.labUploadResult.labId = Number(localStorage.getItem('loggedInID'));
       }
 
-       this.recordService.uploadResult(this.labUploadResult.file, this.labUploadResult).subscribe((response: any) => {
+      this.recordService.uploadResult(this.labUploadResult.file, this.labUploadResult).subscribe((response: any) => {
       
         if(this.isUserLabPerson)
         {
@@ -260,12 +262,12 @@ export class RecordComponent implements OnInit {
           });
         }
 
-      this.toastr.success('Médica registrada con éxito.');
-      
+      this.toastr.success('Documento cargado exitosamente.');
+      this.isUploadFormShow = true;
     },(error) => {
        console.log(error);
         
-        this.toastr.error('Se produjo un error al crear medic.');
+        this.toastr.error('Se produjo un error al cargar este documento.');
        });
 
     // .catch((error) => {
@@ -337,7 +339,7 @@ export class RecordComponent implements OnInit {
     self.waitingTicket = true;
     this.recordService.getPatientsByDocNumber(this.documentNumber).then((response: any) => {
 
-     
+
       this.setPatientDetails(response);
       //localStorage.setItem('patient', JSON.stringify(response.patient));
       //if (CheckEmptyUtil.isNotEmptyObject(response.notes)) {

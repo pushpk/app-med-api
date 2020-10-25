@@ -9,9 +9,9 @@
           <div style="margin-top: 15px;">
 
           </div>
-          <div fxLayout="row wrap" fxLayoutGap="20px" fxLayoutAlign="center center">
+          <div fxLayout="row wrap" fxLayoutAlign="space-between center" style="margin-left: 10px; margin-right: 10px;">
 
-            <mat-form-field fxFlex="30" fxFlex.md="100" fxFlex.sm="100">
+            <mat-form-field fxFlex="30" fxFlex.md="30" fxFlex.xs="100">
               <mat-label>Nombre</mat-label>
               <input type="text" name="firstName" matInput matInput #firstName="ngModel"
                 [(ngModel)]="medic.user.firstName" required>
@@ -22,7 +22,7 @@
             </mat-form-field>
 
 
-            <mat-form-field fxFlex="30" fxFlex.md="100" fxFlex.sm="100">
+            <mat-form-field fxFlex="30" fxFlex.md="30" fxFlex.xs="100">
               <mat-label>Apellido Paterno</mat-label>
               <input type="text" name="lastNameFather" matInput matInput #lastNameFather="ngModel"
                 [(ngModel)]="medic.user.lastNameFather" required>
@@ -32,7 +32,7 @@
               </mat-error>
             </mat-form-field>
 
-            <mat-form-field fxFlex="30" fxFlex.md="100" fxFlex.sm="100">
+            <mat-form-field fxFlex="30" fxFlex.md="30" fxFlex.xs="100">
               <mat-label>Apellido Materno</mat-label>
               <input type="text" name="lastNameMother" maxlength="250" matInput #lastNameMother="ngModel"
                 [(ngModel)]="medic.user.lastNameMother" required>
@@ -47,8 +47,8 @@
           </div>
 
 
-          <div fxLayout="row wrap" fxLayoutGap="20px" fxLayoutAlign="center center">
-            <mat-form-field fxFlex="30" fxFlex.md="100" fxFlex.sm="100">
+          <div fxLayout="row wrap" fxLayoutAlign="space-between center" style="margin-left: 10px; margin-right: 10px;">
+            <mat-form-field fxFlex="30" fxFlex.md="30" fxFlex.xs="100">
               <mat-label>DNI</mat-label>
               <input type="text" name="documentNumber" matInput #documentNumber="ngModel" pattern="\d*" maxlength="8"
                 [(ngModel)]="medic.user.documentNumber" required>
@@ -58,7 +58,7 @@
               </mat-error>
 
             </mat-form-field>
-            <mat-form-field fxFlex="30" fxFlex.md="100" fxFlex.sm="100">
+            <mat-form-field fxFlex="30" fxFlex.md="30" fxFlex.xs="100">
               <mat-label>Teléfono</mat-label>
               <input type="number" name="phone" matInput matInput #phone="ngModel" [(ngModel)]="medic.user.cellphone"
                 required>
@@ -68,7 +68,7 @@
               </mat-error>
             </mat-form-field>
 
-            <mat-form-field fxFlex="30" fxFlex.md="100" fxFlex.sm="100" >
+            <mat-form-field fxFlex="30" fxFlex.md="30" fxFlex.xs="100">
               <mat-label>País</mat-label>
               <mat-select name="country" class="max-width" required #country="ngModel"
                 [(ngModel)]="medic.user.countryId">
@@ -83,18 +83,18 @@
 
           </div>
 
-          <div fxLayout="row wrap" fxLayoutGap="20px" fxLayoutAlign="center center">
-            <mat-form-field fxFlex="30" fxFlex.md="45" fxFlex.sm="100">
+          <div fxLayout="row wrap" fxLayoutAlign="space-between center" style="margin-left: 10px; margin-right: 10px;">
+            <mat-form-field fxFlex="30" fxFlex.md="30" fxFlex.xs="100">
               <mat-label>Departamento</mat-label>
               <mat-select name="department" class="max-width" required #department="ngModel"
                 [(ngModel)]="medic.user.departmentId" (selectionChange)="updateProvinces()">
-                <mat-option *ngFor="let s of resources.departments" [(value)]="s.id">{{s.name | titlecase}}</mat-option>
+                <mat-option *ngFor="let s of this.resources.departments" [(value)]="s.id">{{s.name | titlecase}}</mat-option>
               </mat-select>
               <mat-error *ngIf="department.errors && (department.touched || department.dirty)">
                 Este campo es requerido
               </mat-error>
             </mat-form-field>
-            <mat-form-field fxFlex="30" fxFlex.md="45" fxFlex.sm="100">
+            <mat-form-field fxFlex="30" fxFlex.md="30" fxFlex.xs="100">
               <mat-label>Provincia</mat-label>
               <mat-select name="province" class="max-width" required #province="ngModel"
                 [(ngModel)]="medic.user.provinceId" (selectionChange)="updateDistricts()">
@@ -104,7 +104,7 @@
                 Este campo es requerido
               </mat-error>
             </mat-form-field>
-            <mat-form-field fxFlex="30" fxFlex.md="45" fxFlex.sm="100">
+            <mat-form-field fxFlex="30" fxFlex.md="30" fxFlex.xs="100">
               <mat-label>Distrito</mat-label>
               <mat-select name="district" class="max-width" required #district="ngModel"
                 [(ngModel)]="medic.user.districtId">
@@ -116,8 +116,8 @@
             </mat-form-field>
           </div>
 
-          <div class="ml-24" fxLayout="row wrap" fxLayoutGap="20px" style="margin-left: 70px;">
-            <mat-form-field fxFlex="66" fxFlex.md="100" fxFlex.sm="100">
+          <div fxLayout="row wrap" fxLayoutAlign="space-between center" style="margin-left: 10px; margin-right: 10px;">
+            <mat-form-field fxFlex="30" fxFlex.md="30" fxFlex.xs="100">
               <mat-label>Especialidad</mat-label>
               <mat-select name="speciality" class="max-width" [(value)]="medic.speciality" required
                 #speciality="ngModel" [(ngModel)]="medic.speciality">
@@ -129,12 +129,7 @@
                 Este campo es requerido
               </mat-error>
             </mat-form-field>
-
-          </div>
-
-
-          <div fxLayout="row wrap" fxLayoutGap="20px" style="margin-left: 70px;">
-            <mat-form-field fxFlex="30" fxFlex.md="100" fxFlex.sm="100">
+            <mat-form-field fxFlex="30" fxFlex.md="30" fxFlex.xs="100">
               <mat-label>CMP</mat-label>
               <input type="text" name="CMP" matInput maxlength="6" matInput #CMP="ngModel" [(ngModel)]="medic.CMP"
                 (keyup)="numberOnly($event.target);" required>
@@ -144,7 +139,7 @@
               </mat-error>
             </mat-form-field>
 
-            <mat-form-field fxFlex="30" fxFlex.md="100" fxFlex.sm="100" class="Form-Field-Right">
+            <mat-form-field fxFlex="30" fxFlex.md="30" fxFlex.xs="100">
               <mat-label>RNE</mat-label>
               <input type="text" name="RNE" matInput maxlength="6" matInput #RNE="ngModel" [(ngModel)]="medic.RNE"
                 (keyup)="numberOnly($event.target);" required>
@@ -153,8 +148,6 @@
                 Este campo es requerido
               </mat-error>
             </mat-form-field>
-
-
 
           </div>
 
@@ -170,8 +163,8 @@
       </div>
       <mat-card-content>
         <div class="layout-padding" fxLayout="column">
-          <div fxLayout="row wrap" fxLayoutGap="20px" fxLayoutAlign="center center">
-            <mat-form-field fxFlex="30" fxFlex.md="100" fxFlex.sm="100">
+          <div fxLayout="row wrap" fxLayoutAlign="space-between center" style="margin-left: 10px; margin-right: 10px;">
+            <mat-form-field fxFlex="30" fxFlex.md="30" fxFlex.xs="100">
               <mat-label>Correo electrónico</mat-label>
               <input type="email" name="email" matInput matInput #email="ngModel" [(ngModel)]="medic.user.email" email
                 required>
@@ -187,7 +180,7 @@
 
             </mat-form-field>
 
-            <mat-form-field fxFlex="30" fxFlex.md="100" fxFlex.sm="100">
+            <mat-form-field fxFlex="30" fxFlex.md="30" fxFlex.xs="100">
               <mat-label>Contraseña</mat-label>
               <input type="password" name="password" matInput maxlength="16" matInput #password="ngModel"
                 [(ngModel)]="medic.user.passwordHash" required>
@@ -197,7 +190,7 @@
               </mat-error>
             </mat-form-field>
 
-            <mat-form-field fxFlex="30" fxFlex.md="100" fxFlex.sm="100">
+            <mat-form-field fxFlex="30" fxFlex.md="30" fxFlex.xs="100">
               <mat-label>Confirmar Contraseña</mat-label>
               <input type="password" name="confirmPassword" matInput maxlength="16" matInput #confirmPassword="ngModel"
                 [(ngModel)]="medic.user.confirmPasswordHash" required>
