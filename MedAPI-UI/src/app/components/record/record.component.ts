@@ -179,10 +179,10 @@ export class RecordComponent implements OnInit {
     console.log(this.customSymptoms);
     this.recordService.saveSymptoms(this.documentNumber,this.selectedSymptomsDropDownList, this.customSymptoms).then((response : any) => {
 
-      console.log("success");
+      this.toastr.success('síntomas guardados con éxito.');
       //this.uploadResultsByLab.data = response;
     }).catch((error : any) => {
-      console.log(error);
+      this.toastr.error('Se produjo un error al guardar los síntomas.');
     });
 
   }
