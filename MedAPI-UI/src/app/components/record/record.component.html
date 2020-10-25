@@ -49,9 +49,10 @@
        
   <ng-multiselect-dropdown 
 [placeholder]="'Seleccionar síntomas'"
+[settings]="symptomsDropDownSettings"
 [data]="symptomsDropDownList"
 [(ngModel)]="  selectedSymptomsDropDownList"
-[settings]="symptomsDropDownSettings"
+
 (onSelect)="onItemSelect($event)"
 (onSelectAll)="onSelectAll($event)"
 >
