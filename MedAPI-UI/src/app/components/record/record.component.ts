@@ -99,8 +99,6 @@ export class RecordComponent implements OnInit {
 
   ngOnInit(): void {
 
-
-    
     this.askTicket = false;
     this.waitingTicket = false;
     this.askDocumentNumber = true; // false;
@@ -128,7 +126,7 @@ export class RecordComponent implements OnInit {
     this.isUserLabPerson = localStorage.getItem('role') === 'lab';
     this.isUserPatient = localStorage.getItem('role') === 'patient';
 
-    
+
     this.symptomsDropDownSettings = {
       singleSelection: false,
       idField: 'id',
@@ -138,7 +136,7 @@ export class RecordComponent implements OnInit {
       unSelectAllText: 'UnSelect All',
       itemsShowLimit: 3,
       allowSearchFilter: true
-      
+
     };
 
     if(this.isUserLabPerson)
@@ -146,10 +144,7 @@ export class RecordComponent implements OnInit {
       this.labId = Number(localStorage.getItem('loggedInID'));
 
           this.recordService.getUploadResultByLabID(this.labId).then((response : LabUploadResult[]) => {
-
-            this.uploadResultsByLab.data = response;
-
-
+          this.uploadResultsByLab.data = response;
           }).catch((error : any) => {
              console.log(error);
           });
