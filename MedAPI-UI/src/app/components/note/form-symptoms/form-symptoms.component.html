@@ -5,7 +5,7 @@
       <div fxLayout="column">
         <mat-form-field fxFlex>
           <mat-label>Descripción</mat-label>
-          <textarea matInput name="symptoms" class="max-width" maxlength="250" #symptoms="ngModel"
+          <textarea [disabled]="!isEditable" matInput name="symptoms" class="max-width" maxlength="250" #symptoms="ngModel"
                     [(ngModel)]="note.symptoms.description">
         </textarea>
           <mat-hint align="end">{{symptoms.value?.length || 0}}/250</mat-hint>
@@ -13,7 +13,7 @@
         <div fxLayout="row" fxLayoutGap="24px">
           <mat-form-field fxFlex="32">
             <mat-label>Tiempo de síntoma</mat-label>
-            <input type="number" name="symptomDuration" min="0" matInput #symptomDuration="ngModel"
+            <input [disabled]="!isEditable" type="number" name="symptomDuration" min="0" matInput #symptomDuration="ngModel"
                    [(ngModel)]="note.symptoms.duration" required>
             <mat-error *ngIf="symptomDuration.errors && (symptomDuration.touched || symptomDuration.dirty)">
               Este campo es requerido
@@ -21,7 +21,7 @@
           </mat-form-field>
           <mat-form-field fxFlex="32">
             <mat-label>Unidades</mat-label>
-            <mat-select name="durationUnit" class="max-width" #durationUnit="ngModel"
+            <mat-select [disabled]="!isEditable" name="durationUnit" class="max-width" #durationUnit="ngModel"
                         [(ngModel)]="note.symptoms.durationUnit" required>
               <mat-option *ngFor="let c of resources.durationUnits" [value]="c.id">{{c.name}}</mat-option>
             </mat-select>
@@ -32,7 +32,7 @@
         </div>
         <mat-form-field fxFlex>
           <mat-label>Relato</mat-label>
-          <textarea matInput name="background" class="max-width" maxlength="250" #background="ngModel"
+          <textarea [disabled]="!isEditable" matInput name="background" class="max-width" maxlength="250" #background="ngModel"
                     [(ngModel)]="note.symptoms.background">
         </textarea>
           <mat-hint align="end">{{background.value?.length || 0}}/250</mat-hint>
@@ -45,7 +45,7 @@
         <h2 class="mat-title form-section" fxFlex="100">Examen físico</h2>
         <mat-form-field fxFlex>
           <mat-label>Descripción</mat-label>
-          <textarea matInput name="physicalExam" class="max-width" maxlength="250" #physicalExam="ngModel"
+          <textarea matInput [disabled]="!isEditable" name="physicalExam" class="max-width" maxlength="250" #physicalExam="ngModel"
                     [(ngModel)]="note.physicalExam.text">
         </textarea>
           <mat-hint align="end">{{physicalExam.value?.length || 0}}/250</mat-hint>
@@ -55,7 +55,7 @@
         </mat-form-field>
       </div>
     </div>
-    <app-form-conclusion [note]="note" [patient]="patient"></app-form-conclusion>
+    <app-form-conclusion [isEditable]="isEditable" [note]="note" [patient]="patient"></app-form-conclusion>
     <!--<div fxLayout="column" fxLayoutGap="24px">
       <h2 class="mat-title form-section" fxFlex="100">Diagnóstico</h2>
       <div fxFlex>

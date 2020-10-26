@@ -58,9 +58,6 @@
           </div> 
         </div>
 
-
-
-
       <!-- </mat-toolbar-row>
     </mat-toolbar> -->
 
@@ -71,9 +68,10 @@
       <div fxFlex="75" fxFlex.md="70" fxFlex.sm="65" fxFlex.xs="60">
         <ng-multiselect-dropdown 
         [placeholder]="'Seleccionar síntomas'"
-        [data]="symptomsDropDownList"
-        [(ngModel)]="selectedSymptomsDropDownList"
         [settings]="symptomsDropDownSettings"
+        [data]="symptomsDropDownList"
+        [(ngModel)]="  selectedSymptomsDropDownList"
+        [disabled]="this.isUserAdmin"
         (onSelect)="onItemSelect($event)"
         (onSelectAll)="onSelectAll($event)"
         >

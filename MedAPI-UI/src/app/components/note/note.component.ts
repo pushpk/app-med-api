@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { NoteService } from './services/note.service';
 import { FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -43,13 +43,16 @@ export class NoteComponent implements OnInit {
   selectNoteId: any;
   tabs: Array<{ title: string; }>;
 
+  isEditable = false;
+  docNumber: string;
+
   constructor(private noteService: NoteService,
-    public route: ActivatedRoute,
-    public router: Router,
-    private recordService: RecordService,
-    public dialog: MatDialog,
-    public resourcesService: ResourcesService,
-    private toastr: ToastrService
+              public route: ActivatedRoute,
+              public router: Router,
+              private recordService: RecordService,
+              public dialog: MatDialog,
+              public resourcesService: ResourcesService,
+              private toastr: ToastrService
   ) {
     const self = this;
     self.speciality = localStorage.getItem('speciality');
@@ -64,6 +67,14 @@ export class NoteComponent implements OnInit {
 
     self.selectedSpecialty = null;
     self.searchSpecialty = '';
+
+    if (this.router.url.indexOf('/records/notes/new') > -1) {
+      this.isEditable = true;
+    }
+    if (this.route.snapshot.queryParamMap.get('docNumber')){
+      this.docNumber = this.route.snapshot.queryParamMap.get('docNumber');
+    }
+    console.log(this.docNumber);
 
     //self.note = {
     //  symptoms: {
@@ -171,6 +182,7 @@ export class NoteComponent implements OnInit {
     //};
   }
 
+
   ngOnInit(): void {
     //this.patient = JSON.parse(localStorage.getItem('patient'));
     this.getPatients();
@@ -178,6 +190,7 @@ export class NoteComponent implements OnInit {
     this.recordService.selectedSpecialty.subscribe((value) => {
       this.speciality = value;
     });
+
 
     this.getResources();
     this.tabs = this.showTabs(this.speciality);

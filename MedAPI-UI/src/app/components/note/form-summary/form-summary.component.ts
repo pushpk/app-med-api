@@ -13,6 +13,7 @@ export class FormSummaryComponent implements OnInit {
   @Input() submit: any;
   @Input() note: any;
   @Input() patient: any;
+  @Input() isEditable: boolean;
 
   constructor(private commonService: CommonService) { }
 

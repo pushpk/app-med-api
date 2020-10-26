@@ -29,6 +29,7 @@ import { ToastrService } from 'ngx-toastr';
 import {  saveAs as importedSaveAs  } from "file-saver";
 import {  IDropdownSettings } from 'ng-multiselect-dropdown';
 import { Symptoms } from 'src/app/models/symptoms.model';
+import { NoteService } from '../note/services/note.service';
 
 
 
@@ -90,10 +91,11 @@ export class RecordComponent implements OnInit {
   symptomsDropDownList = [];
   selectedSymptomsDropDownList = [];
   symptomsDropDownSettings: IDropdownSettings = {};
-  customSymptoms : string;
+  customSymptoms: string;
 
   constructor(private recordService: RecordService, public router: Router, private changeDetectorRefs: ChangeDetectorRef, 
-    private commonService : CommonService, private activatedRouter: ActivatedRoute, public toastr: ToastrService) { }
+              private commonService: CommonService, private activatedRouter: ActivatedRoute, public toastr: ToastrService,
+              private noteService: NoteService) { }
 
   ngOnInit(): void {
 
@@ -131,6 +133,7 @@ export class RecordComponent implements OnInit {
       singleSelection: false,
       idField: 'id',
       textField: 'name',
+      enableCheckAll: false,
       selectAllText: 'Select All',
       unSelectAllText: 'UnSelect All',
       itemsShowLimit: 3,
@@ -177,19 +180,19 @@ export class RecordComponent implements OnInit {
 
   SaveSymptoms(){
 
-    console.log(this.selectedSymptomsDropDownList);
-    console.log(this.customSymptoms);
+    // console.log(this.selectedSymptomsDropDownList);
+    // console.log(this.customSymptoms);
     this.recordService.saveSymptoms(this.documentNumber,this.selectedSymptomsDropDownList, this.customSymptoms).then((response : any) => {
 
-      console.log("success");
+      this.toastr.success('síntomas guardados con éxito.');
       //this.uploadResultsByLab.data = response;
     }).catch((error : any) => {
-      console.log(error);
+      this.toastr.error('Se produjo un error al guardar los síntomas.');
     });
 
   }
   onItemSelect(item: any) {
-    console.log(this.selectedSymptomsDropDownList);
+    // console.log(this.selectedSymptomsDropDownList);
     //this.selectedSymptomsDropDownList.push(item);
   }
   onSelectAll(items: any) {
@@ -211,7 +214,7 @@ export class RecordComponent implements OnInit {
 
   downloadInter(note: NoteDetail){
 
-    console.log(this.patient)
+    // console.log(this.patient)
     this.commonService.generatePDF(this.patient, note, "Interconsultation");
   }
 
@@ -219,11 +222,10 @@ export class RecordComponent implements OnInit {
 
     this.recordService.getUploadResultFile(id).subscribe((data) => {  
       console.log(data);
-      importedSaveAs(data, fileName)  
+      importedSaveAs(data, fileName)
   });
-   
+
   }
- 
 
   csvInputChange(fileInputEvent: any) {
     this.labUploadResult.file = fileInputEvent.target.files[0];
@@ -245,7 +247,7 @@ export class RecordComponent implements OnInit {
       }
 
       this.recordService.uploadResult(this.labUploadResult.file, this.labUploadResult).subscribe((response: any) => {
-      
+
         if(this.isUserLabPerson)
         {
           this.recordService.getUploadResultByLabID(this.labUploadResult.labId).then((response : LabUploadResult[]) => {
@@ -266,13 +268,13 @@ export class RecordComponent implements OnInit {
       this.isUploadFormShow = true;
     },(error) => {
        console.log(error);
-        
+
         this.toastr.error('Se produjo un error al cargar este documento.');
        });
 
     // .catch((error) => {
     //   console.log(error);
-      
+
     //   this.toastr.error('Se produjo un error al crear medic.');
     // });
 
@@ -427,7 +429,8 @@ export class RecordComponent implements OnInit {
         break;
     }
     localStorage.setItem('notes', '');
-    this.router.navigateByUrl(routerPath);
+    this.router.navigate([routerPath], {queryParams: {docNumber: this.documentNumber}});
+    // this.router.navigateByUrl(routerPath);
   }
   navigateToPatient() {
     let routerPath = '/patients/new';
@@ -917,6 +920,6 @@ export class RecordComponent implements OnInit {
         break;
     }
     this.recordService.selectedSpecialty.next(speciality);
-    this.router.navigateByUrl(routerPath);
+    this.router.navigate([routerPath], {queryParams: {docNumber: this.documentNumber}});
   }
 }

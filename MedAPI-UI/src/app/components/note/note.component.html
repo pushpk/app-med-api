@@ -8,31 +8,44 @@
               <div>
                 <app-form-triage [note]="note"
                                  [patient]="patient"
+                                 [isEditable]="isEditable"
                                  *ngIf="tab.title==='Triaje'"
                                  (computedFieldsChange)="handleComputedFieldsChange($event)">
                 </app-form-triage>
                 <!--(diagnosisModalChange)="addDiagnosis($event)"
                 (diagnosisChange)="handleDiagnosisChange($event)"-->
-                <app-form-symptoms [note]="note" [patient]="patient" *ngIf="tab.title==='Atención' && !tab.isCardiology">
+                <app-form-symptoms [isEditable]="isEditable" [note]="note" [patient]="patient" *ngIf="tab.title==='Atención' && !tab.isCardiology">
                 </app-form-symptoms>
-                <app-cardio-form-symptoms [note]="note" [patient]="patient" *ngIf="tab.title==='Atención' && tab.isCardiology"></app-cardio-form-symptoms>
-                <app-form-conclusion [note]="note" [patient]="patient" *ngIf="tab.title==='Conclusión'"></app-form-conclusion>
-                <app-form-summary [note]="note" [patient]="patient" [submit]="submit" *ngIf="tab.title==='Resumen'"></app-form-summary>
+                <app-cardio-form-symptoms [isEditable]="isEditable" [note]="note" [patient]="patient" *ngIf="tab.title==='Atención' && tab.isCardiology"></app-cardio-form-symptoms>
+                <app-form-conclusion [isEditable]="isEditable" [note]="note" [patient]="patient" *ngIf="tab.title==='Conclusión'"></app-form-conclusion>
+                <app-form-summary [isEditable]="isEditable" [note]="note" [patient]="patient" [submit]="submit" *ngIf="tab.title==='Resumen'"></app-form-summary>
               </div>
             </mat-tab>
           </ng-container>
         </mat-tab-group>
       </mat-card-content>
-      <mat-card-actions fxLayout="row" fxLayoutAlign="end center">
-        <button mat-button type="button" [disabled]="index.value==0" (click)="index.setValue(index.value-1)">Anterior</button>
+      <mat-card-actions fxLayout="row" fxLayoutAlign="space-between center">
+        <div style="margin-left: 15px;">
+          <button fxLayoutAlign="start center" mat-button color="text-muted" [routerLink]="docNumber ? ['/records/', docNumber] : ['/records']">
+            Cancelar 
+          </button>
+        </div>
+        <div>
+          <button mat-button type="button" [disabled]="index.value==0" (click)="index.setValue(index.value-1)">Anterior</button>
 
-        <button mat-button color="primary" type="button"
-                *ngIf="index.value<tabs.length-1" (click)="index.setValue(index.value+1)">
-          Siguiente
-        </button>
-        <button mat-button color="primary" type="submit" *ngIf="index.value===tabs.length-1">
-          Enviar
-        </button>
+          <button mat-button color="primary" type="button"
+                  *ngIf="index.value<tabs.length-1" (click)="index.setValue(index.value+1)">
+            Siguiente
+          </button>
+          <button mat-button color="primary" type="submit" *ngIf="index.value===tabs.length-1 && isEditable">
+            Enviar
+          </button>
+          <button mat-button color="primary" [routerLink]="docNumber ? ['/records/', docNumber] : ['/records']" *ngIf="index.value===tabs.length-1 && !isEditable">
+            Inicio 
+          </button>
+        </div>
+
+
 
         <!-- TODO Continuar button -->
         <button mat-button color="primary" type="submit" *ngIf="false">

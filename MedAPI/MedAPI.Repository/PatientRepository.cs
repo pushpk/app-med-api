@@ -468,18 +468,17 @@ namespace MedAPI.Repository
                 long userId = context.users.FirstOrDefault(s => s.documentNumber == mSymptoms.documentNumber).id;
                 long patientId = context.patients.FirstOrDefault(s => s.user_id == userId).id;
 
+                var efSymptomsExisting = context.patient_symptoms.Where(m => m.patient_id == patientId);
+                if (efSymptomsExisting != null)
+                {
+                    context.patient_symptoms.RemoveRange(efSymptomsExisting);
+                    context.SaveChanges();
+                }
+
                 try
                 {
                     foreach (var Symptom in mSymptoms.symptoms)
                     {
-                        var efSymptomsExisting = context.patient_symptoms.Where(m => m.patient_id == patientId);
-                        if (efSymptomsExisting != null)
-                        {
-                            context.patient_symptoms.RemoveRange(efSymptomsExisting);
-                            context.SaveChanges();
-                        }
-
-                        
                         var efSymptoms = new DataAccess.patient_symptoms();
                         context.patient_symptoms.Add(efSymptoms);
                         

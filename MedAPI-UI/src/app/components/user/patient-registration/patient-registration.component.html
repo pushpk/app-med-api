@@ -198,7 +198,7 @@
                       </mat-chip-list>
                       <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedAllergie($event)">
                         <mat-option *ngFor="let allergie of filteredAllergies | async" [value]="allergie">
-                          {{allergie}}
+                          {{allergie.name}}
                         </mat-option>
                       </mat-autocomplete>
                       <mat-chip *ngFor="let allergie of selectedAllergies"
@@ -242,7 +242,7 @@
                       </mat-chip-list>
                       <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedMedicine($event)">
                         <mat-option *ngFor="let medicine of filteredMedicines | async" [value]="medicine">
-                          {{medicine}}
+                          {{medicine.name}}
                         </mat-option>
                       </mat-autocomplete>
                       <mat-chip *ngFor="let medicine of selectedMedicines"
@@ -285,7 +285,7 @@
                       </mat-chip-list>
                       <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedPersonalBackground($event)">
                         <mat-option *ngFor="let personalBg of filteredPersonalBackgrounds | async" [value]="personalBg">
-                          {{personalBg}}
+                          {{personalBg.name}}
                         </mat-option>
                       </mat-autocomplete>
                       <mat-chip *ngFor="let pbg of selectedPersonalBackgrounds"

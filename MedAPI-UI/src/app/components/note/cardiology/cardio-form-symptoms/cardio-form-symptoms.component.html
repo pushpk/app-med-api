@@ -40,20 +40,20 @@
     <mat-form-field>
       <mat-label>Otros síntomas</mat-label>
       <input type="text" matInput name="otherSymptoms" [(ngModel)]="note.otherSymptoms" maxlength="250"
-             #otherSymptoms="ngModel">
+             #otherSymptoms="ngModel" [disabled]="!isEditable">
       <mat-hint align="end">{{otherSymptoms.value?.length || 0}}/250</mat-hint>
     </mat-form-field>
     <div fxLayout="row" fxLayoutGap="20px">
       <mat-form-field fxFlex>
         <mat-label>Tiempo de síntoma</mat-label>
-        <input type="number" matInput name="symptomDuration" #symptomDuration="ngModel" min="0" [(ngModel)]="note.symptoms.duration" required>
+        <input [disabled]="!isEditable" type="number" matInput name="symptomDuration" #symptomDuration="ngModel" min="0" [(ngModel)]="note.symptoms.duration" required>
         <mat-error *ngIf="symptomDuration.errors && (symptomDuration.touched || symptomDuration.dirty)">
           Este campo es requerido
         </mat-error>
       </mat-form-field>
       <mat-form-field fxFlex>
         <mat-label>Unidades</mat-label>
-        <mat-select name="durationUnit" class="max-width" #durationUnit="ngModel"
+        <mat-select [disabled]="!isEditable" name="durationUnit" class="max-width" #durationUnit="ngModel"
                     [(ngModel)]="note.symptoms.durationUnit" required>
           <mat-option *ngFor="let c of resources.durationUnits" [value]="c.id">{{c.name}}</mat-option>
         </mat-select>
@@ -64,7 +64,7 @@
     </div>
     <mat-form-field fxFlex>
       <mat-label>Antecedentes</mat-label>
-      <textarea matInput name="background" class="max-width" maxlength="250" #background="ngModel"
+      <textarea [disabled]="!isEditable" matInput name="background" class="max-width" maxlength="250" #background="ngModel"
                 [(ngModel)]="note.symptoms.background">
         </textarea>
       <mat-hint align="end">{{background.value?.length || 0}}/250</mat-hint>
@@ -75,7 +75,7 @@
     <div fxLayout="row" fxLayoutGap="20px">
       <mat-form-field fxFlex="30">
         <mat-label>Llenado capilar miembro inferior izquierdo</mat-label>
-        <mat-select name="capillaryRefillLMs" class="max-width" #capillaryRefillLMs="ngModel"
+        <mat-select [disabled]="!isEditable" name="capillaryRefillLMs" class="max-width" #capillaryRefillLMs="ngModel"
                     [(ngModel)]="note.cardiovascularNote.skin.capillaryRefillLLM" required>
           <mat-option *ngFor="let c of resources.capillaryRefillLLMs" [value]="c.id">{{c.name}}</mat-option>
         </mat-select>
@@ -85,7 +85,7 @@
       </mat-form-field>
       <mat-form-field fxFlex="30">
         <mat-label>Llenado capilar miembro inferior derecho</mat-label>
-        <mat-select name="capillaryRefillLRMs" class="max-width" #capillaryRefillLRMs="ngModel"
+        <mat-select [disabled]="!isEditable" name="capillaryRefillLRMs" class="max-width" #capillaryRefillLRMs="ngModel"
                     [(ngModel)]="note.cardiovascularNote.skin.capillaryRefillLRM" required>
           <mat-option *ngFor="let c of resources.capillaryRefillLRMs" [value]="c.id">{{c.name}}</mat-option>
         </mat-select>
@@ -98,26 +98,26 @@
   <div fxLayout="column">
     <h2 class="mat-title form-section" fxFlex="100">Pulsos</h2>
     <div fxLayout="column">
-      <mat-slide-toggle color="primary" [(ngModel)]="note.cardiovascularNote.skin.trophicChanges">
+      <mat-slide-toggle [disabled]="!isEditable" color="primary" [(ngModel)]="note.cardiovascularNote.skin.trophicChanges">
         {{note.cardiovascularNote.skin.trophicChanges ? 'Presenta cambios tróficos' : 'No presenta cambiostróficos'}}
       </mat-slide-toggle>
       <br />
-      <mat-slide-toggle color="primary" [(ngModel)]="note.cardiovascularNote.skin.edemaAnkle">
+      <mat-slide-toggle [disabled]="!isEditable" color="primary" [(ngModel)]="note.cardiovascularNote.skin.edemaAnkle">
         {{note.cardiovascularNote.skin.edemaAnkle ? 'Presenta edema de tobillo' : 'No presenta edema de tobillo'}}
       </mat-slide-toggle>
       <br />
-      <mat-slide-toggle color="primary" [(ngModel)]="note.cardiovascularNote.skin.edemaLowerMember">
+      <mat-slide-toggle [disabled]="!isEditable" color="primary" [(ngModel)]="note.cardiovascularNote.skin.edemaLowerMember">
         {{note.cardiovascularNote.skin.edemaLowerMember ? 'Presenta edema de miembros inferiores' : 'No presenta edema de miembros inferiores'}}
       </mat-slide-toggle>
       <br />
-      <mat-slide-toggle color="primary" [(ngModel)]="note.cardiovascularNote.skin.edemaGeneralized">
+      <mat-slide-toggle [disabled]="!isEditable" color="primary" [(ngModel)]="note.cardiovascularNote.skin.edemaGeneralized">
         {{note.cardiovascularNote.skin.edemaLowerMember ? 'Presenta edema generalizado' : 'No presenta edema generalizado'}}
       </mat-slide-toggle>
     </div>
     <div fxLayout="row" class="mt-16" fxLayoutGap="20px">
       <mat-form-field fxFlex="30">
         <mat-label>Pulsos miembro inferior izquierdo</mat-label>
-        <mat-select name="pulsesLLMs" class="max-width" #pulsesLLMs="ngModel"
+        <mat-select [disabled]="!isEditable" name="pulsesLLMs" class="max-width" #pulsesLLMs="ngModel"
                     [(ngModel)]="note.cardiovascularNote.pulses.pulsesLLM" required>
           <mat-option *ngFor="let c of resources.pulsesLLMs" [value]="c.id">{{c.name}}</mat-option>
         </mat-select>
@@ -127,7 +127,7 @@
       </mat-form-field>
       <mat-form-field fxFlex="30">
         <mat-label>Pulsos miembro inferior derecho</mat-label>
-        <mat-select name="pulsesLRMs" class="max-width" #pulsesLRMs="ngModel"
+        <mat-select [disabled]="!isEditable" name="pulsesLRMs" class="max-width" #pulsesLRMs="ngModel"
                     [(ngModel)]="note.cardiovascularNote.pulses.pulsesLRM" required>
           <mat-option *ngFor="let c of resources.pulsesLRMs" [value]="c.id">{{c.name}}</mat-option>
         </mat-select>
@@ -142,7 +142,7 @@
     <div fxLayout="row" fxLayoutGap="20px">
       <mat-form-field fxFlex="30">
         <mat-label>Murmullo vesicular en campo pulmonar izquierdo</mat-label>
-        <mat-select name="vesicularWhisperLs" class="max-width" #vesicularWhisperLs="ngModel"
+        <mat-select [disabled]="!isEditable" name="vesicularWhisperLs" class="max-width" #vesicularWhisperLs="ngModel"
                     [(ngModel)]="note.cardiovascularNote.respiratorySystem.vesicularWhisperL" required>
           <mat-option *ngFor="let c of resources.vesicularWhisperLs" [value]="c.id">{{c.name}}</mat-option>
         </mat-select>
@@ -152,7 +152,7 @@
       </mat-form-field>
       <mat-form-field fxFlex="30">
         <mat-label>Murmullo vesicular en campo pulmonar derecho</mat-label>
-        <mat-select name="vesicularWhisperRs" class="max-width" #vesicularWhisperRs="ngModel"
+        <mat-select [disabled]="!isEditable" name="vesicularWhisperRs" class="max-width" #vesicularWhisperRs="ngModel"
                     [(ngModel)]="note.cardiovascularNote.respiratorySystem.vesicularWhisperR" required>
           <mat-option *ngFor="let c of resources.vesicularWhisperRs" [value]="c.id">{{c.name}}</mat-option>
         </mat-select>
@@ -168,7 +168,7 @@
       <mat-form-field fxFlex>
         <mat-label>Pulsos radiales izquierdos</mat-label>
         <mat-select name="radialPulsesLs" class="max-width" #radialPulsesLs="ngModel"
-                    [(ngModel)]="note.cardiovascularNote.cardiovascularSystem.radialPulsesL" required>
+                    [disabled]="!isEditable" [(ngModel)]="note.cardiovascularNote.cardiovascularSystem.radialPulsesL" required>
           <mat-option *ngFor="let c of resources.radialPulsesLs" [value]="c.id">{{c.name}}</mat-option>
         </mat-select>
         <mat-error *ngIf="radialPulsesLs.errors && (radialPulsesLs.touched || radialPulsesLs.dirty)">
@@ -177,7 +177,7 @@
       </mat-form-field>
       <mat-form-field fxFlex>
         <mat-label>Pulsos radiales derechos</mat-label>
-        <mat-select name="radialPulsesRs" class="max-width" #radialPulsesRs="ngModel"
+        <mat-select [disabled]="!isEditable" name="radialPulsesRs" class="max-width" #radialPulsesRs="ngModel"
                     [(ngModel)]="note.cardiovascularNote.cardiovascularSystem.radialPulsesR" required>
           <mat-option *ngFor="let c of resources.radialPulsesRs" [value]="c.id">{{c.name}}</mat-option>
         </mat-select>
@@ -187,7 +187,7 @@
       </mat-form-field>
       <mat-form-field fxFlex>
         <mat-label>Pulsos pedios izquierdos</mat-label>
-        <mat-select name="pedalPulsesLs" class="max-width" #pedalPulsesLs="ngModel"
+        <mat-select [disabled]="!isEditable" name="pedalPulsesLs" class="max-width" #pedalPulsesLs="ngModel"
                     [(ngModel)]="note.cardiovascularNote.cardiovascularSystem.pedalPulsesL" required>
           <mat-option *ngFor="let c of resources.pedalPulsesLs" [value]="c.id">{{c.name}}</mat-option>
         </mat-select>
@@ -199,7 +199,7 @@
     <div fxLayout="row" fxLayoutGap="20px">
       <mat-form-field fxFlex>
         <mat-label>Pulsos pedios derechos</mat-label>
-        <mat-select name="pedalPulsesRs" class="max-width" #pedalPulsesRs="ngModel"
+        <mat-select [disabled]="!isEditable" name="pedalPulsesRs" class="max-width" #pedalPulsesRs="ngModel"
                     [(ngModel)]="note.cardiovascularNote.cardiovascularSystem.pedalPulsesR" required>
           <mat-option *ngFor="let c of resources.pedalPulsesRs" [value]="c.id">{{c.name}}</mat-option>
         </mat-select>
@@ -209,7 +209,7 @@
       </mat-form-field>
       <mat-form-field fxFlex>
         <mat-label>Ruidos cardiacos - ritmo</mat-label>
-        <mat-select name="cardiacPressureRhythms" class="max-width" #cardiacPressureRhythms="ngModel"
+        <mat-select [disabled]="!isEditable" name="cardiacPressureRhythms" class="max-width" #cardiacPressureRhythms="ngModel"
                     [(ngModel)]="note.cardiovascularNote.cardiovascularSystem.cardiacPressureRhythm" required>
           <mat-option *ngFor="let c of resources.cardiacPressureRhythms" [value]="c.id">{{c.name}}</mat-option>
         </mat-select>
@@ -219,7 +219,7 @@
       </mat-form-field>
       <mat-form-field fxFlex>
         <mat-label>Ruidos cardiacos - intensidad</mat-label>
-        <mat-select name="cardiacPressureIntensities" class="max-width" #cardiacPressureIntensities="ngModel"
+        <mat-select [disabled]="!isEditable" name="cardiacPressureIntensities" class="max-width" #cardiacPressureIntensities="ngModel"
                     [(ngModel)]="note.cardiovascularNote.cardiovascularSystem.cardiacPressureIntensity" required>
           <mat-option *ngFor="let c of resources.cardiacPressureIntensities" [value]="c.id">{{c.name}}</mat-option>
         </mat-select>
@@ -232,7 +232,7 @@
   <div fxLayout="column">
     <h2 class="mat-title form-section" fxFlex="100">Soplos</h2>
     <div fxLayout="row" fxLayoutGap="20px">
-      <mat-slide-toggle color="primary" [(ngModel)]="note.cardiovascularNote.murmurs.murmurs">
+      <mat-slide-toggle [disabled]="!isEditable" color="primary" [(ngModel)]="note.cardiovascularNote.murmurs.murmurs">
         {{note.cardiovascularNote.murmurs.murmurs ? 'Presenta soplos' : 'No presenta soplos'}}
       </mat-slide-toggle>
     </div>
@@ -242,7 +242,7 @@
     <div fxLayout="row" fxLayoutGap="20px">
       <mat-form-field fxFlex="30">
         <mat-label>Semiología gastrointestinal</mat-label>
-        <mat-select name="gastrointestinalSemiologies" class="max-width" #gastrointestinalSemiologies="ngModel"
+        <mat-select [disabled]="!isEditable" name="gastrointestinalSemiologies" class="max-width" #gastrointestinalSemiologies="ngModel"
                     [(ngModel)]="note.cardiovascularNote.gastrointestinalSemiology.gastrointestinalSemiology" required>
           <mat-option *ngFor="let c of resources.gastrointestinalSemiologies" [value]="c.id">{{c.name}}</mat-option>
         </mat-select>

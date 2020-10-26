@@ -20,6 +20,7 @@ export class FormConclusionComponent implements OnInit {
   resources: any;
   @Input() note: any;
   @Input() patient: any;
+  @Input() isEditable: boolean;
 
   diagnosisCtrl = new FormControl();
   examCtrl = new FormControl();
@@ -99,7 +100,7 @@ export class FormConclusionComponent implements OnInit {
 
   addDiagnosis(diagnosis: any): void {
     console.log(diagnosis, 'diagnosis');
-    if (!diagnosis) {
+    if (!diagnosis || !this.isEditable) {
       return;
     }
 
@@ -129,6 +130,9 @@ export class FormConclusionComponent implements OnInit {
   }
 
   removeDiagnosis(diagnosis: any): void {
+    if (!this.isEditable){
+      return;
+    }
     let index = this.note.diagnosis.list.indexOf(diagnosis);
     if (index !== -1) {
       this.note.diagnosis.list.splice(index, 1);
@@ -155,7 +159,7 @@ export class FormConclusionComponent implements OnInit {
   }
 
   addExams(exam: any) {
-    if (!exam) {
+    if (!exam || !this.isEditable) {
       return;
     }
 
@@ -169,6 +173,9 @@ export class FormConclusionComponent implements OnInit {
   }
 
   removeExam(exam: any) {
+    if (!this.isEditable){
+      return;
+    }
     let index = this.note.exams.list.indexOf(exam);
     if (index !== -1) {
       this.note.exams.list.splice(index, 1);
@@ -176,7 +183,9 @@ export class FormConclusionComponent implements OnInit {
   }
 
   showExamDialog(exam: any) {
-    console.log(exam, 'exam');
+    if (!this.isEditable){
+      return;
+    }
     let dialogRef = this.dialog.open(DialogExamComponent, {
       panelClass: 'custom-dialog',
       data: {
@@ -207,7 +216,7 @@ export class FormConclusionComponent implements OnInit {
 
   addTreatment(d) {
     console.log(d, 'd');
-    if (!d) {
+    if (!d || !this.isEditable) {
       return;
     }
 
@@ -236,6 +245,9 @@ export class FormConclusionComponent implements OnInit {
   }
 
   removeTreatment(d) {
+    if (!this.isEditable){
+      return;
+    }
     let index = this.note.treatments.list.indexOf(d);
     if (index !== -1) {
       this.note.treatments.list.splice(index, 1);
@@ -261,7 +273,7 @@ export class FormConclusionComponent implements OnInit {
   }
 
   addSpecialty(d) {
-    if (!d) {
+    if (!d || !this.isEditable) {
       return;
     }
     let index = this.note.referrals.list.indexOf(d);
@@ -273,6 +285,9 @@ export class FormConclusionComponent implements OnInit {
   }
 
   removeSpecialty(d) {
+    if (!this.isEditable){
+      return;
+    }
     var index = this.note.referrals.list.indexOf(d);
     if (index !== -1) {
       this.note.referrals.list.splice(index, 1);

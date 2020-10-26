@@ -18,8 +18,9 @@ export class FormTriageComponent implements OnInit {
   resources: any;
   @Input() note: any;
   @Input() patient: any;
+  @Input() isEditable: boolean;
   @Output() computedFieldsChange = new EventEmitter<any>();
-  
+
 
 
   constructor(public noteService: NoteService, public dialog: MatDialog) {
