@@ -30,6 +30,9 @@ import {  saveAs as importedSaveAs  } from "file-saver";
 import {  IDropdownSettings } from 'ng-multiselect-dropdown';
 import { Symptoms } from 'src/app/models/symptoms.model';
 import { NoteService } from '../note/services/note.service';
+import {ThemePalette} from '@angular/material/core';
+import {ProgressSpinnerMode} from '@angular/material/progress-spinner';
+
 
 
 
@@ -54,6 +57,8 @@ export interface PastAttentions {
   templateUrl: './record.component.html',
   styleUrls: ['./record.component.scss']
 })
+
+
 export class RecordComponent implements OnInit {
   notes: NoteDetail[];
   patient: Patient = new Patient();
@@ -80,7 +85,7 @@ export class RecordComponent implements OnInit {
   { value: 'PEDIATRY', name: 'Pediatría', id: 3 },
   { value: 'TRAUMATOLOGY', name: 'Traumatología', id: 4 }];
 
-  isUserAdmin : boolean = false;
+  isUserAdmin: boolean = false;
   isUserLabPerson: boolean = false;
   isUserPatient: boolean = false;
   uploadedFile: any;
@@ -92,6 +97,11 @@ export class RecordComponent implements OnInit {
   selectedSymptomsDropDownList = [];
   symptomsDropDownSettings: IDropdownSettings = {};
   customSymptoms: string;
+
+  color: ThemePalette = 'primary';
+  mode: ProgressSpinnerMode = 'indeterminate';
+  value = 50;
+  isLoadingResults = false;
 
   constructor(private recordService: RecordService, public router: Router, private changeDetectorRefs: ChangeDetectorRef, 
               private commonService: CommonService, private activatedRouter: ActivatedRoute, public toastr: ToastrService,
@@ -109,10 +119,10 @@ export class RecordComponent implements OnInit {
     this.recordService.selectedSpecialty.next(this.selectedSpeciality);
 
     this.ticketNumber = '';
-    //this.ticket.status   = TicketStatus.REGISTERED;
+    // this.ticket.status   = TicketStatus.REGISTERED;
     this.documentNumber = '';
 
-    //this.patient = {};
+    // this.patient = {};
 
     var docNumber = this.activatedRouter.snapshot.paramMap.get("id");
 
@@ -139,48 +149,51 @@ export class RecordComponent implements OnInit {
 
     };
 
-    if(this.isUserLabPerson)
+    if (this.isUserLabPerson)
     {
+      this.isLoadingResults = true;
       this.labId = Number(localStorage.getItem('loggedInID'));
 
-          this.recordService.getUploadResultByLabID(this.labId).then((response : LabUploadResult[]) => {
+      this.recordService.getUploadResultByLabID(this.labId).then((response: LabUploadResult[]) => {
           this.uploadResultsByLab.data = response;
-          }).catch((error : any) => {
+          this.isLoadingResults = false;
+          }).catch((error: any) => {
              console.log(error);
+             this.isLoadingResults = false;
           });
     }
     else{
 
 
-        
+
       this.recordService.getSymptoms().then((response : Symptoms[]) => {
         this.symptomsDropDownList = response["symptoms"];
-       
+
         if(!this.isUserAdmin )
         {
           this.recordService.getSymptomsForPatient(this.documentNumber).then((response : any) => {
               this.selectedSymptomsDropDownList = response["symptoms"]["symptoms"];
               this.customSymptoms = response["symptoms"]["Custom_Symptom"];
-         
+
           }).catch((error : any) => {
               console.log(error);
             });
         }
-      }).catch((error : any) => {
+      }).catch((error: any) => {
          console.log(error);
       });
     }
-    
+
   }
 
   SaveSymptoms(){
 
     // console.log(this.selectedSymptomsDropDownList);
     // console.log(this.customSymptoms);
-    this.recordService.saveSymptoms(this.documentNumber,this.selectedSymptomsDropDownList, this.customSymptoms).then((response : any) => {
+    this.recordService.saveSymptoms(this.documentNumber, this.selectedSymptomsDropDownList, this.customSymptoms).then((response : any) => {
 
       this.toastr.success('síntomas guardados con éxito.');
-      //this.uploadResultsByLab.data = response;
+      // this.uploadResultsByLab.data = response;
     }).catch((error : any) => {
       this.toastr.error('Se produjo un error al guardar los síntomas.');
     });
@@ -188,7 +201,7 @@ export class RecordComponent implements OnInit {
   }
   onItemSelect(item: any) {
     // console.log(this.selectedSymptomsDropDownList);
-    //this.selectedSymptomsDropDownList.push(item);
+    // this.selectedSymptomsDropDownList.push(item);
   }
   onSelectAll(items: any) {
     this.selectedSymptomsDropDownList.push(items);
@@ -199,7 +212,7 @@ export class RecordComponent implements OnInit {
   }
 
   downloadAttentionPdf(note: NoteDetail) {
-    this.commonService.generatePDF(this.patient,note,"Attention");
+    this.commonService.generatePDF(this.patient, note,"Attention");
   }
 
   downloadPrescription(note: NoteDetail){
@@ -215,16 +228,16 @@ export class RecordComponent implements OnInit {
 
   downloadTestResult(id: number, fileName: string){
 
-    this.recordService.getUploadResultFile(id).subscribe((data) => {  
+    this.recordService.getUploadResultFile(id).subscribe((data) => {
       console.log(data);
-      importedSaveAs(data, fileName)
+      importedSaveAs(data, fileName);
   });
 
   }
 
   csvInputChange(fileInputEvent: any) {
     this.labUploadResult.file = fileInputEvent.target.files[0];
-    this.formData.set('uploadFile', fileInputEvent.target.files[0]);  
+    this.formData.set('uploadFile', fileInputEvent.target.files[0]);
   }
 
   submitUploadResult(){
@@ -242,30 +255,33 @@ export class RecordComponent implements OnInit {
       }
 
       this.recordService.uploadResult(this.labUploadResult.file, this.labUploadResult).subscribe((response: any) => {
-
+        this.isLoadingResults = true;
         if(this.isUserLabPerson)
         {
           this.recordService.getUploadResultByLabID(this.labUploadResult.labId).then((response : LabUploadResult[]) => {
             this.uploadResultsByLab.data = response;
-          }).catch((error : any) => {
+            this.isLoadingResults = false;
+          }).catch((error: any) => {
+            this.isLoadingResults = false;
             console.log(error);
           });
         }
         else{
           this.recordService.getUploadResultByLabID(this.patient.userId).then((response : LabUploadResult[]) => {
             this.uploadResultsByLab.data = response;
-          }).catch((error : any) => {
+            this.isLoadingResults = false;
+          }).catch((error: any) => {
+            this.isLoadingResults = false;
             console.log(error);
           });
         }
 
-      this.toastr.success('Documento cargado exitosamente.');
-      this.isUploadFormShow = true;
-    },(error) => {
-       console.log(error);
-
-        this.toastr.error('Se produjo un error al cargar este documento.');
-       });
+        this.toastr.success('Documento cargado exitosamente.');
+        this.isUploadFormShow = true;
+    }, (error) => {
+      console.log(error);
+      this.toastr.error('Se produjo un error al cargar este documento.');
+      });
 
     // .catch((error) => {
     //   console.log(error);
@@ -295,10 +311,10 @@ export class RecordComponent implements OnInit {
 
       this.setPatientDetails(response);
 
-      //localStorage.setItem('patient', response.patient);
-      //localStorage.setItem('notes', response.notes);
-      //self.patient = response.patient;
-      //self.patient.notes = response.notes;
+      // localStorage.setItem('patient', response.patient);
+      // localStorage.setItem('notes', response.notes);
+      // self.patient = response.patient;
+      // self.patient.notes = response.notes;
       self.ticket = response.ticket;
       self.ticket.status = TicketStatus[<string>response.ticket.status];
       self.recordService.patientId.next(self.patient.id);
@@ -310,7 +326,7 @@ export class RecordComponent implements OnInit {
       self.showRecord = true;
       self.waitingTicket = false;
 
-     
+
 
     }).catch(() => {
       self.askDocumentNumber = true;
@@ -338,12 +354,12 @@ export class RecordComponent implements OnInit {
 
 
       this.setPatientDetails(response);
-      //localStorage.setItem('patient', JSON.stringify(response.patient));
-      //if (CheckEmptyUtil.isNotEmptyObject(response.notes)) {
+      // localStorage.setItem('patient', JSON.stringify(response.patient));
+      // if (CheckEmptyUtil.isNotEmptyObject(response.notes)) {
       //  localStorage.setItem('notes', JSON.stringify(response.notes));
-      //}
-      //self.patient = response.patient;
-      //self.patient.notes = response.notes;
+      // }
+      // self.patient = response.patient;
+      // self.patient.notes = response.notes;
       this.dataSource = [];
       if (typeof self.patient.notes !== 'undefined' && self.patient.notes !== null) {
         this.dataSource = new MatTableDataSource<PastAttentions>(self.patient.notes);
@@ -358,22 +374,26 @@ export class RecordComponent implements OnInit {
       self.showRecord = true;
       self.waitingTicket = false;
 
-      if(!this.isUserLabPerson)
+      if (!this.isUserLabPerson)
       {
+       this.isLoadingResults = true;
        this.recordService.getUploadResultByPatientID(this.patient.userId).then((response : LabUploadResult[]) => {
         this.uploadResultsByLab.data = response;
+        this.isLoadingResults = false;
 
 
-      }).catch((error : any) => {
+      }).catch((error: any) => {
          console.log(error);
+         this.isLoadingResults = false;
       });
 
-      if(this.isUserAdmin)
+
+       if (this.isUserAdmin)
       {
       this.recordService.getSymptomsForPatient(this.documentNumber).then((response : any) => {
         this.selectedSymptomsDropDownList = response["symptoms"]["symptoms"];
         this.customSymptoms = response["symptoms"]["Custom_Symptom"];
-   
+
       }).catch((error : any) => {
         console.log(error);
       });
@@ -392,7 +412,7 @@ export class RecordComponent implements OnInit {
   // onSpecialityChange(event: any) {
   //   if (CheckEmptyUtil.isNotEmptyObject(event)) {
   //     this.selectedSpeciality = event.value.toLowerCase();
-     
+
   //     //this.notes = [];
   //     //this.patient = null;
   //     //this.searchDocumentNumber();
@@ -432,7 +452,7 @@ export class RecordComponent implements OnInit {
     if (CheckEmptyUtil.isNotEmptyObject(this.patient)) {
       routerPath = '/patients/' + this.patient.id;
     }
-    this.router.navigateByUrl(routerPath);
+    this.router.navigate([routerPath], {queryParams: {docNumber: this.documentNumber}});
   }
 
   setNoteDetails(noteDetails: any) {
@@ -659,7 +679,7 @@ export class RecordComponent implements OnInit {
         triage.others.creatinineClearance = note.triage.creatinineClearance;
 
         triage.others.specialities = note.triage.specialities;
-        
+
       }
       return triage;
 
@@ -794,7 +814,7 @@ export class RecordComponent implements OnInit {
   }
 
   setPatientFatherbackgroundList(patientDetails) {
-    console.log(JSON.stringify(patientDetails));
+    // console.log(JSON.stringify(patientDetails));
     try {
       if (CheckEmptyUtil.isNotEmpty(patientDetails)) {
         let fBackgrounds = [];
@@ -894,7 +914,7 @@ export class RecordComponent implements OnInit {
 
   selectedNotes(notes) {
     let speciality = notes.specialty.toLowerCase();
-    //localStorage.setItem('selectNotes', notes);
+    // localStorage.setItem('selectNotes', notes);
     localStorage.setItem('speciality', speciality);
     let routerPath = '/records/notes/' + notes.id;
     switch (speciality) {

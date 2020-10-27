@@ -295,6 +295,7 @@
           <h2 fxFlex="50" style="margin-left: 10px;">
             Resultado de carga de prueba:</h2>
         </div> -->
+
         <table mat-table [dataSource]="this.uploadResultsByLab">
           
            <!-- Position Column -->
@@ -306,7 +307,7 @@
   <!-- Name Column -->
   <ng-container matColumnDef="fileName">
     <th mat-header-cell *matHeaderCellDef> 
-      Nombre del archivo </th>
+      Nombre </th>
     <td mat-cell *matCellDef="let element"> {{element.fileName}} </td>
   </ng-container>
 
@@ -336,6 +337,14 @@
 
 
         </table>
+        <mat-spinner
+        *ngIf="isLoadingResults"
+        style="margin:0 auto; margin-top: 10px;" 
+        class="example-margin"
+        [color]="color"
+        [mode]="mode"
+        [value]="value">
+    </mat-spinner>
       </mat-card-content>
     </mat-card>
 

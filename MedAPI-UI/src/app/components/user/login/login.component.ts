@@ -41,8 +41,6 @@ export class LoginComponent implements OnInit {
     };
     this.userService.login(credentials).then((response: any) => {
 
-      console.log(response['role']);
-
       localStorage.setItem('email', username);
       this.recordService.passwordHash.next(password);
       this.userAuthService.save(response);

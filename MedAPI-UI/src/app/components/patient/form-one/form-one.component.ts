@@ -9,8 +9,9 @@ import { Patient } from '../../../models/patient.model';
 })
 export class FormOneComponent implements OnInit {
   @Input() patient;
+  @Input() isEditable: boolean;
   resources: any;
- 
+
   constructor(private patientService: PatientService) { }
 
   ngOnInit(): void {
@@ -23,7 +24,7 @@ export class FormOneComponent implements OnInit {
     let resourcesPath: string = 'department/' + this.patient.department + '/provinces';
 
     this.patientService.updateProvinces(resourcesPath).then((response: any) => {
-      console.log(response, 'response');
+      // console.log(response, 'response');
       this.resources.provinces = response;
     }).catch((error) => {
       console.log(error);
@@ -34,7 +35,7 @@ export class FormOneComponent implements OnInit {
     let resourcesPath: string = 'province/' + this.patient.province + '/districts';
 
     this.patientService.updateDistricts(resourcesPath).then((response: any) => {
-      console.log(response, 'response');
+      // console.log(response, 'response');
       this.resources.districts = response;
     }).catch((error) => {
       console.log(error);

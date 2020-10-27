@@ -140,8 +140,7 @@ export class CommonService {
         currentY = 0;
       }
     }
-    if(type === "Attention")
-      {
+      if (type === "Attention") {
 
       //Note Examen físico
       doc.setFont("helvetica", "bold");
@@ -156,7 +155,7 @@ export class CommonService {
         doc.addPage();
         currentY = 0;
       }
-      
+
       //Diagnóstico
       doc.setFont("helvetica", "bold");
       doc.text("Diagnóstico", 14, currentY += 15);
@@ -181,7 +180,7 @@ export class CommonService {
         bodyStyles: { fontSize: 18, textColor: 'black', lineColor: 'black', lineWidth: 0.5 },
         didDrawPage: function (data) {
 
-          //console.log(data);
+          // console.log(data);
           // diagossisHeight = data.table.finalY
 
         }
@@ -189,14 +188,14 @@ export class CommonService {
       });
 
     // @ts-ignore
-     currentY = 12 + doc.lastAutoTable.finalY
-      
+      currentY = 12 + doc.lastAutoTable.finalY;
+
       doc.setFont("helvetica", "bold");
-     
+
       doc.text("Observaciones", 14, currentY); 
 
 
-      
+
       doc.setFont("helvetica", "");
       // @ts-ignore
       doc.text(note.diagnosis.observations, 14,currentY += 8); 
@@ -246,7 +245,7 @@ export class CommonService {
 
       doc.setFont("helvetica", "bold");
       doc.text("Observaciones", 14, currentY += 15); 
-      
+
       doc.setFont("helvetica", "");
       doc.text(note.exams.observations, 14, currentY += 8); 
 
@@ -256,9 +255,9 @@ export class CommonService {
     }
 
 
-    if(type === "Prescription"){
+      if(type === "Prescription"){
 
-     
+
       var colTreatments = ["#", "Descripción", "Indicaciones"];
       var rowsTreatments  = [];
 
@@ -289,7 +288,7 @@ export class CommonService {
 
     }
 
-    if(type === "Interconsultation"){
+      if (type === "Interconsultation"){
 
       var colInterconsultation = ["#", "Especialidad", "Motivo"];
       var rowsInterconsultation = [];
@@ -320,18 +319,18 @@ export class CommonService {
       finalY = doc.lastAutoTable ?  doc.lastAutoTable.finalY : currentY;
     }
 
-   
 
 
 
-    var pageHeight= doc.internal.pageSize.height;
-    
-    if(finalY > pageHeight)
+
+      var pageHeight= doc.internal.pageSize.height;
+
+      if (finalY > pageHeight)
     {
       doc.addPage();
       finalY = 0;
     }
-  
+
 
       doc.setFont("helvetica", "bold");
       doc.text("Médico", 14, 12 + finalY); 
@@ -341,7 +340,7 @@ export class CommonService {
       doc.setFont("helvetica", "");
       doc.text(medicName, 14, 18 + finalY);
 
-      
+
 
       doc.save('Test.pdf');
     }

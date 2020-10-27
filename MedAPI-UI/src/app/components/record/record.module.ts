@@ -6,6 +6,7 @@ import { SharedModule } from '../../shared/shared.module';
 import { FormsModule } from '@angular/forms';
 import { NoteComponent } from '../note/note.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 const routes: Routes = [
   { path: '', component: RecordComponent,  pathMatch: 'full'},
@@ -20,6 +21,7 @@ const routes: Routes = [
     FormsModule,
     RouterModule.forChild(routes),
     SharedModule,
+    MatProgressSpinnerModule,
     NgMultiSelectDropDownModule.forRoot()
   ]
 })

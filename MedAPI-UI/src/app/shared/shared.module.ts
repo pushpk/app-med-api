@@ -57,7 +57,7 @@ import { OrderByPipe } from './order-by.pipe';
     MatAutocompleteModule,
     MatChipsModule,
     MatListModule,
-    MatSlideToggleModule,    
+    MatSlideToggleModule,
     ToastrModule.forRoot({
       timeOut: 10000,
       positionClass: 'toast-bottom-right',

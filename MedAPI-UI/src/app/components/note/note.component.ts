@@ -74,7 +74,6 @@ export class NoteComponent implements OnInit {
     if (this.route.snapshot.queryParamMap.get('docNumber')){
       this.docNumber = this.route.snapshot.queryParamMap.get('docNumber');
     }
-    console.log(this.docNumber);
 
     //self.note = {
     //  symptoms: {
@@ -204,10 +203,10 @@ export class NoteComponent implements OnInit {
     let notesData = localStorage.getItem('notes');
     if (CheckEmptyUtil.isNotEmpty(notesData)) {
       let noteDetails = JSON.parse(notesData);
-      console.log(noteDetails, 'details');
+      // console.log(noteDetails, 'details');
       this.selectNoteId = this.route.snapshot.paramMap.get('new');
       if (this.selectNoteId === 'new') {
-        console.log(noteDetails, 'details112');
+        // console.log(noteDetails, 'details112');
         this.note = noteDetails[0];
         this.note.specialty = this.speciality;
         this.note.userId = this.patient.userId;
@@ -220,7 +219,7 @@ export class NoteComponent implements OnInit {
         });
       }
     } else {
-      console.log('else');
+      // console.log('else');
       this.note.patientId = this.patient.id;
       this.note.specialty = this.speciality;
       this.note.userId = this.patient.userId;
@@ -533,9 +532,9 @@ export class NoteComponent implements OnInit {
 
     self.submit.waiting = true;
     let currentUserEmail = localStorage.getItem('email');
-    console.log(this.note, 'this.note');
+    // console.log(this.note, 'this.note');
     this.noteService.save(this.note, currentUserEmail).then((response: any) => {
-      console.log(response);
+      // console.log(response);
       self.toastr.success('Atención guardada satisfactoriamente.');
       self.submit.waiting = false;
       self.submit.success = true;

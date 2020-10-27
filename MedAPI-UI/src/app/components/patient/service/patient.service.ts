@@ -32,13 +32,13 @@ export class PatientService {
   registerPatient(patient: any){
     return this.httpUtilService.invoke('POST', patient, 'users/RegisterPatient', null);
   }
-  
-  createMedic(medic : Medic)
+
+  createMedic(medic: Medic)
   {
     return this.httpUtilService.invoke('POST', medic, 'users/medic', null);
   }
 
-  createLab(lab : LabUser)
+  createLab(lab: LabUser)
   {
     return this.httpUtilService.invoke('POST', lab, 'users/lab', null);
   }

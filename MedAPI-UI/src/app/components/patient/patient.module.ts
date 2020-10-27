@@ -22,7 +22,9 @@ const routes: Routes = [
 
 
 @NgModule({
-  declarations: [PatientComponent, CreatePatientComponent, FormOneComponent, FormTwoComponent, FormThreeComponent, FormFourComponent, FormSummaryComponent],
+  declarations: [PatientComponent, CreatePatientComponent,
+    FormOneComponent, FormTwoComponent, FormThreeComponent,
+    FormFourComponent, FormSummaryComponent],
   imports: [
     CommonModule,
     FormsModule,
