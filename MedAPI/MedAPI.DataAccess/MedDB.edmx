@@ -198,38 +198,9 @@
           <Property Name="patient_id" Type="bigint" Nullable="false" />
           <Property Name="ticket_id" Type="bigint" />
           <Property Name="triage_id" Type="bigint" />
-        </EntityType>
-        <EntityType Name="note_notediagnosis">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="note_id" Type="bigint" Nullable="false" />
-          <Property Name="diagnosisList_id" Type="bigint" Nullable="false" />
-        </EntityType>
-        <EntityType Name="note_noteexam">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="note_id" Type="bigint" Nullable="false" />
-          <Property Name="examList_id" Type="bigint" Nullable="false" />
-        </EntityType>
-        <EntityType Name="note_notemedicine">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="note_id" Type="bigint" Nullable="false" />
-          <Property Name="medicineList_id" Type="bigint" Nullable="false" />
-        </EntityType>
-        <EntityType Name="note_notereferral">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="note_id" Type="bigint" Nullable="false" />
-          <Property Name="referralList_id" Type="bigint" Nullable="false" />
+          <Property Name="status" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="category" Type="nvarchar" MaxLength="50" />
+          <Property Name="attached_attention" Type="int" />
         </EntityType>
         <EntityType Name="notediagnosis">
           <Key>
@@ -1074,10 +1045,6 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <EntitySet Name="medic_specialties" EntityType="Self.medic_specialties" Schema="registroclinico" store:Type="Tables" />
           <EntitySet Name="medicine" EntityType="Self.medicine" Schema="registroclinico" store:Type="Tables" />
           <EntitySet Name="note" EntityType="Self.note" Schema="registroclinico" store:Type="Tables" />
-          <EntitySet Name="note_notediagnosis" EntityType="Self.note_notediagnosis" Schema="registroclinico" store:Type="Tables" />
-          <EntitySet Name="note_noteexam" EntityType="Self.note_noteexam" Schema="registroclinico" store:Type="Tables" />
-          <EntitySet Name="note_notemedicine" EntityType="Self.note_notemedicine" Schema="registroclinico" store:Type="Tables" />
-          <EntitySet Name="note_notereferral" EntityType="Self.note_notereferral" Schema="registroclinico" store:Type="Tables" />
           <EntitySet Name="notediagnosis" EntityType="Self.notediagnosis" Schema="registroclinico" store:Type="Tables" />
           <EntitySet Name="noteexam" EntityType="Self.noteexam" Schema="registroclinico" store:Type="Tables" />
           <EntitySet Name="noteexam_upload" EntityType="Self.noteexam_upload" Schema="registroclinico" store:Type="Tables" />
@@ -1500,6 +1467,9 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <NavigationProperty Name="noteexams" Relationship="Self.FK_noteexam_note" FromRole="note" ToRole="noteexam" />
           <NavigationProperty Name="notemedicines" Relationship="Self.FK_notemedicine_note" FromRole="note" ToRole="notemedicine" />
           <NavigationProperty Name="notereferrals" Relationship="Self.FK_notereferral_note" FromRole="note" ToRole="notereferral" />
+          <Property Name="status" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="category" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="attached_attention" Type="Int32" />
         </EntityType>
         <EntityType Name="note_notediagnosis">
           <Key>
@@ -2820,6 +2790,9 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <EntitySetMapping Name="notes">
             <EntityTypeMapping TypeName="registroclinicoModel.note">
               <MappingFragment StoreEntitySet="note">
+                <ScalarProperty Name="attached_attention" ColumnName="attached_attention" />
+                <ScalarProperty Name="category" ColumnName="category" />
+                <ScalarProperty Name="status" ColumnName="status" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="age" ColumnName="age" />
                 <ScalarProperty Name="completed" ColumnName="completed" />
@@ -2846,42 +2819,6 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
                 <ScalarProperty Name="patient_id" ColumnName="patient_id" />
                 <ScalarProperty Name="ticket_id" ColumnName="ticket_id" />
                 <ScalarProperty Name="triage_id" ColumnName="triage_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="note_notediagnosis">
-            <EntityTypeMapping TypeName="registroclinicoModel.note_notediagnosis">
-              <MappingFragment StoreEntitySet="note_notediagnosis">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="note_id" ColumnName="note_id" />
-                <ScalarProperty Name="diagnosisList_id" ColumnName="diagnosisList_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="note_noteexam">
-            <EntityTypeMapping TypeName="registroclinicoModel.note_noteexam">
-              <MappingFragment StoreEntitySet="note_noteexam">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="note_id" ColumnName="note_id" />
-                <ScalarProperty Name="examList_id" ColumnName="examList_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="note_notemedicine">
-            <EntityTypeMapping TypeName="registroclinicoModel.note_notemedicine">
-              <MappingFragment StoreEntitySet="note_notemedicine">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="note_id" ColumnName="note_id" />
-                <ScalarProperty Name="medicineList_id" ColumnName="medicineList_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="note_notereferral">
-            <EntityTypeMapping TypeName="registroclinicoModel.note_notereferral">
-              <MappingFragment StoreEntitySet="note_notereferral">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="note_id" ColumnName="note_id" />
-                <ScalarProperty Name="referralList_id" ColumnName="referralList_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
