@@ -1471,38 +1471,6 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <Property Name="category" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="attached_attention" Type="Int32" />
         </EntityType>
-        <EntityType Name="note_notediagnosis">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="note_id" Type="Int64" Nullable="false" />
-          <Property Name="diagnosisList_id" Type="Int64" Nullable="false" />
-        </EntityType>
-        <EntityType Name="note_noteexam">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="note_id" Type="Int64" Nullable="false" />
-          <Property Name="examList_id" Type="Int64" Nullable="false" />
-        </EntityType>
-        <EntityType Name="note_notemedicine">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="note_id" Type="Int64" Nullable="false" />
-          <Property Name="medicineList_id" Type="Int64" Nullable="false" />
-        </EntityType>
-        <EntityType Name="note_notereferral">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="note_id" Type="Int64" Nullable="false" />
-          <Property Name="referralList_id" Type="Int64" Nullable="false" />
-        </EntityType>
         <EntityType Name="notediagnosi">
           <Key>
             <PropertyRef Name="id" />
@@ -2291,10 +2259,6 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <EntitySet Name="medic_specialties" EntityType="Self.medic_specialties" />
           <EntitySet Name="medicines" EntityType="Self.medicine" />
           <EntitySet Name="notes" EntityType="Self.note" />
-          <EntitySet Name="note_notediagnosis" EntityType="Self.note_notediagnosis" />
-          <EntitySet Name="note_noteexam" EntityType="Self.note_noteexam" />
-          <EntitySet Name="note_notemedicine" EntityType="Self.note_notemedicine" />
-          <EntitySet Name="note_notereferral" EntityType="Self.note_notereferral" />
           <EntitySet Name="notediagnosis" EntityType="Self.notediagnosi" />
           <EntitySet Name="noteexams" EntityType="Self.noteexam" />
           <EntitySet Name="noteexam_upload" EntityType="Self.noteexam_upload" />

@@ -184,7 +184,7 @@ namespace MedAPI.Repository
                                                            noteId = x.note_id
                                                        }).FirstOrDefault(),
                                  cardiovascularSymptoms = ((from x in context.cardiovascularnote_cardiovascularsymptoms
-                                                            where x.cardiovascularNote_id == (context.cardiovascularnotes.Where(y=> y.note_id == nt.id).FirstOrDefault().id)
+                                                            where x.cardiovascularNote_id == (context.cardiovascularnotes.Where(y => y.note_id == nt.id).FirstOrDefault().id)
                                                             select new CardiovascularSymptoms()
                                                             {
                                                                 id = x.id,
@@ -442,6 +442,29 @@ namespace MedAPI.Repository
                     return false;
                 }
             }
+        }
+
+        public bool CloseAttention(long id)
+        {
+            using (var context = new DataAccess.registroclinicoEntities())
+            {
+                try
+                {
+                    var attention = context.notes.FirstOrDefault(m => m.id == id);
+                    if (attention == null)
+                    {
+                        return false;
+                    }
+                    attention.status = "close";
+                    context.SaveChanges();
+                    return true;
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+            }
+
         }
     }
 }

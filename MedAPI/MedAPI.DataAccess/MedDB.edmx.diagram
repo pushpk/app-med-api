@@ -18,10 +18,6 @@
         <EntityTypeShape EntityType="registroclinicoModel.medic_specialties" Width="1.5" PointX="14.25" PointY="30.875" IsExpanded="true" />
         <EntityTypeShape EntityType="registroclinicoModel.medicine" Width="1.5" PointX="20.25" PointY="20.25" IsExpanded="true" />
         <EntityTypeShape EntityType="registroclinicoModel.note" Width="1.5" PointX="17.25" PointY="25.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="registroclinicoModel.note_notediagnosis" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="registroclinicoModel.note_noteexam" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="registroclinicoModel.note_notemedicine" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="registroclinicoModel.note_notereferral" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="registroclinicoModel.notediagnosi" Width="1.5" PointX="22.5" PointY="30.5" IsExpanded="true" />
         <EntityTypeShape EntityType="registroclinicoModel.noteexam" Width="1.5" PointX="19.5" PointY="33.25" IsExpanded="true" />
         <EntityTypeShape EntityType="registroclinicoModel.noteexam_upload" Width="1.5" PointX="21.75" PointY="33.625" IsExpanded="true" />

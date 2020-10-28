@@ -18,5 +18,6 @@ namespace MedAPI.Infrastructure.IRepository
         bool SaveExamsList(List<NoteExam> mExams);
         bool SaveMedicationsList(List<NoteMedicine> mMedications);
         bool SaveReferralsList(List<NoteReferral> mReferrals);
+        bool CloseAttention(long id);
     }
 }
