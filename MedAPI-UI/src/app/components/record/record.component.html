@@ -159,7 +159,7 @@
     <div *ngIf="showRecord" id="recordTable">
       <!-- <div fxFlex="100" *ngIf="ticket.status === 0 && this.isUserAdmin"> -->
         <a mat-button color="primary" href="javascript:void(0);" *ngIf="this.isUserAdmin" style="margin-bottom:20px; background-color:   rgb(237, 238, 243);"
-          (click)="navigateToNotes()">
+          (click)="navigateToNotes(null)">
           Nueva atención
         </a>
         <br />

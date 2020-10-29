@@ -45,6 +45,7 @@ export class NoteComponent implements OnInit {
 
   isEditable = false;
   docNumber: string;
+  attechedAttentionId: string;
 
   constructor(private noteService: NoteService,
               public route: ActivatedRoute,
@@ -73,6 +74,7 @@ export class NoteComponent implements OnInit {
     }
     if (this.route.snapshot.queryParamMap.get('docNumber')){
       this.docNumber = this.route.snapshot.queryParamMap.get('docNumber');
+      this.attechedAttentionId = this.route.snapshot.queryParamMap.get('attentionId');
     }
     console.log(this.docNumber);
 
