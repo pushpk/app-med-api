@@ -195,6 +195,15 @@
           <mat-cell *matCellDef="let element"> {{element.registrationDate | date : 'shortDate'}} </mat-cell>
         </ng-container>
 
+        <ng-container matColumnDef="evaluation">
+          <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <span class="download"  (click)="navigateToNotes(element.id)" *ngIf="this.isUserAdmin" style="cursor: pointer;"
+            disabled>
+            Crear evaluación
+          </span> </mat-cell>
+        </ng-container>
+
         <ng-container matColumnDef="action">
           <mat-header-cell *matHeaderCellDef> </mat-header-cell>
           <mat-cell *matCellDef="let element">

@@ -70,7 +70,7 @@ export class RecordComponent implements OnInit {
   askPatientRegistration: boolean;
   showRecord: boolean;
 
-  displayedColumns: string[] = ['id', 'description', 'specialty', 'date', 'action'];
+  displayedColumns: string[] = ['id', 'description', 'specialty', 'date','evaluation', 'action'];
   dataSource: any;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   selectedSpeciality: any = '';
@@ -403,7 +403,10 @@ export class RecordComponent implements OnInit {
   //   }
   // }
 
-  navigateToNotes() {
+  navigateToNotes(id : number) {
+
+    console.log(id);
+
     let routerPath = '/records/notes/new';
     switch (this.selectedSpeciality) {
       case 'general':
@@ -424,7 +427,14 @@ export class RecordComponent implements OnInit {
         break;
     }
     localStorage.setItem('notes', '');
-    this.router.navigate([routerPath], {queryParams: {docNumber: this.documentNumber}});
+    if(id)
+    {
+      this.router.navigate([routerPath], {queryParams: {docNumber: this.documentNumber, attentionId : id}});
+    }
+    else{
+      this.router.navigate([routerPath], {queryParams: {docNumber: this.documentNumber}});
+      
+    }
     // this.router.navigateByUrl(routerPath);
   }
   navigateToPatient() {
