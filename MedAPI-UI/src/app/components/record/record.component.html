@@ -138,7 +138,7 @@
         </div> -->
         <div fxFlex="15" *ngIf="ticket.status === '1' && this.isUserAdmin">
           <a mat-raised-button color="primary" href="javascript:void(0);"
-            (click)="navigateToNotes()">
+            (click)="navigateToNotes(null)">
             Continuar atención de este Ticket
           </a>
         </div>
@@ -146,7 +146,7 @@
         </p>
         <div fxFlex="15" *ngIf="ticket.status === '2' && this.isUserAdmin">
           <a mat-raised-button color="primary" href="javascript:void(0);"
-            (click)="navigateToNotes()">
+            (click)="navigateToNotes(null)">
             Revisar la atención de este Ticket
           </a>
         </div>
@@ -195,10 +195,10 @@
           <mat-cell *matCellDef="let element"> {{element.registrationDate | date : 'shortDate'}} </mat-cell>
         </ng-container>
 
-        <ng-container matColumnDef="evaluation">
+        <ng-container matColumnDef="evaluation" >
           <mat-header-cell *matHeaderCellDef> </mat-header-cell>
           <mat-cell *matCellDef="let element">
-            <span class="download"  (click)="navigateToNotes(element.id)" *ngIf="this.isUserAdmin" style="cursor: pointer;"
+            <span class="download"  (click)="navigateToNotes(element.id)" *ngIf="this.isUserAdmin && element.category != 'evaluation'" style="cursor: pointer;"  
             disabled>
             Crear evaluación
           </span> </mat-cell>

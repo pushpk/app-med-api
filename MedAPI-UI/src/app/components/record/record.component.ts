@@ -45,6 +45,8 @@ export interface PastAttentions {
   specialty: any;
   date: string;
   action: string;
+  category : string;
+  status : string;
 }
 
 
@@ -304,6 +306,8 @@ export class RecordComponent implements OnInit {
       self.recordService.patientId.next(self.patient.id);
       if (typeof self.patient.notes !== 'undefined' && self.patient.notes !== null) {
         this.dataSource = new MatTableDataSource<PastAttentions>(self.patient.notes);
+        console.log("------------------");
+        console.log(this.dataSource)
         this.dataSource.paginator = this.paginator;
 
       }
@@ -347,6 +351,8 @@ export class RecordComponent implements OnInit {
       this.dataSource = [];
       if (typeof self.patient.notes !== 'undefined' && self.patient.notes !== null) {
         this.dataSource = new MatTableDataSource<PastAttentions>(self.patient.notes);
+        console.log("--------------");
+        console.log(this.dataSource);
         this.dataSource.paginator = this.paginator;
         this.changeDetectorRefs.detectChanges();
       }

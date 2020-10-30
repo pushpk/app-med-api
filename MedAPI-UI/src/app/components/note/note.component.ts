@@ -226,6 +226,14 @@ export class NoteComponent implements OnInit {
       this.note.patientId = this.patient.id;
       this.note.specialty = this.speciality;
       this.note.userId = this.patient.userId;
+      if(this.attechedAttentionId)
+      {
+        this.note.category = 'evaluation';
+        this.note.attached_attention = Number(this.attechedAttentionId)
+      }
+      else{
+        this.note.category = 'attention';
+      }
     }
   }
 
