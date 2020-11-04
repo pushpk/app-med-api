@@ -269,6 +269,11 @@ namespace MedAPI.Controllers
             note.age = null;
             note.completed = false;
             note.control = false;
+
+            note.status = mNote.status;
+            note.category = mNote.category;
+            note.attached_attention = mNote.attached_attention;
+
             if (userData != null)
             {
                 note.createdBy = Convert.ToString(userData.id);

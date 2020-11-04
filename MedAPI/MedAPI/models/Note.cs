@@ -27,5 +27,15 @@ namespace MedAPI.models
         public string specialty { get; set; }
         public CardiovascularNote cardiovascularNote { get; set; }
         public List<CardiovascularSymptoms> cardiovascularSymptoms { get; set; }
+
+
+        public string status { get; set; }
+
+        
+
+        public string category { get; set; }
+
+        public int attached_attention { get; set; }
+
     }
 }

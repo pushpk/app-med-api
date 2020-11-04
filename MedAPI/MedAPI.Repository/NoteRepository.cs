@@ -47,6 +47,9 @@ namespace MedAPI.Repository
                                  patientId = nt.patient_id,
                                  ticketId = nt.ticket_id,
                                  triageId = nt.triage_id,
+                                 status = nt.status,
+                                 attached_attention = nt.attached_attention.HasValue ? nt.attached_attention.Value : 0,
+                                 category = nt.category,
                                  noteDiagnosis = ((from x in context.notediagnosis
                                                    where x.deleted != true && x.note_id == nt.id
                                                    select new NoteDiagnosi()
@@ -242,7 +245,10 @@ namespace MedAPI.Repository
                             medicId = nt.medic_id,
                             patientId = nt.patient_id,
                             ticketId = nt.ticket_id,
-                            triageId = nt.triage_id
+                            triageId = nt.triage_id,
+                            status = nt.status,
+                            attached_attention = nt.attached_attention.HasValue ? nt.attached_attention.Value : 0,
+                            category = nt.category
                         }).ToList();
             }
         }
@@ -275,7 +281,10 @@ namespace MedAPI.Repository
                        medicId = x.medic_id,
                        patientId = x.patient_id,
                        ticketId = x.ticket_id,
-                       triageId = x.triage_id
+                       triageId = x.triage_id,
+                       status = x.status,
+                       attached_attention = x.attached_attention.HasValue? x.attached_attention.Value : 0,
+                       category = x.category
                    }).FirstOrDefault();
             }
         }
@@ -292,6 +301,12 @@ namespace MedAPI.Repository
                     efNotes.createdDate = DateTime.UtcNow;
                     context.notes.Add(efNotes);
                 }
+
+                efNotes.status = "open";
+                efNotes.category = mNote.category;
+                efNotes.attached_attention = mNote.attached_attention;
+
+
                 efNotes.age = mNote.age;
                 efNotes.completed = mNote.completed;
                 efNotes.control = mNote.control;

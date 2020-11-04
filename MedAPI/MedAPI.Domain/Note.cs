@@ -29,6 +29,12 @@ namespace MedAPI.Domain
 
         }
 
+        public string status { get; set; }
+
+        public string category { get; set; }
+
+        public int attached_attention { get; set; }
+
         public long id { get; set; }
         public string age { get; set; }
         public bool completed { get; set; }
