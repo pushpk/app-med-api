@@ -465,6 +465,9 @@ export class RecordComponent implements OnInit {
           notes.age = note.age;
           notes.completed = note.completed;
           notes.control = note.control;
+          notes.status = note.status;
+          notes.category = note.category;
+          notes.attached_attention = note.attached_attention;
           notes.specialty = note.specialty;
           notes.selectedSpecialty = note.specialty;
           notes.stage = note.stage;
