@@ -25,7 +25,7 @@
   
         </div>
       </div>
-      <div fxLayout="column">
+      <div fxLayout="column" *ngIf="this.note.category == 'attention'">
         <h2 class="mat-title form-section" fxFlex="100">Funciones biológicas</h2>
         <div fxLayout="row" fxLayoutGap="24px">
           <mat-form-field fxFlex>
