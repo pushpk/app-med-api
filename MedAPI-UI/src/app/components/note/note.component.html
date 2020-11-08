@@ -25,11 +25,15 @@
         </mat-tab-group>
       </mat-card-content>
       <mat-card-actions fxLayout="row" fxLayoutAlign="space-between center">
-        <div style="margin-left: 15px;">
+        <div style="margin-left: 15px; display: flex;">
           <button fxLayoutAlign="start center" mat-button color="text-muted" [routerLink]="docNumber ? ['/records/', docNumber] : ['/records']">
             Cancelar 
           </button>
+          <button  mat-button color="text-muted"  (click)="closeAttention(note.id)" *ngIf="note.category==='attention'">
+            Mucha atención
+          </button>
         </div>
+        
         <div>
           <button mat-button type="button" [disabled]="index.value==0" (click)="index.setValue(index.value-1)">Anterior</button>
 

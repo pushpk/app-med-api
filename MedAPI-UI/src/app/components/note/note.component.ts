@@ -558,4 +558,12 @@ export class NoteComponent implements OnInit {
       self.submit.success = false;
     });
   }
+
+
+  closeAttention(id: number){
+
+    this.note.status = 'close';
+    
+
+  }
 }

@@ -72,7 +72,7 @@ export class RecordComponent implements OnInit {
   askPatientRegistration: boolean;
   showRecord: boolean;
 
-  displayedColumns: string[] = ['id', 'description', 'specialty', 'date','evaluation', 'action'];
+  displayedColumns: string[] = ['id', 'description', 'specialty', 'date', 'category', 'status', 'evaluation', 'action'];
   dataSource: any;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   selectedSpeciality: any = '';
