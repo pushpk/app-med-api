@@ -41,4 +41,7 @@ export class NoteDetail {
   attached_attention = 0;
   status = '';
   category = '';
+  prognosis = '';
+  notes = '';
+
 }

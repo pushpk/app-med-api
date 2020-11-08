@@ -19,6 +19,7 @@ export class FormSymptomsComponent implements OnInit {
   @Input() note: any;
   @Input() patient: any;
   @Input() isEditable: boolean;
+  
   //diagnosisCtrl = new FormControl();
   //examCtrl = new FormControl();
   //treatmentCtrl = new FormControl();
