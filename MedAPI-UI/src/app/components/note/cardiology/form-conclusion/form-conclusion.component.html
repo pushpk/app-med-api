@@ -12,7 +12,7 @@
                  (keyup)="getDiagnosis($event.target.value)"
                  (keydown.backspace)="getDiagnosis($event.target.value)"
                  [formControl]="diagnosisCtrl"
-                 [matAutocomplete]="diagnosisAuto">
+                 [matAutocomplete]="diagnosisAuto" required>
           <ng-container *ngIf="!diagnosisList && showDignosisProgressBar">
             <mat-progress-bar mode="indeterminate" class="my-16"></mat-progress-bar>
           </ng-container>
@@ -21,6 +21,10 @@
               {{o.code}} - {{o.title}}
             </mat-option>
           </mat-autocomplete>
+           <mat-error *ngIf="diagnosisCtrl.errors && (diagnosisCtrl.touched ||diagnosisCtrl.dirty)">
+                        Este campo es requerido
+                      </mat-error>
+        
         </mat-form-field>
       </div>
       <div fxLayout="row">
@@ -123,13 +127,15 @@
         <mat-form-field fxFlex fxFlexFill>
           <mat-label>Buscar medicamentos</mat-label>
           <input type="text"
+
+              name="treatmentlookup"
                  placeholder="Buscar medicamentos"
                  aria-label="Buscar medicamentos"
                  matInput
                  (keyup)="getTreatments($event.target.value)"
                  (keydown.backspace)="getTreatments($event.target.value)"
                  [formControl]="treatmentCtrl"
-                 [matAutocomplete]="treatment">
+                 [matAutocomplete]="treatment"  required >
           <ng-container *ngIf="!treatmentList && showTreatmentProgressBar">
             <mat-progress-bar mode="indeterminate" class="my-16"></mat-progress-bar>
           </ng-container>
@@ -138,6 +144,9 @@
               {{o.name}}
             </mat-option>
           </mat-autocomplete>
+           <mat-error *ngIf="treatmentCtrl.errors && (treatmentCtrl.touched ||treatmentCtrl.dirty)">
+                        Este campo es requerido
+                      </mat-error>
         </mat-form-field>
       </div>
       <div fxLayout="row">

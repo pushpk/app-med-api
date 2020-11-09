@@ -173,19 +173,19 @@
           </h2>
         </mat-toolbar-row>
       </mat-toolbar> -->
-      <mat-table [dataSource]="dataSource">
+      <mat-table [dataSource]="dataSource" matSort >
         <ng-container matColumnDef="id">
-          <mat-header-cell *matHeaderCellDef> # </mat-header-cell>
+          <mat-header-cell *matHeaderCellDef mat-sort-header> # </mat-header-cell>
           <mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
         </ng-container>
-        <ng-container matColumnDef="description">
-          <mat-header-cell *matHeaderCellDef> Descripción </mat-header-cell>
+        <ng-container matColumnDef="description" >
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Descripción </mat-header-cell>
           <mat-cell *matCellDef="let element">
             {{element.symptoms.description}}
           </mat-cell>
         </ng-container>
         <ng-container matColumnDef="specialty">
-          <mat-header-cell *matHeaderCellDef> Especialidad </mat-header-cell>
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Especialidad </mat-header-cell>
           <mat-cell *matCellDef="let element">
             {{element.specialty}}
           </mat-cell>

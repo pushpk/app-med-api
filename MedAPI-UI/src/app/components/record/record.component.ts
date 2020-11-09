@@ -30,6 +30,7 @@ import {  saveAs as importedSaveAs  } from "file-saver";
 import {  IDropdownSettings } from 'ng-multiselect-dropdown';
 import { Symptoms } from 'src/app/models/symptoms.model';
 import { NoteService } from '../note/services/note.service';
+import { MatSort } from '@angular/material/sort';
 
 
 
@@ -75,6 +76,7 @@ export class RecordComponent implements OnInit {
   displayedColumns: string[] = ['id', 'description', 'specialty', 'date', 'category', 'status', 'evaluation', 'action'];
   dataSource: any;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
   selectedSpeciality: any = '';
 
   specialities = [{ value: 'GENERAL', name: 'Medicina General', id: 1 },
@@ -94,7 +96,9 @@ export class RecordComponent implements OnInit {
   selectedSymptomsDropDownList = [];
   symptomsDropDownSettings: IDropdownSettings = {};
   customSymptoms: string;
+  
 
+  
   constructor(private recordService: RecordService, public router: Router, private changeDetectorRefs: ChangeDetectorRef, 
               private commonService: CommonService, private activatedRouter: ActivatedRoute, public toastr: ToastrService,
               private noteService: NoteService) { }
@@ -173,6 +177,11 @@ export class RecordComponent implements OnInit {
       });
     }
     
+  }
+
+  ngAfterViewInit() {
+    this.uploadResultsByLab.sort = this.sort;
+    //this.dataSource.sort = this.sort;
   }
 
   SaveSymptoms(){
@@ -306,9 +315,10 @@ export class RecordComponent implements OnInit {
       self.recordService.patientId.next(self.patient.id);
       if (typeof self.patient.notes !== 'undefined' && self.patient.notes !== null) {
         this.dataSource = new MatTableDataSource<PastAttentions>(self.patient.notes);
-        console.log("------------------");
-        console.log(this.dataSource)
+        
         this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+
 
       }
       self.showRecord = true;
