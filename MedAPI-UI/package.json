@@ -27,6 +27,7 @@
     "file-saver": "^2.0.2",
     "jspdf": "^2.0.0",
     "jspdf-autotable": "^3.5.9",
+    "mat-table-filter": "^1.2.5",
     "moment": "^2.26.0",
     "ng-multiselect-dropdown": "^0.2.10",
     "ngx-toastr": "^12.1.0",

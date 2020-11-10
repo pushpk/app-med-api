@@ -173,7 +173,7 @@
           </h2>
         </mat-toolbar-row>
       </mat-toolbar> -->
-      <mat-table [dataSource]="dataSource" matSort >
+      <mat-table [dataSource]="dataSource" matSort matTableFilter >
         <ng-container matColumnDef="id">
           <mat-header-cell *matHeaderCellDef mat-sort-header> # </mat-header-cell>
           <mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
@@ -191,26 +191,26 @@
           </mat-cell>
         </ng-container>
         <ng-container matColumnDef="date">
-          <mat-header-cell *matHeaderCellDef> Fecha </mat-header-cell>
+          <mat-header-cell *matHeaderCellDef  mat-sort-header> Fecha </mat-header-cell>
           <mat-cell *matCellDef="let element"> {{element.registrationDate | date : 'shortDate'}} </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="category">
-          <mat-header-cell *matHeaderCellDef> Categoría </mat-header-cell>
+          <mat-header-cell *matHeaderCellDef  mat-sort-header> Categoría </mat-header-cell>
           <mat-cell *matCellDef="let element">
             {{element.category}}
           </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="status">
-          <mat-header-cell *matHeaderCellDef> Estado </mat-header-cell>
+          <mat-header-cell *matHeaderCellDef  mat-sort-header> Estado </mat-header-cell>
           <mat-cell *matCellDef="let element">
             {{element.status}}
           </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="evaluation" >
-          <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+          <mat-header-cell *matHeaderCellDef  mat-sort-header> </mat-header-cell>
           <mat-cell *matCellDef="let element">
             <span class="download"  (click)="navigateToNotes(element.id)" *ngIf="this.isUserAdmin &&  element.category != 'evaluation' && element.status == 'open'" style="cursor: pointer;"  
             disabled>
@@ -219,7 +219,7 @@
         </ng-container>
 
         <ng-container matColumnDef="action">
-          <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+          <mat-header-cell *matHeaderCellDef  mat-sort-header> </mat-header-cell>
           <mat-cell *matCellDef="let element">
             <span class="download" (click)="selectedNotes(element)" *ngIf="this.isUserAdmin" style="cursor: pointer;"
               disabled>
@@ -247,8 +247,8 @@
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
         <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
       </mat-table>
-      {{dataSource.length}}
-      <div *ngIf="(dataSource.length <= 0)" class="no-records">
+      {{dataSource.data.length}}
+      <div *ngIf="(dataSource.data.length <= 0)" class="no-records">
         El paciente no tiene atenciones anteriores.
       </div>
       <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
