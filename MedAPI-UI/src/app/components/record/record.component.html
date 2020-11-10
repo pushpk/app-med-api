@@ -3,14 +3,26 @@
     <div fxLayout="row" class="mb-16">
       <mat-form-field fxFlex fxFlexFill *ngIf="askTicket">
         <mat-label>Código de atención o DNI de paciente</mat-label>
-        <input matInput type="text" name="ticket" [(ngModel)]="ticketNumber" pattern="/\d{3}-\d{6}|\d{8}/"
-          maxlength="10" #ticket="ngModel" (change)="searchTicket()">
-        <mat-hint align="end">{{ticket.value?.length || 0}}/8</mat-hint>
-        <mat-error *ngIf="ticket.errors && (ticket.touched || ticket.dirty)">Ingrese un código de atención correcto, eg.
-          012-000123</mat-error>
+        <input
+          matInput
+          type="text"
+          name="ticket"
+          [(ngModel)]="ticketNumber"
+          pattern="/\d{3}-\d{6}|\d{8}/"
+          maxlength="10"
+          #ticket="ngModel"
+          (change)="searchTicket()"
+        />
+        <mat-hint align="end">{{ ticket.value?.length || 0 }}/8</mat-hint>
+        <mat-error *ngIf="ticket.errors && (ticket.touched || ticket.dirty)"
+          >Ingrese un código de atención correcto, eg. 012-000123</mat-error
+        >
       </mat-form-field>
     </div>
-    <mat-progress-bar mode="indeterminate" *ngIf="!askDocumentNumber && waitingTicket"></mat-progress-bar>
+    <mat-progress-bar
+      mode="indeterminate"
+      *ngIf="!askDocumentNumber && waitingTicket"
+    ></mat-progress-bar>
 
     <!-- Invocar al webservice (No. ticketNumber) para saber si paciente existe -->
     <!--<p *ngIf="askDocumentNumber">
@@ -19,81 +31,124 @@
     <div fxLayout="row" class="mb-16">
       <mat-form-field fxFlex fxFlexFill *ngIf="askDocumentNumber">
         <mat-label>DNI de paciente</mat-label>
-        <input matInput type="text" name="documentno" [(ngModel)]="documentNumber" pattern="^[0-9]{8}$" maxlength="8"
-          #documentno="ngModel" (change)="searchDocumentNumber()"
-          [disabled]="!this.isUserAdmin && !this.isUserLabPerson">
-        <mat-hint align="end">{{documentno.value?.length || 0}}/8</mat-hint>
-        <mat-error *ngIf="documentno.errors && (documentno.touched || documentno.dirty)">Ingrese un número ocho dígitos
+        <input
+          matInput
+          type="text"
+          name="documentno"
+          [(ngModel)]="documentNumber"
+          pattern="^[0-9]{8}$"
+          maxlength="8"
+          #documentno="ngModel"
+          (change)="searchDocumentNumber()"
+          [disabled]="!this.isUserAdmin && !this.isUserLabPerson"
+        />
+        <mat-hint align="end">{{ documentno.value?.length || 0 }}/8</mat-hint>
+        <mat-error
+          *ngIf="documentno.errors && (documentno.touched || documentno.dirty)"
+          >Ingrese un número ocho dígitos
         </mat-error>
       </mat-form-field>
     </div>
-    <mat-progress-bar mode="indeterminate" *ngIf="waitingTicket"></mat-progress-bar>
+    <mat-progress-bar
+      mode="indeterminate"
+      *ngIf="waitingTicket"
+    ></mat-progress-bar>
     <p *ngIf="askPatientRegistration">Este DNI no se encuentra afiliado aún.</p>
-
   </form>
 
   <div *ngIf="!this.isUserLabPerson && showRecord">
     <h2>Información Básica</h2>
-    <a *ngIf="this.isUserAdmin" mat-button color="primary" href="javascript:void(0);" style="margin-bottom:20px; background-color: rgb(237, 238, 243);"
-    (click)="navigateToPatient()">
-    Info Detallada
+    <a
+      *ngIf="this.isUserAdmin"
+      mat-button
+      color="primary"
+      href="javascript:void(0);"
+      style="margin-bottom: 20px; background-color: rgb(237, 238, 243)"
+      (click)="navigateToPatient()"
+    >
+      Info Detallada
     </a>
-    <a *ngIf="this.isUserPatient" mat-button color="primary" href="javascript:void(0);" style="margin-bottom:20px; background-color: rgb(237, 238, 243);"
-    (click)="navigateToPatient()">
-    Editar Info
+    <a
+      *ngIf="this.isUserPatient"
+      mat-button
+      color="primary"
+      href="javascript:void(0);"
+      style="margin-bottom: 20px; background-color: rgb(237, 238, 243)"
+      (click)="navigateToPatient()"
+    >
+      Editar Info
     </a>
     <mat-card class="no-pad">
       <mat-card-content>
-    <!-- <mat-toolbar color="default">
+        <!-- <mat-toolbar color="default">
       <mat-toolbar-row> -->
         <div fxLayout="row wrap" fxLayoutAlign="left center">
           <div fxFlex="15" fxFlex.md="20" fxFlex.sm="25" fxFlex.xs="30">
-            <h2 style="margin-top:15px; margin-left: 30px">Nombre:</h2>
+            <h2 style="margin-top: 15px; margin-left: 30px">Nombre:</h2>
           </div>
           <div fxFlex="75" fxFlex.md="70" fxFlex.sm="65" fxFlex.xs="60">
-            <h2 style="margin-top:15px; font-weight:normal">
-              {{patient.lastnameFather | uppercase}} {{patient.lastnameMother | uppercase}},
-              {{patient.name}}
+            <h2 style="margin-top: 15px; font-weight: normal">
+              {{ patient.lastnameFather | uppercase }}
+              {{ patient.lastnameMother | uppercase }},
+              {{ patient.name }}
             </h2>
-          </div> 
+          </div>
         </div>
 
-      <!-- </mat-toolbar-row>
+        <!-- </mat-toolbar-row>
     </mat-toolbar> -->
 
-    <div fxLayout="row wrap" fxLayoutAlign="left center" style="margin-right: 10px; margin-top: 10px;">
-      <div fxFlex="15" fxFlex.md="20" fxFlex.sm="25" fxFlex.xs="30">
-        <h2 style="margin-top:10px; margin-left: 30px">Síntomas:</h2>
-      </div>
-      <div fxFlex="75" fxFlex.md="70" fxFlex.sm="65" fxFlex.xs="60">
-        <ng-multiselect-dropdown 
-        [placeholder]="'Seleccionar síntomas'"
-        [settings]="symptomsDropDownSettings"
-        [data]="symptomsDropDownList"
-        [(ngModel)]="  selectedSymptomsDropDownList"
-        [disabled]="this.isUserAdmin"
-        (onSelect)="onItemSelect($event)"
-        (onSelectAll)="onSelectAll($event)"
+        <div
+          fxLayout="row wrap"
+          fxLayoutAlign="left center"
+          style="margin-right: 10px; margin-top: 10px"
         >
-        </ng-multiselect-dropdown>
-      </div> 
-    </div>
-    <div fxLayout="row wrap" fxLayoutAlign="left center" style="margin-left: 10px; margin-right: 10px; margin-top: 10px;">
-      <div fxFlex="15" fxFlex.md="20" fxFlex.sm="25" fxFlex.xs="30">
-        <h2 style="margin-top:10px; margin-left: 20px"></h2>
-      </div>
-      <mat-form-field fxFlex="77" fxFlex.md="73" fxFlex.sm="68" fxFlex.xs="62">
-        <mat-label>Otros síntomas (separados por comas)</mat-label>
-        <input type="text" name="customSymptoms" maxlength="250" matInput required [(ngModel)]="customSymptoms" [disabled]="this.isUserAdmin">
-      </mat-form-field>
-    </div>
+          <div fxFlex="15" fxFlex.md="20" fxFlex.sm="25" fxFlex.xs="30">
+            <h2 style="margin-top: 10px; margin-left: 30px">Síntomas:</h2>
+          </div>
+          <div fxFlex="75" fxFlex.md="70" fxFlex.sm="65" fxFlex.xs="60">
+            <ng-multiselect-dropdown
+              [placeholder]="'Seleccionar síntomas'"
+              [settings]="symptomsDropDownSettings"
+              [data]="symptomsDropDownList"
+              [(ngModel)]="selectedSymptomsDropDownList"
+              [disabled]="this.isUserAdmin"
+              (onSelect)="onItemSelect($event)"
+              (onSelectAll)="onSelectAll($event)"
+            >
+            </ng-multiselect-dropdown>
+          </div>
+        </div>
+        <div
+          fxLayout="row wrap"
+          fxLayoutAlign="left center"
+          style="margin-left: 10px; margin-right: 10px; margin-top: 10px"
+        >
+          <div fxFlex="15" fxFlex.md="20" fxFlex.sm="25" fxFlex.xs="30">
+            <h2 style="margin-top: 10px; margin-left: 20px"></h2>
+          </div>
+          <mat-form-field
+            fxFlex="77"
+            fxFlex.md="73"
+            fxFlex.sm="68"
+            fxFlex.xs="62"
+          >
+            <mat-label>Otros síntomas (separados por comas)</mat-label>
+            <input
+              type="text"
+              name="customSymptoms"
+              maxlength="250"
+              matInput
+              required
+              [(ngModel)]="customSymptoms"
+              [disabled]="this.isUserAdmin"
+            />
+          </mat-form-field>
+        </div>
 
+        <!-- <div style="width: 95% !important; margin-bottom: 10px; margin-top: 10px !important;" class="ml-24" > -->
 
-
-       
-<!-- <div style="width: 95% !important; margin-bottom: 10px; margin-top: 10px !important;" class="ml-24" > -->
-       
-<!-- <div class="ml-24" fxLayout="row wrap" fxLayoutGap="20px" >
+        <!-- <div class="ml-24" fxLayout="row wrap" fxLayoutGap="20px" >
 <mat-form-field fxFlex="66" fxFlex.md="100" fxFlex.sm="100">
   <mat-label>Otros síntomas (separados por comas)</mat-label>
   <input type="text" name="customSymptoms" maxlength="250" matInput required [(ngModel)]="customSymptoms" [disabled]="this.isUserAdmin">
@@ -103,21 +158,31 @@
 
 
 </div> -->
-
-</mat-card-content>
+      </mat-card-content>
       <mat-card-actions fxLayout="row" fxLayoutAlign="end center">
-        <button mat-button color="primary" type="button" (click)="SaveSymptoms();" *ngIf="this.isUserPatient">
-          Guardar</button>
-        
+        <button
+          mat-button
+          color="primary"
+          type="button"
+          (click)="SaveSymptoms()"
+          *ngIf="this.isUserPatient"
+        >
+          Guardar
+        </button>
       </mat-card-actions>
     </mat-card>
 
     <div *ngIf="askPatientRegistration && this.isUserAdmin">
-      <button mat-raised-button type="button" color="primary" (click)="navigateToPatient()">
+      <button
+        mat-raised-button
+        type="button"
+        color="primary"
+        (click)="navigateToPatient()"
+      >
         Afiliar Paciente
       </button>
     </div>
-    <div *ngIf="showRecord && !askPatientRegistration ">
+    <div *ngIf="showRecord && !askPatientRegistration">
       <!-- <mat-form-field *ngIf="this.isUserAdmin">
         <mat-label>Especialidad</mat-label>
         <mat-select [(ngModel)]="ticket.specialty" [disabled]="ticket.status !== 0"
@@ -128,7 +193,6 @@
         </mat-select>
       </mat-form-field> -->
 
-
       <div fxLayout="row" fxLayout.xs="column" class="mt-16" fxLayoutGap="20">
         <!-- <div fxFlex="15" *ngIf="this.isUserPatient">
           <a mat-raised-button color="default" href="javascript:void(0);"
@@ -137,16 +201,25 @@
           </a>
         </div> -->
         <div fxFlex="15" *ngIf="ticket.status === '1' && this.isUserAdmin">
-          <a mat-raised-button color="primary" href="javascript:void(0);"
-            (click)="navigateToNotes(null)">
+          <a
+            mat-raised-button
+            color="primary"
+            href="javascript:void(0);"
+            (click)="navigateToNotes(null)"
+          >
             Continuar atención de este Ticket
           </a>
         </div>
-        <p *ngIf="ticket.status === '2' && this.isUserAdmin"><strong>La atención de este Ticket ha finalizado.</strong>
+        <p *ngIf="ticket.status === '2' && this.isUserAdmin">
+          <strong>La atención de este Ticket ha finalizado.</strong>
         </p>
         <div fxFlex="15" *ngIf="ticket.status === '2' && this.isUserAdmin">
-          <a mat-raised-button color="primary" href="javascript:void(0);"
-            (click)="navigateToNotes(null)">
+          <a
+            mat-raised-button
+            color="primary"
+            href="javascript:void(0);"
+            (click)="navigateToNotes(null)"
+          >
             Revisar la atención de este Ticket
           </a>
         </div>
@@ -155,14 +228,20 @@
     <div fxLayout="row" *ngIf="showRecord" class="mt-24">
       <h2 fxFlex="50">Atenciones</h2>
     </div>
-    
+
     <div *ngIf="showRecord" id="recordTable">
       <!-- <div fxFlex="100" *ngIf="ticket.status === 0 && this.isUserAdmin"> -->
-        <a mat-button color="primary" href="javascript:void(0);" *ngIf="this.isUserAdmin" style="margin-bottom:20px; background-color:   rgb(237, 238, 243);"
-          (click)="navigateToNotes(null)">
-          Nueva atención
-        </a>
-        <br />
+      <a
+        mat-button
+        color="primary"
+        href="javascript:void(0);"
+        *ngIf="this.isUserAdmin"
+        style="margin-bottom: 20px; background-color: rgb(237, 238, 243)"
+        (click)="navigateToNotes(null)"
+      >
+        Nueva atención
+      </a>
+      <br />
 
       <!-- </div> -->
       <!-- <mat-toolbar color="default" *ngIf="patient">
@@ -173,143 +252,300 @@
           </h2>
         </mat-toolbar-row>
       </mat-toolbar> -->
-      <mat-table [dataSource]="dataSource" matSort >
+      <mat-table
+        matSort
+        matTableFilter
+        [dataSource]="dataSource"
+        [exampleEntity]="filterEntity"
+        [filterType]="filterType"
+      >
         <ng-container matColumnDef="id">
-          <mat-header-cell *matHeaderCellDef mat-sort-header> # </mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
+          <mat-header-cell *matHeaderCellDef mat-sort-header>
+            <div style="display: block">
+              <mat-form-field style="width: 80%; display: flex; justify-content: space-around; text-align: center;">
+                <input
+                  matInput
+                  [(ngModel)]="filterEntity.id"
+                  appearance="outline"
+                  placeholder="Buscar ID"
+                />
+              </mat-form-field>
+              <div style="display: flex">
+                <span>ID</span>
+              </div>
+            </div>
+          </mat-header-cell>
+
+          <mat-cell *matCellDef="let element"> {{ element.id }} </mat-cell>
         </ng-container>
-        <ng-container matColumnDef="description" >
-          <mat-header-cell *matHeaderCellDef mat-sort-header> Descripción </mat-header-cell>
+        <ng-container matColumnDef="description">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>
+            <div style="display: block">
+              <mat-form-field style="width: 80%; display: flex; justify-content: space-around; text-align: center;">
+                <input
+                  matInput
+                  [(ngModel)]="filterEntity.description"
+                  appearance="outline"
+                  placeholder="Buscar Descripción"
+                />
+              </mat-form-field>
+              <div style="display: flex">
+                <span>Descripción</span>
+              </div>
+            </div>
+          </mat-header-cell>
           <mat-cell *matCellDef="let element">
-            {{element.symptoms.description}}
+            {{ element.symptoms.description }}
           </mat-cell>
         </ng-container>
         <ng-container matColumnDef="specialty">
-          <mat-header-cell *matHeaderCellDef mat-sort-header> Especialidad </mat-header-cell>
+          <mat-header-cell *matHeaderCellDef mat-sort-header>
+            <div style="display: block">
+              <mat-form-field style="width: 80%; display: flex; justify-content: space-around; text-align: center;">
+                <input
+                  matInput
+                  [(ngModel)]="filterEntity.specialty"
+                  appearance="outline"
+                  placeholder="Buscar Especialidad"
+                />
+              </mat-form-field>
+              <div style="display: flex">
+                <span>Especialidad</span>
+              </div>
+            </div>
+          </mat-header-cell>
           <mat-cell *matCellDef="let element">
-            {{element.specialty}}
+            {{ element.specialty }}
           </mat-cell>
         </ng-container>
         <ng-container matColumnDef="date">
-          <mat-header-cell *matHeaderCellDef> Fecha </mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element.registrationDate | date : 'shortDate'}} </mat-cell>
+          <mat-header-cell *matHeaderCellDef mat-sort-header>
+            <div style="display: block">
+              <mat-form-field style="width: 80%; display: flex; justify-content: space-around; text-align: center;">
+                <input
+                  matInput
+                  [(ngModel)]="filterEntity.date"
+                  appearance="outline"
+                  placeholder="Buscar Fetcha"
+                />
+              </mat-form-field>
+              <div style="display: flex">
+                <span>Fecha</span>
+              </div>
+            </div>
+          </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            {{ element.registrationDate | date: "shortDate" }}
+          </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="category">
-          <mat-header-cell *matHeaderCellDef> Categoría </mat-header-cell>
+          <mat-header-cell *matHeaderCellDef mat-sort-header>
+            <div style="display: block">
+              <mat-form-field style="width: 80%; display: flex; justify-content: space-around; text-align: center;">
+                <input
+                  matInput
+                  [(ngModel)]="filterEntity.category"
+                  appearance="outline"
+                  placeholder="Buscar Categoría"
+                />
+              </mat-form-field>
+              <div style="display: flex">
+                <span>Categoría</span>
+              </div>
+            </div>
+          </mat-header-cell>
           <mat-cell *matCellDef="let element">
-            {{element.category}}
+            {{ element.category }}
           </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="status">
-          <mat-header-cell *matHeaderCellDef> Estado </mat-header-cell>
+          <mat-header-cell *matHeaderCellDef mat-sort-header>
+            <div style="display: block">
+              <mat-form-field style="width: 80%; display: flex; justify-content: space-around; text-align: center;">
+                <input
+                  matInput
+                  [(ngModel)]="filterEntity.status"
+                  appearance="outline"
+                  placeholder="Buscar Estado"
+                />
+              </mat-form-field>
+              <div style="display: flex">
+                <span>Estado</span>
+              </div>
+            </div>
+          </mat-header-cell>
           <mat-cell *matCellDef="let element">
-            {{element.status}}
+            {{ element.status }}
           </mat-cell>
         </ng-container>
 
-        <ng-container matColumnDef="evaluation" >
-          <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+        <ng-container matColumnDef="evaluation">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> </mat-header-cell>
           <mat-cell *matCellDef="let element">
-            <span class="download"  (click)="navigateToNotes(element.id)" *ngIf="this.isUserAdmin &&  element.category != 'evaluation' && element.status == 'open'" style="cursor: pointer;"  
-            disabled>
-            Crear evaluación
-          </span> </mat-cell>
+            <span
+              class="download"
+              (click)="navigateToNotes(element.id)"
+              *ngIf="
+                this.isUserAdmin &&
+                element.category != 'evaluation' &&
+                element.status == 'open'
+              "
+              style="cursor: pointer"
+              disabled
+            >
+              Crear evaluación
+            </span>
+          </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="action">
-          <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+          <mat-header-cell *matHeaderCellDef mat-sort-header> </mat-header-cell>
           <mat-cell *matCellDef="let element">
-            <span class="download" (click)="selectedNotes(element)" *ngIf="this.isUserAdmin" style="cursor: pointer;"
-              disabled>
+            <span
+              class="download"
+              (click)="selectedNotes(element)"
+              *ngIf="this.isUserAdmin"
+              style="cursor: pointer"
+              disabled
+            >
               Revisar
             </span>
             <mat-form-field fxFlex="25" *ngIf="this.isUserPatient">
               <mat-label>Descargar</mat-label>
               <mat-select>
-                <mat-option type="button" mat-raised-button color="primary" target="_blank" class="btn btn-inline"
-                (click)="downloadAttentionPdf(element)">
-                Atención
-              </mat-option>
-              <mat-option type="button" mat-raised-button color="primary" target="_blank" class="btn btn-inline"
-                (click)="downloadPrescription(element)" style="margin-left: 5px;">
-                Receta
-              </mat-option>
-              <mat-option type="button" mat-raised-button color="primary" target="_blank" (click)="downloadInter(element)" class="btn btn-inline"
-                style="margin-left: 5px;">
-                Interconsulta
-              </mat-option>
+                <mat-option
+                  type="button"
+                  mat-raised-button
+                  color="primary"
+                  target="_blank"
+                  class="btn btn-inline"
+                  (click)="downloadAttentionPdf(element)"
+                >
+                  Atención
+                </mat-option>
+                <mat-option
+                  type="button"
+                  mat-raised-button
+                  color="primary"
+                  target="_blank"
+                  class="btn btn-inline"
+                  (click)="downloadPrescription(element)"
+                  style="margin-left: 5px"
+                >
+                  Receta
+                </mat-option>
+                <mat-option
+                  type="button"
+                  mat-raised-button
+                  color="primary"
+                  target="_blank"
+                  (click)="downloadInter(element)"
+                  class="btn btn-inline"
+                  style="margin-left: 5px"
+                >
+                  Interconsulta
+                </mat-option>
               </mat-select>
             </mat-form-field>
           </mat-cell>
         </ng-container>
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
       </mat-table>
-      {{dataSource.length}}
-      <div *ngIf="(dataSource.length <= 0)" class="no-records">
+      
+      <div *ngIf="dataSource.data.length <= 0" class="no-records">
         El paciente no tiene atenciones anteriores.
       </div>
-      <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+      <mat-paginator [pageSize]="10"
+        [pageSizeOptions]="[5, 10, 20]"
+        showFirstLastButtons
+      ></mat-paginator>
     </div>
-
   </div>
 
-  <div *ngIf="showRecord ">
+  <div *ngIf="showRecord">
     <div fxLayout="row" *ngIf="showRecord" class="mt-24">
       <h2 fxFlex="50">Resultados de Exámenes</h2>
     </div>
     <div *ngIf="this.isUserAdmin || this.isUserLabPerson">
-    <button mat-button type="button" color="primary" style="background-color: rgb(237, 238, 243);" (click)="toggleUploadCard()">
-      Cargar resultado nuevo
-    </button>
-    <br />
-    <form name="form-upload" #f="ngForm" (ngSubmit)="submitUploadResult()" [hidden]="isUploadFormShow">
-      <mat-card class="no-pad">
+      <button
+        mat-button
+        type="button"
+        color="primary"
+        style="background-color: rgb(237, 238, 243)"
+        (click)="toggleUploadCard()"
+      >
+        Cargar resultado nuevo
+      </button>
+      <br />
+      <form
+        name="form-upload"
+        #f="ngForm"
+        (ngSubmit)="submitUploadResult()"
+        [hidden]="isUploadFormShow"
+      >
+        <mat-card class="no-pad">
+          <div style="margin-top: 15px"></div>
+          <mat-card-content>
+            <div class="layout-padding" fxLayout="column">
+              <div fxLayout="column" style="margin-left: 20px">
+                <h2 class="mat-title form-section" fxFlex="100">
+                  Subir resultado
+                </h2>
+                <div fxLayout="column">
+                  <div>
+                    <input
+                      #csvInput
+                      mat-raised-button
+                      color="primary"
+                      type="file"
+                      (change)="csvInputChange($event)"
+                      accept=".pdf"
+                    />
+                  </div>
+                  <br />
 
-        <div style="margin-top: 15px;">
+                  <mat-form-field>
+                    <mat-label>Deja un comentario</mat-label>
+                    <input
+                      matInput
+                      type="text"
+                      name="comments"
+                      #comments="ngModel"
+                      [(ngModel)]="labUploadResult.comments"
+                      maxlength="250"
+                      required
+                    />
 
-        </div>
-        <mat-card-content>
-          <div class="layout-padding" fxLayout="column">
-
-            <div fxLayout="column" style="margin-left: 20px;">
-              <h2 class="mat-title form-section" fxFlex="100">Subir resultado</h2>
-              <div fxLayout="column">
-
-                <div>
-                  <input #csvInput  mat-raised-button color="primary" type="file"  (change)="csvInputChange($event)"  accept=".pdf" 
-                 />
+                    <mat-error
+                      *ngIf="
+                        comments.invalid &&
+                        comments.errors.required &&
+                        (comments.touched || comments.dirty)
+                      "
+                    >
+                      Este campo es requerido
+                    </mat-error>
+                  </mat-form-field>
                 </div>
-                <br />
-
-
-                <mat-form-field>
-                  <mat-label>Deja un comentario</mat-label>
-                  <input matInput type="text" name="comments" #comments="ngModel" [(ngModel)]="labUploadResult.comments"
-                    maxlength="250" required>
-
-                  <mat-error *ngIf="comments.invalid && comments.errors.required && (comments.touched || comments.dirty)">
-                    Este campo es requerido
-                  </mat-error>
-
-
-                </mat-form-field>
-
-
               </div>
             </div>
-          </div>
-        </mat-card-content>
-        <mat-card-actions fxLayout="row" fxLayoutAlign="end center">
-          <button mat-button color="primary" type="submit">Subir</button>
-          <a mat-button color="default" href="javascript:void(0)" (click)="isUploadFormShow=!isUploadFormShow">Cancelar</a>
-        </mat-card-actions>
-      </mat-card>
-
-    </form>
-  </div>
+          </mat-card-content>
+          <mat-card-actions fxLayout="row" fxLayoutAlign="end center">
+            <button mat-button color="primary" type="submit">Subir</button>
+            <a
+              mat-button
+              color="default"
+              href="javascript:void(0)"
+              (click)="isUploadFormShow = !isUploadFormShow"
+              >Cancelar</a
+            >
+          </mat-card-actions>
+        </mat-card>
+      </form>
+    </div>
     <br />
 
     <mat-card class="no-pad">
@@ -319,49 +555,53 @@
             Resultado de carga de prueba:</h2>
         </div> -->
         <table mat-table [dataSource]="this.uploadResultsByLab">
-          
-           <!-- Position Column -->
-  <ng-container matColumnDef="user_id">
-    <th mat-header-cell *matHeaderCellDef> Usuario </th>
-    <td mat-cell *matCellDef="let element"> {{element.user_id}} </td>
-  </ng-container>
+          <!-- Position Column -->
+          <ng-container matColumnDef="user_id">
+            <th mat-header-cell *matHeaderCellDef>Usuario</th>
+            <td mat-cell *matCellDef="let element">{{ element.user_id }}</td>
+          </ng-container>
 
-  <!-- Name Column -->
-  <ng-container matColumnDef="fileName">
-    <th mat-header-cell *matHeaderCellDef> 
-      Nombre del archivo </th>
-    <td mat-cell *matCellDef="let element"> {{element.fileName}} </td>
-  </ng-container>
+          <!-- Name Column -->
+          <ng-container matColumnDef="fileName">
+            <th mat-header-cell *matHeaderCellDef>Nombre del archivo</th>
+            <td mat-cell *matCellDef="let element">{{ element.fileName }}</td>
+          </ng-container>
 
-  <!-- Weight Column -->
-  <ng-container matColumnDef="dateUploaded">
-    <th mat-header-cell *matHeaderCellDef> Fecha </th>
-    <td mat-cell *matCellDef="let element"> {{element.dateUploaded | date : 'shortDate'}} </td>
-  </ng-container>
+          <!-- Weight Column -->
+          <ng-container matColumnDef="dateUploaded">
+            <th mat-header-cell *matHeaderCellDef>Fecha</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.dateUploaded | date: "shortDate" }}
+            </td>
+          </ng-container>
 
-  <!-- Weight Column -->
-  <ng-container matColumnDef="comments">
-    <th mat-header-cell *matHeaderCellDef> Comentarios </th>
-    <td mat-cell *matCellDef="let element"> {{element.comments}} </td>
-  </ng-container>
+          <!-- Weight Column -->
+          <ng-container matColumnDef="comments">
+            <th mat-header-cell *matHeaderCellDef>Comentarios</th>
+            <td mat-cell *matCellDef="let element">{{ element.comments }}</td>
+          </ng-container>
 
-  <ng-container matColumnDef="action">
-    <th mat-header-cell *matHeaderCellDef> Acción </th>
-    <td mat-cell *matCellDef="let element">
-      <span class="download" (click)="downloadTestResult(element.id, element.fileName)" style="cursor: pointer;">
-        Descargar
-      </span>
-        </td>
-  </ng-container>
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef>Acción</th>
+            <td mat-cell *matCellDef="let element">
+              <span
+                class="download"
+                (click)="downloadTestResult(element.id, element.fileName)"
+                style="cursor: pointer"
+              >
+                Descargar
+              </span>
+            </td>
+          </ng-container>
 
-  <tr mat-header-row *matHeaderRowDef="displayedColumnsUpload"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumnsUpload;"></tr>
-
-
+          <tr mat-header-row *matHeaderRowDef="displayedColumnsUpload"></tr>
+          <tr
+            mat-row
+            *matRowDef="let row; columns: displayedColumnsUpload"
+          ></tr>
         </table>
       </mat-card-content>
     </mat-card>
-
   </div>
 </div>
 

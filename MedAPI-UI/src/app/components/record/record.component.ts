@@ -31,6 +31,8 @@ import {  IDropdownSettings } from 'ng-multiselect-dropdown';
 import { Symptoms } from 'src/app/models/symptoms.model';
 import { NoteService } from '../note/services/note.service';
 import { MatSort } from '@angular/material/sort';
+import { MatTableFilter } from 'mat-table-filter';
+
 
 
 
@@ -40,10 +42,10 @@ export enum TicketStatus {
   FINISHED = 2
 }
 
-export interface PastAttentions {
-  id: number;
-  description: any;
-  specialty: any;
+export class PastAttentions {
+  id: number  = 0;
+  description: string = '';
+  specialty: string;
   date: string;
   action: string;
   category : string;
@@ -74,10 +76,22 @@ export class RecordComponent implements OnInit {
   showRecord: boolean;
 
   displayedColumns: string[] = ['id', 'description', 'specialty', 'date', 'category', 'status', 'evaluation', 'action'];
-  dataSource: any;
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-  @ViewChild(MatSort, { static: true }) sort: MatSort;
+<<<<<<< HEAD
+  DPastAttentions : PastAttentions[] = [] as PastAttentions[];
+  dataSource:MatTableDataSource<PastAttentions> =  new MatTableDataSource(this.DPastAttentions);
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: false }) sort: MatSort;
   selectedSpeciality: any = '';
+  filterType: MatTableFilter;
+  filterEntity: PastAttentions; 
+=======
+  dataSource:MatTableDataSource<PastAttentions> =  new MatTableDataSource<PastAttentions>([]);
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: false }) sort: MatSort;
+  selectedSpeciality: any = '';
+  filterType: MatTableFilter;
+>>>>>>> 05e8a840c713d31b40bb28d78b3a9981d3bf1e4b
+
 
   specialities = [{ value: 'GENERAL', name: 'Medicina General', id: 1 },
   { value: 'CARDIOLOGY', name: 'Cardiología', id: 2 },
@@ -113,12 +127,18 @@ export class RecordComponent implements OnInit {
     this.selectedSpeciality = 'general';
     localStorage.setItem('speciality', this.selectedSpeciality);
     this.recordService.selectedSpecialty.next(this.selectedSpeciality);
+<<<<<<< HEAD
+    
+    this.filterEntity = new PastAttentions();
+=======
+>>>>>>> 05e8a840c713d31b40bb28d78b3a9981d3bf1e4b
+    this.filterType = MatTableFilter.ANYWHERE;
+
 
     this.ticketNumber = '';
     //this.ticket.status   = TicketStatus.REGISTERED;
     this.documentNumber = '';
 
-    //this.patient = {};
 
     var docNumber = this.activatedRouter.snapshot.paramMap.get("id");
 
@@ -127,6 +147,8 @@ export class RecordComponent implements OnInit {
       this.documentNumber = docNumber;
       this.searchDocumentNumber();
     }
+
+    this.dataSource.paginator = this.paginator;
 
     this.isUserAdmin = localStorage.getItem('role') !== 'patient' &&  localStorage.getItem('role') !== 'lab' ;
     this.isUserLabPerson = localStorage.getItem('role') === 'lab';
@@ -180,8 +202,14 @@ export class RecordComponent implements OnInit {
   }
 
   ngAfterViewInit() {
+    
+<<<<<<< HEAD
+    this.dataSource.paginator = this.paginator;
+=======
+
+>>>>>>> 05e8a840c713d31b40bb28d78b3a9981d3bf1e4b
     this.uploadResultsByLab.sort = this.sort;
-    //this.dataSource.sort = this.sort;
+    this.dataSource.sort = this.sort;
   }
 
   SaveSymptoms(){
@@ -204,7 +232,6 @@ export class RecordComponent implements OnInit {
   onSelectAll(items: any) {
     this.selectedSymptomsDropDownList.push(items);
   }
-
   toggleUploadCard(){
     this.isUploadFormShow = !this.isUploadFormShow;
   }
@@ -358,12 +385,36 @@ export class RecordComponent implements OnInit {
       //}
       //self.patient = response.patient;
       //self.patient.notes = response.notes;
-      this.dataSource = [];
+<<<<<<< HEAD
+      //this.dataSource = new MatTableDataSource<PastAttentions>([]);
+      if (typeof self.patient.notes !== 'undefined' && self.patient.notes !== null) {
+
+        this.filterEntity = new PastAttentions();
+        this.filterType = MatTableFilter.ANYWHERE;
+        this.dataSource.sort = this.sort;
+
+        this.dataSource.data = self.patient.notes;
+        
+        setTimeout(() => 
+        {
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+        });
+
+
+        //this.dataSource.sort = this.sort;
+=======
+      this.dataSource = new MatTableDataSource<PastAttentions>([]);
       if (typeof self.patient.notes !== 'undefined' && self.patient.notes !== null) {
         this.dataSource = new MatTableDataSource<PastAttentions>(self.patient.notes);
-        console.log("--------------");
-        console.log(this.dataSource);
-        this.dataSource.paginator = this.paginator;
+        
+        this.dataSource.sort = this.sort;
+>>>>>>> 05e8a840c713d31b40bb28d78b3a9981d3bf1e4b
+        //this.dataSource.paginator = this.paginator;
+        
+
+        
+
         this.changeDetectorRefs.detectChanges();
       }
       self.ticket = {

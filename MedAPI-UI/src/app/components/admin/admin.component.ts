@@ -8,6 +8,8 @@ import { User } from '../user/model/user.model';
 import { AdminService } from './services/admin.service';
 import {MatPaginator} from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+import { MatTableFilter } from 'mat-table-filter';
+import { MedicUser } from 'src/app/models/medicuser.model';
 
 
 @Component({
@@ -19,7 +21,8 @@ export class AdminComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator; 
   @ViewChild(MatSort, {static: true}) sort: MatSort;
-
+  filterType: MatTableFilter;
+  filterEntity: Medic; 
 
   
   nonApprovedMedicsData : Medic[];
@@ -32,13 +35,21 @@ export class AdminComponent implements OnInit {
 
   ngOnInit(): void {
 
+    var usr = new MedicUser();
+    var mdc = new Medic();
+    mdc.user = usr;
     
+    this.filterEntity = mdc;
+
+    this.filterType = MatTableFilter.ANYWHERE;
+
     this.adminService.getNonApprovedMedics().then((response : Medic[]) => {
       //f
       console.log(response);
       this.nonApprovedMedicsData = response;
       this.nonApprovedMedics.data = response;
-
+      this.filterEntity = mdc;
+      this.filterType = MatTableFilter.ANYWHERE;
       
       
       this.nonApprovedMedics.sort = this.sort;

@@ -43,5 +43,6 @@ export class NoteDetail {
   category = '';
   prognosis = '';
   notes = '';
+  
 
 }

@@ -3,31 +3,6 @@
     <div fxLayout="column" class="layout-padding">
 
 
-      <div fxLayout="column" *ngIf="this.note.category != 'attention'">
-        <h2 class="mat-title form-section" fxFlex="100">Pronóstico</h2>
-         <mat-form-field fxFlex>
-                    <mat-label>Pronóstico</mat-label>
-                    <mat-select [disabled]="!isEditable" name="prognosis" class="max-width" required #prognosis="ngModel"
-                                [(ngModel)]="note.prognosis">
-                      <mat-option  value="bueno">bueno</mat-option>
-                      <mat-option  value="incierto">incierto</mat-option>
-                      <mat-option  value="desfavorable">desfavorable</mat-option>
-                    </mat-select>
-                    <mat-error *ngIf="prognosis.errors && (prognosis.touched || prognosis.dirty)">
-                      Este campo es requerido
-                    </mat-error>
-        </mat-form-field>
-         
-
-          
-      </div>
-
-<div fxLayout="column" *ngIf="this.note.category != 'attention'">
-    <mat-form-field fxFlex>
-    <mat-label>Notas</mat-label>
-    <textarea matInput name="notes" class="max-width" maxlength="250" #notes="ngModel" [(ngModel)]="note.notes" [disabled]="!isEditable"> </textarea>
-    </mat-form-field>
-</div>
 
 
       
