@@ -8,14 +8,9 @@ import { NoteComponent } from '../note/note.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
-<<<<<<< HEAD
-<<<<<<< HEAD
 import {  MatTableFilterModule } from 'mat-table-filter';
 import {  MatPaginatorModule } from '@angular/material/paginator';
-=======
->>>>>>> 05e8a840c713d31b40bb28d78b3a9981d3bf1e4b
-=======
->>>>>>> 05e8a840c713d31b40bb28d78b3a9981d3bf1e4b
+
 
 
 const routes: Routes = [
@@ -29,18 +24,10 @@ const routes: Routes = [
   imports: [
     CommonModule,
     FormsModule,
-<<<<<<< HEAD
-<<<<<<< HEAD
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
     MatTableFilterModule,
-=======
-   
->>>>>>> 05e8a840c713d31b40bb28d78b3a9981d3bf1e4b
-=======
-   
->>>>>>> 05e8a840c713d31b40bb28d78b3a9981d3bf1e4b
     RouterModule.forChild(routes),
     SharedModule,
     NgMultiSelectDropDownModule.forRoot()

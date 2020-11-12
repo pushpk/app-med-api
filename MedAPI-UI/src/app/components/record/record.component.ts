@@ -76,8 +76,8 @@ export class RecordComponent implements OnInit {
   showRecord: boolean;
 
   displayedColumns: string[] = ['id', 'description', 'specialty', 'date', 'category', 'status', 'evaluation', 'action'];
-<<<<<<< HEAD
-<<<<<<< HEAD
+
+
   DPastAttentions : PastAttentions[] = [] as PastAttentions[];
   dataSource:MatTableDataSource<PastAttentions> =  new MatTableDataSource(this.DPastAttentions);
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -85,18 +85,6 @@ export class RecordComponent implements OnInit {
   selectedSpeciality: any = '';
   filterType: MatTableFilter;
   filterEntity: PastAttentions; 
-=======
-=======
->>>>>>> 05e8a840c713d31b40bb28d78b3a9981d3bf1e4b
-  dataSource:MatTableDataSource<PastAttentions> =  new MatTableDataSource<PastAttentions>([]);
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-  @ViewChild(MatSort, { static: false }) sort: MatSort;
-  selectedSpeciality: any = '';
-  filterType: MatTableFilter;
-<<<<<<< HEAD
->>>>>>> 05e8a840c713d31b40bb28d78b3a9981d3bf1e4b
-=======
->>>>>>> 05e8a840c713d31b40bb28d78b3a9981d3bf1e4b
 
 
   specialities = [{ value: 'GENERAL', name: 'Medicina General', id: 1 },
@@ -133,14 +121,9 @@ export class RecordComponent implements OnInit {
     this.selectedSpeciality = 'general';
     localStorage.setItem('speciality', this.selectedSpeciality);
     this.recordService.selectedSpecialty.next(this.selectedSpeciality);
-<<<<<<< HEAD
-<<<<<<< HEAD
+
     
     this.filterEntity = new PastAttentions();
-=======
->>>>>>> 05e8a840c713d31b40bb28d78b3a9981d3bf1e4b
-=======
->>>>>>> 05e8a840c713d31b40bb28d78b3a9981d3bf1e4b
     this.filterType = MatTableFilter.ANYWHERE;
 
 
@@ -212,15 +195,8 @@ export class RecordComponent implements OnInit {
 
   ngAfterViewInit() {
     
-<<<<<<< HEAD
-<<<<<<< HEAD
+
     this.dataSource.paginator = this.paginator;
-=======
-
->>>>>>> 05e8a840c713d31b40bb28d78b3a9981d3bf1e4b
-=======
-
->>>>>>> 05e8a840c713d31b40bb28d78b3a9981d3bf1e4b
     this.uploadResultsByLab.sort = this.sort;
     this.dataSource.sort = this.sort;
   }
@@ -398,8 +374,7 @@ export class RecordComponent implements OnInit {
       //}
       //self.patient = response.patient;
       //self.patient.notes = response.notes;
-<<<<<<< HEAD
-<<<<<<< HEAD
+
       //this.dataSource = new MatTableDataSource<PastAttentions>([]);
       if (typeof self.patient.notes !== 'undefined' && self.patient.notes !== null) {
 
@@ -416,19 +391,7 @@ export class RecordComponent implements OnInit {
         });
 
 
-        //this.dataSource.sort = this.sort;
-=======
-=======
->>>>>>> 05e8a840c713d31b40bb28d78b3a9981d3bf1e4b
-      this.dataSource = new MatTableDataSource<PastAttentions>([]);
-      if (typeof self.patient.notes !== 'undefined' && self.patient.notes !== null) {
-        this.dataSource = new MatTableDataSource<PastAttentions>(self.patient.notes);
-        
-        this.dataSource.sort = this.sort;
-<<<<<<< HEAD
->>>>>>> 05e8a840c713d31b40bb28d78b3a9981d3bf1e4b
-=======
->>>>>>> 05e8a840c713d31b40bb28d78b3a9981d3bf1e4b
+
         //this.dataSource.paginator = this.paginator;
         
 
