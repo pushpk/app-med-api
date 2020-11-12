@@ -274,6 +274,9 @@ namespace MedAPI.Controllers
             note.category = mNote.category;
             note.attached_attention = mNote.attached_attention;
 
+            note.prognosis = mNote.prognosis;
+            note.notes = mNote.notes;
+
             if (userData != null)
             {
                 note.createdBy = Convert.ToString(userData.id);

@@ -37,5 +37,8 @@ namespace MedAPI.models
 
         public int attached_attention { get; set; }
 
+        public string prognosis { get; set; }
+        public string notes { get; set; }
+
     }
 }

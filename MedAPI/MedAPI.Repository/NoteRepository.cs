@@ -38,7 +38,7 @@ namespace MedAPI.Repository
                                  secondOpinion = nt.secondOpinion,
                                  sicknessTime = nt.sicknessTime,
                                  sicknessUnit = nt.sicknessUnit,
-                                 specialty = nt.specialty,
+                                 specialty = context.specialities.FirstOrDefault(s => s.id.ToString() == (string.IsNullOrEmpty(nt.triage.speciality) ? "0" : nt.triage.speciality)).name,
                                  stage = nt.stage,
                                  story = nt.story,
                                  symptom = nt.symptom,
@@ -52,6 +52,8 @@ namespace MedAPI.Repository
                                  status = nt.status,
                                  attached_attention = nt.attached_attention.HasValue ? nt.attached_attention.Value : 0,
                                  category = nt.category,
+                                 prognosis = nt.prognosis,
+                                 notes = nt.notes,
                                  noteDiagnosis = ((from x in context.notediagnosis
                                                    where x.deleted != true && x.note_id == nt.id
                                                    select new NoteDiagnosi()
@@ -223,7 +225,7 @@ namespace MedAPI.Repository
                                                secondOpinion = nt.secondOpinion,
                                                sicknessTime = nt.sicknessTime,
                                                sicknessUnit = nt.sicknessUnit,
-                                               specialty = nt.specialty,
+                                               specialty = context.specialities.FirstOrDefault(s => s.id.ToString() == (string.IsNullOrEmpty(nt.triage.speciality) ? "0" : nt.triage.speciality)).name,
                                                stage = nt.stage,
                                                story = nt.story,
                                                symptom = nt.symptom,
@@ -234,7 +236,9 @@ namespace MedAPI.Repository
                                                patientId = nt.patient_id,
                                                ticketId = nt.ticket_id,
                                                triageId = nt.triage_id,
-                                               status = nt.status,
+                                                prognosis = nt.prognosis,
+                                                notes = nt.notes,
+                                                status = nt.status,
                                                attached_attention = nt.attached_attention.HasValue ? nt.attached_attention.Value : 0,
                                                category = nt.category,
                                                noteDiagnosis = ((from x in context.notediagnosis
@@ -381,8 +385,9 @@ namespace MedAPI.Repository
                                                                               id = x.id,
                                                                               cardiovascularNoteId = x.cardiovascularNote_id,
                                                                               cardiovascularSymptoms = x.cardiovascularSymptoms
-                                                                          }).ToList())
-                                           }).ToList();
+                                                                          }).ToList()),
+                                                
+                                            }).ToList();
 
 
 
@@ -441,6 +446,8 @@ namespace MedAPI.Repository
                             triageId = nt.triage_id,
                             status = nt.status,
                             attached_attention = nt.attached_attention.HasValue ? nt.attached_attention.Value : 0,
+                            prognosis = nt.prognosis,
+                            notes = nt.notes,
                             category = nt.category
                         }).ToList();
 
@@ -472,6 +479,8 @@ namespace MedAPI.Repository
                              treatment = nt.treatment,
                              userId = nt.user_id,
                              establishmentId = nt.establishment_id,
+                             prognosis = nt.prognosis,
+                             notes = nt.notes,
                              medicId = nt.medic_id,
                              patientId = nt.patient_id,
                              ticketId = nt.ticket_id,
@@ -520,6 +529,8 @@ namespace MedAPI.Repository
                        triageId = x.triage_id,
                        status = x.status,
                        attached_attention = x.attached_attention.HasValue? x.attached_attention.Value : 0,
+                       prognosis = x.prognosis,
+                       notes = x.notes,
                        category = x.category
                    }).FirstOrDefault();
             }
@@ -536,13 +547,19 @@ namespace MedAPI.Repository
                     efNotes.deleted = false;// BitConverter.GetBytes(false);
                     efNotes.createdDate = DateTime.UtcNow;
                     context.notes.Add(efNotes);
+                    efNotes.status = "open";
+                }
+                else
+                {
+                    efNotes.status = mNote.status;
+
                 }
 
-                efNotes.status = "open";
+                
                 efNotes.category = mNote.category;
                 efNotes.attached_attention = mNote.attached_attention;
-
-
+                efNotes.prognosis = mNote.prognosis;
+                efNotes.notes = mNote.notes;
                 efNotes.age = mNote.age;
                 efNotes.completed = mNote.completed;
                 efNotes.control = mNote.control;

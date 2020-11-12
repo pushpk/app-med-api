@@ -35,6 +35,9 @@ namespace MedAPI.Domain
 
         public int attached_attention { get; set; }
 
+        public string prognosis { get; set; }
+        public string notes { get; set; }
+
         public long id { get; set; }
         public string age { get; set; }
         public bool completed { get; set; }
