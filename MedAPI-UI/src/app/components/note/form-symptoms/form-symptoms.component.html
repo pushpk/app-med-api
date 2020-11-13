@@ -1,8 +1,13 @@
 <div class="layout-padding general symptoms" fxLayout="column">
   <div fxLayout="column">
     <div fxLayout="column" class="layout-padding">
-      <h2 class="mat-title form-section" fxFlex="100">Síntomas</h2>
-      <div fxLayout="column">
+
+
+
+
+      
+      <div fxLayout="column" fxLayoutGap="24px">
+        <h2 class="mat-title form-section" fxFlex="100">Síntomas</h2>
         <mat-form-field fxFlex>
           <mat-label>Descripción</mat-label>
           <textarea [disabled]="!isEditable" matInput name="symptoms" class="max-width" maxlength="250" #symptoms="ngModel"

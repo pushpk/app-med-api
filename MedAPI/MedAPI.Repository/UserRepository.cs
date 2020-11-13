@@ -269,7 +269,7 @@ namespace MedAPI.Repository
             {
                // var abc = context.medics.Include("user").Where(s => s.user.role_id == 2 && (!s.IsApproved || s.IsFreezed)).ToList();
 
-                var abc =  (from us in context.medics.Include("user").Where(s => s.user.role_id == 2)
+                var abc =  (from us in context.medics.Include("user").Where(s => s.user.role_id == 2).OrderBy(s => s.IsApproved)
                         select new Medic()
                         {
                             cmp = us.cmp,

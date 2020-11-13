@@ -5,6 +5,10 @@ import { SharedModule } from '../../shared/shared.module';
 import { FormsModule } from '@angular/forms';
 
 import { AdminComponent } from './admin.component';
+import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatTableFilterModule } from 'mat-table-filter';
 
 const routes: Routes = [
   { path: '', component: AdminComponent,  pathMatch: 'full'}
@@ -16,6 +20,10 @@ const routes: Routes = [
   imports: [
     CommonModule,
     FormsModule,
+    MatTableModule,
+    MatSortModule,
+    MatPaginatorModule,
+    MatTableFilterModule,
     RouterModule.forChild(routes),
     SharedModule
   ]

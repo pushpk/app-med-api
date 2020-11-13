@@ -133,18 +133,6 @@
     <Compile Include="notereferral.cs">
       <DependentUpon>MedDb.tt</DependentUpon>
     </Compile>
-    <Compile Include="note_notediagnosis.cs">
-      <DependentUpon>MedDb.tt</DependentUpon>
-    </Compile>
-    <Compile Include="note_noteexam.cs">
-      <DependentUpon>MedDb.tt</DependentUpon>
-    </Compile>
-    <Compile Include="note_notemedicine.cs">
-      <DependentUpon>MedDb.tt</DependentUpon>
-    </Compile>
-    <Compile Include="note_notereferral.cs">
-      <DependentUpon>MedDb.tt</DependentUpon>
-    </Compile>
     <Compile Include="nurse.cs">
       <DependentUpon>MedDb.tt</DependentUpon>
     </Compile>

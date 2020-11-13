@@ -45,6 +45,7 @@ export class NoteComponent implements OnInit {
 
   isEditable = false;
   docNumber: string;
+  attechedAttentionId: string;
 
   constructor(private noteService: NoteService,
               public route: ActivatedRoute,
@@ -73,6 +74,7 @@ export class NoteComponent implements OnInit {
     }
     if (this.route.snapshot.queryParamMap.get('docNumber')){
       this.docNumber = this.route.snapshot.queryParamMap.get('docNumber');
+      this.attechedAttentionId = this.route.snapshot.queryParamMap.get('attentionId');
     }
 
     //self.note = {
@@ -223,6 +225,14 @@ export class NoteComponent implements OnInit {
       this.note.patientId = this.patient.id;
       this.note.specialty = this.speciality;
       this.note.userId = this.patient.userId;
+      if(this.attechedAttentionId)
+      {
+        this.note.category = 'evaluation';
+        this.note.attached_attention = Number(this.attechedAttentionId)
+      }
+      else{
+        this.note.category = 'attention';
+      }
     }
   }
 
@@ -546,5 +556,13 @@ export class NoteComponent implements OnInit {
       self.submit.waiting = false;
       self.submit.success = false;
     });
+  }
+
+
+  closeAttention(id: number){
+
+    this.note.status = 'close';
+    
+
   }
 }

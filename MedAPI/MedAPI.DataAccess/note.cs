@@ -50,6 +50,11 @@ namespace MedAPI.DataAccess
         public long patient_id { get; set; }
         public Nullable<long> ticket_id { get; set; }
         public Nullable<long> triage_id { get; set; }
+        public string status { get; set; }
+        public string category { get; set; }
+        public Nullable<int> attached_attention { get; set; }
+        public string prognosis { get; set; }
+        public string notes { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<cardiovascularnote> cardiovascularnotes { get; set; }

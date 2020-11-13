@@ -145,5 +145,10 @@ namespace MedAPI.Service
         {
             return noteRepository.SaveReferralsList(mReferrals);
         }
+
+        public bool CloseAttention(long id)
+        {
+            return noteRepository.CloseAttention(id);
+        }
     }
 }
