@@ -14,7 +14,7 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
 
   constructor(private fb: FormBuilder, public router: Router, private recordService: RecordService,
-    public userService: UserService, private userAuthService: UserAuthService) { }
+              public userService: UserService, private userAuthService: UserAuthService) { }
 
   ngOnInit(): void {
     this.buildForm();
@@ -30,58 +30,58 @@ export class LoginComponent implements OnInit {
   control(name: string): AbstractControl {
     return this.loginForm.get(name);
   }
-  
+
   doLogin() {
-    
     const self = this;
     let username = self.loginForm.get('username').value;
     let password = self.loginForm.get('password').value;
     let credentials = {
       'username': username,
       'password': password
-    }
-    this.userService.login(credentials).then((response : any) => {
+    };
+    this.userService.login(credentials).then((response: any) => {
 
-     
+      console.log(response['role']);
+
       localStorage.setItem('email', username);
       this.recordService.passwordHash.next(password);
       this.userAuthService.save(response);
 
-      localStorage.setItem('loggedInID',response.id);
-     
-      if(response['role'] == "4")
-      {
-        localStorage.setItem('role','patient')
-        var rt = "/records/"+response.docNumber;
+      localStorage.setItem('loggedInID', response.id);
 
-        
+      if (response['role'] === 4)
+      {
+        localStorage.setItem('role', 'patient');
+        var rt = '/records/' + response.docNumber;
+
+
         this.router.navigateByUrl(rt);
 
       }
-      else if (response['role'] == "5")
+      else if (response['role'] === 5)
       {
 
-        localStorage.setItem('role','lab')
+        localStorage.setItem('role', 'lab');
         this.router.navigateByUrl('/records');
       }
       else
       {
-        localStorage.setItem('role','admin')
+        localStorage.setItem('role', 'admin');
 
-        if(response['id'] == 1){
+        if (response['id'] === 1){
 
           this.router.navigateByUrl('/admin');
         }
         else{
-          if(!response['IsApproved'])
+          if (!response['IsApproved'])
           {
             localStorage.clear();
-            localStorage.setItem('reason','not-approved');
+            localStorage.setItem('reason', 'not-approved');
             this.router.navigateByUrl('/no-access');
           }
           else if (response['IsFreezed']){
             localStorage.clear();
-            localStorage.setItem('reason','freezed');
+            localStorage.setItem('reason', 'freezed');
             this.router.navigateByUrl('/no-access');
           }
           else{

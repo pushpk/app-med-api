@@ -14,11 +14,13 @@ namespace MedAPI.Repository
 
         public List<Note> GetAllNoteByPatient(int id)
         {
+            List<Note> notesAll = new List<Note>();
+
             //var bytes = BitConverter.GetBytes(true);
             using (var context = new DataAccess.registroclinicoEntities())
             {
-                var notes = (from nt in context.notes
-                             where nt.deleted != true && nt.patient_id == id
+                var notesAttentions = (from nt in context.notes
+                             where nt.deleted != true && nt.patient_id == id && nt.category == "attention"
                              select new Note()
                              {
                                  id = nt.id,
@@ -36,7 +38,7 @@ namespace MedAPI.Repository
                                  secondOpinion = nt.secondOpinion,
                                  sicknessTime = nt.sicknessTime,
                                  sicknessUnit = nt.sicknessUnit,
-                                 specialty = nt.specialty,
+                                 specialty = context.specialities.FirstOrDefault(s => s.id.ToString() == (string.IsNullOrEmpty(nt.triage.speciality) ? "0" : nt.triage.speciality)).name,
                                  stage = nt.stage,
                                  story = nt.story,
                                  symptom = nt.symptom,
@@ -47,6 +49,11 @@ namespace MedAPI.Repository
                                  patientId = nt.patient_id,
                                  ticketId = nt.ticket_id,
                                  triageId = nt.triage_id,
+                                 status = nt.status,
+                                 attached_attention = nt.attached_attention.HasValue ? nt.attached_attention.Value : 0,
+                                 category = nt.category,
+                                 prognosis = nt.prognosis,
+                                 notes = nt.notes,
                                  noteDiagnosis = ((from x in context.notediagnosis
                                                    where x.deleted != true && x.note_id == nt.id
                                                    select new NoteDiagnosi()
@@ -169,6 +176,7 @@ namespace MedAPI.Repository
                                                            gastrointestinalSemiology = x.gastrointestinalSemiology,
                                                            murmurs = x.murmurs,
                                                            neckRadiation = x.neckRadiation,
+                                                      
                                                            otherSymptoms = x.otherSymptoms,
                                                            pedalPulsesL = x.pedalPulsesL,
                                                            pedalPulsesR = x.pedalPulsesR,
@@ -184,7 +192,7 @@ namespace MedAPI.Repository
                                                            noteId = x.note_id
                                                        }).FirstOrDefault(),
                                  cardiovascularSymptoms = ((from x in context.cardiovascularnote_cardiovascularsymptoms
-                                                            where x.cardiovascularNote_id == (context.cardiovascularnotes.Where(y=> y.note_id == nt.id).FirstOrDefault().id)
+                                                            where x.cardiovascularNote_id == (context.cardiovascularnotes.Where(y => y.note_id == nt.id).FirstOrDefault().id)
                                                             select new CardiovascularSymptoms()
                                                             {
                                                                 id = x.id,
@@ -193,7 +201,199 @@ namespace MedAPI.Repository
                                                             }).ToList())
                              }).ToList();
 
-                return notes;
+
+                foreach (var notesAttention in notesAttentions)
+                {
+                    notesAll.Add(notesAttention);
+
+                    var notesEvaluations = (from nt in context.notes
+                                           where nt.deleted != true && nt.patient_id == id && nt.category == "evaluation" && nt.attached_attention == notesAttention.id
+                                            select new Note()
+                                           {
+                                               id = nt.id,
+                                               age = nt.age,
+                                               completed = nt.completed,
+                                               control = nt.control,
+                                               diagnosis = nt.diagnosis,
+                                               exam = nt.exam,
+                                               modifiedBy = nt.modifiedBy,
+                                               modifiedDate = nt.modifiedDate,
+                                               createdDate = nt.createdDate,
+                                               createdBy = nt.createdBy,
+                                               deleted = nt.deleted,
+                                               physicalExam = nt.physicalExam,
+                                               secondOpinion = nt.secondOpinion,
+                                               sicknessTime = nt.sicknessTime,
+                                               sicknessUnit = nt.sicknessUnit,
+                                               specialty = context.specialities.FirstOrDefault(s => s.id.ToString() == (string.IsNullOrEmpty(nt.triage.speciality) ? "0" : nt.triage.speciality)).name,
+                                               stage = nt.stage,
+                                               story = nt.story,
+                                               symptom = nt.symptom,
+                                               treatment = nt.treatment,
+                                               userId = nt.user_id,
+                                               establishmentId = nt.establishment_id,
+                                               medicId = nt.medic_id,
+                                               patientId = nt.patient_id,
+                                               ticketId = nt.ticket_id,
+                                               triageId = nt.triage_id,
+                                                prognosis = nt.prognosis,
+                                                notes = nt.notes,
+                                                status = nt.status,
+                                               attached_attention = nt.attached_attention.HasValue ? nt.attached_attention.Value : 0,
+                                               category = nt.category,
+                                               noteDiagnosis = ((from x in context.notediagnosis
+                                                                 where x.deleted != true && x.note_id == nt.id
+                                                                 select new NoteDiagnosi()
+                                                                 {
+                                                                     id = x.id,
+                                                                     noteId = x.note_id,
+                                                                     diagnosisId = x.diagnosis_id,
+                                                                     diagnosisType = x.diagnosisType,
+                                                                     diagnosisList = (from y in context.diagnosis
+                                                                                      where y.id == x.diagnosis_id
+                                                                                      select new Diagnosis
+                                                                                      {
+                                                                                          id = y.id,
+                                                                                          code = y.code,
+                                                                                          deleted = y.deleted,
+                                                                                          title = y.title,
+                                                                                          chapterId = y.chapter_id
+                                                                                      }).ToList()
+                                                                 }).ToList()),
+                                               noteExams = ((from x in context.noteexams
+                                                             where x.deleted != true && x.note_id == nt.id
+                                                             select new NoteExam()
+                                                             {
+                                                                 noteId = x.note_id,
+                                                                 examId = x.exam_id,
+                                                                 observation = x.observation,
+                                                                 specification = x.specification,
+                                                                 status = x.status,
+                                                                 examList = (from y in context.exams
+                                                                             where y.id == x.exam_id
+                                                                             select new Exam
+                                                                             {
+                                                                                 id = y.id,
+                                                                                 name = y.name,
+                                                                                 deleted = y.deleted,
+                                                                                 type = y.type
+                                                                             }).ToList()
+                                                             }).ToList()),
+                                               noteMedicines = ((from x in context.notemedicines
+                                                                 where x.deleted != true && x.note_id == nt.id
+                                                                 select new NoteMedicine()
+                                                                 {
+                                                                     noteId = x.note_id,
+                                                                     durationTime = x.durationTime,
+                                                                     durationUnit = x.durationUnit,
+                                                                     frequencyTime = x.frequencyTime,
+                                                                     indication = x.indication,
+                                                                     medicineId = x.medicine_id,
+                                                                     medicineList = (from y in context.medicines
+                                                                                     where y.id == x.medicine_id
+                                                                                     select new Medicine
+                                                                                     {
+                                                                                         id = y.id,
+                                                                                         concentration = y.concentration,
+                                                                                         deleted = y.deleted,
+                                                                                         form = y.form,
+                                                                                         fractions = y.fractions,
+                                                                                         healthRegistration = y.healthRegistration,
+                                                                                         name = y.name,
+                                                                                         owner = y.owner,
+                                                                                         presentation = y.presentation
+                                                                                     }).ToList()
+                                                                 }).ToList()),
+                                               noteReferrals = ((from x in context.notereferrals
+                                                                 where x.deleted != true && x.note_id == nt.id
+                                                                 select new NoteReferral()
+                                                                 {
+                                                                     noteId = x.note_id,
+                                                                     reason = x.reason,
+                                                                     specialty = x.specialty
+                                                                 }).ToList()),
+                                               triage = (from x in context.triages
+                                                         where x.deleted != true && x.patient_id == nt.patient_id && x.id == nt.triage_id
+                                                         select new Triage()
+                                                         {
+                                                             id = x.id,
+                                                             abdominalPerimeter = x.abdominalPerimeter,
+                                                             bmi = x.bmi,
+                                                             breathingRate = x.breathingRate,
+                                                             createdBy = x.createdBy,
+                                                             createdDate = x.createdDate,
+                                                             deleted = x.deleted,
+                                                             deposition = x.deposition,
+                                                             diastolicBloodPressure = x.diastolicBloodPressure,
+                                                             specialities = x.speciality,
+                                                             glycemia = x.glycemia,
+                                                             hdlCholesterol = x.hdlCholesterol,
+                                                             heartRate = x.heartRate,
+                                                             heartRisk = x.heartRisk,
+                                                             hunger = x.hunger,
+                                                             hypertensionRisk = x.hypertensionRisk,
+                                                             ldlCholesterol = x.ldlCholesterol,
+                                                             size = x.size,
+                                                             sleep = x.sleep,
+                                                             systolicBloodPressure = x.systolicBloodPressure,
+                                                             temperature = x.temperature,
+                                                             thirst = x.thirst,
+                                                             totalCholesterol = x.totalCholesterol,
+                                                             urine = x.urine,
+                                                             weight = x.weight,
+                                                             weightEvolution = x.weightEvolution,
+                                                             patientId = x.patient_id,
+                                                             ticketId = x.ticket_id
+                                                         }).FirstOrDefault(),
+                                               cardiovascularNote = (from x in context.cardiovascularnotes
+                                                                     where x.note_id == nt.id
+                                                                     select new CardiovascularNote()
+                                                                     {
+                                                                         id = x.id,
+                                                                         auscultationSite = x.auscultationSite,
+                                                                         capillaryRefillLLM = x.capillaryRefillLLM,
+                                                                         capillaryRefillLRM = x.capillaryRefillLRM,
+                                                                         cardiacPressureIntensity = x.cardiacPressureIntensity,
+                                                                         cardiacPressureRhythm = x.cardiacPressureRhythm,
+                                                                         diastolicPhase = x.diastolicPhase,
+                                                                         edemaAnkle = x.edemaAnkle,
+                                                                         edemaGeneralized = x.edemaGeneralized,
+                                                                         edemaLowerMembers = x.edemaLowerMembers,
+                                                                         fourthNoise = x.fourthNoise,
+                                                                         gastrointestinalSemiology = x.gastrointestinalSemiology,
+                                                                         murmurs = x.murmurs,
+                                                                         neckRadiation = x.neckRadiation,
+
+                                                                         otherSymptoms = x.otherSymptoms,
+                                                                         pedalPulsesL = x.pedalPulsesL,
+                                                                         pedalPulsesR = x.pedalPulsesR,
+                                                                         pulsesLLM = x.pulsesLLM,
+                                                                         pulsesLRM = x.pulsesLRM,
+                                                                         radialPulsesL = x.radialPulsesL,
+                                                                         radialPulsesR = x.radialPulsesR,
+                                                                         systolicPhase = x.systolicPhase,
+                                                                         thirdNoise = x.thirdNoise,
+                                                                         trophicChanges = x.trophicChanges,
+                                                                         vesicularWhisperL = x.vesicularWhisperL,
+                                                                         vesicularWhisperR = x.vesicularWhisperR,
+                                                                         noteId = x.note_id
+                                                                     }).FirstOrDefault(),
+                                               cardiovascularSymptoms = ((from x in context.cardiovascularnote_cardiovascularsymptoms
+                                                                          where x.cardiovascularNote_id == (context.cardiovascularnotes.Where(y => y.note_id == nt.id).FirstOrDefault().id)
+                                                                          select new CardiovascularSymptoms()
+                                                                          {
+                                                                              id = x.id,
+                                                                              cardiovascularNoteId = x.cardiovascularNote_id,
+                                                                              cardiovascularSymptoms = x.cardiovascularSymptoms
+                                                                          }).ToList()),
+                                                
+                                            }).ToList();
+
+
+
+                    notesAll.AddRange(notesEvaluations);
+                }
+                return notesAll;
             }
         }
         public bool DeleteNoteById(long id)
@@ -214,11 +414,12 @@ namespace MedAPI.Repository
 
         public List<Note> GetAllNote()
         {
+            List<Note> notes = new List<Note>();
             //var bytes = BitConverter.GetBytes(true);
             using (var context = new DataAccess.registroclinicoEntities())
             {
-                return (from nt in context.notes
-                        where nt.deleted != true
+                var notesbyAttentions =  (from nt in context.notes
+                        where nt.deleted != true && nt.category == "attention"
                         select new Note()
                         {
                             id = nt.id,
@@ -242,8 +443,58 @@ namespace MedAPI.Repository
                             medicId = nt.medic_id,
                             patientId = nt.patient_id,
                             ticketId = nt.ticket_id,
-                            triageId = nt.triage_id
+                            triageId = nt.triage_id,
+                            status = nt.status,
+                            attached_attention = nt.attached_attention.HasValue ? nt.attached_attention.Value : 0,
+                            prognosis = nt.prognosis,
+                            notes = nt.notes,
+                            category = nt.category
                         }).ToList();
+
+
+                foreach (var attention in notesbyAttentions)
+                {
+                    notes.Add(attention);
+
+                    var notesbyEvaluation =
+                        (from nt in context.notes
+                         where nt.deleted != true && nt.category == "evaluation" && nt.attached_attention == attention.id
+                         select new Note()
+                         {
+                             id = nt.id,
+                             age = nt.age,
+                             completed = nt.completed,
+                             control = nt.control,
+                             diagnosis = nt.diagnosis,
+                             exam = nt.exam,
+                             modifiedBy = nt.modifiedBy,
+                             physicalExam = nt.physicalExam,
+                             secondOpinion = nt.secondOpinion,
+                             sicknessTime = nt.sicknessTime,
+                             sicknessUnit = nt.sicknessUnit,
+                             specialty = nt.specialty,
+                             stage = nt.stage,
+                             story = nt.story,
+                             symptom = nt.symptom,
+                             treatment = nt.treatment,
+                             userId = nt.user_id,
+                             establishmentId = nt.establishment_id,
+                             prognosis = nt.prognosis,
+                             notes = nt.notes,
+                             medicId = nt.medic_id,
+                             patientId = nt.patient_id,
+                             ticketId = nt.ticket_id,
+                             triageId = nt.triage_id,
+                             status = nt.status,
+                             attached_attention = nt.attached_attention.HasValue ? nt.attached_attention.Value : 0,
+                             category = nt.category
+                         }).ToList();
+
+                    notes.AddRange(notesbyEvaluation);
+                }
+
+                return notes;
+
             }
         }
 
@@ -275,7 +526,12 @@ namespace MedAPI.Repository
                        medicId = x.medic_id,
                        patientId = x.patient_id,
                        ticketId = x.ticket_id,
-                       triageId = x.triage_id
+                       triageId = x.triage_id,
+                       status = x.status,
+                       attached_attention = x.attached_attention.HasValue? x.attached_attention.Value : 0,
+                       prognosis = x.prognosis,
+                       notes = x.notes,
+                       category = x.category
                    }).FirstOrDefault();
             }
         }
@@ -291,7 +547,19 @@ namespace MedAPI.Repository
                     efNotes.deleted = false;// BitConverter.GetBytes(false);
                     efNotes.createdDate = DateTime.UtcNow;
                     context.notes.Add(efNotes);
+                    efNotes.status = "open";
                 }
+                else
+                {
+                    efNotes.status = mNote.status;
+
+                }
+
+                
+                efNotes.category = mNote.category;
+                efNotes.attached_attention = mNote.attached_attention;
+                efNotes.prognosis = mNote.prognosis;
+                efNotes.notes = mNote.notes;
                 efNotes.age = mNote.age;
                 efNotes.completed = mNote.completed;
                 efNotes.control = mNote.control;
@@ -442,6 +710,29 @@ namespace MedAPI.Repository
                     return false;
                 }
             }
+        }
+
+        public bool CloseAttention(long id)
+        {
+            using (var context = new DataAccess.registroclinicoEntities())
+            {
+                try
+                {
+                    var attention = context.notes.FirstOrDefault(m => m.id == id);
+                    if (attention == null)
+                    {
+                        return false;
+                    }
+                    attention.status = "close";
+                    context.SaveChanges();
+                    return true;
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+            }
+
         }
     }
 }

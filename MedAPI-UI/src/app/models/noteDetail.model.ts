@@ -38,4 +38,11 @@ export class NoteDetail {
   deleted = false;
   medicId = null;
   triageId = 0;
+  attached_attention = 0;
+  status = '';
+  category = '';
+  prognosis = '';
+  notes = '';
+  
+
 }

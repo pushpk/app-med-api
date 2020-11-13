@@ -13,12 +13,13 @@ import { MustMatchDirective } from 'src/app/shared/directive/mustMatch.directive
 })
 export class MedicRegistrationComponent implements OnInit {
   [x: string]: any;
-  specialities : string[];
+  specialities: string[];
+  resources: any;
 
   medic: Medic = new Medic();
-   
- constructor(public router: Router, private patientService: PatientService, public toastr: ToastrService) { 
-    
+
+ constructor(public router: Router, private patientService: PatientService, public toastr: ToastrService) {
+
    this.medic.user = new MedicUser();
     this.medic.user.roleId = 2;
 
@@ -105,15 +106,14 @@ export class MedicRegistrationComponent implements OnInit {
     console.log(this.medic);
     this.patientService.createMedic(this.medic).then((response: any) => {
       console.log(response);
-      
-      this.toastr.success('Médica registrada con éxito.');
+
+      this.toastr.success('Médico registrado con éxito.');
       this.router.navigateByUrl('/login');
     }).catch((error) => {
       console.log(error);
-      
-      this.toastr.error('Se produjo un error al crear medic.');
+      this.toastr.error('Se produjo un error al crear la cuenta.');
     });
-    
+
   }
 
   updateProvinces() {
@@ -140,7 +140,7 @@ export class MedicRegistrationComponent implements OnInit {
 
   numberOnly(ele : any) {
    var regex = /[^0-9]/gi;
-   ele.value = ele.value.replace(regex, "");
+   ele.value = ele.value.replace(regex, '');
 }
 
 }

@@ -44,10 +44,10 @@ namespace MedAPI.DataAccess
         public virtual DbSet<medic_specialties> medic_specialties { get; set; }
         public virtual DbSet<medicine> medicines { get; set; }
         public virtual DbSet<note> notes { get; set; }
-        public virtual DbSet<note_notediagnosis> note_notediagnosis { get; set; }
-        public virtual DbSet<note_noteexam> note_noteexam { get; set; }
-        public virtual DbSet<note_notemedicine> note_notemedicine { get; set; }
-        public virtual DbSet<note_notereferral> note_notereferral { get; set; }
+        //public virtual DbSet<note_notediagnosis> note_notediagnosis { get; set; }
+        //public virtual DbSet<note_noteexam> note_noteexam { get; set; }
+        //public virtual DbSet<note_notemedicine> note_notemedicine { get; set; }
+        //public virtual DbSet<note_notereferral> note_notereferral { get; set; }
         public virtual DbSet<notediagnosi> notediagnosis { get; set; }
         public virtual DbSet<noteexam> noteexams { get; set; }
         public virtual DbSet<noteexam_upload> noteexam_upload { get; set; }

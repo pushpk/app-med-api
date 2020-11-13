@@ -184,6 +184,32 @@ namespace MedAPI.Controllers
             return response;
         }
 
+        //Evaluation Related Services
+
+        [HttpGet]
+        [Route("note/close-attention/{id:int}")]
+        public HttpResponseMessage CloseAttention(long id)
+        {
+            HttpResponseMessage response = null;
+            try
+            {
+                bool isSuccess = false;
+                isSuccess = noteService.CloseAttention(id);
+                if (isSuccess)
+                {
+                    response = Request.CreateResponse(HttpStatusCode.OK, "Entity removed successfully.");
+                }
+            }
+            catch (Exception ex)
+            {
+                response = Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+            return response;
+
+        }
+
+
+
         //[HttpGet]
         //[Route("resources/cardiology")]
         //public HttpResponseMessage ResourcesCardiology()
@@ -243,6 +269,14 @@ namespace MedAPI.Controllers
             note.age = null;
             note.completed = false;
             note.control = false;
+
+            note.status = mNote.status;
+            note.category = mNote.category;
+            note.attached_attention = mNote.attached_attention;
+
+            note.prognosis = mNote.prognosis;
+            note.notes = mNote.notes;
+
             if (userData != null)
             {
                 note.createdBy = Convert.ToString(userData.id);

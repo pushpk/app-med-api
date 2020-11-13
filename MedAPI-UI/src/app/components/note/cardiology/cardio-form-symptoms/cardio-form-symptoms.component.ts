@@ -17,6 +17,7 @@ export class CardioFormSymptomsComponent implements OnInit {
   resources: any;
   @Input() note: any;
   @Input() patient: any;
+  @Input() isEditable: boolean;
   public visible = true;
   public selectable = true;
   public removable = true;
@@ -40,6 +41,9 @@ export class CardioFormSymptomsComponent implements OnInit {
     });
   }
   add(event: MatChipInputEvent): void {
+    if (!this.isEditable){
+      return;
+    }
     const input = event.input;
     const value = event.value;
 
@@ -55,6 +59,9 @@ export class CardioFormSymptomsComponent implements OnInit {
   }
 
   remove(o): void {
+    if (!this.isEditable){
+      return;
+    }
     const index = this.note.cardiovascularSymptoms.indexOf(o);
 
     if (index >= 0) {
@@ -63,6 +70,9 @@ export class CardioFormSymptomsComponent implements OnInit {
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
+    if (!this.isEditable){
+      return;
+    }
     if (this.note.cardiovascularSymptoms.indexOf(event.option.value) === -1) {
       this.note.cardiovascularSymptoms.push(event.option.value);
     }
@@ -76,6 +86,9 @@ export class CardioFormSymptomsComponent implements OnInit {
   }
 
   addSymptoms(data) {
+    if (!this.isEditable){
+      return;
+    }
     if (this.note.cardiovascularSymptoms.indexOf(data) === -1) {
       let symptoms: CardiovascularSymptoms = {
         id: data.$id,

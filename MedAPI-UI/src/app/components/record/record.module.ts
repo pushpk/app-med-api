@@ -6,6 +6,12 @@ import { SharedModule } from '../../shared/shared.module';
 import { FormsModule } from '@angular/forms';
 import { NoteComponent } from '../note/note.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { MatSortModule } from '@angular/material/sort';
+import { MatTableModule } from '@angular/material/table';
+import {  MatTableFilterModule } from 'mat-table-filter';
+import {  MatPaginatorModule } from '@angular/material/paginator';
+
+
 
 const routes: Routes = [
   { path: '', component: RecordComponent,  pathMatch: 'full'},
@@ -18,6 +24,10 @@ const routes: Routes = [
   imports: [
     CommonModule,
     FormsModule,
+    MatTableModule,
+    MatSortModule,
+    MatPaginatorModule,
+    MatTableFilterModule,
     RouterModule.forChild(routes),
     SharedModule,
     NgMultiSelectDropDownModule.forRoot()

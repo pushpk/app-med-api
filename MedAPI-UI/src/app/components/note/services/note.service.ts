@@ -1,6 +1,6 @@
 import { Injectable, EventEmitter, Output } from '@angular/core';
 import { HttpUtilService } from '../../../services/http-util.service';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
 import { ResourcesService } from '../../../services/resources.service';
 
 @Injectable({
@@ -9,7 +9,7 @@ import { ResourcesService } from '../../../services/resources.service';
 export class NoteService {
   resources: BehaviorSubject<[]> = new BehaviorSubject([]);
   updateComputedFieldsEvent: EventEmitter<[]> = new EventEmitter<[]>();
-  //diagnosisList: EventEmitter<[]> = new EventEmitter<[]>();
+  // diagnosisList: EventEmitter<[]> = new EventEmitter<[]>();
 
   constructor(private httpUtilService: HttpUtilService, private resourcesService: ResourcesService) { }
 
