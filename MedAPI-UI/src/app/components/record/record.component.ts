@@ -42,7 +42,8 @@ export enum TicketStatus {
   FINISHED = 2
 }
 
-export class PastAttentions {
+export class 
+PastAttentions {
   id: number  = 0;
   description: string = '';
   specialty: string;
@@ -50,6 +51,7 @@ export class PastAttentions {
   action: string;
   category : string;
   status : string;
+  symptoms: Symptoms;
 }
 
 
@@ -123,7 +125,11 @@ export class RecordComponent implements OnInit {
     this.recordService.selectedSpecialty.next(this.selectedSpeciality);
 
     
-    this.filterEntity = new PastAttentions();
+    // 
+    var  sSymptoms = new Symptoms();
+    var pastAtt = new PastAttentions();
+    pastAtt.symptoms = sSymptoms;
+    this.filterEntity = pastAtt;
     this.filterType = MatTableFilter.ANYWHERE;
 
 
@@ -378,7 +384,12 @@ export class RecordComponent implements OnInit {
       //this.dataSource = new MatTableDataSource<PastAttentions>([]);
       if (typeof self.patient.notes !== 'undefined' && self.patient.notes !== null) {
 
-        this.filterEntity = new PastAttentions();
+        var  sSymptoms = new Symptoms();
+        var pastAtt = new PastAttentions();
+        pastAtt.symptoms = sSymptoms;
+        this.filterEntity = pastAtt;
+
+        
         this.filterType = MatTableFilter.ANYWHERE;
         this.dataSource.sort = this.sort;
 

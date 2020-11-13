@@ -26,7 +26,13 @@ namespace MedAPI.Repository
         {
             using (var context = new DataAccess.registroclinicoEntities())
             {
-                var result = Mapper.Map<List<LabUploadResult>>(context.lab_Upload_Results.Where(x => x.user_id == patientId).ToList());
+                var result = Mapper.Map<List<LabUploadResult>>(context.lab_Upload_Results.Where(x => x.user_id == patientId).Select(s => new LabUploadResult { 
+                    id = s.id,
+                    user_id = s.user_id,
+                    fileName = s.fileName,
+                    dateUploaded = s.dateUploaded,
+                    comments = s.comments
+                }).ToList());
                 return result;
 
             }
