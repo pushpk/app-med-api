@@ -356,7 +356,7 @@
             </div>
           </mat-header-cell>
           <mat-cell *matCellDef="let element">
-            {{ element.category }}
+            {{ element.category  === 'attention' ? 'atención' : 'evaluación'}}
           </mat-cell>
         </ng-container>
 
@@ -377,7 +377,7 @@
             </div>
           </mat-header-cell>
           <mat-cell *matCellDef="let element">
-            {{ element.status }}
+            {{ element.status === 'open' ? 'abierto' : 'cerrar'}}
           </mat-cell>
         </ng-container>
 
