@@ -68,11 +68,11 @@
     </ng-container>
 
     <ng-container matColumnDef="rne">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> <div style="display: block">
+      <th mat-header-cell *matHeaderCellDef > <div style="display: block">
         <mat-form-field style="width: 80%; display: flex; justify-content: space-around; text-align: center;">
           <input
             matInput
-            [(ngModel)]="filterEntity.RNE"
+            [(ngModel)]="filterEntity.rne"
             appearance="outline"
             placeholder="Buscar RNE"
           />
@@ -85,11 +85,11 @@
     </ng-container>
 
     <ng-container matColumnDef="cmp">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>  <div style="display: block">
+      <th mat-header-cell *matHeaderCellDef >  <div style="display: block">
         <mat-form-field style="width: 80%; display: flex; justify-content: space-around; text-align: center;">
           <input
             matInput
-            [(ngModel)]="filterEntity.CMP"
+            [(ngModel)]="filterEntity.cmp"
             appearance="outline"
             placeholder="Buscar CMP"
           />

@@ -318,13 +318,13 @@
             {{ element.specialty }}
           </mat-cell>
         </ng-container>
-        <ng-container matColumnDef="date">
+        <ng-container matColumnDef="registrationDate">
           <mat-header-cell *matHeaderCellDef mat-sort-header>
             <div style="display: block">
               <mat-form-field style="width: 80%; display: flex; justify-content: space-around; text-align: center;">
                 <input
                   matInput
-                  [(ngModel)]="filterEntity.date"
+                  [(ngModel)]="filterEntity.registrationDate"
                   appearance="outline"
                   placeholder="Buscar Fetcha"
                 />
@@ -377,7 +377,7 @@
             </div>
           </mat-header-cell>
           <mat-cell *matCellDef="let element">
-            {{ element.status === 'open' ? 'abierto' : 'cerrar'}}
+            {{ element.status === 'open' ? 'abierto' : 'cerrado'}}
           </mat-cell>
         </ng-container>
 

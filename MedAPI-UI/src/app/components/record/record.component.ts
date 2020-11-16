@@ -47,7 +47,7 @@ PastAttentions {
   id: number  = 0;
   description: string = '';
   specialty: string;
-  date: string;
+  registrationDate: Date;
   action: string;
   category : string;
   status : string;
@@ -77,7 +77,7 @@ export class RecordComponent implements OnInit {
   askPatientRegistration: boolean;
   showRecord: boolean;
 
-  displayedColumns: string[] = ['id', 'description', 'specialty', 'date', 'category', 'status', 'evaluation', 'action'];
+  displayedColumns: string[] = ['id', 'description', 'specialty', 'registrationDate', 'category', 'status', 'evaluation', 'action'];
 
 
   DPastAttentions : PastAttentions[] = [] as PastAttentions[];

@@ -15,7 +15,6 @@ export class MedicRegistrationComponent implements OnInit {
   [x: string]: any;
   specialities: string[];
   resources: any;
-
   medic: Medic = new Medic();
 
  constructor(public router: Router, private patientService: PatientService, public toastr: ToastrService) {
