@@ -6,16 +6,13 @@ import { SharedModule } from '../../shared/shared.module';
 import { FormsModule } from '@angular/forms';
 import { NoteComponent } from '../note/note.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
-<<<<<<< HEAD
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-=======
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import {  MatTableFilterModule } from 'mat-table-filter';
 import {  MatPaginatorModule } from '@angular/material/paginator';
 
 
->>>>>>> c5ac6eeeb537ea2dd53ebbdc1a807760b2ebbcd3
 
 const routes: Routes = [
   { path: '', component: RecordComponent,  pathMatch: 'full'},
@@ -23,7 +20,7 @@ const routes: Routes = [
   { path: 'notes', loadChildren: () => import('../note/note.module').then(m => m.NoteModule) }
 ];
 
-@NgModule({ 
+@NgModule({
   declarations: [RecordComponent],
   imports: [
     CommonModule,

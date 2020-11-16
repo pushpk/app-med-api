@@ -134,7 +134,7 @@
       </mat-error>
     </mat-form-field>
     <div fxFlex="30" fxFlex.md="30" fxFlex.sm="100" fxFlex.xs="100">
-      <mat-slide-toggle [(ngModel)]="patient.isDonor">
+      <mat-slide-toggle name="isDonor" [(ngModel)]="patient.isDonor">
         {{patient.isDonor ? "Sí es donante de órganos" : "No es donante de órganos"}}
       </mat-slide-toggle>
     </div>

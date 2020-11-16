@@ -1,4 +1,6 @@
 <div class="maintainer">
+  <h2>Paciente</h2>
+
   <form novalidate name="form" #f="ngForm" (ngSubmit)="submitRequest()" [mustMatch]="['password', 'confirmPassword']">
   <mat-card class="no-pad">
   
@@ -165,7 +167,7 @@
           </mat-error>
         </mat-form-field>
         <div fxFlex="65" fxFlex.md="65" fxFlex.xs="100">
-          <mat-slide-toggle [(ngModel)]="patient.isDonor">
+          <mat-slide-toggle name="isDonor" [(ngModel)]="patient.isDonor">
             {{patient.isDonor ? "Sí es donante de órganos" : "No es donante de órganos"}}
           </mat-slide-toggle>
         </div>

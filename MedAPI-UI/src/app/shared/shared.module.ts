@@ -32,8 +32,8 @@ import { NgInit } from './directive/nginit.directive';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
-import { MatMomentDateModule } from '@angular/material-moment-adapter';
+import { DateAdapter, MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MatMomentDateModule, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { ToastrModule } from 'ngx-toastr';
 import { ngfModule } from 'angular-file';
 import { MatGridListModule } from '@angular/material/grid-list';
@@ -58,6 +58,7 @@ import { OrderByPipe } from './order-by.pipe';
     MatChipsModule,
     MatListModule,
     MatSlideToggleModule,
+    MatTableModule,
     ToastrModule.forRoot({
       timeOut: 10000,
       positionClass: 'toast-bottom-right',
@@ -109,7 +110,7 @@ import { OrderByPipe } from './order-by.pipe';
   ],
   providers: [
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
   ],
 })
 export class SharedModule { }

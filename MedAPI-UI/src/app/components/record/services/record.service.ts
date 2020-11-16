@@ -17,7 +17,7 @@ export class RecordService {
 
   constructor(private httpUtilService: HttpUtilService, private httpClient: HttpClient) { }
 
-  uploadResult(fileToUpload : File, labUploadResult : LabUploadResult)
+  uploadResult(fileToUpload: File, labUploadResult: LabUploadResult)
   {
     const formData: FormData = new FormData();
     formData.append('uploadFile', fileToUpload, fileToUpload.name);
@@ -34,11 +34,11 @@ export class RecordService {
       formData.append('labId', labUploadResult.labId.toString());
       formData.append('medicId', null);
     }
-    
-    
-    
+
+
+
     return this.httpClient.post(environment.apiUrl + 'users/lab-upload-result', formData);
-    //return this.httpUtilService.invoke('POST', formData, , null);
+    // return this.httpUtilService.invoke('POST', formData, , null);
   }
 
   getUploadResultByLabID(labId : number){
@@ -47,49 +47,49 @@ export class RecordService {
     const params = {
       key: 'labId',
       value: labId
-    }
+    };
 
     return self.httpUtilService.invokeQuery('GET', params, apiEndpoint);
   }
 
-  
+
   getUploadResultByPatientID(patientId : number){
     const self = this;
     const apiEndpoint = 'users/lab-uploads-by-patient';
     const params = {
       key: 'patientId',
       value: patientId
-    }
+    };
 
     return self.httpUtilService.invokeQuery('GET', params, apiEndpoint);
   }
 
 
-  getSymptoms(){  
+  getSymptoms(){
       const self = this;
       const apiEndpoint = 'users/GetPatientSymptoms';
-    
+
     return self.httpUtilService.invokeQuery('GET', null, apiEndpoint);
   }
 
   getSymptomsForPatient(docNumber : string ){  
     const self = this;
     const apiEndpoint = 'users/GetSymptomsByPatientID';
-  
+
     const params = {
       key: 'documentNumber',
       value: docNumber
-    }
-  return self.httpUtilService.invokeQuery('GET', params, apiEndpoint);
+    };
+    return self.httpUtilService.invokeQuery('GET', params, apiEndpoint);
 }
-  
+
   saveSymptoms(docNum: string, symptoms : Symptoms[], customSymptoms : any)
   {
 
-    var symptomsPatient = { 
+    var symptomsPatient = {
 
       documentNumber : docNum,
-      symptoms : symptoms,
+      symptoms: symptoms,
       Custom_Symptom : customSymptoms
     };
 
@@ -111,7 +111,7 @@ export class RecordService {
     const params = {
       key: 'documentNumber',
       value: documentNumber
-    }
+    };
     return self.httpUtilService.invokeQuery('GET', params, apiEndpoint);
   }
 

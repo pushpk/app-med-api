@@ -27,7 +27,7 @@ export class AdminComponent implements OnInit {
   
   nonApprovedMedicsData : Medic[];
   nonApprovedMedics =  new MatTableDataSource<Medic>([]);
-  displayedColumnsUpload: string[] = ['user.firstName','user.lastNameMother','user.lastNameFather', 'rne','cmp','action', 'action2'];
+  displayedColumnsUpload: string[] = ['user.firstName', 'user.lastNameFather', 'user.lastNameMother', 'rne', 'cmp', 'action', 'action2'];
 
   constructor(private adminService: AdminService, public router: Router, private changeDetectorRefs: ChangeDetectorRef, 
     private commonService : CommonService, private activatedRouter: ActivatedRoute, public toastr: ToastrService) { }
