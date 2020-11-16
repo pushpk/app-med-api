@@ -1,46 +1,48 @@
 <div class="maintainer">
   <h2>Doctores</h2>
-    <span style="margin-right:20px;">Buscar:</span>
-    <mat-form-field style="max-width:10%; margin-right: 20px;">
-      <input
-        matInput
-        [(ngModel)]="filterEntity.user.firstName"
-        appearance="outline"
-        placeholder="Nombre"
-      />
-    </mat-form-field>
-    <mat-form-field style="max-width:10%; margin-right: 20px;">
-      <input
-        matInput
-        [(ngModel)]="filterEntity.user.lastNameFather"
-        appearance="outline"
-        placeholder="Apellido Paterno"
-      />
-    </mat-form-field>
-    <mat-form-field style="max-width:10%; margin-right: 20px;">
-      <input
-        matInput
-        [(ngModel)]="filterEntity.user.lastNameMother"
-        appearance="outline"
-        placeholder="Apellido Materno"
-      />
-    </mat-form-field>
-    <mat-form-field style="max-width:10%; margin-right: 20px;">
-      <input
-        matInput
-        [(ngModel)]="filterEntity.RNE"
-        appearance="outline"
-        placeholder="RNE"
-      />
-    </mat-form-field>
-    <mat-form-field style="max-width:10%; margin-right: 20px;">
-      <input
-        matInput
-        [(ngModel)]="filterEntity.CMP"
-        appearance="outline"
-        placeholder="CMP"
-      />
-    </mat-form-field>
+    <div fxLayout="row wrap" fxLayoutAlign="left center">
+      <span fxFlex="3" fxFlex.md="5" fxFlex.sm="8" fxFlex.xs="12" style="margin-right: 20px;">Buscar:</span>
+      <mat-form-field fxFlex="15" fxFlex.md="12" fxFlex.sm="10" fxFlex.xs="20" style="margin-right: 20px;">
+        <input
+          matInput
+          [(ngModel)]="filterEntity.user.firstName"
+          appearance="outline"
+          placeholder="Nombre"
+        />
+      </mat-form-field>
+      <mat-form-field fxFlex="15" fxFlex.xs="30" style="margin-right: 20px;">
+        <input
+          matInput
+          [(ngModel)]="filterEntity.user.lastNameFather"
+          appearance="outline"
+          placeholder="Apellido Paterno"
+        />
+      </mat-form-field>
+      <mat-form-field fxFlex="15" fxFlex.xs="30" style="margin-right: 20px;">
+        <input
+          matInput
+          [(ngModel)]="filterEntity.user.lastNameMother"
+          appearance="outline"
+          placeholder="Apellido Materno"
+        />
+      </mat-form-field>
+      <mat-form-field fxFlex="15" style="margin-right: 20px;">
+        <input
+          matInput
+          [(ngModel)]="filterEntity.rne"
+          appearance="outline"
+          placeholder="RNE"
+        />
+      </mat-form-field>
+      <mat-form-field fxFlex="15" style="margin-right: 20px;">
+        <input
+          matInput
+          [(ngModel)]="filterEntity.cmp"
+          appearance="outline"
+          placeholder="CMP"
+        />
+      </mat-form-field>
+    </div>
 
     <mat-card class="no-pad">
         <mat-card-content>
@@ -110,11 +112,11 @@
     </ng-container>
 
     <ng-container matColumnDef="rne">
-      <mat-header-cell *matHeaderCellDef mat-sort-header> <div style="display: block">
+      <mat-header-cell *matHeaderCellDef> <div style="display: block">
         <!-- <mat-form-field style="width: 80%; display: flex; justify-content: space-around; text-align: center;">
           <input
             matInput
-            [(ngModel)]="filterEntity.RNE"
+            [(ngModel)]="filterEntity.rne"
             appearance="outline"
             placeholder="Buscar RNE"
           />
@@ -127,11 +129,11 @@
     </ng-container>
 
     <ng-container matColumnDef="cmp">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>  <div style="display: block">
+      <mat-header-cell *matHeaderCellDef >  <div style="display: block">
         <!-- <mat-form-field style="width: 80%; display: flex; justify-content: space-around; text-align: center;">
           <input
             matInput
-            [(ngModel)]="filterEntity.CMP"
+            [(ngModel)]="filterEntity.cmp"
             appearance="outline"
             placeholder="Buscar CMP"
           />

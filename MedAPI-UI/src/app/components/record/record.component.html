@@ -263,21 +263,21 @@
       <mat-form-field style="max-width:25%; margin-right: 20px;">
         <input
           matInput
+          [(ngModel)]="filterEntity.registrationDate"
+          appearance="outline"
+          placeholder="Fecha"
+        />
+        <!-- <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker> -->
+      </mat-form-field>
+      <mat-form-field style="max-width:25%; margin-right: 20px;">
+        <input
+          matInput
           [(ngModel)]="filterEntity.symptoms['description']"
           placeholder="Descripción"
         />
       </mat-form-field>
-      <!-- <mat-form-field>
-        <input
-          matInput
-          [(ngModel)]="filterEntity.date"
-          [matDatepicker]="picker"
-          appearance="outline"
-          placeholder="Buscar Fecha"
-        />
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-      </mat-form-field> -->
+
       <!-- <mat-form-field>
         <input
           matInput
@@ -342,7 +342,7 @@
             <mat-cell *matCellDef="let element"> {{ element.id }} </mat-cell>
         </ng-container>
         <ng-container matColumnDef="description">
-          <mat-header-cell *matHeaderCellDef mat-sort-header>
+          <mat-header-cell *matHeaderCellDef>
             <div style="display: block">
               <!-- <mat-form-field style="width: 80%; display: flex; justify-content: space-around; text-align: center;">
                 <input
@@ -381,13 +381,13 @@
             {{ element.specialty | titlecase }}
           </mat-cell>
         </ng-container>
-        <ng-container matColumnDef="date">
+        <ng-container matColumnDef="registrationDate">
           <mat-header-cell *matHeaderCellDef mat-sort-header>
             <div style="display: block">
               <!-- <mat-form-field style="width: 80%; display: flex; justify-content: space-around; text-align: center;">
                 <input
                   matInput
-                  [(ngModel)]="filterEntity.date"
+                  [(ngModel)]="filterEntity.registrationDate"
                   appearance="outline"
                   placeholder="Buscar Fecha"
                 />
@@ -398,7 +398,7 @@
             </div>
           </mat-header-cell>
           <mat-cell *matCellDef="let element">
-            {{ element.registrationDate | date: "MM/dd/yyyy" }}
+            {{ element.registrationDate | date: "MM/dd/yy" }}
           </mat-cell>
         </ng-container>
 
@@ -419,7 +419,7 @@
             </div>
           </mat-header-cell>
           <mat-cell *matCellDef="let element">
-            {{ element.category }}
+            {{ element.category  === 'attention' ? 'atención' : 'evaluación'}}
           </mat-cell>
         </ng-container>
 
@@ -440,12 +440,12 @@
             </div>
           </mat-header-cell>
           <mat-cell *matCellDef="let element">
-            {{ element.status }}
+            {{ element.status === 'open' ? 'abierto' : 'cerrado'}}
           </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="evaluation">
-          <mat-header-cell *matHeaderCellDef mat-sort-header> </mat-header-cell>
+          <mat-header-cell *matHeaderCellDef> </mat-header-cell>
           <mat-cell *matCellDef="let element">
             <span
               class="download"
@@ -464,7 +464,7 @@
         </ng-container>
 
         <ng-container matColumnDef="action">
-          <mat-header-cell *matHeaderCellDef mat-sort-header> </mat-header-cell>
+          <mat-header-cell *matHeaderCellDef> </mat-header-cell>
           <mat-cell *matCellDef="let element">
             <span
               class="download"

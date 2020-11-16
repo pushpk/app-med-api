@@ -4,8 +4,8 @@ export class Medic  {
   
     user : MedicUser
     speciality : string  = '';
-    CMP : string = '';
-    RNE : string = '';
+    cmp : string = '';
+    rne : string = '';
     IsApproved : boolean;
     IsFreezed : boolean;
     

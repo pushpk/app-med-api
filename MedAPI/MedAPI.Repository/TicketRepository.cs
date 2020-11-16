@@ -113,6 +113,8 @@ namespace MedAPI.Repository
                 efTicket.serie = mTicket.serie;
                 efTicket.nroTicket = mTicket.nroTicket;
                 context.SaveChanges();
+
+
                 mTicket.id = efTicket.id;
             }
             return mTicket;
