@@ -53,7 +53,7 @@ export class RecordService {
   }
 
 
-  getUploadResultByPatientID(patientId : number){
+  getUploadResultByPatientID(patientId: number){
     const self = this;
     const apiEndpoint = 'users/lab-uploads-by-patient';
     const params = {
@@ -83,7 +83,7 @@ export class RecordService {
     return self.httpUtilService.invokeQuery('GET', params, apiEndpoint);
 }
 
-  saveSymptoms(docNum: string, symptoms : Symptoms[], customSymptoms : any)
+  saveSymptoms(docNum: string, symptoms: Symptoms[], customSymptoms: any)
   {
 
     var symptomsPatient = {

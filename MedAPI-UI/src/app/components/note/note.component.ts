@@ -1,6 +1,6 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { NoteService } from './services/note.service';
-import { FormControl } from '@angular/forms';
+import { FormControl, NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RecordService } from '../record/services/record.service';
 import { CheckEmptyUtil } from '../../shared/util/check-empty.util';
@@ -23,6 +23,7 @@ import { NoteDetail } from '../../models/noteDetail.model';
   styleUrls: ['./note.component.scss']
 })
 export class NoteComponent implements OnInit {
+  // @ViewChild('form', {static: true}) form: NgForm;
   patient: Patient = new Patient();
   note: NoteDetail = new NoteDetail();
   //notes: any;
@@ -44,6 +45,8 @@ export class NoteComponent implements OnInit {
   tabs: Array<{ title: string; }>;
 
   isEditable = false;
+  // @Output() dirtyForm = new EventEmitter<boolean>();
+  // dirtyForm = false;
   docNumber: string;
   attechedAttentionId: string;
 
@@ -199,6 +202,7 @@ export class NoteComponent implements OnInit {
     this.noteService.updateComputedFieldsEvent.subscribe((o) => {
       this.handleComputedFieldsChange(o);
     });
+
   }
 
   public getNotes() {

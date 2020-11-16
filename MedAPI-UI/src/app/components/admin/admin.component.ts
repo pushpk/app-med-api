@@ -19,10 +19,10 @@ import { MedicUser } from 'src/app/models/medicuser.model';
 })
 export class AdminComponent implements OnInit {
 
-  @ViewChild(MatPaginator) paginator: MatPaginator; 
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   filterType: MatTableFilter;
-  filterEntity: Medic; 
+  filterEntity: Medic;
 
   
   nonApprovedMedicsData : Medic[];
