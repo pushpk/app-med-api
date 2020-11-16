@@ -440,7 +440,9 @@
             </div>
           </mat-header-cell>
           <mat-cell *matCellDef="let element">
-            {{ element.status === 'open' ? 'abierto' : 'cerrado'}}
+            <!-- {{ element.status === 'open' ? 'abierto' : 'cerrado'}} -->
+            <mat-icon *ngIf="element.status === 'close'" style="font-size:18px;" color='error'>lock</mat-icon>
+            <mat-icon *ngIf="element.status === 'open'" style="font-size:18px;" color='primary'>lock_open</mat-icon>
           </mat-cell>
         </ng-container>
 
