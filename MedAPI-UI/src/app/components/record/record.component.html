@@ -322,12 +322,9 @@
           <mat-header-cell *matHeaderCellDef mat-sort-header>
             <div style="display: block">
               <mat-form-field style="width: 80%; display: flex; justify-content: space-around; text-align: center;">
-                <input
-                  matInput
-                  [(ngModel)]="filterEntity.registrationDate"
-                  appearance="outline"
-                  placeholder="Buscar Fetcha"
-                />
+                <input matInput [matDatepicker]="picker" (dateChange)="dateFilterChange('change', $event)">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
               </mat-form-field>
               <div style="display: flex">
                 <span>Fecha</span>

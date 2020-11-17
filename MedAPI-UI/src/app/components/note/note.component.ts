@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NoteService } from './services/note.service';
 import { FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -16,6 +16,7 @@ import { ResourcesService } from '../../services/resources.service';
 import { ToastrService } from 'ngx-toastr';
 import { Patient } from '../../models/patient.model';
 import { NoteDetail } from '../../models/noteDetail.model';
+import {FormTriageComponent } from '../note/form-triage/form-triage.component'
 
 @Component({
   selector: 'app-note',
@@ -46,6 +47,10 @@ export class NoteComponent implements OnInit {
   isEditable = false;
   docNumber: string;
   attechedAttentionId: string;
+
+  
+IsTriageFormValid  :boolean = false;
+@ViewChild(FormTriageComponent) FormTriageComponent: FormTriageComponent;
 
   constructor(private noteService: NoteService,
               public route: ActivatedRoute,
@@ -538,12 +543,21 @@ export class NoteComponent implements OnInit {
   //    });
   //}
 
-  submitRequest() {
+  submitRequest(form: any) {
     let self = this;
 
+    //this.note.triage.vitalFunctions.temperature
+    //this.note.symptoms.duration
+    //this.note.symptoms.durationUnit
+    //this.note.diagnosis.list.length
+    this.note.treatments.list.length
+
+
+    //
     self.submit.waiting = true;
     let currentUserEmail = localStorage.getItem('email');
     console.log(this.note, 'this.note');
+
     this.noteService.save(this.note, currentUserEmail).then((response: any) => {
       console.log(response);
       self.toastr.success('Atención guardada satisfactoriamente.');

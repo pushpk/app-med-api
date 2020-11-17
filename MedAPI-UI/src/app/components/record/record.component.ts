@@ -32,6 +32,7 @@ import { Symptoms } from 'src/app/models/symptoms.model';
 import { NoteService } from '../note/services/note.service';
 import { MatSort } from '@angular/material/sort';
 import { MatTableFilter } from 'mat-table-filter';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 
 
 
@@ -205,6 +206,18 @@ export class RecordComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
     this.uploadResultsByLab.sort = this.sort;
     this.dataSource.sort = this.sort;
+  }
+
+  dateFilterChange(type: string, event: MatDatepickerInputEvent<Date>) {
+    console.log(event.value);
+
+    var dayFilter = new Date(event.value).getDay();
+    var monthFilter = new Date(event.value).getMonth();
+    var yearFilter = new Date(event.value).getFullYear();
+
+    this.dataSource.data = this.dataSource.data.filter(s => s.registrationDate.getDay() == dayFilter &&
+                                         s.registrationDate.getMonth() == monthFilter &&
+                                         s.registrationDate.getFullYear() == yearFilter )
   }
 
   SaveSymptoms(){
