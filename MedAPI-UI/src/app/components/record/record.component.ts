@@ -46,7 +46,7 @@ export class
 PastAttentions {
   id: number;
   description: string = '';
-  specialty: string;
+  specialty: string = '';
   registrationDate: Date;
   action: string;
   category: string;
