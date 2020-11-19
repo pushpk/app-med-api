@@ -245,37 +245,68 @@
 
       <span style="margin-right:20px;">Buscar:</span>
       <mat-form-field style="max-width:10%; margin-right: 20px;">
-        <input
+        <!-- <input
         matInput
         [(ngModel)]="filterEntity.id"
+        appearance="outline"
+        placeholder="ID"
+      /> -->
+        <input
+        matInput
+        [formControl]="idFilter"
         appearance="outline"
         placeholder="ID"
       />
       </mat-form-field>
       <mat-form-field style="max-width:25%; margin-right: 20px;">
-        <input
+        <!-- <input
           matInput
           [(ngModel)]="filterEntity.specialty"
           appearance="outline"
           placeholder="Especialidad"
-        />
+        /> -->
+        <input
+        matInput
+        [formControl]="specialtyFilter"
+        appearance="outline"
+        placeholder="Especialidad"
+      />
       </mat-form-field>
       <mat-form-field style="max-width:25%; margin-right: 20px;">
-        <input
+        <!-- <input 
+          matInput 
+          [matDatepicker]="picker"
+          (dateChange)="dateFilterChange('change', $event)"
+          placeholder="Fecha (mm/dd/yyyy)"
+          > -->
+        <input 
+          matInput 
+          [matDatepicker]="picker"
+          [formControl]="registrationDateFilter"
+          placeholder="Fecha (mm/dd/yyyy)"
+          >
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+        <!-- <input
           matInput
           [(ngModel)]="filterEntity.registrationDate"
           appearance="outline"
           placeholder="Fecha"
-        />
+        /> -->
         <!-- <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker> -->
       </mat-form-field>
       <mat-form-field style="max-width:25%; margin-right: 20px;">
-        <input
+        <!-- <input
           matInput
           [(ngModel)]="filterEntity.symptoms['description']"
           placeholder="Descripción"
-        />
+        /> -->
+        <input
+        matInput
+        [formControl]="descriptionFilter"
+        placeholder="Descripción"
+      />
       </mat-form-field>
 
       <!-- <mat-form-field>
@@ -315,13 +346,19 @@
           </h2>
         </mat-toolbar-row>
       </mat-toolbar> -->
-      <mat-table
+      <!-- <mat-table
         matSort
         matTableFilter
         [dataSource]="dataSource"
         [exampleEntity]="filterEntity"
         [filterType]="filterType"
-      >
+      > -->
+      <mat-table
+      matSort
+      matSortActive="registrationDate"
+      matSortDirection="desc"
+      [dataSource]="dataSource"
+    >
         <ng-container matColumnDef="id">
             <mat-header-cell *matHeaderCellDef mat-sort-header>
               <div style="display: block;">
@@ -392,6 +429,11 @@
                   placeholder="Buscar Fecha"
                 />
               </mat-form-field> -->
+              <!-- <mat-form-field style="width: 80%; display: flex; justify-content: space-around; text-align: center;">
+                <input matInput [matDatepicker]="picker" (dateChange)="dateFilterChange('change', $event)">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field> -->
               <div style="display: flex">
                 <span>Fecha</span>
               </div>
@@ -452,6 +494,7 @@
             <span
               class="download"
               (click)="navigateToNotes(element.id)"
+              (click)="$event.stopPropagation()" 
               *ngIf="
                 this.isUserAdmin &&
                 element.category != 'evaluation' &&
@@ -468,7 +511,7 @@
         <ng-container matColumnDef="action">
           <mat-header-cell *matHeaderCellDef> </mat-header-cell>
           <mat-cell *matCellDef="let element">
-            <span
+            <!-- <span
               class="download"
               (click)="selectedNotes(element)"
               *ngIf="this.isUserAdmin"
@@ -476,7 +519,7 @@
               disabled
             >
               Revisar
-            </span>
+            </span> -->
             <mat-form-field fxFlex="25" *ngIf="this.isUserPatient">
               <mat-label>Descargar</mat-label>
               <mat-select>
@@ -517,7 +560,8 @@
           </mat-cell>
         </ng-container>
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns" (click)="selectedNotes(row)" style="cursor:pointer;"
+        ></mat-row>
       </mat-table>
       
       <div *ngIf="dataSource.data.length <= 0" class="no-records">

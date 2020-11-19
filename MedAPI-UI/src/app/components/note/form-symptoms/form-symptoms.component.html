@@ -11,7 +11,7 @@
         <mat-form-field fxFlex>
           <mat-label>Descripción</mat-label>
           <textarea [disabled]="!isEditable" matInput name="symptoms" class="max-width" maxlength="250" #symptoms="ngModel"
-                    [(ngModel)]="note.symptoms.description">
+                    [(ngModel)]="note.symptoms.description" required>
         </textarea>
           <mat-hint align="end">{{symptoms.value?.length || 0}}/250</mat-hint>
         </mat-form-field>

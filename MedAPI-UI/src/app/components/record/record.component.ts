@@ -35,6 +35,8 @@ import { MatTableFilter } from 'mat-table-filter';
 import { DateAdapter, ThemePalette } from '@angular/material/core';
 import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
 import { DatePipe } from '@angular/common';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import { FormControl, Validators } from '@angular/forms';
 
 export enum TicketStatus {
   REGISTERED = 0,
@@ -78,7 +80,7 @@ export class RecordComponent implements OnInit {
 
   // displayedColumns: string[] = ['id', 'specialty', 'date', 'category', 'description', 'status', 'evaluation', 'action'];
 
-  displayedColumns: string[] = ['id', 'specialty', 'registrationDate', 'category', 'description', 'status', 'evaluation', 'action'];
+  displayedColumns: string[] = ['id', 'specialty', 'registrationDate', 'category', 'description', 'status', 'evaluation'];
 
 
   DPastAttentions: PastAttentions[] = [] as PastAttentions[];
@@ -114,9 +116,16 @@ export class RecordComponent implements OnInit {
   value = 50;
   isLoadingResults = false;
 
+  idFilter = new FormControl();
+  specialtyFilter = new FormControl();
+  registrationDateFilter = new FormControl();
+  descriptionFilter = new FormControl();
+
+  filteredValues = {id: '', specialty: '', registrationDate: '', description: ''};
+
   constructor(private recordService: RecordService, public router: Router, private changeDetectorRefs: ChangeDetectorRef, 
               private commonService: CommonService, private activatedRouter: ActivatedRoute, public toastr: ToastrService,
-              private noteService: NoteService, public datepipe: DatePipe) { }
+              private noteService: NoteService, public datePipe: DatePipe) { }
 
   ngOnInit(): void {
 
@@ -129,7 +138,48 @@ export class RecordComponent implements OnInit {
     localStorage.setItem('speciality', this.selectedSpeciality);
     this.recordService.selectedSpecialty.next(this.selectedSpeciality);
 
+    this.idFilter.valueChanges.subscribe((idFilterValue) => {
+      this.filteredValues.id = idFilterValue;
+      this.dataSource.filter = JSON.stringify(this.filteredValues);
+      console.log(this.dataSource.filter);
+    });
+    this.specialtyFilter.valueChanges.subscribe((specialtyFilterValue) => {
+      console.log(specialtyFilterValue);
+      this.filteredValues.specialty = specialtyFilterValue;
+      this.dataSource.filter = JSON.stringify(this.filteredValues);
+    });
+    // this.registrationDateFilter.setValidators(Validators.minLength(8));
+    this.registrationDateFilter.valueChanges.subscribe((registrationDateFilterValue) => {
+      // let datePipeEn: DatePipe = new DatePipe('en-US');
+      // this.filteredValues.registrationDate = '' + registrationDateFilterValue;
+        // this.datePipe.transform(registrationDateFilterValue, 'MM/dd/yyyy', 'en-US');
+      try{
+        console.log(this.datePipe.transform(registrationDateFilterValue, 'yyyy'));
+        if (this.datePipe.transform(registrationDateFilterValue, 'yyyy') > '2001') {
+          this.filteredValues.registrationDate = this.datePipe.transform(registrationDateFilterValue, 'MM/dd/yyyy');
+        }
+        else if (registrationDateFilterValue === null) {
+          this.filteredValues.registrationDate = '';
+        }
+        else{
+          this.filteredValues.registrationDate = (registrationDateFilterValue.getMonth() + 1).toString();
+        }
+        console.log(this.filteredValues);
+        this.dataSource.filter = JSON.stringify(this.filteredValues);
+      }
+      catch {
+        this.dataSource.filter = JSON.stringify(this.filteredValues);
+      }
 
+
+    });
+    this.descriptionFilter.valueChanges.subscribe((descriptionFilterValue) => {
+      console.log(descriptionFilterValue);
+      this.filteredValues.description = descriptionFilterValue;
+      this.dataSource.filter = JSON.stringify(this.filteredValues);
+    });
+
+    this.dataSource.filterPredicate = this.customFilterPredicate();
     //
     var  sSymptoms = new Symptoms();
     var pastAtt = new PastAttentions();
@@ -208,6 +258,32 @@ export class RecordComponent implements OnInit {
 
   }
 
+  customFilterPredicate() {
+    const myFilterPredicate = (pastAttentions: PastAttentions, filter: string): boolean => {
+      let searchString = JSON.parse(filter);
+      let idFound = pastAttentions.id.toString().trim().indexOf(searchString.id.toString().trim()) !== -1;
+      let specialtyFound = pastAttentions.specialty.toString().trim()
+          .toLowerCase().indexOf(searchString.specialty.trim().toLowerCase()) !== -1;
+      // let registrationDateFound = new Date(pastAttentions.registrationDate).getDay() === new Date(searchString.registrationDate).getDay() &&
+      // new Date(pastAttentions.registrationDate).getMonth() === new Date(searchString.registrationDate).getMonth() &&
+      // new Date(pastAttentions.registrationDate).getFullYear() === new Date(searchString.registrationDate).getFullYear();
+      let registrationDates = this.datePipe.transform(new Date(pastAttentions.registrationDate), 'MM/dd/yyyy').toString();
+      let registrationDateFound = registrationDates.indexOf(searchString.registrationDate) !== -1;
+      let descriptionFound = (pastAttentions.symptoms.description).toString().trim()
+          .toLowerCase().indexOf(searchString.description.toString().trim().toLowerCase()) !== -1;
+
+      if (searchString.registrationDate && searchString.registrationDate.length > 0){
+        return idFound && specialtyFound && registrationDateFound && descriptionFound;
+      }
+      else{
+        return idFound && specialtyFound && descriptionFound;
+      }
+    };
+
+    return myFilterPredicate;
+
+  }
+
   ngAfterViewInit(): any {
 
     this.dataSource.paginator = this.paginator;
@@ -225,15 +301,6 @@ export class RecordComponent implements OnInit {
 
   }
 
-  // addEvent(filterValue: string, event) {
-  //   // debugger;
-
-  //   if (event.value !== undefined) {
-  //     filterValue = this.datepipe.transform(filterValue, 'M/d/yyyy');
-  //     console.log(filterValue);
-  //   }
-  //   this.dataSource.filter = filterValue.trim();
-  // }
 
   SaveSymptoms(){
 
@@ -260,7 +327,7 @@ export class RecordComponent implements OnInit {
   }
 
   downloadAttentionPdf(note: NoteDetail) {
-    this.commonService.generatePDF(this.patient, note,"Attention");
+    this.commonService.generatePDF(this.patient, note, "Attention");
   }
 
   downloadPrescription(note: NoteDetail){

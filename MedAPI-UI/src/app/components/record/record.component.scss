@@ -38,8 +38,8 @@ table{
  .mat-column-description {
    word-wrap: break-word !important;
    white-space: unset !important;
-   flex: 0 0 25% !important;
-   width: 25% !important;
+   flex: 0 0 30% !important;
+   width: 30% !important;
    overflow-wrap: break-word;
    word-wrap: break-word;
  
@@ -86,8 +86,8 @@ table{
  .mat-column-category {
    word-wrap: break-word !important;
    white-space: unset !important;
-   flex: 0 0 10% !important;
-   width: 10% !important;
+   flex: 0 0 12% !important;
+   width: 12% !important;
    overflow-wrap: break-word;
    word-wrap: break-word;
  
@@ -114,8 +114,8 @@ table{
 .mat-column-evaluation {
   word-wrap: break-word !important;
   white-space: unset !important;
-  flex: 0 0 14% !important;
-  width: 14% !important;
+  flex: 0 0 15% !important;
+  width: 15% !important;
   overflow-wrap: break-word;
   word-wrap: break-word;
 
@@ -185,6 +185,10 @@ table{
   -moz-hyphens: auto;
   -webkit-hyphens: auto;
   hyphens: auto;
+}
+
+.mat-row:hover{
+  background-color:rgb(240,241,245);
 }
 
 .mat-column-comments {

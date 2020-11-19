@@ -64,7 +64,7 @@ export class FormSymptomsComponent implements OnInit {
       }
     });
 
-    console.log(this.note);
+    // console.log(this.note);
   }
 
   //getDiagnosis() {
