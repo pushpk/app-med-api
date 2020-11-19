@@ -14,10 +14,12 @@ namespace MedAPI.Controllers
     public class UserController : ApiController
     {
         private readonly IUserService userService;
+        private readonly IEmailService emailService;
 
-        public UserController(IUserService userService)
+        public UserController(IUserService userService, IEmailService emailService)
         {
             this.userService = userService;
+            this.emailService = emailService;
         }
 
         [HttpGet]
@@ -159,13 +161,13 @@ namespace MedAPI.Controllers
         {
             Domain.User mUser = new Domain.User();
 
-
             HttpResponseMessage response = null;
             try
             {
                 mUser = userService.Authenticate(mLogin.username, mLogin.Password);
                 if (mUser != null)
                 {
+                    //emailService.SendEmailAsync(mUser.email, "Tu cuenta de SolidarityMedical", "Has iniciado una sesión nueva");
                     IEnumerable<string> permissions;
                     using (var ctx = new DataAccess.registroclinicoEntities())
                     {

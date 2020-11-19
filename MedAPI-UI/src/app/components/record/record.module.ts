@@ -3,9 +3,10 @@ import { CommonModule } from '@angular/common';
 import { RecordComponent } from './record.component';
 import { RouterModule, Routes } from '@angular/router';
 import { SharedModule } from '../../shared/shared.module';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NoteComponent } from '../note/note.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import {  MatTableFilterModule } from 'mat-table-filter';
@@ -19,17 +20,19 @@ const routes: Routes = [
   { path: 'notes', loadChildren: () => import('../note/note.module').then(m => m.NoteModule) }
 ];
 
-@NgModule({ 
+@NgModule({
   declarations: [RecordComponent],
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
     MatTableFilterModule,
     RouterModule.forChild(routes),
     SharedModule,
+    MatProgressSpinnerModule,
     NgMultiSelectDropDownModule.forRoot()
   ]
 })

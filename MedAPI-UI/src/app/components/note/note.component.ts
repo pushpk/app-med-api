@@ -1,6 +1,6 @@
 import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NoteService } from './services/note.service';
-import { FormControl } from '@angular/forms';
+import { FormControl, NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RecordService } from '../record/services/record.service';
 import { CheckEmptyUtil } from '../../shared/util/check-empty.util';
@@ -24,6 +24,7 @@ import {FormTriageComponent } from '../note/form-triage/form-triage.component'
   styleUrls: ['./note.component.scss']
 })
 export class NoteComponent implements OnInit {
+  // @ViewChild('form', {static: true}) form: NgForm;
   patient: Patient = new Patient();
   note: NoteDetail = new NoteDetail();
   //notes: any;
@@ -45,6 +46,8 @@ export class NoteComponent implements OnInit {
   tabs: Array<{ title: string; }>;
 
   isEditable = false;
+  // @Output() dirtyForm = new EventEmitter<boolean>();
+  // dirtyForm = false;
   docNumber: string;
   attechedAttentionId: string;
 
@@ -81,7 +84,6 @@ IsTriageFormValid  :boolean = false;
       this.docNumber = this.route.snapshot.queryParamMap.get('docNumber');
       this.attechedAttentionId = this.route.snapshot.queryParamMap.get('attentionId');
     }
-    console.log(this.docNumber);
 
     //self.note = {
     //  symptoms: {
@@ -191,11 +193,12 @@ IsTriageFormValid  :boolean = false;
 
 
   ngOnInit(): void {
-    //this.patient = JSON.parse(localStorage.getItem('patient'));
+    // this.patient = JSON.parse(localStorage.getItem('patient'));
     this.getPatients();
     this.getNotes();
     this.recordService.selectedSpecialty.subscribe((value) => {
       this.speciality = value;
+      console.log(this.speciality);
     });
 
 
@@ -205,16 +208,17 @@ IsTriageFormValid  :boolean = false;
     this.noteService.updateComputedFieldsEvent.subscribe((o) => {
       this.handleComputedFieldsChange(o);
     });
+
   }
 
   public getNotes() {
     let notesData = localStorage.getItem('notes');
     if (CheckEmptyUtil.isNotEmpty(notesData)) {
       let noteDetails = JSON.parse(notesData);
-      console.log(noteDetails, 'details');
+      // console.log(noteDetails, 'details');
       this.selectNoteId = this.route.snapshot.paramMap.get('new');
       if (this.selectNoteId === 'new') {
-        console.log(noteDetails, 'details112');
+        // console.log(noteDetails, 'details112');
         this.note = noteDetails[0];
         this.note.specialty = this.speciality;
         this.note.userId = this.patient.userId;
@@ -227,7 +231,7 @@ IsTriageFormValid  :boolean = false;
         });
       }
     } else {
-      console.log('else');
+      // console.log('else');
       this.note.patientId = this.patient.id;
       this.note.specialty = this.speciality;
       this.note.userId = this.patient.userId;
@@ -543,7 +547,7 @@ IsTriageFormValid  :boolean = false;
   //    });
   //}
 
-  submitRequest(form: any) {
+  submitRequest() {
     let self = this;
 
     //this.note.triage.vitalFunctions.temperature
@@ -556,10 +560,9 @@ IsTriageFormValid  :boolean = false;
     //
     self.submit.waiting = true;
     let currentUserEmail = localStorage.getItem('email');
-    console.log(this.note, 'this.note');
-
+    // console.log(this.note, 'this.note');
     this.noteService.save(this.note, currentUserEmail).then((response: any) => {
-      console.log(response);
+      // console.log(response);
       self.toastr.success('Atención guardada satisfactoriamente.');
       self.submit.waiting = false;
       self.submit.success = true;
@@ -577,7 +580,8 @@ IsTriageFormValid  :boolean = false;
   closeAttention(id: number){
 
     this.note.status = 'close';
-    
+
+    this.submitRequest();
 
   }
 }

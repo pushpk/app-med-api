@@ -14,6 +14,7 @@ import { map, startWith, delay } from 'rxjs/operators';
 })
 export class FormThreeComponent implements OnInit {
   @Input() patient: any;
+  @Input() isEditable: boolean;
   resources: any;
   public selectable = true;
   public removable = true;

@@ -1,6 +1,6 @@
 <div class="maintainer">
   <mat-card class="no-pad">
-    <form  name="form" #f="ngForm" (ngSubmit)="submitRequest(f)" enctype="multipart/form-data">
+    <form  name="form" #f="ngForm" (ngSubmit)="submitRequest()" enctype="multipart/form-data">
       <mat-card-content>
         <mat-tab-group [selectedIndex]="index.value" (selectedIndexChange)="index.setValue($event)">
           <ng-container *ngFor="let tab of tabs;let index = index">
@@ -25,25 +25,42 @@
         </mat-tab-group>
       </mat-card-content>
       <mat-card-actions fxLayout="row" fxLayoutAlign="space-between center">
-        <div style="margin-left: 15px; display: flex;">
-          <button fxLayoutAlign="start center" mat-button color="text-muted" [routerLink]="docNumber ? ['/records/', docNumber] : ['/records']">
+        <div fxFlex fxLayoutAlign.xl="left center" fxLayoutAlign.lg="left center" fxLayoutAlign.md="left center" fxLayoutAlign ="left center">
+          <button mat-button type="button" color="text-muted" style="margin-left:13px;" [routerLink]="docNumber ? ['/records/', docNumber] : ['/records']">
             Cancelar 
           </button>
-          <button  mat-button color="text-muted"  (click)="closeAttention(note.id)" *ngIf="note.category==='attention'" [disabled]="!f.valid ||  this.note.triage.others.specialities == '' || this.note.triage.vitalFunctions.temperature == '' || this.note.symptoms.duration == '' ||  this.note.symptoms.durationUnit == '' || this.note.diagnosis.list.length <= 0 ||  this.note.treatments.list.length <= 0 ">
-            Mucha atención
+          <button mat-button type="button" color="error" style="margin-left: 13px;" (click)="closeAttention(note.id)" *ngIf="note.category==='attention' && note.status!=='close' && !this.isEditable"
+          [disabled]="!f.valid || this.note.triage.others.specialities == '' || this.note.symptoms.description == '' || this.note.symptoms.duration == null || (this.note.symptoms.duration !== null && this.note.symptoms.duration.toString() == '') ||  this.note.symptoms.durationUnit == '' || 
+          this.note.diagnosis.list.length <= 0 ||  this.note.treatments.list.length <= 0">
+            Cerrar <mat-icon style="font-size:18px;">lock_open</mat-icon>
+          </button>
+          <button mat-button type="button" color="error" style="margin-left: 13px;" (click)="closeAttention(note.id)" *ngIf="note.category==='attention' && index.value===tabs.length-1 && note.status!=='close' && this.isEditable"
+          [disabled]="!f.valid || this.note.triage.others.specialities == '' ||this.note.symptoms.description == '' || this.note.symptoms.duration == null || (this.note.symptoms.duration !== null && this.note.symptoms.duration.toString() == '') ||  this.note.symptoms.durationUnit == '' || 
+          this.note.diagnosis.list.length <= 0 ||  this.note.treatments.list.length <= 0">
+            Enviar y Cerrar <mat-icon style="font-size:18px;">lock_open</mat-icon>
+          </button>
+          <button mat-button type="button" color="error" style="margin-left: 13px;" *ngIf="note.category==='attention' && note.status==='close'"
+          [disabled]="true">
+            Cerrado <mat-icon style="font-size:18px;">lock</mat-icon>
           </button>
         </div>
         
-        <div>
-          <button mat-button type="button" [disabled]="index.value==0 " (click)="index.setValue(index.value-1)">Anterior</button>
+        <div fxFlex fxLayoutAlign="end center">
+            <button mat-button type="button" style="margin-left:13px;" [disabled]="index.value==0" (click)="index.setValue(index.value-1)">
+              Anterior
+            </button>
 
-          <button mat-button color="primary" type="button"
-                  *ngIf="index.value<tabs.length-1" (click)="index.setValue(index.value+1)">
-            Siguiente
+            <button mat-button color="primary" type="button"
+                    *ngIf="index.value<tabs.length-1" (click)="index.setValue(index.value+1)">
+              Siguiente
+            </button>
+
+          <button mat-button color="primary" type="submit" *ngIf="index.value===tabs.length-1 && isEditable"
+            [disabled]="!f.valid || this.note.triage.others.specialities == '' || this.note.symptoms.description == '' || this.note.symptoms.duration == null || (this.note.symptoms.duration !== null && this.note.symptoms.duration.toString() == '') ||  this.note.symptoms.durationUnit == '' || 
+              this.note.diagnosis.list.length <= 0 ||  this.note.treatments.list.length <= 0">
+            Enviar <mat-icon style="font-size:18px;padding-top:4px;">send</mat-icon>
           </button>
-          <button mat-button color="primary" type="submit" *ngIf="index.value===tabs.length-1 && isEditable" [disabled]="!f.valid ||  this.note.triage.others.specialities == '' || this.note.triage.vitalFunctions.temperature == '' || this.note.symptoms.duration == '' ||  this.note.symptoms.durationUnit == '' || this.note.diagnosis.list.length <= 0 ||  this.note.treatments.list.length <= 0 ">
-            Enviar
-          </button>
+
           <!-- <button mat-button color="primary" [routerLink]="docNumber ? ['/records/', docNumber] : ['/records']" *ngIf="index.value===tabs.length-1 && !isEditable">
             Inicio 
           </button> -->

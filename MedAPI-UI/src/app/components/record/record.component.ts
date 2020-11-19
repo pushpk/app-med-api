@@ -32,10 +32,11 @@ import { Symptoms } from 'src/app/models/symptoms.model';
 import { NoteService } from '../note/services/note.service';
 import { MatSort } from '@angular/material/sort';
 import { MatTableFilter } from 'mat-table-filter';
+import { DateAdapter, ThemePalette } from '@angular/material/core';
+import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
+import { DatePipe } from '@angular/common';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
-
-
-
+import { FormControl, Validators } from '@angular/forms';
 
 export enum TicketStatus {
   REGISTERED = 0,
@@ -43,34 +44,33 @@ export enum TicketStatus {
   FINISHED = 2
 }
 
-export class 
+export class
 PastAttentions {
-  id: number  = 0;
+  id: number;
   description: string = '';
-  specialty: string;
+  specialty: string = '';
   registrationDate: Date;
   action: string;
-  category : string;
-  status : string;
+  category: string;
+  status: string;
   symptoms: Symptoms;
 }
-
-
 
 @Component({
   selector: 'app-record',
   templateUrl: './record.component.html',
-  styleUrls: ['./record.component.scss']
+  styleUrls: ['./record.component.scss'],
 })
+
 export class RecordComponent implements OnInit {
   notes: NoteDetail[];
   patient: Patient = new Patient();
-  formData: FormData = new FormData();  
+  formData: FormData = new FormData();
   labUploadResult: LabUploadResult = new LabUploadResult();
   ticket: any;
   ticketNumber: string;
   documentNumber: string;
-  isUploadFormShow : boolean = true;
+  isUploadFormShow: boolean = true;
 
   askTicket: boolean;
   waitingTicket: boolean;
@@ -78,17 +78,18 @@ export class RecordComponent implements OnInit {
   askPatientRegistration: boolean;
   showRecord: boolean;
 
-  displayedColumns: string[] = ['id', 'description', 'specialty', 'registrationDate', 'category', 'status', 'evaluation', 'action'];
+  // displayedColumns: string[] = ['id', 'specialty', 'date', 'category', 'description', 'status', 'evaluation', 'action'];
+
+  displayedColumns: string[] = ['id', 'specialty', 'registrationDate', 'category', 'description', 'status', 'evaluation'];
 
 
-  DPastAttentions : PastAttentions[] = [] as PastAttentions[];
-  dataSource:MatTableDataSource<PastAttentions> =  new MatTableDataSource(this.DPastAttentions);
-  dataSourceCopy:MatTableDataSource<PastAttentions> =  new MatTableDataSource(this.DPastAttentions);
+  DPastAttentions: PastAttentions[] = [] as PastAttentions[];
+  dataSource: MatTableDataSource<PastAttentions> =  new MatTableDataSource(this.DPastAttentions);
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
   selectedSpeciality: any = '';
   filterType: MatTableFilter;
-  filterEntity: PastAttentions; 
+  filterEntity: PastAttentions;
 
 
   specialities = [{ value: 'GENERAL', name: 'Medicina General', id: 1 },
@@ -96,24 +97,35 @@ export class RecordComponent implements OnInit {
   { value: 'PEDIATRY', name: 'Pediatría', id: 3 },
   { value: 'TRAUMATOLOGY', name: 'Traumatología', id: 4 }];
 
-  isUserAdmin : boolean = false;
+  isUserAdmin: boolean = false;
   isUserLabPerson: boolean = false;
   isUserPatient: boolean = false;
   uploadedFile: any;
   labId: number;
   uploadResultsByLab =  new MatTableDataSource<LabUploadResult>([]);
-  displayedColumnsUpload: string[] = ['user_id', 'fileName', 'dateUploaded', 'comments','action'];
+  displayedColumnsUpload: string[] = ['user_id', 'fileName', 'dateUploaded', 'comments', 'action'];
 
   symptomsDropDownList = [];
   selectedSymptomsDropDownList = [];
   symptomsDropDownSettings: IDropdownSettings = {};
   customSymptoms: string;
-  
 
-  
+
+  color: ThemePalette = 'primary';
+  mode: ProgressSpinnerMode = 'indeterminate';
+  value = 50;
+  isLoadingResults = false;
+
+  idFilter = new FormControl();
+  specialtyFilter = new FormControl();
+  registrationDateFilter = new FormControl();
+  descriptionFilter = new FormControl();
+
+  filteredValues = {id: '', specialty: '', registrationDate: '', description: ''};
+
   constructor(private recordService: RecordService, public router: Router, private changeDetectorRefs: ChangeDetectorRef, 
               private commonService: CommonService, private activatedRouter: ActivatedRoute, public toastr: ToastrService,
-              private noteService: NoteService) { }
+              private noteService: NoteService, public datePipe: DatePipe) { }
 
   ngOnInit(): void {
 
@@ -126,8 +138,49 @@ export class RecordComponent implements OnInit {
     localStorage.setItem('speciality', this.selectedSpeciality);
     this.recordService.selectedSpecialty.next(this.selectedSpeciality);
 
-    
-    // 
+    this.idFilter.valueChanges.subscribe((idFilterValue) => {
+      this.filteredValues.id = idFilterValue;
+      this.dataSource.filter = JSON.stringify(this.filteredValues);
+      console.log(this.dataSource.filter);
+    });
+    this.specialtyFilter.valueChanges.subscribe((specialtyFilterValue) => {
+      console.log(specialtyFilterValue);
+      this.filteredValues.specialty = specialtyFilterValue;
+      this.dataSource.filter = JSON.stringify(this.filteredValues);
+    });
+    // this.registrationDateFilter.setValidators(Validators.minLength(8));
+    this.registrationDateFilter.valueChanges.subscribe((registrationDateFilterValue) => {
+      // let datePipeEn: DatePipe = new DatePipe('en-US');
+      // this.filteredValues.registrationDate = '' + registrationDateFilterValue;
+        // this.datePipe.transform(registrationDateFilterValue, 'MM/dd/yyyy', 'en-US');
+      try{
+        console.log(this.datePipe.transform(registrationDateFilterValue, 'yyyy'));
+        if (this.datePipe.transform(registrationDateFilterValue, 'yyyy') > '2001') {
+          this.filteredValues.registrationDate = this.datePipe.transform(registrationDateFilterValue, 'MM/dd/yyyy');
+        }
+        else if (registrationDateFilterValue === null) {
+          this.filteredValues.registrationDate = '';
+        }
+        else{
+          this.filteredValues.registrationDate = (registrationDateFilterValue.getMonth() + 1).toString();
+        }
+        console.log(this.filteredValues);
+        this.dataSource.filter = JSON.stringify(this.filteredValues);
+      }
+      catch {
+        this.dataSource.filter = JSON.stringify(this.filteredValues);
+      }
+
+
+    });
+    this.descriptionFilter.valueChanges.subscribe((descriptionFilterValue) => {
+      console.log(descriptionFilterValue);
+      this.filteredValues.description = descriptionFilterValue;
+      this.dataSource.filter = JSON.stringify(this.filteredValues);
+    });
+
+    this.dataSource.filterPredicate = this.customFilterPredicate();
+    //
     var  sSymptoms = new Symptoms();
     var pastAtt = new PastAttentions();
     pastAtt.symptoms = sSymptoms;
@@ -136,7 +189,7 @@ export class RecordComponent implements OnInit {
 
 
     this.ticketNumber = '';
-    //this.ticket.status   = TicketStatus.REGISTERED;
+    // this.ticket.status   = TicketStatus.REGISTERED;
     this.documentNumber = '';
 
 
@@ -167,86 +220,104 @@ export class RecordComponent implements OnInit {
 
     };
 
-    if(this.isUserLabPerson)
+    if (this.isUserLabPerson)
     {
+      this.isLoadingResults = true;
       this.labId = Number(localStorage.getItem('loggedInID'));
 
-          this.recordService.getUploadResultByLabID(this.labId).then((response : LabUploadResult[]) => {
+      this.recordService.getUploadResultByLabID(this.labId).then((response: LabUploadResult[]) => {
           this.uploadResultsByLab.data = response;
-          }).catch((error : any) => {
+          this.isLoadingResults = false;
+          }).catch((error: any) => {
              console.log(error);
+             this.isLoadingResults = false;
           });
     }
     else{
 
 
-        
-      this.recordService.getSymptoms().then((response : Symptoms[]) => {
+
+      this.recordService.getSymptoms().then((response: Symptoms[]) => {
         this.symptomsDropDownList = response["symptoms"];
-       
+
         if(!this.isUserAdmin )
         {
           this.recordService.getSymptomsForPatient(this.documentNumber).then((response : any) => {
               this.selectedSymptomsDropDownList = response["symptoms"]["symptoms"];
               this.customSymptoms = response["symptoms"]["Custom_Symptom"];
-         
+
           }).catch((error : any) => {
               console.log(error);
             });
         }
-      }).catch((error : any) => {
+      }).catch((error: any) => {
          console.log(error);
       });
     }
-    
+
+
   }
 
-  ngAfterViewInit() {
-    
+  customFilterPredicate() {
+    const myFilterPredicate = (pastAttentions: PastAttentions, filter: string): boolean => {
+      let searchString = JSON.parse(filter);
+      let idFound = pastAttentions.id.toString().trim().indexOf(searchString.id.toString().trim()) !== -1;
+      let specialtyFound = pastAttentions.specialty.toString().trim()
+          .toLowerCase().indexOf(searchString.specialty.trim().toLowerCase()) !== -1;
+      // let registrationDateFound = new Date(pastAttentions.registrationDate).getDay() === new Date(searchString.registrationDate).getDay() &&
+      // new Date(pastAttentions.registrationDate).getMonth() === new Date(searchString.registrationDate).getMonth() &&
+      // new Date(pastAttentions.registrationDate).getFullYear() === new Date(searchString.registrationDate).getFullYear();
+      let registrationDates = this.datePipe.transform(new Date(pastAttentions.registrationDate), 'MM/dd/yyyy').toString();
+      let registrationDateFound = registrationDates.indexOf(searchString.registrationDate) !== -1;
+      let descriptionFound = (pastAttentions.symptoms.description).toString().trim()
+          .toLowerCase().indexOf(searchString.description.toString().trim().toLowerCase()) !== -1;
+
+      if (searchString.registrationDate && searchString.registrationDate.length > 0){
+        return idFound && specialtyFound && registrationDateFound && descriptionFound;
+      }
+      else{
+        return idFound && specialtyFound && descriptionFound;
+      }
+    };
+
+    return myFilterPredicate;
+
+  }
+
+  ngAfterViewInit(): any {
 
     this.dataSource.paginator = this.paginator;
     this.uploadResultsByLab.sort = this.sort;
     this.dataSource.sort = this.sort;
-  }
-
-  dateFilterChange(type: string, event: MatDatepickerInputEvent<Date>) {
-    console.log(event.value);
-     
-    if(event.value)
-    {
-      var dayFilter = new Date(event.value).getDay();
-      var monthFilter = new Date(event.value).getMonth();
-      var yearFilter = new Date(event.value).getFullYear();
-
-      this.dataSource.data = this.dataSource.data.filter((s: any) => new Date(s.registrationDate).getDay() == dayFilter &&
-      new Date(s.registrationDate).getMonth() == monthFilter &&
-      new Date(s.registrationDate).getFullYear() == yearFilter );
-    }
-    else{
-
-      this.dataSource.data = this.dataSourceCopy.data;
-    }
-
-
+    // this.dataSource.sortingDataAccessor = (item, property) => {
+    //   if (property === 'date'){
+    //     return new Date(item.date);
+    //   }
+    //   else{
+    //     return item[property];
+    //   }
+    // };
+    // this.dataSource.filterPredicate = (data, filter: string) => !filter || data.date.includes(filter);
 
   }
+
 
   SaveSymptoms(){
 
     // console.log(this.selectedSymptomsDropDownList);
     // console.log(this.customSymptoms);
-    this.recordService.saveSymptoms(this.documentNumber,this.selectedSymptomsDropDownList, this.customSymptoms).then((response : any) => {
+    this.recordService.saveSymptoms(this.documentNumber, this.selectedSymptomsDropDownList, this.customSymptoms).then((response : any) => {
 
       this.toastr.success('síntomas guardados con éxito.');
-      //this.uploadResultsByLab.data = response;
-    }).catch((error : any) => {
+      // this.uploadResultsByLab.data = response;
+    }).catch((error: any) => {
       this.toastr.error('Se produjo un error al guardar los síntomas.');
     });
 
   }
   onItemSelect(item: any) {
     // console.log(this.selectedSymptomsDropDownList);
-    //this.selectedSymptomsDropDownList.push(item);
+    // this.selectedSymptomsDropDownList.push(item);
   }
   onSelectAll(items: any) {
     this.selectedSymptomsDropDownList.push(items);
@@ -256,7 +327,7 @@ export class RecordComponent implements OnInit {
   }
 
   downloadAttentionPdf(note: NoteDetail) {
-    this.commonService.generatePDF(this.patient,note,"Attention");
+    this.commonService.generatePDF(this.patient, note, "Attention");
   }
 
   downloadPrescription(note: NoteDetail){
@@ -272,16 +343,16 @@ export class RecordComponent implements OnInit {
 
   downloadTestResult(id: number, fileName: string){
 
-    this.recordService.getUploadResultFile(id).subscribe((data) => {  
+    this.recordService.getUploadResultFile(id).subscribe((data) => {
       console.log(data);
-      importedSaveAs(data, fileName)
+      importedSaveAs(data, fileName);
   });
 
   }
 
   csvInputChange(fileInputEvent: any) {
     this.labUploadResult.file = fileInputEvent.target.files[0];
-    this.formData.set('uploadFile', fileInputEvent.target.files[0]);  
+    this.formData.set('uploadFile', fileInputEvent.target.files[0]);
   }
 
   submitUploadResult(){
@@ -299,30 +370,33 @@ export class RecordComponent implements OnInit {
       }
 
       this.recordService.uploadResult(this.labUploadResult.file, this.labUploadResult).subscribe((response: any) => {
-
+        this.isLoadingResults = true;
         if(this.isUserLabPerson)
         {
           this.recordService.getUploadResultByLabID(this.labUploadResult.labId).then((response : LabUploadResult[]) => {
             this.uploadResultsByLab.data = response;
-          }).catch((error : any) => {
+            this.isLoadingResults = false;
+          }).catch((error: any) => {
+            this.isLoadingResults = false;
             console.log(error);
           });
         }
         else{
           this.recordService.getUploadResultByLabID(this.patient.userId).then((response : LabUploadResult[]) => {
             this.uploadResultsByLab.data = response;
-          }).catch((error : any) => {
+            this.isLoadingResults = false;
+          }).catch((error: any) => {
+            this.isLoadingResults = false;
             console.log(error);
           });
         }
 
-      this.toastr.success('Documento cargado exitosamente.');
-      this.isUploadFormShow = true;
-    },(error) => {
-       console.log(error);
-
-        this.toastr.error('Se produjo un error al cargar este documento.');
-       });
+        this.toastr.success('Documento cargado exitosamente.');
+        this.isUploadFormShow = true;
+    }, (error) => {
+      console.log(error);
+      this.toastr.error('Se produjo un error al cargar este documento.');
+      });
 
     // .catch((error) => {
     //   console.log(error);
@@ -348,29 +422,27 @@ export class RecordComponent implements OnInit {
     self.waitingTicket = true;
     this.recordService.getPatientsByTicketNumber(this.ticketNumber).then((response: any) => {
 
-
-
       this.setPatientDetails(response);
 
-      //localStorage.setItem('patient', response.patient);
-      //localStorage.setItem('notes', response.notes);
-      //self.patient = response.patient;
-      //self.patient.notes = response.notes;
+      // localStorage.setItem('patient', response.patient);
+      // localStorage.setItem('notes', response.notes);
+      // self.patient = response.patient;
+      // self.patient.notes = response.notes;
       self.ticket = response.ticket;
       self.ticket.status = TicketStatus[<string>response.ticket.status];
       self.recordService.patientId.next(self.patient.id);
       if (typeof self.patient.notes !== 'undefined' && self.patient.notes !== null) {
         this.dataSource = new MatTableDataSource<PastAttentions>(self.patient.notes);
-        
+
         this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
+        // this.dataSource.sort = this.sort;
 
 
       }
       self.showRecord = true;
       self.waitingTicket = false;
 
-     
+
 
     }).catch(() => {
       self.askDocumentNumber = true;
@@ -398,40 +470,41 @@ export class RecordComponent implements OnInit {
 
 
       this.setPatientDetails(response);
-      //localStorage.setItem('patient', JSON.stringify(response.patient));
-      //if (CheckEmptyUtil.isNotEmptyObject(response.notes)) {
+      // localStorage.setItem('patient', JSON.stringify(response.patient));
+      // if (CheckEmptyUtil.isNotEmptyObject(response.notes)) {
       //  localStorage.setItem('notes', JSON.stringify(response.notes));
-      //}
-      //self.patient = response.patient;
-      //self.patient.notes = response.notes;
+      // }
+      // self.patient = response.patient;
+      // self.patient.notes = response.notes;
 
-      //this.dataSource = new MatTableDataSource<PastAttentions>([]);
+      // this.dataSource = new MatTableDataSource<PastAttentions>([]);
       if (typeof self.patient.notes !== 'undefined' && self.patient.notes !== null) {
 
-        var  sSymptoms = new Symptoms();
+        var sSymptoms = new Symptoms();
         var pastAtt = new PastAttentions();
         pastAtt.symptoms = sSymptoms;
         this.filterEntity = pastAtt;
 
-        
         this.filterType = MatTableFilter.ANYWHERE;
-        this.dataSource.sort = this.sort;
+        // this.dataSource.sort = this.sort;
 
         this.dataSource.data = self.patient.notes;
-        this.dataSourceCopy.data = self.patient.notes;
-        
-        setTimeout(() => 
+
+        setTimeout(() =>
         {
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
+          // this.dataSource.sortingDataAccessor = (item, property) => {
+          //   if (property === 'date'){
+          //     return new Date(item.date);
+          //   }
+          //   else{
+          //     return item[property];
+          //   }
+          // };
         });
 
-
-
-        //this.dataSource.paginator = this.paginator;
-        
-
-        
+        // this.dataSource.paginator = this.paginator;
 
         this.changeDetectorRefs.detectChanges();
       }
@@ -443,22 +516,26 @@ export class RecordComponent implements OnInit {
       self.showRecord = true;
       self.waitingTicket = false;
 
-      if(!this.isUserLabPerson)
+      if (!this.isUserLabPerson)
       {
+       this.isLoadingResults = true;
        this.recordService.getUploadResultByPatientID(this.patient.userId).then((response : LabUploadResult[]) => {
         this.uploadResultsByLab.data = response;
+        this.isLoadingResults = false;
 
 
-      }).catch((error : any) => {
+      }).catch((error: any) => {
          console.log(error);
+         this.isLoadingResults = false;
       });
 
-      if(this.isUserAdmin)
+
+       if (this.isUserAdmin)
       {
       this.recordService.getSymptomsForPatient(this.documentNumber).then((response : any) => {
         this.selectedSymptomsDropDownList = response["symptoms"]["symptoms"];
         this.customSymptoms = response["symptoms"]["Custom_Symptom"];
-   
+
       }).catch((error : any) => {
         console.log(error);
       });
@@ -477,7 +554,7 @@ export class RecordComponent implements OnInit {
   // onSpecialityChange(event: any) {
   //   if (CheckEmptyUtil.isNotEmptyObject(event)) {
   //     this.selectedSpeciality = event.value.toLowerCase();
-     
+
   //     //this.notes = [];
   //     //this.patient = null;
   //     //this.searchDocumentNumber();
@@ -527,7 +604,7 @@ export class RecordComponent implements OnInit {
     if (CheckEmptyUtil.isNotEmptyObject(this.patient)) {
       routerPath = '/patients/' + this.patient.id;
     }
-    this.router.navigateByUrl(routerPath);
+    this.router.navigate([routerPath], {queryParams: {docNumber: this.documentNumber}});
   }
 
   setNoteDetails(noteDetails: any) {
@@ -759,7 +836,7 @@ export class RecordComponent implements OnInit {
         triage.others.creatinineClearance = note.triage.creatinineClearance;
 
         triage.others.specialities = note.triage.specialities;
-        
+
       }
       return triage;
 
@@ -894,7 +971,7 @@ export class RecordComponent implements OnInit {
   }
 
   setPatientFatherbackgroundList(patientDetails) {
-    console.log(JSON.stringify(patientDetails));
+    // console.log(JSON.stringify(patientDetails));
     try {
       if (CheckEmptyUtil.isNotEmpty(patientDetails)) {
         let fBackgrounds = [];
@@ -994,7 +1071,7 @@ export class RecordComponent implements OnInit {
 
   selectedNotes(notes) {
     let speciality = notes.specialty.toLowerCase();
-    //localStorage.setItem('selectNotes', notes);
+    // localStorage.setItem('selectNotes', notes);
     localStorage.setItem('speciality', speciality);
     let routerPath = '/records/notes/' + notes.id;
     switch (speciality) {
