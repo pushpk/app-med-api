@@ -83,6 +83,7 @@ export class RecordComponent implements OnInit {
 
   DPastAttentions : PastAttentions[] = [] as PastAttentions[];
   dataSource:MatTableDataSource<PastAttentions> =  new MatTableDataSource(this.DPastAttentions);
+  dataSourceCopy:MatTableDataSource<PastAttentions> =  new MatTableDataSource(this.DPastAttentions);
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
   selectedSpeciality: any = '';
@@ -210,14 +211,24 @@ export class RecordComponent implements OnInit {
 
   dateFilterChange(type: string, event: MatDatepickerInputEvent<Date>) {
     console.log(event.value);
+     
+    if(event.value)
+    {
+      var dayFilter = new Date(event.value).getDay();
+      var monthFilter = new Date(event.value).getMonth();
+      var yearFilter = new Date(event.value).getFullYear();
 
-    var dayFilter = new Date(event.value).getDay();
-    var monthFilter = new Date(event.value).getMonth();
-    var yearFilter = new Date(event.value).getFullYear();
+      this.dataSource.data = this.dataSource.data.filter((s: any) => new Date(s.registrationDate).getDay() == dayFilter &&
+      new Date(s.registrationDate).getMonth() == monthFilter &&
+      new Date(s.registrationDate).getFullYear() == yearFilter );
+    }
+    else{
 
-    this.dataSource.data = this.dataSource.data.filter(s => s.registrationDate.getDay() == dayFilter &&
-                                         s.registrationDate.getMonth() == monthFilter &&
-                                         s.registrationDate.getFullYear() == yearFilter )
+      this.dataSource.data = this.dataSourceCopy.data;
+    }
+
+
+
   }
 
   SaveSymptoms(){
@@ -407,6 +418,7 @@ export class RecordComponent implements OnInit {
         this.dataSource.sort = this.sort;
 
         this.dataSource.data = self.patient.notes;
+        this.dataSourceCopy.data = self.patient.notes;
         
         setTimeout(() => 
         {
