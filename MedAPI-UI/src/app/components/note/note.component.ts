@@ -17,6 +17,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Patient } from '../../models/patient.model';
 import { NoteDetail } from '../../models/noteDetail.model';
 import {FormTriageComponent } from '../note/form-triage/form-triage.component'
+import { DialogCloseAttentionComponent } from './dialog-close-attention/dialog-close-attention.component';
 
 @Component({
   selector: 'app-note',
@@ -188,7 +189,7 @@ IsTriageFormValid  :boolean = false;
     //      gastrointestinalSemiology: 'NORMAL'
     //    }
     //  }
-    //};
+    // };
   }
 
 
@@ -567,7 +568,7 @@ IsTriageFormValid  :boolean = false;
       self.submit.waiting = false;
       self.submit.success = true;
       self.note.id = response.id;
-      this.router.navigateByUrl('/records');
+      // this.router.navigateByUrl('/records');
     }).catch((error: any) => {
       console.log(error);
       self.toastr.error('Ocurrió un error al guardar la atención.');
@@ -578,10 +579,30 @@ IsTriageFormValid  :boolean = false;
 
 
   closeAttention(id: number){
+    let dialogRef = this.dialog.open(DialogCloseAttentionComponent, {
+      panelClass: 'custom-dialog',
+      data: {
+        note: this.note
+      },
+      autoFocus: false,
+      maxWidth: '120vh',
+    });
+    dialogRef.afterClosed().subscribe((response: any) => {
 
-    this.note.status = 'close';
+      if (response.accept) {
+        this.note.status = 'close';
+        this.submitRequest();
+      } else {
 
-    this.submitRequest();
+      }
+
+      // console.log(this.note.diagnosis.list, 'this.note.diagnosis.list');
+      // console.log("Dialog output:", response);
+      // this.diagnosisInput.();
+      // this.diagnosisInput.nativeElement.setAttribute('aria-haspopup', false);
+
+      // console.log(this.diagnosisInput.nativeElement);
+    });
 
   }
 }

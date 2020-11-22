@@ -108,7 +108,7 @@
          
           </mat-form-field>
           <mat-form-field fxFlex>
-            <mat-label>Frecuencia cardiaca (Hz)</mat-label>
+            <mat-label>Frecuencia cardiaca (lpm)</mat-label>
             <input [disabled]="!isEditable" type="number" name="heartRate" min="0" matInput #heartRate="ngModel"
                    [(ngModel)]="note.triage.vitalFunctions.heartRate" >
           
@@ -116,7 +116,7 @@
         </div>
         <div fxLayout="row" fxLayoutGap="24px">
           <mat-form-field fxFlex>
-            <mat-label>Frecuencia respiratoria (Hz)</mat-label>
+            <mat-label>Frecuencia respiratoria (rpm)</mat-label>
             <input [disabled]="!isEditable" type="number" name="respiratoryRate" min="0" #respiratoryRate="ngModel" matInput
                    [(ngModel)]="note.triage.vitalFunctions.respiratoryRate" >
            

@@ -1,0 +1,24 @@
+<div aria-label="Close Attention">
+    <div>
+      <button type="button" mat-icon-button class="close-button" [mat-dialog-close]="true">
+        <mat-icon class="close-icon">close</mat-icon>
+      </button>
+      <!-- <mat-icon style="font-size:18px;padding-top:4px;">send</mat-icon> -->
+        <h1 mat-dialog-title>
+            <mat-icon style="font-size:48px;">dangerous</mat-icon> 
+            <span class="aligned-with-icon">Cerrar Atención</span>
+        </h1>
+    </div>
+    <div mat-dialog-content>
+        <div class="container" style="font-size: large; margin-top:10px;">
+            Esta seguro que quiere enviar y cerrar esta atención? La atención no podrá ser editada, 
+            y evoluciones futuras no podrán ser agregadas.
+        </div>
+    </div>
+    <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end">
+      <button type="button" mat-button (click)="cancel()">Cancelar</button>
+      <button type="button" mat-button color="primary" (click)="answer()" cdkFocusInitial>
+        Aceptar
+      </button>
+    </div>
+  </div>

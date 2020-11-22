@@ -1,6 +1,6 @@
-::ng-deep .mat-dialog-container {
-  width: 100vw;
-}
+// ::ng-deep .mat-dialog-container {
+//   width: 100vw;
+// }
 .radio-group {
   display: flex;
   flex-direction: column;
@@ -10,4 +10,8 @@
 
 .radio-button {
   margin: 5px;
+}
+
+.custom-dialog{
+  max-width: none;
 }

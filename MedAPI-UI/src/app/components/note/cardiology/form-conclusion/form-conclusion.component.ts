@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 import { Observable } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { NoteService } from '../../services/note.service';
@@ -9,6 +9,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogDiagnosisComponent } from '../../dialog-diagnosis/dialog-diagnosis.component';
 import { DialogExamComponent } from '../../dialog-exam/dialog-exam.component';
 import { DialogMedicineComponent } from '../../dialog-medicine/dialog-medicine.component';
+import { MatInput } from '@angular/material/input';
+import { MatSelect } from '@angular/material/select';
 
 @Component({
   selector: 'app-form-conclusion',
@@ -110,22 +112,29 @@ export class FormConclusionComponent implements OnInit {
       panelClass: 'custom-dialog',
       data: {
         note: this.note
-      }
+      },
+      autoFocus: false,
+      maxWidth: '120vh',
     });
     dialogRef.afterClosed().subscribe((response: any) => {
 
       if (response.accept && response.type) {
         diagnosis.type = response.type;
+        const index = this.note.diagnosis.list.indexOf(diagnosis);
+        if (index === -1) {
+          this.note.diagnosis.list.push(diagnosis);
+        }
       } else {
         diagnosis.type = '';
       }
+      this.diagnosisList = [];
 
-      const index = this.note.diagnosis.list.indexOf(diagnosis);
-      if (index === -1) {
-        this.note.diagnosis.list.push(diagnosis);
-      }
-      console.log(this.note.diagnosis.list, 'this.note.diagnosis.list');
-      console.log("Dialog output:", response)
+      // console.log(this.note.diagnosis.list, 'this.note.diagnosis.list');
+      // console.log("Dialog output:", response);
+      // this.diagnosisInput.();
+      // this.diagnosisInput.nativeElement.setAttribute('aria-haspopup', false);
+
+      // console.log(this.diagnosisInput.nativeElement);
     });
   }
 
@@ -190,7 +199,9 @@ export class FormConclusionComponent implements OnInit {
       panelClass: 'custom-dialog',
       data: {
         note: this.note
-      }
+      },
+      autoFocus: false,
+      maxWidth: '120vh',
     });
     dialogRef.afterClosed().subscribe((response) => {
     //  console.log("Dialog output:", response)
@@ -224,19 +235,22 @@ export class FormConclusionComponent implements OnInit {
       panelClass: 'custom-dialog',
       data: {
         note: this.note
-      }
+      },
+      autoFocus: false,
+      maxWidth: '120vh',
     });
     dialogRef.afterClosed().subscribe((response: any) => {
       if (response.accept && response.indications) {
         d.indications = response.indications;
+        const index = this.note.treatments.list.indexOf(d);
+        if (index === -1) {
+          this.note.treatments.list.push(d);
+        }
       } else {
         d.indications = '';
       }
 
-      const index = this.note.treatments.list.indexOf(d);
-      if (index === -1) {
-        this.note.treatments.list.push(d);
-      }
+      this.treatmentList = [];
       //console.log("Dialog output:", response)
     });
 

@@ -1,3 +1,6 @@
-::ng-deep .mat-dialog-container {
-  width: 100vw;
+// ::ng-deep .mat-dialog-container {
+//   width: 100vw;
+// }
+.custom-dialog{
+  max-width: none;
 }
