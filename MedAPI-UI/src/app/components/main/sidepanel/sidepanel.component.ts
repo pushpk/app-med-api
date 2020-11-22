@@ -9,11 +9,15 @@ import { RecordService } from '../../record/services/record.service';
 })
 export class SidepanelComponent implements OnInit {
 
+  // navMenus: any[] = [{ name: 'Inicio', pageUrl: 'records' },
+  //   //{ name: 'Médicos', pageUrl: 'records' },
+  //   { name: 'Afiliar paciente', pageUrl: 'patients/new' },
+  //   { name: 'Atención General', pageUrl: 'records' },
+  //   { name: 'Atención de Cardiología', pageUrl: 'records' }];
   navMenus: any[] = [{ name: 'Inicio', pageUrl: 'records' },
     //{ name: 'Médicos', pageUrl: 'records' },
     { name: 'Afiliar paciente', pageUrl: 'patients/new' },
-    { name: 'Atención General', pageUrl: 'records' },
-    { name: 'Atención de Cardiología', pageUrl: 'records' }];
+    { name: 'Atención', pageUrl: 'records' }];
   isUserAdmin: boolean;
 
   constructor(private router: Router, private recordService: RecordService) { }

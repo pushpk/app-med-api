@@ -80,8 +80,7 @@ export class RecordComponent implements OnInit {
 
   // displayedColumns: string[] = ['id', 'specialty', 'date', 'category', 'description', 'status', 'evaluation', 'action'];
 
-  displayedColumns: string[] = ['id', 'specialty', 'registrationDate', 'category', 'description', 'status', 'evaluation'];
-
+  displayedColumns: string[];
 
   DPastAttentions: PastAttentions[] = [] as PastAttentions[];
   dataSource: MatTableDataSource<PastAttentions> =  new MatTableDataSource(this.DPastAttentions);
@@ -207,6 +206,8 @@ export class RecordComponent implements OnInit {
     this.isUserLabPerson = localStorage.getItem('role') === 'lab';
     this.isUserPatient = localStorage.getItem('role') === 'patient';
 
+    this.displayedColumns = this.isUserPatient ? ['id', 'specialty', 'registrationDate', 'category', 'description', 'action'] :
+      ['id', 'specialty', 'registrationDate', 'category', 'description', 'status', 'evaluation'];
 
     this.symptomsDropDownSettings = {
       singleSelection: false,
@@ -1070,28 +1071,32 @@ export class RecordComponent implements OnInit {
   }
 
   selectedNotes(notes) {
-    let speciality = notes.specialty.toLowerCase();
-    // localStorage.setItem('selectNotes', notes);
-    localStorage.setItem('speciality', speciality);
-    let routerPath = '/records/notes/' + notes.id;
-    switch (speciality) {
-      case 'general':
-        routerPath = routerPath + '/general';
-        break;
-      case 'cardiology':
-        routerPath = routerPath + '/cardiology';
-        break;
-      case 'pediatry':
-        routerPath = routerPath + '/pediatry';
-        break;
-      case 'traumatology':
-        routerPath = routerPath + '/traumatology';
-        break;
-      default:
-        routerPath = routerPath + '/general';
-        break;
+    if (this.isUserAdmin){
+      let speciality = notes.specialty.toLowerCase();
+      // localStorage.setItem('selectNotes', notes);
+      localStorage.setItem('speciality', speciality);
+      let routerPath = '/records/notes/' + notes.id;
+      switch (speciality) {
+        case 'general':
+          routerPath = routerPath + '/general';
+          break;
+        case 'cardiology':
+          routerPath = routerPath + '/cardiology';
+          break;
+        case 'pediatry':
+          routerPath = routerPath + '/pediatry';
+          break;
+        case 'traumatology':
+          routerPath = routerPath + '/traumatology';
+          break;
+        default:
+          routerPath = routerPath + '/general';
+          break;
+      }
+      this.recordService.selectedSpecialty.next(speciality);
+
+      this.router.navigate([routerPath], {queryParams: {docNumber: this.documentNumber}});
     }
-    this.recordService.selectedSpecialty.next(speciality);
-    this.router.navigate([routerPath], {queryParams: {docNumber: this.documentNumber}});
+
   }
 }

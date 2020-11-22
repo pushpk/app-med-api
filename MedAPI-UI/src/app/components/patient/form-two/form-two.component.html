@@ -21,7 +21,7 @@
     </mat-form-field>
     <mat-form-field fxFlex="30" fxFlex.md="30" fxFlex.xs="100">
       <mat-label>Raza</mat-label>
-      <mat-select name="Race" class="max-width" required #Race="ngModel"
+      <mat-select name="Race" class="max-width" #Race="ngModel"
                   [(ngModel)]="patient.race">
         <mat-option *ngFor="let c of resources.races" [value]="c.id">{{c.name}}</mat-option>
       </mat-select>
@@ -33,7 +33,7 @@
   <div fxLayout="row wrap" fxLayoutAlign="space-between center" style="margin-left: 10px; margin-right: 10px;">
     <mat-form-field fxFlex="30" fxFlex.md="30" fxFlex.xs="100">
       <mat-label>Grado de instrucción</mat-label>
-      <mat-select name="educationalAttainment" class="max-width" required #educationalAttainment="ngModel"
+      <mat-select name="educationalAttainment" class="max-width" #educationalAttainment="ngModel"
                   [(ngModel)]="patient.educationalAttainment">
         <mat-option *ngFor="let c of resources.educationalAttainments" [value]="c.id">{{c.name}}</mat-option>
       </mat-select>
@@ -44,7 +44,7 @@
     <mat-form-field fxFlex="30" fxFlex.md="30" fxFlex.xs="100">
       <mat-label>Ocupación</mat-label>
       <input type="text" name="occupation" maxlength="50" matInput #occupation="ngModel"
-             [(ngModel)]="patient.occupation" required>
+             [(ngModel)]="patient.occupation">
       <mat-hint align="end">{{occupation.value?.length || 0}}/50</mat-hint>
       <mat-error *ngIf="occupation.errors && (occupation.touched || occupation.dirty)">
         Este campo es requerido
@@ -52,7 +52,7 @@
     </mat-form-field>
     <mat-form-field fxFlex="30" fxFlex.md="30" fxFlex.xs="100">
       <mat-label>Grupo sanguíneo y factor RH</mat-label>
-      <mat-select name="bloodType" class="max-width" required #bloodType="ngModel"
+      <mat-select name="bloodType" class="max-width" #bloodType="ngModel"
                   [(ngModel)]="patient.bloodType">
         <mat-option *ngFor="let c of resources.bloodTypes" [value]="c.id">{{c.name}}</mat-option>
       </mat-select>
@@ -64,7 +64,7 @@
   <div fxLayout="row wrap" fxLayoutAlign="space-between center" style="margin-left: 10px; margin-right: 10px;">
     <mat-form-field fxFlex="30" fxFlex.md="30" fxFlex.xs="100">
       <mat-label>Consumo de alcohol</mat-label>
-      <mat-select name="alcoholConsumption" class="max-width" required #alcoholConsumption="ngModel"
+      <mat-select name="alcoholConsumption" class="max-width" #alcoholConsumption="ngModel"
                   [(ngModel)]="patient.alcoholConsumption">
         <mat-option *ngFor="let c of resources.alcoholConsumptions" [value]="c.id">{{c.name}}</mat-option>
       </mat-select>
@@ -74,7 +74,7 @@
     </mat-form-field>
     <mat-form-field fxFlex="30" fxFlex.md="30" fxFlex.xs="100">
       <mat-label>Actividad física</mat-label>
-      <mat-select name="physicalActivity" class="max-width" required #physicalActivity="ngModel"
+      <mat-select name="physicalActivity" class="max-width" #physicalActivity="ngModel"
                   [(ngModel)]="patient.physicalActivity">
         <mat-option *ngFor="let s of resources.physicalActivities" [value]="s.id">{{s.name}}</mat-option>
       </mat-select>
@@ -91,7 +91,7 @@
   <div fxLayout="row wrap" fxLayoutAlign="space-between center" style="margin-left: 10px; margin-right: 10px;">
     <mat-form-field fxFlex="30" fxFlex.md="30" fxFlex.xs="100">
       <mat-label>Consumo de frutas y verduras</mat-label>
-      <mat-select name="fvConsumption" class="max-width" required #fvConsumption="ngModel"
+      <mat-select name="fvConsumption" class="max-width" #fvConsumption="ngModel"
                   [(ngModel)]="patient.fvConsumption">
         <mat-option *ngFor="let s of resources.fvConsumptions" [value]="s.id">{{s.name}}</mat-option>
       </mat-select>

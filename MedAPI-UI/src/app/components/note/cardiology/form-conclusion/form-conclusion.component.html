@@ -127,18 +127,25 @@
     <h2 class="mat-title form-section" fxFlex="100">Tratamiento</h2>
     <div fxFlex>
       <div fxLayout="row">
-        <mat-form-field fxFlex fxFlexFill>
+        <div fxFlex="65" fxFlex.md="65" fxFlex.xs="100" style="padding-bottom:10px;">
+          <mat-slide-toggle name="isDonor" [(ngModel)]="isPharmacological" (change)="changeIsPharmacological(isPharmacological)">
+            {{isPharmacological ? "Sí es farmacológico" : "No es farmacológico"}}
+          </mat-slide-toggle>
+        </div>
+      </div>
+      <div fxLayout="row">
+        <mat-form-field fxFlex fxFlexFill *ngIf="isPharmacological">
           <mat-label>Buscar medicamentos</mat-label>
           <input type="text"
-
-              name="treatmentlookup"
+                name="treatmentlookup"
                  placeholder="Buscar medicamentos"
                  aria-label="Buscar medicamentos"
                  matInput
                  (keyup)="getTreatments($event.target.value)"
                  (keydown.backspace)="getTreatments($event.target.value)"
                  [formControl]="treatmentCtrl"
-                 [matAutocomplete]="treatment"  required >
+                 [matAutocomplete]="treatment"
+                 [required]="isPharmacological" >
           <ng-container *ngIf="showTreatmentProgressBar">
             <mat-progress-bar mode="indeterminate" class="my-16"></mat-progress-bar>
           </ng-container>
@@ -175,7 +182,12 @@
     </div>
     <mat-form-field fxFlex>
       <mat-label>Otros</mat-label>
-      <textarea [disabled]="!isEditable" matInput name="treatments" class="max-width" maxlength="250" #treatments="ngModel"
+      <textarea [disabled]="!isEditable" 
+                matInput name="treatments"
+                class="max-width" 
+                maxlength="250"
+                #treatments="ngModel"
+                [required]="!isPharmacological"
                 [(ngModel)]="note.treatments.other">
         </textarea>
       <mat-hint align="end">{{treatments.value?.length || 0}}/250</mat-hint>

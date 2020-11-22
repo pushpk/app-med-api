@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { NoteService } from '../../services/note.service';
@@ -9,8 +9,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogDiagnosisComponent } from '../../dialog-diagnosis/dialog-diagnosis.component';
 import { DialogExamComponent } from '../../dialog-exam/dialog-exam.component';
 import { DialogMedicineComponent } from '../../dialog-medicine/dialog-medicine.component';
-import { MatInput } from '@angular/material/input';
-import { MatSelect } from '@angular/material/select';
 
 @Component({
   selector: 'app-form-conclusion',
@@ -29,12 +27,12 @@ export class FormConclusionComponent implements OnInit {
   treatmentCtrl = new FormControl();
   interconsultationCtrl = new FormControl();
   tempTimeobj: any;
-  
+
   showDignosisProgressBar = false;
   showExamProgressBar = false;
   showTreatmentProgressBar = false;
   showInterconsultantionProgressBar = false;
-
+  isPharmacological = true;
 
   selectedDiagnosis: any;
   searchDiagnosis: string;
@@ -68,7 +66,7 @@ export class FormConclusionComponent implements OnInit {
       //  startWith(null),
       //  map((data: string | null) => data ? this._filter(data) : this.resources.cardiovascularSymptom.slice()));
     });
-    console.log(this.note, 'note');
+    // console.log(this.note, 'note');
   }
 
   //private _filter(value: any): string[] {
@@ -76,7 +74,12 @@ export class FormConclusionComponent implements OnInit {
   //  return this.resources.cardiovascularSymptom.filter(x => x.name.toLowerCase().indexOf(filterValue) === 0);
   //}
 
-  getDiagnosis(valueEntered : string) {
+  changeIsPharmacological(isPharmacological: boolean): any{
+    // this.isPharmacological = !this.isPharmacological;
+    this.noteService.setIsPharmacological(isPharmacological);
+  }
+
+  getDiagnosis(valueEntered: string) {
     console.log(valueEntered);
     let str =  valueEntered;
     // this.diagnosisCtrl.valueChanges.subscribe((value: string) => {

@@ -139,7 +139,6 @@
               name="customSymptoms"
               maxlength="250"
               matInput
-              required
               [(ngModel)]="customSymptoms"
               [disabled]="this.isUserAdmin"
             />
@@ -461,7 +460,7 @@
             </div>
           </mat-header-cell>
           <mat-cell *matCellDef="let element">
-            {{ element.category  === 'attention' ? 'atención' : 'evaluación'}}
+            {{ element.category  === 'attention' ? 'atención' : 'evolución'}}
           </mat-cell>
         </ng-container>
 
@@ -503,7 +502,7 @@
               style="cursor: pointer"
               disabled
             >
-              Adjuntar evaluación
+              Adjuntar evolución
             </span>
           </mat-cell>
         </ng-container>
@@ -520,7 +519,7 @@
             >
               Revisar
             </span> -->
-            <mat-form-field fxFlex="25" *ngIf="this.isUserPatient">
+            <mat-form-field fxFlex="100" *ngIf="this.isUserPatient" style="margin-left:20px;">
               <mat-label>Descargar</mat-label>
               <mat-select>
                 <mat-option
@@ -560,7 +559,8 @@
           </mat-cell>
         </ng-container>
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: displayedColumns" (click)="selectedNotes(row)" style="cursor:pointer;"
+        <!-- <mat-row *matRowDef="let row; columns: displayedColumns" (click)="selectedNotes(row)" [ngStyle]="{'cursor': (isUserAdmin) ? 'pointer' : 'default'}" -->
+          <mat-row *matRowDef="let row; columns: displayedColumns" (click)="selectedNotes(row)" [ngClass]="this.isUserAdmin ? 'rowAdmin' : 'default'"
         ></mat-row>
       </mat-table>
       

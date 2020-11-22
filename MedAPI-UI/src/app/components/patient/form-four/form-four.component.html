@@ -9,13 +9,13 @@
     <mat-form-field fxFlex="30" fxFlex.md="100" fxFlex.sm="100" fxFlex.xs="100">
       <mat-label>Número de habitantes</mat-label>
       <input type="number" name="population" maxlength="20" matInput #population="ngModel"
-             [(ngModel)]="patient.home.population" required>
+             [(ngModel)]="patient.home.population">
     </mat-form-field>
   </li>
   <li class="mat-form-field--inline">
     <mat-form-field fxFlex="30" fxFlex.md="100" fxFlex.sm="100" fxFlex.xs="100">
       <mat-label>Tipo de residencia</mat-label>
-      <mat-select name="homeTypes" class="max-width" required #homeTypes="ngModel"
+      <mat-select name="homeTypes" class="max-width" #homeTypes="ngModel"
                   [(ngModel)]="patient.home.type">
         <mat-option *ngFor="let c of resources.homeTypes" [value]="c.id">{{c.name}}</mat-option>
       </mat-select>
@@ -25,7 +25,7 @@
     </mat-form-field>
     <mat-form-field fxFlex="30" fxFlex.md="100" fxFlex.sm="100" fxFlex.xs="100">
       <mat-label>Pertenencia</mat-label>
-      <mat-select name="homeOwnership" class="max-width" required #homeOwnership="ngModel"
+      <mat-select name="homeOwnership" class="max-width" #homeOwnership="ngModel"
                   [(ngModel)]="patient.home.ownership">
         <mat-option *ngFor="let c of resources.homeOwnerships" [value]="c.id">{{c.name}}</mat-option>
       </mat-select>
@@ -37,7 +37,7 @@
   <li class="mat-form-field--inline">
     <mat-form-field fxFlex="30" fxFlex.md="100" fxFlex.sm="100" fxFlex.xs="100">
       <mat-label>Material</mat-label>
-      <mat-select name="homeMaterial" class="max-width" required #homeMaterial="ngModel"
+      <mat-select name="homeMaterial" class="max-width" #homeMaterial="ngModel"
                   [(ngModel)]="patient.home.material">
         <mat-option *ngFor="let c of resources.homeMaterials" [value]="c.id">{{c.name}}</mat-option>
       </mat-select>

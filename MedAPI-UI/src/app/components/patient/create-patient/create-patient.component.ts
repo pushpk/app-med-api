@@ -201,6 +201,9 @@ export class CreatePatientComponent implements OnInit {
 
     this.submit.waiting = true;
     let currentUserEmail = localStorage.getItem('email');
+    let currentUserId = localStorage.getItem('IoggedInID');
+    console.log(this.currentUserId);
+    console.log(this.patient.userId);
     this.patientService.save(this.patient, currentUserEmail).then((response: any) => {
       // console.log(response);
       this.submit.waiting = false;

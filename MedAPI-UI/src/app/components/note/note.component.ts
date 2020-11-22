@@ -18,6 +18,7 @@ import { Patient } from '../../models/patient.model';
 import { NoteDetail } from '../../models/noteDetail.model';
 import {FormTriageComponent } from '../note/form-triage/form-triage.component'
 import { DialogCloseAttentionComponent } from './dialog-close-attention/dialog-close-attention.component';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-note',
@@ -44,7 +45,8 @@ export class NoteComponent implements OnInit {
     success: false
   };
   selectNoteId: any;
-  tabs: Array<{ title: string; }>;
+  tabs: Array<{ title: string; isCardiology: boolean; }>;
+  isPharmacological: BehaviorSubject<boolean>;
 
   isEditable = false;
   // @Output() dirtyForm = new EventEmitter<boolean>();
@@ -52,8 +54,8 @@ export class NoteComponent implements OnInit {
   docNumber: string;
   attechedAttentionId: string;
 
-  
-IsTriageFormValid  :boolean = false;
+
+  IsTriageFormValid: boolean = false;
 @ViewChild(FormTriageComponent) FormTriageComponent: FormTriageComponent;
 
   constructor(private noteService: NoteService,
@@ -209,6 +211,11 @@ IsTriageFormValid  :boolean = false;
     this.noteService.updateComputedFieldsEvent.subscribe((o) => {
       this.handleComputedFieldsChange(o);
     });
+
+    this.isPharmacological = this.noteService.isPharmacologicalEvent;
+    // this.noteService.isPharmacological.subscribe(result => {
+    //   this.isPharmacological = result;
+    // });
 
   }
 
