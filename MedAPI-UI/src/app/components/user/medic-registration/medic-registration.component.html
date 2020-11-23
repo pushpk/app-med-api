@@ -143,7 +143,7 @@
             <mat-form-field fxFlex="30" fxFlex.md="30" fxFlex.xs="100">
               <mat-label>RNE</mat-label>
               <input type="text" name="RNE" matInput maxlength="6" matInput #RNE="ngModel" [(ngModel)]="medic.rne"
-                (keyup)="numberOnly($event.target);" required>
+                (keyup)="numberOnly($event.target);">
               <mat-hint align="end">{{RNE.value?.length || 0}}/6</mat-hint>
               <mat-error *ngIf="RNE.errors && (RNE.touched || RNE.dirty)">
                 Este campo es requerido

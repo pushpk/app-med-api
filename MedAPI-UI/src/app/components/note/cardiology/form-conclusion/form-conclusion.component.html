@@ -6,14 +6,16 @@
         <mat-form-field fxFlex fxFlexFill>
           <mat-label>Buscar CIE10 por código o nombre</mat-label>
           <input type="text"
+                 #diagnosisInput
                  placeholder="Buscar CIE10 por código o nombre"
                  aria-label="Buscar CIE10 por código o nombre"
                  matInput
-                 (keyup)="getDiagnosis($event.target.value)"
+                 (keydown)="getDiagnosis($event.target.value)"
                  (keydown.backspace)="getDiagnosis($event.target.value)"
                  [formControl]="diagnosisCtrl"
-                 [matAutocomplete]="diagnosisAuto" required>
-          <ng-container *ngIf="!diagnosisList && showDignosisProgressBar">
+                 [matAutocomplete]="diagnosisAuto" required
+          >
+          <ng-container *ngIf="showDignosisProgressBar">
             <mat-progress-bar mode="indeterminate" class="my-16"></mat-progress-bar>
           </ng-container>
           <mat-autocomplete #diagnosisAuto="matAutocomplete" [displayWith]="displayFn" (optionSelected)='addDiagnosis($event.option.value)'>
@@ -75,8 +77,9 @@
                  (keyup)="getExams($event.target.value)"
                  (keydown.backspace)="getExams($event.target.value)"
                  [formControl]="examCtrl"
-                 [matAutocomplete]="exam">
-          <ng-container *ngIf="!physicalExamsList && showExamProgressBar">
+                 [matAutocomplete]="exam"
+                 >
+          <ng-container *ngIf="showExamProgressBar">
             <mat-progress-bar mode="indeterminate" class="my-16"></mat-progress-bar>
           </ng-container>
           <mat-autocomplete #exam="matAutocomplete" [displayWith]="displayFn" (optionSelected)='addExams($event.option.value)'>
@@ -124,19 +127,26 @@
     <h2 class="mat-title form-section" fxFlex="100">Tratamiento</h2>
     <div fxFlex>
       <div fxLayout="row">
-        <mat-form-field fxFlex fxFlexFill>
+        <div fxFlex="65" fxFlex.md="65" fxFlex.xs="100" style="padding-bottom:10px;">
+          <mat-slide-toggle name="isDonor" [(ngModel)]="isPharmacological" (change)="changeIsPharmacological(isPharmacological)">
+            {{isPharmacological ? "Sí es farmacológico" : "No es farmacológico"}}
+          </mat-slide-toggle>
+        </div>
+      </div>
+      <div fxLayout="row">
+        <mat-form-field fxFlex fxFlexFill *ngIf="isPharmacological">
           <mat-label>Buscar medicamentos</mat-label>
           <input type="text"
-
-              name="treatmentlookup"
+                name="treatmentlookup"
                  placeholder="Buscar medicamentos"
                  aria-label="Buscar medicamentos"
                  matInput
                  (keyup)="getTreatments($event.target.value)"
                  (keydown.backspace)="getTreatments($event.target.value)"
                  [formControl]="treatmentCtrl"
-                 [matAutocomplete]="treatment"  required >
-          <ng-container *ngIf="!treatmentList && showTreatmentProgressBar">
+                 [matAutocomplete]="treatment"
+                 [required]="isPharmacological" >
+          <ng-container *ngIf="showTreatmentProgressBar">
             <mat-progress-bar mode="indeterminate" class="my-16"></mat-progress-bar>
           </ng-container>
           <mat-autocomplete #treatment="matAutocomplete" [displayWith]="displayFn" (optionSelected)='addTreatment($event.option.value)'>
@@ -172,7 +182,12 @@
     </div>
     <mat-form-field fxFlex>
       <mat-label>Otros</mat-label>
-      <textarea [disabled]="!isEditable" matInput name="treatments" class="max-width" maxlength="250" #treatments="ngModel"
+      <textarea [disabled]="!isEditable" 
+                matInput name="treatments"
+                class="max-width" 
+                maxlength="250"
+                #treatments="ngModel"
+                [required]="!isPharmacological"
                 [(ngModel)]="note.treatments.other">
         </textarea>
       <mat-hint align="end">{{treatments.value?.length || 0}}/250</mat-hint>
@@ -195,7 +210,7 @@
                  (keydown.backspace)="getInterconsultations($event.target.value)"
                  [formControl]="interconsultationCtrl"
                  [matAutocomplete]="interConsultantation">
-          <ng-container *ngIf="!interconsultationList && showInterconsultantionProgressBar">
+          <ng-container *ngIf="showInterconsultantionProgressBar">
             <mat-progress-bar mode="indeterminate" class="my-16"></mat-progress-bar>
           </ng-container>
           <mat-autocomplete #interConsultantation="matAutocomplete" [displayWith]="displayFn" (optionSelected)='addSpecialty($event.option.value)'>

@@ -9,9 +9,21 @@ import { ResourcesService } from '../../../services/resources.service';
 export class NoteService {
   resources: BehaviorSubject<[]> = new BehaviorSubject([]);
   updateComputedFieldsEvent: EventEmitter<[]> = new EventEmitter<[]>();
+  isPharmacologicalEvent = new BehaviorSubject<boolean>(true);
+  isPharmacological = this.isPharmacologicalEvent.asObservable();
+  // isPharmacologicalChange: EventEmitter<boolean> = new EventEmitter<boolean>();
+
   // diagnosisList: EventEmitter<[]> = new EventEmitter<[]>();
 
   constructor(private httpUtilService: HttpUtilService, private resourcesService: ResourcesService) { }
+
+  setIsPharmacological(isPharma: boolean){
+    this.isPharmacologicalEvent.next(isPharma);
+  }
+
+  // getIsPharmacological(){
+  //   return this.isPharmacological;
+  // }
 
   getResources(resourcesPath: any) {
     return this.httpUtilService.invoke('GET', null, resourcesPath, null);

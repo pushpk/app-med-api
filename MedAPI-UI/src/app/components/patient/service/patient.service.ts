@@ -25,8 +25,8 @@ export class PatientService {
     return this.httpUtilService.invoke('GET', null, resourcesPath, null);
   }
 
-  save(patient: any, email: string) {
-    return this.httpUtilService.invoke('POST', patient, 'users/patient', email);
+  save(patient: any, userId: number) {
+    return this.httpUtilService.invoke('POST', patient, 'users/patient', userId);
   }
 
   registerPatient(patient: any){

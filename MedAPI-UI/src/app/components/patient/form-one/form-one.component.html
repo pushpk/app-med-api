@@ -42,7 +42,7 @@
     </mat-form-field>
     <mat-form-field fxFlex="30" fxFlex.md="30" fxFlex.xs="100">
       <mat-label>Tipo de documento</mat-label>
-      <mat-select name="documentType" class="max-width" required #documentType="ngModel"
+      <mat-select name="documentType" class="max-width" required #documentType="ngModel" [disabled]="isEditable"
                   [(ngModel)]="patient.documentType">
         <mat-option *ngFor="let dt of resources.documentTypes" [(value)]="dt.id">{{dt.name}}</mat-option>
       </mat-select>
@@ -52,7 +52,7 @@
     </mat-form-field>
     <mat-form-field fxFlex="30" fxFlex.md="30" fxFlex.xs="100">
       <mat-label>Número de documento</mat-label>
-      <input type="text" name="patientDocumentNumber" matInput #patientDocumentNumber="ngModel"
+      <input type="text" name="patientDocumentNumber" matInput #patientDocumentNumber="ngModel" [disabled]="isEditable"
              [(ngModel)]="patient.documentNumber" required maxlength="8">
       <mat-error *ngIf="patientDocumentNumber.errors && (patientDocumentNumber.touched || patientDocumentNumber.dirty)">
         Este campo es requerido

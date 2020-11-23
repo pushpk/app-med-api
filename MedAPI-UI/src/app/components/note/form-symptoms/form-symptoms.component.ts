@@ -19,6 +19,7 @@ export class FormSymptomsComponent implements OnInit {
   @Input() note: any;
   @Input() patient: any;
   @Input() isEditable: boolean;
+  durationUnits: any;
   
   //diagnosisCtrl = new FormControl();
   //examCtrl = new FormControl();
@@ -64,7 +65,12 @@ export class FormSymptomsComponent implements OnInit {
       }
     });
 
-    // console.log(this.note);
+    this.durationUnits = [{ id: 1, name: 'Horas' },
+    { id: 2, name: 'Dias' },
+    { id: 3, name: 'Semanas' },
+    { id: 4, name: 'Meses' },
+    { id: 5, name: 'Años' }
+    ];
   }
 
   //getDiagnosis() {
