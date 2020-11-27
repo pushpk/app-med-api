@@ -104,12 +104,14 @@ namespace MedAPI.Controllers
 
         [HttpPost]
         [Route("create")]
-        public HttpResponseMessage Create(Domain.User mUser)
+        public HttpResponseMessage Create(Domain.User mUser, string currentUrl)
         {
             HttpResponseMessage response = null;
             try
             {
                 mUser = userService.SaveUser(mUser);
+                var emailConfirmationLink = GenerateLink(mUser);
+                //emailService.SendEmailAsync()
                 response = Request.CreateResponse(HttpStatusCode.OK, mUser);
             }
             catch (Exception ex)
@@ -118,6 +120,13 @@ namespace MedAPI.Controllers
             }
             return response;
         }
+
+        [NonAction]
+        private string GenerateLink(User mUser)
+        {
+            throw new NotImplementedException();
+        }
+
         [HttpPost]
         [Route("users/{id:int}")]
         public HttpResponseMessage Update(Domain.User mUser, long id)
@@ -165,9 +174,15 @@ namespace MedAPI.Controllers
             try
             {
                 mUser = userService.Authenticate(mLogin.username, mLogin.Password);
+                
                 if (mUser != null)
                 {
-                    //emailService.SendEmailAsync(mUser.email, "Tu cuenta de SolidarityMedical", "Has iniciado una sesión nueva");
+                    if(!mUser.emailConfirmed)
+                    {
+                        return Request.CreateResponse(HttpStatusCode.Unauthorized, "El correo electrónico aún no está confirmado, haga clic en el enlace de activación del correo electrónico para confirmar el correo electrónico.");
+                    }
+
+                    
                     IEnumerable<string> permissions;
                     using (var ctx = new DataAccess.registroclinicoEntities())
                     {
