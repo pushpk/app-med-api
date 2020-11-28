@@ -158,20 +158,7 @@ namespace MedAPI.Controllers
             return response;
         }
 
-        [HttpGet]
-        [Route("confirm-email")]
-        public HttpResponseMessage ConfirmEmail(string id, string code)
-        {
-            try
-            {
-                var isSuccess =  userService.ConfirmEmail(id,code);
-                return Request.CreateResponse(HttpStatusCode.OK, isSuccess);
-            }
-            catch (Exception ex)
-            {
-                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
-            }
-        }
+       
 
         [HttpPost]
         //[EnableCors(origins: "*", headers: "*", methods: "*")]
@@ -276,6 +263,47 @@ namespace MedAPI.Controllers
             return response;
         }
 
+        [HttpGet]
+        [Route("confirm-email")]
+        public HttpResponseMessage ConfirmEmail(string id, string code)
+        {
+            try
+            {
+                var isSuccess = userService.ConfirmEmail(id, code);
+                return Request.CreateResponse(HttpStatusCode.OK, isSuccess);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("forgot-password")]
+        public HttpResponseMessage ForgotPassword(string email)
+        {
+            try
+            {
+                var user = userService.GetUserByEmail(email);
+
+                if (user != null)
+                {
+                    var passwordResetLink = Infrastructure.SecurityHelper.GetPasswordResetLink(user, Request);
+                    emailService.SendEmailAsync(user.email, "Password Reset Link - MedAPI", $"Please click <a href='{passwordResetLink}' >here</a> to reset password");
+
+
+                    //if user valid - generate and send a link
+                    return Request.CreateResponse(HttpStatusCode.OK, "Email Sent Success!");
+                }
+
+                //else user not valid
+                return Request.CreateResponse(HttpStatusCode.NotFound, "User Not Found!");
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
 
 
     }

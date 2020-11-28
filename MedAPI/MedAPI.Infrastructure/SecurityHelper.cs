@@ -11,7 +11,15 @@ namespace MedAPI.Infrastructure
             var tokenHash = Infrastructure.HashPasswordHelper.HashToken(mUser.token);
             var baseUrl = Request.RequestUri.GetLeftPart(UriPartial.Authority);
 
-            return $"{baseUrl}/account-confirm/id={mUser.id}&code={tokenHash}";
+            return $"{baseUrl}/account-confirm?id={mUser.id}&code={tokenHash}";
+        }
+
+        public static string GetPasswordResetLink(User mUser, HttpRequestMessage Request)
+        {
+            var tokenHash = Infrastructure.HashPasswordHelper.HashToken(mUser.reset_token);
+            var baseUrl = Request.RequestUri.GetLeftPart(UriPartial.Authority);
+
+            return $"{baseUrl}/reset-password?id={mUser.id}&code={tokenHash}";
         }
 
 

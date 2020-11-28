@@ -18,10 +18,12 @@ namespace MedAPI.Controllers
     {
         private readonly ILabService labService;
         private readonly IUserService userService;
-        public LabController(ILabService labService, IUserService userService)
+        private readonly IEmailService emailService;
+        public LabController(ILabService labService, IUserService userService, IEmailService emailService)
         {
             this.labService = labService;
             this.userService = userService;
+            this.emailService = emailService;
         }
        
         [HttpPost]
@@ -32,6 +34,10 @@ namespace MedAPI.Controllers
             try
             {
                 mLab = labService.SaveLab(mLab);
+
+                var emailConfirmationLink = Infrastructure.SecurityHelper.GetEmailConfirmatioLink(mLab.user, Request);
+                emailService.SendEmailAsync(mLab.user.email, "Confirm Email - MedAPI", $"Please click <a href='{emailConfirmationLink}' >here</a> to confirm email");
+
                 response = Request.CreateResponse(HttpStatusCode.OK, mLab);
                 //if (IsAdminPermission())
                 //{

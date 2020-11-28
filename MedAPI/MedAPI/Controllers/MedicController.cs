@@ -16,11 +16,13 @@ namespace MedAPI.Controllers
     {
         private readonly IMedicService medicService;
         private readonly IUserService userService;
-        public MedicController(IMedicService medicService, IUserService userService)
+        private readonly IEmailService emailService;
+        public MedicController(IMedicService medicService, IUserService userService, IEmailService emailService)
         {
             this.medicService = medicService;
             this.userService = userService;
-        }
+            this.emailService = emailService;
+    }
         [HttpGet]
         [Route("medic")]
         public HttpResponseMessage GetAll()
@@ -161,15 +163,12 @@ namespace MedAPI.Controllers
             try
             {
                 mMedic = medicService.SaveMedic(mMedic);
+
+                var emailConfirmationLink = Infrastructure.SecurityHelper.GetEmailConfirmatioLink(mMedic.user, Request);
+                emailService.SendEmailAsync(mMedic.user.email, "Confirm Email - MedAPI", $"Please click <a href='{emailConfirmationLink}' >here</a> to confirm email");
+
                 response = Request.CreateResponse(HttpStatusCode.OK, mMedic);
-                //if (IsAdminPermission())
-                //{
-                   
-                //}
-                //else
-                //{
-                //    response = Request.CreateResponse(HttpStatusCode.Unauthorized);
-                //}
+               
 
             }
             catch (Exception ex)

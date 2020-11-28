@@ -232,6 +232,7 @@ namespace MedAPI.Repository
                        countryId = x.country_id,
                        districtId = x.district_id,
                        roleId = x.role_id,
+                       reset_token = x.reset_token,
                        role = new Domain.Role
                        {
                            id = x.role.id,

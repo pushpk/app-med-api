@@ -57,4 +57,16 @@ export class PatientService {
     };
     return self.httpUtilService.invokeQueryWithTwoParams('GET', params1, params2, apiEndpoint);
   }
+
+  forgotPassword(username: any) {
+    const self = this;
+    const apiEndpoint = 'users/forgot-password';
+    const params = {
+      key: 'email',
+      value: username
+    };
+    
+    return self.httpUtilService.invokeQuery('GET', params,  apiEndpoint);
+  }
+  
 }
