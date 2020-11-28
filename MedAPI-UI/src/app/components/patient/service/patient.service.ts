@@ -8,6 +8,7 @@ import { LabUser } from 'src/app/models/labUser.model';
   providedIn: 'root'
 })
 export class PatientService {
+ 
   resources: BehaviorSubject<[]> = new BehaviorSubject([]);
 
   constructor(private httpUtilService: HttpUtilService) { }
@@ -69,4 +70,13 @@ export class PatientService {
     return self.httpUtilService.invokeQuery('GET', params,  apiEndpoint);
   }
   
+  resetPassword(id: any, code: any, password: any) {
+
+    var UserWithIdPw = {
+      id : id,
+      passwordHash: password,
+      token : code
+    };
+    return this.httpUtilService.invoke('POST', UserWithIdPw, 'users/reset-password', null);
+  }
 }

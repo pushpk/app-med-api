@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { MustMatch } from 'src/app/shared/directive/MustMatch.Validator';
 import { PatientService } from '../../patient/service/patient.service';
 
 @Component({
@@ -10,26 +12,48 @@ import { PatientService } from '../../patient/service/patient.service';
 export class ResetPasswordComponent implements OnInit {
   resetPasswordForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private patientService: PatientService) { }
+  constructor(private fb: FormBuilder, private patientService: PatientService, public router: Router,  private activatedRouter: ActivatedRoute) { }
+
+  id:string = '';
+  code:string = '';
 
   ngOnInit(): void {
+
     this.resetPasswordForm = this.fb.group({
 
           password: ['', [Validators.required]],
-          confirmPassword: ['', [Validators.required]],
+          confirmPassword: ['', Validators.required],
 
 
-  },  {validator: this.passwordConfirming});
+  },  {validator: MustMatch('password', 'confirmPassword')});
+
+
+  this.activatedRouter.queryParams.subscribe(params => {
+    this.id = params['id'];
+    this.code = params['code'];
+  });
+
   }
 
   resetPassword(){
 
+    const self = this;
+    let pwd = self.resetPasswordForm.get('password').value;
+
+    this.patientService.resetPassword(this.id,this.code,pwd).then((response: any) => {
+      
+    }).catch((error: any) => {
+      
+   });
   }
 
+  get f() { return this.resetPasswordForm.controls; }
 
-  passwordConfirming(c: AbstractControl): { invalid: boolean } {
+  passwordConfirming(c: AbstractControl): { invalid: boolean, passwordConfirming : boolean } {
+    var self = this;
     if (c.get('password').value !== c.get('confirmPassword').value) {
-        return {invalid: true};
+      console.log(c);
+        return {invalid: true, passwordConfirming : true};
     }
 }
 

@@ -93,9 +93,9 @@
     <Compile Include="Ticket.cs" />
     <Compile Include="Triage.cs" />
     <Compile Include="Upload.cs" />
-    <Compile Include="UserWithIdPw.cs" />
-    <Compile Include="User-Entity.cs" />
     <Compile Include="User.cs" />
+    <Compile Include="User-Entity.cs" />
+    <Compile Include="UserWithIdPw.cs" />
     <Compile Include="UserResources.cs" />
     <Compile Include="SendgridSettings.cs" />
   </ItemGroup>
