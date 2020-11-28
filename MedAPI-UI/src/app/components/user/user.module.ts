@@ -13,6 +13,7 @@ import { PatientRegistrationComponent } from './patient-registration/patient-reg
 import { LabRegistrationComponent } from './lab-registration/lab-registration.component';
 import { NoAccessComponent } from './no-access/no-access.component';
 import { AccountConfirmationComponent } from './account-confirmation/account-confirmation.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 
 const routes: Routes = [
   {
@@ -28,7 +29,7 @@ const routes: Routes = [
 
 
 @NgModule({
-  declarations: [LoginComponent, LogoutComponent, MedicRegistrationComponent, MustMatchDirective, PatientRegistrationComponent, LabRegistrationComponent, NoAccessComponent, AccountConfirmationComponent],
+  declarations: [LoginComponent, LogoutComponent, MedicRegistrationComponent, MustMatchDirective, PatientRegistrationComponent, LabRegistrationComponent, NoAccessComponent, AccountConfirmationComponent, ForgotPasswordComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
