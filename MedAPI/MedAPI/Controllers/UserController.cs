@@ -110,8 +110,7 @@ namespace MedAPI.Controllers
             try
             {
                 mUser = userService.SaveUser(mUser);
-                var emailConfirmationLink = GenerateLink(mUser);
-                //emailService.SendEmailAsync()
+              
                 response = Request.CreateResponse(HttpStatusCode.OK, mUser);
             }
             catch (Exception ex)
@@ -121,11 +120,7 @@ namespace MedAPI.Controllers
             return response;
         }
 
-        [NonAction]
-        private string GenerateLink(User mUser)
-        {
-            throw new NotImplementedException();
-        }
+        
 
         [HttpPost]
         [Route("users/{id:int}")]
@@ -161,6 +156,21 @@ namespace MedAPI.Controllers
                 response = Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
             return response;
+        }
+
+        [HttpGet]
+        [Route("confirm-email")]
+        public HttpResponseMessage ConfirmEmail(string id, string code)
+        {
+            try
+            {
+                var isSuccess =  userService.ConfirmEmail(id,code);
+                return Request.CreateResponse(HttpStatusCode.OK, isSuccess);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
         }
 
         [HttpPost]
@@ -265,6 +275,8 @@ namespace MedAPI.Controllers
             }
             return response;
         }
+
+
 
     }
 }

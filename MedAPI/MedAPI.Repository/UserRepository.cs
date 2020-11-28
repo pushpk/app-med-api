@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MedAPI.Domain;
+using MedAPI.Infrastructure;
 using MedAPI.Infrastructure.IRepository;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,64 @@ namespace MedAPI.Repository
 {
     public class UserRepository : IUserRepository
     {
+
+        public bool ConfirmEmail(string userId, string token)
+        {
+            int userIdInt = int.Parse(userId);
+            //var bytes = BitConverter.GetBytes(false);
+            using (var context = new DataAccess.registroclinicoEntities())
+            {
+
+                var user = context.users.Where(x => x.id == userIdInt  && x.deleted == false)
+                      .Select(x => new Domain.User
+                      {
+                          id = x.id,
+                          address = x.address,
+                          birthday = x.birthday,
+                          cellphone = x.cellphone,
+                          countryId = x.country_id,
+                          createdBy = x.createdBy,
+                          createdDate = x.createdDate,
+                          districtId = x.district_id,
+                          documentNumber = x.documentNumber,
+                          documentType = x.documentType,
+                          email = x.email,
+                          firstName = x.firstName,
+                          lastNameFather = x.lastNameFather,
+                          lastNameMother = x.lastNameFather,
+                          maritalStatus = x.maritalStatus,
+                          modifiedBy = x.modifiedBy,
+                          modifiedDate = x.modifiedDate,
+                          organDonor = x.organDonor,
+                          phone = x.phone,
+                          roleId = x.role_id,
+                          since = x.since,
+                          passwordHash = x.password_hash,
+                          role = new Role
+                          {
+                              id = x.role.id,
+                              name = x.role.name,
+                              description = x.role.description
+                          },
+                          sex = x.sex,
+                          token = x.token
+
+                      }).FirstOrDefault();
+
+                if (user != null && HashPasswordHelper.ValidatePassword(user.token.ToString(), token))
+                {
+                    var userUpdate = context.users.FirstOrDefault(x => x.id == userIdInt && x.deleted == false);
+                    userUpdate.emailConfirmed = true;
+                    context.SaveChanges();
+                    return true;
+
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
 
         public User Authenticate(string email)
         {
@@ -46,7 +105,8 @@ namespace MedAPI.Repository
                               name = x.role.name,
                               description = x.role.description
                           },
-                          sex = x.sex
+                          sex = x.sex,
+                          emailConfirmed = x.emailConfirmed
                       }).FirstOrDefault();
             }
         }
@@ -213,6 +273,7 @@ namespace MedAPI.Repository
                     efUser.createdDate = DateTime.UtcNow;
                     efUser.since = DateTime.UtcNow.Date;
                     efUser.password_hash = mUser.passwordHash;
+                    efUser.token = Guid.NewGuid();
                     context.users.Add(efUser);
                 }
                 else
@@ -259,6 +320,7 @@ namespace MedAPI.Repository
                 efUser.province_id = mUser.provinceId;
                 context.SaveChanges();
                 mUser.id = efUser.id;
+                mUser.token = efUser.token;
             }
             return mUser;
         }

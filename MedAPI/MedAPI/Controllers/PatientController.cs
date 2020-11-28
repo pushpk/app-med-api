@@ -19,13 +19,15 @@ namespace MedAPI.Controllers
         private readonly IUserService userService;
         private readonly IPatientService patientService;
         private readonly INoteService noteService;
+        private readonly IEmailService emailService;
 
 
-        public PatientController(IUserService userService, IPatientService patientService, INoteService noteService)
+        public PatientController(IUserService userService, IPatientService patientService, INoteService noteService, IEmailService emailService)
         {
             this.userService = userService;
             this.patientService = patientService;
             this.noteService = noteService;
+            this.emailService = emailService;
         }
         [HttpGet]
         [Route("patient")]
@@ -107,6 +109,10 @@ namespace MedAPI.Controllers
             try
             {
                 Domain.Patient responsePatient = CreatePatient(mPatient);
+
+                var emailConfirmationLink = Infrastructure.SecurityHelper.GetEmailConfirmatioLink(responsePatient.user, Request);
+                emailService.SendEmailAsync(responsePatient.user.email, "Confirm Email - MedAPI", $"Please click <a href='{emailConfirmationLink}' >here</a> to confirm email");
+
                 response = Request.CreateResponse(HttpStatusCode.OK, responsePatient);
             }
             catch (DbEntityValidationException e)

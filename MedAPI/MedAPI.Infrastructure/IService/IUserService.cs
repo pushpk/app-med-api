@@ -14,5 +14,6 @@ namespace MedAPI.Infrastructure.IService
         User Authenticate(string email, string password);
         User Credentials(string email);
         List<Medic> GetAllNonApprovedMedics();
+        bool ConfirmEmail(string id, string token);
     }
 }

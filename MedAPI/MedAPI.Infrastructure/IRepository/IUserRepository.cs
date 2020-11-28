@@ -12,5 +12,6 @@ namespace MedAPI.Infrastructure.IRepository
         User SaveUser(User mUser);
         User Authenticate(string email);
         List<Medic> GetAllNonApprovedMedics();
+        bool ConfirmEmail(string userId, string token);
     }
 }

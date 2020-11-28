@@ -51,6 +51,13 @@ namespace MedAPI.Service
                 return null;
             }
         }
+
+        public bool ConfirmEmail(string id, string token)
+        {
+            //var a = HashPasswordHelper.HashPassword(token);
+            return userRepository.ConfirmEmail(id, token);
+
+        }
         public User Credentials(string email)
         {
             return userRepository.Authenticate(email);

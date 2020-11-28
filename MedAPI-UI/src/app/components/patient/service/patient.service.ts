@@ -42,4 +42,19 @@ export class PatientService {
   {
     return this.httpUtilService.invoke('POST', lab, 'users/lab', null);
   }
+
+  confirmEmail(id, code)
+  {
+    const self = this;
+    const apiEndpoint = 'users/confirm-email';
+    const params1 = {
+      key: 'id',
+      value: id
+    };
+     const params2 = {
+      key: 'code',
+      value: code
+    };
+    return self.httpUtilService.invokeQueryWithTwoParams('GET', params1, params2, apiEndpoint);
+  }
 }

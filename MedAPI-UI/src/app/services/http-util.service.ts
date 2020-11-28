@@ -64,4 +64,31 @@ export class HttpUtilService {
     return promise;
   }
 
+  invokeQueryWithTwoParams(method, params1, params2, endPoint) {
+    let url = environment.apiUrl + endPoint;
+    const requestHeaders: any = {
+      'Content-Type': 'application/json',
+      Accept: 'application/json'
+    };
+
+    const headers = new HttpHeaders(requestHeaders);
+
+    if(params1 && params2)
+    {
+      url = url + '?' + params1.key + '=' + params1.value + '&' +params2.key + '=' + params2.value;
+    }
+    
+    const promise = new Promise((resolve, reject) => {
+      this.httpClient.request(method, url, { headers })
+        .toPromise()
+        .then((response: any) => {
+          return resolve(response);
+        })
+        .catch((error) => {
+          return reject(error);
+        });
+    });
+    return promise;
+  }
+
 }
