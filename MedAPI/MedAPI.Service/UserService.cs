@@ -58,6 +58,13 @@ namespace MedAPI.Service
             return userRepository.ConfirmEmail(id, token);
 
         }
+
+        public bool ResetPassword(string id, string token, string passwordHash)
+        {
+            return userRepository.UpdatePassword(id, token, passwordHash);
+
+        }
+
         public User Credentials(string email)
         {
             return userRepository.Authenticate(email);
@@ -208,5 +215,10 @@ namespace MedAPI.Service
             return userRepository.GetByEmail(email);
             
         }
+
+     
+
+
+
     }
 }

@@ -7,6 +7,7 @@ import { LabRegistrationComponent } from './components/user/lab-registration/lab
 import { MedicRegistrationComponent } from './components/user/medic-registration/medic-registration.component';
 import { NoAccessComponent } from './components/user/no-access/no-access.component';
 import { PatientRegistrationComponent } from './components/user/patient-registration/patient-registration.component';
+import { ResetPasswordComponent } from './components/user/reset-password/reset-password.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -17,6 +18,7 @@ const routes: Routes = [
   { path: 'lab-register', component : LabRegistrationComponent },
   { path: 'account-confirm', component : AccountConfirmationComponent },
   { path: 'forgot-password', component : ForgotPasswordComponent },
+  { path: 'reset-password', component : ResetPasswordComponent },
   { path: 'no-access', component : NoAccessComponent }
   //{ path: '**', redirectTo: 'login', data: { isRedirect: true } }
  ];

@@ -306,5 +306,26 @@ namespace MedAPI.Controllers
         }
 
 
+        [HttpPost]
+        [Route("reset-password")]
+        public HttpResponseMessage ResetPassowrd(UserWithIdPw user)
+        {
+            string password = Infrastructure.HashPasswordHelper.HashPassword(user.passwordHash);
+
+            try
+            {
+
+                this.userService.ResetPassword(user.id.ToString(), user.token, password);
+
+                //else user not valid
+                return Request.CreateResponse(HttpStatusCode.NotFound, "User Not Found!");
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+
     }
 }

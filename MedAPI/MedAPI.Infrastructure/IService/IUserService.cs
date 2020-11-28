@@ -16,5 +16,6 @@ namespace MedAPI.Infrastructure.IService
         List<Medic> GetAllNonApprovedMedics();
         bool ConfirmEmail(string id, string token);
         User GetUserByEmail(string email);
+        bool ResetPassword(string id, string token, string passwordHash);
     }
 }
