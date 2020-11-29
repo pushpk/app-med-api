@@ -36,6 +36,16 @@ export class AdminService {
     return self.httpUtilService.invokeQuery('GET', params,apiEndpoint);
   }
 
+  denyMedic(id : number){
+    const self = this;
+    const apiEndpoint = 'users/deny-medic';
+    const params = {
+      key: 'id',
+      value: id
+    }
+    return self.httpUtilService.invokeQuery('GET', params,apiEndpoint);
+  }
+
   
   freezeMedic(id : number){
     const self = this;

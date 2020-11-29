@@ -93,6 +93,7 @@ namespace MedAPI.Repository
                 var efMedic = context.medics.Where(m => m.id == mMedic.id).FirstOrDefault();
                 efMedic.IsFreezed = mMedic.IsFreezed;
                 efMedic.IsApproved = mMedic.IsApproved;
+                efMedic.IsDenied = mMedic.IsDenied;
 
                 context.SaveChanges();
             }

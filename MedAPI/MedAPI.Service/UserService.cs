@@ -99,6 +99,11 @@ namespace MedAPI.Service
             return userRepository.SaveUser(mUser);
         }
 
+        public bool IsUserAlreadyExist(User mUser, string cmp = null)
+        {
+            return userRepository.IsUserAlreadyExist(mUser, cmp);
+        }
+
         public UserResources GetResources()
         {
             UserResources mUserResourcesList = new UserResources();

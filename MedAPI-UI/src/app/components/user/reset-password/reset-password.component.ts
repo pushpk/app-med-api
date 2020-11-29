@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { MustMatch } from 'src/app/shared/directive/MustMatch.Validator';
 import { PatientService } from '../../patient/service/patient.service';
 
@@ -12,7 +13,7 @@ import { PatientService } from '../../patient/service/patient.service';
 export class ResetPasswordComponent implements OnInit {
   resetPasswordForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private patientService: PatientService, public router: Router,  private activatedRouter: ActivatedRoute) { }
+  constructor(private fb: FormBuilder, private patientService: PatientService, public router: Router,  private activatedRouter: ActivatedRoute, public toastr: ToastrService) { }
 
   id:string = '';
   code:string = '';
@@ -41,9 +42,12 @@ export class ResetPasswordComponent implements OnInit {
     let pwd = self.resetPasswordForm.get('password').value;
 
     this.patientService.resetPassword(this.id,this.code,pwd).then((response: any) => {
-      
+      this.toastr.success('Restablecimiento de contraseña exitosa.');
+      this.router.navigateByUrl('/login');
+
     }).catch((error: any) => {
-      
+      this.toastr.error('¡Algo salió mal! Póngase en contacto con el servicio de asistencia..');
+      this.router.navigateByUrl('/login');
    });
   }
 

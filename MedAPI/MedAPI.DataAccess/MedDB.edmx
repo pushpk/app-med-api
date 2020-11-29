@@ -146,6 +146,7 @@
           <Property Name="id" Type="bigint" Nullable="false" />
           <Property Name="IsFreezed" Type="bit" Nullable="false" />
           <Property Name="IsApproved" Type="bit" Nullable="false" />
+          <Property Name="IsDenied" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="medic_specialties">
           <Key>
@@ -1407,6 +1408,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <NavigationProperty Name="lab_upload_result" Relationship="registroclinicoModel.medic__lab_upload_result" FromRole="medic" ToRole="lab_upload_result" />
           <Property Name="IsFreezed" Type="Boolean" Nullable="false" />
           <Property Name="IsApproved" Type="Boolean" Nullable="false" />
+          <Property Name="IsDenied" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="medic_specialties">
           <Key>
@@ -2730,6 +2732,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <EntitySetMapping Name="medics">
             <EntityTypeMapping TypeName="registroclinicoModel.medic">
               <MappingFragment StoreEntitySet="medic">
+                <ScalarProperty Name="IsDenied" ColumnName="IsDenied" />
                 <ScalarProperty Name="IsApproved" ColumnName="IsApproved" />
                 <ScalarProperty Name="IsFreezed" ColumnName="IsFreezed" />
                 <ScalarProperty Name="cmp" ColumnName="cmp" />

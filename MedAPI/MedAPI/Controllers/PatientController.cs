@@ -79,9 +79,17 @@ namespace MedAPI.Controllers
             {
                 if (IsAdminPermission())
                 {
-                    Domain.Patient responsePatient = CreatePatient(mPatient);
+                    var patient = setPatientInfo(mPatient);
 
-                    response = Request.CreateResponse(HttpStatusCode.OK, responsePatient);
+                    if (userService.IsUserAlreadyExist(patient.user))
+                    {
+                        response = Request.CreateResponse(HttpStatusCode.Conflict, "User Already Exist");
+                    }
+                    else
+                    {
+                        Domain.Patient responsePatient = CreatePatient(mPatient);
+                        response = Request.CreateResponse(HttpStatusCode.OK, responsePatient);
+                    }
                 }
                 else
                 {
@@ -108,12 +116,22 @@ namespace MedAPI.Controllers
             HttpResponseMessage response = null;
             try
             {
-                Domain.Patient responsePatient = CreatePatient(mPatient);
+                var patient = setPatientInfo(mPatient);
 
-                var emailConfirmationLink = Infrastructure.SecurityHelper.GetEmailConfirmatioLink(responsePatient.user, Request);
-                emailService.SendEmailAsync(responsePatient.user.email, "Confirm Email - MedAPI", $"Please click <a href='{emailConfirmationLink}' >here</a> to confirm email");
+                if (userService.IsUserAlreadyExist(patient.user))
+                {
+                    response = Request.CreateResponse(HttpStatusCode.Conflict, "User Already Exist");
+                }
+                else
+                {
 
-                response = Request.CreateResponse(HttpStatusCode.OK, responsePatient);
+                    Domain.Patient responsePatient = CreatePatient(mPatient);
+
+                    var emailConfirmationLink = Infrastructure.SecurityHelper.GetEmailConfirmatioLink(responsePatient.user, Request);
+                    emailService.SendEmailAsync(responsePatient.user.email, "Confirm Email - MedAPI", $"Please click <a href='{emailConfirmationLink}' >here</a> to confirm email");
+
+                    response = Request.CreateResponse(HttpStatusCode.OK, responsePatient);
+                }
             }
             catch (DbEntityValidationException e)
             {

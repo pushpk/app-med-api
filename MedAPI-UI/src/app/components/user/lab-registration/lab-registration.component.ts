@@ -30,6 +30,7 @@ export class LabRegistrationComponent implements OnInit {
       this.toastr.success('Laboratorio registrado con éxito.');
       this.router.navigateByUrl('/login');
     }).catch((error) => {
+      
       console.log(error);
       this.toastr.error('Se produjo un error al crear la cuenta.');
     });

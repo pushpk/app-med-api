@@ -108,6 +108,38 @@ namespace MedAPI.Controllers
                 mMedic.IsApproved = true;
                 mMedic = medicService.UpdateMedic(mMedic);
 
+                emailService.SendEmailAsync(mMedic.user.email, "Medic Approved -  MedAPI", $"Medic Approved");
+
+                if (mMedic == null)
+                {
+                    response = Request.CreateResponse(HttpStatusCode.NotFound, "Requested entity was not found in database.");
+                }
+                else
+                {
+                    response = Request.CreateResponse(HttpStatusCode.OK, mMedic);
+                }
+            }
+            catch (Exception ex)
+            {
+                response = Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+            return response;
+        }
+
+        [HttpGet]
+        [Route("deny-medic")]
+        public HttpResponseMessage DenyMedic(long id)
+        {
+            HttpResponseMessage response = null;
+            try
+            {
+                Medic mMedic = medicService.GetMedicById(id);
+
+                mMedic.IsDenied = true;
+                mMedic = medicService.UpdateMedic(mMedic);
+
+                emailService.SendEmailAsync(mMedic.user.email, "Medic Denied -  MedAPI", $"Medic Denied");
+
                 if (mMedic == null)
                 {
                     response = Request.CreateResponse(HttpStatusCode.NotFound, "Requested entity was not found in database.");
@@ -160,6 +192,11 @@ namespace MedAPI.Controllers
         public HttpResponseMessage Create(Domain.Medic mMedic)
         {
             HttpResponseMessage response = null;
+
+            if(userService.IsUserAlreadyExist(mMedic.user, mMedic.cmp))
+            {
+                response = Request.CreateResponse(HttpStatusCode.Conflict, "User Already Exist");
+            }
             try
             {
                 mMedic = medicService.SaveMedic(mMedic);

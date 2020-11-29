@@ -242,23 +242,28 @@ namespace MedAPI.Repository
             }
         }
 
+        public bool IsUserAlreadyExist(User mUser, string cmp = null)
+        {
+            using (var context = new DataAccess.registroclinicoEntities())
+            {
+                bool emailAlreadyExist =  context.users.Any(m => m.email == mUser.email);
+                if (!emailAlreadyExist)
+                {
+                    if (mUser.roleId == 4)
+                    {
+                        return context.users.Any(m => m.documentNumber == mUser.documentNumber);
+                    }
+                    else if (mUser.roleId == 2)
+                    {
+                        return context.users.Any(m => m.documentNumber == mUser.documentNumber) || context.medics.Any(m => m.cmp== cmp);
+                    }
+                }
+                return emailAlreadyExist;
+                
+            }
+        }
         public User SaveUser(User mUser)
         {
-
-            //        firstName = '';
-            //        lastName = ''
-            //        email = '';
-            //        password = '';
-            //        confirmPassword = '';
-            //        documentNumber = '';
-            //        phone = '';
-            //    country: String = null;
-            //    department: String = null;
-            //    province: String = null;
-            //    district: String = null;
-            //    speciality: string  = '';
-            //    CMP: string = '';
-            //    RNE: string = '';
 
             using (var context = new DataAccess.registroclinicoEntities())
             {
@@ -275,6 +280,7 @@ namespace MedAPI.Repository
                     efUser.since = DateTime.UtcNow.Date;
                     efUser.password_hash = mUser.passwordHash;
                     efUser.token = Guid.NewGuid();
+                    efUser.reset_token = Guid.NewGuid();
                     context.users.Add(efUser);
                 }
                 else
@@ -332,13 +338,14 @@ namespace MedAPI.Repository
             {
                 // var abc = context.medics.Include("user").Where(s => s.user.role_id == 2 && (!s.IsApproved || s.IsFreezed)).ToList();
 
-                var abc = (from us in context.medics.Include("user").Where(s => s.user.role_id == 2).OrderBy(s => s.IsApproved)
+                var abc = (from us in context.medics.Include("user").Where(s => s.user.role_id == 2 && !s.IsDenied).OrderBy(s => s.IsApproved)
                            select new Medic()
                            {
                                cmp = us.cmp,
                                rne = us.rne,
                                IsApproved = us.IsApproved,
                                IsFreezed = us.IsFreezed,
+                               IsDenied = us.IsDenied,
                                user = new User
                                {
 

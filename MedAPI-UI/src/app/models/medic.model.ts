@@ -8,5 +8,7 @@ export class Medic  {
     rne : string = '';
     IsApproved : boolean;
     IsFreezed : boolean;
+    IsDenied : boolean;
+     
     
   }

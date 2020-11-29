@@ -27,7 +27,7 @@ export class AdminComponent implements OnInit {
   
   nonApprovedMedicsData : Medic[];
   nonApprovedMedics =  new MatTableDataSource<Medic>([]);
-  displayedColumnsUpload: string[] = ['user.firstName', 'user.lastNameFather', 'user.lastNameMother', 'rne', 'cmp', 'action', 'action2'];
+  displayedColumnsUpload: string[] = ['user.firstName', 'user.lastNameFather', 'user.lastNameMother', 'rne', 'cmp', 'action', 'action2','action3'];
 
   constructor(private adminService: AdminService, public router: Router, private changeDetectorRefs: ChangeDetectorRef, 
     private commonService : CommonService, private activatedRouter: ActivatedRoute, public toastr: ToastrService) { }
@@ -86,7 +86,24 @@ export class AdminComponent implements OnInit {
     });
     
   }
+  denyMedic(id: number){
 
+    this.adminService.denyMedic(id).then((response : Medic) => {
+      
+      this.adminService.getNonApprovedMedics().then((response : Medic[]) => {
+        //f
+        console.log(response);
+        this.nonApprovedMedicsData = response;
+        this.nonApprovedMedics.data = response;
+      }).catch((error : any) => {
+         console.log(error);
+      });
+      
+    }).catch((error : any) => {
+       console.log(error);
+    });
+    
+  }
   freezeMedic(id: number){
 
     this.adminService.freezeMedic(id).then((response : Medic) => {

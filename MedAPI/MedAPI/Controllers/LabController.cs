@@ -33,6 +33,11 @@ namespace MedAPI.Controllers
             HttpResponseMessage response = null;
             try
             {
+                if (userService.IsUserAlreadyExist(mLab.user))
+                {
+                    response = Request.CreateResponse(HttpStatusCode.Conflict, "User Already Exist");
+                }
+
                 mLab = labService.SaveLab(mLab);
 
                 var emailConfirmationLink = Infrastructure.SecurityHelper.GetEmailConfirmatioLink(mLab.user, Request);
