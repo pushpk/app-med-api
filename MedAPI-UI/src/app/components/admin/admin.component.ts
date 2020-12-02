@@ -67,19 +67,19 @@ export class AdminComponent implements OnInit {
     });
 
 
-    this.adminService.getNonApprovedLabs().then((response : LabUser[]) => {
+    // this.adminService.getNonApprovedLabs().then((response : LabUser[]) => {
       
-      this.nonApprovedLabData = response;
-      this.nonApprovedLabs.data = response;
+    //   this.nonApprovedLabData = response;
+    //   this.nonApprovedLabs.data = response;
     
       
-     // this.nonApprovedMedics.sort = this.sort;
+    //  // this.nonApprovedMedics.sort = this.sort;
 
 
 
-    }).catch((error : any) => {
-       console.log(error);
-    });
+    // }).catch((error : any) => {
+    //    console.log(error);
+    // });
 
   }
 
