@@ -10,6 +10,7 @@ import {MatPaginator} from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableFilter } from 'mat-table-filter';
 import { MedicUser } from 'src/app/models/medicuser.model';
+import { LabUser } from 'src/app/models/labUser.model';
 
 
 @Component({
@@ -29,6 +30,13 @@ export class AdminComponent implements OnInit {
   nonApprovedMedics =  new MatTableDataSource<Medic>([]);
   displayedColumnsUpload: string[] = ['user.firstName', 'user.lastNameFather', 'user.lastNameMother', 'rne', 'cmp', 'action', 'action2','action3'];
 
+
+  nonApprovedLabData : LabUser[];
+  nonApprovedLabs =  new MatTableDataSource<LabUser>([]);
+  displayedColumnsUploadLab: string[] = ['user.firstName', 'user.lastNameFather', 'user.lastNameMother', 'rne', 'cmp', 'action', 'action2','action3'];
+
+
+
   constructor(private adminService: AdminService, public router: Router, private changeDetectorRefs: ChangeDetectorRef, 
     private commonService : CommonService, private activatedRouter: ActivatedRoute, public toastr: ToastrService) { }
 
@@ -40,12 +48,10 @@ export class AdminComponent implements OnInit {
     mdc.user = usr;
     
     this.filterEntity = mdc;
-
     this.filterType = MatTableFilter.ANYWHERE;
 
     this.adminService.getNonApprovedMedics().then((response : Medic[]) => {
-      //f
-      console.log(response);
+      
       this.nonApprovedMedicsData = response;
       this.nonApprovedMedics.data = response;
       this.filterEntity = mdc;
@@ -53,6 +59,21 @@ export class AdminComponent implements OnInit {
       
       
       this.nonApprovedMedics.sort = this.sort;
+
+
+
+    }).catch((error : any) => {
+       console.log(error);
+    });
+
+
+    this.adminService.getNonApprovedLabs().then((response : LabUser[]) => {
+      
+      this.nonApprovedLabData = response;
+      this.nonApprovedLabs.data = response;
+    
+      
+     // this.nonApprovedMedics.sort = this.sort;
 
 
 
