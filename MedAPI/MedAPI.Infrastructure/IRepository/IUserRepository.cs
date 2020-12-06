@@ -15,5 +15,6 @@ namespace MedAPI.Infrastructure.IRepository
         bool ConfirmEmail(string userId, string token);
         bool UpdatePassword(string userId, string token, string password);
         bool IsUserAlreadyExist(User mUser, string cmp = null);
+        List<Lab> GetAllNonApprovedLabs();
     }
 }

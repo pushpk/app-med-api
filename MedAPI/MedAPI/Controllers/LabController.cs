@@ -186,6 +186,95 @@ namespace MedAPI.Controllers
         }
 
 
+        [HttpGet]
+        [Route("freeze-lab")]
+        public HttpResponseMessage FreezeLab(long id)
+        {
+            HttpResponseMessage response = null;
+            try
+            {
+                Lab mLab= labService.GetLab(id);
+
+                mLab.IsFreezed = !mLab.IsFreezed;
+                mLab = labService.UpdateLab(mLab);
+
+                if (mLab == null)
+                {
+                    response = Request.CreateResponse(HttpStatusCode.NotFound, "Requested entity was not found in database.");
+                }
+                else
+                {
+                    response = Request.CreateResponse(HttpStatusCode.OK, mLab);
+                }
+            }
+            catch (Exception ex)
+            {
+                response = Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+            return response;
+        }
+
+        [HttpGet]
+        [Route("approve-lab")]
+        public HttpResponseMessage AprroveLab(long id)
+        {
+            HttpResponseMessage response = null;
+            try
+            {
+                Lab mLab = labService.GetLab(id);
+
+                mLab.IsApproved = !mLab.IsFreezed;
+                mLab = labService.UpdateLab(mLab);
+
+                emailService.SendEmailAsync(mLab.user.email, "Medic Approved -  MedAPI", $"Medic Approved");
+
+                if (mLab == null)
+                {
+                    response = Request.CreateResponse(HttpStatusCode.NotFound, "Requested entity was not found in database.");
+                }
+                else
+                {
+                    response = Request.CreateResponse(HttpStatusCode.OK, mLab);
+                }
+            }
+            catch (Exception ex)
+            {
+                response = Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+            return response;
+        }
+
+        [HttpGet]
+        [Route("deny-lab")]
+        public HttpResponseMessage DenyLab(long id)
+        {
+            HttpResponseMessage response = null;
+            try
+            {
+                Lab mLab = labService.GetLab(id);
+
+                mLab.IsDenied = true;
+                mLab = labService.UpdateLab(mLab);
+
+                emailService.SendEmailAsync(mLab.user.email, "Medic Approved -  MedAPI", $"Medic Approved");
+
+                if (mLab == null)
+                {
+                    response = Request.CreateResponse(HttpStatusCode.NotFound, "Requested entity was not found in database.");
+                }
+                else
+                {
+                    response = Request.CreateResponse(HttpStatusCode.OK, mLab);
+                }
+            }
+            catch (Exception ex)
+            {
+                response = Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+            return response;
+        }
+
+
         public bool IsAdminPermission()
         {
             bool result = false;

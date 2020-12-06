@@ -251,7 +251,7 @@
         >
           <input
             matInput
-            [(ngModel)]="filterEntity.user.firstName"
+            [(ngModel)]="filterEntityLab.parentCompany"
             appearance="outline"
             placeholder="Nombre"
           />
@@ -259,7 +259,7 @@
         <mat-form-field fxFlex="15" fxFlex.xs="30" style="margin-right: 20px">
           <input
             matInput
-            [(ngModel)]="filterEntity.user.lastNameFather"
+            [(ngModel)]="filterEntityLab.labName"
             appearance="outline"
             placeholder="Apellido Paterno"
           />
@@ -267,25 +267,9 @@
         <mat-form-field fxFlex="15" fxFlex.xs="30" style="margin-right: 20px">
           <input
             matInput
-            [(ngModel)]="filterEntity.user.lastNameMother"
+            [(ngModel)]="filterEntityLab.RUC"
             appearance="outline"
             placeholder="Apellido Materno"
-          />
-        </mat-form-field>
-        <mat-form-field fxFlex="15" style="margin-right: 20px">
-          <input
-            matInput
-            [(ngModel)]="filterEntity.rne"
-            appearance="outline"
-            placeholder="RNE"
-          />
-        </mat-form-field>
-        <mat-form-field fxFlex="15" style="margin-right: 20px">
-          <input
-            matInput
-            [(ngModel)]="filterEntity.cmp"
-            appearance="outline"
-            placeholder="CMP"
           />
         </mat-form-field>
       </div>
@@ -294,35 +278,15 @@
         <mat-card-content>
           <div fxLayout="row" class="mt-24"></div>
           <mat-table
-            [dataSource]="this.nonApprovedMedics"
+            [dataSource]="this.nonApprovedLabs"
             matSort
             matTableFilter
-            [exampleEntity]="filterEntity"
+            [exampleEntity]="filterEntityLab"
             [filterType]="filterType"
           >
             <!-- Position Column -->
-            <ng-container matColumnDef="user.firstName">
-              <mat-header-cell *matHeaderCellDef mat-sort-header>
-                <div style="display: block">
-                  <!-- <mat-form-field style="width: 80%; display: flex; justify-content: space-around; text-align: center;">
-          <input
-            matInput
-            [(ngModel)]="filterEntity.user.firstName"
-            appearance="outline"
-            placeholder="Buscar Nombre"
-          />
-        </mat-form-field> -->
-                  <div style="display: flex">
-                    <span>Nombre</span>
-                  </div>
-                </div>
-              </mat-header-cell>
-              <mat-cell *matCellDef="let element">
-                {{ element.user.firstName }}
-              </mat-cell>
-            </ng-container>
 
-            <ng-container matColumnDef="user.lastNameMother">
+            <ng-container matColumnDef="parentCompany">
               <mat-header-cell *matHeaderCellDef mat-sort-header>
                 <div style="display: block">
                   <!-- <mat-form-field style="width: 80%; display: flex; justify-content: space-around; text-align: center;">
@@ -334,16 +298,16 @@
             />
           </mat-form-field> -->
                   <div style="display: flex">
-                    <span>Apellido Materno</span>
+                    <span>Compañía matriz</span>
                   </div>
                 </div>
               </mat-header-cell>
               <mat-cell *matCellDef="let element">
-                {{ element.user.lastNameMother }}
+                {{ element.parentCompany }}
               </mat-cell>
             </ng-container>
 
-            <ng-container matColumnDef="user.lastNameFather">
+            <ng-container matColumnDef="labName">
               <mat-header-cell *matHeaderCellDef mat-sort-header>
                 <div style="display: block">
                   <!-- <mat-form-field style="width: 80%; display: flex; justify-content: space-around; text-align: center;">
@@ -355,16 +319,16 @@
           />
         </mat-form-field> -->
                   <div style="display: flex">
-                    <span>Apellido Paterno</span>
+                    <span>Nombre del laboratorio</span>
                   </div>
                 </div>
               </mat-header-cell>
               <mat-cell *matCellDef="let element">
-                {{ element.user.lastNameFather }}
+                {{ element.labName }}
               </mat-cell>
             </ng-container>
 
-            <ng-container matColumnDef="rne">
+            <ng-container matColumnDef="RUC">
               <mat-header-cell *matHeaderCellDef>
                 <div style="display: block">
                   <!-- <mat-form-field style="width: 80%; display: flex; justify-content: space-around; text-align: center;">
@@ -376,30 +340,11 @@
           />
         </mat-form-field> -->
                   <div style="display: flex">
-                    <span>RNE</span>
+                    <span>RUC</span>
                   </div>
                 </div>
               </mat-header-cell>
-              <mat-cell *matCellDef="let element"> {{ element.rne }} </mat-cell>
-            </ng-container>
-
-            <ng-container matColumnDef="cmp">
-              <mat-header-cell *matHeaderCellDef>
-                <div style="display: block">
-                  <!-- <mat-form-field style="width: 80%; display: flex; justify-content: space-around; text-align: center;">
-          <input
-            matInput
-            [(ngModel)]="filterEntity.cmp"
-            appearance="outline"
-            placeholder="Buscar CMP"
-          />
-        </mat-form-field> -->
-                  <div style="display: flex">
-                    <span>CMP</span>
-                  </div>
-                </div>
-              </mat-header-cell>
-              <mat-cell *matCellDef="let element"> {{ element.cmp }} </mat-cell>
+              <mat-cell *matCellDef="let element"> {{ element.RUC }} </mat-cell>
             </ng-container>
 
             <ng-container matColumnDef="action">
@@ -447,10 +392,10 @@
             </ng-container>
 
             <mat-header-row
-              *matHeaderRowDef="displayedColumnsUpload"
+              *matHeaderRowDef="displayedColumnsUploadLab"
             ></mat-header-row>
             <mat-row
-              *matRowDef="let row; columns: displayedColumnsUpload"
+              *matRowDef="let row; columns: displayedColumnsUploadLab"
             ></mat-row>
           </mat-table>
 

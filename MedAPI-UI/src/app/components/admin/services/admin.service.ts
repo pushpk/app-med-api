@@ -9,6 +9,7 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class AdminService {
+  
   public patientId: BehaviorSubject<any> = new BehaviorSubject('');
   public ticketNumber: BehaviorSubject<any> = new BehaviorSubject('');
   public selectedSpecialty: BehaviorSubject<string> = new BehaviorSubject('');
@@ -24,6 +25,14 @@ export class AdminService {
     
     return self.httpUtilService.invokeQuery('GET', null,apiEndpoint);
   }
+
+  getNonApprovedLabs(){
+    const self = this;
+    const apiEndpoint = 'users/not-approved-labs';
+    
+    return self.httpUtilService.invokeQuery('GET', null,apiEndpoint);
+  }
+
 
   
   approveMedic(id : number){

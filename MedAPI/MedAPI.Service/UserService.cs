@@ -215,6 +215,11 @@ namespace MedAPI.Service
             return userRepository.GetAllNonApprovedMedics();
         }
 
+        public List<Lab> GetAllNonApprovedLabs()
+        {
+            return userRepository.GetAllNonApprovedLabs();
+        }
+
         public User GetUserByEmail(string email)
         {
             return userRepository.GetByEmail(email);

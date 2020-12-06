@@ -22,7 +22,8 @@ namespace MedAPI.Domain
         public long userId { get; set; }
 
         public User user { get; set; }
-
-        
+        public bool IsApproved { get; set; }
+        public bool IsFreezed { get; set; }
+        public bool IsDenied { get; set; }
     }
 }

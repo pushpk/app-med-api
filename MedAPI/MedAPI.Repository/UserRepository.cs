@@ -338,7 +338,7 @@ namespace MedAPI.Repository
             {
                 // var abc = context.medics.Include("user").Where(s => s.user.role_id == 2 && (!s.IsApproved || s.IsFreezed)).ToList();
 
-                var abc = (from us in context.medics.Include("user").Where(s => s.user.role_id == 2 && !s.IsDenied).OrderBy(s => s.IsApproved)
+                var abc = (from us in context.medics.Include("user").Where(s => s.user.role_id == 2  && !s.IsDenied).OrderBy(s => s.IsApproved)
                            select new Medic()
                            {
                                cmp = us.cmp,
@@ -382,6 +382,59 @@ namespace MedAPI.Repository
                 return abc;
             }
         }
+
+        public List<Lab> GetAllNonApprovedLabs()
+        {
+            using (var context = new DataAccess.registroclinicoEntities())
+            {
+                // var abc = context.medics.Include("user").Where(s => s.user.role_id == 2 && (!s.IsApproved || s.IsFreezed)).ToList();
+
+                var abc = (from us in context.labs.Include("user").Where(s => s.user.role_id == 5 && !s.IsDenied).OrderBy(s => s.IsApproved)
+                           select new Lab()
+                           {
+                              parentCompany = us.parentCompany,
+                               labName = us.labName,
+                               ruc = us.ruc,
+                               IsApproved = us.IsApproved,
+                               IsFreezed = us.IsFreezed,
+                               IsDenied = us.IsDenied,
+                               user = new User
+                               {
+
+                                   id = us.user.id,
+                                   address = us.user.address,
+                                   birthday = us.user.birthday,
+                                   cellphone = us.user.cellphone,
+                                   createdBy = us.user.createdBy,
+                                   createdDate = us.user.createdDate,
+                                   deletable = us.user.deletable,
+                                   deleted = us.user.deleted,
+                                   documentNumber = us.user.documentNumber,
+                                   documentType = us.user.documentType,
+                                   email = us.user.email,
+                                   firstName = us.user.firstName,
+                                   lastNameFather = us.user.lastNameFather,
+                                   lastNameMother = us.user.lastNameMother,
+                                   maritalStatus = us.user.maritalStatus,
+                                   modifiedBy = us.user.modifiedBy,
+                                   modifiedDate = us.user.modifiedDate,
+                                   organDonor = us.user.organDonor,
+                                   passwordHash = us.user.password_hash,
+                                   phone = us.user.phone,
+                                   sex = us.user.sex,
+                                   since = us.user.since,
+                                   countryId = us.user.country_id,
+                                   districtId = us.user.district_id,
+                                   roleId = us.user.role_id,
+
+                               }
+
+                           }).ToList();
+
+                return abc;
+            }
+        }
+
 
 
         public bool UpdatePassword(string userId, string token, string passwordHash)

@@ -24,6 +24,7 @@ export class AdminComponent implements OnInit {
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   filterType: MatTableFilter;
   filterEntity: Medic;
+  filterEntityLab: LabUser;
 
   
   nonApprovedMedicsData : Medic[];
@@ -33,7 +34,7 @@ export class AdminComponent implements OnInit {
 
   nonApprovedLabData : LabUser[];
   nonApprovedLabs =  new MatTableDataSource<LabUser>([]);
-  displayedColumnsUploadLab: string[] = ['user.firstName', 'user.lastNameFather', 'user.lastNameMother', 'rne', 'cmp', 'action', 'action2','action3'];
+  displayedColumnsUploadLab: string[] = ['parentCompany', 'labName', 'RUC', 'action', 'action2','action3'];
 
 
 
@@ -49,6 +50,14 @@ export class AdminComponent implements OnInit {
     
     this.filterEntity = mdc;
     this.filterType = MatTableFilter.ANYWHERE;
+
+    var usrLab = new MedicUser();
+    var lb = new LabUser();
+    lb.user = usrLab;
+    
+    this.filterEntityLab = lb;
+    this.filterType = MatTableFilter.ANYWHERE;
+
 
     this.adminService.getNonApprovedMedics().then((response : Medic[]) => {
       
@@ -67,19 +76,21 @@ export class AdminComponent implements OnInit {
     });
 
 
-    // this.adminService.getNonApprovedLabs().then((response : LabUser[]) => {
+    this.adminService.getNonApprovedLabs().then((response : LabUser[]) => {
       
-    //   this.nonApprovedLabData = response;
-    //   this.nonApprovedLabs.data = response;
+      this.nonApprovedLabData = response;
+      this.nonApprovedLabs.data = response;
     
+      this.filterEntityLab = lb;
+      this.filterType = MatTableFilter.ANYWHERE;
       
-    //  // this.nonApprovedMedics.sort = this.sort;
+     // this.nonApprovedMedics.sort = this.sort;
 
 
 
-    // }).catch((error : any) => {
-    //    console.log(error);
-    // });
+    }).catch((error : any) => {
+       console.log(error);
+    });
 
   }
 
@@ -94,8 +105,7 @@ export class AdminComponent implements OnInit {
     this.adminService.approveMedic(id).then((response : Medic) => {
       
       this.adminService.getNonApprovedMedics().then((response : Medic[]) => {
-        //f
-        console.log(response);
+        
         this.nonApprovedMedicsData = response;
         this.nonApprovedMedics.data = response;
       }).catch((error : any) => {
@@ -112,8 +122,7 @@ export class AdminComponent implements OnInit {
     this.adminService.denyMedic(id).then((response : Medic) => {
       
       this.adminService.getNonApprovedMedics().then((response : Medic[]) => {
-        //f
-        console.log(response);
+        
         this.nonApprovedMedicsData = response;
         this.nonApprovedMedics.data = response;
       }).catch((error : any) => {

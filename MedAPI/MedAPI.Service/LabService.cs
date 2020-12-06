@@ -26,6 +26,8 @@ namespace MedAPI.Service
             return labRepository.GetAllUploadsByPatient(patientId);
         }
 
+     
+
         public LabUploadResult GetTestResultById(int id)
         {
             return labRepository.GetTestResultById(id);
@@ -52,6 +54,16 @@ namespace MedAPI.Service
         {
             labRepository.SaveUploadedFile(mLabUploadResult);
             return mLabUploadResult;
+        }
+
+        public Lab GetLab(long id)
+        {
+            return labRepository.GetLab(id);
+        }
+
+        public Lab UpdateLab(Lab mLab)
+        {
+            return labRepository.UpdateLab(mLab);
         }
     }
 

@@ -18,5 +18,6 @@ namespace MedAPI.Infrastructure.IService
         User GetUserByEmail(string email);
         bool ResetPassword(string id, string token, string passwordHash);
         bool IsUserAlreadyExist(User mUser, string cmp = null);
+        List<Lab> GetAllNonApprovedLabs();
     }
 }

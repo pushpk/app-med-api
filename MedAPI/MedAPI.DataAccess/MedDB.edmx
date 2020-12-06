@@ -123,6 +123,9 @@
           <Property Name="parentCompany" Type="nvarchar" MaxLength="255" />
           <Property Name="labName" Type="nvarchar" MaxLength="255" />
           <Property Name="ruc" Type="bigint" Nullable="false" />
+          <Property Name="IsFreezed" Type="bit" Nullable="false" />
+          <Property Name="IsApproved" Type="bit" Nullable="false" />
+          <Property Name="IsDenied" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="lab_upload_result">
           <Key>
@@ -2496,6 +2499,9 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <Property Name="ruc" Type="Int64" Nullable="false" />
           <NavigationProperty Name="user" Relationship="registroclinicoModel.user__labs" FromRole="lab" ToRole="user" />
           <NavigationProperty Name="lab_upload_result" Relationship="registroclinicoModel.lab__lab_upload_result" FromRole="lab" ToRole="lab_upload_result" />
+          <Property Name="IsFreezed" Type="Boolean" Nullable="false" />
+          <Property Name="IsApproved" Type="Boolean" Nullable="false" />
+          <Property Name="IsDenied" Type="Boolean" Nullable="false" />
         </EntityType>
         <Association Name="user__labs">
           <End Type="registroclinicoModel.user" Role="user" Multiplicity="1" />
@@ -3094,6 +3100,9 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <EntitySetMapping Name="labs">
             <EntityTypeMapping TypeName="registroclinicoModel.lab">
               <MappingFragment StoreEntitySet="lab">
+                <ScalarProperty Name="IsDenied" ColumnName="IsDenied" />
+                <ScalarProperty Name="IsApproved" ColumnName="IsApproved" />
+                <ScalarProperty Name="IsFreezed" ColumnName="IsFreezed" />
                 <ScalarProperty Name="ruc" ColumnName="ruc" />
                 <ScalarProperty Name="labName" ColumnName="labName" />
                 <ScalarProperty Name="parentCompany" ColumnName="parentCompany" />

@@ -56,6 +56,23 @@ namespace MedAPI.Controllers
         }
 
         [HttpGet]
+        [Route("not-approved-labs")]
+        public HttpResponseMessage GetAllNonApprovedLabs()
+        {
+            HttpResponseMessage response = null;
+            try
+            {
+                response = Request.CreateResponse(HttpStatusCode.OK, userService.GetAllNonApprovedLabs());
+            }
+            catch (Exception ex)
+            {
+                response = Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+            return response;
+        }
+
+
+        [HttpGet]
         [Route("users/{id:int}")]
         public HttpResponseMessage Show(long id)
         {

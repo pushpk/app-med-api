@@ -38,6 +38,7 @@ namespace MedAPI.Repository
             }
         }
 
+
         public LabUploadResult GetTestResultById(int id)
         {
             using (var context = new DataAccess.registroclinicoEntities())
@@ -101,6 +102,38 @@ namespace MedAPI.Repository
 
                 return labResult.id;
 
+            }
+        }
+
+        public Lab GetLab(long id)
+        {
+            using (var context = new DataAccess.registroclinicoEntities())
+            {
+                return context.labs.Where(x => x.id == id)
+                   .Select(x => new Lab()
+                   {
+                       id = x.id,
+                       ruc = x.ruc,
+                       parentCompany = x.parentCompany,
+                       labName = x.labName,
+                       IsApproved = x.IsApproved,
+                       IsFreezed = x.IsFreezed,
+                       IsDenied = x.IsDenied
+                   }).FirstOrDefault();
+            }
+        }
+        public Lab UpdateLab(Lab mLab)
+        {
+            using (var context = new DataAccess.registroclinicoEntities())
+            {
+                var efLab = context.labs.Where(m => m.id == mLab.id).FirstOrDefault();
+                efLab.IsFreezed = mLab.IsFreezed;
+                efLab.IsApproved = mLab.IsApproved;
+                efLab.IsDenied = mLab.IsDenied;
+
+                context.SaveChanges();
+
+                return mLab;
             }
         }
     }
