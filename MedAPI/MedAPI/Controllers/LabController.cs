@@ -223,7 +223,7 @@ namespace MedAPI.Controllers
             {
                 Lab mLab = labService.GetLab(id);
 
-                mLab.IsApproved = !mLab.IsFreezed;
+                mLab.IsApproved = true;
                 mLab = labService.UpdateLab(mLab);
 
                 emailService.SendEmailAsync(mLab.user.email, "Medic Approved -  MedAPI", $"Medic Approved");

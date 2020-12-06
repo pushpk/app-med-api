@@ -109,7 +109,7 @@ namespace MedAPI.Repository
         {
             using (var context = new DataAccess.registroclinicoEntities())
             {
-                return context.labs.Where(x => x.id == id)
+                return context.labs.Where(x => x.user_id == id)
                    .Select(x => new Lab()
                    {
                        id = x.id,
