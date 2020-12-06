@@ -355,7 +355,7 @@
                   type="button"
                   color="primary"
                   [disabled]="element.IsApproved"
-                  (click)="approveeMedic(element.user.id)"
+                  (click)="approveeLab(element.user.id)"
                 >
                   Aprobar
                 </button>
@@ -369,7 +369,7 @@
                   type="button"
                   color="primary"
                   [disabled]="element.IsDenied"
-                  (click)="denyMedic(element.user.id)"
+                  (click)="denyLab(element.user.id)"
                 >
                   Negar
                 </button>
@@ -383,7 +383,7 @@
                   mat-button
                   type="button"
                   color="primary"
-                  (click)="freezeMedic(element.user.id)"
+                  (click)="freezeLab(element.user.id)"
                   [disabled]="!element.IsApproved"
                 >
                   {{ element.IsFreezed ? "Descongelar" : "Congelar" }}
