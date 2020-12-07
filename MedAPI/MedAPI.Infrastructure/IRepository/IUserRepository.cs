@@ -12,7 +12,7 @@ namespace MedAPI.Infrastructure.IRepository
         User SaveUser(User mUser);
         User Authenticate(string email);
         List<Medic> GetAllNonApprovedMedics();
-        bool ConfirmEmail(string userId, string token);
+        User ConfirmEmail(string userId, string token);
         bool UpdatePassword(string userId, string token, string password);
         bool IsUserAlreadyExist(User mUser, string cmp = null);
         List<Lab> GetAllNonApprovedLabs();

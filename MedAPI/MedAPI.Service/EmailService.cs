@@ -6,33 +6,30 @@ using SendGrid.Helpers.Mail;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Configuration;
-
-
+using static MedAPI.Infrastructure.EmailHelper;
 
 namespace MedAPI.Service
 {
     public class EmailService : IEmailService
     {
+        public string GetEmailBody(EmailPurpose purpose, string link = null)
+        {
+            switch (purpose)
+            {
+                case EmailPurpose.EmailVerification:
+                    return $"Estimado cliente, <br /><br />Gracias por registrase con Solidarity Medical! Necesitamos verificar su cuenta de correo electrónico antes de continuar con la apertura de su cuenta. Por favor  <a href='{link}' >haga click </a>en el vínculo a continuación para verificar su email: <br/><br/>                     http://… <br /><br />Si usted no ha intentado registrarse con nosotros, por favor contáctenos a admin@solidaritymedical.net.< br />< br />                        Muchas gracias!Esperamos que disfrute de nuestros servicios<br />< br />Solidarity Medical < br />< br />";
+                 case EmailPurpose.ForgotPassword:
+                    return $"Estimado cliente,<br /><br />Hemos recibido una solicitud para restablecer su contraseña. Si usted mandó esta solicitud, por favor <a href='{link}' >haga click </a> en el enlace siguiente para escoger una nueva contraseña:< br />< br />http://<br /><br />Si no ha sido usted, por favor contáctenos a admin @solidaritymedical.net.< br />< br />Muchas gracias,< br />< br />Solidarity Medical < br />< br />";
+                case EmailPurpose.ApproveAccount:
+                    return $"Estimado cliente,<br /><br />Felicitaciones, su cuenta ha sido aprobada! Ahora podrá disfrutar de nuestros servicios.<br /><br />Muchas gracias,<br /><br />Solidarity Medical.<br /><br />";
+                case EmailPurpose.DenyAccount:
+                    return $"Estimado cliente,<br /><br />Lamentamos avisarle que su aplicación no ha sido aceptada por nuestros administradores. Si desea refutar esta decisión o proveer alguna información adicional, por favor contáctenos a admin@solidaritymedical.net";
+                default:
+                    return string.Empty;
+            }
+        }
 
-        //public string SendEmail()
-        //{
-        //    string subject = "Amazon SES test (SMTP interface accessed using Java)";
-        //    string body = "This email was sent through the Amazon SES SMTP interface by using Java.";
-
-        //    List<string> to = new List<string>();
-        //    to.Add("aldo.roman.nurena@gmail.com");
-
-        //    SendMailHelper sendMailHelper = new SendMailHelper();
-        //    sendMailHelper.Send(subject, body, to);
-        //    return "Email sent.";
-        //}
-        //private readonly IOptions<SendgridSettings> _settings;
-
-        //public EmailService(IOptions<SendgridSettings> settings)
-        //{
-        //    _settings = settings;
-        //}
-
+       
         public async Task SendEmailAsync(string email, string subject, string body)
         {
             //SmtpServer.Host = ConfigurationManager.AppSettings.Get("HOST");

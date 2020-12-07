@@ -11,7 +11,7 @@ namespace MedAPI.Repository
     public class UserRepository : IUserRepository
     {
 
-        public bool ConfirmEmail(string userId, string token)
+        public User ConfirmEmail(string userId, string token)
         {
             int userIdInt = int.Parse(userId);
             //var bytes = BitConverter.GetBytes(false);
@@ -59,12 +59,12 @@ namespace MedAPI.Repository
                     var userUpdate = context.users.FirstOrDefault(x => x.id == userIdInt && x.deleted == false);
                     userUpdate.emailConfirmed = true;
                     context.SaveChanges();
-                    return true;
+                    return user;
 
                 }
                 else
                 {
-                    return false;
+                    return null;
                 }
             }
         }

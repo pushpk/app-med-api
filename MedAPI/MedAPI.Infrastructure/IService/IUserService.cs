@@ -14,7 +14,7 @@ namespace MedAPI.Infrastructure.IService
         User Authenticate(string email, string password);
         User Credentials(string email);
         List<Medic> GetAllNonApprovedMedics();
-        bool ConfirmEmail(string id, string token);
+        User ConfirmEmail(string id, string token);
         User GetUserByEmail(string email);
         bool ResetPassword(string id, string token, string passwordHash);
         bool IsUserAlreadyExist(User mUser, string cmp = null);

@@ -33,7 +33,44 @@ namespace MedAPI.Repository
                        cmp = x.cmp,
                        rne = x.rne, 
                        IsApproved = x.IsApproved,
-                       IsFreezed = x.IsFreezed
+                       IsFreezed = x.IsFreezed,
+                       user = new User
+                       {
+
+                           id = x.user.id,
+                           address = x.user.address,
+                           birthday = x.user.birthday,
+                           cellphone = x.user.cellphone,
+                           countryId = x.user.country_id,
+                           deleted = x.user.deleted,
+                           createdBy = x.user.createdBy,
+                           createdDate = x.user.createdDate,
+                           districtId = x.user.district_id,
+                           departmentId = x.user.department_id,
+                           provinceId = x.user.province_id,
+                           documentNumber = x.user.documentNumber,
+                           documentType = x.user.documentType,
+                           email = x.user.email,
+                           firstName = x.user.firstName,
+                           lastNameFather = x.user.lastNameFather,
+                           lastNameMother = x.user.lastNameMother,
+                           maritalStatus = x.user.maritalStatus,
+                           modifiedBy = x.user.modifiedBy,
+                           modifiedDate = x.user.modifiedDate,
+                           organDonor = x.user.organDonor,
+                           phone = x.user.phone,
+                           roleId = x.user.role_id,
+                           since = x.user.since,
+                           passwordHash = x.user.password_hash,
+                           role = new Role
+                           {
+                               id = x.user.role.id,
+                               name = x.user.role.name,
+                               description = x.user.role.description
+                           },
+                           sex = x.user.sex
+
+                       }
                    }).FirstOrDefault();
             }
         }

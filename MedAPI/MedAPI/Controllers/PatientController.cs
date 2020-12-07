@@ -10,6 +10,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web;
 using System.Web.Http;
+using static MedAPI.Infrastructure.EmailHelper;
 
 namespace MedAPI.Controllers
 {
@@ -128,7 +129,8 @@ namespace MedAPI.Controllers
                     Domain.Patient responsePatient = CreatePatient(mPatient);
 
                     var emailConfirmationLink = Infrastructure.SecurityHelper.GetEmailConfirmatioLink(responsePatient.user, Request);
-                    emailService.SendEmailAsync(responsePatient.user.email, "Confirm Email - MedAPI", $"Please click <a href='{emailConfirmationLink}' >here</a> to confirm email");
+                    var emailBody = emailService.GetEmailBody(EmailPurpose.EmailVerification, emailConfirmationLink);
+                    emailService.SendEmailAsync(responsePatient.user.email, "Confirm Email - MedAPI", emailBody);
 
                     response = Request.CreateResponse(HttpStatusCode.OK, responsePatient);
                 }

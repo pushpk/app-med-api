@@ -7,6 +7,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Cors;
+using static MedAPI.Infrastructure.EmailHelper;
 
 namespace MedAPI.Controllers
 {
@@ -15,11 +16,13 @@ namespace MedAPI.Controllers
     {
         private readonly IUserService userService;
         private readonly IEmailService emailService;
+        private readonly IMedicService medicService;
 
-        public UserController(IUserService userService, IEmailService emailService)
+        public UserController(IUserService userService, IEmailService emailService, IMedicService medicService)
         {
             this.userService = userService;
             this.emailService = emailService;
+            this.medicService = medicService;
         }
 
         [HttpGet]
@@ -202,17 +205,21 @@ namespace MedAPI.Controllers
                     {
                         permissions = ctx.role_permissions.Where(s => s.Role_id == mUser.roleId).Select(s => s.permissions).ToArray();
 
-                        var medic = ctx.medics.FirstOrDefault(s => s.id == mUser.id);
+                        var medic = this.medicService.GetMedicById(mUser.id);
 
                         if (mUser.roleId == 2)
                         {
+                            
+
                             response = Request.CreateResponse(HttpStatusCode.OK, new { id = mUser.id,
                                 role = mUser.roleId,
                                 docNumber = mUser.documentNumber,
                                 name = $"{mUser.firstName} {mUser.lastNameFather} {mUser.lastNameMother}",
                                 permissions = permissions,
                                 IsApproved = medic.IsApproved,
-                                IsFreezed = medic.IsFreezed
+                                IsFreezed = medic.IsFreezed,
+                                cmp = medic.cmp,
+                                rne= medic.rne
                             });
                         }
                         else
@@ -286,8 +293,8 @@ namespace MedAPI.Controllers
         {
             try
             {
-                var isSuccess = userService.ConfirmEmail(id, code);
-                return Request.CreateResponse(HttpStatusCode.OK, isSuccess);
+                var user = userService.ConfirmEmail(id, code);
+                return Request.CreateResponse(HttpStatusCode.OK, user);
             }
             catch (Exception ex)
             {
@@ -306,7 +313,8 @@ namespace MedAPI.Controllers
                 if (user != null)
                 {
                     var passwordResetLink = Infrastructure.SecurityHelper.GetPasswordResetLink(user, Request);
-                    emailService.SendEmailAsync(user.email, "Password Reset Link - MedAPI", $"Please click <a href='{passwordResetLink}' >here</a> to reset password");
+                    var emailBody = emailService.GetEmailBody(EmailPurpose.ForgotPassword, passwordResetLink);
+                    emailService.SendEmailAsync(user.email, "Password Reset Link - MedAPI", emailBody);
 
 
                     //if user valid - generate and send a link

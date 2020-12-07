@@ -7,6 +7,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web;
 using System.Web.Http;
+using static MedAPI.Infrastructure.EmailHelper;
 
 namespace MedAPI.Controllers
 {
@@ -107,8 +108,8 @@ namespace MedAPI.Controllers
 
                 mMedic.IsApproved = true;
                 mMedic = medicService.UpdateMedic(mMedic);
-
-                emailService.SendEmailAsync(mMedic.user.email, "Medic Approved -  MedAPI", $"Medic Approved");
+                var emailBody = emailService.GetEmailBody(EmailPurpose.ApproveAccount);
+                emailService.SendEmailAsync(mMedic.user.email, "Medic Approved -  MedAPI", emailBody);
 
                 if (mMedic == null)
                 {
@@ -137,8 +138,8 @@ namespace MedAPI.Controllers
 
                 mMedic.IsDenied = true;
                 mMedic = medicService.UpdateMedic(mMedic);
-
-                emailService.SendEmailAsync(mMedic.user.email, "Medic Denied -  MedAPI", $"Medic Denied");
+                var emailBody = emailService.GetEmailBody(EmailPurpose.DenyAccount);
+                emailService.SendEmailAsync(mMedic.user.email, "Medic Denied -  MedAPI", emailBody);
 
                 if (mMedic == null)
                 {
@@ -193,24 +194,28 @@ namespace MedAPI.Controllers
         {
             HttpResponseMessage response = null;
 
-            if(userService.IsUserAlreadyExist(mMedic.user, mMedic.cmp))
+            if (userService.IsUserAlreadyExist(mMedic.user, mMedic.cmp))
             {
                 response = Request.CreateResponse(HttpStatusCode.Conflict, "User Already Exist");
             }
-            try
+            else
             {
-                mMedic = medicService.SaveMedic(mMedic);
+                try
+                {
+                    mMedic = medicService.SaveMedic(mMedic);
 
-                var emailConfirmationLink = Infrastructure.SecurityHelper.GetEmailConfirmatioLink(mMedic.user, Request);
-                emailService.SendEmailAsync(mMedic.user.email, "Confirm Email - MedAPI", $"Please click <a href='{emailConfirmationLink}' >here</a> to confirm email");
+                    var emailConfirmationLink = Infrastructure.SecurityHelper.GetEmailConfirmatioLink(mMedic.user, Request);
+                    var emailBody = emailService.GetEmailBody(EmailPurpose.EmailVerification, emailConfirmationLink);
+                    emailService.SendEmailAsync(mMedic.user.email, "Confirm Email - MedAPI", emailBody);
 
-                response = Request.CreateResponse(HttpStatusCode.OK, mMedic);
-               
+                    response = Request.CreateResponse(HttpStatusCode.OK, mMedic);
 
-            }
-            catch (Exception ex)
-            {
-                response = Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+
+                }
+                catch (Exception ex)
+                {
+                    response = Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+                }
             }
             return response;
         }

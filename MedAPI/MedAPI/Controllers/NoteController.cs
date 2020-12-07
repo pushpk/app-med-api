@@ -281,6 +281,7 @@ namespace MedAPI.Controllers
             {
                 note.createdBy = Convert.ToString(userData.id);
                 note.createdDate = DateTime.Now;
+                note.medicId = userData.id;
             }
             note.deleted = false;
             note.diagnosis = mNote.diagnosis.observations;

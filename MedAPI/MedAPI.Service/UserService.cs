@@ -52,7 +52,7 @@ namespace MedAPI.Service
             }
         }
 
-        public bool ConfirmEmail(string id, string token)
+        public User ConfirmEmail(string id, string token)
         {
             //var a = HashPasswordHelper.HashPassword(token);
             return userRepository.ConfirmEmail(id, token);

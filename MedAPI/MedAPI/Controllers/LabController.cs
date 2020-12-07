@@ -9,6 +9,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Web;
 using System.Web.Http;
+using static MedAPI.Infrastructure.EmailHelper;
 
 namespace MedAPI.Controllers
 {
@@ -39,9 +40,10 @@ namespace MedAPI.Controllers
                 }
 
                 mLab = labService.SaveLab(mLab);
-
+                
                 var emailConfirmationLink = Infrastructure.SecurityHelper.GetEmailConfirmatioLink(mLab.user, Request);
-                emailService.SendEmailAsync(mLab.user.email, "Confirm Email - MedAPI", $"Please click <a href='{emailConfirmationLink}' >here</a> to confirm email");
+                var emailBody = emailService.GetEmailBody(EmailPurpose.EmailVerification, emailConfirmationLink);
+                emailService.SendEmailAsync(mLab.user.email, "Confirm Email - MedAPI", emailBody);
 
                 response = Request.CreateResponse(HttpStatusCode.OK, mLab);
                 //if (IsAdminPermission())
@@ -226,7 +228,8 @@ namespace MedAPI.Controllers
                 mLab.IsApproved = true;
                 mLab = labService.UpdateLab(mLab);
 
-                emailService.SendEmailAsync(mLab.user.email, "Medic Approved -  MedAPI", $"Medic Approved");
+                var emailBody = emailService.GetEmailBody(EmailPurpose.ApproveAccount);
+                emailService.SendEmailAsync(mLab.user.email, "Medic Approved -  MedAPI", emailBody);
 
                 if (mLab == null)
                 {
@@ -255,8 +258,8 @@ namespace MedAPI.Controllers
 
                 mLab.IsDenied = true;
                 mLab = labService.UpdateLab(mLab);
-
-                emailService.SendEmailAsync(mLab.user.email, "Medic Approved -  MedAPI", $"Medic Approved");
+                var emailBody = emailService.GetEmailBody(EmailPurpose.DenyAccount);
+                emailService.SendEmailAsync(mLab.user.email, "Medic Denied -  MedAPI", emailBody);
 
                 if (mLab == null)
                 {

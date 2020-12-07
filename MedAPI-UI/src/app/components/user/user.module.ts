@@ -15,6 +15,7 @@ import { NoAccessComponent } from './no-access/no-access.component';
 import { AccountConfirmationComponent } from './account-confirmation/account-confirmation.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { EmailNotConfirmedComponent } from './email-not-confirmed/email-not-confirmed.component';
 
 const routes: Routes = [
   {
@@ -30,7 +31,7 @@ const routes: Routes = [
 
 
 @NgModule({
-  declarations: [LoginComponent, LogoutComponent, MedicRegistrationComponent, MustMatchDirective, PatientRegistrationComponent, LabRegistrationComponent, NoAccessComponent, AccountConfirmationComponent, ForgotPasswordComponent, ResetPasswordComponent],
+  declarations: [LoginComponent, LogoutComponent, MedicRegistrationComponent, MustMatchDirective, PatientRegistrationComponent, LabRegistrationComponent, NoAccessComponent, AccountConfirmationComponent, ForgotPasswordComponent, ResetPasswordComponent, EmailNotConfirmedComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
