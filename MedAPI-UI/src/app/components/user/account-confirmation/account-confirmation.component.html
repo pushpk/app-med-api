@@ -1,8 +1,58 @@
 <div>
-<div class="alert alert-success" *ngIf="this.confirmSuccess">
-    Email is Confimed, Please click <a href="/login">here</a> to login
-</div>
-<div class="alert alert-warning" *ngIf="!this.confirmSuccess">
-    Something went wrong! please contact us!
-</div>
+  <div class="alert alert-success" *ngIf="this.confirmSuccess">
+    <div class="alert alert-success" *ngIf="this.showMedic">
+      <mat-card class="no-pad">
+        <mat-card-content>
+          <div fxLayout="row" class="mt-24">
+            <div>
+              Estimado cliente,<br /><br />
+
+              Su correo electrónico ha sido verificado satisfactoriamente.
+              Nuestros administradores están revisando su información. Este
+              proceso puede demorar hasta 24 horas. Le mandaremos un correo
+              electrónico cuando su cuenta este habilitada para que pueda
+              comenzar a disfrutar de nuestros servicios.
+              <br /><br />
+
+              Muchas gracias,<br /><br />
+
+              Solidarity Medical<br /><br />
+
+              <div>Please click <a href="/login">here</a> to login</div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+
+  <div class="alert alert-success" *ngIf="!this.showMedic">
+    <mat-card class="no-pad">
+      <mat-card-content>
+        <div fxLayout="row" class="mt-24">
+          <div>
+            Estimado cliente, <br /><br />
+
+            Bienvenido a Solidarity Medical! Su correo electrónico ha sido
+            verificado. Ahora podrá disfrutar de nuestros servicios.
+            <br /><br />
+
+            Solidarity Medical<br /><br />
+
+            <div>Please click <a href="/login">here</a> to login</div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div class="alert alert-warning" *ngIf="!this.confirmSuccess">
+    <mat-card class="no-pad">
+      <mat-card-content>
+        <div fxLayout="row" class="mt-24">
+          <div>Something went wrong! please contact us!</div>
+        </div>
+      </mat-card-content></mat-card
+    >
+  </div>
 </div>

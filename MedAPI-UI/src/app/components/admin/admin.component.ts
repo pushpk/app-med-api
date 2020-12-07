@@ -105,6 +105,9 @@ export class AdminComponent implements OnInit {
   ngAfterViewInit() {
     this.nonApprovedMedics.paginator = this.paginator;
     this.nonApprovedMedics.sort = this.sort;
+
+    this.nonApprovedLabs.paginator = this.paginator;
+    this.nonApprovedLabs.sort = this.sort;
   }
 
   approveeMedic(id: number) {
