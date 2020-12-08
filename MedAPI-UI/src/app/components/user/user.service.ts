@@ -27,18 +27,23 @@ export class UserService {
           permissions: string[];
           IsApproved: boolean;
           IsFreezed: boolean;
+          message: string;
         }) => {
-          // console.log(response);
-          self.user = new User(
-            response.id,
-            response.name,
-            response.role,
-            response.docNumber,
-            response.permissions,
-            response.IsApproved,
-            response.IsFreezed
-          );
-          return self.user;
+          if (response.message) {
+            return response.message;
+          } else {
+            // console.log(response);
+            self.user = new User(
+              response.id,
+              response.name,
+              response.role,
+              response.docNumber,
+              response.permissions,
+              response.IsApproved,
+              response.IsFreezed
+            );
+            return self.user;
+          }
         }
       )
       .catch((error) => {

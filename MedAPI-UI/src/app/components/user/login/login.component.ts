@@ -56,7 +56,9 @@ export class LoginComponent implements OnInit {
       password: password,
     };
     this.userService.login(credentials).then((response: any) => {
-      if (response['message'] === 'Email_Not_Confirmed') {
+      if (response === 'Email_Not_Confirmed') {
+        var rt = '/email-not-confirmed?email=' + username;
+        this.router.navigateByUrl(rt);
       } else {
         localStorage.setItem('email', username);
         this.recordService.passwordHash.next(password);
