@@ -367,11 +367,19 @@ namespace MedAPI.Controllers
 
             try
             {
+                var existingUser = userService.GetUserById(user.id);
 
-                this.userService.ResetPassword(user.id.ToString(), user.token, password);
+                if (existingUser != null && user.token.Equals(existingUser.reset_token))
+                {
+                    this.userService.ResetPassword(user.id.ToString(), user.token, password);
+                    return Request.CreateResponse(HttpStatusCode.OK, "Password Reset Success!");
+                }
+                else
+                {
 
-                //else user not valid
-                return Request.CreateResponse(HttpStatusCode.NotFound, "User Not Found!");
+                    //else user not valid
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "User Not Found!");
+                }
             }
             catch (Exception ex)
             {

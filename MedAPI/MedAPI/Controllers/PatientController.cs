@@ -78,8 +78,8 @@ namespace MedAPI.Controllers
             HttpResponseMessage response = null;
             try
             {
-                if (IsAdminPermission())
-                {
+                //if (IsAdminPermission())
+                //{
                     var patient = setPatientInfo(mPatient);
 
                     if (userService.IsUserAlreadyExist(patient.user))
@@ -91,11 +91,11 @@ namespace MedAPI.Controllers
                         Domain.Patient responsePatient = CreatePatient(mPatient);
                         response = Request.CreateResponse(HttpStatusCode.OK, responsePatient);
                     }
-                }
-                else
-                {
-                    response = Request.CreateResponse(HttpStatusCode.Unauthorized);
-                }
+                //}
+                //else
+                //{
+                //    response = Request.CreateResponse(HttpStatusCode.Unauthorized);
+                //}
 
             }
             catch (DbEntityValidationException e)
@@ -178,17 +178,17 @@ namespace MedAPI.Controllers
             HttpResponseMessage response = null;
             try
             {
-                if (IsAdminPermission())
-                {
+                //if (IsAdminPermission())
+                //{
                     mPatient.id = id;
                     var patient = setPatientInfo(mPatient);
                     var responsePatient = patientService.SavePatient(patient);
                     response = Request.CreateResponse(HttpStatusCode.OK, responsePatient);
-                }
-                else
-                {
-                    response = Request.CreateResponse(HttpStatusCode.Unauthorized);
-                }
+                //}
+                //else
+                //{
+                //    response = Request.CreateResponse(HttpStatusCode.Unauthorized);
+                //}
 
             }
             catch (DbEntityValidationException e)
