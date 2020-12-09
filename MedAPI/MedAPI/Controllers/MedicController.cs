@@ -68,6 +68,29 @@ namespace MedAPI.Controllers
             return response;
         }
 
+        [HttpGet]
+        [Route("get-medic")]
+        public HttpResponseMessage GetMedicId(long id)
+        {
+            HttpResponseMessage response = null;
+            try
+            {
+                Medic mMedic = medicService.GetMedicById(id);
+                if (mMedic == null)
+                {
+                    response = Request.CreateResponse(HttpStatusCode.NotFound, "Requested entity was not found in database.");
+                }
+                else
+                {
+                    response = Request.CreateResponse(HttpStatusCode.OK, mMedic);
+                }
+            }
+            catch (Exception ex)
+            {
+                response = Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+            return response;
+        }
 
         [HttpGet]
         [Route("freeze-medic")]

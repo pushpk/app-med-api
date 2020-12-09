@@ -229,7 +229,7 @@ namespace MedAPI.Controllers
                 mLab = labService.UpdateLab(mLab);
 
                 var emailBody = emailService.GetEmailBody(EmailPurpose.ApproveAccount);
-                emailService.SendEmailAsync(mLab.user.email, "Medic Approved -  MedAPI", emailBody);
+                emailService.SendEmailAsync(mLab.user.email, "Lab Approved -  MedAPI", emailBody);
 
                 if (mLab == null)
                 {
@@ -259,7 +259,7 @@ namespace MedAPI.Controllers
                 mLab.IsDenied = true;
                 mLab = labService.UpdateLab(mLab);
                 var emailBody = emailService.GetEmailBody(EmailPurpose.DenyAccount);
-                emailService.SendEmailAsync(mLab.user.email, "Medic Denied -  MedAPI", emailBody);
+                emailService.SendEmailAsync(mLab.user.email, "Lab Denied -  MedAPI", emailBody);
 
                 if (mLab == null)
                 {

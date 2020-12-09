@@ -196,7 +196,7 @@ namespace MedAPI.Controllers
                 {
                     if(!mUser.emailConfirmed)
                     {
-                        return Request.CreateResponse(HttpStatusCode.Unauthorized, "El correo electrónico aún no está confirmado, haga clic en el enlace de activación del correo electrónico para confirmar el correo electrónico.");
+                        return Request.CreateResponse(HttpStatusCode.OK, new { message = "Email_Not_Confirmed"});
                     }
 
                     
@@ -315,6 +315,34 @@ namespace MedAPI.Controllers
                     var passwordResetLink = Infrastructure.SecurityHelper.GetPasswordResetLink(user, Request);
                     var emailBody = emailService.GetEmailBody(EmailPurpose.ForgotPassword, passwordResetLink);
                     emailService.SendEmailAsync(user.email, "Password Reset Link - MedAPI", emailBody);
+
+
+                    //if user valid - generate and send a link
+                    return Request.CreateResponse(HttpStatusCode.OK, "Email Sent Success!");
+                }
+
+                //else user not valid
+                return Request.CreateResponse(HttpStatusCode.NotFound, "User Not Found!");
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("send-confirmation-again")]
+        public HttpResponseMessage SendConfirmationEmailAgain(string email)
+        {
+            try
+            {
+                var user = userService.GetUserByEmail(email);
+
+                if (user != null)
+                {
+                    var emailConfirmationLink = Infrastructure.SecurityHelper.GetEmailConfirmatioLink(user, Request);
+                    var emailBody = emailService.GetEmailBody(EmailPurpose.EmailVerification, emailConfirmationLink);
+                    emailService.SendEmailAsync(user.email, "Confirm Email - MedAPI", emailBody);
 
 
                     //if user valid - generate and send a link
