@@ -8,37 +8,40 @@ import { PatientService } from '../../patient/service/patient.service';
 @Component({
   selector: 'app-lab-registration',
   templateUrl: './lab-registration.component.html',
-  styleUrls: ['./lab-registration.component.scss']
+  styleUrls: ['./lab-registration.component.scss'],
 })
 export class LabRegistrationComponent implements OnInit {
-
   labUser: LabUser = new LabUser();
 
-  constructor(public router: Router, private patientService: PatientService, public toastr: ToastrService) {
+  constructor(
+    public router: Router,
+    private patientService: PatientService,
+    public toastr: ToastrService
+  ) {
     this.labUser.user = new MedicUser();
     this.labUser.user.roleId = 5;
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
-  submitRequest(){
+  submitRequest() {
     console.log(this.labUser);
-    this.patientService.createLab(this.labUser).then((response: any) => {
-      console.log(response);
-      
-      this.toastr.success('Laboratorio registrado con éxito.');
-      this.router.navigateByUrl('/login');
-    }).catch((error) => {
-      
-      console.log(error);
-      this.toastr.error('Se produjo un error al crear la cuenta.');
-    });
+    this.patientService
+      .createLab(this.labUser)
+      .then((response: any) => {
+        console.log(response);
+
+        this.toastr.success('Laboratorio registrado con éxito.');
+        this.router.navigateByUrl('/login');
+      })
+      .catch((error) => {
+        console.log(error);
+        this.toastr.error('Se produjo un error al crear la cuenta.');
+      });
   }
 
-  numberOnly(ele : any) {
+  numberOnly(ele: any) {
     var regex = /[^0-9]/gi;
-    ele.value = ele.value.replace(regex, "");
- }
-
+    ele.value = ele.value.replace(regex, '');
+  }
 }

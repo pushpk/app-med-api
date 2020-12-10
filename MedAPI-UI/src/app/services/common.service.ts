@@ -12,6 +12,7 @@ import { DatePipe } from '@angular/common';
 import { HttpUtilService } from './http-util.service';
 import { MedicUser } from '../models/medicuser.model';
 import { Medic } from '../models/medic.model';
+import { AbstractControl, ValidatorFn } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root',
@@ -27,6 +28,17 @@ export class CommonService {
     public datepipe: DatePipe,
     private httpUtilService: HttpUtilService
   ) {}
+
+  patternValidator(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } => {
+      if (!control.value) {
+        return null;
+      }
+      const regex = new RegExp('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$');
+      const valid = regex.test(control.value);
+      return valid ? null : { invalidPassword: true };
+    };
+  }
 
   get isSidebarOpened(): string {
     if (localStorage.getItem('openSide')) {

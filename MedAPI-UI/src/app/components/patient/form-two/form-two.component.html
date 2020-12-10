@@ -1,104 +1,218 @@
 <div class="layout-padding" fxLayout="column">
-
-  <div fxLayout="row wrap" fxLayoutAlign="space-between center" style="margin-left: 10px; margin-right: 10px;">
+  <div
+    fxLayout="row wrap"
+    fxLayoutAlign="space-between center"
+    style="margin-left: 10px; margin-right: 10px"
+  >
     <mat-form-field fxFlex="30" fxFlex.md="30" fxFlex.xs="100">
       <mat-label>Correo electrónico</mat-label>
-      <input type="email" name="patientEmail" matInput #patientEmail="ngModel"
-             [(ngModel)]="patient.email" maxlength="250" required>
-      <mat-hint align="end">{{patientEmail.value?.length || 0}}/250</mat-hint>
-      <mat-error *ngIf="patientEmail.errors && (patientEmail.touched || patientEmail.dirty)">
+      <input
+        type="email"
+        name="patientEmail"
+        matInput
+        #patientEmail="ngModel"
+        [disabled]="isEditable"
+        [(ngModel)]="patient.email"
+        maxlength="250"
+        required
+      />
+      <mat-hint align="end">{{ patientEmail.value?.length || 0 }}/250</mat-hint>
+      <mat-error
+        *ngIf="
+          patientEmail.errors && (patientEmail.touched || patientEmail.dirty)
+        "
+      >
         Este campo es requerido
       </mat-error>
     </mat-form-field>
     <mat-form-field fxFlex="30" fxFlex.md="30" fxFlex.xs="100">
       <mat-label>Teléfono</mat-label>
-      <input type="number" name="patientPhone" maxlength="10" matInput #patientPhone="ngModel"
-             [(ngModel)]="patient.phone" required>
-      <mat-hint align="end">{{patientPhone.value?.length || 0}}/10</mat-hint>
-      <mat-error *ngIf="patientPhone.errors && (patientPhone.touched || patientPhone.dirty)">
+      <input
+        type="number"
+        name="patientPhone"
+        maxlength="10"
+        matInput
+        #patientPhone="ngModel"
+        [(ngModel)]="patient.phone"
+        required
+      />
+      <mat-hint align="end">{{ patientPhone.value?.length || 0 }}/10</mat-hint>
+      <mat-error
+        *ngIf="
+          patientPhone.errors && (patientPhone.touched || patientPhone.dirty)
+        "
+      >
         Este campo es requerido
       </mat-error>
     </mat-form-field>
     <mat-form-field fxFlex="30" fxFlex.md="30" fxFlex.xs="100">
       <mat-label>Raza</mat-label>
-      <mat-select name="Race" class="max-width" #Race="ngModel"
-                  [(ngModel)]="patient.race">
-        <mat-option *ngFor="let c of resources.races" [value]="c.id">{{c.name}}</mat-option>
+      <mat-select
+        name="Race"
+        class="max-width"
+        #Race="ngModel"
+        [(ngModel)]="patient.race"
+      >
+        <mat-option *ngFor="let c of resources.races" [value]="c.id">{{
+          c.name
+        }}</mat-option>
       </mat-select>
       <mat-error *ngIf="Race.errors && (Race.touched || Race.dirty)">
         Este campo es requerido
       </mat-error>
     </mat-form-field>
   </div>
-  <div fxLayout="row wrap" fxLayoutAlign="space-between center" style="margin-left: 10px; margin-right: 10px;">
+  <div
+    fxLayout="row wrap"
+    fxLayoutAlign="space-between center"
+    style="margin-left: 10px; margin-right: 10px"
+  >
     <mat-form-field fxFlex="30" fxFlex.md="30" fxFlex.xs="100">
       <mat-label>Grado de instrucción</mat-label>
-      <mat-select name="educationalAttainment" class="max-width" #educationalAttainment="ngModel"
-                  [(ngModel)]="patient.educationalAttainment">
-        <mat-option *ngFor="let c of resources.educationalAttainments" [value]="c.id">{{c.name}}</mat-option>
+      <mat-select
+        name="educationalAttainment"
+        class="max-width"
+        #educationalAttainment="ngModel"
+        [(ngModel)]="patient.educationalAttainment"
+      >
+        <mat-option
+          *ngFor="let c of resources.educationalAttainments"
+          [value]="c.id"
+          >{{ c.name }}</mat-option
+        >
       </mat-select>
-      <mat-error *ngIf="educationalAttainment.errors && (educationalAttainment.touched || educationalAttainment.dirty)">
+      <mat-error
+        *ngIf="
+          educationalAttainment.errors &&
+          (educationalAttainment.touched || educationalAttainment.dirty)
+        "
+      >
         Este campo es requerido
       </mat-error>
     </mat-form-field>
     <mat-form-field fxFlex="30" fxFlex.md="30" fxFlex.xs="100">
       <mat-label>Ocupación</mat-label>
-      <input type="text" name="occupation" maxlength="50" matInput #occupation="ngModel"
-             [(ngModel)]="patient.occupation">
-      <mat-hint align="end">{{occupation.value?.length || 0}}/50</mat-hint>
-      <mat-error *ngIf="occupation.errors && (occupation.touched || occupation.dirty)">
+      <input
+        type="text"
+        name="occupation"
+        maxlength="50"
+        matInput
+        #occupation="ngModel"
+        [(ngModel)]="patient.occupation"
+      />
+      <mat-hint align="end">{{ occupation.value?.length || 0 }}/50</mat-hint>
+      <mat-error
+        *ngIf="occupation.errors && (occupation.touched || occupation.dirty)"
+      >
         Este campo es requerido
       </mat-error>
     </mat-form-field>
     <mat-form-field fxFlex="30" fxFlex.md="30" fxFlex.xs="100">
       <mat-label>Grupo sanguíneo y factor RH</mat-label>
-      <mat-select name="bloodType" class="max-width" #bloodType="ngModel"
-                  [(ngModel)]="patient.bloodType">
-        <mat-option *ngFor="let c of resources.bloodTypes" [value]="c.id">{{c.name}}</mat-option>
+      <mat-select
+        name="bloodType"
+        class="max-width"
+        #bloodType="ngModel"
+        [(ngModel)]="patient.bloodType"
+      >
+        <mat-option *ngFor="let c of resources.bloodTypes" [value]="c.id">{{
+          c.name
+        }}</mat-option>
       </mat-select>
-      <mat-error *ngIf="bloodType.errors && (bloodType.touched || bloodType.dirty)">
+      <mat-error
+        *ngIf="bloodType.errors && (bloodType.touched || bloodType.dirty)"
+      >
         Este campo es requerido
       </mat-error>
     </mat-form-field>
   </div>
-  <div fxLayout="row wrap" fxLayoutAlign="space-between center" style="margin-left: 10px; margin-right: 10px;">
+  <div
+    fxLayout="row wrap"
+    fxLayoutAlign="space-between center"
+    style="margin-left: 10px; margin-right: 10px"
+  >
     <mat-form-field fxFlex="30" fxFlex.md="30" fxFlex.xs="100">
       <mat-label>Consumo de alcohol</mat-label>
-      <mat-select name="alcoholConsumption" class="max-width" #alcoholConsumption="ngModel"
-                  [(ngModel)]="patient.alcoholConsumption">
-        <mat-option *ngFor="let c of resources.alcoholConsumptions" [value]="c.id">{{c.name}}</mat-option>
+      <mat-select
+        name="alcoholConsumption"
+        class="max-width"
+        #alcoholConsumption="ngModel"
+        [(ngModel)]="patient.alcoholConsumption"
+      >
+        <mat-option
+          *ngFor="let c of resources.alcoholConsumptions"
+          [value]="c.id"
+          >{{ c.name }}</mat-option
+        >
       </mat-select>
-      <mat-error *ngIf="alcoholConsumption.errors && (alcoholConsumption.touched || alcoholConsumption.dirty)">
+      <mat-error
+        *ngIf="
+          alcoholConsumption.errors &&
+          (alcoholConsumption.touched || alcoholConsumption.dirty)
+        "
+      >
         Este campo es requerido
       </mat-error>
     </mat-form-field>
     <mat-form-field fxFlex="30" fxFlex.md="30" fxFlex.xs="100">
       <mat-label>Actividad física</mat-label>
-      <mat-select name="physicalActivity" class="max-width" #physicalActivity="ngModel"
-                  [(ngModel)]="patient.physicalActivity">
-        <mat-option *ngFor="let s of resources.physicalActivities" [value]="s.id">{{s.name}}</mat-option>
+      <mat-select
+        name="physicalActivity"
+        class="max-width"
+        #physicalActivity="ngModel"
+        [(ngModel)]="patient.physicalActivity"
+      >
+        <mat-option
+          *ngFor="let s of resources.physicalActivities"
+          [value]="s.id"
+          >{{ s.name }}</mat-option
+        >
       </mat-select>
-      <mat-error *ngIf="physicalActivity.errors && (physicalActivity.touched || physicalActivity.dirty)">
+      <mat-error
+        *ngIf="
+          physicalActivity.errors &&
+          (physicalActivity.touched || physicalActivity.dirty)
+        "
+      >
         Este campo es requerido
       </mat-error>
     </mat-form-field>
     <mat-form-field fxFlex="30" fxFlex.md="30" fxFlex.xs="100">
       <mat-label>Cigarrillos al día</mat-label>
-      <input type="number" name="cigarettes" maxlength="20" matInput #occupation="ngModel"
-             [(ngModel)]="patient.cigarettes">
+      <input
+        type="number"
+        name="cigarettes"
+        maxlength="20"
+        matInput
+        #occupation="ngModel"
+        [(ngModel)]="patient.cigarettes"
+      />
     </mat-form-field>
   </div>
-  <div fxLayout="row wrap" fxLayoutAlign="space-between center" style="margin-left: 10px; margin-right: 10px;">
+  <div
+    fxLayout="row wrap"
+    fxLayoutAlign="space-between center"
+    style="margin-left: 10px; margin-right: 10px"
+  >
     <mat-form-field fxFlex="30" fxFlex.md="30" fxFlex.xs="100">
       <mat-label>Consumo de frutas y verduras</mat-label>
-      <mat-select name="fvConsumption" class="max-width" #fvConsumption="ngModel"
-                  [(ngModel)]="patient.fvConsumption">
-        <mat-option *ngFor="let s of resources.fvConsumptions" [value]="s.id">{{s.name}}</mat-option>
+      <mat-select
+        name="fvConsumption"
+        class="max-width"
+        #fvConsumption="ngModel"
+        [(ngModel)]="patient.fvConsumption"
+      >
+        <mat-option *ngFor="let s of resources.fvConsumptions" [value]="s.id">{{
+          s.name
+        }}</mat-option>
       </mat-select>
-      <mat-error *ngIf="fvConsumption.errors && (fvConsumption.touched || fvConsumption.dirty)">
+      <mat-error
+        *ngIf="
+          fvConsumption.errors && (fvConsumption.touched || fvConsumption.dirty)
+        "
+      >
         Este campo es requerido
       </mat-error>
     </mat-form-field>
-    
   </div>
 </div>
