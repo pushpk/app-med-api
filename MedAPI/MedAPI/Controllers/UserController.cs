@@ -130,7 +130,7 @@ namespace MedAPI.Controllers
             try
             {
                 mUser = userService.SaveUser(mUser);
-              
+
                 response = Request.CreateResponse(HttpStatusCode.OK, mUser);
             }
             catch (Exception ex)
@@ -140,7 +140,7 @@ namespace MedAPI.Controllers
             return response;
         }
 
-        
+
 
         [HttpPost]
         [Route("users/{id:int}")]
@@ -178,7 +178,7 @@ namespace MedAPI.Controllers
             return response;
         }
 
-       
+
 
         [HttpPost]
         //[EnableCors(origins: "*", headers: "*", methods: "*")]
@@ -191,15 +191,15 @@ namespace MedAPI.Controllers
             try
             {
                 mUser = userService.Authenticate(mLogin.username, mLogin.Password);
-                
+
                 if (mUser != null)
                 {
-                    if(!mUser.emailConfirmed)
+                    if (!mUser.emailConfirmed)
                     {
-                        return Request.CreateResponse(HttpStatusCode.OK, new { message = "Email_Not_Confirmed"});
+                        return Request.CreateResponse(HttpStatusCode.OK, new { message = "Email_Not_Confirmed" });
                     }
 
-                    
+
                     IEnumerable<string> permissions;
                     using (var ctx = new DataAccess.registroclinicoEntities())
                     {
@@ -209,9 +209,11 @@ namespace MedAPI.Controllers
 
                         if (mUser.roleId == 2)
                         {
-                            
 
-                            response = Request.CreateResponse(HttpStatusCode.OK, new { id = mUser.id,
+
+                            response = Request.CreateResponse(HttpStatusCode.OK, new
+                            {
+                                id = mUser.id,
                                 role = mUser.roleId,
                                 docNumber = mUser.documentNumber,
                                 name = $"{mUser.firstName} {mUser.lastNameFather} {mUser.lastNameMother}",
@@ -219,14 +221,19 @@ namespace MedAPI.Controllers
                                 IsApproved = medic.IsApproved,
                                 IsFreezed = medic.IsFreezed,
                                 cmp = medic.cmp,
-                                rne= medic.rne
+                                rne = medic.rne
                             });
                         }
                         else
                         {
-                            response = Request.CreateResponse(HttpStatusCode.OK, new { id = mUser.id, role = mUser.roleId, 
-                                docNumber = mUser.documentNumber, name = $"{mUser.firstName} {mUser.lastNameFather} {mUser.lastNameMother}", 
-                                permissions = permissions });
+                            response = Request.CreateResponse(HttpStatusCode.OK, new
+                            {
+                                id = mUser.id,
+                                role = mUser.roleId,
+                                docNumber = mUser.documentNumber,
+                                name = $"{mUser.firstName} {mUser.lastNameFather} {mUser.lastNameMother}",
+                                permissions = permissions
+                            });
                         }
                     }
                 }
