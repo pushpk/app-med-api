@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Web;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using static MedAPI.Infrastructure.EmailHelper;
@@ -130,6 +131,10 @@ namespace MedAPI.Controllers
             try
             {
                 mUser = userService.SaveUser(mUser);
+
+                var emailVerificationLink = Infrastructure.SecurityHelper.GetEmailConfirmatioLink(mUser, Request);
+                var emailBody = emailService.GetEmailBody(EmailPurpose.EmailVerification, emailVerificationLink);
+                emailService.SendEmailAsync(mUser.email, "Confirm Email - MedAPI", emailBody, emailVerificationLink);
 
                 response = Request.CreateResponse(HttpStatusCode.OK, mUser);
             }
@@ -321,7 +326,7 @@ namespace MedAPI.Controllers
                 {
                     var passwordResetLink = Infrastructure.SecurityHelper.GetPasswordResetLink(user, Request);
                     var emailBody = emailService.GetEmailBody(EmailPurpose.ForgotPassword, passwordResetLink);
-                    emailService.SendEmailAsync(user.email, "Password Reset Link - MedAPI", emailBody);
+                    emailService.SendEmailAsync(user.email, "Confirm Email - MedAPI", emailBody, passwordResetLink);
 
 
                     //if user valid - generate and send a link
@@ -349,7 +354,7 @@ namespace MedAPI.Controllers
                 {
                     var emailConfirmationLink = Infrastructure.SecurityHelper.GetEmailConfirmatioLink(user, Request);
                     var emailBody = emailService.GetEmailBody(EmailPurpose.EmailVerification, emailConfirmationLink);
-                    emailService.SendEmailAsync(user.email, "Confirm Email - MedAPI", emailBody);
+                    emailService.SendEmailAsync(user.email, "Verifique su Email - SolidarityMedical", emailBody, emailConfirmationLink);
 
 
                     //if user valid - generate and send a link

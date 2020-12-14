@@ -33,7 +33,7 @@ export class AccountConfirmationComponent implements OnInit {
     //call service to confirm account
 
     this.patientService
-      .confirmEmail(this.id, this.code)
+      .confirmEmail(this.id, encodeURIComponent(this.code))
       .then((response: User) => {
         this.confirmSuccess = true;
         console.log(response.role);
