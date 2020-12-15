@@ -42,6 +42,7 @@ namespace MedAPI.Service
 
             User mUser = new User();
             mUser = userRepository.Authenticate(email);
+
             if (mUser != null && HashPasswordHelper.ValidatePassword(password, mUser.passwordHash))
             {
                 return mUser;

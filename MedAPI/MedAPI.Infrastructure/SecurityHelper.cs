@@ -1,6 +1,7 @@
 ﻿using MedAPI.Domain;
 using System;
 using System.Net.Http;
+using System.Web;
 
 namespace MedAPI.Infrastructure
 {
@@ -8,7 +9,7 @@ namespace MedAPI.Infrastructure
     {
         public static string GetEmailConfirmatioLink(User mUser, HttpRequestMessage Request)
         {
-            var tokenHash = Infrastructure.HashPasswordHelper.HashToken(mUser.token);
+            var tokenHash = HttpUtility.UrlEncode(Infrastructure.HashPasswordHelper.HashToken(mUser.token).ToString());
             var baseUrl = Request.RequestUri.GetLeftPart(UriPartial.Authority);
 
             return $"{baseUrl}/account-confirm?id={mUser.id}&code={tokenHash}";
@@ -16,7 +17,7 @@ namespace MedAPI.Infrastructure
 
         public static string GetPasswordResetLink(User mUser, HttpRequestMessage Request)
         {
-            var tokenHash = Infrastructure.HashPasswordHelper.HashToken(mUser.reset_token);
+            var tokenHash = HttpUtility.UrlEncode(Infrastructure.HashPasswordHelper.HashToken(mUser.reset_token));
             var baseUrl = Request.RequestUri.GetLeftPart(UriPartial.Authority);
 
             return $"{baseUrl}/reset-password?id={mUser.id}&code={tokenHash}";
