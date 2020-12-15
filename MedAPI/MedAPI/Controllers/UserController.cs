@@ -1,10 +1,14 @@
 ﻿using MedAPI.Domain;
 using MedAPI.Infrastructure.IService;
+using SendGrid;
+using SendGrid.Helpers.Mail;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using static MedAPI.Infrastructure.EmailHelper;
@@ -366,6 +370,47 @@ namespace MedAPI.Controllers
         }
 
 
+        [HttpGet]
+        [Route("send-test-email")]
+        public HttpResponseMessage SendTestEmail(string from, string to)
+        {
+            try
+            {
+
+
+                var emailBody = "test email";
+
+                var key = ConfigurationManager.AppSettings.Get("EmailApiKey");
+                var user = ConfigurationManager.AppSettings.Get("EmailUser");
+                var client = new SendGridClient(key);
+                var msg = new SendGridMessage
+                {
+                    From = new EmailAddress(from, user),
+                    Subject = "Test",
+                    PlainTextContent = emailBody,
+                    HtmlContent = emailBody
+                };
+                msg.AddTo(new EmailAddress(to));
+                msg.SetClickTracking(false, false);
+
+
+                var result = Task.Run(() => client.SendEmailAsync(msg)).GetAwaiter().GetResult();
+
+
+
+
+
+                //if user valid - generate and send a link
+                return Request.CreateResponse(HttpStatusCode.OK, "Email Sent Success!");
+
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+
         [HttpPost]
         [Route("reset-password")]
         public HttpResponseMessage ResetPassowrd(UserWithIdPw user)
@@ -376,7 +421,9 @@ namespace MedAPI.Controllers
             {
                 var existingUser = userService.GetUserById(user.id);
 
-                if (existingUser != null && user.token.Equals(existingUser.reset_token))
+
+
+                if (existingUser != null)
                 {
                     this.userService.ResetPassword(user.id.ToString(), user.token, password);
                     return Request.CreateResponse(HttpStatusCode.OK, "Password Reset Success!");

@@ -5,6 +5,7 @@ using MedAPI.Infrastructure.IRepository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 
 namespace MedAPI.Repository
 {
@@ -54,7 +55,8 @@ namespace MedAPI.Repository
 
                       }).FirstOrDefault();
 
-                if (user != null && HashPasswordHelper.ValidatePassword(user.token.ToString(), token))
+                var tokenDecord = HttpUtility.UrlDecode(token);
+                if (user != null && HashPasswordHelper.ValidatePassword(user.token.ToString(), tokenDecord))
                 {
                     var userUpdate = context.users.FirstOrDefault(x => x.id == userIdInt && x.deleted == false);
                     userUpdate.emailConfirmed = true;
@@ -445,7 +447,9 @@ namespace MedAPI.Repository
             {
                 var user = context.users.FirstOrDefault(x => x.id == userIdInt && x.deleted == false);
 
-                if (user != null && HashPasswordHelper.ValidatePassword(user.reset_token.ToString(), token))
+                var tokenDecoded = HttpUtility.UrlDecode(token);
+
+                if (user != null && HashPasswordHelper.ValidatePassword(user.reset_token.ToString(), tokenDecoded))
                 {
                     var userUpdate = context.users.FirstOrDefault(x => x.id == userIdInt && x.deleted == false);
 
