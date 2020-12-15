@@ -130,7 +130,7 @@ namespace MedAPI.Controllers
 
                     var emailConfirmationLink = Infrastructure.SecurityHelper.GetEmailConfirmatioLink(responsePatient.user, Request);
                     var emailBody = emailService.GetEmailBody(EmailPurpose.EmailVerification, emailConfirmationLink);
-                    emailService.SendEmailAsync(responsePatient.user.email, "Confirm Email - MedAPI", emailBody);
+                    emailService.SendEmailAsync(responsePatient.user.email, "Verifique su Email - SolidarityMedical", emailBody, emailConfirmationLink);
 
                     response = Request.CreateResponse(HttpStatusCode.OK, responsePatient);
                 }

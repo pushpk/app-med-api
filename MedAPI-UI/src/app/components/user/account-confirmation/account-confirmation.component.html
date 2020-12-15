@@ -5,52 +5,74 @@
         <mat-card-content>
           <div fxLayout="row" class="mt-24">
             <div>
-              Estimado cliente,<br /><br />
 
-              Su correo electrónico ha sido verificado satisfactoriamente.
+              Su correo electrónico ha sido verificado satisfactoriamente. <br /><br />
+
               Nuestros administradores están revisando su información. Este
               proceso puede demorar hasta 24 horas. Le mandaremos un correo
-              electrónico cuando su cuenta este habilitada para que pueda
-              comenzar a disfrutar de nuestros servicios.
-              <br /><br />
+              electrónico cuando su cuenta este habilitada.
 
-              Muchas gracias,<br /><br />
-
-              Solidarity Medical<br /><br />
-
-              <div>Please click <a href="/login">here</a> to login</div>
+              <div class="container" style="margin-top:20px;">
+                <button
+                mat-raised-button
+                color="primary"
+                class="mt-16"
+                style="
+                  font-size: large;
+                  font-weight: 400;
+                  padding-top: 2px;
+                  padding-bottom: 2px;
+                "
+                (click)="router.navigate(['/login'])"
+              >
+                Regresar
+              </button>
+              </div>
             </div>
           </div>
         </mat-card-content>
       </mat-card>
     </div>
-  </div>
 
-  <div class="alert alert-success" *ngIf="!this.showMedic">
-    <mat-card class="no-pad">
-      <mat-card-content>
-        <div fxLayout="row" class="mt-24">
-          <div>
-            Estimado cliente, <br /><br />
+    <div class="alert alert-success" *ngIf="!this.showMedic">
+      <mat-card class="no-pad">
+        <mat-card-content>
+          <div fxLayout="row" class="mt-24">
+            <div>
+              Correo electrónico verificado satisfactoriamente.
+              <br /><br />
 
-            Bienvenido a Solidarity Medical! Su correo electrónico ha sido
-            verificado. Ahora podrá disfrutar de nuestros servicios.
-            <br /><br />
-
-            Solidarity Medical<br /><br />
-
-            <div>Please click <a href="/login">here</a> to login</div>
+              Bienvenido a Solidarity Medical! Ahora podrá disfrutar de nuestros servicios.
+    
+              <div class="container" style="margin-top:20px;">
+                <button
+                mat-raised-button
+                color="primary"
+                class="mt-16"
+                style="
+                  font-size: large;
+                  font-weight: 400;
+                  padding-top: 2px;
+                  padding-bottom: 2px;
+                "
+                (click)="router.navigate(['/login'])"
+              >
+                Iniciar Sesión
+              </button>
+              </div>
+            </div>
           </div>
-        </div>
-      </mat-card-content>
-    </mat-card>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
   </div>
 
   <div class="alert alert-warning" *ngIf="!this.confirmSuccess">
     <mat-card class="no-pad">
       <mat-card-content>
         <div fxLayout="row" class="mt-24">
-          <div>Something went wrong! please contact us!</div>
+          <div>Ocurrió un error. Por favor contáctenos a admin@solidaritymedical.net.</div>
         </div>
       </mat-card-content></mat-card
     >

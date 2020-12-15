@@ -3,3 +3,4 @@ export const environment = {
   apiUrl: 'http://solidaritymedicaldevelopment.com/',
   userInfo_LocalStoreKey: 'userData',
 };
+

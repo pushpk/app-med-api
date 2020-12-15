@@ -132,7 +132,8 @@ namespace MedAPI.Controllers
                 mMedic.IsApproved = true;
                 mMedic = medicService.UpdateMedic(mMedic);
                 var emailBody = emailService.GetEmailBody(EmailPurpose.ApproveAccount);
-                emailService.SendEmailAsync(mMedic.user.email, "Medic Approved -  MedAPI", emailBody);
+                //emailService.SendEmailAsync(mMedic.user.email, "Medic Approved -  MedAPI", emailBody);
+                emailService.SendEmailAsync(mMedic.user.email, "Cuenta Aprobada - SolidarityMedical", emailBody);
 
                 if (mMedic == null)
                 {
@@ -162,7 +163,7 @@ namespace MedAPI.Controllers
                 mMedic.IsDenied = true;
                 mMedic = medicService.UpdateMedic(mMedic);
                 var emailBody = emailService.GetEmailBody(EmailPurpose.DenyAccount);
-                emailService.SendEmailAsync(mMedic.user.email, "Medic Denied -  MedAPI", emailBody);
+                emailService.SendEmailAsync(mMedic.user.email, "Cuenta Denegada - SolidarityMedical", emailBody);
 
                 if (mMedic == null)
                 {
@@ -229,7 +230,8 @@ namespace MedAPI.Controllers
 
                     var emailConfirmationLink = Infrastructure.SecurityHelper.GetEmailConfirmatioLink(mMedic.user, Request);
                     var emailBody = emailService.GetEmailBody(EmailPurpose.EmailVerification, emailConfirmationLink);
-                    emailService.SendEmailAsync(mMedic.user.email, "Confirm Email - MedAPI", emailBody);
+                    emailService.SendEmailAsync(mMedic.user.email, "Verificacion de Email - SolidarityMedical", emailBody, emailConfirmationLink);
+
 
                     response = Request.CreateResponse(HttpStatusCode.OK, mMedic);
 

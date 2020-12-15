@@ -36,8 +36,9 @@ export class ForgotPasswordComponent implements OnInit {
     this.patientService
       .forgotPassword(username)
       .then((response: any) => {
-        this.sentForgotPasswordEmail = true;
+        // this.sentForgotPasswordEmail = true;
       })
       .catch((error: any) => {});
+    this.sentForgotPasswordEmail = true;
   }
 }

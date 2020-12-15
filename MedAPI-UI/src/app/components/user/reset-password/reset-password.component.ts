@@ -41,7 +41,7 @@ export class ResetPasswordComponent implements OnInit {
     const self = this;
     let pwd = self.resetPasswordForm.get('password').value;
 
-    this.patientService.resetPassword(this.id,this.code,pwd).then((response: any) => {
+    this.patientService.resetPassword(this.id,encodeURIComponent(this.code),pwd).then((response: any) => {
       this.toastr.success('Restablecimiento de contraseña exitosa.');
       this.router.navigateByUrl('/login');
 

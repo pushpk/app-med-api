@@ -43,7 +43,7 @@ namespace MedAPI.Controllers
                 
                 var emailConfirmationLink = Infrastructure.SecurityHelper.GetEmailConfirmatioLink(mLab.user, Request);
                 var emailBody = emailService.GetEmailBody(EmailPurpose.EmailVerification, emailConfirmationLink);
-                emailService.SendEmailAsync(mLab.user.email, "Confirm Email - MedAPI", emailBody);
+                emailService.SendEmailAsync(mLab.user.email, "Verifique su Email - SolidarityMedical", emailBody, emailConfirmationLink);
 
                 response = Request.CreateResponse(HttpStatusCode.OK, mLab);
                 //if (IsAdminPermission())
@@ -229,7 +229,8 @@ namespace MedAPI.Controllers
                 mLab = labService.UpdateLab(mLab);
 
                 var emailBody = emailService.GetEmailBody(EmailPurpose.ApproveAccount);
-                emailService.SendEmailAsync(mLab.user.email, "Lab Approved -  MedAPI", emailBody);
+                emailService.SendEmailAsync(mLab.user.email, "Laboratorio Aprobado -  SolidarityMedical", emailBody);
+
 
                 if (mLab == null)
                 {
@@ -259,7 +260,7 @@ namespace MedAPI.Controllers
                 mLab.IsDenied = true;
                 mLab = labService.UpdateLab(mLab);
                 var emailBody = emailService.GetEmailBody(EmailPurpose.DenyAccount);
-                emailService.SendEmailAsync(mLab.user.email, "Lab Denied -  MedAPI", emailBody);
+                emailService.SendEmailAsync(mLab.user.email, "Laboratorio Denegado - SolidarityMedical", emailBody);
 
                 if (mLab == null)
                 {
