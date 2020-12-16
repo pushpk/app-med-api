@@ -173,7 +173,7 @@ namespace MedAPI.Repository
             {
                 Patient patient = new Patient();
                 var patients = (from x in context.patients
-                                where x.user.documentNumber == documentNumber.ToString()
+                                where x.user.role_id == 4 &&  x.user.documentNumber == documentNumber.ToString()
                                 select new Patient
                                 {
                                     id = x.id,
@@ -275,7 +275,7 @@ namespace MedAPI.Repository
                                 }).FirstOrDefault();
 
                 var users = (from x in context.users
-                             where x.documentNumber == documentNumber.ToString()
+                             where x.role_id == 4 && x.documentNumber == documentNumber.ToString()
                              select new User
                              {
                                  id = x.id,
