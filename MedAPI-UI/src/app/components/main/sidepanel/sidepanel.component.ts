@@ -16,7 +16,7 @@ export class SidepanelComponent implements OnInit {
   //   { name: 'Atención de Cardiología', pageUrl: 'records' }];
   navMenus: any[] = [{ name: 'Inicio', pageUrl: 'records' },
     //{ name: 'Médicos', pageUrl: 'records' },
-    { name: 'Afiliar paciente', pageUrl: 'patients/new' },
+    // { name: 'Afiliar paciente', pageUrl: 'patients/new' },
     { name: 'Atención', pageUrl: 'records' }];
   isUserAdmin: boolean;
 
