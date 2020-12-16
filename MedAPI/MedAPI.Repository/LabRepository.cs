@@ -159,6 +159,7 @@ namespace MedAPI.Repository
                    }).FirstOrDefault();
             }
         }
+       
         public Lab UpdateLab(Lab mLab)
         {
             using (var context = new DataAccess.registroclinicoEntities())

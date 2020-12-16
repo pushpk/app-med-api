@@ -226,6 +226,9 @@ namespace MedAPI.Controllers
                 Lab mLab = labService.GetLab(id);
 
                 mLab.IsApproved = true;
+                mLab.IsDenied = false;
+                
+
                 mLab = labService.UpdateLab(mLab);
 
                 var emailBody = emailService.GetEmailBody(EmailPurpose.ApproveAccount);
@@ -258,6 +261,7 @@ namespace MedAPI.Controllers
                 Lab mLab = labService.GetLab(id);
 
                 mLab.IsDenied = true;
+                mLab.IsApproved = false;
                 mLab = labService.UpdateLab(mLab);
                 var emailBody = emailService.GetEmailBody(EmailPurpose.DenyAccount);
                 emailService.SendEmailAsync(mLab.user.email, "Laboratorio Denegado - SolidarityMedical", emailBody);

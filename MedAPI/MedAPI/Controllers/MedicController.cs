@@ -130,6 +130,7 @@ namespace MedAPI.Controllers
                 Medic mMedic = medicService.GetMedicById(id);
 
                 mMedic.IsApproved = true;
+                mMedic.IsDenied = false;
                 mMedic = medicService.UpdateMedic(mMedic);
                 var emailBody = emailService.GetEmailBody(EmailPurpose.ApproveAccount);
                 //emailService.SendEmailAsync(mMedic.user.email, "Medic Approved -  MedAPI", emailBody);
@@ -161,6 +162,7 @@ namespace MedAPI.Controllers
                 Medic mMedic = medicService.GetMedicById(id);
 
                 mMedic.IsDenied = true;
+                mMedic.IsApproved = false;
                 mMedic = medicService.UpdateMedic(mMedic);
                 var emailBody = emailService.GetEmailBody(EmailPurpose.DenyAccount);
                 emailService.SendEmailAsync(mMedic.user.email, "Cuenta Denegada - SolidarityMedical", emailBody);
