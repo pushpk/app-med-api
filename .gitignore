@@ -261,6 +261,4 @@ __pycache__/
 *.pyc
 MedAPI/MedAPI/Web.Release.config
 MedAPI/MedAPI/Web.Developmnet.config
-
-# Config Files
-*.config
+MedAPI/MedAPI/Web.config
