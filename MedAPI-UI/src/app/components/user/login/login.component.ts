@@ -72,8 +72,18 @@ export class LoginComponent implements OnInit {
 
           this.router.navigateByUrl(rt);
         } else if (response['role'] === 5) {
-          localStorage.setItem('role', 'lab');
-          this.router.navigateByUrl('/records');
+          if (!response['IsApproved']) {
+            localStorage.clear();
+            localStorage.setItem('reason', 'not-approved');
+            this.router.navigateByUrl('/no-access');
+          } else if (response['IsFreezed']) {
+            localStorage.clear();
+            localStorage.setItem('reason', 'freezed');
+            this.router.navigateByUrl('/no-access');
+          } else {
+            localStorage.setItem('role', 'lab');
+            this.router.navigateByUrl('/records');
+          }
         } else {
           localStorage.setItem('role', 'admin');
 

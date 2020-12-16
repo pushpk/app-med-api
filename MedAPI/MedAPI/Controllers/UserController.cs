@@ -22,12 +22,14 @@ namespace MedAPI.Controllers
         private readonly IUserService userService;
         private readonly IEmailService emailService;
         private readonly IMedicService medicService;
+        private readonly ILabService labService;
 
-        public UserController(IUserService userService, IEmailService emailService, IMedicService medicService)
+        public UserController(IUserService userService, IEmailService emailService, IMedicService medicService, ILabService labService)
         {
             this.userService = userService;
             this.emailService = emailService;
             this.medicService = medicService;
+            this.labService = labService;
         }
 
         [HttpGet]
@@ -214,11 +216,11 @@ namespace MedAPI.Controllers
                     {
                         permissions = ctx.role_permissions.Where(s => s.Role_id == mUser.roleId).Select(s => s.permissions).ToArray();
 
-                        var medic = this.medicService.GetMedicById(mUser.id);
+                        
 
                         if (mUser.roleId == 2)
                         {
-
+                            var medic = this.medicService.GetMedicById(mUser.id);
 
                             response = Request.CreateResponse(HttpStatusCode.OK, new
                             {
@@ -231,6 +233,22 @@ namespace MedAPI.Controllers
                                 IsFreezed = medic.IsFreezed,
                                 cmp = medic.cmp,
                                 rne = medic.rne
+                            });
+                        }
+                        else if (mUser.roleId == 5)
+                        {
+                            var labUser = this.labService.GetLab(mUser.id);
+
+                            response = Request.CreateResponse(HttpStatusCode.OK, new
+                            {
+                                id = mUser.id,
+                                role = mUser.roleId,
+                                docNumber = mUser.documentNumber,
+                                name = $"{mUser.firstName} {mUser.lastNameFather} {mUser.lastNameMother}",
+                                permissions = permissions,
+                                IsApproved = labUser.IsApproved,
+                                IsFreezed = labUser.IsFreezed
+                             
                             });
                         }
                         else

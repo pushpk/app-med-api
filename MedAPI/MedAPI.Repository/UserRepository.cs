@@ -197,6 +197,8 @@ namespace MedAPI.Repository
                        countryId = x.country_id,
                        districtId = x.district_id,
                        roleId = x.role_id,
+                       token = x.token,
+                       reset_token = x.reset_token
                    }).FirstOrDefault();
             }
         }
@@ -235,6 +237,7 @@ namespace MedAPI.Repository
                        districtId = x.district_id,
                        roleId = x.role_id,
                        reset_token = x.reset_token,
+                       token = x.token,
                        role = new Domain.Role
                        {
                            id = x.role.id,
@@ -340,7 +343,7 @@ namespace MedAPI.Repository
             {
                 // var abc = context.medics.Include("user").Where(s => s.user.role_id == 2 && (!s.IsApproved || s.IsFreezed)).ToList();
 
-                var abc = (from us in context.medics.Include("user").Where(s => s.user.role_id == 2  && !s.IsDenied).OrderBy(s => s.IsApproved)
+                var abc = (from us in context.medics.Include("user").Where(s => s.user.role_id == 2).OrderBy(s => s.IsApproved)
                            select new Medic()
                            {
                                cmp = us.cmp,
@@ -391,7 +394,7 @@ namespace MedAPI.Repository
             {
                 // var abc = context.medics.Include("user").Where(s => s.user.role_id == 2 && (!s.IsApproved || s.IsFreezed)).ToList();
 
-                var abc = (from us in context.labs.Include("user").Where(s => s.user.role_id == 5 && !s.IsDenied).OrderBy(s => s.IsApproved)
+                var abc = (from us in context.labs.Include("user").Where(s => s.user.role_id == 5).OrderBy(s => s.IsApproved)
                            select new Lab()
                            {
                               parentCompany = us.parentCompany,
