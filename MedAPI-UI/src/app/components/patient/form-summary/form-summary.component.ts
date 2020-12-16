@@ -9,6 +9,7 @@ export class FormSummaryComponent implements OnInit {
   @Input() patient: any;
   resources: any;
   @Input() submit: any;
+  @Input() isEditable: boolean;
 
   constructor() { }
 

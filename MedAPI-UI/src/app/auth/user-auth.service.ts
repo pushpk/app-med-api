@@ -41,9 +41,9 @@ export class UserAuthService {
     let loggedIn: boolean = false;
     if (data !== null) {
       try {
-        //if (!data['token']) {
+        // if (!data['token']) {
         //  return false;
-        //}
+        // }
         loggedIn = (this.getUser() != null);
       } catch (e) {
         console.error(e);
@@ -56,6 +56,13 @@ export class UserAuthService {
     try {
       return JSON.parse(localStorage.getItem(this.keyName));
     } catch (e) { }
+    return null;
+  }
+
+  getUserId(): any{
+    try {
+      return JSON.parse(localStorage.getItem('loggedInID'));
+    } catch (e) {}
     return null;
   }
 

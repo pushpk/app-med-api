@@ -1,6 +1,6 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NoteService } from './services/note.service';
-import { FormControl } from '@angular/forms';
+import { FormControl, NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RecordService } from '../record/services/record.service';
 import { CheckEmptyUtil } from '../../shared/util/check-empty.util';
@@ -16,6 +16,9 @@ import { ResourcesService } from '../../services/resources.service';
 import { ToastrService } from 'ngx-toastr';
 import { Patient } from '../../models/patient.model';
 import { NoteDetail } from '../../models/noteDetail.model';
+import {FormTriageComponent } from '../note/form-triage/form-triage.component'
+import { DialogCloseAttentionComponent } from './dialog-close-attention/dialog-close-attention.component';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-note',
@@ -23,6 +26,7 @@ import { NoteDetail } from '../../models/noteDetail.model';
   styleUrls: ['./note.component.scss']
 })
 export class NoteComponent implements OnInit {
+  // @ViewChild('form', {static: true}) form: NgForm;
   patient: Patient = new Patient();
   note: NoteDetail = new NoteDetail();
   //notes: any;
@@ -41,11 +45,18 @@ export class NoteComponent implements OnInit {
     success: false
   };
   selectNoteId: any;
-  tabs: Array<{ title: string; }>;
+  tabs: Array<{ title: string; isCardiology: boolean; }>;
+  isPharmacological: BehaviorSubject<boolean>;
 
   isEditable = false;
+  // @Output() dirtyForm = new EventEmitter<boolean>();
+  // dirtyForm = false;
   docNumber: string;
   attechedAttentionId: string;
+
+
+  IsTriageFormValid: boolean = false;
+@ViewChild(FormTriageComponent) FormTriageComponent: FormTriageComponent;
 
   constructor(private noteService: NoteService,
               public route: ActivatedRoute,
@@ -76,7 +87,6 @@ export class NoteComponent implements OnInit {
       this.docNumber = this.route.snapshot.queryParamMap.get('docNumber');
       this.attechedAttentionId = this.route.snapshot.queryParamMap.get('attentionId');
     }
-    console.log(this.docNumber);
 
     //self.note = {
     //  symptoms: {
@@ -181,16 +191,17 @@ export class NoteComponent implements OnInit {
     //      gastrointestinalSemiology: 'NORMAL'
     //    }
     //  }
-    //};
+    // };
   }
 
 
   ngOnInit(): void {
-    //this.patient = JSON.parse(localStorage.getItem('patient'));
+    // this.patient = JSON.parse(localStorage.getItem('patient'));
     this.getPatients();
     this.getNotes();
     this.recordService.selectedSpecialty.subscribe((value) => {
       this.speciality = value;
+      console.log(this.speciality);
     });
 
 
@@ -200,16 +211,22 @@ export class NoteComponent implements OnInit {
     this.noteService.updateComputedFieldsEvent.subscribe((o) => {
       this.handleComputedFieldsChange(o);
     });
+
+    this.isPharmacological = this.noteService.isPharmacologicalEvent;
+    // this.noteService.isPharmacological.subscribe(result => {
+    //   this.isPharmacological = result;
+    // });
+
   }
 
   public getNotes() {
     let notesData = localStorage.getItem('notes');
     if (CheckEmptyUtil.isNotEmpty(notesData)) {
       let noteDetails = JSON.parse(notesData);
-      console.log(noteDetails, 'details');
+      // console.log(noteDetails, 'details');
       this.selectNoteId = this.route.snapshot.paramMap.get('new');
       if (this.selectNoteId === 'new') {
-        console.log(noteDetails, 'details112');
+        // console.log(noteDetails, 'details112');
         this.note = noteDetails[0];
         this.note.specialty = this.speciality;
         this.note.userId = this.patient.userId;
@@ -222,7 +239,7 @@ export class NoteComponent implements OnInit {
         });
       }
     } else {
-      console.log('else');
+      // console.log('else');
       this.note.patientId = this.patient.id;
       this.note.specialty = this.speciality;
       this.note.userId = this.patient.userId;
@@ -541,16 +558,24 @@ export class NoteComponent implements OnInit {
   submitRequest() {
     let self = this;
 
+    //this.note.triage.vitalFunctions.temperature
+    //this.note.symptoms.duration
+    //this.note.symptoms.durationUnit
+    //this.note.diagnosis.list.length
+    this.note.treatments.list.length
+
+
+    //
     self.submit.waiting = true;
     let currentUserEmail = localStorage.getItem('email');
-    console.log(this.note, 'this.note');
+    // console.log(this.note, 'this.note');
     this.noteService.save(this.note, currentUserEmail).then((response: any) => {
-      console.log(response);
+      // console.log(response);
       self.toastr.success('Atención guardada satisfactoriamente.');
       self.submit.waiting = false;
       self.submit.success = true;
       self.note.id = response.id;
-      this.router.navigateByUrl('/records');
+      // this.router.navigateByUrl('/records');
     }).catch((error: any) => {
       console.log(error);
       self.toastr.error('Ocurrió un error al guardar la atención.');
@@ -561,9 +586,30 @@ export class NoteComponent implements OnInit {
 
 
   closeAttention(id: number){
+    let dialogRef = this.dialog.open(DialogCloseAttentionComponent, {
+      panelClass: 'custom-dialog',
+      data: {
+        note: this.note
+      },
+      autoFocus: false,
+      maxWidth: '120vh',
+    });
+    dialogRef.afterClosed().subscribe((response: any) => {
 
-    this.note.status = 'close';
-    
+      if (response.accept) {
+        this.note.status = 'close';
+        this.submitRequest();
+      } else {
+
+      }
+
+      // console.log(this.note.diagnosis.list, 'this.note.diagnosis.list');
+      // console.log("Dialog output:", response);
+      // this.diagnosisInput.();
+      // this.diagnosisInput.nativeElement.setAttribute('aria-haspopup', false);
+
+      // console.log(this.diagnosisInput.nativeElement);
+    });
 
   }
 }

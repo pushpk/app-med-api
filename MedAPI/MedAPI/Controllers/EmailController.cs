@@ -19,12 +19,13 @@ namespace MedAPI.Controllers
         }
         [HttpPost]
         [Route("SendEmail")]
-        public HttpResponseMessage sendEmail()
+        public HttpResponseMessage sendEmail(string email, string subject, string body)
         {
             HttpResponseMessage response = null;
             try
             {
-                response = Request.CreateResponse(HttpStatusCode.OK, emailService.SendEmail());
+                //response = Request.CreateResponse(HttpStatusCode.OK, emailService.SendEmail());
+                response = Request.CreateResponse(HttpStatusCode.OK, emailService.SendEmailAsync(email, subject, body));
             }
             catch (Exception ex)
             {

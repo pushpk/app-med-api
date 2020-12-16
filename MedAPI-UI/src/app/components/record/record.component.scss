@@ -11,13 +11,128 @@
   box-shadow: none !important;
 }
 
+table{
+  width: 100%;
+ }
+
+ .mat-table {
+  overflow: auto;
+}
+ 
+ .mat-column-id {
+   word-wrap: break-word !important;
+   white-space: unset !important;
+   flex: 0 0 7% !important;
+   width: 7% !important;
+   overflow-wrap: break-word;
+   word-wrap: break-word;
+ 
+   word-break: break-word;
+ 
+   -ms-hyphens: auto;
+   -moz-hyphens: auto;
+   -webkit-hyphens: auto;
+   hyphens: auto;
+ }
+ 
+ .mat-column-description {
+   word-wrap: break-word !important;
+   white-space: unset !important;
+   flex: 0 0 32% !important;
+   width: 32% !important;
+   overflow-wrap: break-word;
+   word-wrap: break-word;
+ 
+   word-break: break-word;
+ 
+   -ms-hyphens: auto;
+   -moz-hyphens: auto;
+   -webkit-hyphens: auto;
+   hyphens: auto;
+ }
+ 
+ .mat-column-specialty {
+   word-wrap: break-word !important;
+   white-space: unset !important;
+   flex: 0 0 16% !important;
+   width: 16% !important;
+   overflow-wrap: break-word;
+   word-wrap: break-word;
+ 
+   word-break: break-word;
+ 
+   -ms-hyphens: auto;
+   -moz-hyphens: auto;
+   -webkit-hyphens: auto;
+   hyphens: auto;
+ }
+ 
+ .mat-column-registrationDate {
+   word-wrap: break-word !important;
+   white-space: unset !important;
+   flex: 0 0 12% !important;
+   width: 12% !important;
+   overflow-wrap: break-word;
+   word-wrap: break-word;
+ 
+   word-break: break-word;
+ 
+   -ms-hyphens: auto;
+   -moz-hyphens: auto;
+   -webkit-hyphens: auto;
+   hyphens: auto;
+ }
+ 
+ .mat-column-category {
+   word-wrap: break-word !important;
+   white-space: unset !important;
+   flex: 0 0 12% !important;
+   width: 12% !important;
+   overflow-wrap: break-word;
+   word-wrap: break-word;
+ 
+   word-break: break-word;
+   -ms-hyphens: auto;
+   -moz-hyphens: auto;
+   -webkit-hyphens: auto;
+   hyphens: auto;
+ }
+ .mat-column-status {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 8% !important;
+  width: 8% !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  word-break: break-word;
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+.mat-column-evaluation {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 10% !important;
+  width: 10% !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  word-break: break-word;
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
 .mat-column-action {
   word-wrap: break-word !important;
   white-space: unset !important;
-  flex: 0 0 28% !important;
-  width: 28% !important;
+  flex: 0 0 14% !important;
+  width: 14% !important;
   overflow-wrap: break-word;
   word-wrap: break-word;
+
   word-break: break-word;
   -ms-hyphens: auto;
   -moz-hyphens: auto;
@@ -25,88 +140,74 @@
   hyphens: auto;
 }
 
-table{
-  width: 100%;
- }
- 
- .mat-column-username {
-   word-wrap: break-word !important;
-   white-space: unset !important;
-   flex: 0 0 28% !important;
-   width: 28% !important;
-   overflow-wrap: break-word;
-   word-wrap: break-word;
- 
-   word-break: break-word;
- 
-   -ms-hyphens: auto;
-   -moz-hyphens: auto;
-   -webkit-hyphens: auto;
-   hyphens: auto;
- }
- 
- .mat-column-emailid {
-   word-wrap: break-word !important;
-   white-space: unset !important;
-   flex: 0 0 25% !important;
-   width: 25% !important;
-   overflow-wrap: break-word;
-   word-wrap: break-word;
- 
-   word-break: break-word;
- 
-   -ms-hyphens: auto;
-   -moz-hyphens: auto;
-   -webkit-hyphens: auto;
-   hyphens: auto;
- }
- 
- .mat-column-contactno {
-   word-wrap: break-word !important;
-   white-space: unset !important;
-   flex: 0 0 17% !important;
-   width: 17% !important;
-   overflow-wrap: break-word;
-   word-wrap: break-word;
- 
-   word-break: break-word;
- 
-   -ms-hyphens: auto;
-   -moz-hyphens: auto;
-   -webkit-hyphens: auto;
-   hyphens: auto;
- }
- 
- .mat-column-userimage {
-   word-wrap: break-word !important;
-   white-space: unset !important;
-   flex: 0 0 8% !important;
-   width: 8% !important;
-   overflow-wrap: break-word;
-   word-wrap: break-word;
- 
-   word-break: break-word;
- 
-   -ms-hyphens: auto;
-   -moz-hyphens: auto;
-   -webkit-hyphens: auto;
-   hyphens: auto;
- }
- 
- .mat-column-userActivity {
-   word-wrap: break-word !important;
-   white-space: unset !important;
-   flex: 0 0 10% !important;
-   width: 10% !important;
-   overflow-wrap: break-word;
-   word-wrap: break-word;
- 
-   word-break: break-word;
-   -ms-hyphens: auto;
-   -moz-hyphens: auto;
-   -webkit-hyphens: auto;
-   hyphens: auto;
- }
+.mat-column-user_id {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 7% !important;
+  width: 7% !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  word-break: break-word;
+
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
+.mat-column-fileName {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 27% !important;
+  width: 27% !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  word-break: break-word;
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
+.mat-column-dateUploaded {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 12% !important;
+  width: 12% !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  word-break: break-word;
+
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
+.rowAdmin:hover{
+  background-color:rgb(240,241,245);
+}
+.rowAdmin{
+  cursor: pointer;
+}
+
+.mat-column-comments {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 35% !important;
+  width: 35% !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  word-break: break-word;
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
 
  .download:hover{
   // color: rgb(70,150,236);
@@ -114,3 +215,14 @@ table{
   // font-weight: 500;
 
  }
+
+ @media only screen and (max-width: 736px) and (orientation:portrait) {
+  mat-header-row, mat-row {
+    width: 220%;
+  }
+  
+  }
+ 
+//  .example-margin {
+//   margin: 0 10px;
+// }

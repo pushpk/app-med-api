@@ -15,7 +15,6 @@ export class MedicRegistrationComponent implements OnInit {
   [x: string]: any;
   specialities: string[];
   resources: any;
-
   medic: Medic = new Medic();
 
  constructor(public router: Router, private patientService: PatientService, public toastr: ToastrService) {
@@ -110,8 +109,14 @@ export class MedicRegistrationComponent implements OnInit {
       this.toastr.success('Médico registrado con éxito.');
       this.router.navigateByUrl('/login');
     }).catch((error) => {
+      if(error.status === 409)
+      {
+        this.toastr.error('Ya existe un médico con el mismo correo electrónico o número de documento o CMP en el sistema');
+      }
+      else{
       console.log(error);
       this.toastr.error('Se produjo un error al crear la cuenta.');
+      }
     });
 
   }

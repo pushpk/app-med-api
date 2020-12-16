@@ -38,7 +38,9 @@ namespace MedAPI.Domain
         public long? departmentId { get; set; }
         public long? roleId { get; set; }
 
-
+        public System.Guid token { get; set; }
+        public bool emailConfirmed { get; set; }
+        public System.Guid reset_token { get; set; }
         public Medic medic { get; set; }
 
         public virtual Country country { get; set; }

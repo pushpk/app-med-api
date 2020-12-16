@@ -6,22 +6,9 @@
 
   <div fxLayout="row" *ngIf="!submit.waiting && !submit.success">
 
-    <h2 *ngIf="this.isEditable" fxFlex="100">Ahora puede guardar la atención</h2>
+    <h2 *ngIf="this.isEditable && !submit.success" fxFlex="100">Ahora puede guardar la atención</h2>
 
     <!-- <div fxFlex="100" *ngIf="!note.id"> -->
-      <div fxFlex="100" >
-      <a href="javascript: void(0);" mat-button (click)="downloadAttention()" >
-        Descargar Atención
-      </a>
-
-      <a href="javascript: void(0);" mat-button (click)="downloadPrescription()" >
-        Descargar Receta médica
-      </a>
-
-      <a href="javascript: void(0);" mat-button (click)="downloadInter()">
-        Descargar Interconsulta
-      </a>
-    </div>
   </div>
 
   <div fxLayout="row" *ngIf="submit.waiting">
@@ -31,7 +18,7 @@
   <div fxLayout="row" *ngIf="!submit.waiting && submit.success">
     <h2 fxFlex="100">La atención se ha registrado correctamente</h2>
 
-    <div fxFlex="100" *ngIf="!note.id">
+    <div fxFlex="100">
       <a href="javascript: void(0);" mat-button  (click)="downloadAttention()" >
         Descargar Atención
       </a>
@@ -47,4 +34,22 @@
       </a>
     </div>
   </div>
+  <div fxLayout="row" *ngIf="!submit.waiting && !submit.success && !isEditable">
+    <div fxFlex="100">
+      <a href="javascript: void(0);" mat-button  (click)="downloadAttention()" >
+        Descargar Atención
+      </a>
+
+     
+
+      <a href="javascript: void(0);" mat-button (click)="downloadPrescription()" >
+        Descargar Receta médica
+      </a>
+
+      <a href="javascript: void(0);" mat-button (click)="downloadInter()" >
+        Descargar Interconsulta
+      </a>
+    </div>
+  </div>
+
 </div>

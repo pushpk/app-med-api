@@ -1,4 +1,4 @@
-<div class="layout-padding general symptoms" fxLayout="column">
+<div class="general symptoms" fxLayout="column">
   <div fxLayout="column">
     <div fxLayout="column" class="layout-padding">
 
@@ -11,7 +11,7 @@
         <mat-form-field fxFlex>
           <mat-label>Descripción</mat-label>
           <textarea [disabled]="!isEditable" matInput name="symptoms" class="max-width" maxlength="250" #symptoms="ngModel"
-                    [(ngModel)]="note.symptoms.description">
+                    [(ngModel)]="note.symptoms.description" required>
         </textarea>
           <mat-hint align="end">{{symptoms.value?.length || 0}}/250</mat-hint>
         </mat-form-field>
@@ -28,7 +28,7 @@
             <mat-label>Unidades</mat-label>
             <mat-select [disabled]="!isEditable" name="durationUnit" class="max-width" #durationUnit="ngModel"
                         [(ngModel)]="note.symptoms.durationUnit" required>
-              <mat-option *ngFor="let c of resources.durationUnits" [value]="c.id">{{c.name}}</mat-option>
+              <mat-option *ngFor="let c of resources.durationUnits" [value]="c.name">{{c.name}}</mat-option>
             </mat-select>
             <mat-error *ngIf="durationUnit.errors && (durationUnit.touched || durationUnit.dirty)">
               Este campo es requerido

@@ -9,6 +9,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Web;
 using System.Web.Http;
+using static MedAPI.Infrastructure.EmailHelper;
 
 namespace MedAPI.Controllers
 {
@@ -18,10 +19,12 @@ namespace MedAPI.Controllers
     {
         private readonly ILabService labService;
         private readonly IUserService userService;
-        public LabController(ILabService labService, IUserService userService)
+        private readonly IEmailService emailService;
+        public LabController(ILabService labService, IUserService userService, IEmailService emailService)
         {
             this.labService = labService;
             this.userService = userService;
+            this.emailService = emailService;
         }
        
         [HttpPost]
@@ -31,7 +34,17 @@ namespace MedAPI.Controllers
             HttpResponseMessage response = null;
             try
             {
+                if (userService.IsUserAlreadyExist(mLab.user))
+                {
+                    response = Request.CreateResponse(HttpStatusCode.Conflict, "User Already Exist");
+                }
+
                 mLab = labService.SaveLab(mLab);
+                
+                var emailConfirmationLink = Infrastructure.SecurityHelper.GetEmailConfirmatioLink(mLab.user, Request);
+                var emailBody = emailService.GetEmailBody(EmailPurpose.EmailVerification, emailConfirmationLink);
+                emailService.SendEmailAsync(mLab.user.email, "Verifique su Email - SolidarityMedical", emailBody, emailConfirmationLink);
+
                 response = Request.CreateResponse(HttpStatusCode.OK, mLab);
                 //if (IsAdminPermission())
                 //{
@@ -171,6 +184,97 @@ namespace MedAPI.Controllers
             response.Content.Headers.ContentDisposition.FileName = uploadResult.fileName + ".pdf";
             //Set the File Content Type.  
             response.Content.Headers.ContentType = new MediaTypeHeaderValue(MimeMapping.GetMimeMapping(uploadResult.fileName + ".pdf"));
+            return response;
+        }
+
+
+        [HttpGet]
+        [Route("freeze-lab")]
+        public HttpResponseMessage FreezeLab(long id)
+        {
+            HttpResponseMessage response = null;
+            try
+            {
+                Lab mLab= labService.GetLab(id);
+
+                mLab.IsFreezed = !mLab.IsFreezed;
+                mLab = labService.UpdateLab(mLab);
+
+                if (mLab == null)
+                {
+                    response = Request.CreateResponse(HttpStatusCode.NotFound, "Requested entity was not found in database.");
+                }
+                else
+                {
+                    response = Request.CreateResponse(HttpStatusCode.OK, mLab);
+                }
+            }
+            catch (Exception ex)
+            {
+                response = Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+            return response;
+        }
+
+        [HttpGet]
+        [Route("approve-lab")]
+        public HttpResponseMessage AprroveLab(long id)
+        {
+            HttpResponseMessage response = null;
+            try
+            {
+                Lab mLab = labService.GetLab(id);
+
+                mLab.IsApproved = true;
+                mLab = labService.UpdateLab(mLab);
+
+                var emailBody = emailService.GetEmailBody(EmailPurpose.ApproveAccount);
+                emailService.SendEmailAsync(mLab.user.email, "Laboratorio Aprobado -  SolidarityMedical", emailBody);
+
+
+                if (mLab == null)
+                {
+                    response = Request.CreateResponse(HttpStatusCode.NotFound, "Requested entity was not found in database.");
+                }
+                else
+                {
+                    response = Request.CreateResponse(HttpStatusCode.OK, mLab);
+                }
+            }
+            catch (Exception ex)
+            {
+                response = Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+            return response;
+        }
+
+        [HttpGet]
+        [Route("deny-lab")]
+        public HttpResponseMessage DenyLab(long id)
+        {
+            HttpResponseMessage response = null;
+            try
+            {
+                Lab mLab = labService.GetLab(id);
+
+                mLab.IsDenied = true;
+                mLab = labService.UpdateLab(mLab);
+                var emailBody = emailService.GetEmailBody(EmailPurpose.DenyAccount);
+                emailService.SendEmailAsync(mLab.user.email, "Laboratorio Denegado - SolidarityMedical", emailBody);
+
+                if (mLab == null)
+                {
+                    response = Request.CreateResponse(HttpStatusCode.NotFound, "Requested entity was not found in database.");
+                }
+                else
+                {
+                    response = Request.CreateResponse(HttpStatusCode.OK, mLab);
+                }
+            }
+            catch (Exception ex)
+            {
+                response = Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
             return response;
         }
 

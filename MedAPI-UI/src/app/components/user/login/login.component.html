@@ -1,34 +1,125 @@
 <div fxLayout="row" fxLayoutAlign="center center">
-  <form autocomplete="off" name="loginForm" [formGroup]="loginForm"
-        fxFlex="100" fxFlex.gt-sm="50" fxLayout="column" (ngSubmit)="doLogin();">
+  <form
+    autocomplete="off"
+    name="loginForm"
+    [formGroup]="loginForm"
+    fxFlex="100"
+    fxFlex.gt-sm="50"
+    fxLayout="column"
+    (ngSubmit)="doLogin()"
+  >
     <mat-form-field fxFlex fxFlexFill>
-      <mat-label>Usuario</mat-label>
-      <input matInput type="email" name="username" required [class.is-invalid]="(control('username').touched || control('username').dirty) && control('username').invalid" [class.has-error]="(control('username').touched || control('username').dirty) && control('username').invalid" formControlName="username">
+      <mat-label style="font-size: 16px; font-weight: 400">Usuario</mat-label>
+      <input
+        matInput
+        type="email"
+        name="username"
+        required
+        [class.is-invalid]="
+          (control('username').touched || control('username').dirty) &&
+          control('username').invalid
+        "
+        [class.has-error]="
+          (control('username').touched || control('username').dirty) &&
+          control('username').invalid
+        "
+        formControlName="username"
+      />
     </mat-form-field>
 
     <mat-form-field fxFlex fxFlexFill>
-      <mat-label>Contraseña</mat-label>
-      <input matInput type="password" name="password" required [class.is-invalid]="(control('password').touched || control('password').dirty) && control('password').invalid" [class.has-error]="(control('password').touched || control('password').dirty) && control('password').invalid" formControlName="password">
+      <mat-label style="font-size: 16px; font-weight: 400"
+        >Contraseña</mat-label
+      >
+      <input
+        matInput
+        type="password"
+        name="password"
+        required
+        [class.is-invalid]="
+          (control('password').touched || control('password').dirty) &&
+          control('password').invalid
+        "
+        [class.has-error]="
+          (control('password').touched || control('password').dirty) &&
+          control('password').invalid
+        "
+        formControlName="password"
+      />
     </mat-form-field>
 
-    <button mat-raised-button color="primary" type="submit" class="mt-16">
+    <button
+      mat-raised-button
+      color="primary"
+      type="submit"
+      class="mt-16"
+      style="
+        font-size: large;
+        font-weight: 400;
+        padding-top: 2px;
+        padding-bottom: 2px;
+      "
+    >
       Iniciar sesión
     </button>
 
-   <div class="flex-container">
-  
+    <div style="text-align: right">
+      <br />
+      <a href="/forgot-password">¿Olvidó su contraseña?</a>
+    </div>
+    <span style="margin-top: 60px; font-size: 16px; text-align: center"
+      >No tiene cuenta con nosotros? Regístrese:
+    </span>
 
-    <a href="javascript:void(0)" mat-raised-button color="primary" style="margin-top: 5px;"class="mt-16" [routerLink]='["/register"]' >
-      Registrarse como médico
-    </a>
+    <div
+      fxLayout="row wrap"
+      fxLayoutAlign="space-between center"
+      class="flex-container"
+    >
+      <a
+        href="javascript:void(0)"
+        fxFlex.sm="30"
+        fxFlex.xs="100"
+        mat-button
+        type="button"
+        color="primary"
+        style="background-color: rgb(237, 238, 243)"
+        style="margin-top: 5px; font-size: 20px; font-weight: 400"
+        class="mt-16"
+        [routerLink]="['/register']"
+      >
+        Eres Médico
+      </a>
 
-    <a href="javascript:void(0)" mat-raised-button color="primary" style="margin-top: 5px;"class="mt-16" [routerLink]='["/patient-register"]' >
-      Registrarse como paciente
-     </a>
+      <a
+        href="javascript:void(0)"
+        fxFlex.sm="30"
+        fxFlex.xs="100"
+        mat-button
+        type="button"
+        color="primary"
+        style="background-color: rgb(237, 238, 243)"
+        style="margin-top: 5px; font-size: 20px; font-weight: 400"
+        class="mt-16"
+        [routerLink]="['/patient-register']"
+      >
+        Eres Paciente
+      </a>
 
-     <a href="javascript:void(0)" mat-raised-button color="primary" style="margin-top: 5px;"class="mt-16" [routerLink]='["/lab-register"]' >
-  Registrarse como laboratorio
-     </a>
+      <a
+        href="javascript:void(0)"
+        fxFlex.sm="30"
+        fxFlex.xs="100"
+        mat-button
+        type="button"
+        color="primary"
+        style="background-color: rgb(237, 238, 243)"
+        style="margin-top: 5px; font-size: 20px; font-weight: 400"
+        class="mt-16"
+        [routerLink]="['/lab-register']"
+      >
+        Eres un Laboratorio
+      </a>
     </div>
   </form>
 </div>

@@ -72,7 +72,13 @@ export class PatientRegistrationComponent implements OnInit {
       console.log(error);
       // this.submit.waiting = false;
       // this.submit.success = false;
+      if(error.status === 409)
+      {
+        this.toastr.error('Ya existe un usuario con el mismo correo electrónico o número de documento en el sistema.');
+      }
+      else{
       this.toastr.error('Ocurrió un error al afiliar el paciente.');
+      }
     });
   }
 

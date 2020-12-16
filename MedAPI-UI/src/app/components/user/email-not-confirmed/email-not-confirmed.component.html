@@ -1,0 +1,65 @@
+<div>
+  <div>
+    <div>
+      <mat-card class="no-pad">
+        <mat-card-content>
+          <div fxLayout="row" class="mt-24">
+            <div class="alert alert-success" *ngIf="sendConfirmationEmail">
+              Hemos mandado un correo electrónico al email otorgado. Por favor 
+              siga las instrucciones en el correo para continuar con el proceso.
+              Si no encuentra al correo en su Inbox, por favor revise su carpeta
+              Junk o Spam (a veces llamada carpeta de correo no deseado).
+
+              <div class="container" style="margin-top:20px;">
+                <button
+                mat-raised-button
+                color="primary"
+                class="mt-16"
+                style="
+                  font-size: large;
+                  font-weight: 400;
+                  padding-top: 2px;
+                  padding-bottom: 2px;
+                "
+                (click)="router.navigate(['/login'])"
+              >
+                Regresar
+              </button>
+              </div>
+
+              <!-- <a href="/login">haga clic</a> aquí para iniciar sesión -->
+            </div>
+            <div *ngIf="!sendConfirmationEmail">
+              Su correo no ha sido verificado.<br /><br />
+
+              Para verificar su cuenta, por favor haga click en el enlace de
+              verificación enviado a la dirección de correo electrónico que
+              otorgó cuando se registró en nuestro sitio. Si no puede encontrar
+              el correo en su Inbox, por favor asegúrese de revisar su carpeta
+              Junk o Spam (a veces llamada carpeta de correo no deseado).
+              <br /><br />
+
+              Aún no lo puede encontrar? <br /><br />
+
+              <button
+                mat-raised-button
+                color="primary"
+                type="submit"
+                class="mt-16"
+                style="
+                  font-size: large;
+                  font-weight: 400;
+                  padding-top: 2px;
+                  padding-bottom: 2px;
+                "
+                (click)="sendConfirmation()"
+              >
+                Reenviar correo electrónico de confirmación
+              </button>
+            </div>
+          </div></mat-card-content
+        ></mat-card
+      >
+    </div>
+  </div>
+</div>

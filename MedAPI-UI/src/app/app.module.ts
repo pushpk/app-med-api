@@ -11,20 +11,16 @@ import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 
 @NgModule({
-  declarations: [
-    AppComponent
-    
-    
-  ],
+  declarations: [AppComponent],
   imports: [
     MatTableModule,
     MatSortModule,
     BrowserModule,
     AppRoutingModule,
     SharedModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
   ],
   providers: [DatePipe],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

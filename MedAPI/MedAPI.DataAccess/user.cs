@@ -50,6 +50,9 @@ namespace MedAPI.DataAccess
         public Nullable<long> role_id { get; set; }
         public Nullable<long> department_id { get; set; }
         public Nullable<long> province_id { get; set; }
+        public System.Guid token { get; set; }
+        public bool emailConfirmed { get; set; }
+        public System.Guid reset_token { get; set; }
     
         public virtual country country { get; set; }
         public virtual department department { get; set; }

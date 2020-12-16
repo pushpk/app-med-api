@@ -42,6 +42,7 @@ namespace MedAPI.Service
 
             User mUser = new User();
             mUser = userRepository.Authenticate(email);
+
             if (mUser != null && HashPasswordHelper.ValidatePassword(password, mUser.passwordHash))
             {
                 return mUser;
@@ -51,6 +52,20 @@ namespace MedAPI.Service
                 return null;
             }
         }
+
+        public User ConfirmEmail(string id, string token)
+        {
+            //var a = HashPasswordHelper.HashPassword(token);
+            return userRepository.ConfirmEmail(id, token);
+
+        }
+
+        public bool ResetPassword(string id, string token, string passwordHash)
+        {
+            return userRepository.UpdatePassword(id, token, passwordHash);
+
+        }
+
         public User Credentials(string email)
         {
             return userRepository.Authenticate(email);
@@ -83,6 +98,11 @@ namespace MedAPI.Service
                 mUser.passwordHash = Infrastructure.HashPasswordHelper.HashPassword(mUser.passwordHash);
             }
             return userRepository.SaveUser(mUser);
+        }
+
+        public bool IsUserAlreadyExist(User mUser, string cmp = null)
+        {
+            return userRepository.IsUserAlreadyExist(mUser, cmp);
         }
 
         public UserResources GetResources()
@@ -195,5 +215,21 @@ namespace MedAPI.Service
         {
             return userRepository.GetAllNonApprovedMedics();
         }
+
+        public List<Lab> GetAllNonApprovedLabs()
+        {
+            return userRepository.GetAllNonApprovedLabs();
+        }
+
+        public User GetUserByEmail(string email)
+        {
+            return userRepository.GetByEmail(email);
+            
+        }
+
+     
+
+
+
     }
 }

@@ -6,7 +6,7 @@ import { LabUploadResult } from 'src/app/models/labUploadResult';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AdminService {
   public patientId: BehaviorSubject<any> = new BehaviorSubject('');
@@ -14,43 +14,84 @@ export class AdminService {
   public selectedSpecialty: BehaviorSubject<string> = new BehaviorSubject('');
   public passwordHash = new BehaviorSubject<string>(undefined);
 
-  constructor(private httpUtilService: HttpUtilService, private httpClient: HttpClient) { }
+  constructor(
+    private httpUtilService: HttpUtilService,
+    private httpClient: HttpClient
+  ) {}
 
- 
-
-  getNonApprovedMedics(){
+  getNonApprovedMedics() {
     const self = this;
     const apiEndpoint = 'users/not-approved-medics';
-    
-    return self.httpUtilService.invokeQuery('GET', null,apiEndpoint);
+
+    return self.httpUtilService.invokeQuery('GET', null, apiEndpoint);
   }
 
-  
-  approveMedic(id : number){
+  getNonApprovedLabs() {
+    const self = this;
+    const apiEndpoint = 'users/not-approved-labs';
+
+    return self.httpUtilService.invokeQuery('GET', null, apiEndpoint);
+  }
+
+  approveMedic(id: number) {
     const self = this;
     const apiEndpoint = 'users/approve-medic';
     const params = {
       key: 'id',
-      value: id
-    }
-    return self.httpUtilService.invokeQuery('GET', params,apiEndpoint);
+      value: id,
+    };
+    return self.httpUtilService.invokeQuery('GET', params, apiEndpoint);
   }
 
-  
-  freezeMedic(id : number){
+  denyMedic(id: number) {
+    const self = this;
+    const apiEndpoint = 'users/deny-medic';
+    const params = {
+      key: 'id',
+      value: id,
+    };
+    return self.httpUtilService.invokeQuery('GET', params, apiEndpoint);
+  }
+
+  freezeMedic(id: number) {
     const self = this;
     const apiEndpoint = 'users/freeze-medic';
     const params = {
       key: 'id',
-      value: id
-    }
+      value: id,
+    };
 
-    return self.httpUtilService.invokeQuery('GET', params,apiEndpoint);
+    return self.httpUtilService.invokeQuery('GET', params, apiEndpoint);
   }
 
-  
+  approveLab(id: number) {
+    const self = this;
+    const apiEndpoint = 'users/approve-lab';
+    const params = {
+      key: 'id',
+      value: id,
+    };
+    return self.httpUtilService.invokeQuery('GET', params, apiEndpoint);
+  }
 
-  
- 
+  denyLab(id: number) {
+    const self = this;
+    const apiEndpoint = 'users/deny-lab';
+    const params = {
+      key: 'id',
+      value: id,
+    };
+    return self.httpUtilService.invokeQuery('GET', params, apiEndpoint);
+  }
 
+  freezeLab(id: number) {
+    const self = this;
+    const apiEndpoint = 'users/freeze-lab';
+    const params = {
+      key: 'id',
+      value: id,
+    };
+
+    return self.httpUtilService.invokeQuery('GET', params, apiEndpoint);
+  }
 }

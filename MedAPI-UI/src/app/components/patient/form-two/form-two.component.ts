@@ -8,6 +8,8 @@ import { PatientService } from '../service/patient.service';
 })
 export class FormTwoComponent implements OnInit {
   @Input() patient: any;
+  @Input() isEditable: boolean;
+
   resources: any;
 
   constructor(private patientService: PatientService) { }

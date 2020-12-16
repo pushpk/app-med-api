@@ -259,3 +259,5 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
+MedAPI/MedAPI/Web.Release.config
+MedAPI/MedAPI/Web.Developmnet.config

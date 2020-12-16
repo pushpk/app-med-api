@@ -26,6 +26,7 @@ namespace MedAPI.DataAccess
         public long id { get; set; }
         public bool IsFreezed { get; set; }
         public bool IsApproved { get; set; }
+        public bool IsDenied { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<note> notes { get; set; }

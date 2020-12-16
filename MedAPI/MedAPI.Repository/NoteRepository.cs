@@ -583,8 +583,21 @@ namespace MedAPI.Repository
                 efNotes.ticket_id = mNote.ticketId;
                 efNotes.treatment = mNote.treatment;
                 efNotes.triage_id = mNote.triageId;
+
+                if (mNote.status == "close")
+                {
+                    var evals = context.notes.Where(s => s.attached_attention == mNote.id && s.category == "evaluation");
+                    foreach (var eval in evals)
+                    {
+                        eval.status = "close";
+
+                    }
+                }
+
                 context.SaveChanges();
-                mNote.id = efNotes.id;
+
+               
+                mNote.id = efNotes.id;  
             }
             return mNote;
         }

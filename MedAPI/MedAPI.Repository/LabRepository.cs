@@ -38,6 +38,7 @@ namespace MedAPI.Repository
             }
         }
 
+
         public LabUploadResult GetTestResultById(int id)
         {
             using (var context = new DataAccess.registroclinicoEntities())
@@ -101,6 +102,75 @@ namespace MedAPI.Repository
 
                 return labResult.id;
 
+            }
+        }
+
+        public Lab GetLab(long id)
+        {
+            using (var context = new DataAccess.registroclinicoEntities())
+            {
+                return context.labs.Where(x => x.user_id == id)
+                   .Select(x => new Lab()
+                   {
+                       id = x.id,
+                       ruc = x.ruc,
+                       parentCompany = x.parentCompany,
+                       labName = x.labName,
+                       IsApproved = x.IsApproved,
+                       IsFreezed = x.IsFreezed,
+                       IsDenied = x.IsDenied,
+                       user = new User
+                       {
+
+                           id = x.user.id,
+                           address = x.user.address,
+                           birthday = x.user.birthday,
+                           cellphone = x.user.cellphone,
+                           countryId = x.user.country_id,
+                           deleted = x.user.deleted,
+                           createdBy = x.user.createdBy,
+                           createdDate = x.user.createdDate,
+                           districtId = x.user.district_id,
+                           departmentId = x.user.department_id,
+                           provinceId = x.user.province_id,
+                           documentNumber = x.user.documentNumber,
+                           documentType = x.user.documentType,
+                           email = x.user.email,
+                           firstName = x.user.firstName,
+                           lastNameFather = x.user.lastNameFather,
+                           lastNameMother = x.user.lastNameMother,
+                           maritalStatus = x.user.maritalStatus,
+                           modifiedBy = x.user.modifiedBy,
+                           modifiedDate = x.user.modifiedDate,
+                           organDonor = x.user.organDonor,
+                           phone = x.user.phone,
+                           roleId = x.user.role_id,
+                           since = x.user.since,
+                           passwordHash = x.user.password_hash,
+                           role = new Role
+                           {
+                               id = x.user.role.id,
+                               name = x.user.role.name,
+                               description = x.user.role.description
+                           },
+                           sex = x.user.sex
+
+                       }
+                   }).FirstOrDefault();
+            }
+        }
+        public Lab UpdateLab(Lab mLab)
+        {
+            using (var context = new DataAccess.registroclinicoEntities())
+            {
+                var efLab = context.labs.Where(m => m.id == mLab.id).FirstOrDefault();
+                efLab.IsFreezed = mLab.IsFreezed;
+                efLab.IsApproved = mLab.IsApproved;
+                efLab.IsDenied = mLab.IsDenied;
+
+                context.SaveChanges();
+
+                return mLab;
             }
         }
     }

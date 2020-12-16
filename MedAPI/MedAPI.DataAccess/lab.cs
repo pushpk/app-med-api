@@ -25,6 +25,9 @@ namespace MedAPI.DataAccess
         public string parentCompany { get; set; }
         public string labName { get; set; }
         public long ruc { get; set; }
+        public bool IsFreezed { get; set; }
+        public bool IsApproved { get; set; }
+        public bool IsDenied { get; set; }
     
         public virtual user user { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

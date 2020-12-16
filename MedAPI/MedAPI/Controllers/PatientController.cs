@@ -10,6 +10,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web;
 using System.Web.Http;
+using static MedAPI.Infrastructure.EmailHelper;
 
 namespace MedAPI.Controllers
 {
@@ -19,13 +20,15 @@ namespace MedAPI.Controllers
         private readonly IUserService userService;
         private readonly IPatientService patientService;
         private readonly INoteService noteService;
+        private readonly IEmailService emailService;
 
 
-        public PatientController(IUserService userService, IPatientService patientService, INoteService noteService)
+        public PatientController(IUserService userService, IPatientService patientService, INoteService noteService, IEmailService emailService)
         {
             this.userService = userService;
             this.patientService = patientService;
             this.noteService = noteService;
+            this.emailService = emailService;
         }
         [HttpGet]
         [Route("patient")]
@@ -75,16 +78,24 @@ namespace MedAPI.Controllers
             HttpResponseMessage response = null;
             try
             {
-                if (IsAdminPermission())
-                {
-                    Domain.Patient responsePatient = CreatePatient(mPatient);
+                //if (IsAdminPermission())
+                //{
+                    var patient = setPatientInfo(mPatient);
 
-                    response = Request.CreateResponse(HttpStatusCode.OK, responsePatient);
-                }
-                else
-                {
-                    response = Request.CreateResponse(HttpStatusCode.Unauthorized);
-                }
+                    if (userService.IsUserAlreadyExist(patient.user))
+                    {
+                        response = Request.CreateResponse(HttpStatusCode.Conflict, "User Already Exist");
+                    }
+                    else
+                    {
+                        Domain.Patient responsePatient = CreatePatient(mPatient);
+                        response = Request.CreateResponse(HttpStatusCode.OK, responsePatient);
+                    }
+                //}
+                //else
+                //{
+                //    response = Request.CreateResponse(HttpStatusCode.Unauthorized);
+                //}
 
             }
             catch (DbEntityValidationException e)
@@ -106,8 +117,23 @@ namespace MedAPI.Controllers
             HttpResponseMessage response = null;
             try
             {
-                Domain.Patient responsePatient = CreatePatient(mPatient);
-                response = Request.CreateResponse(HttpStatusCode.OK, responsePatient);
+                var patient = setPatientInfo(mPatient);
+
+                if (userService.IsUserAlreadyExist(patient.user))
+                {
+                    response = Request.CreateResponse(HttpStatusCode.Conflict, "User Already Exist");
+                }
+                else
+                {
+
+                    Domain.Patient responsePatient = CreatePatient(mPatient);
+
+                    var emailConfirmationLink = Infrastructure.SecurityHelper.GetEmailConfirmatioLink(responsePatient.user, Request);
+                    var emailBody = emailService.GetEmailBody(EmailPurpose.EmailVerification, emailConfirmationLink);
+                    emailService.SendEmailAsync(responsePatient.user.email, "Verifique su Email - SolidarityMedical", emailBody, emailConfirmationLink);
+
+                    response = Request.CreateResponse(HttpStatusCode.OK, responsePatient);
+                }
             }
             catch (DbEntityValidationException e)
             {
@@ -152,17 +178,17 @@ namespace MedAPI.Controllers
             HttpResponseMessage response = null;
             try
             {
-                if (IsAdminPermission())
-                {
+                //if (IsAdminPermission())
+                //{
                     mPatient.id = id;
                     var patient = setPatientInfo(mPatient);
                     var responsePatient = patientService.SavePatient(patient);
                     response = Request.CreateResponse(HttpStatusCode.OK, responsePatient);
-                }
-                else
-                {
-                    response = Request.CreateResponse(HttpStatusCode.Unauthorized);
-                }
+                //}
+                //else
+                //{
+                //    response = Request.CreateResponse(HttpStatusCode.Unauthorized);
+                //}
 
             }
             catch (DbEntityValidationException e)

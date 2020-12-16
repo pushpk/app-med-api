@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { NoteService } from '../../services/note.service';
@@ -27,12 +27,12 @@ export class FormConclusionComponent implements OnInit {
   treatmentCtrl = new FormControl();
   interconsultationCtrl = new FormControl();
   tempTimeobj: any;
-  
+
   showDignosisProgressBar = false;
   showExamProgressBar = false;
   showTreatmentProgressBar = false;
   showInterconsultantionProgressBar = false;
-
+  isPharmacological = true;
 
   selectedDiagnosis: any;
   searchDiagnosis: string;
@@ -66,7 +66,7 @@ export class FormConclusionComponent implements OnInit {
       //  startWith(null),
       //  map((data: string | null) => data ? this._filter(data) : this.resources.cardiovascularSymptom.slice()));
     });
-    console.log(this.note, 'note');
+    // console.log(this.note, 'note');
   }
 
   //private _filter(value: any): string[] {
@@ -74,7 +74,12 @@ export class FormConclusionComponent implements OnInit {
   //  return this.resources.cardiovascularSymptom.filter(x => x.name.toLowerCase().indexOf(filterValue) === 0);
   //}
 
-  getDiagnosis(valueEntered : string) {
+  changeIsPharmacological(isPharmacological: boolean): any{
+    // this.isPharmacological = !this.isPharmacological;
+    this.noteService.setIsPharmacological(isPharmacological);
+  }
+
+  getDiagnosis(valueEntered: string) {
     console.log(valueEntered);
     let str =  valueEntered;
     // this.diagnosisCtrl.valueChanges.subscribe((value: string) => {
@@ -110,22 +115,29 @@ export class FormConclusionComponent implements OnInit {
       panelClass: 'custom-dialog',
       data: {
         note: this.note
-      }
+      },
+      autoFocus: false,
+      maxWidth: '120vh',
     });
     dialogRef.afterClosed().subscribe((response: any) => {
 
       if (response.accept && response.type) {
         diagnosis.type = response.type;
+        const index = this.note.diagnosis.list.indexOf(diagnosis);
+        if (index === -1) {
+          this.note.diagnosis.list.push(diagnosis);
+        }
       } else {
         diagnosis.type = '';
       }
+      this.diagnosisList = [];
 
-      const index = this.note.diagnosis.list.indexOf(diagnosis);
-      if (index === -1) {
-        this.note.diagnosis.list.push(diagnosis);
-      }
-      console.log(this.note.diagnosis.list, 'this.note.diagnosis.list');
-      console.log("Dialog output:", response)
+      // console.log(this.note.diagnosis.list, 'this.note.diagnosis.list');
+      // console.log("Dialog output:", response);
+      // this.diagnosisInput.();
+      // this.diagnosisInput.nativeElement.setAttribute('aria-haspopup', false);
+
+      // console.log(this.diagnosisInput.nativeElement);
     });
   }
 
@@ -190,7 +202,9 @@ export class FormConclusionComponent implements OnInit {
       panelClass: 'custom-dialog',
       data: {
         note: this.note
-      }
+      },
+      autoFocus: false,
+      maxWidth: '120vh',
     });
     dialogRef.afterClosed().subscribe((response) => {
     //  console.log("Dialog output:", response)
@@ -224,19 +238,22 @@ export class FormConclusionComponent implements OnInit {
       panelClass: 'custom-dialog',
       data: {
         note: this.note
-      }
+      },
+      autoFocus: false,
+      maxWidth: '120vh',
     });
     dialogRef.afterClosed().subscribe((response: any) => {
       if (response.accept && response.indications) {
         d.indications = response.indications;
+        const index = this.note.treatments.list.indexOf(d);
+        if (index === -1) {
+          this.note.treatments.list.push(d);
+        }
       } else {
         d.indications = '';
       }
 
-      const index = this.note.treatments.list.indexOf(d);
-      if (index === -1) {
-        this.note.treatments.list.push(d);
-      }
+      this.treatmentList = [];
       //console.log("Dialog output:", response)
     });
 

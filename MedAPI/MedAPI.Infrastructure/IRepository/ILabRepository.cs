@@ -14,5 +14,7 @@ namespace MedAPI.Repository
         List<LabUploadResult> GetAllUploadsByPatient(int patientId);
 
         LabUploadResult GetTestResultById(int id);
+        Lab GetLab(long id);
+        Lab UpdateLab(Lab mLab);
     }
 }
