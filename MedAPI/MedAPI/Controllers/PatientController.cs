@@ -78,11 +78,10 @@ namespace MedAPI.Controllers
             HttpResponseMessage response = null;
             try
             {
-                //if (IsAdminPermission())
-                //{
+                
                     var patient = setPatientInfo(mPatient);
 
-                    if (userService.IsUserAlreadyExist(patient.user))
+                    if (userService.IsUserAlreadyExist(patient.user) && !mPatient.IsEdit)
                     {
                         response = Request.CreateResponse(HttpStatusCode.Conflict, "User Already Exist");
                     }
@@ -91,12 +90,7 @@ namespace MedAPI.Controllers
                         Domain.Patient responsePatient = CreatePatient(mPatient);
                         response = Request.CreateResponse(HttpStatusCode.OK, responsePatient);
                     }
-                //}
-                //else
-                //{
-                //    response = Request.CreateResponse(HttpStatusCode.Unauthorized);
-                //}
-
+              
             }
             catch (DbEntityValidationException e)
             {
@@ -109,6 +103,8 @@ namespace MedAPI.Controllers
             }
             return response;
         }
+
+
 
         [HttpPost]
         [Route("RegisterPatient")]
@@ -178,17 +174,19 @@ namespace MedAPI.Controllers
             HttpResponseMessage response = null;
             try
             {
-                //if (IsAdminPermission())
-                //{
+
+                if (userService.IsUserAlreadyExist(mPatient.user) && !mPatient.IsEdit)
+                {
+                    response = Request.CreateResponse(HttpStatusCode.Conflict, "User Already Exist");
+                 
+                }
+                else
+                {
                     mPatient.id = id;
                     var patient = setPatientInfo(mPatient);
                     var responsePatient = patientService.SavePatient(patient);
-                    response = Request.CreateResponse(HttpStatusCode.OK, responsePatient);
-                //}
-                //else
-                //{
-                //    response = Request.CreateResponse(HttpStatusCode.Unauthorized);
-                //}
+                }
+            
 
             }
             catch (DbEntityValidationException e)

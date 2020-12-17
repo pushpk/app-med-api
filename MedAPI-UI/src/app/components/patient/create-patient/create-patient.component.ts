@@ -12,10 +12,10 @@ import { UserAuthService } from 'src/app/auth/user-auth.service';
 @Component({
   selector: 'app-create-patient',
   templateUrl: './create-patient.component.html',
-  styleUrls: ['./create-patient.component.scss']
+  styleUrls: ['./create-patient.component.scss'],
 })
 export class CreatePatientComponent implements OnInit {
-  tabs: Array<{ title: string; value: string; }>;
+  tabs: Array<{ title: string; value: string }>;
   index = new FormControl(0);
   patient: Patient = new Patient();
   isEditable: boolean;
@@ -75,13 +75,17 @@ export class CreatePatientComponent implements OnInit {
   resources = null;
   submit = {
     waiting: false,
-    success: false
+    success: false,
   };
-  constructor(public route: ActivatedRoute, public router: Router,
-              private recordService: RecordService, private patientService: PatientService,
-              public toastr: ToastrService, private authService: UserAuthService) {
-
-    if (this.route.snapshot.queryParamMap.get('docNumber')){
+  constructor(
+    public route: ActivatedRoute,
+    public router: Router,
+    private recordService: RecordService,
+    private patientService: PatientService,
+    public toastr: ToastrService,
+    private authService: UserAuthService
+  ) {
+    if (this.route.snapshot.queryParamMap.get('docNumber')) {
       this.docNumber = this.route.snapshot.queryParamMap.get('docNumber');
     }
     // router.events.subscribe((val) => {
@@ -94,7 +98,6 @@ export class CreatePatientComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
     let patientId = this.route.snapshot.paramMap.get('id');
 
     if (CheckEmptyUtil.isNotEmpty(patientId)) {
@@ -105,27 +108,36 @@ export class CreatePatientComponent implements OnInit {
     // this.isEditable = (this.patient.userId === 0 ||
     //   (this.patient.userId > 0 && this.patient.userId ===
     //     this.authService.getUserId())) ? true : false;
-    this.isEditable = (this.patient.userId > 0 && this.patient.userId === this.authService.getUserId()) ? true : false;
+    this.isEditable =
+      this.patient.userId > 0 &&
+      this.patient.userId === this.authService.getUserId()
+        ? true
+        : false;
 
-    this.tabs = [{
-      title: 'Información General',
-      value: 'form_1'
-    }, {
-      title: 'Información Adicional',
-      value: 'form_2'
-    }, {
-      title: 'Antecedentes',
-      value: 'form_3'
-    }, {
-      title: 'Información de Vivienda',
-      value: 'form_4'
-    }, {
-      title: 'Resumen',
-      value: 'form_5'
-    }];
+    this.tabs = [
+      {
+        title: 'Información General',
+        value: 'form_1',
+      },
+      {
+        title: 'Información Adicional',
+        value: 'form_2',
+      },
+      {
+        title: 'Antecedentes',
+        value: 'form_3',
+      },
+      {
+        title: 'Información de Vivienda',
+        value: 'form_4',
+      },
+      {
+        title: 'Resumen',
+        value: 'form_5',
+      },
+    ];
 
     this.getResources();
-
   }
 
   setPatientDetails(patientData) {
@@ -183,38 +195,43 @@ export class CreatePatientComponent implements OnInit {
       // this.patient.otherFatherBackground = patientDetails.otherFatherBackground;
       // this.patient.otherMotherBackground = patientDetails.otherMotherBackground;
       // this.patient.passwordHash = patientDetails.user.passwordHash;
-
     }
   }
 
   getResources() {
     let resourcesPath: string = 'users/resources';
 
-    this.patientService.getResources(resourcesPath).then((response: any) => {
-      this.patientService.resources.next(response);
-    }).catch((error) => {
-      console.log(error);
-    });
+    this.patientService
+      .getResources(resourcesPath)
+      .then((response: any) => {
+        this.patientService.resources.next(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   submitRequest = function () {
-
     this.submit.waiting = true;
     let currentUserEmail = localStorage.getItem('email');
     let currentUserId = localStorage.getItem('IoggedInID');
     console.log(this.currentUserId);
     console.log(this.patient.userId);
-    this.patientService.save(this.patient, currentUserEmail).then((response: any) => {
-      // console.log(response);
-      this.submit.waiting = false;
-      this.submit.success = true;
-      this.toastr.success('Paciente afiliado correctamente.');
-      this.router.navigateByUrl('/records');
-    }).catch((error) => {
-      console.log(error);
-      this.submit.waiting = false;
-      this.submit.success = false;
-      this.toastr.error('Ocurrió un error al afiliar el paciente.');
-    });
-  }
+    this.patient.IsEdit = true;
+    this.patientService
+      .save(this.patient, currentUserEmail)
+      .then((response: any) => {
+        // console.log(response);
+        this.submit.waiting = false;
+        this.submit.success = true;
+        this.toastr.success('Paciente afiliado correctamente.');
+        this.router.navigateByUrl('/records');
+      })
+      .catch((error) => {
+        console.log(error);
+        this.submit.waiting = false;
+        this.submit.success = false;
+        this.toastr.error('Ocurrió un error al afiliar el paciente.');
+      });
+  };
 }

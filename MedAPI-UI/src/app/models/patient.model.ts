@@ -51,5 +51,5 @@ export class Patient {
   notes = [];
   roleId = 0;
   confirmPasswordHash = '';
-  
+  IsEdit: boolean = false;
 }

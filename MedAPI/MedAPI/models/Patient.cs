@@ -61,5 +61,7 @@ namespace MedAPI.models
         public long? fractureNumber { get; set; }
         public long? dormNumber { get; set; }
         public string highGlucose { get; set; }
+
+        public bool IsEdit { get; set; }
     }
 }
