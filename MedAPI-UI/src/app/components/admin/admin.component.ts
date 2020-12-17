@@ -32,6 +32,7 @@ export class AdminComponent implements OnInit {
     'user.lastNameMother',
     'rne',
     'cmp',
+    'status',
     'action',
     'action2',
     'action3',
@@ -43,6 +44,7 @@ export class AdminComponent implements OnInit {
     'parentCompany',
     'labName',
     'RUC',
+    'status',
     'action',
     'action2',
     'action3',
@@ -79,6 +81,7 @@ export class AdminComponent implements OnInit {
         this.nonApprovedMedics.data = response;
         this.filterEntity = mdc;
         this.filterType = MatTableFilter.ANYWHERE;
+        console.log(this.nonApprovedMedics.data)
 
         this.nonApprovedMedics.sort = this.sort;
       })
@@ -146,6 +149,7 @@ export class AdminComponent implements OnInit {
         console.log(error);
       });
   }
+
   freezeMedic(id: number) {
     this.adminService
       .freezeMedic(id)

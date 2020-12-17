@@ -489,7 +489,7 @@ export class RecordComponent implements OnInit, OnDestroy {
 
       this.setPatientDetails(response);
 
-      console.log(response);
+      // console.log(response);
       // localStorage.setItem('patient', JSON.strinfgify(response.patient));
       // if (CheckEmptyUtil.isNotEmptyObject(response.notes)) {
       //  localStorage.setItem('notes', JSON.stringify(response.notes));
