@@ -680,6 +680,7 @@
                 [(ngModel)]="patient.passwordHash"
                 appPasswordPattern
                 required
+                autocomplete="on"
               />
               <mat-hint align="end"
                 >{{ password.value?.length || 0 }}/16</mat-hint
@@ -717,6 +718,7 @@
                 maxlength="16"
                 matInput
                 #confirmPassword="ngModel"
+                autocomplete="on"
                 [(ngModel)]="patient.confirmPasswordHash"
                 required
               />

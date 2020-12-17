@@ -5,9 +5,12 @@
         <mat-icon>menu</mat-icon>
       </button>
     </ng-container>
-    <h2>
+    <div class="logo" style="padding-top:8px;">
+      <img src="assets/images/logoWhiteLetters.png" height="50">
+    </div>
+    <!-- <h2>
       <span>Historia Clínica Electrónica</span>
-    </h2>
+    </h2> -->
     <span class="horizontal-spacer"></span>
     <ng-container *ngIf="userAuthService.isAuthenticated();">
       <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Menu">

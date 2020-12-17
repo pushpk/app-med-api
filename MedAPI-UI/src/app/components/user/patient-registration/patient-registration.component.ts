@@ -10,6 +10,7 @@ import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { DateAdapter } from '@angular/material/core';
 
 @Component({
   selector: 'app-patient-registration',
@@ -38,7 +39,9 @@ export class PatientRegistrationComponent implements OnInit {
   @ViewChild('personalBackgroundInput') personalBackgroundInput: ElementRef<HTMLInputElement>;
 
 
-  constructor(public router: Router, private patientService: PatientService, public toastr: ToastrService) {
+  constructor(public router: Router, private patientService: PatientService, public toastr: ToastrService,
+    private dateAdapter: DateAdapter<Date>) {
+    this.dateAdapter.setLocale('en-GB')
     this.patient.roleId = 4;
    }
 

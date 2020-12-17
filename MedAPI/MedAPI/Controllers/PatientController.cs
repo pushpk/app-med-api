@@ -307,16 +307,18 @@ namespace MedAPI.Controllers
         public HttpResponseMessage GetSymptomsByPatient(string documentNumber)
         {
             //Domain.User pat = patientService.GetPatientByDocumentNumber(documentNumber);
-            var symptoms = patientService.GetSymptomsByPatientId(documentNumber);
 
             HttpResponseMessage response = null;
             try
             {
+                var symptoms = patientService.GetSymptomsByPatientId(documentNumber);
                 response = Request.CreateResponse(HttpStatusCode.OK, new { symptoms = symptoms });
             }
             catch (Exception ex)
             {
-                response = Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+                //response = Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+                response = Request.CreateResponse(HttpStatusCode.OK);
+
             }
             return response;
 

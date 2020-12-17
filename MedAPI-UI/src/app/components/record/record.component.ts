@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { RecordService } from './services/record.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
@@ -37,6 +37,7 @@ import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
 import { DatePipe } from '@angular/common';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { FormControl, Validators } from '@angular/forms';
+import { HttpErrorResponse } from '@angular/common/http';
 
 export enum TicketStatus {
   REGISTERED = 0,
@@ -62,7 +63,7 @@ PastAttentions {
   styleUrls: ['./record.component.scss'],
 })
 
-export class RecordComponent implements OnInit {
+export class RecordComponent implements OnInit, OnDestroy {
   notes: NoteDetail[];
   patient: Patient = new Patient();
   formData: FormData = new FormData();
@@ -119,15 +120,28 @@ export class RecordComponent implements OnInit {
   specialtyFilter = new FormControl();
   registrationDateFilter = new FormControl();
   descriptionFilter = new FormControl();
+  subscriptionSpecialtyFilter: any;
+  subscriptionIdFilter: any;
+  subscriptionRegistrationDateFilter: any;
+  subscriptionDescriptionFilter: any;
 
   filteredValues = {id: '', specialty: '', registrationDate: '', description: ''};
 
   constructor(private recordService: RecordService, public router: Router, private changeDetectorRefs: ChangeDetectorRef, 
               private commonService: CommonService, private activatedRouter: ActivatedRoute, public toastr: ToastrService,
               private noteService: NoteService, public datePipe: DatePipe) { }
+  
+  ngOnDestroy(): void {
+    this.subscriptionDescriptionFilter.unsubscribe();
+    this.subscriptionIdFilter.unsubscribe();
+    this.subscriptionSpecialtyFilter.unsubscribe();
+    this.subscriptionRegistrationDateFilter.unsubscribe();
+  }
 
   ngOnInit(): void {
 
+    // localStorage.removeItem('notes');
+    // localStorage.removeItem('patient');
     this.askTicket = false;
     this.waitingTicket = false;
     this.askDocumentNumber = true; // false;
@@ -137,18 +151,18 @@ export class RecordComponent implements OnInit {
     localStorage.setItem('speciality', this.selectedSpeciality);
     this.recordService.selectedSpecialty.next(this.selectedSpeciality);
 
-    this.idFilter.valueChanges.subscribe((idFilterValue) => {
+    this.subscriptionIdFilter = this.idFilter.valueChanges.subscribe((idFilterValue) => {
       this.filteredValues.id = idFilterValue;
       this.dataSource.filter = JSON.stringify(this.filteredValues);
       console.log(this.dataSource.filter);
     });
-    this.specialtyFilter.valueChanges.subscribe((specialtyFilterValue) => {
+    this.subscriptionSpecialtyFilter = this.specialtyFilter.valueChanges.subscribe((specialtyFilterValue) => {
       console.log(specialtyFilterValue);
       this.filteredValues.specialty = specialtyFilterValue;
       this.dataSource.filter = JSON.stringify(this.filteredValues);
     });
     // this.registrationDateFilter.setValidators(Validators.minLength(8));
-    this.registrationDateFilter.valueChanges.subscribe((registrationDateFilterValue) => {
+    this.subscriptionRegistrationDateFilter = this.registrationDateFilter.valueChanges.subscribe((registrationDateFilterValue) => {
       // let datePipeEn: DatePipe = new DatePipe('en-US');
       // this.filteredValues.registrationDate = '' + registrationDateFilterValue;
         // this.datePipe.transform(registrationDateFilterValue, 'MM/dd/yyyy', 'en-US');
@@ -172,7 +186,7 @@ export class RecordComponent implements OnInit {
 
 
     });
-    this.descriptionFilter.valueChanges.subscribe((descriptionFilterValue) => {
+    this.subscriptionDescriptionFilter = this.descriptionFilter.valueChanges.subscribe((descriptionFilterValue) => {
       console.log(descriptionFilterValue);
       this.filteredValues.description = descriptionFilterValue;
       this.dataSource.filter = JSON.stringify(this.filteredValues);
@@ -423,6 +437,8 @@ export class RecordComponent implements OnInit {
     self.waitingTicket = true;
     this.recordService.getPatientsByTicketNumber(this.ticketNumber).then((response: any) => {
 
+      console.log(response);
+
       this.setPatientDetails(response);
 
       // localStorage.setItem('patient', response.patient);
@@ -460,6 +476,8 @@ export class RecordComponent implements OnInit {
     this.ticketNumber = '000-000000';
     localStorage.setItem('notes', '');
     localStorage.setItem('patient', '');
+    // localStorage.removeItem('notes');
+    // localStorage.removeItem('patient');
     if (!this.documentNumber) {
       return;
     }
@@ -469,17 +487,22 @@ export class RecordComponent implements OnInit {
     self.waitingTicket = true;
     this.recordService.getPatientsByDocNumber(this.documentNumber).then((response: any) => {
 
-
       this.setPatientDetails(response);
-      // localStorage.setItem('patient', JSON.stringify(response.patient));
+
+      console.log(response);
+      // localStorage.setItem('patient', JSON.strinfgify(response.patient));
       // if (CheckEmptyUtil.isNotEmptyObject(response.notes)) {
       //  localStorage.setItem('notes', JSON.stringify(response.notes));
       // }
       // self.patient = response.patient;
       // self.patient.notes = response.notes;
+      // if (response.patient.id === 0){
+      //   this.askPatientRegistration = false;
+      //   return Promise.reject;
+      // }
 
       // this.dataSource = new MatTableDataSource<PastAttentions>([]);
-      if (typeof self.patient.notes !== 'undefined' && self.patient.notes !== null) {
+      if (typeof self.patient.notes !== 'undefined' && self.patient.notes !== null ) {
 
         var sSymptoms = new Symptoms();
         var pastAtt = new PastAttentions();
@@ -509,6 +532,7 @@ export class RecordComponent implements OnInit {
 
         this.changeDetectorRefs.detectChanges();
       }
+
       self.ticket = {
         ticket: self.ticketNumber,
         status: TicketStatus.REGISTERED
