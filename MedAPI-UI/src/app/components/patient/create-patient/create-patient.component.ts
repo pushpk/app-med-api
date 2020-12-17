@@ -225,7 +225,7 @@ export class CreatePatientComponent implements OnInit {
         this.submit.waiting = false;
         this.submit.success = true;
         this.toastr.success('Paciente afiliado correctamente.');
-        this.router.navigateByUrl('/records');
+        this.router.navigateByUrl('/records/' + this.docNumber);
       })
       .catch((error) => {
         console.log(error);
