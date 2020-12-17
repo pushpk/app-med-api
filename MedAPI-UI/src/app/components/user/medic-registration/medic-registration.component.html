@@ -346,6 +346,7 @@
                 maxlength="16"
                 matInput
                 #password="ngModel"
+                autocomplete="on"
                 [(ngModel)]="medic.user.passwordHash"
                 appPasswordPattern
                 required
@@ -382,6 +383,7 @@
                 matInput
                 #confirmPassword="ngModel"
                 [(ngModel)]="medic.user.confirmPasswordHash"
+                autocomplete="on"
                 required
               />
               <mat-hint align="end"

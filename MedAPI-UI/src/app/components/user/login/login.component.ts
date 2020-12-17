@@ -66,6 +66,7 @@ export class LoginComponent implements OnInit {
 
         localStorage.setItem('loggedInID', response.id);
 
+        console.log(response.role);
         if (response['role'] === 4) {
           localStorage.setItem('role', 'patient');
           var rt = '/records/' + response.docNumber;

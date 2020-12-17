@@ -9,7 +9,7 @@
     (ngSubmit)="doLogin()"
   >
     <mat-form-field fxFlex fxFlexFill>
-      <mat-label style="font-size: 16px; font-weight: 400">Usuario</mat-label>
+      <mat-label style="font-size: 16px; font-weight: 400">Email</mat-label>
       <input
         matInput
         type="email"
@@ -35,6 +35,7 @@
         matInput
         type="password"
         name="password"
+        autocomplete="on"
         required
         [class.is-invalid]="
           (control('password').touched || control('password').dirty) &&

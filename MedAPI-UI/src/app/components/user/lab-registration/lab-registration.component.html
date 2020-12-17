@@ -153,6 +153,7 @@
                 [(ngModel)]="labUser.user.passwordHash"
                 appPasswordPattern
                 required
+                autocomplete="on"
               />
               <mat-hint align="end"
                 >{{ password.value?.length || 0 }}/16</mat-hint
@@ -192,6 +193,7 @@
                 #confirmPassword="ngModel"
                 [(ngModel)]="labUser.user.confirmPasswordHash"
                 required
+                autocomplete="on"
               />
               <mat-hint align="end"
                 >{{ confirmPassword.value?.length || 0 }}/16</mat-hint
