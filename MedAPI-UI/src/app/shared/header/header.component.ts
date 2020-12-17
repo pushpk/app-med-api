@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { CommonService } from '../../services/common.service';
 import { UserAuthService } from '../../auth/user-auth.service';
 import { UserService } from '../../components/user/user.service';
+import { BnNgIdleService } from 'bn-ng-idle';
 
 @Component({
   selector: 'app-header',
@@ -14,7 +15,12 @@ export class HeaderComponent implements OnInit {
   constructor(private router: Router,
     public commonService: CommonService,
     private userService: UserService,
-    public userAuthService: UserAuthService) { }
+    public userAuthService: UserAuthService,
+    ) { }
+
+  // ngOnDestroy(): void {
+  //   this.loggedInSubscription.unsubscribe();
+  // }
 
   ngOnInit(): void {
   }
