@@ -2,15 +2,26 @@ import { Injectable } from '@angular/core';
 import { User } from './model/user.model';
 import { HttpUtilService } from '../../services/http-util.service';
 import { ToastrService } from 'ngx-toastr';
+import { BehaviorSubject } from 'rxjs';
+import { BnNgIdleService } from 'bn-ng-idle';
+import { Router } from '@angular/router';
+import { UserAuthService } from 'src/app/auth/user-auth.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
   user: User;
+  isLoggedIn = false;
+  timer: any;
+  showInactivityAlert = false;
+
   constructor(
     private httpUtilService: HttpUtilService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private bnIdle: BnNgIdleService,
+    private router: Router,
+    public userAuthService: UserAuthService,
   ) {}
 
   login(params: any) {
@@ -29,6 +40,18 @@ export class UserService {
           IsFreezed: boolean;
           message: string;
         }) => {
+          this.timer = this.bnIdle.startWatching(1200).subscribe((isTimedOut:boolean) => {
+            // console.log(isTimedOut);
+            if(isTimedOut) {
+                this.showInactivityAlert = true;
+                this.logout();
+                this.userAuthService.clear();
+                this.router.navigateByUrl('/login');
+                console.log("session expired");
+                this.bnIdle.resetTimer();
+                this.timer.unsubscribe();
+            }
+          })
           if (response.message) {
             return response.message;
           } else {
@@ -57,13 +80,30 @@ export class UserService {
       });
   }
 
+  loggedIn(): any{
+    // return true if token is not expired.
+    const email = localStorage.getItem('email');
+    // console.log(token);
+    if (email === null){
+      return false;
+    }
+    return true;
+  }
+
   logout() {
     const self = this;
     const apiEndpoint = 'logout';
+    if (this.timer){
+      this.timer.unsubscribe();
+    }
+    this.bnIdle.resetTimer();
+
     return self.httpUtilService
       .invoke('POST', null, apiEndpoint, null)
       .then((response) => {
         return response;
       });
   }
+
+
 }

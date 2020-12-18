@@ -9,6 +9,7 @@ import { DatePipe } from '@angular/common';
 import { MustMatchDirective } from './shared/directive/mustMatch.directive';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
+import { BnNgIdleService } from 'bn-ng-idle';
 
 @NgModule({
   declarations: [AppComponent],
@@ -20,7 +21,7 @@ import { MatSortModule } from '@angular/material/sort';
     SharedModule,
     BrowserAnimationsModule,
   ],
-  providers: [DatePipe],
+  providers: [DatePipe, BnNgIdleService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

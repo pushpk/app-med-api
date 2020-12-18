@@ -24,6 +24,7 @@
     "@angular/platform-browser-dynamic": "^9.1.12",
     "@angular/router": "^9.1.12",
     "angular-file": "^3.2.1",
+    "bn-ng-idle": "^1.0.1",
     "file-saver": "^2.0.2",
     "jspdf": "^2.1.1",
     "jspdf-autotable": "^3.5.13",

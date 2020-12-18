@@ -174,6 +174,7 @@ namespace MedAPI.Controllers
             HttpResponseMessage response = null;
             try
             {
+
                 var patient = setPatientInfo(mPatient);
                 if (userService.IsUserAlreadyExist(patient.user) && !mPatient.IsEdit)
                 {
@@ -186,6 +187,7 @@ namespace MedAPI.Controllers
                     var responsePatient = patientService.SavePatient(patient);
                 }
             
+
 
             }
             catch (DbEntityValidationException e)

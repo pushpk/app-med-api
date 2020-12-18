@@ -8,5 +8,7 @@ import { UserAuthService } from './auth/user-auth.service';
 })
 export class AppComponent {
   title = 'MedAPI-UI';
-  constructor(public userAuthService: UserAuthService) { }
+  constructor(public userAuthService: UserAuthService) { 
+
+  }
 }

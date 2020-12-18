@@ -17,17 +17,20 @@ import { RecordService } from '../../record/services/record.service';
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
+  timer: any;
+  showInactivityAlert: boolean = false;
 
   constructor(
     private fb: FormBuilder,
     public router: Router,
     private recordService: RecordService,
     public userService: UserService,
-    private userAuthService: UserAuthService
+    private userAuthService: UserAuthService,
   ) {}
 
   ngOnInit(): void {
     this.buildForm();
+    this.showInactivityAlert = this.userService.showInactivityAlert;
   }
 
   buildForm() {
@@ -66,7 +69,7 @@ export class LoginComponent implements OnInit {
 
         localStorage.setItem('loggedInID', response.id);
 
-        console.log(response.role);
+        // console.log(response.role);
         if (response['role'] === 4) {
           localStorage.setItem('role', 'patient');
           var rt = '/records/' + response.docNumber;
