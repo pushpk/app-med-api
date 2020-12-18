@@ -174,17 +174,20 @@ namespace MedAPI.Controllers
             HttpResponseMessage response = null;
             try
             {
-                //if (IsAdminPermission())
-                //{
-                mPatient.id = id;
+
                 var patient = setPatientInfo(mPatient);
-                var responsePatient = patientService.SavePatient(patient);
-                response = Request.CreateResponse(HttpStatusCode.OK, responsePatient);
-                //}
-                //else
-                //{
-                //    response = Request.CreateResponse(HttpStatusCode.Unauthorized);
-                //}
+                if (userService.IsUserAlreadyExist(patient.user) && !mPatient.IsEdit)
+                {
+                    response = Request.CreateResponse(HttpStatusCode.Conflict, "User Already Exist");
+                 
+                }
+                else
+                {
+                    patient.id = id;
+                    var responsePatient = patientService.SavePatient(patient);
+                }
+            
+
 
             }
             catch (DbEntityValidationException e)
