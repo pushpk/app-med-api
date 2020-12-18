@@ -67,7 +67,9 @@ namespace MedAPI.Infrastructure
             [Description("O+")]
             OP = 7,
             [Description("O-")]
-            OM = 8
+            OM = 8,
+            [Description("Desconocido")]
+            UNKNOWN = 8
         }
 
         public enum DocumentType
@@ -354,7 +356,19 @@ namespace MedAPI.Infrastructure
         }
         public enum Race
         {
-            MESTIZO = 1
+            [Description("India americana o nativo de Alaska")]
+            INDIAN_AMERICAN = 1,
+            [Description("Blanca")]
+            Blanca = 2,
+            [Description("Negra o afroamericana")]
+            Negra_o_afroamericana = 3,
+            [Description("Indioasiática")]
+            Indioasiática = 4,
+            [Description("Asiática")]
+            Asiática = 5,
+            [Description("Otra")]
+            Otra = 6
+
         }
 
         //public enum pulsesLLMs

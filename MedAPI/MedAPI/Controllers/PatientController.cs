@@ -174,16 +174,15 @@ namespace MedAPI.Controllers
             HttpResponseMessage response = null;
             try
             {
-
-                if (userService.IsUserAlreadyExist(mPatient.user) && !mPatient.IsEdit)
+                var patient = setPatientInfo(mPatient);
+                if (userService.IsUserAlreadyExist(patient.user) && !mPatient.IsEdit)
                 {
                     response = Request.CreateResponse(HttpStatusCode.Conflict, "User Already Exist");
                  
                 }
                 else
                 {
-                    mPatient.id = id;
-                    var patient = setPatientInfo(mPatient);
+                    patient.id = id;
                     var responsePatient = patientService.SavePatient(patient);
                 }
             
