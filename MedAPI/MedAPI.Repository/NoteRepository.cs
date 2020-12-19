@@ -545,7 +545,7 @@ namespace MedAPI.Repository
                 {
                     efNotes = new DataAccess.note();
                     efNotes.deleted = false;// BitConverter.GetBytes(false);
-                    efNotes.createdDate = DateTime.UtcNow;
+                    efNotes.createdDate = mNote.createdDate;
                     context.notes.Add(efNotes);
                     efNotes.status = "open";
                 }

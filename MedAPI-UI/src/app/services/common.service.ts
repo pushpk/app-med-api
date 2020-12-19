@@ -110,7 +110,15 @@ export class CommonService {
           doc.text('Paciente', 14, (currentY += 15));
 
           doc.setFont('helvetica', null);
-          doc.text(patient.name, 14, (currentY += 8));
+          doc.text(
+            patient.name +
+              ' ' +
+              patient.lastnameFather +
+              ' ' +
+              patient.lastnameMother,
+            14,
+            (currentY += 8)
+          );
 
           // Patient Doc Number
           doc.setFont('helvetica', 'bold');
@@ -432,7 +440,7 @@ export class CommonService {
             this.medicForNote.user.firstName +
             ' ' +
             this.medicForNote.user.lastNameFather +
-            '' +
+            ' ' +
             this.medicForNote.user.lastNameMother;
           doc.setFont('helvetica', '');
           doc.text(medicName, 14, 18 + finalY);
