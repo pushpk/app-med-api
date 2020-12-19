@@ -193,9 +193,11 @@ namespace MedAPI.Service
                   .ToList();
 
             mUserResourcesList.races = Enum.GetValues(typeof(Race))
-                .Cast<FruitsVegetables>()
-                .Select(d => new ObjectNode() { id = d.ToString().ToUpper(), name = StringExtensions.FirstCharToUpper(d.ToString()) })
+                .Cast<Race>()
+                .Select(d => new ObjectNode() { id = d.ToString().ToUpper(), name = d.GetDescription() })
                 .ToList();
+
+
 
             mUserResourcesList.provinces = provinceRepository.GetAllProvince().Select(x => new Domain.ObjectNode()
             {
