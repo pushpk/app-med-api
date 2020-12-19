@@ -129,7 +129,9 @@ export class RecordComponent implements OnInit, OnDestroy {
 
   constructor(private recordService: RecordService, public router: Router, private changeDetectorRefs: ChangeDetectorRef, 
               private commonService: CommonService, private activatedRouter: ActivatedRoute, public toastr: ToastrService,
-              private noteService: NoteService, public datePipe: DatePipe) { }
+              private noteService: NoteService, public datePipe: DatePipe, private dateAdapter: DateAdapter<Date>) {
+                // this.dateAdapter.setLocale('en-GB')
+               }
   
   ngOnDestroy(): void {
     this.subscriptionDescriptionFilter.unsubscribe();
@@ -513,6 +515,8 @@ export class RecordComponent implements OnInit, OnDestroy {
         // this.dataSource.sort = this.sort;
 
         this.dataSource.data = self.patient.notes;
+
+        console.log(self.patient.notes)
 
         setTimeout(() =>
         {

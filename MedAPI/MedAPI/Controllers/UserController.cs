@@ -23,13 +23,15 @@ namespace MedAPI.Controllers
         private readonly IEmailService emailService;
         private readonly IMedicService medicService;
         private readonly ILabService labService;
+        private readonly IPatientService patientService;
 
-        public UserController(IUserService userService, IEmailService emailService, IMedicService medicService, ILabService labService)
+        public UserController(IUserService userService, IEmailService emailService, IMedicService medicService, ILabService labService, IPatientService patientService)
         {
             this.userService = userService;
             this.emailService = emailService;
             this.medicService = medicService;
             this.labService = labService;
+            this.patientService = patientService;
         }
 
         [HttpGet]
@@ -81,6 +83,25 @@ namespace MedAPI.Controllers
             return response;
         }
 
+        [HttpGet]
+        [Route("active-user-counts")]
+        public HttpResponseMessage GetAllUserCounts()
+        {
+            HttpResponseMessage response = null;
+            try
+            {
+                var numPatients = patientService.GetActivePatientCount();
+                var numMedics = medicService.GetActiveMedicCount();
+                var numLabs = labService.GetActiveLabCount();
+                response = Request.CreateResponse(HttpStatusCode.OK, new { numPatients, numMedics, numLabs });
+            }
+            catch (Exception ex)
+            {
+                response = Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+            return response;
+
+        }
 
         [HttpGet]
         [Route("users/{id:int}")]

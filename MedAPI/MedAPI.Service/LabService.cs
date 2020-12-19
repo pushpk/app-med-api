@@ -26,8 +26,6 @@ namespace MedAPI.Service
             return labRepository.GetAllUploadsByPatient(patientId);
         }
 
-     
-
         public LabUploadResult GetTestResultById(int id)
         {
             return labRepository.GetTestResultById(id);
@@ -59,6 +57,11 @@ namespace MedAPI.Service
         public Lab GetLab(long id)
         {
             return labRepository.GetLab(id);
+        }
+
+        public int GetActiveLabCount()
+        {
+            return labRepository.GetActiveLabCount();
         }
 
         public Lab UpdateLab(Lab mLab)

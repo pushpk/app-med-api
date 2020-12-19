@@ -94,4 +94,10 @@ export class AdminService {
 
     return self.httpUtilService.invokeQuery('GET', params, apiEndpoint);
   }
+
+  getActiveUserCounts(){
+    const self = this;
+    const apiEndpoint = 'users/active-user-counts';
+    return self.httpUtilService.invokeQuery('GET', null, apiEndpoint);
+  }
 }

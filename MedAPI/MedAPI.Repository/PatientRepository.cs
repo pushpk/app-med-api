@@ -48,6 +48,14 @@ namespace MedAPI.Repository
             }
         }
 
+        public int GetActivePatientCount()
+        {
+            using (var context = new DataAccess.registroclinicoEntities())
+            {
+                return context.patients.Where(x => x.user.emailConfirmed == true).Count();
+            }
+        }
+
         public Patient GetPatientById(long id)
         {
             using (var context = new DataAccess.registroclinicoEntities())
