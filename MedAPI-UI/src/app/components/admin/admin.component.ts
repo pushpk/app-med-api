@@ -23,6 +23,7 @@ export class AdminComponent implements OnInit {
   filterType: MatTableFilter;
   filterEntity: Medic;
   filterEntityLab: LabUser;
+  userCounts: any;
 
   nonApprovedMedicsData: Medic[];
   nonApprovedMedics = new MatTableDataSource<Medic>([]);
@@ -103,6 +104,12 @@ export class AdminComponent implements OnInit {
       .catch((error: any) => {
         console.log(error);
       });
+
+    this.adminService
+      .getActiveUserCounts()
+      .then((response) => {
+        this.userCounts = response;
+      })
   }
 
   ngAfterViewInit() {

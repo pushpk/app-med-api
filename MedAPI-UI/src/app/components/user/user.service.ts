@@ -40,7 +40,7 @@ export class UserService {
           IsFreezed: boolean;
           message: string;
         }) => {
-          this.timer = this.bnIdle.startWatching(1200).subscribe((isTimedOut:boolean) => {
+          this.timer = this.bnIdle.startWatching(900).subscribe((isTimedOut:boolean) => {
             // console.log(isTimedOut);
             if(isTimedOut) {
                 this.showInactivityAlert = true;
@@ -94,9 +94,9 @@ export class UserService {
     const self = this;
     const apiEndpoint = 'logout';
     if (this.timer){
+      this.bnIdle.resetTimer();
       this.timer.unsubscribe();
     }
-    this.bnIdle.resetTimer();
 
     return self.httpUtilService
       .invoke('POST', null, apiEndpoint, null)

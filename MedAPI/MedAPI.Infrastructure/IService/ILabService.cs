@@ -19,6 +19,7 @@ namespace MedAPI.Infrastructure.IService
 
         LabUploadResult GetTestResultById(int id);
         Lab GetLab(long id);
+        int GetActiveLabCount();
         Lab UpdateLab(Lab mLab);
     }
 }

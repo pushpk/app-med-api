@@ -10,6 +10,7 @@ namespace MedAPI.Infrastructure.IRepository
    public interface IMedicRepository
     {
         List<Medic> GetAllMedic();
+        int GetActiveMedicCount();
         Medic GetMedicById(long id);
         bool DeleteMedicById(long id);
         long SaveMedic(Medic mMedic);

@@ -159,7 +159,15 @@ namespace MedAPI.Repository
                    }).FirstOrDefault();
             }
         }
-       
+
+        public int GetActiveLabCount()
+        {
+            using (var context = new DataAccess.registroclinicoEntities())
+            {
+                return context.labs.Where(x => (x.IsApproved || x.IsFreezed) && x.user.emailConfirmed == true).Count();
+            }
+        }
+
         public Lab UpdateLab(Lab mLab)
         {
             using (var context = new DataAccess.registroclinicoEntities())

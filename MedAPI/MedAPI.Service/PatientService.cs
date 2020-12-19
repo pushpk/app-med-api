@@ -23,6 +23,11 @@ namespace MedAPI.Service
             return patientRepository.GetAllPatient();
         }
 
+        public int GetActivePatientCount()
+        {
+            return patientRepository.GetActivePatientCount();
+        }
+
         public Patient GetPatientById(long id)
         {
             return patientRepository.GetPatientById(id);

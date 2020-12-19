@@ -10,6 +10,7 @@ namespace MedAPI.Infrastructure.IRepository
     public interface IPatientRepository
     {
         List<Patient> GetAllPatient();
+        int GetActivePatientCount();
         Patient GetPatientById(long id);
         bool DeletePatientById(long id);
         List<District> GetDistrictByprovinceId(long id);

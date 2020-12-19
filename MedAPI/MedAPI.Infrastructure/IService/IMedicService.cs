@@ -10,6 +10,7 @@ namespace MedAPI.Infrastructure.IService
    public interface IMedicService
     {
         List<Medic> GetAllMedic();
+        int GetActiveMedicCount();
         Medic GetMedicById(long id);
         bool DeleteMedicById(long id);
         Medic SaveMedic(Domain.Medic mMedic);

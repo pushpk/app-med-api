@@ -22,6 +22,14 @@ namespace MedAPI.Repository
             }
         }
 
+        public int GetActiveMedicCount()
+        {
+            using (var context = new DataAccess.registroclinicoEntities())
+            {
+                return context.medics.Where(x => (x.IsApproved || x.IsFreezed) && x.user.emailConfirmed == true).Count();
+            }
+        }
+
         public Medic GetMedicById(long id)
         {
             using (var context = new DataAccess.registroclinicoEntities())

@@ -1,7 +1,23 @@
 <div class="maintainer">
+  <h1 fxLayoutAlign="center center">Usuarios Activos:</h1>
+  <div fxLayout="row wrap" fxLayoutAlign="space-between center">
+    <mat-card fxFlex="30" class="no-pad" style="height:100px; padding:15px;">
+      <h2 fxLayoutAlign="center center" style="font-size: xx-large;">{{userCounts.numPatients}}</h2>
+      <p fxLayoutAlign="center center">Pacientes </p>
+    </mat-card>
+    <mat-card fxFlex="30" class="no-pad" style="height:100px; padding:15px">
+      <h2 fxLayoutAlign="center center" style="font-size: xx-large;">{{userCounts.numMedics}}</h2>
+      <p fxLayoutAlign="center center">Doctores </p>
+    </mat-card>
+    <mat-card fxFlex="30" class="no-pad" style="height:100px; padding:15px">
+      <h2 fxLayoutAlign="center center" style="font-size: xx-large;">{{userCounts.numLabs}}</h2>
+      <p fxLayoutAlign="center center">Laboratorios </p>
+    </mat-card>
+  </div>
+  <h1 fxLayoutAlign="center center">Gestión de Usuarios:</h1>
   <mat-tab-group>
     <mat-tab label="Doctores">
-      <h2>Doctores</h2>
+      <h2 style="margin-top: 20px">Doctores</h2>
       <div fxLayout="row wrap" fxLayoutAlign="left center">
         <span
           fxFlex="3"
@@ -239,7 +255,7 @@
       </mat-card>
     </mat-tab>
     <mat-tab label="Labs">
-      <h2>Labs</h2>
+      <h2 style="margin-top: 20px">Labs</h2>
       <div fxLayout="row wrap" fxLayoutAlign="left center">
         <span
           fxFlex="3"
