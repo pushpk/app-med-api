@@ -20,7 +20,7 @@ export class FormTriageComponent implements OnInit {
   @Input() patient: any;
   @Input() isEditable: boolean;
   @Output() computedFieldsChange = new EventEmitter<any>();
-
+  BMI: number;
 
 
   constructor(public noteService: NoteService, public dialog: MatDialog) {
@@ -35,8 +35,6 @@ export class FormTriageComponent implements OnInit {
   updateComputedFields() {
     this.computedFieldsChange.emit(this.note);
   }
-
-
 
   showIndicatorDialog(o: any) {
     console.log(o, 'o');

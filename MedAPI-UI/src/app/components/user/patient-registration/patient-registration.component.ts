@@ -11,6 +11,8 @@ import { Observable } from 'rxjs';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { DateAdapter } from '@angular/material/core';
+import { DialogTermsAndConditionsComponent } from 'src/app/shared/termsAndConditions/dialog-terms-and-conditions.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-patient-registration',
@@ -29,7 +31,9 @@ export class PatientRegistrationComponent implements OnInit {
   filteredAllergies: Observable<string[]>;
   filteredMedicines: Observable<string[]>;
   filteredPersonalBackgrounds: Observable<string[]>;
-
+  acceptTermsAndConditions = false;
+  showRequiredError = false;
+  
   selectedAllergies = [];
   selectedMedicines = [];
   selectedPersonalBackgrounds = [];
@@ -40,7 +44,7 @@ export class PatientRegistrationComponent implements OnInit {
 
 
   constructor(public router: Router, private patientService: PatientService, public toastr: ToastrService,
-    private dateAdapter: DateAdapter<Date>) {
+    private dateAdapter: DateAdapter<Date>, public dialog: MatDialog,) {
     this.dateAdapter.setLocale('en-GB')
     this.patient.roleId = 4;
    }
@@ -268,6 +272,34 @@ export class PatientRegistrationComponent implements OnInit {
     }).catch((error) => {
       console.log(error);
     });
+  }
+
+  openTermsAndConditions(){
+    let dialogRef = this.dialog.open(DialogTermsAndConditionsComponent, {
+      panelClass: 'custom-dialog',
+      data: {
+      },
+      autoFocus: false,
+      maxHeight: '90vh',
+      maxWidth: '120vw'
+
+    });
+    dialogRef.afterClosed().subscribe((response: any) => {
+      console.log(response)
+      if (response == undefined){
+        this.acceptTermsAndConditions = false;
+        this.showRequiredError = true;
+      }
+      else if (response.accept == true) {
+        this.acceptTermsAndConditions = true;
+        this.showRequiredError = false;
+      } else {
+        this.acceptTermsAndConditions = false;
+        this.showRequiredError = true;
+      }
+
+    });
+
   }
 
 }
