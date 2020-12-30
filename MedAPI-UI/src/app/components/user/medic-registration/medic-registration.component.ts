@@ -5,6 +5,8 @@ import { MedicUser } from 'src/app/models/medicuser.model';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { MustMatchDirective } from 'src/app/shared/directive/mustMatch.directive';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogTermsAndConditionsComponent } from 'src/app/shared/termsAndConditions/dialog-terms-and-conditions.component';
 
 @Component({
   selector: 'app-medic-registration',
@@ -16,11 +18,15 @@ export class MedicRegistrationComponent implements OnInit {
   specialities: string[];
   resources: any;
   medic: Medic = new Medic();
+  acceptTermsAndConditions = false;
+  showRequiredError = false;
 
   constructor(
     public router: Router,
     private patientService: PatientService,
-    public toastr: ToastrService
+    public toastr: ToastrService,
+    public dialog: MatDialog,
+
   ) {
     this.medic.user = new MedicUser();
     this.medic.user.roleId = 2;
@@ -107,11 +113,11 @@ export class MedicRegistrationComponent implements OnInit {
   }
 
   submitRequest() {
-    console.log(this.medic);
+    // console.log(this.medic);
     this.patientService
       .createMedic(this.medic)
       .then((response: any) => {
-        console.log(response);
+        // console.log(response);
 
         this.toastr.success('Médico registrado con éxito.');
         this.router.navigateByUrl('/login');
@@ -135,7 +141,7 @@ export class MedicRegistrationComponent implements OnInit {
     this.patientService
       .updateProvinces(resourcesPath)
       .then((response: any) => {
-        console.log(response, 'response');
+        // console.log(response, 'response');
         this.resources.provinces = response;
       })
       .catch((error) => {
@@ -150,7 +156,7 @@ export class MedicRegistrationComponent implements OnInit {
     this.patientService
       .updateDistricts(resourcesPath)
       .then((response: any) => {
-        console.log(response, 'response');
+        // console.log(response, 'response');
         this.resources.districts = response;
       })
       .catch((error) => {
@@ -161,5 +167,33 @@ export class MedicRegistrationComponent implements OnInit {
   numberOnly(ele: any) {
     var regex = /[^0-9]/gi;
     ele.value = ele.value.replace(regex, '');
+  }
+
+  openTermsAndConditions(){
+    let dialogRef = this.dialog.open(DialogTermsAndConditionsComponent, {
+      panelClass: 'custom-dialog',
+      data: {
+      },
+      autoFocus: false,
+      maxHeight: '90vh',
+      maxWidth: '120vw'
+
+    });
+    dialogRef.afterClosed().subscribe((response: any) => {
+      console.log(response)
+      if (response == undefined){
+        this.acceptTermsAndConditions = false;
+        this.showRequiredError = true;
+      }
+      else if (response.accept == true) {
+        this.acceptTermsAndConditions = true;
+        this.showRequiredError = false;
+      } else {
+        this.acceptTermsAndConditions = false;
+        this.showRequiredError = true;
+      }
+
+    });
+
   }
 }

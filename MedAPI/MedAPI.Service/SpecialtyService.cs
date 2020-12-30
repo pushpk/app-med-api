@@ -28,6 +28,7 @@ namespace MedAPI.Service
 
                 string memberDescription = ((DescriptionAttribute)Attribute.GetCustomAttribute(member, descriptionAttributeType)).Description;
                 specialtyList.Add(memberDescription);
+                specialtyList.OrderBy(x => x);
             }
             return specialtyList;
         }
@@ -38,7 +39,7 @@ namespace MedAPI.Service
            
             List<string> specialtyList = new List<string>();
 
-            specialtyList = this.specialtyRepository.SearchByName(name).Select(s => s.name).ToList();
+            specialtyList = this.specialtyRepository.SearchByName(name).OrderBy(x => x.name).Select(s => s.name).ToList();
 
             //Type enumType = typeof(Common.Specialty);
             //Type descriptionAttributeType = typeof(DescriptionAttribute);

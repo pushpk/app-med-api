@@ -1,7 +1,7 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { BehaviorSubject } from 'rxjs';
-
+import { TitleCasePipe } from '@angular/common'
 import { jsPDF } from 'jspdf';
 
 // import 'jspdf-autotable';
@@ -26,7 +26,8 @@ export class CommonService {
 
   constructor(
     public datepipe: DatePipe,
-    private httpUtilService: HttpUtilService
+    private httpUtilService: HttpUtilService,
+    private titleCasePipe: TitleCasePipe
   ) {}
 
   patternValidator(): ValidatorFn {
@@ -68,46 +69,64 @@ export class CommonService {
       //Interconsultation
 
       var medic;
+      var titleFontSize = 20;
+      var contentFontSize = 14;
+    
       this.getMedicForThisNote(note.medicId)
         .then((response: Medic) => {
           this.medicForNote = response;
 
           var doc = new jsPDF();
 
-          doc.setFontSize(35);
-          var currentY = 15;
+          var logo = new Image();
+          logo.src = 'assets/images/logo.png'
+          doc.addImage(logo, 'png', 15, 15, 50, 15);
+          // doc.addImage(logo.png);
+
+          doc.setFontSize(titleFontSize);
+          var currentY = 40;
           if (type === 'Prescription') {
-            doc.text('Receta medica', 14, currentY);
+            var title = 'Receta Medica'
+            // var xOffset = (doc.internal.pageSize.width / 2) - (doc.getStringUnitWidth(title) * titleFontSize / 2); 
+            doc.text(title, doc.internal.pageSize.width / 2, currentY, null, 'center');
           } else if (type === 'Interconsultation') {
-            doc.text('Solicitud de interconsulta', 14, currentY);
+            var title = 'Solicitud de Interconsulta'
+            // var xOffset = (doc.internal.pageSize.width / 2) - (doc.getStringUnitWidth(title) * titleFontSize / 2); 
+            doc.text(title, doc.internal.pageSize.width / 2, currentY, null, 'center');
           } else {
-            doc.text('Atención medica', 14, currentY);
+            var title = 'Atención Médica'
+            // var xOffset = (doc.internal.pageSize.width / 2) - (doc.getStringUnitWidth(title) * titleFontSize / 2); 
+            doc.text(title, doc.internal.pageSize.width / 2, currentY, null, 'center');
           }
 
-          doc.setFontSize(20);
+          doc.setFontSize(contentFontSize);
+
+          doc.text('Fecha: ' + this.datepipe.transform(note.registrationDate, 'dd/MM/yyyy'), doc.internal.pageSize.width / 2, currentY + 7, null, 'center');
+
 
           //Right Side of the page
           //Patient Sex
           doc.setFont('helvetica', 'bold');
-          doc.text('Sexo', 156, 30);
+          doc.text('Sexo', 146, 63);
 
           doc.setFont('helvetica', null);
-          doc.text(patient.sex, 156, 38);
+          doc.text(patient.sex, 146, 71);
 
           // Patient Date of Birth
           doc.setFont('helvetica', 'bold');
-          doc.text('Fecha', 156, 50);
+          doc.text('Fecha de Nacimiento', 146, 83);
 
           doc.setFont('helvetica', null);
           doc.text(
-            this.datepipe.transform(patient.birthday, 'yyyy-MM-dd'),
-            156,
-            58
+            // patient.age.toString(),
+            this.datepipe.transform(patient.birthday, 'dd-MM-yyyy'),
+            146,
+            91
           );
 
           //Name
           doc.setFont('helvetica', 'bold');
-          doc.text('Paciente', 14, (currentY += 15));
+          doc.text('Paciente', 14, (currentY += 23));
 
           doc.setFont('helvetica', null);
           doc.text(
@@ -131,26 +150,26 @@ export class CommonService {
 
           if (type === 'Attention') {
             doc.setFont('helvetica', 'bold');
-            doc.text('Presión arterial sistólica (mmHg)', 14, (currentY += 15));
+            doc.text('Presión arterial (mmHg)', 14, (currentY += 15));
             doc.setFont('helvetica', null);
             doc.text(
-              note.triage.vitalFunctions.systolic.toString(),
+              note.triage.vitalFunctions.systolic.toString() + '/' + note.triage.vitalFunctions.diastolic.toString(),
               14,
               (currentY += 8)
             );
 
-            doc.setFont('helvetica', 'bold');
-            doc.text(
-              'Presión arterial diastólica (mmHg)',
-              14,
-              (currentY += 15)
-            );
-            doc.setFont('helvetica', null);
-            doc.text(
-              note.triage.vitalFunctions.diastolic.toString(),
-              14,
-              (currentY += 8)
-            );
+            // doc.setFont('helvetica', 'bold');
+            // doc.text(
+            //   'Presión arterial diastólica (mmHg)',
+            //   14,
+            //   (currentY += 15)
+            // );
+            // doc.setFont('helvetica', null);
+            // doc.text(
+            //   note.triage.vitalFunctions.diastolic.toString(),
+            //   14,
+            //   (currentY += 8)
+            // );
 
             console.log(doc.internal.pageSize.height);
             console.log(currentY);
@@ -190,7 +209,7 @@ export class CommonService {
 
             // Symptom Description
             doc.setFont('helvetica', 'bold');
-            doc.text('Síntomas Descripción', 14, (currentY += 15));
+            doc.text('Síntomas', 14, (currentY += 15));
 
             doc.setFont('helvetica', null);
             doc.text(note.symptoms.description, 14, (currentY += 8));
@@ -233,7 +252,7 @@ export class CommonService {
               var temp = [
                 i + 1,
                 note.diagnosis.list[i].code,
-                note.diagnosis.list[i].title,
+                this.titleCasePipe.transform(note.diagnosis.list[i].title),
                 note.diagnosis.list[i].type === 'PRESUMPTIVE'
                   ? 'Presumptivo'
                   : note.diagnosis.list[i].type === 'DEFINATIVE'
@@ -250,7 +269,7 @@ export class CommonService {
               columns: col,
               theme: 'grid',
               headStyles: {
-                fontSize: 18,
+                fontSize: contentFontSize,
                 fontStyle: 'bold',
                 fillColor: 'white',
                 textColor: 'black',
@@ -258,7 +277,7 @@ export class CommonService {
                 lineWidth: 0.5,
               },
               bodyStyles: {
-                fontSize: 18,
+                fontSize: contentFontSize,
                 textColor: 'black',
                 lineColor: 'black',
                 lineWidth: 0.5,
@@ -297,8 +316,8 @@ export class CommonService {
             var rowsExam = [];
 
             for (var i = 0; i < note.exams.list.length; i++) {
-              var temp = [i + 1, note.exams.list[i].name];
-              rowsExam.push(temp);
+              var tempExams = [i + 1, this.titleCasePipe.transform(note.exams.list[i].name)];
+              rowsExam.push(tempExams);
             }
 
             // @ts-ignore
@@ -309,7 +328,7 @@ export class CommonService {
               columns: colExams,
               theme: 'grid',
               headStyles: {
-                fontSize: 18,
+                fontSize: contentFontSize,
                 fontStyle: 'bold',
                 fillColor: 'white',
                 textColor: 'black',
@@ -317,7 +336,7 @@ export class CommonService {
                 lineWidth: 0.5,
               },
               bodyStyles: {
-                fontSize: 18,
+                fontSize: contentFontSize,
                 textColor: 'black',
                 lineColor: 'black',
                 lineWidth: 0.5,
@@ -343,8 +362,8 @@ export class CommonService {
             var colTreatments = ['#', 'Descripción', 'Indicaciones'];
             var rowsTreatments = [];
 
-            console.log(note.treatments.list);
-            console.log(note.interconsultation.list);
+            // console.log(note.treatments.list);
+            // console.log(note.interconsultation.list);
 
             for (var i = 0; i < note.treatments.list.length; i++) {
               var temp = [
@@ -354,16 +373,23 @@ export class CommonService {
               ];
               rowsTreatments.push(temp);
             }
-
+            if (note.treatments.other && note.treatments.other.length > 0) {
+              var otherTreatment = [
+                note.treatments.list.length + 1,
+                'No farmacéutico',
+                note.treatments.other
+              ];
+              rowsTreatments.push(otherTreatment);
+            }
             // @ts-ignore
             doc.autoTable({
               styles: { theme: 'plain' },
-              margin: { top: 70 },
+              margin: { top: 120 },
               body: rowsTreatments,
               columns: colTreatments,
               theme: 'grid',
               headStyles: {
-                fontSize: 18,
+                fontSize: contentFontSize,
                 fontStyle: 'bold',
                 fillColor: 'white',
                 textColor: 'black',
@@ -371,7 +397,7 @@ export class CommonService {
                 lineWidth: 0.5,
               },
               bodyStyles: {
-                fontSize: 18,
+                fontSize: contentFontSize,
                 textColor: 'black',
                 lineColor: 'black',
                 lineWidth: 0.5,
@@ -379,23 +405,23 @@ export class CommonService {
             });
 
             // @ts-ignore
-            finalY = doc.lastAutoTable ? doc.lastAutoTable.finalY : 65;
+            finalY = doc.lastAutoTable ? doc.lastAutoTable.finalY + 40: 105+40;
           }
 
           if (type === 'Interconsultation') {
             var colInterconsultation = ['#', 'Especialidad', 'Motivo'];
             var rowsInterconsultation = [];
 
-            console.log(note.treatments.list);
-            console.log(note.interconsultation.list);
+            // console.log(note.treatments.list);
+            // console.log(note.interconsultation.list);
 
             for (var i = 0; i < note.interconsultation.list.length; i++) {
-              var temp = [
+              var interconsultationTable = [
                 i + 1,
-                note.interconsultation.list[i].specialty,
-                note.interconsultation.list[i].reason,
+                this.titleCasePipe.transform(note.interconsultation.list[i].specialty),
+                this.titleCasePipe.transform(note.interconsultation.list[i].reason),
               ];
-              rowsInterconsultation.push(temp);
+              rowsInterconsultation.push(interconsultationTable);
             }
 
             // @ts-ignore
@@ -406,7 +432,7 @@ export class CommonService {
               columns: colInterconsultation,
               theme: 'grid',
               headStyles: {
-                fontSize: 18,
+                fontSize: contentFontSize,
                 fontStyle: 'bold',
                 fillColor: 'white',
                 textColor: 'black',
@@ -414,7 +440,7 @@ export class CommonService {
                 lineWidth: 0.5,
               },
               bodyStyles: {
-                fontSize: 18,
+                fontSize: contentFontSize,
                 textColor: 'black',
                 lineColor: 'black',
                 lineWidth: 0.5,
@@ -422,7 +448,7 @@ export class CommonService {
             });
 
             // @ts-ignore
-            finalY = doc.lastAutoTable ? doc.lastAutoTable.finalY : currentY;
+            finalY = doc.lastAutoTable ? doc.lastAutoTable.finalY + 25 : currentY + 25;
           }
 
           var pageHeight = doc.internal.pageSize.height;
@@ -445,7 +471,7 @@ export class CommonService {
           doc.setFont('helvetica', '');
           doc.text(medicName, 14, 18 + finalY);
 
-          doc.setFontSize(15);
+          doc.setFontSize(contentFontSize);
 
           doc.setFont('helvetica', '');
           doc.text(
@@ -454,7 +480,13 @@ export class CommonService {
             24 + finalY
           );
 
-          doc.setFontSize(35);
+          doc.text(
+            'Fecha:' + this.datepipe.transform(note.registrationDate, 'dd/MM/yyyy'),
+            14,
+            30 + finalY
+          )
+
+          doc.setFontSize(contentFontSize);
           doc.save(patient.name + '_' + type + '.pdf');
         })
         .catch((error: any) => {

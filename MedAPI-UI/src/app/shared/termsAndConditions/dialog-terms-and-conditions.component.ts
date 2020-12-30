@@ -2,18 +2,18 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-dialog-close-attention',
-  templateUrl: './dialog-close-attention.component.html',
-  styleUrls: ['./dialog-close-attention.component.scss']
+  selector: 'app-dialog-terms-and-conditions',
+  templateUrl: './dialog-terms-and-conditions.component.html',
+  styleUrls: ['./dialog-terms-and-conditions.component.scss']
 })
-export class DialogCloseAttentionComponent implements OnInit {
+export class DialogTermsAndConditionsComponent implements OnInit {
 
-  constructor(public dialogRef: MatDialogRef<DialogCloseAttentionComponent>,
+  constructor(public dialogRef: MatDialogRef<DialogTermsAndConditionsComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit(): void {
   }
-
+  
   cancel(): void {
     this.dialogRef.close({
       accept: false,
@@ -25,4 +25,5 @@ export class DialogCloseAttentionComponent implements OnInit {
       accept: true,
     });
   }
+
 }

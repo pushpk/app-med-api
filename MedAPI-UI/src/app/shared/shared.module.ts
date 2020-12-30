@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, TitleCasePipe } from '@angular/common';
 import { HeaderComponent } from './header/header.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
@@ -38,9 +38,10 @@ import { ToastrModule } from 'ngx-toastr';
 import { ngfModule } from 'angular-file';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { OrderByPipe } from './order-by.pipe';
+import { DialogTermsAndConditionsComponent } from './termsAndConditions/dialog-terms-and-conditions.component';
 
 @NgModule({
-  declarations: [HeaderComponent, SidenavComponent, NgInit, OrderByPipe],
+  declarations: [HeaderComponent, SidenavComponent, NgInit, OrderByPipe, DialogTermsAndConditionsComponent],
   imports: [
     CommonModule,
     HttpClientModule,
@@ -111,6 +112,7 @@ import { OrderByPipe } from './order-by.pipe';
   providers: [
     MatDatepickerModule,
     MatNativeDateModule,
+    TitleCasePipe
   ],
 })
 export class SharedModule { }
