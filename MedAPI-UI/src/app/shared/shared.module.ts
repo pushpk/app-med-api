@@ -39,9 +39,10 @@ import { ngfModule } from 'angular-file';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { OrderByPipe } from './order-by.pipe';
 import { DialogTermsAndConditionsComponent } from './termsAndConditions/dialog-terms-and-conditions.component';
+import { IdleLogoutComponent } from './idle-logout/idle-logout.component';
 
 @NgModule({
-  declarations: [HeaderComponent, SidenavComponent, NgInit, OrderByPipe, DialogTermsAndConditionsComponent],
+  declarations: [HeaderComponent, SidenavComponent, NgInit, OrderByPipe, DialogTermsAndConditionsComponent, IdleLogoutComponent],
   imports: [
     CommonModule,
     HttpClientModule,

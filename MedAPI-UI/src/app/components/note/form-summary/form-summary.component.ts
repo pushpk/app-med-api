@@ -33,7 +33,11 @@ export class FormSummaryComponent implements OnInit {
 
   downloadInter(){
 
-    console.log(this.patient)
+    // console.log(this.patient)
     this.commonService.generatePDF(this.patient, this.note, "Interconsultation");
+  }
+  
+  downloadExams(){
+    this.commonService.generatePDF(this.patient, this.note, "Exams")
   }
 }

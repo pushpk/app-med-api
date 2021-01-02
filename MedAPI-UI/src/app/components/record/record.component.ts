@@ -358,6 +358,10 @@ export class RecordComponent implements OnInit, OnDestroy {
     this.commonService.generatePDF(this.patient, note, "Interconsultation");
   }
 
+  downloadExams(note: NoteDetail){
+    this.commonService.generatePDF(this.patient, note, "Exams")
+  }
+
   downloadTestResult(id: number, fileName: string){
 
     this.recordService.getUploadResultFile(id).subscribe((data) => {

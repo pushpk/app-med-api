@@ -6,6 +6,8 @@ import { BehaviorSubject } from 'rxjs';
 import { BnNgIdleService } from 'bn-ng-idle';
 import { Router } from '@angular/router';
 import { UserAuthService } from 'src/app/auth/user-auth.service';
+import { MatDialog } from '@angular/material/dialog';
+import { IdleLogoutComponent } from 'src/app/shared/idle-logout/idle-logout.component';
 
 @Injectable({
   providedIn: 'root',
@@ -22,6 +24,7 @@ export class UserService {
     private bnIdle: BnNgIdleService,
     private router: Router,
     public userAuthService: UserAuthService,
+    public dialog: MatDialog,
   ) {}
 
   login(params: any) {
@@ -40,16 +43,10 @@ export class UserService {
           IsFreezed: boolean;
           message: string;
         }) => {
-          this.timer = this.bnIdle.startWatching(900).subscribe((isTimedOut:boolean) => {
+          this.timer = this.bnIdle.startWatching(1200).subscribe((isTimedOut:boolean) => {
             // console.log(isTimedOut);
             if(isTimedOut) {
-                this.showInactivityAlert = true;
-                this.logout();
-                this.userAuthService.clear();
-                this.router.navigateByUrl('/login');
-                console.log("session expired");
-                this.bnIdle.resetTimer();
-                this.timer.unsubscribe();
+              this.showIdleTimer();
             }
           })
           if (response.message) {
@@ -94,7 +91,7 @@ export class UserService {
     const self = this;
     const apiEndpoint = 'logout';
     if (this.timer){
-      this.bnIdle.resetTimer();
+      this.bnIdle.stopTimer();
       this.timer.unsubscribe();
     }
 
@@ -103,6 +100,35 @@ export class UserService {
       .then((response) => {
         return response;
       });
+  }
+
+  showIdleTimer(){
+    let dialogRef = this.dialog.open(IdleLogoutComponent, {
+      panelClass: 'custom-dialog',
+      data: {
+      },
+      autoFocus: false,
+      maxWidth: '120vh',
+    });
+    dialogRef.afterClosed().subscribe((response: any) => {
+      if (response !== undefined && response.logout === false){
+        this.showInactivityAlert = false;
+        this.bnIdle.stopTimer();
+        this.bnIdle.resetTimer();
+      }
+      else {
+        this.bnIdle.stopTimer();
+        this.timer.unsubscribe();
+        this.showInactivityAlert = true;
+        this.logout();
+        this.userAuthService.clear();
+        this.router.navigateByUrl('/login');
+        console.log("session expired");
+
+      }
+    });
+
+
   }
 
 
