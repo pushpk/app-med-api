@@ -95,6 +95,17 @@
           </div>
         </div>
 
+        <div fxLayout="row wrap" fxLayoutAlign="left center">
+          <div fxFlex="15" fxFlex.md="20" fxFlex.sm="25" fxFlex.xs="32">
+            <h4 style="margin-top: 15px; margin-left: 22px">Fec. Nac.:</h4>
+          </div>
+          <div fxFlex="75" fxFlex.md="70" fxFlex.sm="65" fxFlex.xs="58">
+            <h4 style="margin-top: 15px; font-weight: normal">
+              {{ patient.birthday | date: 'dd/MM/yyyy' }}
+            </h4>
+          </div>
+        </div>
+
         <!-- </mat-toolbar-row>
     </mat-toolbar> -->
       <div *ngIf="!this.isUserLabPerson">
