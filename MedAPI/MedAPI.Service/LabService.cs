@@ -16,9 +16,9 @@ namespace MedAPI.Service
             this.userRepository = userRepository;
         }
 
-        public List<LabUploadResult> GetAllUploadsByLab(int LabId)
+        public List<LabUploadResult> GetAllUploadsByLabAndPatient(int LabId, int patientId)
         {
-            return labRepository.GetAllUploadsByLab(LabId);
+            return labRepository.GetAllUploadsByLabAndPatient(LabId, patientId);
         }
 
         public List<LabUploadResult> GetAllUploadsByPatient(int patientId)

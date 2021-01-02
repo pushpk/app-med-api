@@ -237,12 +237,12 @@ export class RecordComponent implements OnInit, OnDestroy {
 
     };
 
-    if (this.isUserLabPerson)
+    if (this.isUserLabPerson && docNumber)
     {
       this.isLoadingResults = true;
       this.labId = Number(localStorage.getItem('loggedInID'));
 
-      this.recordService.getUploadResultByLabID(this.labId).then((response: LabUploadResult[]) => {
+      this.recordService.getUploadResultByLabID(this.labId, this.patient.userId).then((response: LabUploadResult[]) => {
           this.uploadResultsByLab.data = response;
           this.isLoadingResults = false;
           }).catch((error: any) => {
@@ -305,6 +305,10 @@ export class RecordComponent implements OnInit, OnDestroy {
 
     this.dataSource.paginator = this.paginator;
     this.uploadResultsByLab.sort = this.sort;
+    // this.uploadResultsByLab.filterPredicate = (data, filter) => !filter || data.patient_docNumber.toString().includes(this.documentNumber);
+    // x.examList.filter(y => y.id === x.examId).map((m) => {
+    //   list.name = m.name
+    // });
     this.dataSource.sort = this.sort;
     // this.dataSource.sortingDataAccessor = (item, property) => {
     //   if (property === 'date'){
@@ -394,7 +398,7 @@ export class RecordComponent implements OnInit, OnDestroy {
         this.isLoadingResults = true;
         if(this.isUserLabPerson)
         {
-          this.recordService.getUploadResultByLabID(this.labUploadResult.labId).then((response : LabUploadResult[]) => {
+          this.recordService.getUploadResultByLabID(this.labUploadResult.labId, this.patient.userId).then((response : LabUploadResult[]) => {
             this.uploadResultsByLab.data = response;
             this.isLoadingResults = false;
           }).catch((error: any) => {
@@ -403,7 +407,7 @@ export class RecordComponent implements OnInit, OnDestroy {
           });
         }
         else{
-          this.recordService.getUploadResultByLabID(this.patient.userId).then((response : LabUploadResult[]) => {
+          this.recordService.getUploadResultByPatientID(this.patient.userId).then((response : LabUploadResult[]) => {
             this.uploadResultsByLab.data = response;
             this.isLoadingResults = false;
           }).catch((error: any) => {
@@ -556,24 +560,33 @@ export class RecordComponent implements OnInit, OnDestroy {
         this.uploadResultsByLab.data = response;
         this.isLoadingResults = false;
 
-
-      }).catch((error: any) => {
-         console.log(error);
-         this.isLoadingResults = false;
-      });
-
+        }).catch((error: any) => {
+          console.log(error);
+          this.isLoadingResults = false;
+        });
 
        if (this.isUserAdmin)
-      {
-      this.recordService.getSymptomsForPatient(this.documentNumber).then((response : any) => {
-        this.selectedSymptomsDropDownList = response["symptoms"]["symptoms"];
-        this.customSymptoms = response["symptoms"]["Custom_Symptom"];
+        {
+        this.recordService.getSymptomsForPatient(this.documentNumber).then((response : any) => {
+          this.selectedSymptomsDropDownList = response["symptoms"]["symptoms"];
+          this.customSymptoms = response["symptoms"]["Custom_Symptom"];
 
-      }).catch((error : any) => {
-        console.log(error);
-      });
-    }
-    }
+        }).catch((error : any) => {
+          console.log(error);
+        });
+        }
+      }
+      else{
+        this.labId = Number(localStorage.getItem('loggedInID'));
+        this.isLoadingResults = true;
+        this.recordService.getUploadResultByLabID(this.labId, this.patient.userId).then((response : LabUploadResult[]) => {
+          this.uploadResultsByLab.data = response;
+          this.isLoadingResults = false;
+        }).catch((error: any) => {
+          this.isLoadingResults = false;
+          console.log(error);
+        });
+      }
 
 
     }).catch(() => {

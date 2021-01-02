@@ -23,6 +23,8 @@ namespace MedAPI.Domain
 
         public long user_id { get; set; }
 
+        public string patient_docNumber { get; set; }
+
         public Nullable<long> labId { get; set; }
 
         public Nullable<long> medicId { get; set; }

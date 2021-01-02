@@ -13,7 +13,7 @@ namespace MedAPI.Infrastructure.IService
 
         LabUploadResult SaveUploadedFile(Domain.LabUploadResult mLabUploadResult);
 
-        List<LabUploadResult> GetAllUploadsByLab(int LabId);
+        List<LabUploadResult> GetAllUploadsByLabAndPatient(int LabId, int patientId);
 
         List<LabUploadResult> GetAllUploadsByPatient(int patientId);
 

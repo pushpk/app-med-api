@@ -41,15 +41,19 @@ export class RecordService {
     // return this.httpUtilService.invoke('POST', formData, , null);
   }
 
-  getUploadResultByLabID(labId : number){
+  getUploadResultByLabID(labId : number, patientId: number){
     const self = this;
-    const apiEndpoint = 'users/lab-uploads-by-lab';
-    const params = {
+    const apiEndpoint = 'users/lab-uploads-by-lab-and-patient';
+    const paramsLab = {
       key: 'labId',
-      value: labId
+      value: labId,
     };
+    const paramsPatient = {
+      key: 'patientId',
+      value: patientId
+    }
 
-    return self.httpUtilService.invokeQuery('GET', params, apiEndpoint);
+    return self.httpUtilService.invokeQueryWithTwoParams('GET', paramsLab, paramsPatient, apiEndpoint);
   }
 
 

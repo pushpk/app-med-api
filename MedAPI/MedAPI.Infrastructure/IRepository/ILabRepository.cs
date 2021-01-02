@@ -9,7 +9,7 @@ namespace MedAPI.Repository
 
         long SaveUploadedFile(LabUploadResult labResult);
 
-        List<LabUploadResult> GetAllUploadsByLab(int LabId);
+        List<LabUploadResult> GetAllUploadsByLabAndPatient(int LabId, int patientId);
 
         List<LabUploadResult> GetAllUploadsByPatient(int patientId);
 
