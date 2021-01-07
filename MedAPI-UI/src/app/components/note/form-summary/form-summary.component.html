@@ -1,15 +1,17 @@
 <div class="summary print layout-padding" fxLayout="column">
-
   <!-- <div layout="row" layout-wrap *ngIf="form.$error!=={}">
       <h2>Complete todos los campos obligatorios para continuar.</h2>
   </div> -->
 
   <div fxLayout="row" *ngIf="!submit.waiting && !submit.success">
-
-    <h2 *ngIf="this.isEditable && !submit.success" fxFlex="100">Ahora puede guardar la atención</h2>
+    <h2 *ngIf="this.isEditable && !submit.success" fxFlex="100">
+      Ahora puede guardar la atención
+    </h2>
 
     <!-- <div fxFlex="100" *ngIf="!note.id"> -->
   </div>
+
+  //add signature here
 
   <div fxLayout="row" *ngIf="submit.waiting">
     <h2>Guardando la atención...</h2>
@@ -19,37 +21,40 @@
     <h2 fxFlex="100">La atención se ha registrado correctamente</h2>
 
     <div fxFlex="100">
-      <a href="javascript: void(0);" mat-button  (click)="downloadAttention()" >
+      <a href="javascript: void(0);" mat-button (click)="downloadAttention()">
         Descargar Atención
       </a>
 
-     
-
-      <a href="javascript: void(0);" mat-button (click)="downloadPrescription()" >
+      <a
+        href="javascript: void(0);"
+        mat-button
+        (click)="downloadPrescription()"
+      >
         Descargar Receta médica
       </a>
 
-      <a href="javascript: void(0);" mat-button (click)="downloadInter()" >
+      <a href="javascript: void(0);" mat-button (click)="downloadInter()">
         Descargar Interconsulta
       </a>
     </div>
   </div>
   <div fxLayout="row" *ngIf="!submit.waiting && !submit.success && !isEditable">
     <div fxFlex="100">
-      <a href="javascript: void(0);" mat-button  (click)="downloadAttention()" >
+      <a href="javascript: void(0);" mat-button (click)="downloadAttention()">
         Descargar Atención
       </a>
 
-     
-
-      <a href="javascript: void(0);" mat-button (click)="downloadPrescription()" >
+      <a
+        href="javascript: void(0);"
+        mat-button
+        (click)="downloadPrescription()"
+      >
         Descargar Receta médica
       </a>
 
-      <a href="javascript: void(0);" mat-button (click)="downloadInter()" >
+      <a href="javascript: void(0);" mat-button (click)="downloadInter()">
         Descargar Interconsulta
       </a>
     </div>
   </div>
-
 </div>
