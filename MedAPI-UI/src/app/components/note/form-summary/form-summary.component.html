@@ -11,7 +11,50 @@
     <!-- <div fxFlex="100" *ngIf="!note.id"> -->
   </div>
 
-  //add signature here
+  <div>
+    <mat-radio-group
+      aria-label="Select an option"
+      (change)="radioChange($event)"
+    >
+      <b style="margin-right: 25px">Select a Signature Option</b>
+      <mat-radio-button value="false">Text</mat-radio-button>
+      <mat-radio-button value="true">Draw</mat-radio-button>
+    </mat-radio-group>
+  </div>
+
+  <div>
+    <mat-form-field class="example-form-field">
+      <mat-label>Clearable input</mat-label>
+      <input matInput type="text" />
+
+      <button mat-button matSuffix mat-icon-button aria-label="Clear">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+  <div>
+    <div class="signature-pad">
+      <div class="signature-pad--body">
+        <canvas
+          #sPad
+          width="900"
+          height="100"
+          style="
+            touch-action: none;
+            box-shadow: 0 0 5px rgb(218, 218, 218) inset;
+            border-radius: 10px;
+          "
+        ></canvas>
+      </div>
+    </div>
+    <section class="container-fluid">
+      <div class="row">
+        <div class="col-6">
+          <a mat-button (click)="clear()">Clear</a>
+        </div>
+      </div>
+    </section>
+  </div>
 
   <div fxLayout="row" *ngIf="submit.waiting">
     <h2>Guardando la atención...</h2>
