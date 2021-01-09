@@ -590,6 +590,10 @@ export class NoteComponent implements OnInit {
     //this.note.diagnosis.list.length
     this.note.treatments.list.length;
 
+    console.log(
+      '🚀 ~ file: note.component.ts ~ line 601 ~ submitRequest ~ this.note',
+      this.note
+    );
     //
     self.submit.waiting = true;
     let currentUserEmail = localStorage.getItem('email');
@@ -611,7 +615,6 @@ export class NoteComponent implements OnInit {
         self.submit.success = false;
       });
   }
-
   closeAttention(id: number) {
     let dialogRef = this.dialog.open(DialogCloseAttentionComponent, {
       panelClass: 'custom-dialog',

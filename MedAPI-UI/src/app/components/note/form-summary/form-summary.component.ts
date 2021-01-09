@@ -1,8 +1,9 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
 import { CommonService } from 'src/app/services/common.service';
 import SignaturePad from 'signature_pad';
+import { NoteDetail } from 'src/app/models/noteDetail.model';
 
 @Component({
   selector: 'app-form-summary',
@@ -11,15 +12,20 @@ import SignaturePad from 'signature_pad';
 })
 export class FormSummaryComponent implements OnInit {
   @Input() submit: any;
-  @Input() note: any;
+  @Input() note: NoteDetail;
   @Input() patient: any;
   @Input() isEditable: boolean;
   @ViewChild('sPad', { static: true }) signaturePadElement;
+  @ViewChild('sPadDiv', { static: true }) signaturePadElementDiv;
+  signImageDataUrl: any;
+
   signaturePad: any;
 
   constructor(private commonService: CommonService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.note.isSignatureDraw = true;
+  }
 
   ngAfterViewInit(): void {
     this.signaturePad = new SignaturePad(
@@ -29,12 +35,26 @@ export class FormSummaryComponent implements OnInit {
   clear() {
     this.signaturePad.clear();
   }
+  saveSignature() {
+    this.signImageDataUrl = this.signaturePad.toDataURL('image/png');
 
-  radioChange(e: any) {
-    console.log(
-      '🚀 ~ file: form-summary.component.ts ~ line 35 ~ FormSummaryComponent ~ radioChange ~ e',
-      e
-    );
+    fetch(this.signImageDataUrl)
+      .then((res) => res.blob())
+      .then((imgBlob) => {
+        this.note.signatuteDraw = imgBlob;
+        console.log(imgBlob);
+      });
+  }
+
+  signatureOptionChange() {
+    if (!this.note.isSignatureDraw) {
+      this.signaturePadElementDiv.nativeElement.style.display = 'none';
+    } else {
+      this.signaturePadElementDiv.nativeElement.style.display = 'block';
+      this.signaturePad = new SignaturePad(
+        this.signaturePadElement.nativeElement
+      );
+    }
   }
 
   downloadAttention() {
