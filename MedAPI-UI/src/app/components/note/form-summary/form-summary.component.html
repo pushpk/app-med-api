@@ -29,24 +29,20 @@
 
     <div style="margin: 10px">
       <mat-form-field
-        fxFlex
         class="example-form-field"
         *ngIf="!this.note.isSignatureDraw"
+        style="width: 900px"
       >
         <mat-label>Signature</mat-label>
         <input
           [disabled]="!submit.waiting && submit.success"
-          style="font-family: Pacifico"
+          class="signature-fonts"
           matInput
           type="text"
           [(ngModel)]="note.signatuteText"
           name="signatuteText"
           #signatuteText="ngModel"
         />
-
-        <button mat-button matSuffix mat-icon-button aria-label="Clear">
-          <mat-icon>close</mat-icon>
-        </button>
       </mat-form-field>
     </div>
     <div>

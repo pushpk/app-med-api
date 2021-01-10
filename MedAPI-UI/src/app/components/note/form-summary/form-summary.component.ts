@@ -41,6 +41,7 @@ export class FormSummaryComponent implements OnInit {
     }
 
     if (!this.note.isSignatureDraw && this.note.signatuteText !== '') {
+      this.signaturePadElementDiv.nativeElement.style.display = 'none';
     }
   }
 
@@ -80,11 +81,21 @@ export class FormSummaryComponent implements OnInit {
   }
 
   downloadAttention() {
-    this.commonService.generatePDF(this.patient, this.note, 'Attention');
+    this.commonService.generatePDF(
+      this.patient,
+      this.note,
+      'Attention',
+      this.signImageDataUrl
+    );
   }
 
   downloadPrescription() {
-    this.commonService.generatePDF(this.patient, this.note, 'Prescription');
+    this.commonService.generatePDF(
+      this.patient,
+      this.note,
+      'Prescription',
+      this.signImageDataUrl
+    );
   }
 
   downloadInter() {
@@ -92,7 +103,8 @@ export class FormSummaryComponent implements OnInit {
     this.commonService.generatePDF(
       this.patient,
       this.note,
-      'Interconsultation'
+      'Interconsultation',
+      this.signImageDataUrl
     );
   }
 }

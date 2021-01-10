@@ -14,6 +14,7 @@ import { MedicUser } from '../models/medicuser.model';
 import { Medic } from '../models/medic.model';
 import { AbstractControl, ValidatorFn } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
+import * as fontRef from '../../assets/Pacifico-Regular-bold.js';
 
 @Injectable({
   providedIn: 'root',
@@ -73,17 +74,21 @@ export class CommonService {
     };
     return self.httpUtilService.invokeQuery('GET', params, apiEndpoint);
   }
-  public generatePDF(patient: Patient, note: NoteDetail, type: string) {
+  public generatePDF(patient: Patient, note: NoteDetail, type: string, signImageDataUrl : any) {
     try {
       //Attention
       //Prescription
       //Interconsultation
 
+      fontRef;
+
       var medic;
       var titleFontSize = 20;
       var contentFontSize = 14;
 
-      this.getMedicForThisNote(note.medicId)
+
+      const medicId = note.medicId === null ? +localStorage.getItem('loggedInID') : +note.medicId;
+      this.getMedicForThisNote(medicId)
         .then((response: Medic) => {
           this.medicForNote = response;
 
@@ -502,9 +507,7 @@ export class CommonService {
             finalY = 0;
           }
 
-          const imageData = 'data:image/png;base64,' + note.signatuteDraw;
-
-          
+         const imageData = signImageDataUrl ? signImageDataUrl : 'data:image/png;base64,' + note.signatuteDraw;
 
           doc.setFont('helvetica', 'bold');
           doc.text('Médico', 14, 12 + finalY);
@@ -513,11 +516,12 @@ export class CommonService {
           {
                var img = new Image();
                img.src = imageData;
-               doc.addImage(img, 'png', 14, 14 + finalY,22, 10);
+               doc.addImage(img, 'png', 14, 14 + finalY, 90, 15);
+               finalY = finalY + 10;
           }
           else{
-               doc.setFont('helvetica', 'bold');
-               doc.text(note.signatuteText, 14, 18 + finalY);
+               doc.setFont('Pacifico-Regular');
+               doc.text(note.signatuteText, 14, 14 + finalY);
           }
 
           var medicData = JSON.parse(localStorage.getItem('userData'));

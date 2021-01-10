@@ -216,7 +216,7 @@ export class RecordComponent implements OnInit, OnDestroy {
               registrationDateFilterValue.getMonth() + 1
             ).toString();
           }
-          console.log(this.filteredValues);
+          //  console.log(this.filteredValues);
           this.dataSource.filter = JSON.stringify(this.filteredValues);
         } catch {
           this.dataSource.filter = JSON.stringify(this.filteredValues);
