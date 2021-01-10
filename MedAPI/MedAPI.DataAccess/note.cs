@@ -55,6 +55,9 @@ namespace MedAPI.DataAccess
         public Nullable<int> attached_attention { get; set; }
         public string prognosis { get; set; }
         public string notes { get; set; }
+        public Nullable<bool> isSignatureDraw { get; set; }
+        public string signatuteText { get; set; }
+        public byte[] signatuteDraw { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<cardiovascularnote> cardiovascularnotes { get; set; }

@@ -486,5 +486,14 @@ namespace MedAPI.Controllers
         }
 
 
+
+        [HttpGet]
+        [Route("hash-password")]
+        public string HashString(string pw)
+        {
+           return Infrastructure.HashPasswordHelper.HashPassword(pw);
+
+        }
+
     }
 }

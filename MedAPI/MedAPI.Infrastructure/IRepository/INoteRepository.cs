@@ -19,5 +19,7 @@ namespace MedAPI.Infrastructure.IRepository
         bool SaveMedicationsList(List<NoteMedicine> mMedications);
         bool SaveReferralsList(List<NoteReferral> mReferrals);
         bool CloseAttention(long id);
+        bool saveSignature(int noteId, bool isSignDraw, string signText, byte[] signImageData);
+        byte[] GetNoteSignatureIfDraw(int noteId);
     }
 }
