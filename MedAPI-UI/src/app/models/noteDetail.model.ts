@@ -38,9 +38,9 @@ export class NoteDetail {
   deleted = false;
   medicId = null;
   triageId = 0;
-  signatuteDraw: Blob = null;
+  signatuteDraw: any = null;
   signatuteText: string = '';
-  isSignatureDraw: boolean = false;
+  isSignatureDraw: boolean = true;
   attached_attention = 0;
   status = '';
   category = '';

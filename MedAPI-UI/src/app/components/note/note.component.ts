@@ -229,7 +229,7 @@ export class NoteComponent implements OnInit {
     let notesData = localStorage.getItem('notes');
     if (CheckEmptyUtil.isNotEmpty(notesData)) {
       let noteDetails = JSON.parse(notesData);
-      // console.log(noteDetails, 'details');
+      console.log(noteDetails, 'details');
       this.selectNoteId = this.route.snapshot.paramMap.get('new');
       if (this.selectNoteId === 'new') {
         // console.log(noteDetails, 'details112');
@@ -590,10 +590,6 @@ export class NoteComponent implements OnInit {
     //this.note.diagnosis.list.length
     this.note.treatments.list.length;
 
-    console.log(
-      '🚀 ~ file: note.component.ts ~ line 601 ~ submitRequest ~ this.note',
-      this.note
-    );
     //
     self.submit.waiting = true;
     let currentUserEmail = localStorage.getItem('email');
@@ -601,11 +597,31 @@ export class NoteComponent implements OnInit {
     this.noteService
       .save(this.note, currentUserEmail)
       .then((response: any) => {
-        // console.log(response);
-        self.toastr.success('Atención guardada satisfactoriamente.');
-        self.submit.waiting = false;
-        self.submit.success = true;
-        self.note.id = response.id;
+        let formData: FormData = new FormData();
+        formData.append('signDraw', this.note.signatuteDraw);
+        formData.append('signText', this.note.signatuteText);
+        formData.append(
+          'IsSignDraw',
+          this.note.isSignatureDraw ? 'true' : 'false'
+        );
+        formData.append('noteId', response.id);
+
+        this.noteService
+          .saveSignature(formData, currentUserEmail)
+          .then((response: any) => {
+            // console.log(response);
+            self.toastr.success('Atención guardada satisfactoriamente.');
+            self.submit.waiting = false;
+            self.submit.success = true;
+            self.note.id = response.id;
+          })
+          .catch((error: any) => {
+            console.log(error);
+            self.toastr.error('Ocurrió un error al guardar la atención.');
+            self.submit.waiting = false;
+            self.submit.success = false;
+          });
+
         // this.router.navigateByUrl('/records');
       })
       .catch((error: any) => {
@@ -639,4 +655,9 @@ export class NoteComponent implements OnInit {
       // console.log(this.diagnosisInput.nativeElement);
     });
   }
+
+  // checkIfObjectIsEmpty(value: any) {
+  //   if(value )
+  //   return Object.keys(value).length === 0;
+  // }
 }

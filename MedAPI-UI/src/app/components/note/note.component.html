@@ -190,7 +190,10 @@
                 (data.isPharmacological &&
                   this.note.treatments.list.length <= 0) ||
                 (data.isPharmacological == false &&
-                  this.note.treatments.other == '')
+                  this.note.treatments.other == '') ||
+                (this.note.isSignatureDraw &&
+                  this.note.signatuteDraw == null) ||
+                (!this.note.isSignatureDraw && this.note.signatuteText === '')
               "
             >
               Enviar*
@@ -244,7 +247,8 @@
         this.note.symptoms.duration.toString() !== '' &&
         this.note.symptoms.durationUnit !== '' &&
         this.note.diagnosis.list.length > 0 &&
-        data.isPharmacological && this.note.treatments.list.length > 0) ||
+        data.isPharmacological &&
+        this.note.treatments.list.length > 0) ||
       (data.isPharmacological == false && this.note.treatments.other !== '')
     "
     class="text-muted"

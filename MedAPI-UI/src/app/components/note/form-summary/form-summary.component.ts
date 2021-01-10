@@ -4,6 +4,8 @@ import 'jspdf-autotable';
 import { CommonService } from 'src/app/services/common.service';
 import SignaturePad from 'signature_pad';
 import { NoteDetail } from 'src/app/models/noteDetail.model';
+import { ToastrService } from 'ngx-toastr';
+import { NoteService } from '../services/note.service';
 
 @Component({
   selector: 'app-form-summary',
@@ -17,14 +19,29 @@ export class FormSummaryComponent implements OnInit {
   @Input() isEditable: boolean;
   @ViewChild('sPad', { static: true }) signaturePadElement;
   @ViewChild('sPadDiv', { static: true }) signaturePadElementDiv;
+  @ViewChild('signatureShow', { static: true }) signatureShow;
   signImageDataUrl: any;
 
   signaturePad: any;
 
-  constructor(private commonService: CommonService) {}
+  constructor(
+    private commonService: CommonService,
+    private noteService: NoteService,
+    private toastr: ToastrService
+  ) {}
 
   ngOnInit(): void {
-    this.note.isSignatureDraw = true;
+    this.signatureShow.nativeElement.style.display = 'none';
+
+    if (this.note.isSignatureDraw && this.note.signatuteDraw != null) {
+      this.signaturePadElementDiv.nativeElement.style.display = 'none';
+      this.signatureShow.nativeElement.style.display = 'block';
+      this.signImageDataUrl =
+        'data:image/png;base64,' + this.note.signatuteDraw;
+    }
+
+    if (!this.note.isSignatureDraw && this.note.signatuteText !== '') {
+    }
   }
 
   ngAfterViewInit(): void {
@@ -34,6 +51,8 @@ export class FormSummaryComponent implements OnInit {
   }
   clear() {
     this.signaturePad.clear();
+    this.signatureShow.nativeElement.style.display = 'none';
+    this.note.signatuteDraw = null;
   }
   saveSignature() {
     this.signImageDataUrl = this.signaturePad.toDataURL('image/png');
@@ -42,8 +61,11 @@ export class FormSummaryComponent implements OnInit {
       .then((res) => res.blob())
       .then((imgBlob) => {
         this.note.signatuteDraw = imgBlob;
-        console.log(imgBlob);
       });
+
+    this.signatureShow.nativeElement.style.display = 'block';
+
+    this.toastr.success('¡Firma guardada!');
   }
 
   signatureOptionChange() {

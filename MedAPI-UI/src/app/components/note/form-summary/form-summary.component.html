@@ -15,10 +15,15 @@
         aria-label="Select an option"
         [(ngModel)]="note.isSignatureDraw"
         (change)="signatureOptionChange()"
+        [disabled]="
+          (!submit.waiting && submit.success) ||
+          this.note.signatuteDraw != null ||
+          this.note.signatuteText !== ''
+        "
       >
-        <b style="margin-right: 25px">Select a Signature Option</b>
-        <mat-radio-button [value]="false">Text</mat-radio-button>
-        <mat-radio-button [value]="true">Draw</mat-radio-button>
+        <b style="margin-right: 25px"> Seleccione la opción de firma</b>
+        <mat-radio-button [value]="false">Texto</mat-radio-button>
+        <mat-radio-button [value]="true">Dibujar</mat-radio-button>
       </mat-radio-group>
     </div>
 
@@ -30,6 +35,7 @@
       >
         <mat-label>Signature</mat-label>
         <input
+          [disabled]="!submit.waiting && submit.success"
           style="font-family: Pacifico"
           matInput
           type="text"
@@ -59,24 +65,31 @@
             ></canvas>
           </div>
         </div>
-        <section class="container-fluid">
-          <div class="row">
-            <div class="col-12">
-              <div class="col-3">
-                <a mat-button (click)="clear()">Clear</a>
-                <a mat-button color="primary" (click)="saveSignature()">Save</a>
+        <div class="row" style="display: inline-block; width: 900px">
+          <section class="col-6" style="float: right">
+            <div class="row">
+              <div class="col-12">
+                <div class="col-3">
+                  <a mat-button color="primary" (click)="saveSignature()"
+                    >Guardar firma</a
+                  >
+                  <a mat-button (click)="clear()">Clara</a>
+                </div>
               </div>
             </div>
-          </div>
-        </section>
+          </section>
+        </div>
+      </div>
+    </div>
+
+    <div #signatureShow>
+      <h3>firma</h3>
+      <div>
+        <img [src]="signImageDataUrl" />
       </div>
     </div>
   </div>
 
-  <div fxLayout="row" *ngIf="this.signImageDataUrl">
-    <h4>Signature:</h4>
-    <img src="{{ this.note.signatuteDraw }}" alt="" sign />
-  </div>
   <div fxLayout="row" *ngIf="submit.waiting">
     <h2>Guardando la atención...</h2>
   </div>
