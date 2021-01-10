@@ -188,7 +188,7 @@
             </ng-container>
 
             <ng-container matColumnDef="status">
-              <mat-header-cell *matHeaderCellDef> Status </mat-header-cell>
+              <mat-header-cell *matHeaderCellDef> Estado </mat-header-cell>
               <mat-cell *matCellDef="let element">
                   {{ element.IsFreezed ? "Congelado" : element.IsApproved ? "Aprobado" : element.IsDenied ? "Denegado" : "Pendiente" }}
               </mat-cell>
@@ -370,8 +370,21 @@
               <mat-cell *matCellDef="let element"> {{ element.RUC }} </mat-cell>
             </ng-container>
 
+            <!-- <ng-container matColumnDef="email">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>
+                <div style="display: block">
+                  <div style="display: flex">
+                    <span>Email</span>
+                  </div>
+                </div>
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                {{ element.user.email }}
+              </mat-cell>
+            </ng-container> -->
+
             <ng-container matColumnDef="status">
-              <mat-header-cell *matHeaderCellDef> Status </mat-header-cell>
+              <mat-header-cell *matHeaderCellDef> Estado </mat-header-cell>
               <mat-cell *matCellDef="let element">
                   {{ element.IsFreezed ? "Congelado" : element.IsApproved ? "Aprobado" : element.IsDenied ? "Denegado" : "Pendiente" }}
               </mat-cell>

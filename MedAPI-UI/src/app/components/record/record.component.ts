@@ -288,13 +288,15 @@ export class RecordComponent implements OnInit, OnDestroy {
       allowSearchFilter: true,
     };
 
-    if (this.isUserLabPerson) {
+
+    if (this.isUserLabPerson && docNumber)
+    {
       this.isLoadingResults = true;
       this.labId = Number(localStorage.getItem('loggedInID'));
 
-      this.recordService
-        .getUploadResultByLabID(this.labId)
-        .then((response: LabUploadResult[]) => {
+      this.recordService.getUploadResultByLabID(this.labId, this.patient.userId).then((response: LabUploadResult[]) => {
+
+  
           this.uploadResultsByLab.data = response;
           this.isLoadingResults = false;
         })
@@ -378,6 +380,10 @@ export class RecordComponent implements OnInit, OnDestroy {
   ngAfterViewInit(): any {
     this.dataSource.paginator = this.paginator;
     this.uploadResultsByLab.sort = this.sort;
+    // this.uploadResultsByLab.filterPredicate = (data, filter) => !filter || data.patient_docNumber.toString().includes(this.documentNumber);
+    // x.examList.filter(y => y.id === x.examId).map((m) => {
+    //   list.name = m.name
+    // });
     this.dataSource.sort = this.sort;
     // this.dataSource.sortingDataAccessor = (item, property) => {
     //   if (property === 'date'){
@@ -431,9 +437,13 @@ export class RecordComponent implements OnInit, OnDestroy {
     this.commonService.generatePDF(this.patient, note, 'Interconsultation');
   }
 
-  downloadTestResult(id: number, fileName: string) {
+
+  downloadExams(note: NoteDetail){
+    this.commonService.generatePDF(this.patient, note, "Exams")
+  }
+
+  downloadTestResult(id: number, fileName: string){
     this.recordService.getUploadResultFile(id).subscribe((data) => {
-      console.log(data);
       importedSaveAs(data, fileName);
     });
   }
@@ -458,43 +468,36 @@ export class RecordComponent implements OnInit, OnDestroy {
         this.labUploadResult.labId = Number(localStorage.getItem('loggedInID'));
       }
 
-      this.recordService
-        .uploadResult(this.labUploadResult.file, this.labUploadResult)
-        .subscribe(
-          (response: any) => {
-            this.isLoadingResults = true;
-            if (this.isUserLabPerson) {
-              this.recordService
-                .getUploadResultByLabID(this.labUploadResult.labId)
-                .then((response: LabUploadResult[]) => {
-                  this.uploadResultsByLab.data = response;
-                  this.isLoadingResults = false;
-                })
-                .catch((error: any) => {
-                  this.isLoadingResults = false;
-                  console.log(error);
-                });
-            } else {
-              this.recordService
-                .getUploadResultByLabID(this.patient.userId)
-                .then((response: LabUploadResult[]) => {
-                  this.uploadResultsByLab.data = response;
-                  this.isLoadingResults = false;
-                })
-                .catch((error: any) => {
-                  this.isLoadingResults = false;
-                  console.log(error);
-                });
-            }
-
-            this.toastr.success('Documento cargado exitosamente.');
-            this.isUploadFormShow = true;
-          },
-          (error) => {
+      this.recordService.uploadResult(this.labUploadResult.file, this.labUploadResult).subscribe((response: any) => {
+        this.isLoadingResults = true;
+        if(this.isUserLabPerson)
+        {
+          this.recordService.getUploadResultByLabID(this.labUploadResult.labId, this.patient.userId).then((response : LabUploadResult[]) => {
+            this.uploadResultsByLab.data = response;
+            this.isLoadingResults = false;
+          }).catch((error: any) => {
+            this.isLoadingResults = false;
             console.log(error);
-            this.toastr.error('Se produjo un error al cargar este documento.');
-          }
-        );
+          });
+        }
+        else{
+          this.recordService.getUploadResultByPatientID(this.patient.userId).then((response : LabUploadResult[]) => {
+            this.uploadResultsByLab.data = response;
+            this.isLoadingResults = false;
+          }).catch((error: any) => {
+            this.isLoadingResults = false;
+            console.log(error);
+          });
+        }
+
+        this.toastr.success('Documento cargado exitosamente.');
+        this.isUploadFormShow = true;
+    }, (error) => {
+      console.log(error);
+      this.toastr.error('Se produjo un error al cargar este documento.');
+      });
+
+     
 
       // .catch((error) => {
       //   console.log(error);
@@ -566,99 +569,108 @@ export class RecordComponent implements OnInit, OnDestroy {
     let self = this;
 
     self.waitingTicket = true;
-    this.recordService
-      .getPatientsByDocNumber(this.documentNumber)
-      .then((response: any) => {
-        this.setPatientDetails(response);
 
-        // console.log(response);
-        // localStorage.setItem('patient', JSON.strinfgify(response.patient));
-        // if (CheckEmptyUtil.isNotEmptyObject(response.notes)) {
-        //  localStorage.setItem('notes', JSON.stringify(response.notes));
-        // }
-        // self.patient = response.patient;
-        // self.patient.notes = response.notes;
-        // if (response.patient.id === 0){
-        //   this.askPatientRegistration = false;
-        //   return Promise.reject;
-        // }
+    this.recordService.getPatientsByDocNumber(this.documentNumber).then((response: any) => {
 
-        // this.dataSource = new MatTableDataSource<PastAttentions>([]);
-        if (
-          typeof self.patient.notes !== 'undefined' &&
-          self.patient.notes !== null
-        ) {
-          var sSymptoms = new Symptoms();
-          var pastAtt = new PastAttentions();
-          pastAtt.symptoms = sSymptoms;
-          this.filterEntity = pastAtt;
+      this.setPatientDetails(response);
 
-          this.filterType = MatTableFilter.ANYWHERE;
-          // this.dataSource.sort = this.sort;
+      // console.log(response);
+      // localStorage.setItem('patient', JSON.strinfgify(response.patient));
+      // if (CheckEmptyUtil.isNotEmptyObject(response.notes)) {
+      //  localStorage.setItem('notes', JSON.stringify(response.notes));
+      // }
+      // self.patient = response.patient;
+      // self.patient.notes = response.notes;
+      // if (response.patient.id === 0){
+      //   this.askPatientRegistration = false;
+      //   return Promise.reject;
+      // }
 
-          this.dataSource.data = self.patient.notes;
+      // this.dataSource = new MatTableDataSource<PastAttentions>([]);
+      if (typeof self.patient.notes !== 'undefined' && self.patient.notes !== null ) {
 
-          console.log(self.patient.notes);
+        var sSymptoms = new Symptoms();
+        var pastAtt = new PastAttentions();
+        pastAtt.symptoms = sSymptoms;
+        this.filterEntity = pastAtt;
 
-          setTimeout(() => {
-            this.dataSource.paginator = this.paginator;
-            this.dataSource.sort = this.sort;
-            // this.dataSource.sortingDataAccessor = (item, property) => {
-            //   if (property === 'date'){
-            //     return new Date(item.date);
-            //   }
-            //   else{
-            //     return item[property];
-            //   }
-            // };
-          });
+        this.filterType = MatTableFilter.ANYWHERE;
+        // this.dataSource.sort = this.sort;
 
-          // this.dataSource.paginator = this.paginator;
+        this.dataSource.data = self.patient.notes;
 
-          this.changeDetectorRefs.detectChanges();
+        console.log(self.patient.notes)
+
+        setTimeout(() =>
+        {
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+          // this.dataSource.sortingDataAccessor = (item, property) => {
+          //   if (property === 'date'){
+          //     return new Date(item.date);
+          //   }
+          //   else{
+          //     return item[property];
+          //   }
+          // };
+        });
+
+        // this.dataSource.paginator = this.paginator;
+
+        this.changeDetectorRefs.detectChanges();
+      }
+
+      self.ticket = {
+        ticket: self.ticketNumber,
+        status: TicketStatus.REGISTERED
+      };
+
+      self.showRecord = true;
+      self.waitingTicket = false;
+
+      if (!this.isUserLabPerson)
+      {
+       this.isLoadingResults = true;
+       this.recordService.getUploadResultByPatientID(this.patient.userId).then((response : LabUploadResult[]) => {
+        this.uploadResultsByLab.data = response;
+        this.isLoadingResults = false;
+
+        }).catch((error: any) => {
+          console.log(error);
+          this.isLoadingResults = false;
+        });
+
+       if (this.isUserAdmin)
+        {
+        this.recordService.getSymptomsForPatient(this.documentNumber).then((response : any) => {
+          this.selectedSymptomsDropDownList = response["symptoms"]["symptoms"];
+          this.customSymptoms = response["symptoms"]["Custom_Symptom"];
+
+        }).catch((error : any) => {
+          console.log(error);
+        });
         }
+      }
+      else{
+        this.labId = Number(localStorage.getItem('loggedInID'));
+        this.isLoadingResults = true;
+        this.recordService.getUploadResultByLabID(this.labId, this.patient.userId).then((response : LabUploadResult[]) => {
+          this.uploadResultsByLab.data = response;
+          this.isLoadingResults = false;
+        }).catch((error: any) => {
+          this.isLoadingResults = false;
+          console.log(error);
+        });
+      }
 
-        self.ticket = {
-          ticket: self.ticketNumber,
-          status: TicketStatus.REGISTERED,
-        };
 
-        self.showRecord = true;
-        self.waitingTicket = false;
+    }).catch(() => {
+      localStorage.removeItem('notes');
+      localStorage.removeItem('patient');
+      self.askPatientRegistration = true;
+      self.waitingTicket = false;
+    });
 
-        if (!this.isUserLabPerson) {
-          this.isLoadingResults = true;
-          this.recordService
-            .getUploadResultByPatientID(this.patient.userId)
-            .then((response: LabUploadResult[]) => {
-              this.uploadResultsByLab.data = response;
-              this.isLoadingResults = false;
-            })
-            .catch((error: any) => {
-              console.log(error);
-              this.isLoadingResults = false;
-            });
-
-          if (this.isUserAdmin) {
-            this.recordService
-              .getSymptomsForPatient(this.documentNumber)
-              .then((response: any) => {
-                this.selectedSymptomsDropDownList =
-                  response['symptoms']['symptoms'];
-                this.customSymptoms = response['symptoms']['Custom_Symptom'];
-              })
-              .catch((error: any) => {
-                console.log(error);
-              });
-          }
-        }
-      })
-      .catch(() => {
-        localStorage.removeItem('notes');
-        localStorage.removeItem('patient');
-        self.askPatientRegistration = true;
-        self.waitingTicket = false;
-      });
   }
 
   // onSpecialityChange(event: any) {

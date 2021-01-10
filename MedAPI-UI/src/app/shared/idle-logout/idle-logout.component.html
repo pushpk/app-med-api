@@ -1,0 +1,23 @@
+<div aria-label="Close Attention">
+    <div>
+    <button type="button" mat-icon-button class="close-button" (click)="cancel()">
+            <mat-icon class="close-icon">close</mat-icon>
+      </button>
+      <!-- <mat-icon style="font-size:18px;padding-top:4px;">send</mat-icon> -->
+        <h1 mat-dialog-title>
+            <mat-icon style="font-size:48px;">warning</mat-icon> 
+            <span class="aligned-with-icon">Usuario Inactivo</span>
+        </h1>
+    </div>
+    <div mat-dialog-content>
+        <div class="container" style="margin:20px;">
+            Hemos detectado que no ha estado activo en nuestro sitio. Por su seguridad, cerraremos su sesión en <strong>{{timeLeft}} segundos</strong>.
+        </div>
+    </div>
+    <div mat-dialog-actions fxLayout="row" fxLayoutAlign="end">
+      <button type="button" mat-button (click)="cancel()">Cerrar Sesión</button>
+      <button type="button" mat-button color="primary" (click)="answer()" cdkFocusInitial>
+        Cancelar
+      </button>
+    </div>
+  </div>

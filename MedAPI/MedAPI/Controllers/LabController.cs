@@ -107,6 +107,7 @@ namespace MedAPI.Controllers
                 fileName = uploadedFile.FileName,
                 fileContent = fileData,
                 comments = comments,
+                patient_docNumber = userService.GetUserById(int.Parse(userId)).documentNumber,
                 user_id = int.Parse(userId),
                 labId = labId,
                 medicId = medicId
@@ -127,13 +128,13 @@ namespace MedAPI.Controllers
         }
 
         [HttpGet]
-        [Route("lab-uploads-by-lab")]
-        public HttpResponseMessage Get(int labId)
+        [Route("lab-uploads-by-lab-and-patient")]
+        public HttpResponseMessage Get(int labId, int patientId)
         {
             HttpResponseMessage response = null;
             try
             {
-                response = Request.CreateResponse(HttpStatusCode.OK, labService.GetAllUploadsByLab(labId));
+                response = Request.CreateResponse(HttpStatusCode.OK, labService.GetAllUploadsByLabAndPatient(labId, patientId));
             }
             catch (Exception ex)
             {

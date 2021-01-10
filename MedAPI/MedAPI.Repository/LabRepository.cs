@@ -10,13 +10,21 @@ namespace MedAPI.Repository
 {
     public class LabRepository : ILabRepository
     {
-        public List<LabUploadResult> GetAllUploadsByLab(int LabId)
+        public List<LabUploadResult> GetAllUploadsByLabAndPatient(int LabId, int patientId)
         {
             using (var context = new DataAccess.registroclinicoEntities())
             {
                 
                 int.TryParse(context.labs.FirstOrDefault(s => s.user_id == LabId).id.ToString(), out LabId);
-                var result = Mapper.Map<List<LabUploadResult>>(context.lab_Upload_Results.Where(x => x.lab_id == LabId).ToList());
+                var result = Mapper.Map<List<LabUploadResult>>(context.lab_Upload_Results.Where(x => x.lab_id == LabId && x.user_id == patientId).Select(s => new LabUploadResult
+                {
+                    id = s.id,
+                    user_id = s.user_id,
+                    patient_docNumber = s.user.documentNumber,
+                    fileName = s.fileName,
+                    dateUploaded = s.dateUploaded,
+                    comments = s.comments
+                }).ToList());
                 return result;
                 
             }
@@ -29,6 +37,7 @@ namespace MedAPI.Repository
                 var result = Mapper.Map<List<LabUploadResult>>(context.lab_Upload_Results.Where(x => x.user_id == patientId).Select(s => new LabUploadResult { 
                     id = s.id,
                     user_id = s.user_id,
+                    patient_docNumber = s.user.documentNumber,
                     fileName = s.fileName,
                     dateUploaded = s.dateUploaded,
                     comments = s.comments

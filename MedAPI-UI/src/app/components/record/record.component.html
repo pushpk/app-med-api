@@ -36,7 +36,7 @@
           type="text"
           name="documentno"
           [(ngModel)]="documentNumber"
-          pattern="^[0-9]{8}$"
+          pattern="^[0-9]{6,8}$"
           maxlength="8"
           #documentno="ngModel"
           (change)="searchDocumentNumber()"
@@ -45,7 +45,7 @@
         <mat-hint align="end">{{ documentno.value?.length || 0 }}/8</mat-hint>
         <mat-error
           *ngIf="documentno.errors && (documentno.touched || documentno.dirty)"
-          >Ingrese un número ocho dígitos
+          >Ingrese un número de séis a ocho dígitos
         </mat-error>
       </mat-form-field>
     </div>
@@ -56,7 +56,7 @@
     <p *ngIf="askPatientRegistration">Este DNI no se encuentra afiliado aún.</p>
   </form>
 
-  <div *ngIf="!this.isUserLabPerson && showRecord">
+  <div *ngIf="showRecord">
     <h2>Información Básica</h2>
     <a
       *ngIf="this.isUserAdmin"
@@ -95,9 +95,20 @@
           </div>
         </div>
 
+        <div fxLayout="row wrap" fxLayoutAlign="left center">
+          <div fxFlex="15" fxFlex.md="20" fxFlex.sm="25" fxFlex.xs="32">
+            <h4 style="margin-top: 15px; margin-left: 22px">Fec. Nac.:</h4>
+          </div>
+          <div fxFlex="75" fxFlex.md="70" fxFlex.sm="65" fxFlex.xs="58">
+            <h4 style="margin-top: 15px; font-weight: normal">
+              {{ patient.birthday | date: 'dd/MM/yyyy' }}
+            </h4>
+          </div>
+        </div>
+
         <!-- </mat-toolbar-row>
     </mat-toolbar> -->
-
+      <div *ngIf="!this.isUserLabPerson">
         <div
           fxLayout="row wrap"
           fxLayoutAlign="left center"
@@ -144,6 +155,8 @@
             />
           </mat-form-field>
         </div>
+      </div>
+
 
         <!-- <div style="width: 95% !important; margin-bottom: 10px; margin-top: 10px !important;" class="ml-24" > -->
 
@@ -171,7 +184,7 @@
       </mat-card-actions>
     </mat-card>
 
-    <div *ngIf="askPatientRegistration && this.isUserAdmin">
+    <div *ngIf="askPatientRegistration && this.isUserAdmin && !this.isUserLabPerson">
       <button
         mat-raised-button
         type="button"
@@ -181,7 +194,7 @@
         Afiliar Paciente
       </button>
     </div>
-    <div *ngIf="showRecord && !askPatientRegistration">
+    <div *ngIf="showRecord && !askPatientRegistration && !this.isUserLabPerson">
       <!-- <mat-form-field *ngIf="this.isUserAdmin">
         <mat-label>Especialidad</mat-label>
         <mat-select [(ngModel)]="ticket.specialty" [disabled]="ticket.status !== 0"
@@ -224,11 +237,11 @@
         </div>
       </div>
     </div>
-    <div fxLayout="row" *ngIf="showRecord" class="mt-24">
+    <div fxLayout="row" *ngIf="showRecord && !this.isUserLabPerson" style="margin-top: 0px;">
       <h2 fxFlex="50">Atenciones</h2>
     </div>
 
-    <div *ngIf="showRecord" id="recordTable">
+    <div *ngIf="showRecord && !this.isUserLabPerson" id="recordTable">
       <!-- <div fxFlex="100" *ngIf="ticket.status === 0 && this.isUserAdmin"> -->
       <a
         mat-button
@@ -554,6 +567,17 @@
                 >
                   Interconsulta
                 </mat-option>
+                <mat-option
+                type="button"
+                mat-raised-button
+                color="primary"
+                target="_blank"
+                (click)="downloadExams(element)"
+                class="btn btn-inline"
+                style="margin-left: 5px"
+              >
+                Exámenes
+              </mat-option>
               </mat-select>
             </mat-form-field>
           </mat-cell>
@@ -575,7 +599,7 @@
   </div>
 
   <div *ngIf="showRecord">
-    <div fxLayout="row" *ngIf="showRecord" class="mt-24">
+    <div fxLayout="row" *ngIf="showRecord" style="margin-top: 24px">
       <h2 fxFlex="50">Resultados de Exámenes</h2>
     </div>
     <div *ngIf="this.isUserAdmin || this.isUserLabPerson">
@@ -667,8 +691,8 @@
         <mat-table [dataSource]="this.uploadResultsByLab">
           <!-- Position Column -->
           <ng-container matColumnDef="user_id">
-            <mat-header-cell *matHeaderCellDef>Usuario</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{ element.user_id }}</mat-cell>
+            <mat-header-cell *matHeaderCellDef>DNI</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.patient_docNumber }}</mat-cell>
           </ng-container>
 
           <!-- Name Column -->

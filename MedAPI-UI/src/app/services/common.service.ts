@@ -102,25 +102,18 @@ export class CommonService {
           doc.setFontSize(titleFontSize);
           var currentY = 40;
           if (type === 'Prescription') {
-            var title = 'Receta Medica';
-            // var xOffset = (doc.internal.pageSize.width / 2) - (doc.getStringUnitWidth(title) * titleFontSize / 2);
-            doc.text(
-              title,
-              doc.internal.pageSize.width / 2,
-              currentY,
-              null,
-              'center'
-            );
+
+            var title = 'Receta Médica'
+            // var xOffset = (doc.internal.pageSize.width / 2) - (doc.getStringUnitWidth(title) * titleFontSize / 2); 
+            doc.text(title, doc.internal.pageSize.width / 2, currentY, null, 'center');
           } else if (type === 'Interconsultation') {
-            var title = 'Solicitud de Interconsulta';
-            // var xOffset = (doc.internal.pageSize.width / 2) - (doc.getStringUnitWidth(title) * titleFontSize / 2);
-            doc.text(
-              title,
-              doc.internal.pageSize.width / 2,
-              currentY,
-              null,
-              'center'
-            );
+            var title = 'Solicitud de Interconsulta'
+            // var xOffset = (doc.internal.pageSize.width / 2) - (doc.getStringUnitWidth(title) * titleFontSize / 2); 
+            doc.text(title, doc.internal.pageSize.width / 2, currentY, null, 'center');
+          } else if (type === 'Exams'){
+            var title = 'Exámenes de Laboratorio'
+            doc.text(title, doc.internal.pageSize.width / 2, currentY, null, 'center');
+
           } else {
             var title = 'Atención Médica';
             // var xOffset = (doc.internal.pageSize.width / 2) - (doc.getStringUnitWidth(title) * titleFontSize / 2);
@@ -192,13 +185,21 @@ export class CommonService {
             doc.setFont('helvetica', 'bold');
             doc.text('Presión arterial (mmHg)', 14, (currentY += 15));
             doc.setFont('helvetica', null);
-            doc.text(
-              note.triage.vitalFunctions.systolic.toString() +
-                '/' +
-                note.triage.vitalFunctions.diastolic.toString(),
-              14,
-              (currentY += 8)
-            );
+
+            if (note.triage.vitalFunctions.systolic && note.triage.vitalFunctions.diastolic){
+              doc.text(
+                note.triage.vitalFunctions.systolic.toString() + '/' + note.triage.vitalFunctions.diastolic.toString(),
+                14,
+                (currentY += 8)
+              );
+            }
+            else {
+              doc.text(
+                '-',
+                14,
+                (currentY += 8)
+              );
+            }
 
             // doc.setFont('helvetica', 'bold');
             // doc.text(
@@ -213,17 +214,25 @@ export class CommonService {
             //   (currentY += 8)
             // );
 
-            console.log(doc.internal.pageSize.height);
-            console.log(currentY);
-
+            // console.log(doc.internal.pageSize.height);
+            // console.log(currentY);
             doc.setFont('helvetica', 'bold');
             doc.text('Frecuencia cardiaca (lpm)', 14, (currentY += 15));
             doc.setFont('helvetica', null);
-            doc.text(
-              note.triage.vitalFunctions.heartRate.toString(),
-              14,
-              (currentY += 8)
-            );
+            if (note.triage.vitalFunctions.heartRate){
+              doc.text(
+                note.triage.vitalFunctions.heartRate.toString(),
+                14,
+                (currentY += 8)
+              );
+            }
+            else{
+              doc.text(
+                '-',
+                14,
+                (currentY += 8)
+              );
+            }
           }
 
           if (type === 'Attention' || type === 'Interconsultation') {
@@ -232,60 +241,109 @@ export class CommonService {
             doc.text('Antecedentes Personales ', 14, (currentY += 15));
 
             doc.setFont('helvetica', null);
-            doc.text(
-              patient.personalBackground.map((s) => s.name).join(','),
-              14,
-              (currentY += 8)
-            );
+            if (patient.personalBackground.length > 0){
+              doc.text(
+                patient.personalBackground.map((s) => s.name).join(', '),
+                14,
+                (currentY += 8)
+              );
+            }
+            else{
+              doc.text(
+                'Ninguno',
+                14,
+                (currentY += 8)
+              );
+            }
+
 
             // Patient Allergies
             doc.setFont('helvetica', 'bold');
             doc.text('Alergias', 14, (currentY += 15));
 
             doc.setFont('helvetica', null);
-            doc.text(
-              patient.allergies.map((s) => s.name).join(','),
-              14,
-              (currentY += 8)
-            );
+            if (patient.allergies.length > 0) {
+              doc.text(
+                patient.allergies.map((s) => s.name).join(', '),
+                14,
+                (currentY += 8)
+              );
+            }
+            else {
+              doc.text(
+                'Ninguna',
+                14,
+                (currentY += 8)
+              );
+            }
+
 
             // Symptom Description
             doc.setFont('helvetica', 'bold');
             doc.text('Síntomas', 14, (currentY += 15));
 
             doc.setFont('helvetica', null);
-            doc.text(note.symptoms.description, 14, (currentY += 8));
+            var splitSymptoms = doc.splitTextToSize(note.symptoms.description, 180);
+            doc.text(splitSymptoms, 14, (currentY += 8));
 
             // Patient Background Information from NOTE
             doc.setFont('helvetica', 'bold');
-            doc.text('Relato', 14, (currentY += 15));
+            if (currentY + doc.splitTextToSize(note.symptoms.description, 180).length * 7 + 8> doc.internal.pageSize.height) {
+              doc.addPage();
+              currentY = 0;
+            }
+
+            doc.text('Relato', 14, (currentY += (doc.splitTextToSize(note.symptoms.description, 180).length * 7 + 8)));
 
             if (note.symptoms.background) {
               doc.setFont('helvetica', null);
-              doc.text(note.symptoms.background, 14, (currentY += 8));
+              var splitSymptomsBackground = doc.splitTextToSize(note.symptoms.background, 180);
+              doc.text(splitSymptomsBackground, 14, (currentY += 8));
+            }
+            else{
+              doc.setFont('helvetica', null);
+              var noSymptomsBackground = '-';
+              doc.text(noSymptomsBackground, 14, (currentY += 8));
             }
 
-            if (currentY > doc.internal.pageSize.height) {
-              doc.addPage();
-              currentY = 0;
-            }
           }
           if (type === 'Attention') {
             //Note Examen físico
-            doc.setFont('helvetica', 'bold');
-            doc.text('Examen físico', 14, (currentY += 15));
+            if (note.physicalExam.text.length > 0) {
+              var index = 20;
+              if (currentY + doc.splitTextToSize(note.symptoms.background, 180).length * 7 + 40 > doc.internal.pageSize.height) {
+                doc.addPage();
+                currentY = 0;
+              }
+              else{
+                index = note.symptoms.background.length < 1 ? 15 : doc.splitTextToSize(note.symptoms.background, 180).length * 7 + 8;
+              }
+              doc.setFont('helvetica', 'bold');
+              doc.text('Examen físico', 14, (currentY += index));
+  
+              doc.setFont('helvetica', null);
+              var splitPhysicalExam = doc.splitTextToSize(note.physicalExam.text, 180);
+              doc.text(splitPhysicalExam, 14, (currentY += 8));
 
-            doc.setFont('helvetica', null);
-            doc.text(note.physicalExam.text, 14, (currentY += 8));
+            }
+            else {
+              currentY += 15;
+            }
 
             if (currentY + 75 > doc.internal.pageSize.height) {
               doc.addPage();
-              currentY = 0;
+              currentY = 15;
             }
 
             //Diagnóstico
             doc.setFont('helvetica', 'bold');
-            doc.text('Diagnóstico', 14, (currentY += 15));
+            // if (note.symptoms.background.length < 1) {
+            //   index = 15;
+            // }
+            // else{
+            index = note.physicalExam.text.length > 1 ? doc.splitTextToSize(note.physicalExam.text, 180).length * 7 + 8 : note.symptoms.background.length > 1 ? doc.splitTextToSize(note.symptoms.background, 180).length * 7 + 8: 15;
+            // }
+            doc.text('Diagnóstico', 14, (currentY += index));
 
             var col = ['#', 'CIE-10', 'Descripción', 'Tipo'];
             var rows = [];
@@ -337,32 +395,47 @@ export class CommonService {
             // @ts-ignore
             currentY = 12 + doc.lastAutoTable.finalY;
 
-            doc.setFont('helvetica', 'bold');
-
-            doc.text('Observaciones', 14, currentY);
-
-            doc.setFont('helvetica', '');
-            // @ts-ignore
-            doc.text(note.diagnosis.observations, 14, (currentY += 8));
+            if (note.diagnosis.observations.length > 0){
+              doc.setFont('helvetica', 'italic');
+              doc.text('Observaciones', 14, currentY);
+  
+              doc.setFont('helvetica', '');
+              // @ts-ignore
+              var splitDiagnosisObservations = doc.splitTextToSize(note.diagnosis.observations, 180);
+              doc.text(splitDiagnosisObservations, 14, (currentY += 8));
+            }
 
             if (currentY > pageHeight) {
               doc.addPage();
               currentY = 0;
             }
+          }
+
+        if (type === 'Attention' || type === 'Exams') {
+
+          if (currentY + 75 > doc.internal.pageSize.height) {
+            doc.addPage();
+            currentY = 0;
+          }
 
             doc.setFont('helvetica', 'bold');
             // @ts-ignore
-            doc.text('Examenes solicitados', 14, (currentY += 15));
+            doc.text('Examenes solicitados', 14, (currentY+=15));
 
             var colExams = ['#', 'Nombre'];
             var rowsExam = [];
 
-            for (var i = 0; i < note.exams.list.length; i++) {
-              var tempExams = [
-                i + 1,
-                this.titleCasePipe.transform(note.exams.list[i].name),
-              ];
-              rowsExam.push(tempExams);
+
+            if (note.exams.list.length === 0){
+              var noExams = ['-', 'Ninguno'];
+              rowsExam.push(noExams);
+            }
+            else {
+              for (var i = 0; i < note.exams.list.length; i++) {
+                var tempExams = [i + 1, this.titleCasePipe.transform(note.exams.list[i].name)];
+                rowsExam.push(tempExams);
+            }
+
             }
 
             // @ts-ignore
@@ -387,6 +460,20 @@ export class CommonService {
                 lineWidth: 0.5,
               },
             });
+
+            // @ts-ignore
+            currentY = 12 + doc.lastAutoTable.finalY;
+            
+            if (note.exams.observations.length > 0){
+              doc.setFont('helvetica', 'italic');
+              doc.text('Observaciones', 14, currentY);
+  
+              doc.setFont('helvetica', '');
+              var splitExamsObservations = doc.splitTextToSize(note.exams.observations, 180);
+
+              // @ts-ignore
+              doc.text(splitExamsObservations, 14, (currentY += 8));
+            }
 
             if (currentY > doc.internal.pageSize.height) {
               doc.addPage();
@@ -460,23 +547,32 @@ export class CommonService {
             // console.log(note.treatments.list);
             // console.log(note.interconsultation.list);
 
-            for (var i = 0; i < note.interconsultation.list.length; i++) {
-              var interconsultationTable = [
-                i + 1,
-                this.titleCasePipe.transform(
-                  note.interconsultation.list[i].specialty
-                ),
-                this.titleCasePipe.transform(
-                  note.interconsultation.list[i].reason
-                ),
+            if (note.interconsultation.list.length === 0){
+              var noInterconsultationTable = [
+                '-',
+                'Ninguna',
+                '-',
+
               ];
-              rowsInterconsultation.push(interconsultationTable);
+              rowsInterconsultation.push(noInterconsultationTable);
+            }
+            else{
+              for (var i = 0; i < note.interconsultation.list.length; i++) {
+                var interconsultationTable = [
+                  i + 1,
+                  this.titleCasePipe.transform(note.interconsultation.list[i].specialty),
+                  note.interconsultation.list[i].reason,
+                ];
+                rowsInterconsultation.push(interconsultationTable);
+              }
             }
 
+
+            index = note.symptoms.background.length < 1 ? 15 : doc.splitTextToSize(note.symptoms.background, 180).length * 7 + 8;
             // @ts-ignore
             doc.autoTable({
               styles: { theme: 'plain' },
-              margin: { top: currentY + 15 },
+              margin: { top: currentY + index },
               body: rowsInterconsultation,
               columns: colInterconsultation,
               theme: 'grid',
@@ -502,15 +598,24 @@ export class CommonService {
 
           var pageHeight = doc.internal.pageSize.height;
 
-          if (finalY > pageHeight) {
+          if (finalY + 40 > pageHeight) {
             doc.addPage();
-            finalY = 0;
+            finalY = 20 + 30;
           }
 
          const imageData = signImageDataUrl ? signImageDataUrl : 'data:image/png;base64,' + note.signatuteDraw;
 
           doc.setFont('helvetica', 'bold');
-          doc.text('Médico', 14, 12 + finalY);
+          if (type === 'Attention' || type === 'Exams'){
+            finalY += 30
+          }
+          else if (type === 'Interconsultation'){
+            finalY += 8
+          }
+          else {
+            finalY += 10
+          }
+          doc.text('Médico', 14, finalY);
 
           if(note.isSignatureDraw)
           {
@@ -532,7 +637,9 @@ export class CommonService {
             ' ' +
             this.medicForNote.user.lastNameMother;
           doc.setFont('helvetica', '');
+
           doc.text(medicName, 14, 28 + finalY);
+
 
           doc.setFontSize(contentFontSize);
 
@@ -540,18 +647,22 @@ export class CommonService {
           doc.text(
             'CMP:' + this.medicForNote.cmp + ' RNE:' + this.medicForNote.rne,
             14,
+
             34 + finalY
+
           );
 
           doc.text(
             'Fecha:' +
               this.datepipe.transform(note.registrationDate, 'dd/MM/yyyy'),
             14,
+
             40 + finalY
           );
 
+
           doc.setFontSize(contentFontSize);
-          doc.save(patient.name + '_' + type + '.pdf');
+          doc.save(patient.lastnameFather + '_' + type + '.pdf');
         })
         .catch((error: any) => {
           console.log(error);
