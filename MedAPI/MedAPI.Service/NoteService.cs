@@ -150,5 +150,17 @@ namespace MedAPI.Service
         {
             return noteRepository.CloseAttention(id);
         }
+
+        public bool saveSignature(int noteId, bool isSignDraw, string signText, byte[] signImageData)
+        {
+            return noteRepository.saveSignature(noteId, isSignDraw, signText, signImageData);
+
+
+        }
+
+        public byte[] GetNoteSignatureIfDraw(int noteId)
+        {
+            return noteRepository.GetNoteSignatureIfDraw(noteId);
+        }
     }
 }

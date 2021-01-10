@@ -1,4 +1,10 @@
-import { Component, OnInit, ViewChild, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  ChangeDetectorRef,
+  OnDestroy,
+} from '@angular/core';
 import { RecordService } from './services/record.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
@@ -21,13 +27,13 @@ import { PatientFatherbackgroundList } from '../../models/patientFatherbackgroun
 import { PatientMotherbackgroundList } from '../../models/patientMotherbackgroundList.model';
 import { PersonalBackgroundList } from '../../models/personalBackgroundList.model';
 import { CardiovascularSymptoms } from '../../models/cardiovascularSymptoms.model';
-import { jsPDF } from "jspdf";
+import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
 import { CommonService } from 'src/app/services/common.service';
 import { LabUploadResult } from 'src/app/models/labUploadResult';
 import { ToastrService } from 'ngx-toastr';
-import {  saveAs as importedSaveAs  } from "file-saver";
-import {  IDropdownSettings } from 'ng-multiselect-dropdown';
+import { saveAs as importedSaveAs } from 'file-saver';
+import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { Symptoms } from 'src/app/models/symptoms.model';
 import { NoteService } from '../note/services/note.service';
 import { MatSort } from '@angular/material/sort';
@@ -42,11 +48,10 @@ import { HttpErrorResponse } from '@angular/common/http';
 export enum TicketStatus {
   REGISTERED = 0,
   STARTED = 1,
-  FINISHED = 2
+  FINISHED = 2,
 }
 
-export class
-PastAttentions {
+export class PastAttentions {
   id: number;
   description: string = '';
   specialty: string = '';
@@ -62,7 +67,6 @@ PastAttentions {
   templateUrl: './record.component.html',
   styleUrls: ['./record.component.scss'],
 })
-
 export class RecordComponent implements OnInit, OnDestroy {
   notes: NoteDetail[];
   patient: Patient = new Patient();
@@ -84,32 +88,40 @@ export class RecordComponent implements OnInit, OnDestroy {
   displayedColumns: string[];
 
   DPastAttentions: PastAttentions[] = [] as PastAttentions[];
-  dataSource: MatTableDataSource<PastAttentions> =  new MatTableDataSource(this.DPastAttentions);
+  dataSource: MatTableDataSource<PastAttentions> = new MatTableDataSource(
+    this.DPastAttentions
+  );
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
   selectedSpeciality: any = '';
   filterType: MatTableFilter;
   filterEntity: PastAttentions;
 
-
-  specialities = [{ value: 'GENERAL', name: 'Medicina General', id: 1 },
-  { value: 'CARDIOLOGY', name: 'Cardiología', id: 2 },
-  { value: 'PEDIATRY', name: 'Pediatría', id: 3 },
-  { value: 'TRAUMATOLOGY', name: 'Traumatología', id: 4 }];
+  specialities = [
+    { value: 'GENERAL', name: 'Medicina General', id: 1 },
+    { value: 'CARDIOLOGY', name: 'Cardiología', id: 2 },
+    { value: 'PEDIATRY', name: 'Pediatría', id: 3 },
+    { value: 'TRAUMATOLOGY', name: 'Traumatología', id: 4 },
+  ];
 
   isUserAdmin: boolean = false;
   isUserLabPerson: boolean = false;
   isUserPatient: boolean = false;
   uploadedFile: any;
   labId: number;
-  uploadResultsByLab =  new MatTableDataSource<LabUploadResult>([]);
-  displayedColumnsUpload: string[] = ['user_id', 'fileName', 'dateUploaded', 'comments', 'action'];
+  uploadResultsByLab = new MatTableDataSource<LabUploadResult>([]);
+  displayedColumnsUpload: string[] = [
+    'user_id',
+    'fileName',
+    'dateUploaded',
+    'comments',
+    'action',
+  ];
 
   symptomsDropDownList = [];
   selectedSymptomsDropDownList = [];
   symptomsDropDownSettings: IDropdownSettings = {};
   customSymptoms: string;
-
 
   color: ThemePalette = 'primary';
   mode: ProgressSpinnerMode = 'indeterminate';
@@ -125,14 +137,27 @@ export class RecordComponent implements OnInit, OnDestroy {
   subscriptionRegistrationDateFilter: any;
   subscriptionDescriptionFilter: any;
 
-  filteredValues = {id: '', specialty: '', registrationDate: '', description: ''};
+  filteredValues = {
+    id: '',
+    specialty: '',
+    registrationDate: '',
+    description: '',
+  };
 
-  constructor(private recordService: RecordService, public router: Router, private changeDetectorRefs: ChangeDetectorRef, 
-              private commonService: CommonService, private activatedRouter: ActivatedRoute, public toastr: ToastrService,
-              private noteService: NoteService, public datePipe: DatePipe, private dateAdapter: DateAdapter<Date>) {
-                // this.dateAdapter.setLocale('en-GB')
-               }
-  
+  constructor(
+    private recordService: RecordService,
+    public router: Router,
+    private changeDetectorRefs: ChangeDetectorRef,
+    private commonService: CommonService,
+    private activatedRouter: ActivatedRoute,
+    public toastr: ToastrService,
+    private noteService: NoteService,
+    public datePipe: DatePipe,
+    private dateAdapter: DateAdapter<Date>
+  ) {
+    // this.dateAdapter.setLocale('en-GB')
+  }
+
   ngOnDestroy(): void {
     this.subscriptionDescriptionFilter.unsubscribe();
     this.subscriptionIdFilter.unsubscribe();
@@ -141,7 +166,6 @@ export class RecordComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-
     // localStorage.removeItem('notes');
     // localStorage.removeItem('patient');
     this.askTicket = false;
@@ -153,77 +177,105 @@ export class RecordComponent implements OnInit, OnDestroy {
     localStorage.setItem('speciality', this.selectedSpeciality);
     this.recordService.selectedSpecialty.next(this.selectedSpeciality);
 
-    this.subscriptionIdFilter = this.idFilter.valueChanges.subscribe((idFilterValue) => {
-      this.filteredValues.id = idFilterValue;
-      this.dataSource.filter = JSON.stringify(this.filteredValues);
-      console.log(this.dataSource.filter);
-    });
-    this.subscriptionSpecialtyFilter = this.specialtyFilter.valueChanges.subscribe((specialtyFilterValue) => {
-      console.log(specialtyFilterValue);
-      this.filteredValues.specialty = specialtyFilterValue;
-      this.dataSource.filter = JSON.stringify(this.filteredValues);
-    });
+    this.subscriptionIdFilter = this.idFilter.valueChanges.subscribe(
+      (idFilterValue) => {
+        this.filteredValues.id = idFilterValue;
+        this.dataSource.filter = JSON.stringify(this.filteredValues);
+        console.log(this.dataSource.filter);
+      }
+    );
+    this.subscriptionSpecialtyFilter = this.specialtyFilter.valueChanges.subscribe(
+      (specialtyFilterValue) => {
+        console.log(specialtyFilterValue);
+        this.filteredValues.specialty = specialtyFilterValue;
+        this.dataSource.filter = JSON.stringify(this.filteredValues);
+      }
+    );
     // this.registrationDateFilter.setValidators(Validators.minLength(8));
-    this.subscriptionRegistrationDateFilter = this.registrationDateFilter.valueChanges.subscribe((registrationDateFilterValue) => {
-      // let datePipeEn: DatePipe = new DatePipe('en-US');
-      // this.filteredValues.registrationDate = '' + registrationDateFilterValue;
+    this.subscriptionRegistrationDateFilter = this.registrationDateFilter.valueChanges.subscribe(
+      (registrationDateFilterValue) => {
+        // let datePipeEn: DatePipe = new DatePipe('en-US');
+        // this.filteredValues.registrationDate = '' + registrationDateFilterValue;
         // this.datePipe.transform(registrationDateFilterValue, 'MM/dd/yyyy', 'en-US');
-      try{
-        console.log(this.datePipe.transform(registrationDateFilterValue, 'yyyy'));
-        if (this.datePipe.transform(registrationDateFilterValue, 'yyyy') > '2001') {
-          this.filteredValues.registrationDate = this.datePipe.transform(registrationDateFilterValue, 'MM/dd/yyyy');
+        try {
+          console.log(
+            this.datePipe.transform(registrationDateFilterValue, 'yyyy')
+          );
+          if (
+            this.datePipe.transform(registrationDateFilterValue, 'yyyy') >
+            '2001'
+          ) {
+            this.filteredValues.registrationDate = this.datePipe.transform(
+              registrationDateFilterValue,
+              'MM/dd/yyyy'
+            );
+          } else if (registrationDateFilterValue === null) {
+            this.filteredValues.registrationDate = '';
+          } else {
+            this.filteredValues.registrationDate = (
+              registrationDateFilterValue.getMonth() + 1
+            ).toString();
+          }
+          //  console.log(this.filteredValues);
+          this.dataSource.filter = JSON.stringify(this.filteredValues);
+        } catch {
+          this.dataSource.filter = JSON.stringify(this.filteredValues);
         }
-        else if (registrationDateFilterValue === null) {
-          this.filteredValues.registrationDate = '';
-        }
-        else{
-          this.filteredValues.registrationDate = (registrationDateFilterValue.getMonth() + 1).toString();
-        }
-        console.log(this.filteredValues);
+      }
+    );
+    this.subscriptionDescriptionFilter = this.descriptionFilter.valueChanges.subscribe(
+      (descriptionFilterValue) => {
+        console.log(descriptionFilterValue);
+        this.filteredValues.description = descriptionFilterValue;
         this.dataSource.filter = JSON.stringify(this.filteredValues);
       }
-      catch {
-        this.dataSource.filter = JSON.stringify(this.filteredValues);
-      }
-
-
-    });
-    this.subscriptionDescriptionFilter = this.descriptionFilter.valueChanges.subscribe((descriptionFilterValue) => {
-      console.log(descriptionFilterValue);
-      this.filteredValues.description = descriptionFilterValue;
-      this.dataSource.filter = JSON.stringify(this.filteredValues);
-    });
+    );
 
     this.dataSource.filterPredicate = this.customFilterPredicate();
     //
-    var  sSymptoms = new Symptoms();
+    var sSymptoms = new Symptoms();
     var pastAtt = new PastAttentions();
     pastAtt.symptoms = sSymptoms;
     this.filterEntity = pastAtt;
     this.filterType = MatTableFilter.ANYWHERE;
 
-
     this.ticketNumber = '';
     // this.ticket.status   = TicketStatus.REGISTERED;
     this.documentNumber = '';
 
+    var docNumber = this.activatedRouter.snapshot.paramMap.get('id');
 
-    var docNumber = this.activatedRouter.snapshot.paramMap.get("id");
-
-    if(docNumber)
-    {
+    if (docNumber) {
       this.documentNumber = docNumber;
       this.searchDocumentNumber();
     }
 
     this.dataSource.paginator = this.paginator;
 
-    this.isUserAdmin = localStorage.getItem('role') !== 'patient' &&  localStorage.getItem('role') !== 'lab' ;
+    this.isUserAdmin =
+      localStorage.getItem('role') !== 'patient' &&
+      localStorage.getItem('role') !== 'lab';
     this.isUserLabPerson = localStorage.getItem('role') === 'lab';
     this.isUserPatient = localStorage.getItem('role') === 'patient';
 
-    this.displayedColumns = this.isUserPatient ? ['id', 'specialty', 'registrationDate', 'category', 'description', 'action'] :
-      ['id', 'specialty', 'registrationDate', 'category', 'description', 'status', 'evaluation'];
+    this.displayedColumns = this.isUserPatient
+      ? [
+          'id',
+          'specialty',
+          'registrationDate',
+          'category',
+          'description',
+          'action',
+        ]
+      : [
+          'id',
+          'specialty',
+          'registrationDate',
+          'category',
+          'description',
+          'status',
+          'evaluation',
+        ];
 
     this.symptomsDropDownSettings = {
       singleSelection: false,
@@ -233,9 +285,9 @@ export class RecordComponent implements OnInit, OnDestroy {
       selectAllText: 'Select All',
       unSelectAllText: 'UnSelect All',
       itemsShowLimit: 3,
-      allowSearchFilter: true
-
+      allowSearchFilter: true,
     };
+
 
     if (this.isUserLabPerson && docNumber)
     {
@@ -243,66 +295,89 @@ export class RecordComponent implements OnInit, OnDestroy {
       this.labId = Number(localStorage.getItem('loggedInID'));
 
       this.recordService.getUploadResultByLabID(this.labId, this.patient.userId).then((response: LabUploadResult[]) => {
+
+  
           this.uploadResultsByLab.data = response;
           this.isLoadingResults = false;
-          }).catch((error: any) => {
-             console.log(error);
-             this.isLoadingResults = false;
-          });
+        })
+        .catch((error: any) => {
+          console.log(error);
+          this.isLoadingResults = false;
+        });
+    } else {
+      this.recordService
+        .getSymptoms()
+        .then((response: Symptoms[]) => {
+          this.symptomsDropDownList = response['symptoms'];
+
+          if (!this.isUserAdmin) {
+            this.recordService
+              .getSymptomsForPatient(this.documentNumber)
+              .then((response: any) => {
+                this.selectedSymptomsDropDownList =
+                  response['symptoms']['symptoms'];
+                this.customSymptoms = response['symptoms']['Custom_Symptom'];
+              })
+              .catch((error: any) => {
+                console.log(error);
+              });
+          }
+        })
+        .catch((error: any) => {
+          console.log(error);
+        });
     }
-    else{
-
-
-
-      this.recordService.getSymptoms().then((response: Symptoms[]) => {
-        this.symptomsDropDownList = response["symptoms"];
-
-        if(!this.isUserAdmin )
-        {
-          this.recordService.getSymptomsForPatient(this.documentNumber).then((response : any) => {
-              this.selectedSymptomsDropDownList = response["symptoms"]["symptoms"];
-              this.customSymptoms = response["symptoms"]["Custom_Symptom"];
-
-          }).catch((error : any) => {
-              console.log(error);
-            });
-        }
-      }).catch((error: any) => {
-         console.log(error);
-      });
-    }
-
-
   }
 
   customFilterPredicate() {
-    const myFilterPredicate = (pastAttentions: PastAttentions, filter: string): boolean => {
+    const myFilterPredicate = (
+      pastAttentions: PastAttentions,
+      filter: string
+    ): boolean => {
       let searchString = JSON.parse(filter);
-      let idFound = pastAttentions.id.toString().trim().indexOf(searchString.id.toString().trim()) !== -1;
-      let specialtyFound = pastAttentions.specialty.toString().trim()
-          .toLowerCase().indexOf(searchString.specialty.trim().toLowerCase()) !== -1;
+      let idFound =
+        pastAttentions.id
+          .toString()
+          .trim()
+          .indexOf(searchString.id.toString().trim()) !== -1;
+      let specialtyFound =
+        pastAttentions.specialty
+          .toString()
+          .trim()
+          .toLowerCase()
+          .indexOf(searchString.specialty.trim().toLowerCase()) !== -1;
       // let registrationDateFound = new Date(pastAttentions.registrationDate).getDay() === new Date(searchString.registrationDate).getDay() &&
       // new Date(pastAttentions.registrationDate).getMonth() === new Date(searchString.registrationDate).getMonth() &&
       // new Date(pastAttentions.registrationDate).getFullYear() === new Date(searchString.registrationDate).getFullYear();
-      let registrationDates = this.datePipe.transform(new Date(pastAttentions.registrationDate), 'MM/dd/yyyy').toString();
-      let registrationDateFound = registrationDates.indexOf(searchString.registrationDate) !== -1;
-      let descriptionFound = (pastAttentions.symptoms.description).toString().trim()
-          .toLowerCase().indexOf(searchString.description.toString().trim().toLowerCase()) !== -1;
+      let registrationDates = this.datePipe
+        .transform(new Date(pastAttentions.registrationDate), 'MM/dd/yyyy')
+        .toString();
+      let registrationDateFound =
+        registrationDates.indexOf(searchString.registrationDate) !== -1;
+      let descriptionFound =
+        pastAttentions.symptoms.description
+          .toString()
+          .trim()
+          .toLowerCase()
+          .indexOf(searchString.description.toString().trim().toLowerCase()) !==
+        -1;
 
-      if (searchString.registrationDate && searchString.registrationDate.length > 0){
-        return idFound && specialtyFound && registrationDateFound && descriptionFound;
-      }
-      else{
+      if (
+        searchString.registrationDate &&
+        searchString.registrationDate.length > 0
+      ) {
+        return (
+          idFound && specialtyFound && registrationDateFound && descriptionFound
+        );
+      } else {
         return idFound && specialtyFound && descriptionFound;
       }
     };
 
     return myFilterPredicate;
-
   }
 
   ngAfterViewInit(): any {
-
     this.dataSource.paginator = this.paginator;
     this.uploadResultsByLab.sort = this.sort;
     // this.uploadResultsByLab.filterPredicate = (data, filter) => !filter || data.patient_docNumber.toString().includes(this.documentNumber);
@@ -319,22 +394,24 @@ export class RecordComponent implements OnInit, OnDestroy {
     //   }
     // };
     // this.dataSource.filterPredicate = (data, filter: string) => !filter || data.date.includes(filter);
-
   }
 
-
-  SaveSymptoms(){
-
+  SaveSymptoms() {
     // console.log(this.selectedSymptomsDropDownList);
     // console.log(this.customSymptoms);
-    this.recordService.saveSymptoms(this.documentNumber, this.selectedSymptomsDropDownList, this.customSymptoms).then((response : any) => {
-
-      this.toastr.success('síntomas guardados con éxito.');
-      // this.uploadResultsByLab.data = response;
-    }).catch((error: any) => {
-      this.toastr.error('Se produjo un error al guardar los síntomas.');
-    });
-
+    this.recordService
+      .saveSymptoms(
+        this.documentNumber,
+        this.selectedSymptomsDropDownList,
+        this.customSymptoms
+      )
+      .then((response: any) => {
+        this.toastr.success('síntomas guardados con éxito.');
+        // this.uploadResultsByLab.data = response;
+      })
+      .catch((error: any) => {
+        this.toastr.error('Se produjo un error al guardar los síntomas.');
+      });
   }
   onItemSelect(item: any) {
     // console.log(this.selectedSymptomsDropDownList);
@@ -343,36 +420,32 @@ export class RecordComponent implements OnInit, OnDestroy {
   onSelectAll(items: any) {
     this.selectedSymptomsDropDownList.push(items);
   }
-  toggleUploadCard(){
+  toggleUploadCard() {
     this.isUploadFormShow = !this.isUploadFormShow;
   }
 
   downloadAttentionPdf(note: NoteDetail) {
-    this.commonService.generatePDF(this.patient, note, "Attention");
+    this.commonService.generatePDF(this.patient, note, 'Attention');
   }
 
-  downloadPrescription(note: NoteDetail){
-
-    this.commonService.generatePDF(this.patient, note, "Prescription");
+  downloadPrescription(note: NoteDetail) {
+    this.commonService.generatePDF(this.patient, note, 'Prescription');
   }
 
-  downloadInter(note: NoteDetail){
-
+  downloadInter(note: NoteDetail) {
     // console.log(this.patient)
-    this.commonService.generatePDF(this.patient, note, "Interconsultation");
+    this.commonService.generatePDF(this.patient, note, 'Interconsultation');
   }
+
 
   downloadExams(note: NoteDetail){
     this.commonService.generatePDF(this.patient, note, "Exams")
   }
 
   downloadTestResult(id: number, fileName: string){
-
     this.recordService.getUploadResultFile(id).subscribe((data) => {
-      console.log(data);
       importedSaveAs(data, fileName);
-  });
-
+    });
   }
 
   csvInputChange(fileInputEvent: any) {
@@ -380,17 +453,18 @@ export class RecordComponent implements OnInit, OnDestroy {
     this.formData.set('uploadFile', fileInputEvent.target.files[0]);
   }
 
-  submitUploadResult(){
+  submitUploadResult() {
     this.labUploadResult.user_id = this.patient.userId;
 
-    if(this.labUploadResult.comments != null && this.labUploadResult.comments != ''){
-
-      if(this.isUserAdmin)
-      {
-      this.labUploadResult.medicId = Number(localStorage.getItem('loggedInID'));
-      }
-      else if(this.isUserLabPerson)
-      {
+    if (
+      this.labUploadResult.comments != null &&
+      this.labUploadResult.comments != ''
+    ) {
+      if (this.isUserAdmin) {
+        this.labUploadResult.medicId = Number(
+          localStorage.getItem('loggedInID')
+        );
+      } else if (this.isUserLabPerson) {
         this.labUploadResult.labId = Number(localStorage.getItem('loggedInID'));
       }
 
@@ -423,13 +497,14 @@ export class RecordComponent implements OnInit, OnDestroy {
       this.toastr.error('Se produjo un error al cargar este documento.');
       });
 
-    // .catch((error) => {
-    //   console.log(error);
+     
 
-    //   this.toastr.error('Se produjo un error al crear medic.');
-    // });
+      // .catch((error) => {
+      //   console.log(error);
 
-  }
+      //   this.toastr.error('Se produjo un error al crear medic.');
+      // });
+    }
   }
 
   searchTicket() {
@@ -445,38 +520,37 @@ export class RecordComponent implements OnInit, OnDestroy {
     let self = this;
 
     self.waitingTicket = true;
-    this.recordService.getPatientsByTicketNumber(this.ticketNumber).then((response: any) => {
+    this.recordService
+      .getPatientsByTicketNumber(this.ticketNumber)
+      .then((response: any) => {
+        this.setPatientDetails(response);
 
-      console.log(response);
+        // localStorage.setItem('patient', response.patient);
+        // localStorage.setItem('notes', response.notes);
+        // self.patient = response.patient;
+        // self.patient.notes = response.notes;
+        self.ticket = response.ticket;
+        self.ticket.status = TicketStatus[<string>response.ticket.status];
+        self.recordService.patientId.next(self.patient.id);
+        if (
+          typeof self.patient.notes !== 'undefined' &&
+          self.patient.notes !== null
+        ) {
+          this.dataSource = new MatTableDataSource<PastAttentions>(
+            self.patient.notes
+          );
 
-      this.setPatientDetails(response);
-
-      // localStorage.setItem('patient', response.patient);
-      // localStorage.setItem('notes', response.notes);
-      // self.patient = response.patient;
-      // self.patient.notes = response.notes;
-      self.ticket = response.ticket;
-      self.ticket.status = TicketStatus[<string>response.ticket.status];
-      self.recordService.patientId.next(self.patient.id);
-      if (typeof self.patient.notes !== 'undefined' && self.patient.notes !== null) {
-        this.dataSource = new MatTableDataSource<PastAttentions>(self.patient.notes);
-
-        this.dataSource.paginator = this.paginator;
-        // this.dataSource.sort = this.sort;
-
-
-      }
-      self.showRecord = true;
-      self.waitingTicket = false;
-
-
-
-    }).catch(() => {
-      self.askDocumentNumber = true;
-      self.waitingTicket = false;
-    });
+          this.dataSource.paginator = this.paginator;
+          // this.dataSource.sort = this.sort;
+        }
+        self.showRecord = true;
+        self.waitingTicket = false;
+      })
+      .catch(() => {
+        self.askDocumentNumber = true;
+        self.waitingTicket = false;
+      });
   }
-
 
   searchDocumentNumber() {
     this.askTicket = false; // true;
@@ -495,6 +569,7 @@ export class RecordComponent implements OnInit, OnDestroy {
     let self = this;
 
     self.waitingTicket = true;
+
     this.recordService.getPatientsByDocNumber(this.documentNumber).then((response: any) => {
 
       this.setPatientDetails(response);
@@ -595,6 +670,7 @@ export class RecordComponent implements OnInit, OnDestroy {
       self.askPatientRegistration = true;
       self.waitingTicket = false;
     });
+
   }
 
   // onSpecialityChange(event: any) {
@@ -611,8 +687,7 @@ export class RecordComponent implements OnInit, OnDestroy {
   //   }
   // }
 
-  navigateToNotes(id : number) {
-
+  navigateToNotes(id: number) {
     console.log(id);
 
     let routerPath = '/records/notes/new';
@@ -635,13 +710,14 @@ export class RecordComponent implements OnInit, OnDestroy {
         break;
     }
     localStorage.setItem('notes', '');
-    if(id)
-    {
-      this.router.navigate([routerPath], {queryParams: {docNumber: this.documentNumber, attentionId : id}});
-    }
-    else{
-      this.router.navigate([routerPath], {queryParams: {docNumber: this.documentNumber}});
-      
+    if (id) {
+      this.router.navigate([routerPath], {
+        queryParams: { docNumber: this.documentNumber, attentionId: id },
+      });
+    } else {
+      this.router.navigate([routerPath], {
+        queryParams: { docNumber: this.documentNumber },
+      });
     }
     // this.router.navigateByUrl(routerPath);
   }
@@ -650,7 +726,9 @@ export class RecordComponent implements OnInit, OnDestroy {
     if (CheckEmptyUtil.isNotEmptyObject(this.patient)) {
       routerPath = '/patients/' + this.patient.id;
     }
-    this.router.navigate([routerPath], {queryParams: {docNumber: this.documentNumber}});
+    this.router.navigate([routerPath], {
+      queryParams: { docNumber: this.documentNumber },
+    });
   }
 
   setNoteDetails(noteDetails: any) {
@@ -676,6 +754,9 @@ export class RecordComponent implements OnInit, OnDestroy {
           notes.selectedSpecialty = note.specialty;
           notes.stage = note.stage;
           notes.registrationDate = note.createdDate;
+          notes.isSignatureDraw = note.isSignatureDraw;
+          notes.signatuteDraw = note.signatuteDraw;
+          notes.signatuteText = note.signatuteText;
           notes.symptoms = this.setSymptoms(note);
           if (CheckEmptyUtil.isNotEmpty(note.physicalExam)) {
             notes.physicalExam.text = note.physicalExam;
@@ -706,13 +787,13 @@ export class RecordComponent implements OnInit, OnDestroy {
       if (note.noteReferrals && note.noteReferrals.length > 0) {
         note.noteReferrals.forEach((x: any) => {
           referral.list.push({ name: x.specialty });
-        })
+        });
       }
       return referral;
     } catch (e) {
       console.log(e);
     }
-  };
+  }
   setInterconsultation(note) {
     try {
       let interConsultant = new NoteInterconsultation();
@@ -720,7 +801,7 @@ export class RecordComponent implements OnInit, OnDestroy {
         note.noteReferrals.forEach((x: any) => {
           interConsultant.reason = x.reason;
           interConsultant.list.push(x);
-        })
+        });
       }
       return interConsultant;
     } catch (e) {
@@ -735,25 +816,27 @@ export class RecordComponent implements OnInit, OnDestroy {
         note.noteMedicines.forEach((x: any) => {
           let list = new Lists();
           list.id = x.medicineId;
-          x.medicineList.filter(y => y.id === x.medicineId).map((m) => {
-            list.deleted = m.deleted;
-            list.concentration = m.concentration;
-            list.form = m.form;
-            list.fractions = m.fractions;
-            list.healthRegistration = m.healthRegistration;
-            list.name = m.name;
-            list.owner = m.owner;
-            list.presentation = m.presentation;
-          });
+          x.medicineList
+            .filter((y) => y.id === x.medicineId)
+            .map((m) => {
+              list.deleted = m.deleted;
+              list.concentration = m.concentration;
+              list.form = m.form;
+              list.fractions = m.fractions;
+              list.healthRegistration = m.healthRegistration;
+              list.name = m.name;
+              list.owner = m.owner;
+              list.presentation = m.presentation;
+            });
           list.indications = x.indication;
           treatment.list.push(list);
-        })
+        });
       }
       return treatment;
     } catch (e) {
       console.log(e, 'error');
     }
-  };
+  }
   setSymptoms(note) {
     try {
       let symptom = new NoteSymptom();
@@ -767,7 +850,7 @@ export class RecordComponent implements OnInit, OnDestroy {
     } catch (e) {
       console.log(e, 'error');
     }
-  };
+  }
 
   setExams(note) {
     try {
@@ -781,17 +864,19 @@ export class RecordComponent implements OnInit, OnDestroy {
             list.deleted = x.examList[0].deleted;
             list.type = x.examList.type;
           }
-          x.examList.filter(y => y.id === x.examId).map((m) => {
-            list.name = m.name
-          });
+          x.examList
+            .filter((y) => y.id === x.examId)
+            .map((m) => {
+              list.name = m.name;
+            });
           exam.list.push(list);
-        })
+        });
       }
       return exam;
     } catch (e) {
       console.log(e, 'error');
     }
-  };
+  }
 
   setDignosis(note) {
     try {
@@ -801,17 +886,19 @@ export class RecordComponent implements OnInit, OnDestroy {
         note.noteDiagnosis.forEach((x: any) => {
           let list = new Lists();
           list.id = x.diagnosisId;
-          x.diagnosisList.filter(y => y.id === x.diagnosisId).map((m) => {
-            list.name = m.name;
-            list.code = m.code;
-            list.title = m.title;
-            list.chapterId = m.chapterId;
-            list.chapter = m.chapter;
-          });
+          x.diagnosisList
+            .filter((y) => y.id === x.diagnosisId)
+            .map((m) => {
+              list.name = m.name;
+              list.code = m.code;
+              list.title = m.title;
+              list.chapterId = m.chapterId;
+              list.chapter = m.chapter;
+            });
           list.deleted = x.deleted;
           list.type = x.diagnosisType;
           dignosis.list.push(list);
-        })
+        });
       }
       return dignosis;
     } catch (e) {
@@ -820,37 +907,49 @@ export class RecordComponent implements OnInit, OnDestroy {
   }
   setCardiovascularnote(note) {
     try {
-
-      let cardiovascularNote = new Cardiovascularnote()
+      let cardiovascularNote = new Cardiovascularnote();
       if (CheckEmptyUtil.isNotEmptyObject(note.cardiovascularNote)) {
-        cardiovascularNote.skin.capillaryRefillLLM = note.cardiovascularNote.capillaryRefillLLM;
-        cardiovascularNote.skin.capillaryRefillLRM = note.cardiovascularNote.capillaryRefillLRM;
-        cardiovascularNote.skin.trophicChanges = note.cardiovascularNote.trophicChanges;
+        cardiovascularNote.skin.capillaryRefillLLM =
+          note.cardiovascularNote.capillaryRefillLLM;
+        cardiovascularNote.skin.capillaryRefillLRM =
+          note.cardiovascularNote.capillaryRefillLRM;
+        cardiovascularNote.skin.trophicChanges =
+          note.cardiovascularNote.trophicChanges;
         cardiovascularNote.skin.edemaAnkle = note.cardiovascularNote.edemaAnkle;
-        cardiovascularNote.skin.edemaGeneralized = note.cardiovascularNote.edemaGeneralized;
-        cardiovascularNote.skin.edemaLowerMember = note.cardiovascularNote.edemaLowerMembers;
+        cardiovascularNote.skin.edemaGeneralized =
+          note.cardiovascularNote.edemaGeneralized;
+        cardiovascularNote.skin.edemaLowerMember =
+          note.cardiovascularNote.edemaLowerMembers;
         cardiovascularNote.pulses.pulsesLLM = note.cardiovascularNote.pulsesLLM;
         cardiovascularNote.pulses.pulsesLRM = note.cardiovascularNote.pulsesLRM;
-        cardiovascularNote.respiratorySystem.vesicularWhisperL = note.cardiovascularNote.vesicularWhisperL;
-        cardiovascularNote.respiratorySystem.vesicularWhisperR = note.cardiovascularNote.vesicularWhisperR;
-        cardiovascularNote.cardiovascularSystem.radialPulsesL = note.cardiovascularNote.radialPulsesL;
-        cardiovascularNote.cardiovascularSystem.radialPulsesR = note.cardiovascularNote.radialPulsesR;
-        cardiovascularNote.cardiovascularSystem.pedalPulsesL = note.cardiovascularNote.pedalPulsesL;
-        cardiovascularNote.cardiovascularSystem.pedalPulsesR = note.cardiovascularNote.pedalPulsesR;
-        cardiovascularNote.cardiovascularSystem.cardiacPressureRhythm = note.cardiovascularNote.cardiacPressureRhythm;
-        cardiovascularNote.cardiovascularSystem.cardiacPressureIntensity = note.cardiovascularNote.cardiacPressureIntensity;
+        cardiovascularNote.respiratorySystem.vesicularWhisperL =
+          note.cardiovascularNote.vesicularWhisperL;
+        cardiovascularNote.respiratorySystem.vesicularWhisperR =
+          note.cardiovascularNote.vesicularWhisperR;
+        cardiovascularNote.cardiovascularSystem.radialPulsesL =
+          note.cardiovascularNote.radialPulsesL;
+        cardiovascularNote.cardiovascularSystem.radialPulsesR =
+          note.cardiovascularNote.radialPulsesR;
+        cardiovascularNote.cardiovascularSystem.pedalPulsesL =
+          note.cardiovascularNote.pedalPulsesL;
+        cardiovascularNote.cardiovascularSystem.pedalPulsesR =
+          note.cardiovascularNote.pedalPulsesR;
+        cardiovascularNote.cardiovascularSystem.cardiacPressureRhythm =
+          note.cardiovascularNote.cardiacPressureRhythm;
+        cardiovascularNote.cardiovascularSystem.cardiacPressureIntensity =
+          note.cardiovascularNote.cardiacPressureIntensity;
         cardiovascularNote.murmurs.murmurs = note.cardiovascularNote.murmurs;
-        cardiovascularNote.gastrointestinalSemiology.gastrointestinalSemiology = note.cardiovascularNote.gastrointestinalSemiology;
+        cardiovascularNote.gastrointestinalSemiology.gastrointestinalSemiology =
+          note.cardiovascularNote.gastrointestinalSemiology;
       }
       return cardiovascularNote;
-
     } catch (e) {
       console.log(e, 'error');
     }
   }
   setTriageDetails(note) {
     try {
-      let triage = new Triage()
+      let triage = new Triage();
       if (CheckEmptyUtil.isNotEmptyObject(note.triage)) {
         triage.triageId = note.triageId;
         triage.biologicalFunctions.deposition = note.triage.deposition;
@@ -858,18 +957,22 @@ export class RecordComponent implements OnInit, OnDestroy {
         triage.biologicalFunctions.sleep = note.triage.sleep;
         triage.biologicalFunctions.thirst = note.triage.thirst;
         triage.biologicalFunctions.urine = note.triage.urine;
-        triage.biologicalFunctions.weightEvolution = note.triage.weightEvolution;
+        triage.biologicalFunctions.weightEvolution =
+          note.triage.weightEvolution;
         triage.vitalFunctions.systolic = note.triage.systolicBloodPressure;
         triage.vitalFunctions.diastolic = note.triage.diastolicBloodPressure;
         triage.vitalFunctions.heartRate = note.triage.heartRate;
         triage.vitalFunctions.respiratoryRate = note.triage.breathingRate;
         triage.vitalFunctions.temperature = note.triage.temperature;
-        triage.vitalFunctions.waistCircumference = note.triage.abdominalPerimeter;
+        triage.vitalFunctions.waistCircumference =
+          note.triage.abdominalPerimeter;
         triage.vitalFunctions.height = note.triage.size;
         triage.vitalFunctions.weight = note.triage.weight;
         triage.vitalFunctions.bmi = note.triage.bmi;
-        triage.vitalFunctions.cardiovascularRiskFramingham = note.triage.cardiovascularRiskFramingham;
-        triage.vitalFunctions.cardiovascularRiskReynolds = note.triage.cardiovascularRiskReynolds;
+        triage.vitalFunctions.cardiovascularRiskFramingham =
+          note.triage.cardiovascularRiskFramingham;
+        triage.vitalFunctions.cardiovascularRiskReynolds =
+          note.triage.cardiovascularRiskReynolds;
         triage.vitalFunctions.hypertensionRisk = note.triage.hypertensionRisk;
         triage.vitalFunctions.diabetesRisk = note.triage.diabetesRisk;
         triage.vitalFunctions.fractureRisk = note.triage.fractureRisk;
@@ -882,10 +985,8 @@ export class RecordComponent implements OnInit, OnDestroy {
         triage.others.creatinineClearance = note.triage.creatinineClearance;
 
         triage.others.specialities = note.triage.specialities;
-
       }
       return triage;
-
     } catch (e) {
       console.log(e, 'error');
     }
@@ -923,7 +1024,8 @@ export class RecordComponent implements OnInit, OnDestroy {
         this.patient.email = patientDetails.user.email;
         this.patient.phone = patientDetails.user.cellphone;
 
-        this.patient.educationalAttainment = patientDetails.educationalAttainment;
+        this.patient.educationalAttainment =
+          patientDetails.educationalAttainment;
         this.patient.occupation = patientDetails.occupation;
         this.patient.bloodType = patientDetails.bloodType;
         this.patient.alcoholConsumption = patientDetails.alcohol;
@@ -943,15 +1045,24 @@ export class RecordComponent implements OnInit, OnDestroy {
         this.patient.home.sewage = patientDetails.sewage;
         this.patient.otherAllergies = patientDetails.otherAllergies;
         this.patient.otherMedicines = patientDetails.otherMedicines;
-        this.patient.otherPersonalBackground = patientDetails.otherPersonalBackground;
-        this.patient.otherFatherBackground = patientDetails.otherFatherBackground;
-        this.patient.otherMotherBackground = patientDetails.otherMotherBackground;
+        this.patient.otherPersonalBackground =
+          patientDetails.otherPersonalBackground;
+        this.patient.otherFatherBackground =
+          patientDetails.otherFatherBackground;
+        this.patient.otherMotherBackground =
+          patientDetails.otherMotherBackground;
         this.patient.passwordHash = patientDetails.user.passwordHash;
         this.patient.allergies = this.setAllergiesList(patientDetails);
         this.patient.medicines = this.setMedicinesList(patientDetails);
-        this.patient.personalBackground = this.setPatientPersonalbackgroundList(patientDetails);
-        this.patient.fatherBackground = this.setPatientFatherbackgroundList(patientDetails);
-        this.patient.motherBackground = this.setPatientMotherbackgroundList(patientDetails);
+        this.patient.personalBackground = this.setPatientPersonalbackgroundList(
+          patientDetails
+        );
+        this.patient.fatherBackground = this.setPatientFatherbackgroundList(
+          patientDetails
+        );
+        this.patient.motherBackground = this.setPatientMotherbackgroundList(
+          patientDetails
+        );
         localStorage.setItem('patient', JSON.stringify(this.patient));
         let noteDetails = data.notes;
         if (noteDetails && noteDetails.length > 0) {
@@ -976,13 +1087,13 @@ export class RecordComponent implements OnInit, OnDestroy {
           patientDetails.allergiesList.forEach((x: any) => {
             if (patientDetails.id === x.patientId && !x.isDeleted) {
               let allergy = new AllergiesList();
-              allergy.id = x.id,
-              allergy.patientId = x.patientId,
-              allergy.name = x.allergies,
-              allergy.isDeleted = x.isDeleted
+              (allergy.id = x.id),
+                (allergy.patientId = x.patientId),
+                (allergy.name = x.allergies),
+                (allergy.isDeleted = x.isDeleted);
               allergies.push(allergy);
             }
-          })
+          });
         }
         return allergies;
       }
@@ -999,15 +1110,14 @@ export class RecordComponent implements OnInit, OnDestroy {
           patientDetails.medicinesList.forEach((x: any) => {
             if (patientDetails.id === x.patientId && !x.isDeleted) {
               let medicine = new MedicinesList();
-              medicine.id = x.id,
-
-              medicine.patientId = x.patientId,
-              medicine.name = x.medicines,
-              medicine.isDeleted = x.isDeleted
+              (medicine.id = x.id),
+                (medicine.patientId = x.patientId),
+                (medicine.name = x.medicines),
+                (medicine.isDeleted = x.isDeleted);
 
               medicines.push(medicine);
             }
-          })
+          });
         }
         return medicines;
       }
@@ -1025,15 +1135,14 @@ export class RecordComponent implements OnInit, OnDestroy {
           patientDetails.patientFatherbackgroundList.forEach((x: any) => {
             if (patientDetails.id === x.patientId && !x.isDeleted) {
               let fBackground = new PatientFatherbackgroundList();
-              fBackground.id = x.id,
-
-              fBackground.patientId = x.patientId,
-              fBackground.name = x.fatherBackgrounds,
-              fBackground.isDeleted = x.isDeleted
+              (fBackground.id = x.id),
+                (fBackground.patientId = x.patientId),
+                (fBackground.name = x.fatherBackgrounds),
+                (fBackground.isDeleted = x.isDeleted);
 
               fBackgrounds.push(fBackground);
             }
-          })
+          });
         }
         return fBackgrounds;
       }
@@ -1050,15 +1159,14 @@ export class RecordComponent implements OnInit, OnDestroy {
           patientDetails.patientMotherbackgroundList.forEach((x: any) => {
             if (patientDetails.id === x.patientId && !x.isDeleted) {
               let mBackground = new PatientMotherbackgroundList();
-              mBackground.id = x.id,
-
-              mBackground.patientId = x.patientId,
-              mBackground.name = x.motherBackgrounds,
-              mBackground.isDeleted = x.isDeleted
+              (mBackground.id = x.id),
+                (mBackground.patientId = x.patientId),
+                (mBackground.name = x.motherBackgrounds),
+                (mBackground.isDeleted = x.isDeleted);
 
               mBackgrounds.push(mBackground);
             }
-          })
+          });
         }
         return mBackgrounds;
       }
@@ -1075,13 +1183,13 @@ export class RecordComponent implements OnInit, OnDestroy {
           patientDetails.personalBackgroundList.forEach((x: any) => {
             if (patientDetails.id === x.patientId && !x.isDeleted) {
               let pBackground = new PersonalBackgroundList();
-              pBackground.id = x.id,
-              pBackground.patientId = x.patientId,
-              pBackground.name = x.personalBackgrounds,
-              pBackground.isDeleted = x.isDeleted
+              (pBackground.id = x.id),
+                (pBackground.patientId = x.patientId),
+                (pBackground.name = x.personalBackgrounds),
+                (pBackground.isDeleted = x.isDeleted);
               pBackgrounds.push(pBackground);
             }
-          })
+          });
         }
         return pBackgrounds;
       }
@@ -1093,7 +1201,8 @@ export class RecordComponent implements OnInit, OnDestroy {
   setCardioSympotms(notes) {
     try {
       if (CheckEmptyUtil.isNotEmpty(notes)) {
-        let cardiovascularSymptoms = [], cardiovascularNoteId = 0;
+        let cardiovascularSymptoms = [],
+          cardiovascularNoteId = 0;
         if (CheckEmptyUtil.isNotEmptyObject(notes.cardiovascularNote)) {
           cardiovascularNoteId = notes.cardiovascularNote.id;
         }
@@ -1101,12 +1210,14 @@ export class RecordComponent implements OnInit, OnDestroy {
           notes.cardiovascularSymptoms.forEach((x: any) => {
             if (cardiovascularNoteId === x.cardiovascularNoteId) {
               let cardiovascularSymptom = new CardiovascularSymptoms();
-              cardiovascularSymptom.id = x.id,
-                cardiovascularSymptom.cardiovascularNoteId = x.cardiovascularNoteId,
-                cardiovascularSymptom.cardiovascularSymptoms = x.cardiovascularSymptoms
+              (cardiovascularSymptom.id = x.id),
+                (cardiovascularSymptom.cardiovascularNoteId =
+                  x.cardiovascularNoteId),
+                (cardiovascularSymptom.cardiovascularSymptoms =
+                  x.cardiovascularSymptoms);
               cardiovascularSymptoms.push(cardiovascularSymptom);
             }
-          })
+          });
         }
         return cardiovascularSymptoms;
       }
@@ -1116,7 +1227,7 @@ export class RecordComponent implements OnInit, OnDestroy {
   }
 
   selectedNotes(notes) {
-    if (this.isUserAdmin){
+    if (this.isUserAdmin) {
       let speciality = notes.specialty.toLowerCase();
       // localStorage.setItem('selectNotes', notes);
       localStorage.setItem('speciality', speciality);
@@ -1140,8 +1251,9 @@ export class RecordComponent implements OnInit, OnDestroy {
       }
       this.recordService.selectedSpecialty.next(speciality);
 
-      this.router.navigate([routerPath], {queryParams: {docNumber: this.documentNumber}});
+      this.router.navigate([routerPath], {
+        queryParams: { docNumber: this.documentNumber },
+      });
     }
-
   }
 }

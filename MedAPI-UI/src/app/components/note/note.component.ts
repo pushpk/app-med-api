@@ -5,9 +5,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { RecordService } from '../record/services/record.service';
 import { CheckEmptyUtil } from '../../shared/util/check-empty.util';
 import {
-  CardiovascularFraminghamIndicator, CardiovascularRiskReynoldsIndicator,
-  HypertensionIndicator, DiabetesIndicator,
-  FractureIndicator, CardiovascularAgeIndicator
+  CardiovascularFraminghamIndicator,
+  CardiovascularRiskReynoldsIndicator,
+  HypertensionIndicator,
+  DiabetesIndicator,
+  FractureIndicator,
+  CardiovascularAgeIndicator,
 } from './indicators/indicators';
 import { MatDialog } from '@angular/material/dialog';
 // import { DialogDiagnosisComponent } from './dialog-diagnosis/dialog-diagnosis.component';
@@ -16,16 +19,20 @@ import { ResourcesService } from '../../services/resources.service';
 import { ToastrService } from 'ngx-toastr';
 import { Patient } from '../../models/patient.model';
 import { NoteDetail } from '../../models/noteDetail.model';
-import {FormTriageComponent } from '../note/form-triage/form-triage.component'
+import { FormTriageComponent } from '../note/form-triage/form-triage.component';
 import { DialogCloseAttentionComponent } from './dialog-close-attention/dialog-close-attention.component';
 import { BehaviorSubject } from 'rxjs';
+import { FormCanDeactivate } from 'src/app/auth/form-can-deactivate';
 
 @Component({
   selector: 'app-note',
   templateUrl: './note.component.html',
-  styleUrls: ['./note.component.scss']
+  styleUrls: ['./note.component.scss'],
 })
 export class NoteComponent implements OnInit {
+  @ViewChild('form')
+  form: NgForm;
+
   // @ViewChild('form', {static: true}) form: NgForm;
   patient: Patient = new Patient();
   note: NoteDetail = new NoteDetail();
@@ -42,10 +49,10 @@ export class NoteComponent implements OnInit {
   index = new FormControl(0);
   submit = {
     waiting: false,
-    success: false
+    success: false,
   };
   selectNoteId: any;
-  tabs: Array<{ title: string; isCardiology: boolean; }>;
+  tabs: Array<{ title: string; isCardiology: boolean }>;
   isPharmacological: BehaviorSubject<boolean>;
 
   isEditable = false;
@@ -54,17 +61,17 @@ export class NoteComponent implements OnInit {
   docNumber: string;
   attechedAttentionId: string;
 
-
   IsTriageFormValid: boolean = false;
-@ViewChild(FormTriageComponent) FormTriageComponent: FormTriageComponent;
+  @ViewChild(FormTriageComponent) FormTriageComponent: FormTriageComponent;
 
-  constructor(private noteService: NoteService,
-              public route: ActivatedRoute,
-              public router: Router,
-              private recordService: RecordService,
-              public dialog: MatDialog,
-              public resourcesService: ResourcesService,
-              private toastr: ToastrService
+  constructor(
+    private noteService: NoteService,
+    public route: ActivatedRoute,
+    public router: Router,
+    private recordService: RecordService,
+    public dialog: MatDialog,
+    public resourcesService: ResourcesService,
+    private toastr: ToastrService
   ) {
     const self = this;
     self.speciality = localStorage.getItem('speciality');
@@ -83,9 +90,11 @@ export class NoteComponent implements OnInit {
     if (this.router.url.indexOf('/records/notes/new') > -1) {
       this.isEditable = true;
     }
-    if (this.route.snapshot.queryParamMap.get('docNumber')){
+    if (this.route.snapshot.queryParamMap.get('docNumber')) {
       this.docNumber = this.route.snapshot.queryParamMap.get('docNumber');
-      this.attechedAttentionId = this.route.snapshot.queryParamMap.get('attentionId');
+      this.attechedAttentionId = this.route.snapshot.queryParamMap.get(
+        'attentionId'
+      );
     }
 
     //self.note = {
@@ -194,7 +203,6 @@ export class NoteComponent implements OnInit {
     // };
   }
 
-
   ngOnInit(): void {
     // this.patient = JSON.parse(localStorage.getItem('patient'));
     this.getPatients();
@@ -203,7 +211,6 @@ export class NoteComponent implements OnInit {
       this.speciality = value;
       console.log(this.speciality);
     });
-
 
     this.getResources();
     this.tabs = this.showTabs(this.speciality);
@@ -216,14 +223,13 @@ export class NoteComponent implements OnInit {
     // this.noteService.isPharmacological.subscribe(result => {
     //   this.isPharmacological = result;
     // });
-
   }
 
   public getNotes() {
     let notesData = localStorage.getItem('notes');
     if (CheckEmptyUtil.isNotEmpty(notesData)) {
       let noteDetails = JSON.parse(notesData);
-      // console.log(noteDetails, 'details');
+      console.log(noteDetails, 'details');
       this.selectNoteId = this.route.snapshot.paramMap.get('new');
       if (this.selectNoteId === 'new') {
         // console.log(noteDetails, 'details112');
@@ -243,12 +249,10 @@ export class NoteComponent implements OnInit {
       this.note.patientId = this.patient.id;
       this.note.specialty = this.speciality;
       this.note.userId = this.patient.userId;
-      if(this.attechedAttentionId)
-      {
+      if (this.attechedAttentionId) {
         this.note.category = 'evaluation';
-        this.note.attached_attention = Number(this.attechedAttentionId)
-      }
-      else{
+        this.note.attached_attention = Number(this.attechedAttentionId);
+      } else {
         this.note.category = 'attention';
       }
     }
@@ -259,7 +263,6 @@ export class NoteComponent implements OnInit {
     if (CheckEmptyUtil.isNotEmptyObject(patientData)) {
       const patientDetails = JSON.parse(patientData);
       this.patient = patientDetails;
-
     }
     //  console.log(patientDetails, 'patientDetails');
     //  this.patient.id = patientDetails.id;
@@ -328,38 +331,37 @@ export class NoteComponent implements OnInit {
         return [
           {
             title: 'Triaje',
-            isCardiology: true
+            isCardiology: true,
           },
           {
             title: 'Atención',
-            isCardiology: true
+            isCardiology: true,
           },
           {
             title: 'Conclusión',
-            isCardiology: true
+            isCardiology: true,
           },
           {
             title: 'Resumen',
-            isCardiology: true
-          }
+            isCardiology: true,
+          },
         ];
       default:
         return [
           {
             title: 'Triaje',
-            isCardiology: false
+            isCardiology: false,
           },
           {
             title: 'Atención',
-            isCardiology: false
+            isCardiology: false,
           },
           {
             title: 'Resumen',
-            isCardiology: false
-          }
+            isCardiology: false,
+          },
         ];
     }
-
   }
 
   getResources() {
@@ -372,11 +374,14 @@ export class NoteComponent implements OnInit {
         resourcesPath = 'record/resources/note';
         break;
     }
-    this.noteService.getResources(resourcesPath).then((response: any) => {
-      this.noteService.resources.next(response);
-    }).catch((error) => {
-      console.log(error);
-    });
+    this.noteService
+      .getResources(resourcesPath)
+      .then((response: any) => {
+        this.noteService.resources.next(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   handleComputedFieldsChange(note: any) {
@@ -409,33 +414,45 @@ export class NoteComponent implements OnInit {
     let fvConsumption = false;
     if (CheckEmptyUtil.isNotEmptyObject(this.patient)) {
       if (typeof this.patient.physicalActivity !== 'undefined') {
-        physicalActivity = (this.patient.physicalActivity !== 'NINGUNA');
+        physicalActivity = this.patient.physicalActivity !== 'NINGUNA';
       }
 
       if (typeof this.patient.fvConsumption !== 'undefined') {
-        fvConsumption = (this.patient.fvConsumption === 'DAILY');
+        fvConsumption = this.patient.fvConsumption === 'DAILY';
       }
       if (typeof this.patient.cigarettes !== 'undefined') {
-        cigarettes = (this.patient.cigarettes > 0);
+        cigarettes = this.patient.cigarettes > 0;
       }
       if (typeof this.patient.medicines !== 'undefined') {
-        medicines_ANTIHIPERTENSIVOS = (this.patient.medicines.indexOf('ANTIHIPERTENSIVOS') !== -1);
+        medicines_ANTIHIPERTENSIVOS =
+          this.patient.medicines.indexOf('ANTIHIPERTENSIVOS') !== -1;
       }
       if (typeof this.patient.personalBackground !== 'undefined') {
-        personalBackground_DIABETES = (this.patient.personalBackground.indexOf('DIABETES_MELITUS_') !== -1);
-        personalBackground_HIPERTENSION = (this.patient.personalBackground.indexOf('HIPERTENSION') !== -1);
-        personalBackground_GLUCOSA_ELEVADA = (this.patient.personalBackground.indexOf('GLUCOSA_ELEVADA') !== -1);
+        personalBackground_DIABETES =
+          this.patient.personalBackground.indexOf('DIABETES_MELITUS_') !== -1;
+        personalBackground_HIPERTENSION =
+          this.patient.personalBackground.indexOf('HIPERTENSION') !== -1;
+        personalBackground_GLUCOSA_ELEVADA =
+          this.patient.personalBackground.indexOf('GLUCOSA_ELEVADA') !== -1;
       }
       if (typeof this.patient.fatherBackground !== 'undefined') {
-        fatherBackground_ENFERMEDAD_CARDIOVASCULAR = (this.patient.fatherBackground.indexOf('ENFERMEDAD_CARDIOVASCULAR') !== -1);
-        fatherBackground_HIPERTENSION = (this.patient.fatherBackground.indexOf('HIPERTENSION') !== -1);
-        fatherBackground_DIABETES = (this.patient.fatherBackground.indexOf('DIABETES_MELITUS_') !== -1);
+        fatherBackground_ENFERMEDAD_CARDIOVASCULAR =
+          this.patient.fatherBackground.indexOf('ENFERMEDAD_CARDIOVASCULAR') !==
+          -1;
+        fatherBackground_HIPERTENSION =
+          this.patient.fatherBackground.indexOf('HIPERTENSION') !== -1;
+        fatherBackground_DIABETES =
+          this.patient.fatherBackground.indexOf('DIABETES_MELITUS_') !== -1;
       }
 
       if (typeof this.patient.motherBackground !== 'undefined') {
-        motherBackground_ENFERMEDAD_CARDIOVASCULAR = (this.patient.motherBackground.indexOf('ENFERMEDAD_CARDIOVASCULAR') !== -1);
-        motherBackground_HIPERTENSION = (this.patient.motherBackground.indexOf('HIPERTENSION') !== -1);
-        motherBackground_DIABETES = (this.patient.motherBackground.indexOf('DIABETES_MELITUS_') !== -1);
+        motherBackground_ENFERMEDAD_CARDIOVASCULAR =
+          this.patient.motherBackground.indexOf('ENFERMEDAD_CARDIOVASCULAR') !==
+          -1;
+        motherBackground_HIPERTENSION =
+          this.patient.motherBackground.indexOf('HIPERTENSION') !== -1;
+        motherBackground_DIABETES =
+          this.patient.motherBackground.indexOf('DIABETES_MELITUS_') !== -1;
       }
     }
 
@@ -446,10 +463,16 @@ export class NoteComponent implements OnInit {
       cigarettes,
       medicines_ANTIHIPERTENSIVOS,
       vf.bmi,
-      personalBackground_DIABETES);
+      personalBackground_DIABETES
+    );
 
-    const cardiovascularRiskFramingham = (vf.cardiovascularRiskFramingham !== undefined) ? vf.cardiovascularRiskFramingham : 0;
-    vf.cardiovascularRiskFramingham = Number((100 * cardiovascularRiskFramingham).toFixed(2));
+    const cardiovascularRiskFramingham =
+      vf.cardiovascularRiskFramingham !== undefined
+        ? vf.cardiovascularRiskFramingham
+        : 0;
+    vf.cardiovascularRiskFramingham = Number(
+      (100 * cardiovascularRiskFramingham).toFixed(2)
+    );
 
     /* Cardiovascular Risk Reynolds */
 
@@ -461,13 +484,16 @@ export class NoteComponent implements OnInit {
       45, // TODO HDL
       180, // TODO TCH
       personalBackground_DIABETES,
-      (
-        fatherBackground_ENFERMEDAD_CARDIOVASCULAR ||
+      fatherBackground_ENFERMEDAD_CARDIOVASCULAR ||
         motherBackground_ENFERMEDAD_CARDIOVASCULAR
-      )
     );
-    const cardiovascularRiskReynolds = (vf.cardiovascularRiskReynolds !== undefined) ? vf.cardiovascularRiskReynolds : 0;
-    vf.cardiovascularRiskReynolds = Number((100 * cardiovascularRiskReynolds).toFixed(2));
+    const cardiovascularRiskReynolds =
+      vf.cardiovascularRiskReynolds !== undefined
+        ? vf.cardiovascularRiskReynolds
+        : 0;
+    vf.cardiovascularRiskReynolds = Number(
+      (100 * cardiovascularRiskReynolds).toFixed(2)
+    );
 
     /* hypertension risk */
     vf.hypertensionRisk = new HypertensionIndicator().get(
@@ -476,13 +502,13 @@ export class NoteComponent implements OnInit {
       vf.systolic,
       vf.diastolic,
       cigarettes,
-      (
-        (fatherBackground_HIPERTENSION ? 0 : 1) +
-        (motherBackground_HIPERTENSION ? 0 : 1)
-      ),
+      (fatherBackground_HIPERTENSION ? 0 : 1) +
+        (motherBackground_HIPERTENSION ? 0 : 1),
       vf.bmi,
-      personalBackground_HIPERTENSION);
-    const hypertensionRisk = (vf.hypertensionRisk !== undefined) ? vf.hypertensionRisk : 0;
+      personalBackground_HIPERTENSION
+    );
+    const hypertensionRisk =
+      vf.hypertensionRisk !== undefined ? vf.hypertensionRisk : 0;
     vf.hypertensionRisk = Number((100 * hypertensionRisk).toFixed(2));
 
     /* diabetes risk */
@@ -495,12 +521,10 @@ export class NoteComponent implements OnInit {
       personalBackground_GLUCOSA_ELEVADA,
       medicines_ANTIHIPERTENSIVOS,
       vf.bmi,
-      (
-        fatherBackground_DIABETES ||
-        motherBackground_DIABETES
-      ),
-      personalBackground_DIABETES);
-    const diabetesRisk = (vf.diabetesRisk !== undefined) ? vf.diabetesRisk : 0;
+      fatherBackground_DIABETES || motherBackground_DIABETES,
+      personalBackground_DIABETES
+    );
+    const diabetesRisk = vf.diabetesRisk !== undefined ? vf.diabetesRisk : 0;
     vf.diabetesRisk = Number((100 * diabetesRisk).toFixed(2));
 
     /* fracture risk */
@@ -510,7 +534,7 @@ export class NoteComponent implements OnInit {
       0, // TODO
       0 // TODO
     );
-    const fractureRisk = (vf.fractureRisk !== undefined) ? vf.fractureRisk : 0;
+    const fractureRisk = vf.fractureRisk !== undefined ? vf.fractureRisk : 0;
     vf.fractureRisk = Number((100 * vf.fractureRisk).toFixed(2));
 
     /* cardiovascular age */
@@ -524,7 +548,9 @@ export class NoteComponent implements OnInit {
       180, // TODO TCH
       personalBackground_DIABETES
     );
-    vf.cardiovascularAge = Number((vf.cardiovascularAge !== undefined) ? vf.cardiovascularAge.toFixed(0) : 0);
+    vf.cardiovascularAge = Number(
+      vf.cardiovascularAge !== undefined ? vf.cardiovascularAge.toFixed(0) : 0
+    );
 
     this.note.triage.vitalFunctions = vf;
   }
@@ -562,45 +588,63 @@ export class NoteComponent implements OnInit {
     //this.note.symptoms.duration
     //this.note.symptoms.durationUnit
     //this.note.diagnosis.list.length
-    this.note.treatments.list.length
-
+    this.note.treatments.list.length;
 
     //
     self.submit.waiting = true;
     let currentUserEmail = localStorage.getItem('email');
     // console.log(this.note, 'this.note');
-    this.noteService.save(this.note, currentUserEmail).then((response: any) => {
-      // console.log(response);
-      self.toastr.success('Atención guardada satisfactoriamente.');
-      self.submit.waiting = false;
-      self.submit.success = true;
-      self.note.id = response.id;
-      // this.router.navigateByUrl('/records');
-    }).catch((error: any) => {
-      console.log(error);
-      self.toastr.error('Ocurrió un error al guardar la atención.');
-      self.submit.waiting = false;
-      self.submit.success = false;
-    });
+    this.noteService
+      .save(this.note, currentUserEmail)
+      .then((response: any) => {
+        let formData: FormData = new FormData();
+        formData.append('signDraw', this.note.signatuteDraw);
+        formData.append('signText', this.note.signatuteText);
+        formData.append(
+          'IsSignDraw',
+          this.note.isSignatureDraw ? 'true' : 'false'
+        );
+        formData.append('noteId', response.id);
+
+        this.noteService
+          .saveSignature(formData, currentUserEmail)
+          .then((response: any) => {
+            // console.log(response);
+            self.toastr.success('Atención guardada satisfactoriamente.');
+            self.submit.waiting = false;
+            self.submit.success = true;
+            self.note.id = response.id;
+          })
+          .catch((error: any) => {
+            console.log(error);
+            self.toastr.error('Ocurrió un error al guardar la atención.');
+            self.submit.waiting = false;
+            self.submit.success = false;
+          });
+
+        // this.router.navigateByUrl('/records');
+      })
+      .catch((error: any) => {
+        console.log(error);
+        self.toastr.error('Ocurrió un error al guardar la atención.');
+        self.submit.waiting = false;
+        self.submit.success = false;
+      });
   }
-
-
-  closeAttention(id: number){
+  closeAttention(id: number) {
     let dialogRef = this.dialog.open(DialogCloseAttentionComponent, {
       panelClass: 'custom-dialog',
       data: {
-        note: this.note
+        note: this.note,
       },
       autoFocus: false,
       maxWidth: '120vh',
     });
     dialogRef.afterClosed().subscribe((response: any) => {
-
       if (response.accept) {
         this.note.status = 'close';
         this.submitRequest();
       } else {
-
       }
 
       // console.log(this.note.diagnosis.list, 'this.note.diagnosis.list');
@@ -610,6 +654,10 @@ export class NoteComponent implements OnInit {
 
       // console.log(this.diagnosisInput.nativeElement);
     });
-
   }
+
+  // checkIfObjectIsEmpty(value: any) {
+  //   if(value )
+  //   return Object.keys(value).length === 0;
+  // }
 }

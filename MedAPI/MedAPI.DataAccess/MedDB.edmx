@@ -207,6 +207,9 @@
           <Property Name="attached_attention" Type="int" />
           <Property Name="prognosis" Type="varchar" MaxLength="255" />
           <Property Name="notes" Type="varchar(max)" />
+          <Property Name="isSignatureDraw" Type="bit" />
+          <Property Name="signatuteText" Type="nvarchar" MaxLength="200" />
+          <Property Name="signatuteDraw" Type="varbinary(max)" />
         </EntityType>
         <EntityType Name="notediagnosis">
           <Key>
@@ -1482,6 +1485,9 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <Property Name="attached_attention" Type="Int32" />
           <Property Name="prognosis" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="notes" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="isSignatureDraw" Type="Boolean" />
+          <Property Name="signatuteText" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="signatuteDraw" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
         <EntityType Name="notediagnosi">
           <Key>
@@ -2773,6 +2779,9 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <EntitySetMapping Name="notes">
             <EntityTypeMapping TypeName="registroclinicoModel.note">
               <MappingFragment StoreEntitySet="note">
+                <ScalarProperty Name="signatuteDraw" ColumnName="signatuteDraw" />
+                <ScalarProperty Name="signatuteText" ColumnName="signatuteText" />
+                <ScalarProperty Name="isSignatureDraw" ColumnName="isSignatureDraw" />
                 <ScalarProperty Name="notes" ColumnName="notes" />
                 <ScalarProperty Name="prognosis" ColumnName="prognosis" />
                 <ScalarProperty Name="attached_attention" ColumnName="attached_attention" />

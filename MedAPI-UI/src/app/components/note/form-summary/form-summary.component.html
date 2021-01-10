@@ -1,14 +1,89 @@
 <div class="summary print layout-padding" fxLayout="column">
-
   <!-- <div layout="row" layout-wrap *ngIf="form.$error!=={}">
       <h2>Complete todos los campos obligatorios para continuar.</h2>
   </div> -->
 
   <div fxLayout="row" *ngIf="!submit.waiting && !submit.success">
+    <h2 *ngIf="this.isEditable && !submit.success" fxFlex="100">
+      Ahora puede guardar la atención
+    </h2>
+  </div>
 
-    <h2 *ngIf="this.isEditable && !submit.success" fxFlex="100">Ahora puede guardar la atención</h2>
+  <div fxLayout="column">
+    <div fxFlex style="margin: 10px">
+      <mat-radio-group
+        aria-label="Select an option"
+        [(ngModel)]="note.isSignatureDraw"
+        (change)="signatureOptionChange()"
+        [disabled]="
+          (!submit.waiting && submit.success) ||
+          this.note.signatuteDraw != null ||
+          this.note.signatuteText !== ''
+        "
+      >
+        <b style="margin-right: 25px"> Seleccione la opción de firma</b>
+        <mat-radio-button [value]="false">Texto</mat-radio-button>
+        <mat-radio-button [value]="true">Dibujar</mat-radio-button>
+      </mat-radio-group>
+    </div>
 
-    <!-- <div fxFlex="100" *ngIf="!note.id"> -->
+    <div style="margin: 10px">
+      <mat-form-field
+        class="example-form-field"
+        *ngIf="!this.note.isSignatureDraw"
+        style="width: 900px"
+      >
+        <mat-label>Signature</mat-label>
+        <input
+          [disabled]="!submit.waiting && submit.success"
+          class="signature-fonts"
+          matInput
+          type="text"
+          [(ngModel)]="note.signatuteText"
+          name="signatuteText"
+          #signatuteText="ngModel"
+        />
+      </mat-form-field>
+    </div>
+    <div>
+      <div class="signature-pad" #sPadDiv>
+        <div>
+          <div class="signature-pad--body">
+            <canvas
+              #sPad
+              width="900"
+              height="100"
+              style="
+                touch-action: none;
+                box-shadow: 0 0 5px rgb(218, 218, 218) inset;
+                border-radius: 10px;
+              "
+            ></canvas>
+          </div>
+        </div>
+        <div class="row" style="display: inline-block; width: 900px">
+          <section class="col-6" style="float: right">
+            <div class="row">
+              <div class="col-12">
+                <div class="col-3">
+                  <a mat-button color="primary" (click)="saveSignature()"
+                    >Guardar firma</a
+                  >
+                  <a mat-button (click)="clear()">Clara</a>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+
+    <div #signatureShow>
+      <h3>firma</h3>
+      <div>
+        <img [src]="signImageDataUrl" />
+      </div>
+    </div>
   </div>
 
   <div fxLayout="row" *ngIf="submit.waiting">
@@ -19,17 +94,21 @@
     <h2 fxFlex="100">La atención se ha registrado correctamente</h2>
 
     <div fxFlex="100">
-      <a href="javascript: void(0);" mat-button  (click)="downloadAttention()" >
+      <a href="javascript: void(0);" mat-button (click)="downloadAttention()">
         Descargar Atención
       </a>
 
-     
 
-      <a href="javascript: void(0);" mat-button (click)="downloadPrescription()" >
-        Descargar Receta Médica
+      <a
+        href="javascript: void(0);"
+        mat-button
+        (click)="downloadPrescription()"
+      >
+        Descargar Receta médica
+
       </a>
 
-      <a href="javascript: void(0);" mat-button (click)="downloadInter()" >
+      <a href="javascript: void(0);" mat-button (click)="downloadInter()">
         Descargar Interconsulta
       </a>
 
@@ -40,17 +119,19 @@
   </div>
   <div fxLayout="row" *ngIf="!submit.waiting && !submit.success && !isEditable">
     <div fxFlex="100">
-      <a href="javascript: void(0);" mat-button  (click)="downloadAttention()" >
+      <a href="javascript: void(0);" mat-button (click)="downloadAttention()">
         Descargar Atención
       </a>
 
-     
-
-      <a href="javascript: void(0);" mat-button (click)="downloadPrescription()" >
+      <a
+        href="javascript: void(0);"
+        mat-button
+        (click)="downloadPrescription()"
+      >
         Descargar Receta médica
       </a>
 
-      <a href="javascript: void(0);" mat-button (click)="downloadInter()" >
+      <a href="javascript: void(0);" mat-button (click)="downloadInter()">
         Descargar Interconsulta
       </a>
 
@@ -59,5 +140,4 @@
       </a>
     </div>
   </div>
-
 </div>

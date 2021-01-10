@@ -1,0 +1,30 @@
+.mat-radio-button ~ .mat-radio-button {
+  margin-left: 16px;
+}
+
+.example-form-field {
+  width: 50%;
+}
+
+@font-face {
+  font-family: "Pacifico";
+  font-style: normal;
+  font-weight: 700;
+  //src: url("../assets/fonts/pacifico-regular.eot"); /* IE9 Compat Modes */
+  src: 
+  //local("Pacifico Regular"), local("Pacifico-Regular"),
+    url("/assets/fonts/Pacifico-Regular.eot?#iefix") format("embedded-opentype"),
+    /* IE6-IE8 */ url("/assets/fonts/Pacifico-Regular.woff") format("woff"),
+    /* Modern Browsers */ url("/assets/fonts/Pacifico-Regular.woff2")
+      format("woff2"),
+    /* Super Modern Browsers */ url("/assets/fonts/Pacifico-Regular.ttf")
+      format("truetype");
+  /* Safari, Android, iOS */
+  // url("/assets/fonts/Pacifico-Regular.svg#Pacifico") format("svg"); /* Legacy iOS */
+}
+
+.signature-fonts {
+  font-family: "Pacifico";
+  font-weight: bold;
+  font-size: xx-large;
+}

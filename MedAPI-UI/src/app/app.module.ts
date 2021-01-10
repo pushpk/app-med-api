@@ -10,6 +10,7 @@ import { MustMatchDirective } from './shared/directive/mustMatch.directive';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { BnNgIdleService } from 'bn-ng-idle';
+import { CanDeactivateGuard } from './auth/CanDeactivateGuard.guard';
 
 @NgModule({
   declarations: [AppComponent],
@@ -21,7 +22,7 @@ import { BnNgIdleService } from 'bn-ng-idle';
     SharedModule,
     BrowserAnimationsModule,
   ],
-  providers: [DatePipe, BnNgIdleService],
+  providers: [DatePipe, BnNgIdleService, CanDeactivateGuard],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

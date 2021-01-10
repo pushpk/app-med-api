@@ -54,6 +54,9 @@ namespace MedAPI.Repository
                                  category = nt.category,
                                  prognosis = nt.prognosis,
                                  notes = nt.notes,
+                                 isSignatureDraw = nt.isSignatureDraw,
+                                 signatuteText = nt.signatuteText,
+                                 signatuteDraw = nt.signatuteDraw,
                                  noteDiagnosis = ((from x in context.notediagnosis
                                                    where x.deleted != true && x.note_id == nt.id
                                                    select new NoteDiagnosi()
@@ -236,6 +239,9 @@ namespace MedAPI.Repository
                                                patientId = nt.patient_id,
                                                ticketId = nt.ticket_id,
                                                triageId = nt.triage_id,
+                                               isSignatureDraw = nt.isSignatureDraw,
+                                                signatuteText = nt.signatuteText,
+                                                signatuteDraw = nt.signatuteDraw,
                                                 prognosis = nt.prognosis,
                                                 notes = nt.notes,
                                                 status = nt.status,
@@ -442,6 +448,9 @@ namespace MedAPI.Repository
                             establishmentId = nt.establishment_id,
                             medicId = nt.medic_id,
                             patientId = nt.patient_id,
+                            isSignatureDraw = nt.isSignatureDraw,
+                            signatuteText = nt.signatuteText,
+                            signatuteDraw = nt.signatuteDraw,
                             ticketId = nt.ticket_id,
                             triageId = nt.triage_id,
                             status = nt.status,
@@ -483,6 +492,9 @@ namespace MedAPI.Repository
                              notes = nt.notes,
                              medicId = nt.medic_id,
                              patientId = nt.patient_id,
+                             isSignatureDraw = nt.isSignatureDraw,
+                             signatuteText = nt.signatuteText,
+                             signatuteDraw = nt.signatuteDraw,
                              ticketId = nt.ticket_id,
                              triageId = nt.triage_id,
                              status = nt.status,
@@ -527,6 +539,9 @@ namespace MedAPI.Repository
                        patientId = x.patient_id,
                        ticketId = x.ticket_id,
                        triageId = x.triage_id,
+                       isSignatureDraw = x.isSignatureDraw,
+                       signatuteText = x.signatuteText,
+                       signatuteDraw = x.signatuteDraw,
                        status = x.status,
                        attached_attention = x.attached_attention.HasValue? x.attached_attention.Value : 0,
                        prognosis = x.prognosis,
@@ -571,6 +586,9 @@ namespace MedAPI.Repository
                 efNotes.modifiedBy = mNote.modifiedBy;
                 efNotes.modifiedDate = mNote.modifiedDate;
                 efNotes.patient_id = mNote.patientId;
+                efNotes.isSignatureDraw = mNote.isSignatureDraw;
+                efNotes.signatuteText = mNote.signatuteText;
+                efNotes.signatuteDraw = mNote.signatuteDraw;
                 efNotes.physicalExam = mNote.physicalExam;
                 efNotes.secondOpinion = mNote.secondOpinion;
                 efNotes.sicknessTime = mNote.sicknessTime;
@@ -746,6 +764,43 @@ namespace MedAPI.Repository
                 }
             }
 
+        }
+
+        public bool saveSignature(int noteId, bool isSignDraw, string signText, byte[] signImageData)
+        {
+            using (var context = new DataAccess.registroclinicoEntities())
+            {
+                try
+                {
+                    var efNotes = context.notes.Where(m => m.id == noteId).FirstOrDefault();
+                    if (efNotes != null)
+                    {
+
+                        efNotes.isSignatureDraw = isSignDraw;// BitConverter.GetBytes(false);
+                        efNotes.signatuteText = signText;
+                        efNotes.signatuteDraw = signImageData;
+
+
+                        context.SaveChanges();
+                        return true;
+                    }
+                }
+                catch(Exception e)
+                {
+                    return false;
+
+                }
+                
+            }
+            return false;
+        }
+
+        public byte[] GetNoteSignatureIfDraw(int noteId)
+        {
+            using (var context = new DataAccess.registroclinicoEntities())
+            {
+                return context.notes.FirstOrDefault(s => s.id == noteId).signatuteDraw;
+            }
         }
     }
 }

@@ -1,7 +1,7 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { BehaviorSubject } from 'rxjs';
-import { TitleCasePipe } from '@angular/common'
+import { TitleCasePipe } from '@angular/common';
 import { jsPDF } from 'jspdf';
 
 // import 'jspdf-autotable';
@@ -13,6 +13,8 @@ import { HttpUtilService } from './http-util.service';
 import { MedicUser } from '../models/medicuser.model';
 import { Medic } from '../models/medic.model';
 import { AbstractControl, ValidatorFn } from '@angular/forms';
+import { DomSanitizer } from '@angular/platform-browser';
+import * as fontRef from '../../assets/Pacifico-Regular-bold.js';
 
 @Injectable({
   providedIn: 'root',
@@ -27,8 +29,18 @@ export class CommonService {
   constructor(
     public datepipe: DatePipe,
     private httpUtilService: HttpUtilService,
-    private titleCasePipe: TitleCasePipe
+    private titleCasePipe: TitleCasePipe,
+    private sanitizer: DomSanitizer
   ) {}
+
+  blobToDataURL = (blob) => {
+    return new Promise((fulfill, reject) => {
+      let reader = new FileReader();
+      reader.onerror = reject;
+      reader.onload = (e) => fulfill(reader.result);
+      reader.readAsDataURL(blob);
+    });
+  };
 
   patternValidator(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } => {
@@ -62,30 +74,35 @@ export class CommonService {
     };
     return self.httpUtilService.invokeQuery('GET', params, apiEndpoint);
   }
-  public generatePDF(patient: Patient, note: NoteDetail, type: string) {
+  public generatePDF(patient: Patient, note: NoteDetail, type: string, signImageDataUrl : any) {
     try {
       //Attention
       //Prescription
       //Interconsultation
 
+      fontRef;
+
       var medic;
       var titleFontSize = 20;
       var contentFontSize = 14;
-    
-      this.getMedicForThisNote(note.medicId)
+
+
+      const medicId = note.medicId === null ? +localStorage.getItem('loggedInID') : +note.medicId;
+      this.getMedicForThisNote(medicId)
         .then((response: Medic) => {
           this.medicForNote = response;
 
           var doc = new jsPDF();
 
           var logo = new Image();
-          logo.src = 'assets/images/logo.png'
+          logo.src = 'assets/images/logo.png';
           doc.addImage(logo, 'png', 15, 15, 50, 15);
           // doc.addImage(logo.png);
 
           doc.setFontSize(titleFontSize);
           var currentY = 40;
           if (type === 'Prescription') {
+
             var title = 'Receta Médica'
             // var xOffset = (doc.internal.pageSize.width / 2) - (doc.getStringUnitWidth(title) * titleFontSize / 2); 
             doc.text(title, doc.internal.pageSize.width / 2, currentY, null, 'center');
@@ -96,16 +113,29 @@ export class CommonService {
           } else if (type === 'Exams'){
             var title = 'Exámenes de Laboratorio'
             doc.text(title, doc.internal.pageSize.width / 2, currentY, null, 'center');
+
           } else {
-            var title = 'Atención Médica'
-            // var xOffset = (doc.internal.pageSize.width / 2) - (doc.getStringUnitWidth(title) * titleFontSize / 2); 
-            doc.text(title, doc.internal.pageSize.width / 2, currentY, null, 'center');
+            var title = 'Atención Médica';
+            // var xOffset = (doc.internal.pageSize.width / 2) - (doc.getStringUnitWidth(title) * titleFontSize / 2);
+            doc.text(
+              title,
+              doc.internal.pageSize.width / 2,
+              currentY,
+              null,
+              'center'
+            );
           }
 
           doc.setFontSize(contentFontSize);
 
-          doc.text('Fecha: ' + this.datepipe.transform(note.registrationDate, 'dd/MM/yyyy'), doc.internal.pageSize.width / 2, currentY + 7, null, 'center');
-
+          doc.text(
+            'Fecha: ' +
+              this.datepipe.transform(note.registrationDate, 'dd/MM/yyyy'),
+            doc.internal.pageSize.width / 2,
+            currentY + 7,
+            null,
+            'center'
+          );
 
           //Right Side of the page
           //Patient Sex
@@ -155,6 +185,7 @@ export class CommonService {
             doc.setFont('helvetica', 'bold');
             doc.text('Presión arterial (mmHg)', 14, (currentY += 15));
             doc.setFont('helvetica', null);
+
             if (note.triage.vitalFunctions.systolic && note.triage.vitalFunctions.diastolic){
               doc.text(
                 note.triage.vitalFunctions.systolic.toString() + '/' + note.triage.vitalFunctions.diastolic.toString(),
@@ -169,6 +200,7 @@ export class CommonService {
                 (currentY += 8)
               );
             }
+
             // doc.setFont('helvetica', 'bold');
             // doc.text(
             //   'Presión arterial diastólica (mmHg)',
@@ -393,6 +425,7 @@ export class CommonService {
             var colExams = ['#', 'Nombre'];
             var rowsExam = [];
 
+
             if (note.exams.list.length === 0){
               var noExams = ['-', 'Ninguno'];
               rowsExam.push(noExams);
@@ -402,6 +435,7 @@ export class CommonService {
                 var tempExams = [i + 1, this.titleCasePipe.transform(note.exams.list[i].name)];
                 rowsExam.push(tempExams);
             }
+
             }
 
             // @ts-ignore
@@ -475,7 +509,7 @@ export class CommonService {
               var otherTreatment = [
                 note.treatments.list.length + 1,
                 'No farmacéutico',
-                note.treatments.other
+                note.treatments.other,
               ];
               rowsTreatments.push(otherTreatment);
             }
@@ -503,7 +537,7 @@ export class CommonService {
             });
 
             // @ts-ignore
-            finalY = doc.lastAutoTable ? doc.lastAutoTable.finalY + 40: 105+40;
+            finalY = doc.lastAutoTable? doc.lastAutoTable.finalY + 40: 105 + 40;
           }
 
           if (type === 'Interconsultation') {
@@ -512,11 +546,13 @@ export class CommonService {
 
             // console.log(note.treatments.list);
             // console.log(note.interconsultation.list);
+
             if (note.interconsultation.list.length === 0){
               var noInterconsultationTable = [
                 '-',
                 'Ninguna',
                 '-',
+
               ];
               rowsInterconsultation.push(noInterconsultationTable);
             }
@@ -557,7 +593,7 @@ export class CommonService {
             });
 
             // @ts-ignore
-            finalY = doc.lastAutoTable ? doc.lastAutoTable.finalY + 25 : currentY + 25;
+            finalY = doc.lastAutoTable? doc.lastAutoTable.finalY + 25: currentY + 25;
           }
 
           var pageHeight = doc.internal.pageSize.height;
@@ -566,6 +602,8 @@ export class CommonService {
             doc.addPage();
             finalY = 20 + 30;
           }
+
+         const imageData = signImageDataUrl ? signImageDataUrl : 'data:image/png;base64,' + note.signatuteDraw;
 
           doc.setFont('helvetica', 'bold');
           if (type === 'Attention' || type === 'Exams'){
@@ -579,6 +617,18 @@ export class CommonService {
           }
           doc.text('Médico', 14, finalY);
 
+          if(note.isSignatureDraw)
+          {
+               var img = new Image();
+               img.src = imageData;
+               doc.addImage(img, 'png', 14, 14 + finalY, 90, 15);
+               finalY = finalY + 10;
+          }
+          else{
+               doc.setFont('Pacifico-Regular');
+               doc.text(note.signatuteText, 14, 14 + finalY);
+          }
+
           var medicData = JSON.parse(localStorage.getItem('userData'));
           var medicName =
             this.medicForNote.user.firstName +
@@ -587,7 +637,9 @@ export class CommonService {
             ' ' +
             this.medicForNote.user.lastNameMother;
           doc.setFont('helvetica', '');
-          doc.text(medicName, 14, finalY += 6);
+
+          doc.text(medicName, 14, 28 + finalY);
+
 
           doc.setFontSize(contentFontSize);
 
@@ -595,14 +647,19 @@ export class CommonService {
           doc.text(
             'CMP:' + this.medicForNote.cmp + ' RNE:' + this.medicForNote.rne,
             14,
-            finalY += 6
+
+            34 + finalY
+
           );
 
           doc.text(
-            'Fecha:' + this.datepipe.transform(note.registrationDate, 'dd/MM/yyyy'),
+            'Fecha:' +
+              this.datepipe.transform(note.registrationDate, 'dd/MM/yyyy'),
             14,
-            finalY += 6
-          )
+
+            40 + finalY
+          );
+
 
           doc.setFontSize(contentFontSize);
           doc.save(patient.lastnameFather + '_' + type + '.pdf');

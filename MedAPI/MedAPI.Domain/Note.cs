@@ -89,5 +89,9 @@ namespace MedAPI.Domain
 
         public Triage triage { get; set; }
         public Ticket ticket { get; set; }
+        public bool? isSignatureDraw { get; set; }
+        public string signatuteText { get; set; }
+        public byte[] signatuteDraw { get; set; }
     }
+
 }
