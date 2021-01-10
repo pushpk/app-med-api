@@ -1,10 +1,21 @@
-import { Component, OnInit, Input, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  ViewChild,
+  ElementRef,
+  Output,
+  EventEmitter,
+} from '@angular/core';
 import { Observable } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { NoteService } from '../../services/note.service';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { map, startWith } from 'rxjs/operators';
-import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import {
+  MatAutocomplete,
+  MatAutocompleteSelectedEvent,
+} from '@angular/material/autocomplete';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogDiagnosisComponent } from '../../dialog-diagnosis/dialog-diagnosis.component';
 import { DialogExamComponent } from '../../dialog-exam/dialog-exam.component';
@@ -13,10 +24,9 @@ import { DialogMedicineComponent } from '../../dialog-medicine/dialog-medicine.c
 @Component({
   selector: 'app-form-conclusion',
   templateUrl: './form-conclusion.component.html',
-  styleUrls: ['./form-conclusion.component.scss']
+  styleUrls: ['./form-conclusion.component.scss'],
 })
 export class FormConclusionComponent implements OnInit {
- 
   resources: any;
   @Input() note: any;
   @Input() patient: any;
@@ -49,17 +59,18 @@ export class FormConclusionComponent implements OnInit {
 
   selectedSpecialty: any;
   searchSpecialty = '';
-  constructor(public noteService: NoteService, public dialog: MatDialog) { }
+  constructor(public noteService: NoteService, public dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.noteService.resources.subscribe((o) => {
       this.resources = o;
       if (this.resources.durationUnits === undefined) {
-        this.resources.durationUnits = [{ id: 1, name: 'Horas' },
-        { id: 2, name: 'Dias' },
-        { id: 3, name: 'Semanas' },
-        { id: 4, name: 'Meses' },
-        { id: 5, name: 'Años' }
+        this.resources.durationUnits = [
+          { id: 1, name: 'Horas' },
+          { id: 2, name: 'Dias' },
+          { id: 3, name: 'Semanas' },
+          { id: 4, name: 'Meses' },
+          { id: 5, name: 'Años' },
         ];
       }
       //this.filteredDiagnosis = this.diagnosisCtrl.valueChanges.pipe(
@@ -74,14 +85,13 @@ export class FormConclusionComponent implements OnInit {
   //  return this.resources.cardiovascularSymptom.filter(x => x.name.toLowerCase().indexOf(filterValue) === 0);
   //}
 
-  changeIsPharmacological(isPharmacological: boolean): any{
+  changeIsPharmacological(isPharmacological: boolean): any {
     // this.isPharmacological = !this.isPharmacological;
     this.noteService.setIsPharmacological(isPharmacological);
   }
 
   getDiagnosis(valueEntered: string) {
-    console.log(valueEntered);
-    let str =  valueEntered;
+    let str = valueEntered;
     // this.diagnosisCtrl.valueChanges.subscribe((value: string) => {
     //   str += value;
     // });
@@ -90,10 +100,9 @@ export class FormConclusionComponent implements OnInit {
       if (str.length >= 3) {
         this.showDignosisProgressBar = true;
         //this.diagnosisChange.emit(str);
-        this.noteService.queryDiagnosis(str).then(response => {
+        this.noteService.queryDiagnosis(str).then((response) => {
           this.showDignosisProgressBar = false;
           this.diagnosisList = response;
-          console.log(response);
         });
       }
     }, 1000);
@@ -104,7 +113,6 @@ export class FormConclusionComponent implements OnInit {
   }
 
   addDiagnosis(diagnosis: any): void {
-    console.log(diagnosis, 'diagnosis');
     if (!diagnosis || !this.isEditable) {
       return;
     }
@@ -114,13 +122,12 @@ export class FormConclusionComponent implements OnInit {
     let dialogRef = this.dialog.open(DialogDiagnosisComponent, {
       panelClass: 'custom-dialog',
       data: {
-        note: this.note
+        note: this.note,
       },
       autoFocus: false,
       maxWidth: '120vh',
     });
     dialogRef.afterClosed().subscribe((response: any) => {
-
       if (response.accept && response.type) {
         diagnosis.type = response.type;
         const index = this.note.diagnosis.list.indexOf(diagnosis);
@@ -142,7 +149,7 @@ export class FormConclusionComponent implements OnInit {
   }
 
   removeDiagnosis(diagnosis: any): void {
-    if (!this.isEditable){
+    if (!this.isEditable) {
       return;
     }
     let index = this.note.diagnosis.list.indexOf(diagnosis);
@@ -151,7 +158,7 @@ export class FormConclusionComponent implements OnInit {
     }
   }
 
-  getExams(termEntered : string) {
+  getExams(termEntered: string) {
     let str = termEntered;
     // this.examCtrl.valueChanges.subscribe((value: string) => {
     //   str += value;
@@ -161,10 +168,9 @@ export class FormConclusionComponent implements OnInit {
     this.tempTimeobj = setTimeout(() => {
       if (str.length >= 2) {
         this.showExamProgressBar = true;
-        this.noteService.queryExams(str).then(response => {
+        this.noteService.queryExams(str).then((response) => {
           this.showExamProgressBar = false;
           this.physicalExamsList = response;
-          console.log(response);
         });
       }
     }, 1000);
@@ -185,7 +191,7 @@ export class FormConclusionComponent implements OnInit {
   }
 
   removeExam(exam: any) {
-    if (!this.isEditable){
+    if (!this.isEditable) {
       return;
     }
     let index = this.note.exams.list.indexOf(exam);
@@ -195,41 +201,39 @@ export class FormConclusionComponent implements OnInit {
   }
 
   showExamDialog(exam: any) {
-    if (!this.isEditable){
+    if (!this.isEditable) {
       return;
     }
     let dialogRef = this.dialog.open(DialogExamComponent, {
       panelClass: 'custom-dialog',
       data: {
-        note: this.note
+        note: this.note,
       },
       autoFocus: false,
       maxWidth: '120vh',
     });
     dialogRef.afterClosed().subscribe((response) => {
-    //  console.log("Dialog output:", response)
+      //  console.log("Dialog output:", response)
     });
   }
 
-  getTreatments(termEntered : string) {
+  getTreatments(termEntered: string) {
     let str = termEntered;
-   
+
     clearTimeout(this.tempTimeobj);
     this.tempTimeobj = setTimeout(() => {
       if (str.length >= 3) {
         this.showTreatmentProgressBar = true;
-        this.noteService.queryTreatments(str).then((response:any) => {
+        this.noteService.queryTreatments(str).then((response: any) => {
           this.showTreatmentProgressBar = false;
           this.treatmentList = response;
-         //// console.log(response);
+          //// console.log(response);
         });
       }
     }, 1000);
   }
 
-
   addTreatment(d) {
-    console.log(d, 'd');
     if (!d || !this.isEditable) {
       return;
     }
@@ -237,7 +241,7 @@ export class FormConclusionComponent implements OnInit {
     let dialogRef = this.dialog.open(DialogMedicineComponent, {
       panelClass: 'custom-dialog',
       data: {
-        note: this.note
+        note: this.note,
       },
       autoFocus: false,
       maxWidth: '120vh',
@@ -262,7 +266,7 @@ export class FormConclusionComponent implements OnInit {
   }
 
   removeTreatment(d) {
-    if (!this.isEditable){
+    if (!this.isEditable) {
       return;
     }
     let index = this.note.treatments.list.indexOf(d);
@@ -271,7 +275,7 @@ export class FormConclusionComponent implements OnInit {
     }
   }
 
-  getInterconsultations(termEntered:string) {
+  getInterconsultations(termEntered: string) {
     console.log(termEntered);
     let str = termEntered;
     // this.interconsultationCtrl.valueChanges.subscribe((value: string) => {
@@ -302,7 +306,7 @@ export class FormConclusionComponent implements OnInit {
   }
 
   removeSpecialty(d) {
-    if (!this.isEditable){
+    if (!this.isEditable) {
       return;
     }
     var index = this.note.referrals.list.indexOf(d);
@@ -310,5 +314,4 @@ export class FormConclusionComponent implements OnInit {
       this.note.referrals.list.splice(index, 1);
     }
   }
-
 }

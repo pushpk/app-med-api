@@ -209,7 +209,6 @@ export class NoteComponent implements OnInit {
     this.getNotes();
     this.recordService.selectedSpecialty.subscribe((value) => {
       this.speciality = value;
-      console.log(this.speciality);
     });
 
     this.getResources();
@@ -229,7 +228,7 @@ export class NoteComponent implements OnInit {
     let notesData = localStorage.getItem('notes');
     if (CheckEmptyUtil.isNotEmpty(notesData)) {
       let noteDetails = JSON.parse(notesData);
-      console.log(noteDetails, 'details');
+
       this.selectNoteId = this.route.snapshot.paramMap.get('new');
       if (this.selectNoteId === 'new') {
         // console.log(noteDetails, 'details112');
@@ -566,21 +565,6 @@ export class NoteComponent implements OnInit {
     }
   }
 
-  //queryDiagnosis(query: string) {
-  //  if (!query || query.length < 3) {
-  //    return [];
-  //  }
-
-  //  this.resourcesService.search(query, '/admin/diagnosis').toPromise()
-  //    .then((response) => {
-  //      this.note.diagnosis.list = response;
-  //      this.noteService.diagnosisList.emit(this.note.diagnosis.list);
-  //      console.log(this.note.diagnosis, 'this.note.diagnosis');
-  //    }).catch((error) => {
-  //      console.log(error);
-  //    });
-  //}
-
   submitRequest() {
     let self = this;
 
@@ -655,9 +639,4 @@ export class NoteComponent implements OnInit {
       // console.log(this.diagnosisInput.nativeElement);
     });
   }
-
-  // checkIfObjectIsEmpty(value: any) {
-  //   if(value )
-  //   return Object.keys(value).length === 0;
-  // }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, EventEmitter, Output, } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { NoteService } from '../services/note.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { DialogBmiComponent } from '../indicators/dialog-bmi/dialog-bmi.component';
@@ -12,7 +12,7 @@ import { DialogFractureRiskComponent } from '../indicators/dialog-fracture-risk/
 @Component({
   selector: 'app-form-triage',
   templateUrl: './form-triage.component.html',
-  styleUrls: ['./form-triage.component.scss']
+  styleUrls: ['./form-triage.component.scss'],
 })
 export class FormTriageComponent implements OnInit {
   resources: any;
@@ -22,9 +22,7 @@ export class FormTriageComponent implements OnInit {
   @Output() computedFieldsChange = new EventEmitter<any>();
   BMI: number;
 
-
-  constructor(public noteService: NoteService, public dialog: MatDialog) {
-  }
+  constructor(public noteService: NoteService, public dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.noteService.resources.subscribe((o) => {
@@ -37,7 +35,6 @@ export class FormTriageComponent implements OnInit {
   }
 
   showIndicatorDialog(o: any) {
-    console.log(o, 'o');
     const dialogConfig = new MatDialogConfig();
     let dialogModal: any;
     dialogConfig.disableClose = true;
@@ -63,12 +60,12 @@ export class FormTriageComponent implements OnInit {
       panelClass: 'custom-dialog',
       data: {
         note: this.note,
-        patient: this.patient
-      }
+        patient: this.patient,
+      },
     });
 
-    dialogRef.afterClosed().subscribe(
-      data => console.log("Dialog output:", data)
-    );
+    dialogRef
+      .afterClosed()
+      .subscribe((data) => console.log('Dialog output:', data));
   }
 }

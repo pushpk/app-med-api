@@ -82,7 +82,6 @@ export class AdminComponent implements OnInit {
         this.nonApprovedMedics.data = response;
         this.filterEntity = mdc;
         this.filterType = MatTableFilter.ANYWHERE;
-        console.log(this.nonApprovedMedics.data)
 
         this.nonApprovedMedics.sort = this.sort;
       })
@@ -105,11 +104,9 @@ export class AdminComponent implements OnInit {
         console.log(error);
       });
 
-    this.adminService
-      .getActiveUserCounts()
-      .then((response) => {
-        this.userCounts = response;
-      })
+    this.adminService.getActiveUserCounts().then((response) => {
+      this.userCounts = response;
+    });
   }
 
   ngAfterViewInit() {
