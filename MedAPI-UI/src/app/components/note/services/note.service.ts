@@ -36,10 +36,10 @@ export class NoteService {
     return this.httpUtilService.invoke('POST', note, '/record/note', email);
   }
   saveSignature(formData: FormData, email: string) {
-    console.log(
-      '🚀 ~ file: note.service.ts ~ line 39 ~ NoteService ~ saveSignature ~ formData',
-      formData.get('noteId')
-    );
+    // console.log(
+    //   '🚀 ~ file: note.service.ts ~ line 39 ~ NoteService ~ saveSignature ~ formData',
+    //   formData.get('noteId')
+    // );
     return this.httpUtilService.invokePostWithFormData(
       'POST',
       formData,
