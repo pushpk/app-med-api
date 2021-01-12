@@ -111,7 +111,7 @@ export class RecordComponent implements OnInit, OnDestroy {
   labId: number;
   uploadResultsByLab = new MatTableDataSource<LabUploadResult>([]);
   displayedColumnsUpload: string[] = [
-    'user_id',
+    'uploadedBy',
     'fileName',
     'dateUploaded',
     'comments',
@@ -221,7 +221,7 @@ export class RecordComponent implements OnInit, OnDestroy {
     );
     this.subscriptionDescriptionFilter = this.descriptionFilter.valueChanges.subscribe(
       (descriptionFilterValue) => {
-        console.log(descriptionFilterValue);
+        // console.log(descriptionFilterValue);
         this.filteredValues.description = descriptionFilterValue;
         this.dataSource.filter = JSON.stringify(this.filteredValues);
       }
@@ -284,7 +284,7 @@ export class RecordComponent implements OnInit, OnDestroy {
       allowSearchFilter: true,
     };
 
-    if (this.isUserLabPerson) {
+    if (this.isUserLabPerson && docNumber) {
       this.isLoadingResults = true;
       this.labId = Number(localStorage.getItem('loggedInID'));
 
@@ -609,7 +609,7 @@ export class RecordComponent implements OnInit, OnDestroy {
 
           this.dataSource.data = self.patient.notes;
 
-          console.log(self.patient.notes);
+          // console.log(self.patient.notes);
 
           setTimeout(() => {
             this.dataSource.paginator = this.paginator;
@@ -662,6 +662,17 @@ export class RecordComponent implements OnInit, OnDestroy {
                 console.log(error);
               });
           }
+        }
+        else{
+          this.labId = Number(localStorage.getItem('loggedInID'));
+          this.isLoadingResults = true;
+          this.recordService.getUploadResultByLabID(this.labId, this.patient.userId).then((response : LabUploadResult[]) => {
+            this.uploadResultsByLab.data = response;
+            this.isLoadingResults = false;
+          }).catch((error: any) => {
+            this.isLoadingResults = false;
+            console.log(error);
+          });
         }
       })
       .catch(() => {

@@ -21,6 +21,7 @@ namespace MedAPI.Repository
                     id = s.id,
                     user_id = s.user_id,
                     patient_docNumber = s.user.documentNumber,
+                    uploadedBy = s.medic.user.lastNameFather.Length > 0 ? "Dr./Dra. " + s.medic.user.lastNameFather : s.lab.labName,
                     fileName = s.fileName,
                     dateUploaded = s.dateUploaded,
                     comments = s.comments
@@ -38,6 +39,7 @@ namespace MedAPI.Repository
                     id = s.id,
                     user_id = s.user_id,
                     patient_docNumber = s.user.documentNumber,
+                    uploadedBy = s.medic.user.lastNameFather.Length > 0 ? "Dr./Dra. " + s.medic.user.lastNameFather : s.lab.labName,
                     fileName = s.fileName,
                     dateUploaded = s.dateUploaded,
                     comments = s.comments

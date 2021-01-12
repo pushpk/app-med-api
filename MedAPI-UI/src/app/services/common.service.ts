@@ -103,7 +103,7 @@ export class CommonService {
           var currentY = 40;
           if (type === 'Prescription') {
 
-            var title = 'Receta Médica'
+            var title = 'Receta Médica';
             // var xOffset = (doc.internal.pageSize.width / 2) - (doc.getStringUnitWidth(title) * titleFontSize / 2); 
             doc.text(title, doc.internal.pageSize.width / 2, currentY, null, 'center');
           } else if (type === 'Interconsultation') {
@@ -111,7 +111,7 @@ export class CommonService {
             // var xOffset = (doc.internal.pageSize.width / 2) - (doc.getStringUnitWidth(title) * titleFontSize / 2); 
             doc.text(title, doc.internal.pageSize.width / 2, currentY, null, 'center');
           } else if (type === 'Exams'){
-            var title = 'Exámenes de Laboratorio'
+            var title = 'Exámenes de Laboratorio';
             doc.text(title, doc.internal.pageSize.width / 2, currentY, null, 'center');
 
           } else {
@@ -411,16 +411,16 @@ export class CommonService {
             }
           }
 
-        if (type === 'Attention' || type === 'Exams') {
+          if (type === 'Attention' || type === 'Exams') {
 
-          if (currentY + 75 > doc.internal.pageSize.height) {
-            doc.addPage();
-            currentY = 0;
-          }
+            if (currentY + 75 > doc.internal.pageSize.height) {
+              doc.addPage();
+              currentY = 0;
+            }
 
             doc.setFont('helvetica', 'bold');
             // @ts-ignore
-            doc.text('Examenes solicitados', 14, (currentY+=15));
+            doc.text('Examenes solicitados', 14, (currentY += 15));
 
             var colExams = ['#', 'Nombre'];
             var rowsExam = [];
@@ -463,11 +463,11 @@ export class CommonService {
 
             // @ts-ignore
             currentY = 12 + doc.lastAutoTable.finalY;
-            
+
             if (note.exams.observations.length > 0){
               doc.setFont('helvetica', 'italic');
               doc.text('Observaciones', 14, currentY);
-  
+
               doc.setFont('helvetica', '');
               var splitExamsObservations = doc.splitTextToSize(note.exams.observations, 180);
 
@@ -537,7 +537,7 @@ export class CommonService {
             });
 
             // @ts-ignore
-            finalY = doc.lastAutoTable? doc.lastAutoTable.finalY + 40: 105 + 40;
+            finalY = doc.lastAutoTable ? doc.lastAutoTable.finalY + 40 : 105 + 40;
           }
 
           if (type === 'Interconsultation') {
@@ -593,31 +593,31 @@ export class CommonService {
             });
 
             // @ts-ignore
-            finalY = doc.lastAutoTable? doc.lastAutoTable.finalY + 25: currentY + 25;
+            finalY = doc.lastAutoTable ? doc.lastAutoTable.finalY + 25 : currentY + 25;
           }
 
           var pageHeight = doc.internal.pageSize.height;
 
-          if (finalY + 40 > pageHeight) {
+          if (finalY + 60 > pageHeight) {
             doc.addPage();
-            finalY = 20 + 30;
+            finalY = 30;
           }
 
-         const imageData = signImageDataUrl ? signImageDataUrl : 'data:image/png;base64,' + note.signatuteDraw;
+          const imageData = signImageDataUrl ? signImageDataUrl : 'data:image/png;base64,' + note.signatuteDraw;
 
           doc.setFont('helvetica', 'bold');
           if (type === 'Attention' || type === 'Exams'){
-            finalY += 30
+            finalY += 30;
           }
           else if (type === 'Interconsultation'){
-            finalY += 8
+            finalY += 8;
           }
           else {
-            finalY += 10
+            finalY += 10;
           }
           doc.text('Médico', 14, finalY);
 
-          if(note.isSignatureDraw)
+          if (note.isSignatureDraw)
           {
                var img = new Image();
                img.src = imageData;
@@ -625,8 +625,10 @@ export class CommonService {
                finalY = finalY + 10;
           }
           else{
-               doc.setFont('Pacifico-Regular');
-               doc.text(note.signatuteText, 14, 14 + finalY);
+              if (note.signatuteText){
+                doc.setFont('Pacifico-Regular');
+                doc.text(note.signatuteText, 14, 14 + finalY);
+              }
           }
 
           var medicData = JSON.parse(localStorage.getItem('userData'));

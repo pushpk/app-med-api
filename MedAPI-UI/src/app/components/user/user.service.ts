@@ -73,6 +73,7 @@ export class UserService {
         //   this.toastr.error(error.error);
         // } else {
         this.toastr.error(error.error);
+        console.log(error);
         //}
       });
   }

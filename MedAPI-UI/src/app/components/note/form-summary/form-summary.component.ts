@@ -20,6 +20,9 @@ export class FormSummaryComponent implements OnInit {
   @ViewChild('sPad', { static: true }) signaturePadElement;
   @ViewChild('sPadDiv', { static: true }) signaturePadElementDiv;
   @ViewChild('signatureShow', { static: true }) signatureShow;
+  @ViewChild('signatureButtons', { static: true }) clearButton;
+  @ViewChild('entireSignature', { static: true }) entireSignature;
+
   signImageDataUrl: any;
 
   signaturePad: any;
@@ -31,7 +34,6 @@ export class FormSummaryComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.signatureShow.nativeElement.style.display = 'none';
 
     if (this.note.isSignatureDraw && this.note.signatuteDraw != null) {
       this.signaturePadElementDiv.nativeElement.style.display = 'none';
@@ -42,17 +44,30 @@ export class FormSummaryComponent implements OnInit {
 
     if (!this.note.isSignatureDraw && this.note.signatuteText !== '') {
       this.signaturePadElementDiv.nativeElement.style.display = 'none';
+      this.signatureShow.nativeElement.style.display = 'none';
     }
   }
 
   ngAfterViewInit(): void {
+    if (this.isEditable === false ){
+      this.entireSignature.nativeElement.style.display = 'none';
+      this.signatureShow.nativeElement.style.display = 'none';
+    }
+    // if (this.signaturePadElement){
     this.signaturePad = new SignaturePad(
-      this.signaturePadElement.nativeElement
-    );
+        this.signaturePadElement.nativeElement
+      );
+    // }
+
   }
+
   clear() {
     this.signaturePad.clear();
     this.signatureShow.nativeElement.style.display = 'none';
+    if (this.note.isSignatureDraw){
+      // this.signatureShow.nativeElement.style.display = 'block';
+      this.signaturePadElementDiv.nativeElement.style.display = 'block';
+    }
     this.note.signatuteDraw = null;
   }
   saveSignature() {
@@ -64,9 +79,18 @@ export class FormSummaryComponent implements OnInit {
         this.note.signatuteDraw = imgBlob;
       });
 
-    this.signatureShow.nativeElement.style.display = 'block';
+    if (this.note.isSignatureDraw){
+      this.signatureShow.nativeElement.style.display = 'block';
+      this.signaturePadElementDiv.nativeElement.style.display = 'none';
+    }
+    else {
+      document.getElementById('signatureText').setAttribute('disabled', 'true');
+      // this.signatureText.nativeElement.disabled = true;
+    }
 
-    this.toastr.success('¡Firma guardada!');
+    this.clearButton.nativeElement.style.display = 'none';
+
+    this.toastr.success('¡Firma confirmada!');
   }
 
   signatureOptionChange() {
