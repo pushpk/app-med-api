@@ -156,11 +156,27 @@ table{
   hyphens: auto;
 }
 
+.mat-column-uploadedBy {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  flex: 0 0 18% !important;
+  width: 18% !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  word-break: break-word;
+
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
 .mat-column-fileName {
   word-wrap: break-word !important;
   white-space: unset !important;
-  flex: 0 0 27% !important;
-  width: 27% !important;
+  flex: 0 0 23% !important;
+  width: 23% !important;
   overflow-wrap: break-word;
   word-wrap: break-word;
 
@@ -174,8 +190,8 @@ table{
 .mat-column-dateUploaded {
   word-wrap: break-word !important;
   white-space: unset !important;
-  flex: 0 0 12% !important;
-  width: 12% !important;
+  flex: 0 0 11% !important;
+  width: 11% !important;
   overflow-wrap: break-word;
   word-wrap: break-word;
 

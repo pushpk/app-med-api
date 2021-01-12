@@ -25,6 +25,8 @@ namespace MedAPI.Domain
 
         public string patient_docNumber { get; set; }
 
+        public string uploadedBy { get; set; }
+
         public Nullable<long> labId { get; set; }
 
         public Nullable<long> medicId { get; set; }

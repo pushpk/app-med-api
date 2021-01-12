@@ -690,9 +690,9 @@
 
         <mat-table [dataSource]="this.uploadResultsByLab">
           <!-- Position Column -->
-          <ng-container matColumnDef="user_id">
-            <mat-header-cell *matHeaderCellDef>DNI</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{ element.patient_docNumber }}</mat-cell>
+          <ng-container matColumnDef="uploadedBy">
+            <mat-header-cell *matHeaderCellDef>Subido por</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.uploadedBy }}</mat-cell>
           </ng-container>
 
           <!-- Name Column -->

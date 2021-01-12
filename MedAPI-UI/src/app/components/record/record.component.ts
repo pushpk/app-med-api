@@ -111,7 +111,7 @@ export class RecordComponent implements OnInit, OnDestroy {
   labId: number;
   uploadResultsByLab = new MatTableDataSource<LabUploadResult>([]);
   displayedColumnsUpload: string[] = [
-    'user_id',
+    'uploadedBy',
     'fileName',
     'dateUploaded',
     'comments',
