@@ -16,18 +16,34 @@ export class LabRegistrationComponent implements OnInit {
   labUser: LabUser = new LabUser();
   acceptTermsAndConditions = false;
   showRequiredError = false;
+  resources: any;
 
   constructor(
     public router: Router,
     private patientService: PatientService,
     public toastr: ToastrService,
-    public dialog: MatDialog,
+    public dialog: MatDialog
   ) {
     this.labUser.user = new MedicUser();
     this.labUser.user.roleId = 5;
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    let resourcesPath: string = 'users/resources';
+
+    this.patientService
+      .getResources(resourcesPath)
+      .then((response: any) => {
+        this.patientService.resources.next(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+    this.patientService.resources.subscribe((o) => {
+      this.resources = o;
+    });
+  }
 
   submitRequest() {
     console.log(this.labUser);
@@ -50,33 +66,56 @@ export class LabRegistrationComponent implements OnInit {
     ele.value = ele.value.replace(regex, '');
   }
 
-  openTermsAndConditions(){
+  openTermsAndConditions() {
     let dialogRef = this.dialog.open(DialogTermsAndConditionsComponent, {
       panelClass: 'custom-dialog',
-      data: {
-      },
+      data: {},
       autoFocus: false,
       maxHeight: '90vh',
-      maxWidth: '120vw'
-
+      maxWidth: '120vw',
     });
     dialogRef.afterClosed().subscribe((response: any) => {
-      console.log(response)
-      if (response == undefined){
+      console.log(response);
+      if (response == undefined) {
         this.acceptTermsAndConditions = false;
         this.showRequiredError = true;
-      }
-      else if (response.accept == true) {
+      } else if (response.accept == true) {
         this.acceptTermsAndConditions = true;
         this.showRequiredError = false;
       } else {
         this.acceptTermsAndConditions = false;
         this.showRequiredError = true;
       }
-
     });
-
   }
 
-  
+  updateProvinces() {
+    let resourcesPath: string =
+      'department/' + this.labUser.user.departmentId + '/provinces';
+
+    this.patientService
+      .updateProvinces(resourcesPath)
+      .then((response: any) => {
+        // console.log(response, 'response');
+        this.resources.provinces = response;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  updateDistricts() {
+    let resourcesPath: string =
+      'province/' + this.labUser.user.provinceId + '/districts';
+
+    this.patientService
+      .updateDistricts(resourcesPath)
+      .then((response: any) => {
+        // console.log(response, 'response');
+        this.resources.districts = response;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
 }

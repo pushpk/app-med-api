@@ -662,17 +662,19 @@ export class RecordComponent implements OnInit, OnDestroy {
                 console.log(error);
               });
           }
-        }
-        else{
+        } else {
           this.labId = Number(localStorage.getItem('loggedInID'));
           this.isLoadingResults = true;
-          this.recordService.getUploadResultByLabID(this.labId, this.patient.userId).then((response : LabUploadResult[]) => {
-            this.uploadResultsByLab.data = response;
-            this.isLoadingResults = false;
-          }).catch((error: any) => {
-            this.isLoadingResults = false;
-            console.log(error);
-          });
+          this.recordService
+            .getUploadResultByLabID(this.labId, this.patient.userId)
+            .then((response: LabUploadResult[]) => {
+              this.uploadResultsByLab.data = response;
+              this.isLoadingResults = false;
+            })
+            .catch((error: any) => {
+              this.isLoadingResults = false;
+              console.log(error);
+            });
         }
       })
       .catch(() => {
@@ -1032,7 +1034,7 @@ export class RecordComponent implements OnInit, OnDestroy {
           this.patient.isDonor = false;
         }
         this.patient.email = patientDetails.user.email;
-        this.patient.phone = patientDetails.user.cellphone;
+        this.patient.phone = patientDetails.user.phone;
 
         this.patient.educationalAttainment =
           patientDetails.educationalAttainment;

@@ -92,6 +92,169 @@
             </mat-form-field>
           </div>
         </div>
+
+        <div
+          class="layout-padding"
+          fxLayout="row wrap"
+          fxLayoutAlign="space-between center"
+          style="margin-left: 10px; margin-right: 10px"
+        >
+          <mat-form-field fxFlex="30" fxFlex.md="30" fxFlex.xs="100">
+            <mat-label>Departamento</mat-label>
+            <mat-select
+              name="department"
+              class="max-width"
+              required
+              #department="ngModel"
+              [(ngModel)]="labUser.user.departmentId"
+              (selectionChange)="updateProvinces()"
+            >
+              <mat-option
+                *ngFor="let s of resources.departments"
+                [(value)]="s.id"
+                >{{ s.name }}</mat-option
+              >
+            </mat-select>
+            <mat-error
+              *ngIf="
+                department.errors && (department.touched || department.dirty)
+              "
+            >
+              Este campo es requerido
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field fxFlex="30" fxFlex.md="30" fxFlex.xs="100">
+            <mat-label>Provincia</mat-label>
+            <mat-select
+              name="province"
+              class="max-width"
+              required
+              #province="ngModel"
+              [(ngModel)]="labUser.user.provinceId"
+              (selectionChange)="updateDistricts()"
+            >
+              <mat-option
+                *ngFor="let s of resources.provinces"
+                [(value)]="s.id"
+                >{{ s.name }}</mat-option
+              >
+            </mat-select>
+            <mat-error
+              *ngIf="province.errors && (province.touched || province.dirty)"
+            >
+              Este campo es requerido
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field fxFlex="30" fxFlex.md="30" fxFlex.xs="100">
+            <mat-label>Distrito</mat-label>
+            <mat-select
+              name="district"
+              class="max-width"
+              required
+              #district="ngModel"
+              [(ngModel)]="labUser.user.districtId"
+            >
+              <mat-option
+                *ngFor="let s of resources.districts"
+                [(value)]="s.id"
+                >{{ s.name }}</mat-option
+              >
+            </mat-select>
+            <mat-error
+              *ngIf="district.errors && (district.touched || district.dirty)"
+            >
+              Este campo es requerido
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div
+          class="layout-padding"
+          fxLayout="row wrap"
+          fxLayoutAlign="space-between center"
+          style="margin-left: 10px; margin-right: 10px"
+        >
+          <mat-form-field fxFlex="30" fxFlex.md="30" fxFlex.xs="100">
+            <mat-label>País de nacimiento</mat-label>
+            <mat-select
+              name="country"
+              class="max-width"
+              required
+              #country="ngModel"
+              [(ngModel)]="labUser.user.countryId"
+            >
+              <mat-option
+                *ngFor="let c of resources.countries"
+                [(value)]="c.id"
+                >{{ c.name }}</mat-option
+              >
+            </mat-select>
+            <mat-error
+              *ngIf="country.errors && (country.touched || country.dirty)"
+            >
+              Este campo es requerido
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field fxFlex="30" fxFlex.md="30" fxFlex.xs="100">
+            <mat-label>Teléfono</mat-label>
+            <input
+              type="number"
+              name="patientPhone"
+              maxlength="10"
+              matInput
+              #patientPhone="ngModel"
+              [(ngModel)]="labUser.user.phone"
+              required
+            />
+            <mat-hint align="end"
+              >{{ patientPhone.value?.length || 0 }}/10</mat-hint
+            >
+            <mat-error
+              *ngIf="
+                patientPhone.errors &&
+                (patientPhone.touched || patientPhone.dirty)
+              "
+            >
+              Este campo es requerido
+            </mat-error>
+          </mat-form-field>
+          <div fxFlex="30" fxFlex.md="30" fxFlex.xs="100"></div>
+        </div>
+
+        <div
+          class="layout-padding"
+          fxLayout="row wrap"
+          fxLayoutAlign="space-between center"
+          style="margin-left: 10px; margin-right: 10px"
+        >
+          <mat-form-field fxFlex="65" fxFlex.md="65" fxFlex.xs="100">
+            <mat-label>Dirección</mat-label>
+            <input
+              type="text"
+              name="labAddress"
+              maxlength="250"
+              matInput
+              #labAddress="ngModel"
+              [(ngModel)]="labUser.user.address"
+              required
+            />
+            <mat-hint align="end"
+              >{{ labAddress.value?.length || 0 }}/250</mat-hint
+            >
+            <mat-error
+              *ngIf="
+                labAddress.errors && (labAddress.touched || labAddress.dirty)
+              "
+            >
+              Este campo es requerido
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="no-pad">
+      <div style="margin-top: 15px"></div>
+      <mat-card-content>
         <div class="layout-padding" fxLayout="column">
           <div
             fxLayout="row wrap"
@@ -224,21 +387,31 @@
             <mat-checkbox
               fxFlex
               fxLayoutAlign="left center"
-              style="margin-top:20px;"
+              style="margin-top: 20px"
               name="acceptTermsAndConditions"
               [(ngModel)]="acceptTermsAndConditions"
               (click)="$event.preventDefault()"
-              (click)="openTermsAndConditions()">
+              (click)="openTermsAndConditions()"
+            >
               Acepto los <a href="">términos y condiciones</a><sup>*</sup>
             </mat-checkbox>
           </div>
-          <p fxLayoutAlign="end center" *ngIf="this.showRequiredError;" style="color: red;">
+          <p
+            fxLayoutAlign="end center"
+            *ngIf="this.showRequiredError"
+            style="color: red"
+          >
             Debe aceptar los términos y condiciones.
-           </p>
+          </p>
         </div>
       </mat-card-content>
       <mat-card-actions fxLayout="row" fxLayoutAlign="end center">
-        <button mat-button color="primary" type="submit" [disabled]="!f.valid || !acceptTermsAndConditions">
+        <button
+          mat-button
+          color="primary"
+          type="submit"
+          [disabled]="!f.valid || !acceptTermsAndConditions"
+        >
           Registrarse
         </button>
         <a

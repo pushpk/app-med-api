@@ -298,18 +298,12 @@ namespace MedAPI.Repository
                 if (mUser.roleId == 2 || mUser.roleId == 5)
                 {
 
-                    mUser.address = string.Empty;
+                   if(mUser.roleId ==2) mUser.address = string.Empty;
+
                     mUser.sex = string.Empty;
                     mUser.documentType = string.Empty;
 
-                    if (mUser.roleId == 5)
-                    {
-                        mUser.countryId = context.countries.FirstOrDefault().id;
-                        mUser.departmentId = context.departments.FirstOrDefault().id;
-                        mUser.provinceId = context.provinces.FirstOrDefault().id;
-                        mUser.districtId = context.districts.FirstOrDefault().id;
-
-                    }
+                   
                 }
 
 
