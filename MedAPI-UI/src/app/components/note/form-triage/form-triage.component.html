@@ -1,163 +1,315 @@
-<div class="alert alert-info" role="alert" *ngIf="!this.isEditable" style="margin: 10px;">
-  Esta atención ya ha sido enviada y es de solo lectura; no puede ser editada. Si quiere agregar más información, adjunte una evolución.
- </div>
+<div
+  class="alert alert-info"
+  role="alert"
+  *ngIf="!this.isEditable"
+  style="margin: 10px"
+>
+  Esta atención ya ha sido enviada y es de solo lectura; no puede ser editada.
+  Si quiere agregar más información, adjunte una evolución.
+</div>
 <div class="maintainer">
-    <div class="layout-padding" fxLayout="column">
-      <!-- <fieldset [disabled]="isEditable"> -->
-      <div fxLayout="column">
-        <h2 class="mat-title form-section" fxFlex="100">Especialidades</h2>
-        <div fxLayout="row" fxLayoutGap="24px">
-  
-          <mat-form-field fxFlex>
-            <mat-label>Especialidades</mat-label>
-            <mat-select [disabled]="!isEditable" name="specialities" class="max-width" required #specialities="ngModel"
-                        [(ngModel)]="note.triage.others.specialities">
-              <mat-option *ngFor="let c of resources.specialities" [value]="c.id">{{c.name}}</mat-option>
-            </mat-select>
-            <mat-error *ngIf="specialities.errors && (specialities.touched || specialities.dirty)">
-              Este campo es requerido
-            </mat-error>
-          </mat-form-field>
-  
-         
-  
-  
-        </div>
+  <div class="layout-padding" fxLayout="column">
+    <!-- <fieldset [disabled]="isEditable"> -->
+    <div fxLayout="column">
+      <h2 class="mat-title form-section" fxFlex="100">Especialidades</h2>
+      <div fxLayout="row" fxLayoutGap="24px">
+        <mat-form-field fxFlex>
+          <mat-label>Especialidades</mat-label>
+          <mat-select
+            [disabled]="!isEditable"
+            name="specialities"
+            class="max-width"
+            required
+            #specialities="ngModel"
+            [(ngModel)]="note.triage.others.specialities"
+          >
+            <mat-option
+              *ngFor="let c of resources.specialities"
+              [value]="c.id"
+              >{{ c.name }}</mat-option
+            >
+          </mat-select>
+          <mat-error
+            *ngIf="
+              specialities.errors &&
+              (specialities.touched || specialities.dirty)
+            "
+          >
+            Este campo es requerido
+          </mat-error>
+        </mat-form-field>
       </div>
-      <div fxLayout="column" *ngIf="this.note.category == 'attention'">
-        <h2 class="mat-title form-section" fxFlex="100">Funciones biológicas</h2>
-        <div fxLayout="row" fxLayoutGap="24px">
-          <mat-form-field fxFlex>
-            <mat-label>Apetito</mat-label>
-            <mat-select [disabled]="!isEditable" name="hungers" class="max-width" required #hunger="ngModel"
-                        [(ngModel)]="note.triage.biologicalFunctions.hunger">
-              <mat-option *ngFor="let c of resources.hungers" [value]="c.id">{{c.name}}</mat-option>
-            </mat-select>
-            <mat-error *ngIf="hunger.errors && (hunger.touched || hunger.dirty)">
-              Este campo es requerido
-            </mat-error>
-          </mat-form-field>
-          <mat-form-field fxFlex>
-            <mat-label>Sed</mat-label>
-            <mat-select [disabled]="!isEditable" name="thirsts" class="max-width" #thirst="ngModel"
-                        [(ngModel)]="note.triage.biologicalFunctions.thirst" required>
-              <mat-option *ngFor="let c of resources.thirsts" [value]="c.id">{{c.name}}</mat-option>
-            </mat-select>
-            <mat-error *ngIf="thirst.errors && (thirst.touched || thirst.dirty)">
-              Este campo es requerido
-            </mat-error>
-          </mat-form-field>
-          <mat-form-field fxFlex>
-            <mat-label>Sueño</mat-label>
-            <mat-select [disabled]="!isEditable" name="sleeps" class="max-width" #sleep="ngModel"
-                        [(ngModel)]="note.triage.biologicalFunctions.sleep" required>
-              <mat-option *ngFor="let c of resources.sleeps" [value]="c.id">{{c.name}}</mat-option>
-            </mat-select>
-            <mat-error *ngIf="sleep.errors && (sleep.touched || sleep.dirty)">
-              Este campo es requerido
-            </mat-error>
-          </mat-form-field>
-        </div>
-        <div fxLayout="row" fxLayoutGap="24px">
-          <mat-form-field fxFlex>
-            <mat-label>Diuresis</mat-label>
-            <mat-select [disabled]="!isEditable" name="urines" class="max-width" #urine="ngModel"
-                        [(ngModel)]="note.triage.biologicalFunctions.urine" required>
-              <mat-option *ngFor="let c of resources.urines" [value]="c.id">{{c.name}}</mat-option>
-            </mat-select>
-            <mat-error *ngIf="urine.errors && (urine.touched || urine.dirty)">
-              Este campo es requerido
-            </mat-error>
-          </mat-form-field>
-          <mat-form-field fxFlex>
-            <mat-label>Deposiciones</mat-label>
-            <mat-select [disabled]="!isEditable" name="depositions" class="max-width" #deposition="ngModel"
-                        [(ngModel)]="note.triage.biologicalFunctions.deposition" required>
-              <mat-option *ngFor="let c of resources.depositions" [value]="c.id">{{c.name}}</mat-option>
-            </mat-select>
-            <mat-error *ngIf="deposition.errors && (deposition.touched || deposition.dirty)">
-              Este campo es requerido
-            </mat-error>
-          </mat-form-field>
-          <mat-form-field fxFlex>
-            <mat-label>Evolución ponderal</mat-label>
-            <mat-select [disabled]="!isEditable" name="weightEvolutions" class="max-width" #weightEvolution="ngModel"
-                        [(ngModel)]="note.triage.biologicalFunctions.weightEvolution" required>
-              <mat-option *ngFor="let c of resources.weightEvolutions" [value]="c.id">{{c.name}}</mat-option>
-            </mat-select>
-            <mat-error *ngIf="weightEvolution.errors && (weightEvolution.touched || weightEvolution.dirty)">
-              Este campo es requerido
-            </mat-error>
-          </mat-form-field>
-        </div>
+    </div>
+    <div fxLayout="column" *ngIf="this.note.category == 'attention'">
+      <h2 class="mat-title form-section" fxFlex="100">Funciones biológicas</h2>
+      <div fxLayout="row" fxLayoutGap="24px">
+        <mat-form-field fxFlex>
+          <mat-label>Apetito</mat-label>
+          <mat-select
+            [disabled]="!isEditable"
+            name="hunger"
+            class="max-width"
+            required
+            #hunger="ngModel"
+            [(ngModel)]="note.triage.biologicalFunctions.hunger"
+          >
+            <mat-option *ngFor="let c of resources.hungers" [value]="c.id">{{
+              c.name
+            }}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="hunger.errors && (hunger.touched || hunger.dirty)">
+            Este campo es requerido
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field fxFlex>
+          <mat-label>Sed</mat-label>
+          <mat-select
+            [disabled]="!isEditable"
+            name="thirsts"
+            class="max-width"
+            #thirst="ngModel"
+            [(ngModel)]="note.triage.biologicalFunctions.thirst"
+            required
+          >
+            <mat-option *ngFor="let c of resources.thirsts" [value]="c.id">{{
+              c.name
+            }}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="thirst.errors && (thirst.touched || thirst.dirty)">
+            Este campo es requerido
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field fxFlex>
+          <mat-label>Sueño</mat-label>
+          <mat-select
+            [disabled]="!isEditable"
+            name="sleeps"
+            class="max-width"
+            #sleep="ngModel"
+            [(ngModel)]="note.triage.biologicalFunctions.sleep"
+            required
+          >
+            <mat-option *ngFor="let c of resources.sleeps" [value]="c.id">{{
+              c.name
+            }}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="sleep.errors && (sleep.touched || sleep.dirty)">
+            Este campo es requerido
+          </mat-error>
+        </mat-form-field>
       </div>
-      <div fxLayout="column">
-        <h2 class="mat-title form-section" fxFlex="100">Funciones vitales</h2>
-        <div fxLayout="row" fxLayoutGap="24px">
-          <mat-form-field fxFlex>
-            <mat-label>Presión arterial sistólica (mmHg)</mat-label>
-            <input [disabled]="!isEditable" type="number" name="systolic" min="0" matInput #systolic="ngModel"
-                   [(ngModel)]="note.triage.vitalFunctions.systolic" (change)="updateComputedFields()" >
-            
-            
-          </mat-form-field>
-          <mat-form-field fxFlex>
-            <mat-label>Presión arterial diastólica (mmHg)</mat-label>
-            <input [disabled]="!isEditable" type="number" name="diastolic" min="0" matInput #diastolic="ngModel"
-                   [(ngModel)]="note.triage.vitalFunctions.diastolic" (change)="updateComputedFields()" >
-         
-          </mat-form-field>
-          <mat-form-field fxFlex>
-            <mat-label>Frecuencia cardiaca (lpm)</mat-label>
-            <input [disabled]="!isEditable" type="number" name="heartRate" min="0" matInput #heartRate="ngModel"
-                   [(ngModel)]="note.triage.vitalFunctions.heartRate" >
-          
-          </mat-form-field>
-        </div>
-        <div fxLayout="row" fxLayoutGap="24px">
-          <mat-form-field fxFlex>
-            <mat-label>Frecuencia respiratoria (rpm)</mat-label>
-            <input [disabled]="!isEditable" type="number" name="respiratoryRate" min="0" #respiratoryRate="ngModel" matInput
-                   [(ngModel)]="note.triage.vitalFunctions.respiratoryRate" >
-           
-          </mat-form-field>
-          <mat-form-field fxFlex>
-            <mat-label>Temperatura (C°)</mat-label>
-            <input [disabled]="!isEditable" type="number" name="temperature" min="0" matInput #temperature="ngModel"
-                   [(ngModel)]="note.triage.vitalFunctions.temperature">
-          
-          </mat-form-field>
-          <mat-form-field fxFlex>
-            <mat-label>Perímetro abdominal (cm)</mat-label>
-            <input [disabled]="!isEditable" type="number" name="waistCircumference" min="0" matInput #waistCircumference="ngModel"
-                   [(ngModel)]="note.triage.vitalFunctions.waistCircumference"
-                   (change)="updateComputedFields()" >
-          
-          </mat-form-field>
-        </div>
-        <div fxLayout="row" fxLayoutGap="24px">
-          <mat-form-field fxFlex="32">
-            <mat-label>Talla (m)</mat-label>
-            <input [disabled]="!isEditable" type="number" name="height" min="0" step="0.01" matInput #height="ngModel"
-                   [(ngModel)]="note.triage.vitalFunctions.height" (change)="updateComputedFields()" >
-           
-          </mat-form-field>
-          <mat-form-field fxFlex="32">
-            <mat-label>Peso (kg)</mat-label>
-            <input [disabled]="!isEditable" type="number" name="weight" min="0" matInput #weight="ngModel"
-                   [(ngModel)]="note.triage.vitalFunctions.weight" (change)="updateComputedFields()" >
-          
-          </mat-form-field>
-          <mat-form-field fxFlex="32" ngClass="{'mat-icon-left mat-has-icon': note.triage.vitalFunctions.bmi > 25}">
-            <mat-label>IMC (kg/m<sup>2</sup>)</mat-label>
-            <div fxLayout="row">
-              <mat-icon color="warn" fxLayoutAlign="left top" style="font-size: 15px; height:15px; width:15px; padding-bottom: 0px; margin-bottom: 0px; margin-right:2px;" *ngIf="note.triage.vitalFunctions.bmi > 25">error_outline</mat-icon>
-              <input [disabled]="!isEditable" type="number"matInput readonly name="bmi" [(ngModel)]="note.triage.vitalFunctions.bmi">
-            </div>
-          </mat-form-field>
-        </div>
+      <div fxLayout="row" fxLayoutGap="24px">
+        <mat-form-field fxFlex>
+          <mat-label>Diuresis</mat-label>
+          <mat-select
+            [disabled]="!isEditable"
+            name="urines"
+            class="max-width"
+            #urine="ngModel"
+            [(ngModel)]="note.triage.biologicalFunctions.urine"
+            required
+          >
+            <mat-option *ngFor="let c of resources.urines" [value]="c.id">{{
+              c.name
+            }}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="urine.errors && (urine.touched || urine.dirty)">
+            Este campo es requerido
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field fxFlex>
+          <mat-label>Deposiciones</mat-label>
+          <mat-select
+            [disabled]="!isEditable"
+            name="depositions"
+            class="max-width"
+            #deposition="ngModel"
+            [(ngModel)]="note.triage.biologicalFunctions.deposition"
+            required
+          >
+            <mat-option
+              *ngFor="let c of resources.depositions"
+              [value]="c.id"
+              >{{ c.name }}</mat-option
+            >
+          </mat-select>
+          <mat-error
+            *ngIf="
+              deposition.errors && (deposition.touched || deposition.dirty)
+            "
+          >
+            Este campo es requerido
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field fxFlex>
+          <mat-label>Evolución ponderal</mat-label>
+          <mat-select
+            [disabled]="!isEditable"
+            name="weightEvolutions"
+            class="max-width"
+            #weightEvolution="ngModel"
+            [(ngModel)]="note.triage.biologicalFunctions.weightEvolution"
+            required
+          >
+            <mat-option
+              *ngFor="let c of resources.weightEvolutions"
+              [value]="c.id"
+              >{{ c.name }}</mat-option
+            >
+          </mat-select>
+          <mat-error
+            *ngIf="
+              weightEvolution.errors &&
+              (weightEvolution.touched || weightEvolution.dirty)
+            "
+          >
+            Este campo es requerido
+          </mat-error>
+        </mat-form-field>
       </div>
-      <!-- <div fxLayout="column">
+    </div>
+    <div fxLayout="column">
+      <h2 class="mat-title form-section" fxFlex="100">Funciones vitales</h2>
+      <div fxLayout="row" fxLayoutGap="24px">
+        <mat-form-field fxFlex>
+          <mat-label>Presión arterial sistólica (mmHg)</mat-label>
+          <input
+            [disabled]="!isEditable"
+            type="number"
+            name="systolic"
+            min="0"
+            matInput
+            #systolic="ngModel"
+            [(ngModel)]="note.triage.vitalFunctions.systolic"
+            (change)="updateComputedFields()"
+          />
+        </mat-form-field>
+        <mat-form-field fxFlex>
+          <mat-label>Presión arterial diastólica (mmHg)</mat-label>
+          <input
+            [disabled]="!isEditable"
+            type="number"
+            name="diastolic"
+            min="0"
+            matInput
+            #diastolic="ngModel"
+            [(ngModel)]="note.triage.vitalFunctions.diastolic"
+            (change)="updateComputedFields()"
+          />
+        </mat-form-field>
+        <mat-form-field fxFlex>
+          <mat-label>Frecuencia cardiaca (lpm)</mat-label>
+          <input
+            [disabled]="!isEditable"
+            type="number"
+            name="heartRate"
+            min="0"
+            matInput
+            #heartRate="ngModel"
+            [(ngModel)]="note.triage.vitalFunctions.heartRate"
+          />
+        </mat-form-field>
+      </div>
+      <div fxLayout="row" fxLayoutGap="24px">
+        <mat-form-field fxFlex>
+          <mat-label>Frecuencia respiratoria (rpm)</mat-label>
+          <input
+            [disabled]="!isEditable"
+            type="number"
+            name="respiratoryRate"
+            min="0"
+            #respiratoryRate="ngModel"
+            matInput
+            [(ngModel)]="note.triage.vitalFunctions.respiratoryRate"
+          />
+        </mat-form-field>
+        <mat-form-field fxFlex>
+          <mat-label>Temperatura (C°)</mat-label>
+          <input
+            [disabled]="!isEditable"
+            type="number"
+            name="temperature"
+            min="0"
+            matInput
+            #temperature="ngModel"
+            [(ngModel)]="note.triage.vitalFunctions.temperature"
+          />
+        </mat-form-field>
+        <mat-form-field fxFlex>
+          <mat-label>Perímetro abdominal (cm)</mat-label>
+          <input
+            [disabled]="!isEditable"
+            type="number"
+            name="waistCircumference"
+            min="0"
+            matInput
+            #waistCircumference="ngModel"
+            [(ngModel)]="note.triage.vitalFunctions.waistCircumference"
+            (change)="updateComputedFields()"
+          />
+        </mat-form-field>
+      </div>
+      <div fxLayout="row" fxLayoutGap="24px">
+        <mat-form-field fxFlex="32">
+          <mat-label>Talla (m)</mat-label>
+          <input
+            [disabled]="!isEditable"
+            type="number"
+            name="height"
+            min="0"
+            step="0.01"
+            matInput
+            #height="ngModel"
+            [(ngModel)]="note.triage.vitalFunctions.height"
+            (change)="updateComputedFields()"
+          />
+        </mat-form-field>
+        <mat-form-field fxFlex="32">
+          <mat-label>Peso (kg)</mat-label>
+          <input
+            [disabled]="!isEditable"
+            type="number"
+            name="weight"
+            min="0"
+            matInput
+            #weight="ngModel"
+            [(ngModel)]="note.triage.vitalFunctions.weight"
+            (change)="updateComputedFields()"
+          />
+        </mat-form-field>
+        <mat-form-field
+          fxFlex="32"
+          ngClass="{'mat-icon-left mat-has-icon': note.triage.vitalFunctions.bmi > 25}"
+        >
+          <mat-label>IMC (kg/m<sup>2</sup>)</mat-label>
+          <div fxLayout="row">
+            <mat-icon
+              color="warn"
+              fxLayoutAlign="left top"
+              style="
+                font-size: 15px;
+                height: 15px;
+                width: 15px;
+                padding-bottom: 0px;
+                margin-bottom: 0px;
+                margin-right: 2px;
+              "
+              *ngIf="note.triage.vitalFunctions.bmi > 25"
+              >error_outline</mat-icon
+            >
+            <input
+              [disabled]="!isEditable"
+              type="number"
+              matInput
+              readonly
+              name="bmi"
+              [(ngModel)]="note.triage.vitalFunctions.bmi"
+            />
+          </div>
+        </mat-form-field>
+      </div>
+    </div>
+    <!-- <div fxLayout="column">
         <h2 class="mat-title form-section" fxFlex="100">Otros</h2>
         <div fxLayout="row" fxLayoutGap="24px">
           <mat-form-field fxFlex>
@@ -338,7 +490,6 @@
         </div>
       </div> -->
     <!-- </fieldset> -->
-    </div>
+  </div>
 </div>
 <div></div>
-

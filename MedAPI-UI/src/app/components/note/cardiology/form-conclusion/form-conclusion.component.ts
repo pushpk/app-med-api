@@ -8,7 +8,7 @@ import {
   EventEmitter,
 } from '@angular/core';
 import { Observable } from 'rxjs';
-import { FormControl } from '@angular/forms';
+import { ControlContainer, FormControl, NgForm } from '@angular/forms';
 import { NoteService } from '../../services/note.service';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { map, startWith } from 'rxjs/operators';
@@ -25,6 +25,7 @@ import { DialogMedicineComponent } from '../../dialog-medicine/dialog-medicine.c
   selector: 'app-form-conclusion',
   templateUrl: './form-conclusion.component.html',
   styleUrls: ['./form-conclusion.component.scss'],
+  viewProviders: [{ provide: ControlContainer, useExisting: NgForm }],
 })
 export class FormConclusionComponent implements OnInit {
   resources: any;

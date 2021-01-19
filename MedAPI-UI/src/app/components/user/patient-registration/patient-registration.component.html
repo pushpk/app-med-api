@@ -352,9 +352,7 @@
                 [(ngModel)]="patient.phone"
                 required
               />
-              <mat-hint align="end"
-                >{{ patientPhone.value?.length || 0 }}/10</mat-hint
-              >
+
               <mat-error
                 *ngIf="
                   patientPhone.errors &&
@@ -751,22 +749,32 @@
             <mat-checkbox
               fxFlex
               fxLayoutAlign="left center"
-              style="margin-top:20px;"
+              style="margin-top: 20px"
               name="acceptTermsAndConditions"
               [(ngModel)]="acceptTermsAndConditions"
               (click)="$event.preventDefault()"
-              (click)="openTermsAndConditions()">
+              (click)="openTermsAndConditions()"
+            >
               Acepto los <a href="">términos y condiciones</a><sup>*</sup>
             </mat-checkbox>
           </div>
-          <p fxLayoutAlign="end center" *ngIf="this.showRequiredError;" style="color: red;">
+          <p
+            fxLayoutAlign="end center"
+            *ngIf="this.showRequiredError"
+            style="color: red"
+          >
             Debe aceptar los términos y condiciones.
-           </p>
+          </p>
         </div>
       </mat-card-content>
 
       <mat-card-actions fxLayout="row" fxLayoutAlign="end center">
-        <button mat-button color="primary" type="submit" [disabled]="!f.valid || !acceptTermsAndConditions">
+        <button
+          mat-button
+          color="primary"
+          type="submit"
+          [disabled]="!f.valid || !acceptTermsAndConditions"
+        >
           Registrarse
         </button>
         <a

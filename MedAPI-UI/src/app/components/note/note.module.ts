@@ -26,7 +26,7 @@ const routes: Routes = [
   {
     path: ':new',
     component: NoteComponent,
-    // canDeactivate: [CanDeactivateGuard],
+    canDeactivate: [CanDeactivateGuard],
     children: [{ path: ':speciality', component: NoteComponent }],
   },
 ];
@@ -58,5 +58,6 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     SharedModule,
   ],
+  providers: [CanDeactivateGuard],
 })
 export class NoteModule {}

@@ -100,6 +100,27 @@
           style="margin-left: 10px; margin-right: 10px"
         >
           <mat-form-field fxFlex="30" fxFlex.md="30" fxFlex.xs="100">
+            <mat-label>País</mat-label>
+            <mat-select
+              name="country"
+              class="max-width"
+              required
+              #country="ngModel"
+              [(ngModel)]="labUser.user.countryId"
+            >
+              <mat-option
+                *ngFor="let c of resources.countries"
+                [(value)]="c.id"
+                >{{ c.name }}</mat-option
+              >
+            </mat-select>
+            <mat-error
+              *ngIf="country.errors && (country.touched || country.dirty)"
+            >
+              Este campo es requerido
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field fxFlex="30" fxFlex.md="30" fxFlex.xs="100">
             <mat-label>Departamento</mat-label>
             <mat-select
               name="department"
@@ -145,6 +166,14 @@
               Este campo es requerido
             </mat-error>
           </mat-form-field>
+        </div>
+
+        <div
+          class="layout-padding"
+          fxLayout="row wrap"
+          fxLayoutAlign="space-between center"
+          style="margin-left: 10px; margin-right: 10px"
+        >
           <mat-form-field fxFlex="30" fxFlex.md="30" fxFlex.xs="100">
             <mat-label>Distrito</mat-label>
             <mat-select
@@ -166,67 +195,6 @@
               Este campo es requerido
             </mat-error>
           </mat-form-field>
-        </div>
-
-        <div
-          class="layout-padding"
-          fxLayout="row wrap"
-          fxLayoutAlign="space-between center"
-          style="margin-left: 10px; margin-right: 10px"
-        >
-          <mat-form-field fxFlex="30" fxFlex.md="30" fxFlex.xs="100">
-            <mat-label>País de nacimiento</mat-label>
-            <mat-select
-              name="country"
-              class="max-width"
-              required
-              #country="ngModel"
-              [(ngModel)]="labUser.user.countryId"
-            >
-              <mat-option
-                *ngFor="let c of resources.countries"
-                [(value)]="c.id"
-                >{{ c.name }}</mat-option
-              >
-            </mat-select>
-            <mat-error
-              *ngIf="country.errors && (country.touched || country.dirty)"
-            >
-              Este campo es requerido
-            </mat-error>
-          </mat-form-field>
-          <mat-form-field fxFlex="30" fxFlex.md="30" fxFlex.xs="100">
-            <mat-label>Teléfono</mat-label>
-            <input
-              type="number"
-              name="patientPhone"
-              maxlength="10"
-              matInput
-              #patientPhone="ngModel"
-              [(ngModel)]="labUser.user.phone"
-              required
-            />
-            <mat-hint align="end"
-              >{{ patientPhone.value?.length || 0 }}/10</mat-hint
-            >
-            <mat-error
-              *ngIf="
-                patientPhone.errors &&
-                (patientPhone.touched || patientPhone.dirty)
-              "
-            >
-              Este campo es requerido
-            </mat-error>
-          </mat-form-field>
-          <div fxFlex="30" fxFlex.md="30" fxFlex.xs="100"></div>
-        </div>
-
-        <div
-          class="layout-padding"
-          fxLayout="row wrap"
-          fxLayoutAlign="space-between center"
-          style="margin-left: 10px; margin-right: 10px"
-        >
           <mat-form-field fxFlex="65" fxFlex.md="65" fxFlex.xs="100">
             <mat-label>Dirección</mat-label>
             <input
@@ -249,6 +217,36 @@
               Este campo es requerido
             </mat-error>
           </mat-form-field>
+        </div>
+
+        <div
+          class="layout-padding"
+          fxLayout="row wrap"
+          fxLayoutAlign="space-between center"
+          style="margin-left: 10px; margin-right: 10px"
+        >
+          <mat-form-field fxFlex="30" fxFlex.md="30" fxFlex.xs="100">
+            <mat-label>Teléfono</mat-label>
+            <input
+              type="number"
+              name="patientPhone"
+              matInput
+              #patientPhone="ngModel"
+              [(ngModel)]="labUser.user.phone"
+              required
+            />
+
+            <mat-error
+              *ngIf="
+                patientPhone.errors &&
+                (patientPhone.touched || patientPhone.dirty)
+              "
+            >
+              Este campo es requerido
+            </mat-error>
+          </mat-form-field>
+          <div fxFlex="30" fxFlex.md="30" fxFlex.xs="100"></div>
+          <div fxFlex="30" fxFlex.md="30" fxFlex.xs="100"></div>
         </div>
       </mat-card-content>
     </mat-card>

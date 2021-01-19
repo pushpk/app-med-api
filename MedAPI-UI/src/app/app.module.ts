@@ -22,7 +22,7 @@ import { CanDeactivateGuard } from './auth/CanDeactivateGuard.guard';
     SharedModule,
     BrowserAnimationsModule,
   ],
-  providers: [DatePipe, BnNgIdleService, CanDeactivateGuard],
+  providers: [DatePipe, BnNgIdleService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

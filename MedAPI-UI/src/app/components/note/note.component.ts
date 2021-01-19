@@ -29,8 +29,8 @@ import { FormCanDeactivate } from 'src/app/auth/form-can-deactivate';
   templateUrl: './note.component.html',
   styleUrls: ['./note.component.scss'],
 })
-export class NoteComponent implements OnInit {
-  @ViewChild('form')
+export class NoteComponent extends FormCanDeactivate implements OnInit {
+  @ViewChild('f')
   form: NgForm;
 
   // @ViewChild('form', {static: true}) form: NgForm;
@@ -73,6 +73,7 @@ export class NoteComponent implements OnInit {
     public resourcesService: ResourcesService,
     private toastr: ToastrService
   ) {
+    super();
     const self = this;
     self.speciality = localStorage.getItem('speciality');
     //self.selectedDiagnosis = null;
