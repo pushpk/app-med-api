@@ -9,7 +9,7 @@ using System.Web.Http;
 
 namespace MedAPI.Controllers
 {
-    [System.Web.Http.RoutePrefix("admin")]
+    [System.Web.Http.RoutePrefix("api/admin")]
     public class ExamController : ApiController
     {
         private readonly IExamService examService;

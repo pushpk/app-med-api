@@ -16,7 +16,7 @@ using static MedAPI.Infrastructure.EmailHelper;
 
 namespace MedAPI.Controllers
 {
-    [System.Web.Http.RoutePrefix("users")]
+    [System.Web.Http.RoutePrefix("api/users")]
     public class UserController : ApiController
     {
         private readonly IUserService userService;
@@ -298,7 +298,7 @@ namespace MedAPI.Controllers
         }
 
         [HttpPost]
-        [Route("~/reauthenticate")]
+        [Route("~/api/reauthenticate")]
         public HttpResponseMessage credentials()
         {
 
@@ -327,7 +327,7 @@ namespace MedAPI.Controllers
         }
 
         [HttpPost]
-        [Route("~/logout")]
+        [Route("~/api/logout")]
         public HttpResponseMessage logout()
         {
             HttpResponseMessage response = null;

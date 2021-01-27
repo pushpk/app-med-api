@@ -10,7 +10,7 @@ using System.Web.Http;
 
 namespace MedAPI.Controllers
 {
-    [System.Web.Http.RoutePrefix("users")]
+    [System.Web.Http.RoutePrefix("api/users")]
     public class NurseController : ApiController
     {
         private readonly INurseService nurseService;

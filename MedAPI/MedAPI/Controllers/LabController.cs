@@ -14,7 +14,7 @@ using static MedAPI.Infrastructure.EmailHelper;
 namespace MedAPI.Controllers
 {
 
-    [System.Web.Http.RoutePrefix("users")]
+    [System.Web.Http.RoutePrefix("api/users")]
     public class LabController : ApiController
     {
         private readonly ILabService labService;
@@ -36,7 +36,7 @@ namespace MedAPI.Controllers
             {
                 if (userService.IsUserAlreadyExist(mLab.user))
                 {
-                    response = Request.CreateResponse(HttpStatusCode.Conflict, "User Already Exist");
+                    return Request.CreateResponse(HttpStatusCode.Conflict, "User Already Exist");
                 }
 
                 mLab = labService.SaveLab(mLab);

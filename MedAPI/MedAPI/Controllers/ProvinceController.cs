@@ -9,7 +9,7 @@ using System.Web.Http;
 
 namespace MedAPI.Controllers
 {
-    [System.Web.Http.RoutePrefix("util")]
+    [System.Web.Http.RoutePrefix("api/util")]
     public class ProvinceController : ApiController
     {
         private readonly IProvinceService provinceService;

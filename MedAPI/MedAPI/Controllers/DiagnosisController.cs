@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace MedAPI.Controllers
 {
-    [System.Web.Http.RoutePrefix("admin")]
+    [System.Web.Http.RoutePrefix("api/admin")]
     public class DiagnosisController : ApiController
     {
         private readonly IDiagnosisService diagnosisService;

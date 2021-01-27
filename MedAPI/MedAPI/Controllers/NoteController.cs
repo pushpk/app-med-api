@@ -13,7 +13,7 @@ using System.IO;
 
 namespace MedAPI.Controllers
 {
-    [System.Web.Http.RoutePrefix("record")]
+    [System.Web.Http.RoutePrefix("api/record")]
     public class NoteController : ApiController
     {
         private readonly INoteService noteService;

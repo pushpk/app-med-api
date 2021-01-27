@@ -14,7 +14,7 @@ using static MedAPI.Infrastructure.EmailHelper;
 
 namespace MedAPI.Controllers
 {
-    [System.Web.Http.RoutePrefix("users")]
+    [System.Web.Http.RoutePrefix("api/users")]
     public class PatientController : ApiController
     {
         private readonly IUserService userService;
@@ -227,7 +227,7 @@ namespace MedAPI.Controllers
         }
 
         [HttpGet]
-        [Route("~/department/{id:int}/provinces")]
+        [Route("~/api/department/{id:int}/provinces")]
         public HttpResponseMessage GetProvinceByDepartment(long id)
         {
             HttpResponseMessage response = null;
@@ -242,7 +242,7 @@ namespace MedAPI.Controllers
             return response;
         }
         [HttpGet]
-        [Route("~/province/{id:int}/districts")]
+        [Route("~/api/province/{id:int}/districts")]
         public HttpResponseMessage GetDistrictByprovinceId(long id)
         {
             HttpResponseMessage response = null;
@@ -258,7 +258,7 @@ namespace MedAPI.Controllers
         }
 
         [HttpGet]
-        [Route("~/record/patient")]
+        [Route("~/api/record/patient")]
         public HttpResponseMessage GetPatient(int documentNumber)
         {
             //Domain.User pat = patientService.GetPatientByDocumentNumber(documentNumber);

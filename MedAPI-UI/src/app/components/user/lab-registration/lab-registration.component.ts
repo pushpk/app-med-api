@@ -56,8 +56,14 @@ export class LabRegistrationComponent implements OnInit {
         this.router.navigateByUrl('/login');
       })
       .catch((error) => {
-        console.log(error);
-        this.toastr.error('Se produjo un error al crear la cuenta.');
+        if (error.status === 409) {
+          this.toastr.error(
+            'Ya existe un laboratorio con el mismo correo electrónico en el sistema'
+          );
+        } else {
+          console.log(error);
+          this.toastr.error('Se produjo un error al crear la cuenta.');
+        }
       });
   }
 

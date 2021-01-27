@@ -12,7 +12,7 @@ using static MedAPI.Infrastructure.EmailHelper;
 namespace MedAPI.Controllers
 {
 
-    [System.Web.Http.RoutePrefix("users")]
+    [System.Web.Http.RoutePrefix("api/users")]
     public class MedicController : ApiController
     {
         private readonly IMedicService medicService;
