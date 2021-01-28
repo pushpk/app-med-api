@@ -23,6 +23,14 @@ namespace MedAPI.Infrastructure
             return $"{baseUrl}/reset-password?id={mUser.id}&code={tokenHash}";
         }
 
+        public static string GetLabNotificationLink(User user, HttpRequestMessage Request)
+        {
+            var baseUrl = Request.RequestUri.GetLeftPart(UriPartial.Authority);
+
+            return $"{baseUrl}/records/{user.documentNumber}";
+
+        }
+
 
     }
 }

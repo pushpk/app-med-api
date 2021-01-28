@@ -13,7 +13,8 @@ namespace MedAPI.Infrastructure
             EmailVerification,
             ForgotPassword,
             ApproveAccount,
-            DenyAccount
+            DenyAccount,
+            PatientNotification
         }
     }
 }

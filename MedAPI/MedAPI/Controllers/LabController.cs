@@ -101,13 +101,14 @@ namespace MedAPI.Controllers
             {
                 fileData = binaryReader.ReadBytes(uploadedFile.ContentLength);
             }
+            var user = userService.GetUserById(int.Parse(userId));
 
             LabUploadResult uploadResult = new LabUploadResult
             {
                 fileName = uploadedFile.FileName,
                 fileContent = fileData,
                 comments = comments,
-                patient_docNumber = userService.GetUserById(int.Parse(userId)).documentNumber,
+                patient_docNumber = user.documentNumber,
                 user_id = int.Parse(userId),
                 labId = labId,
                 medicId = medicId
@@ -117,6 +118,9 @@ namespace MedAPI.Controllers
             try
             {
                 uploadResult = labService.SaveUploadedFile(uploadResult);
+                var labNotificationLink = Infrastructure.SecurityHelper.GetLabNotificationLink(user, Request);
+                var emailBody = emailService.GetEmailBody(EmailPurpose.PatientNotification);
+                emailService.SendEmailAsync(user.email, "New Upload From Lab", emailBody, labNotificationLink);
                 response = Request.CreateResponse(HttpStatusCode.OK, uploadResult);
                 
             }
