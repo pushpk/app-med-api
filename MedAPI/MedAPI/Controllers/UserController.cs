@@ -485,6 +485,36 @@ namespace MedAPI.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("change-password")]
+        public HttpResponseMessage ChangePassowrd(UserWithIdPw user)
+        {
+            
+            string newPassword = Infrastructure.HashPasswordHelper.HashPassword(user.passwordHash);
+            try
+            {
+                var existingUser = userService.GetUserById(user.id);
+
+
+
+                if (existingUser != null)
+                {
+                    this.userService.ResetPassword(user.id.ToString(),null, newPassword, false, user.oldPasswordHash);
+                    return Request.CreateResponse(HttpStatusCode.OK, "Password Change Success!");
+                }
+                else
+                {
+
+                    //else user not valid
+                    return Request.CreateResponse(HttpStatusCode.NotFound, "User Not Found!");
+                }
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
 
 
         [HttpGet]

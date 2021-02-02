@@ -434,7 +434,32 @@ namespace MedAPI.Repository
             }
         }
 
+        public bool ResetPassword(string userId, string oldPassword, string passwordHash)
+        {
+            int userIdInt = int.Parse(userId);
 
+            using (var context = new DataAccess.registroclinicoEntities())
+            {
+                var user = context.users.FirstOrDefault(x => x.id == userIdInt && x.deleted == false);
+
+                
+                if (user != null && HashPasswordHelper.ValidatePassword(oldPassword, user.password_hash))
+                {
+                    var userUpdate = context.users.FirstOrDefault(x => x.id == userIdInt && x.deleted == false);
+
+                    userUpdate.password_hash = passwordHash;
+                    
+                    context.SaveChanges();
+                    return true;
+
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+        }
 
         public bool UpdatePassword(string userId, string token, string passwordHash)
         {

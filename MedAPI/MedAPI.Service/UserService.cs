@@ -60,9 +60,16 @@ namespace MedAPI.Service
 
         }
 
-        public bool ResetPassword(string id, string token, string passwordHash)
+        public bool ResetPassword(string id, string token, string passwordHash, bool isUserForgotPassword = true, string oldPassword = null)
         {
-            return userRepository.UpdatePassword(id, token, passwordHash);
+            if (isUserForgotPassword)
+            {
+                return userRepository.UpdatePassword(id, token, passwordHash);
+            }
+            else
+            {
+                return userRepository.ResetPassword(id, oldPassword, passwordHash);
+            }
 
         }
 

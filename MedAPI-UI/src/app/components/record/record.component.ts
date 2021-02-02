@@ -304,7 +304,7 @@ export class RecordComponent implements OnInit, OnDestroy {
         .then((response: Symptoms[]) => {
           this.symptomsDropDownList = response['symptoms'];
 
-          if (!this.isUserAdmin) {
+          if (this.isUserPatient) {
             this.recordService
               .getSymptomsForPatient(this.documentNumber)
               .then((response: any) => {

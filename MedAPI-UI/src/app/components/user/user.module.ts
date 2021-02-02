@@ -18,6 +18,8 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { EmailNotConfirmedComponent } from './email-not-confirmed/email-not-confirmed.component';
 import { PasswordPatternDirective } from 'src/app/shared/directive/passwordPattern.directive';
+import { AccountSettingComponent } from './account-setting/account-setting.component';
+import { PasswordResetComponent } from './account-setting/password-reset/password-reset.component';
 
 const routes: Routes = [
   {
@@ -44,6 +46,8 @@ const routes: Routes = [
     ForgotPasswordComponent,
     ResetPasswordComponent,
     EmailNotConfirmedComponent,
+    AccountSettingComponent,
+    PasswordResetComponent,
   ],
   imports: [
     CommonModule,

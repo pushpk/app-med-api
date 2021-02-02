@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthModule } from './auth/auth.module';
 import { AccountConfirmationComponent } from './components/user/account-confirmation/account-confirmation.component';
+import { AccountSettingComponent } from './components/user/account-setting/account-setting.component';
 import { EmailNotConfirmedComponent } from './components/user/email-not-confirmed/email-not-confirmed.component';
 import { ForgotPasswordComponent } from './components/user/forgot-password/forgot-password.component';
 import { LabRegistrationComponent } from './components/user/lab-registration/lab-registration.component';
@@ -29,6 +30,7 @@ const routes: Routes = [
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'reset-password', component: ResetPasswordComponent },
   { path: 'email-not-confirmed', component: EmailNotConfirmedComponent },
+  { path: 'account-setting', component: AccountSettingComponent },
   { path: 'no-access', component: NoAccessComponent },
   //{ path: '**', redirectTo: 'login', data: { isRedirect: true } }
 ];

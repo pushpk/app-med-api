@@ -104,4 +104,18 @@ export class PatientService {
       null
     );
   }
+
+  changePassword(oldPassword: any, newPassword: any) {
+    var UserWithIdPw = {
+      id: localStorage.getItem('loggedInID'),
+      oldPasswordHash: oldPassword,
+      passwordHash: newPassword,
+    };
+    return this.httpUtilService.invoke(
+      'POST',
+      UserWithIdPw,
+      'users/change-password',
+      null
+    );
+  }
 }

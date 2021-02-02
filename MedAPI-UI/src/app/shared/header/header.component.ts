@@ -8,22 +8,21 @@ import { BnNgIdleService } from 'bn-ng-idle';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit {
-
-  constructor(private router: Router,
+  constructor(
+    private router: Router,
     public commonService: CommonService,
     private userService: UserService,
-    public userAuthService: UserAuthService,
-    ) { }
+    public userAuthService: UserAuthService
+  ) {}
 
   // ngOnDestroy(): void {
   //   this.loggedInSubscription.unsubscribe();
   // }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   navigateToLogout() {
     //this.router.navigateByUrl('/logout');
@@ -36,13 +35,33 @@ export class HeaderComponent implements OnInit {
   logout() {
     const userAuth = this.userAuthService.load();
     if (userAuth == null) return;
-    this.userService.logout().then(() => {
-      this.userAuthService.clear();
-      this.router.navigateByUrl('/login');
-    }, (error) => {
-      console.log(error);
-      this.userAuthService.clear();
-      this.router.navigateByUrl('/login');
-    });
+    this.userService.logout().then(
+      () => {
+        this.userAuthService.clear();
+        this.router.navigateByUrl('/login');
+      },
+      (error) => {
+        console.log(error);
+        this.userAuthService.clear();
+        this.router.navigateByUrl('/login');
+      }
+    );
+  }
+
+  showAccountSetting() {
+    this.router.navigateByUrl('/account-setting');
+  }
+  navigateToHome() {
+    var role = localStorage.getItem('role');
+    var user = JSON.parse(localStorage.getItem('userData'));
+
+    if (role === 'patient') {
+      var rt = '/records/' + user['docNumber'];
+      this.router.navigateByUrl(rt);
+    } else if (role === 'admin') {
+      this.router.navigateByUrl('/admin');
+    } else {
+      this.router.navigateByUrl('/records');
+    }
   }
 }
