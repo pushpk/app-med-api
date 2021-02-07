@@ -258,7 +258,6 @@
       <Private>True</Private>
       <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
-  
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -329,6 +328,7 @@
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="ExceptionFormatter\FormattedDbEntityValidationException.cs" />
     <Compile Include="Extention\AutoMapperConfig.cs" />
+    <Compile Include="Extention\SecurityAuthorize.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

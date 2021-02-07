@@ -1,5 +1,6 @@
 ﻿using MedAPI.Domain;
 using MedAPI.ExceptionFormatter;
+using MedAPI.Extention;
 using MedAPI.Infrastructure.IService;
 using MedAPI.models;
 using System;

@@ -58,7 +58,7 @@ export class HeaderComponent implements OnInit {
     if (role === 'patient') {
       var rt = '/records/' + user['docNumber'];
       this.router.navigateByUrl(rt);
-    } else if (role === 'admin') {
+    } else if (role === 'admin' && user['role'] != 2) {
       this.router.navigateByUrl('/admin');
     } else {
       this.router.navigateByUrl('/records');
