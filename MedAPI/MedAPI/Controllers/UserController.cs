@@ -297,50 +297,6 @@ namespace MedAPI.Controllers
             return response;
         }
 
-        [HttpPost]
-        [Route("~/api/reauthenticate")]
-        public HttpResponseMessage credentials()
-        {
-
-
-            return Request.CreateResponse(HttpStatusCode.OK);
-
-            //Domain.User mUser = new Domain.User();
-            //HttpResponseMessage response = null;
-            //try
-            //{
-            //    mUser = userService.Credentials(Request.us);
-            //    if (mUser != null)
-            //    {
-            //        response = Request.CreateResponse(HttpStatusCode.OK, mUser);
-            //    }
-            //    else
-            //    {
-            //        response = Request.CreateResponse(HttpStatusCode.Forbidden, "Session Expired!");
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    response = Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
-            //}
-            //return response;
-        }
-
-        [HttpPost]
-        [Route("~/api/logout")]
-        public HttpResponseMessage logout()
-        {
-            HttpResponseMessage response = null;
-            try
-            {
-                response = Request.CreateResponse(HttpStatusCode.OK, "logout");
-            }
-            catch (Exception ex)
-            {
-                response = Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
-            }
-            return response;
-        }
 
         [HttpGet]
         [Route("confirm-email")]

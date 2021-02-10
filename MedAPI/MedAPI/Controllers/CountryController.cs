@@ -1,4 +1,5 @@
 ﻿using MedAPI.Domain;
+using MedAPI.Extention;
 using MedAPI.Infrastructure.IService;
 using System;
 using System.Collections.Generic;
@@ -38,6 +39,7 @@ namespace MedAPI.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         [Route("country")]
         public HttpResponseMessage GetAll()
         {
