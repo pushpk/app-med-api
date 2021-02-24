@@ -19,10 +19,9 @@ namespace MedAPI
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
-            //RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             Mapper.Initialize(s => s.AddProfile<AutoMapperConfigProfile>());
-            //WebApiConfig.Register(GlobalConfiguration.Configuration);
+     
         }
         //protected void Application_BeginRequest()
         //{

@@ -14,6 +14,7 @@ using System.IO;
 namespace MedAPI.Controllers
 {
     [System.Web.Http.RoutePrefix("api/record")]
+    [Authorize]
     public class NoteController : ApiController
     {
         private readonly INoteService noteService;
@@ -93,6 +94,7 @@ namespace MedAPI.Controllers
 
 
         [HttpPost]
+        [Authorize(Roles = "medic")]
         [Route("note")]
         public HttpResponseMessage Create(models.Note mNote)
         {

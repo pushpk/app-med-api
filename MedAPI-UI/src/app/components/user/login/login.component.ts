@@ -25,7 +25,7 @@ export class LoginComponent implements OnInit {
     public router: Router,
     private recordService: RecordService,
     public userService: UserService,
-    private userAuthService: UserAuthService,
+    private userAuthService: UserAuthService
   ) {}
 
   ngOnInit(): void {
@@ -57,6 +57,7 @@ export class LoginComponent implements OnInit {
     let credentials = {
       username: username,
       password: password,
+      grant_type: 'password',
     };
     this.userService.login(credentials).then((response: any) => {
       if (response === 'Email_Not_Confirmed') {

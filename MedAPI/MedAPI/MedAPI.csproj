@@ -347,7 +347,6 @@
     <Compile Include="Controllers\PhysicalActivityController.cs" />
     <Compile Include="Controllers\ProvinceController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
-    <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\SpecialtyController.cs" />
     <Compile Include="Controllers\TicketController.cs" />
     <Compile Include="Controllers\TriageController.cs" />

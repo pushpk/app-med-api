@@ -1,4 +1,5 @@
-﻿using MedAPI.DataAccess;
+﻿using AutoMapper;
+using MedAPI.DataAccess;
 using MedAPI.Infrastructure.IService;
 using Microsoft.Owin.Security.OAuth;
 using System;
@@ -25,67 +26,49 @@ namespace MedAPI.Infrastructure.Security
 
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
+         
 
             using (var dbContext = new registroclinicoEntities())
             {
                 var user = dbContext.users.FirstOrDefault(x => x.email == context.UserName && x.deleted == false);
                 if (user != null && HashPasswordHelper.ValidatePassword(context.Password, user.password_hash))
                 {
+                    
                     if (!user.emailConfirmed)
                     {
                         context.SetError("email_not_confired", "Email_Not_Confirmed");
                         return;
-                        //return Request.CreateResponse(HttpStatusCode.OK, new { message = "Email_Not_Confirmed" });
                     }
+                    
+                    var identity = new ClaimsIdentity(context.Options.AuthenticationType);
+                    identity.AddClaim(new Claim("userId", user.id.ToString()));
 
-                     //https://onthecode.co.uk/decode-json-web-tokens-jwt-angular/
                     switch (user.role_id)
                     {
+                        case 1:
+                            identity.AddClaim(new Claim(ClaimTypes.Role,"admin"));
+                            break;
                         case 2:
-                            var medic = dbContext.medics.FirstOrDefault(x => x.id== user.id);
-                                //id = mUser.id,
-                                //role = mUser.roleId,
-                                //docNumber = mUser.documentNumber,
-                                //name = $"{mUser.firstName} {mUser.lastNameFather} {mUser.lastNameMother}",
-                                //permissions = permissions,
-                                //IsApproved = medic.IsApproved,
-                                //IsFreezed = medic.IsFreezed,
-                                //cmp = medic.cmp,
-                                //rne = medic.rne
-
-
+                            identity.AddClaim(new Claim(ClaimTypes.Role, "medic"));
+                            break;
+                        case 4:
+                            identity.AddClaim(new Claim(ClaimTypes.Role, "patient"));
+                            break;
+                        case 5:
+                            identity.AddClaim(new Claim(ClaimTypes.Role, "lab"));
                             break;
                         default:
+                            identity.AddClaim(new Claim(ClaimTypes.Role, "patient"));
                             break;
                     }
-
-
+                    context.Validated(identity);
                 }
-                    
-
-                    var identity = new ClaimsIdentity(context.Options.AuthenticationType);
-            if (context.UserName == "admin" && context.Password == "admin")
-            {
-                identity.AddClaim(new Claim(ClaimTypes.Role, "admin"));
-                identity.AddClaim(new Claim("username", "admin"));
-                identity.AddClaim(new Claim(ClaimTypes.Name, "Sourav Mondal"));
-                context.Validated(identity);
+                else
+                {
+                    context.SetError("invalid_grant", "Provided username and password is incorrect");
+                    return;
+                }
             }
-            else if (context.UserName == "user" && context.Password == "user")
-            {
-                identity.AddClaim(new Claim(ClaimTypes.Role, "user"));
-                identity.AddClaim(new Claim("username", "user"));
-                identity.AddClaim(new Claim(ClaimTypes.Name, "Suresh Sha"));
-                context.Validated(identity);
-            }
-            else
-            {
-                context.SetError("invalid_grant", "Provided username and password is incorrect");
-                return;
-            }
-
-            }
-
         }
     }
 }

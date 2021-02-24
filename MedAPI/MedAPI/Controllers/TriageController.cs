@@ -9,6 +9,7 @@ using System.Web.Http;
 namespace MedAPI.Controllers
 {
     [System.Web.Http.RoutePrefix("api/Triage")]
+    [Authorize]
     public class TriageController : ApiController
     {
         private readonly ITriageService triageService;

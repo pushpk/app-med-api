@@ -11,6 +11,8 @@ import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { BnNgIdleService } from 'bn-ng-idle';
 import { CanDeactivateGuard } from './auth/CanDeactivateGuard.guard';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptor } from './shared/interceptors/AuthInterceptor';
 
 @NgModule({
   declarations: [AppComponent],
@@ -22,7 +24,11 @@ import { CanDeactivateGuard } from './auth/CanDeactivateGuard.guard';
     SharedModule,
     BrowserAnimationsModule,
   ],
-  providers: [DatePipe, BnNgIdleService],
+  providers: [
+    DatePipe,
+    BnNgIdleService,
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

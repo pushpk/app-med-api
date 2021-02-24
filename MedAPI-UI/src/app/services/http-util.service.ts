@@ -141,4 +141,41 @@ export class HttpUtilService {
     });
     return promise;
   }
+
+  login(postBody, endPoint, currentUserEmail) {
+    const url = environment.loginUrl + endPoint;
+    const requestHeaders: any = {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      Accept: 'application/json',
+    };
+
+    if (CheckEmptyUtil.isNotEmpty(currentUserEmail)) {
+      requestHeaders.email = currentUserEmail;
+    }
+    const headers = new HttpHeaders(requestHeaders);
+    const body = CheckEmptyUtil.isNotEmptyObject(postBody) ? postBody : null;
+
+    var bdy = this.ObjectsToParams(body);
+
+    const promise = new Promise((resolve, reject) => {
+      this.httpClient
+        .post(url, bdy, { headers: headers })
+        .toPromise()
+        .then((response: any) => {
+          return resolve(response);
+        })
+        .catch((error) => {
+          return reject(error);
+        });
+    });
+    return promise;
+  }
+
+  ObjectsToParams(obj) {
+    var p = [];
+    for (var key in obj) {
+      p.push(key + '=' + encodeURIComponent(obj[key]));
+    }
+    return p.join('&');
+  }
 }

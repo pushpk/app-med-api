@@ -7,6 +7,8 @@ export const environment = {
   // apiUrl:'https://medapi-test.azurewebsites.net/',
   apiUrl: 'http://localhost/MedAPI/api/',
   // apiUrl: 'http://127.0.0.1:8080/',
+
+  loginUrl: 'http://localhost/MedAPI/',
   userInfo_LocalStoreKey: 'userData',
 };
 

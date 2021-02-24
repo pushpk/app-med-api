@@ -183,6 +183,7 @@ namespace MedAPI.Repository
                        documentNumber = x.documentNumber,
                        documentType = x.documentType,
                        email = x.email,
+                       emailConfirmed = x.emailConfirmed,
                        firstName = x.firstName,
                        lastNameFather = x.lastNameFather,
                        lastNameMother = x.lastNameMother,

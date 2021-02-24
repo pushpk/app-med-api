@@ -15,6 +15,7 @@ namespace MedAPI.Controllers
 {
 
     [System.Web.Http.RoutePrefix("api/users")]
+    [Authorize]
     public class LabController : ApiController
     {
         private readonly ILabService labService;
@@ -29,6 +30,7 @@ namespace MedAPI.Controllers
        
         [HttpPost]
         [Route("lab")]
+        [AllowAnonymous]
         public HttpResponseMessage Create(Domain.Lab mLab)
         {
             HttpResponseMessage response = null;
@@ -64,6 +66,7 @@ namespace MedAPI.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "lab")]
         [Route("lab-upload-result")]
         public HttpResponseMessage Create()
         {
@@ -194,6 +197,7 @@ namespace MedAPI.Controllers
 
 
         [HttpGet]
+        [Authorize(Roles = "admin")]
         [Route("freeze-lab")]
         public HttpResponseMessage FreezeLab(long id)
         {
@@ -222,6 +226,7 @@ namespace MedAPI.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "admin")]
         [Route("approve-lab")]
         public HttpResponseMessage AprroveLab(long id)
         {
@@ -232,7 +237,6 @@ namespace MedAPI.Controllers
 
                 mLab.IsApproved = true;
                 mLab.IsDenied = false;
-                
 
                 mLab = labService.UpdateLab(mLab);
 
@@ -257,6 +261,7 @@ namespace MedAPI.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "admin")]
         [Route("deny-lab")]
         public HttpResponseMessage DenyLab(long id)
         {

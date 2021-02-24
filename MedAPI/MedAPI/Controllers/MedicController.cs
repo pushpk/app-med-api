@@ -13,6 +13,7 @@ namespace MedAPI.Controllers
 {
 
     [System.Web.Http.RoutePrefix("api/users")]
+    [Authorize]
     public class MedicController : ApiController
     {
         private readonly IMedicService medicService;
@@ -25,6 +26,7 @@ namespace MedAPI.Controllers
             this.emailService = emailService;
     }
         [HttpGet]
+        [Authorize(Roles = "admin")]
         [Route("medic")]
         public HttpResponseMessage GetAll()
         {
@@ -93,6 +95,7 @@ namespace MedAPI.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "admin")]
         [Route("freeze-medic")]
         public HttpResponseMessage FreezeMedic(long id)
         {
@@ -121,6 +124,7 @@ namespace MedAPI.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "admin")]
         [Route("approve-medic")]
         public HttpResponseMessage AprroveMedic(long id)
         {
@@ -153,6 +157,7 @@ namespace MedAPI.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "admin")]
         [Route("deny-medic")]
         public HttpResponseMessage DenyMedic(long id)
         {
@@ -184,6 +189,7 @@ namespace MedAPI.Controllers
         }
 
         [HttpDelete]
+        [Authorize(Roles = "admin")]
         [Route("medic/{id:int}")]
         public HttpResponseMessage Delete(long id)
         {
@@ -215,6 +221,7 @@ namespace MedAPI.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         [Route("medic")]
         public HttpResponseMessage Create(Domain.Medic mMedic)
         {

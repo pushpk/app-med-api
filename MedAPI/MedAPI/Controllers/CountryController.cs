@@ -39,7 +39,6 @@ namespace MedAPI.Controllers
         }
 
         [HttpGet]
-        [Authorize]
         [Route("country")]
         public HttpResponseMessage GetAll()
         {

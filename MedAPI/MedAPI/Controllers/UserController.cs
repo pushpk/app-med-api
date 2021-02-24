@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using static MedAPI.Infrastructure.EmailHelper;
+using System.Security.Claims;
 
 namespace MedAPI.Controllers
 {
@@ -35,6 +36,7 @@ namespace MedAPI.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         [Route("users")]
         public HttpResponseMessage List()
         {
@@ -52,6 +54,7 @@ namespace MedAPI.Controllers
 
 
         [HttpGet]
+        [Authorize]
         [Route("not-approved-medics")]
         public HttpResponseMessage GetAllNonApprovedMedics()
         {
@@ -68,6 +71,7 @@ namespace MedAPI.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         [Route("not-approved-labs")]
         public HttpResponseMessage GetAllNonApprovedLabs()
         {
@@ -104,6 +108,7 @@ namespace MedAPI.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         [Route("users/{id:int}")]
         public HttpResponseMessage Show(long id)
         {
@@ -128,6 +133,7 @@ namespace MedAPI.Controllers
         }
 
         [HttpDelete]
+        [Authorize(Roles = "admin")]
         [Route("users/{id:int}")]
         public HttpResponseMessage Delete(long id)
         {
@@ -175,6 +181,7 @@ namespace MedAPI.Controllers
 
 
         [HttpPost]
+        [Authorize]
         [Route("users/{id:int}")]
         public HttpResponseMessage Update(Domain.User mUser, long id)
         {
@@ -212,17 +219,19 @@ namespace MedAPI.Controllers
 
 
 
-        [HttpPost]
+        [HttpGet]
         //[EnableCors(origins: "*", headers: "*", methods: "*")]
-        [Route("login")]
-        public HttpResponseMessage authenticate(Domain.Login mLogin)
+        [Route("Get-User-Info")]
+        public HttpResponseMessage authenticate()
         {
-            Domain.User mUser = new Domain.User();
-
             HttpResponseMessage response = null;
+
             try
             {
-                mUser = userService.Authenticate(mLogin.username, mLogin.Password);
+                ClaimsPrincipal principal = Request.GetRequestContext().Principal as ClaimsPrincipal;
+                var userId = principal.Claims.Where(c => c.Type == "userId").Single().Value;
+
+                var mUser = userService.GetUserById(int.Parse(userId));
 
                 if (mUser != null)
                 {
@@ -231,13 +240,10 @@ namespace MedAPI.Controllers
                         return Request.CreateResponse(HttpStatusCode.OK, new { message = "Email_Not_Confirmed" });
                     }
 
-
                     IEnumerable<string> permissions;
                     using (var ctx = new DataAccess.registroclinicoEntities())
                     {
                         permissions = ctx.role_permissions.Where(s => s.Role_id == mUser.roleId).Select(s => s.permissions).ToArray();
-
-                        
 
                         if (mUser.roleId == 2)
                         {
@@ -269,7 +275,7 @@ namespace MedAPI.Controllers
                                 permissions = permissions,
                                 IsApproved = labUser.IsApproved,
                                 IsFreezed = labUser.IsFreezed
-                             
+
                             });
                         }
                         else
@@ -293,7 +299,9 @@ namespace MedAPI.Controllers
             catch (Exception ex)
             {
                 response = Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+                
             }
+
             return response;
         }
 
@@ -445,7 +453,7 @@ namespace MedAPI.Controllers
         [Route("change-password")]
         public HttpResponseMessage ChangePassowrd(UserWithIdPw user)
         {
-            
+
             string newPassword = Infrastructure.HashPasswordHelper.HashPassword(user.passwordHash);
             try
             {
@@ -455,7 +463,7 @@ namespace MedAPI.Controllers
 
                 if (existingUser != null)
                 {
-                    this.userService.ResetPassword(user.id.ToString(),null, newPassword, false, user.oldPasswordHash);
+                    this.userService.ResetPassword(user.id.ToString(), null, newPassword, false, user.oldPasswordHash);
                     return Request.CreateResponse(HttpStatusCode.OK, "Password Change Success!");
                 }
                 else
@@ -477,7 +485,7 @@ namespace MedAPI.Controllers
         [Route("hash-password")]
         public string HashString(string pw)
         {
-           return Infrastructure.HashPasswordHelper.HashPassword(pw);
+            return Infrastructure.HashPasswordHelper.HashPassword(pw);
 
         }
 

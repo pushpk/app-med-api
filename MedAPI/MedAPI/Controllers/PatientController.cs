@@ -205,6 +205,7 @@ namespace MedAPI.Controllers
 
 
         [HttpDelete]
+        [Authorize(Roles = "admin")]
         [Route("patient/{id:int}")]
         public HttpResponseMessage Delete(long id)
         {
@@ -259,6 +260,7 @@ namespace MedAPI.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         [Route("~/api/record/patient")]
         public HttpResponseMessage GetPatient(int documentNumber)
         {
@@ -303,6 +305,7 @@ namespace MedAPI.Controllers
 
 
         [HttpGet]
+        [Authorize]
         [Route("GetSymptomsByPatientID")]
         public HttpResponseMessage GetSymptomsByPatient(string documentNumber)
         {
