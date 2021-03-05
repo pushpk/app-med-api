@@ -6,26 +6,22 @@ import { UserService } from '../user.service';
 @Component({
   selector: 'app-logout',
   templateUrl: './logout.component.html',
-  styleUrls: ['./logout.component.scss']
+  styleUrls: ['./logout.component.scss'],
 })
 export class LogoutComponent implements OnInit {
-  constructor(private router: Router, private userService: UserService,
-    public userAuthService: UserAuthService) { }
+  constructor(
+    private router: Router,
+    private userService: UserService,
+    public userAuthService: UserAuthService
+  ) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   logout() {
     const userAuth = this.userAuthService.load();
     if (userAuth == null) return;
-    this.userService.logout().then(() => {
-      this.userAuthService.clear();
-      this.router.navigateByUrl('/login');
-    }, (error) => {
-      console.log(error);
-      this.userAuthService.clear();
-      this.router.navigateByUrl('/login');
-    });
+    this.userService.logout();
+    this.userAuthService.clear();
+    this.router.navigateByUrl('/login');
   }
-
 }

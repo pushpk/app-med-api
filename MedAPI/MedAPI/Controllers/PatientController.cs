@@ -264,7 +264,6 @@ namespace MedAPI.Controllers
         [Route("~/api/record/patient")]
         public HttpResponseMessage GetPatient(int documentNumber)
         {
-            //Domain.User pat = patientService.GetPatientByDocumentNumber(documentNumber);
             Domain.Patient pat = patientService.GetPatientByDocumentNumber(documentNumber);
 
             var notes = noteService.GetAllNoteByPatient(Convert.ToInt32(pat.id));
@@ -393,6 +392,7 @@ namespace MedAPI.Controllers
             patient.water = mPatient.home.water;
             patient.sewage = mPatient.home.sewage;
             patient.departmentId = mPatient.department;
+            patient.race = mPatient.race;
             patient.user = setUserInfo(mPatient);
             return patient;
         }
@@ -405,7 +405,8 @@ namespace MedAPI.Controllers
             user.id = mPatient.userId;
             user.address = mPatient.address;
             user.birthday = mPatient.birthday;
-            user.cellphone = mPatient.phone;
+            user.phone = mPatient.phone;
+            
             if (userData != null)
             {
                 user.createdBy = Convert.ToString(userData.id);

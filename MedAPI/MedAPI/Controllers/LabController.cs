@@ -66,7 +66,7 @@ namespace MedAPI.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "lab")]
+        [Authorize(Roles = "lab, medic")]
         [Route("lab-upload-result")]
         public HttpResponseMessage Create()
         {

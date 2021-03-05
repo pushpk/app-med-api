@@ -1,0 +1,1 @@
+update [registroclinico].[users] set phone = cellphone

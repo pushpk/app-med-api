@@ -49,6 +49,8 @@ namespace MedAPI.models
         public string email { get; set; }
         public string phone { get; set; }
         public string createdBy { get; set; }
+
+        
         public DateTime? createdDate { get; set; }
         public bool deletable { get; set; }
         public bool deleted { get; set; }

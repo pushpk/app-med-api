@@ -1,49 +1,46 @@
+import { DatePipe } from '@angular/common';
 import {
+  ChangeDetectorRef,
   Component,
+  OnDestroy,
   OnInit,
   ViewChild,
-  ChangeDetectorRef,
-  OnDestroy,
 } from '@angular/core';
-import { RecordService } from './services/record.service';
-import { MatTableDataSource } from '@angular/material/table';
+import { FormControl } from '@angular/forms';
+import { DateAdapter, ThemePalette } from '@angular/material/core';
 import { MatPaginator } from '@angular/material/paginator';
-import { Router, ActivatedRoute } from '@angular/router';
-import { CheckEmptyUtil } from '../../shared/util/check-empty.util';
-import { NoteDetail } from '../../models/noteDetail.model';
-import { Patient } from '../../models/patient.model';
-import { Triage } from '../../models/triage.model';
+import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { ActivatedRoute, Router } from '@angular/router';
+import { saveAs as importedSaveAs } from 'file-saver';
+import 'jspdf-autotable';
+import { MatTableFilter } from 'mat-table-filter';
+import { IDropdownSettings } from 'ng-multiselect-dropdown';
+import { ToastrService } from 'ngx-toastr';
+import { LabUploadResult } from 'src/app/models/labUploadResult';
+import { Symptoms } from 'src/app/models/symptoms.model';
+import { CommonService } from 'src/app/services/common.service';
+import { AllergiesList } from '../../models/allergiesList.model';
 import { Cardiovascularnote } from '../../models/cardiovascularnote.model';
-import { NoteDiagnosis } from '../../models/noteDiagnosis.model';
+import { CardiovascularSymptoms } from '../../models/cardiovascularSymptoms.model';
 import { Lists } from '../../models/lists.model';
+import { MedicinesList } from '../../models/medicinesList.model';
+import { NoteDetail } from '../../models/noteDetail.model';
+import { NoteDiagnosis } from '../../models/noteDiagnosis.model';
 import { NoteExams } from '../../models/noteExams.model';
-import { NoteSymptom } from '../../models/noteSymptom.model';
-import { NoteTreatment } from '../../models/noteTreatment.model';
 import { NoteInterconsultation } from '../../models/noteInterconsultation.model';
 import { NoteReferrals } from '../../models/noteReferrals.model';
-import { AllergiesList } from '../../models/allergiesList.model';
-import { MedicinesList } from '../../models/medicinesList.model';
+import { NoteSymptom } from '../../models/noteSymptom.model';
+import { NoteTreatment } from '../../models/noteTreatment.model';
+import { Patient } from '../../models/patient.model';
 import { PatientFatherbackgroundList } from '../../models/patientFatherbackgroundList.model';
 import { PatientMotherbackgroundList } from '../../models/patientMotherbackgroundList.model';
 import { PersonalBackgroundList } from '../../models/personalBackgroundList.model';
-import { CardiovascularSymptoms } from '../../models/cardiovascularSymptoms.model';
-import { jsPDF } from 'jspdf';
-import 'jspdf-autotable';
-import { CommonService } from 'src/app/services/common.service';
-import { LabUploadResult } from 'src/app/models/labUploadResult';
-import { ToastrService } from 'ngx-toastr';
-import { saveAs as importedSaveAs } from 'file-saver';
-import { IDropdownSettings } from 'ng-multiselect-dropdown';
-import { Symptoms } from 'src/app/models/symptoms.model';
+import { Triage } from '../../models/triage.model';
+import { CheckEmptyUtil } from '../../shared/util/check-empty.util';
 import { NoteService } from '../note/services/note.service';
-import { MatSort } from '@angular/material/sort';
-import { MatTableFilter } from 'mat-table-filter';
-import { DateAdapter, ThemePalette } from '@angular/material/core';
-import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
-import { DatePipe } from '@angular/common';
-import { MatDatepickerInputEvent } from '@angular/material/datepicker';
-import { FormControl, Validators } from '@angular/forms';
-import { HttpErrorResponse } from '@angular/common/http';
+import { RecordService } from './services/record.service';
 
 export enum TicketStatus {
   REGISTERED = 0,
@@ -193,9 +190,6 @@ export class RecordComponent implements OnInit, OnDestroy {
     // this.registrationDateFilter.setValidators(Validators.minLength(8));
     this.subscriptionRegistrationDateFilter = this.registrationDateFilter.valueChanges.subscribe(
       (registrationDateFilterValue) => {
-        // let datePipeEn: DatePipe = new DatePipe('en-US');
-        // this.filteredValues.registrationDate = '' + registrationDateFilterValue;
-        // this.datePipe.transform(registrationDateFilterValue, 'MM/dd/yyyy', 'en-US');
         try {
           if (
             this.datePipe.transform(registrationDateFilterValue, 'yyyy') >
@@ -1035,6 +1029,7 @@ export class RecordComponent implements OnInit, OnDestroy {
         }
         this.patient.email = patientDetails.user.email;
         this.patient.phone = patientDetails.user.phone;
+        this.patient.race = patientDetails.race;
 
         this.patient.educationalAttainment =
           patientDetails.educationalAttainment;

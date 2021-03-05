@@ -23,6 +23,7 @@ namespace MedAPI.Repository
                             userId = p.user_id,
                             alcohol = p.alcohol,
                             bloodType = p.bloodType,
+                            race = p.race,
                             cigaretteNumber = p.cigaretteNumber,
                             createdTicket = p.createdTicket,
                             dormNumber = p.dormNumber,
@@ -68,6 +69,7 @@ namespace MedAPI.Repository
                             userId = p.user_id,
                             alcohol = p.alcohol,
                             bloodType = p.bloodType,
+                            race = p.race,
                             cigaretteNumber = p.cigaretteNumber,
                             createdTicket = p.createdTicket,
                             dormNumber = p.dormNumber,
@@ -165,6 +167,8 @@ namespace MedAPI.Repository
                     efPatients.sewage = mPatient.sewage;
                     efPatients.departmentId = mPatient.departmentId;
                     efPatients.water = mPatient.water;
+                    efPatients.race = mPatient.race;
+
                     context.SaveChanges();
                     mPatient.id = efPatients.id;
                 }
@@ -193,6 +197,7 @@ namespace MedAPI.Repository
                         userId = patientFromRepo.user_id,
                         alcohol = patientFromRepo.alcohol,
                         bloodType = patientFromRepo.bloodType,
+                        race = patientFromRepo.race,
                         cigaretteNumber = patientFromRepo.cigaretteNumber,
                         createdTicket = patientFromRepo.createdTicket,
                         dormNumber = patientFromRepo.dormNumber,

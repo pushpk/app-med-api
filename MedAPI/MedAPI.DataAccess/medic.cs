@@ -19,6 +19,7 @@ namespace MedAPI.DataAccess
         {
             this.notes = new HashSet<note>();
             this.lab_upload_result = new HashSet<lab_upload_result>();
+            this.patient_medic_permission = new HashSet<patient_medic_permission>();
         }
     
         public string cmp { get; set; }
@@ -34,5 +35,7 @@ namespace MedAPI.DataAccess
         public virtual medic_specialties medic_specialties { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<lab_upload_result> lab_upload_result { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<patient_medic_permission> patient_medic_permission { get; set; }
     }
 }

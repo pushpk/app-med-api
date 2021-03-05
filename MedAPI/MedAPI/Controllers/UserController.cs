@@ -230,9 +230,9 @@ namespace MedAPI.Controllers
             {
                 ClaimsPrincipal principal = Request.GetRequestContext().Principal as ClaimsPrincipal;
                 var userId = principal.Claims.Where(c => c.Type == "userId").Single().Value;
-
+              
                 var mUser = userService.GetUserById(int.Parse(userId));
-
+               
                 if (mUser != null)
                 {
                     if (!mUser.emailConfirmed)

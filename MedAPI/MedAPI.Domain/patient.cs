@@ -24,6 +24,7 @@ namespace MedAPI.Domain
 
         public string alcohol { get; set; }
         public string bloodType { get; set; }
+        public string race { get; set; }
         public long? cigaretteNumber { get; set; }
         public string createdTicket { get; set; }
         public long? dormNumber { get; set; }

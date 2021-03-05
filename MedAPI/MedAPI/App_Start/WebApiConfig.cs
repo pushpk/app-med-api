@@ -25,7 +25,7 @@ namespace MedAPI
                 defaults: new { id = RouteParameter.Optional }
             );
 
-            
+
 
             var json = config.Formatters.JsonFormatter;
             json.SerializerSettings.PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.Objects;

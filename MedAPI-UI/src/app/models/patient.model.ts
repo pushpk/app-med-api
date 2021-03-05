@@ -1,6 +1,4 @@
 import { Home } from './home.model';
-import { CheckEmptyUtil } from '../shared/util/check-empty.util';
-import { NoteDetail } from './noteDetail.model';
 
 export class Patient {
   id = 0;
@@ -21,6 +19,7 @@ export class Patient {
   isDonor = false;
   email = '';
   phone = '';
+  cellphone = '';
   race = '';
   educationalAttainment = '';
   occupation = '';

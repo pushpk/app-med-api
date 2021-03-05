@@ -1,6 +1,7 @@
 export const environment = {
   production: true,
-  apiUrl: 'http://solidaritymedicaldevelopment.com/api/',
+  apiUrl: 'https://solidaritymedicaldevelopment.com/api/',
+  loginUrl: 'https://solidaritymedicaldevelopment.com/',
   //apiUrl: 'https://solidaritymedical.net/',
   userInfo_LocalStoreKey: 'userData',
 };

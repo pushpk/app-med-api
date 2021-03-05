@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { CommonService } from '../../services/common.service';
 import { UserAuthService } from '../../auth/user-auth.service';
 import { UserService } from '../../components/user/user.service';
-import { BnNgIdleService } from 'bn-ng-idle';
+import { CommonService } from '../../services/common.service';
 
 @Component({
   selector: 'app-header',
@@ -35,17 +34,9 @@ export class HeaderComponent implements OnInit {
   logout() {
     const userAuth = this.userAuthService.load();
     if (userAuth == null) return;
-    this.userService.logout().then(
-      () => {
-        this.userAuthService.clear();
-        this.router.navigateByUrl('/login');
-      },
-      (error) => {
-        console.log(error);
-        this.userAuthService.clear();
-        this.router.navigateByUrl('/login');
-      }
-    );
+    this.userService.logout();
+    this.userAuthService.clear();
+    this.router.navigateByUrl('/login');
   }
 
   showAccountSetting() {

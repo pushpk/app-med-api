@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
-import { User } from './model/user.model';
-import { HttpUtilService } from '../../services/http-util.service';
-import { ToastrService } from 'ngx-toastr';
-import { BehaviorSubject } from 'rxjs';
-import { BnNgIdleService } from 'bn-ng-idle';
-import { Router } from '@angular/router';
-import { UserAuthService } from 'src/app/auth/user-auth.service';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { BnNgIdleService } from 'bn-ng-idle';
+import { ToastrService } from 'ngx-toastr';
+import { UserAuthService } from 'src/app/auth/user-auth.service';
 import { IdleLogoutComponent } from 'src/app/shared/idle-logout/idle-logout.component';
+import { HttpUtilService } from '../../services/http-util.service';
+import { User } from './model/user.model';
 
 @Injectable({
   providedIn: 'root',
@@ -119,17 +118,11 @@ export class UserService {
 
   logout() {
     const self = this;
-    const apiEndpoint = 'logout';
+
     if (this.timer) {
       this.bnIdle.stopTimer();
       this.timer.unsubscribe();
     }
-
-    return self.httpUtilService
-      .invoke('POST', null, apiEndpoint, null)
-      .then((response) => {
-        return response;
-      });
   }
 
   showIdleTimer() {

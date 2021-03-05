@@ -24,6 +24,7 @@ namespace MedAPI.DataAccess
             this.patient_motherbackgrounds = new HashSet<patient_motherbackgrounds>();
             this.patient_personalbackgrounds = new HashSet<patient_personalbackgrounds>();
             this.patient_symptoms = new HashSet<patient_symptoms>();
+            this.patient_medic_permission = new HashSet<patient_medic_permission>();
         }
     
         public long id { get; set; }
@@ -52,6 +53,7 @@ namespace MedAPI.DataAccess
         public bool sewage { get; set; }
         public bool water { get; set; }
         public long departmentId { get; set; }
+        public string race { get; set; }
     
         public virtual department department { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -69,5 +71,7 @@ namespace MedAPI.DataAccess
         public virtual user user { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<patient_symptoms> patient_symptoms { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<patient_medic_permission> patient_medic_permission { get; set; }
     }
 }
