@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import {
-  FormGroup,
-  FormBuilder,
-  Validators,
   AbstractControl,
+  FormBuilder,
+  FormGroup,
+  Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
-import { UserService } from '../user.service';
 import { UserAuthService } from '../../../auth/user-auth.service';
 import { RecordService } from '../../record/services/record.service';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-login',
@@ -95,6 +95,7 @@ export class LoginComponent implements OnInit {
           if (response['role'] === 1) {
             this.router.navigateByUrl('/admin');
           } else {
+            localStorage.setItem('role', 'medic');
             if (!response['IsApproved']) {
               localStorage.clear();
               localStorage.setItem('reason', 'not-approved');

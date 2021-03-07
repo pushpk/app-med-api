@@ -8,8 +8,108 @@
           </div>
         </mat-tab>
         <mat-tab label="Account"> Content 2 </mat-tab>
-        <mat-tab label="Profile"> Content 3 </mat-tab>
-      </mat-tab-group>
-    </mat-card-content></mat-card
-  >
+        <mat-tab label="Data Access Requests" id="dataAccess">
+          <mat-table [dataSource]="this.medicRequests">
+            <!-- Position Column -->
+            <ng-container matColumnDef="medic.user.firstName">
+              <mat-header-cell *matHeaderCellDef>
+                <div style="display: block">
+                  <div style="display: flex">
+                    <span>Nombre</span>
+                  </div>
+                </div>
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                {{
+                  element.medic.user.firstName +
+                    " " +
+                    element.medic.user.lastNameMother +
+                    " " +
+                    element.medic.user.lastNameFather
+                }}
+              </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="medic.rne">
+              <mat-header-cell *matHeaderCellDef>
+                <div style="display: block">
+                  <div style="display: flex">
+                    <span>RNE</span>
+                  </div>
+                </div>
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                {{ element.medic.rne }}
+              </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="medic.cmp">
+              <mat-header-cell *matHeaderCellDef>
+                <div style="display: block">
+                  <div style="display: flex">
+                    <span>CMP</span>
+                  </div>
+                </div>
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                {{ element.medic.cmp }}
+              </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="action">
+              <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                <button
+                  mat-button
+                  type="button"
+                  color="primary"
+                  (click)="changeMedicAccess(element.medic.user.id, 'approve')"
+                  [disabled]="element.is_medic_authorized"
+                >
+                  Aprobar
+                </button>
+              </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="action2">
+              <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                <button
+                  mat-button
+                  type="button"
+                  color="primary"
+                  (click)="changeMedicAccess(element.medic.user.id, 'deny')"
+                  [disabled]="!element.is_medic_authorized"
+                >
+                  Negar
+                </button>
+              </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="action3">
+              <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                <button
+                  mat-button
+                  type="button"
+                  color="primary"
+                  (click)="
+                    changeMedicAccess(element.medic.user.id, 'denyAndBlock')
+                  "
+                  [disabled]="element.is_future_request_blocked"
+                >
+                  Denegar y bloquear
+                </button>
+              </mat-cell>
+            </ng-container>
+
+            <mat-header-row
+              *matHeaderRowDef="displayedColumnsUpload"
+            ></mat-header-row>
+            <mat-row
+              *matRowDef="let row; columns: displayedColumnsUpload"
+            ></mat-row> </mat-table
+        ></mat-tab>
+      </mat-tab-group> </mat-card-content
+  ></mat-card>
 </div>

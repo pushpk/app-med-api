@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { HttpUtilService } from '../../../services/http-util.service';
+import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { LabUploadResult } from 'src/app/models/labUploadResult';
-import { environment } from 'src/environments/environment';
 import { Symptoms } from 'src/app/models/symptoms.model';
+import { environment } from 'src/environments/environment';
+import { HttpUtilService } from '../../../services/http-util.service';
 
 @Injectable({
   providedIn: 'root',
@@ -144,5 +144,15 @@ export class RecordService {
     };
 
     return self.httpUtilService.invokeQuery('GET', params, apiEndpoint);
+  }
+
+  requestAccess(userId: number) {
+    const self = this;
+    const apiEndpoint = 'users/RequestAccess';
+    const params1 = {
+      key: 'userId',
+      value: userId,
+    };
+    return self.httpUtilService.invokeQuery('GET', params1, apiEndpoint);
   }
 }

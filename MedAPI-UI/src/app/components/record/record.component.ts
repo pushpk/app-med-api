@@ -79,6 +79,8 @@ export class RecordComponent implements OnInit, OnDestroy {
   askDocumentNumber: boolean;
   askPatientRegistration: boolean;
   showRecord: boolean;
+  isMedicAuthorized: boolean = true;
+  isMedicBlockedForFurtherRequest: boolean = false;
 
   // displayedColumns: string[] = ['id', 'specialty', 'date', 'category', 'description', 'status', 'evaluation', 'action'];
 
@@ -576,19 +578,8 @@ export class RecordComponent implements OnInit, OnDestroy {
       .then((response: any) => {
         this.setPatientDetails(response);
 
-        // console.log(response);
-        // localStorage.setItem('patient', JSON.strinfgify(response.patient));
-        // if (CheckEmptyUtil.isNotEmptyObject(response.notes)) {
-        //  localStorage.setItem('notes', JSON.stringify(response.notes));
-        // }
-        // self.patient = response.patient;
-        // self.patient.notes = response.notes;
-        // if (response.patient.id === 0){
-        //   this.askPatientRegistration = false;
-        //   return Promise.reject;
-        // }
+        console.log(self.patient);
 
-        // this.dataSource = new MatTableDataSource<PastAttentions>([]);
         if (
           typeof self.patient.notes !== 'undefined' &&
           self.patient.notes !== null
@@ -599,26 +590,12 @@ export class RecordComponent implements OnInit, OnDestroy {
           this.filterEntity = pastAtt;
 
           this.filterType = MatTableFilter.ANYWHERE;
-          // this.dataSource.sort = this.sort;
-
           this.dataSource.data = self.patient.notes;
-
-          // console.log(self.patient.notes);
 
           setTimeout(() => {
             this.dataSource.paginator = this.paginator;
             this.dataSource.sort = this.sort;
-            // this.dataSource.sortingDataAccessor = (item, property) => {
-            //   if (property === 'date'){
-            //     return new Date(item.date);
-            //   }
-            //   else{
-            //     return item[property];
-            //   }
-            // };
           });
-
-          // this.dataSource.paginator = this.paginator;
 
           this.changeDetectorRefs.detectChanges();
         }
@@ -678,20 +655,6 @@ export class RecordComponent implements OnInit, OnDestroy {
         self.waitingTicket = false;
       });
   }
-
-  // onSpecialityChange(event: any) {
-  //   if (CheckEmptyUtil.isNotEmptyObject(event)) {
-  //     this.selectedSpeciality = event.value.toLowerCase();
-
-  //     //this.notes = [];
-  //     //this.patient = null;
-  //     //this.searchDocumentNumber();
-  //   } else {
-  //     localStorage.setItem('speciality', '');
-  //     this.selectedSpeciality = '';
-  //     this.recordService.selectedSpecialty.next('');
-  //   }
-  // }
 
   navigateToNotes(id: number) {
     console.log(id);
@@ -999,18 +962,33 @@ export class RecordComponent implements OnInit, OnDestroy {
   }
   setPatientDetails(data) {
     try {
+      let currentMedicId = localStorage.getItem('loggedInID');
+
       if (CheckEmptyUtil.isNotEmpty(data)) {
-        this.recordService.passwordHash.subscribe((val) => {
-          if (CheckEmptyUtil.isNotEmpty(val)) {
-            this.patient.passwordHash = val;
-          }
-        });
+        let medAuthData = data.patient.patientMedicPermission.some(
+          (s) => s.medic_id == currentMedicId
+        );
+
+        let role = localStorage.getItem('role');
+
         let patientDetails = data.patient;
         this.patient.id = patientDetails.id;
-        this.patient.userId = patientDetails.userId;
+        this.patient.userId = patientDetails.user.id;
         this.patient.name = patientDetails.user.firstName;
         this.patient.lastnameFather = patientDetails.user.lastNameFather;
         this.patient.lastnameMother = patientDetails.user.lastNameMother;
+
+        if (
+          role === 'medic' &&
+          data.patient.patientMedicPermission &&
+          medAuthData
+        ) {
+          this.isMedicAuthorized = !!data.patient.patientMedicPermission[0]
+            .is_medic_authorized;
+          this.isMedicBlockedForFurtherRequest = !!data.patient
+            .patientMedicPermission[0].is_future_request_blocked;
+          return;
+        }
 
         this.patient.documentType = patientDetails.user.documentType;
         this.patient.documentNumber = patientDetails.user.documentNumber;
@@ -1262,5 +1240,18 @@ export class RecordComponent implements OnInit, OnDestroy {
         queryParams: { docNumber: this.documentNumber },
       });
     }
+  }
+
+  requestAccess() {
+    let currentMedicId = +localStorage.getItem('loggedInID');
+    console.log(this.patient);
+    this.recordService
+      .requestAccess(this.patient.userId)
+      .then(() => {
+        this.toastr.success('Sent Request Access Successfully!');
+      })
+      .catch(() => {
+        this.toastr.error('Something went wrong!');
+      });
   }
 }

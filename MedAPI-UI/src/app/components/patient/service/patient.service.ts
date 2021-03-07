@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpUtilService } from '../../../services/http-util.service';
 import { BehaviorSubject } from 'rxjs';
-import { Medic } from 'src/app/models/medic.model';
 import { LabUser } from 'src/app/models/labUser.model';
+import { Medic } from 'src/app/models/medic.model';
+import { HttpUtilService } from '../../../services/http-util.service';
 
 @Injectable({
   providedIn: 'root',
@@ -115,6 +115,38 @@ export class PatientService {
       'POST',
       UserWithIdPw,
       'users/change-password',
+      null
+    );
+  }
+
+  getMedicAccessPermissions(userId: number) {
+    const self = this;
+    const apiEndpoint = 'users/MedicAccessRequests';
+    const params = {
+      key: 'userId',
+      value: userId,
+    };
+
+    return self.httpUtilService.invokeQuery('GET', params, apiEndpoint);
+  }
+
+  changeMedicAccessForPatient(
+    userId: number,
+    medicId: number,
+    isMedicAuthorized: boolean,
+    isFutureRequestBlocked: boolean
+  ) {
+    var medicPermission = {
+      user_id: userId,
+      medic_id: medicId,
+      is_medic_authorized: isMedicAuthorized,
+      is_future_request_blocked: isFutureRequestBlocked,
+    };
+
+    return this.httpUtilService.invoke(
+      'POST',
+      medicPermission,
+      'users/MedicAccessRequestChange',
       null
     );
   }

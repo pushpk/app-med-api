@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
+import { AuthGuardService } from './auth/auth-guard.service';
 import { AuthModule } from './auth/auth.module';
 import { AccountConfirmationComponent } from './components/user/account-confirmation/account-confirmation.component';
 import { AccountSettingComponent } from './components/user/account-setting/account-setting.component';
@@ -30,7 +31,11 @@ const routes: Routes = [
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'reset-password', component: ResetPasswordComponent },
   { path: 'email-not-confirmed', component: EmailNotConfirmedComponent },
-  { path: 'account-setting', component: AccountSettingComponent },
+  {
+    path: 'account-setting',
+    component: AccountSettingComponent,
+    canActivate: [AuthGuardService],
+  },
   { path: 'no-access', component: NoAccessComponent },
   //{ path: '**', redirectTo: 'login', data: { isRedirect: true } }
 ];
