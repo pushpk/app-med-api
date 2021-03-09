@@ -1,10 +1,12 @@
 ﻿using MedAPI.Domain;
 using System.Collections.Generic;
+using System.Security.Claims;
 
 namespace MedAPI.Infrastructure.IService
 {
     public interface IUserService
     {
+        User GetCurrentUser(ClaimsPrincipal principal);
         List<User> GetAllUser();
         User GetUserById(long id);
         bool DeleteUserById(long id);

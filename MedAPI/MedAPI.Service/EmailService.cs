@@ -32,6 +32,9 @@ namespace MedAPI.Service
                 case EmailPurpose.PatientNotification:
                     //return $"Estimado cliente,<br /><br />Lamentamos avisarle que su aplicación no ha sido aceptada por nuestros administradores. Si desea refutar esta decisión o proveer alguna información adicional, por favor contáctenos a admin@solidaritymedical.net";
                     return "d-d550a39a2dbe4fc8abba4c8bf4de426b";
+                case EmailPurpose.PatientDataAccessRequest:
+                    //return $"Estimado cliente,<br /><br />Lamentamos avisarle que su aplicación no ha sido aceptada por nuestros administradores. Si desea refutar esta decisión o proveer alguna información adicional, por favor contáctenos a admin@solidaritymedical.net";
+                    return "d-d550a39a2dbe4fc8abba4c8bf4de426b";
                 default:
                     return string.Empty;
             }

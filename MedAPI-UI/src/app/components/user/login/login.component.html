@@ -1,11 +1,20 @@
-<div fxLayout="row" fxLayoutAlign="center center" *ngIf="this.showInactivityAlert">
-  <div class="alert alert-info" style="margin-top:0px; margin-bottom:20px;" role="alert" fxFlex>
+<div
+  fxLayout="row"
+  fxLayoutAlign="center center"
+  *ngIf="this.showInactivityAlert"
+>
+  <div
+    class="alert alert-info"
+    style="margin-top: 0px; margin-bottom: 20px"
+    role="alert"
+    fxFlex
+  >
     Para proteger su seguridad, hemos cerrado su sesión debido a inactividad.
-  </div> 
+  </div>
 </div>
 
 <div fxLayout="row" fxLayoutAlign="center center">
-
+  <mat-spinner></mat-spinner>
   <form
     autocomplete="off"
     name="loginForm"

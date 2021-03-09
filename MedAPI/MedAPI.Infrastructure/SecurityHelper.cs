@@ -31,6 +31,14 @@ namespace MedAPI.Infrastructure
 
         }
 
+        
+        public static string GetAccountSettingLink(HttpRequestMessage Request)
+        {
+            var baseUrl = Request.RequestUri.GetLeftPart(UriPartial.Authority);
+
+            return $"{baseUrl}/account-setting";
+
+        }
 
     }
 }

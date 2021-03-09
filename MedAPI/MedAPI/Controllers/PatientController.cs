@@ -9,6 +9,7 @@ using System.Data.Entity.Validation;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Security.Claims;
 using System.Web;
 using System.Web.Http;
 using static MedAPI.Infrastructure.EmailHelper;
@@ -264,7 +265,42 @@ namespace MedAPI.Controllers
         [Route("~/api/record/patient")]
         public HttpResponseMessage GetPatient(int documentNumber)
         {
+            ClaimsPrincipal principal = Request.GetRequestContext().Principal as ClaimsPrincipal;
+            var currentLoggedInUser = userService.GetCurrentUser(principal);
+
             Domain.Patient pat = patientService.GetPatientByDocumentNumber(documentNumber);
+            
+
+
+            //if medic check access 
+            if(currentLoggedInUser.roleId == 2)
+            {
+                var permission = patientService.checkMedicAccessForPatientData(pat.id);
+                if(permission != null && !permission.is_medic_authorized)
+                {
+                    Domain.Patient limitedDataPat = new Domain.Patient
+                    {
+                        patientMedicPermission = pat.patientMedicPermission,
+                        user = new Domain.User
+                        {
+                            id = pat.user.id,
+                            documentNumber = pat.user.documentNumber,
+                            email = pat.user.email,
+                            firstName = pat.user.firstName,
+                            lastNameFather = pat.user.lastNameFather,
+                            lastNameMother = pat.user.lastNameMother,
+                            roleId = pat.user.roleId,
+                            role = new Role
+                            {
+                                id = pat.user.role.id,
+                                name = pat.user.role.name,
+                                description = pat.user.role.description
+                            }
+                        }
+                    };
+                    return  Request.CreateResponse(HttpStatusCode.OK, new { patient = limitedDataPat});
+                }
+            }
 
             var notes = noteService.GetAllNoteByPatient(Convert.ToInt32(pat.id));
 
@@ -298,8 +334,62 @@ namespace MedAPI.Controllers
                 response = Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
             return response;
+        }
 
+        [HttpGet]
+        [Route("RequestAccess")]
+        public HttpResponseMessage RequestPatientAccess(int userId)
+        {
+            var user = this.userService.GetUserById(userId);
+            HttpResponseMessage response = null;
+            try
+            {
+                var accountSettingPage = Infrastructure.SecurityHelper.GetAccountSettingLink(Request);
+                var emailBody = emailService.GetEmailBody(EmailPurpose.PatientDataAccessRequest, accountSettingPage);
+                emailService.SendEmailAsync(user.email, "Solicitud de acceso a datos - SolidarityMedical", emailBody, accountSettingPage);
+                response = Request.CreateResponse(HttpStatusCode.OK);
 
+            }
+            catch (Exception ex)
+            {
+                response = Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+            return response;
+        }
+
+        [HttpGet]
+        [Route("MedicAccessRequests")]
+        public HttpResponseMessage MedicAccessRequests(int userId)
+        {
+            HttpResponseMessage response = null;
+            try
+            {
+                var permissions = patientService.getPermissionRequests(userId);
+                response =  Request.CreateResponse(HttpStatusCode.OK, new { permissions = permissions });
+            }
+            catch (Exception ex)
+            {
+                response = Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+            return response;
+        }
+
+        [HttpPost]
+        [Route("MedicAccessRequestChange")]
+        public HttpResponseMessage MedicAccessRequests(PatientMedicPermission medicPermission)
+        {
+            HttpResponseMessage response = null;
+            try
+            {
+                patientService.ChangeMedicAccess(medicPermission);
+                var permissions = patientService.getPermissionRequests(medicPermission.user_id);
+                response = Request.CreateResponse(HttpStatusCode.OK, new { permissions = permissions });
+            }
+            catch (Exception ex)
+            {
+                response = Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+            return response;
         }
 
 
@@ -308,8 +398,6 @@ namespace MedAPI.Controllers
         [Route("GetSymptomsByPatientID")]
         public HttpResponseMessage GetSymptomsByPatient(string documentNumber)
         {
-            //Domain.User pat = patientService.GetPatientByDocumentNumber(documentNumber);
-
             HttpResponseMessage response = null;
             try
             {

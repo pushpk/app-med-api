@@ -270,7 +270,6 @@ namespace MedAPI.Repository
         }
         public User SaveUser(User mUser)
         {
-
             using (var context = new DataAccess.registroclinicoEntities())
             {
 
@@ -288,6 +287,8 @@ namespace MedAPI.Repository
                     efUser.token = Guid.NewGuid();
                     efUser.reset_token = Guid.NewGuid();
                     context.users.Add(efUser);
+
+                   
                 }
                 else
                 {

@@ -18,6 +18,7 @@ namespace MedAPI.DataAccess
         public long medic_id { get; set; }
         public bool permission { get; set; }
         public bool is_future_request_blocked { get; set; }
+        public bool is_medic_authorized { get; set; }
     
         public virtual medic medic { get; set; }
         public virtual patient patient { get; set; }

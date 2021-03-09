@@ -140,6 +140,19 @@ namespace MedAPI.Repository
                     {
                         efPatients = new DataAccess.patient();
                         context.patients.Add(efPatients);
+
+                        foreach (var medic in context.medics)
+                        {
+                            context.patient_medic_permissions.Add(new DataAccess.patient_medic_permission
+                            {
+                                medic_id = medic.id,
+                                patient_id = mPatient.id,
+                                is_medic_authorized = false,
+                                is_future_request_blocked = false
+
+                            });
+
+                        }
                     }
                     efPatients.id = mPatient.id;
                     efPatients.user_id = mPatient.userId;
@@ -220,6 +233,15 @@ namespace MedAPI.Repository
                         sewage = patientFromRepo.sewage,
                         water = patientFromRepo.water,
                         departmentId = patientFromRepo.departmentId,
+                        patientMedicPermission = ((from y in context.patient_medic_permissions
+                                                   where y.patient_id == patientFromRepo.id 
+                                                   select new PatientMedicPermission()
+                                                   {
+                                                       patient_id = y.patient_id,
+                                                       medic_id = y.medic_id,
+                                                       is_medic_authorized = y.is_medic_authorized,
+                                                       is_future_request_blocked = y.is_future_request_blocked
+                                                   }).ToList()),
                         allergiesList = ((from y in context.patient_allergies
                                           where y.patient_id == patientFromRepo.id && y.isDeleted == false
                                           select new PatientAllergies()
@@ -506,10 +528,10 @@ namespace MedAPI.Repository
                     });
 
                 }
-
+                
                 return new SymptomsWithCustom
                 {
-                    Custom_Symptom = ps.FirstOrDefault().custom_symptom,
+                    Custom_Symptom = ps.FirstOrDefault()?.custom_symptom,
                     symptoms = pSym.ToArray()
                 };
 
@@ -528,6 +550,224 @@ namespace MedAPI.Repository
                     deleted = s.deleted
                 }).ToList();
 
+            }
+        }
+
+        public PatientMedicPermission checkMedicAccessForPatientData(long id)
+        {
+            using (var context = new DataAccess.registroclinicoEntities())
+            {
+                var medicPermission = context.patient_medic_permissions.FirstOrDefault(s => s.patient_id == id);
+                return new PatientMedicPermission
+                {
+                    medic_id = medicPermission.medic_id,
+                    patient_id = medicPermission.patient_id,
+                    is_medic_authorized = medicPermission.is_medic_authorized,
+                    is_future_request_blocked = medicPermission.is_future_request_blocked,
+                    medic = new Medic
+                    {
+
+                        id = medicPermission.medic.id,
+                        cmp = medicPermission.medic.cmp,
+                        rne = medicPermission.medic.rne,
+                        IsApproved = medicPermission.medic.IsApproved,
+                        IsFreezed = medicPermission.medic.IsFreezed,
+                        user = new User
+                        {
+
+                            id = medicPermission.medic.user.id,
+                            address = medicPermission.medic.user.address,
+                            cellphone = medicPermission.medic.user.cellphone,
+                            countryId = medicPermission.medic.user.country_id,
+                            deleted = medicPermission.medic.user.deleted,
+                            createdBy = medicPermission.medic.user.createdBy,
+                            createdDate = medicPermission.medic.user.createdDate,
+                            districtId = medicPermission.medic.user.district_id,
+                            departmentId = medicPermission.medic.user.department_id,
+                            provinceId = medicPermission.medic.user.province_id,
+                            documentNumber = medicPermission.medic.user.documentNumber,
+                            documentType = medicPermission.medic.user.documentType,
+                            email = medicPermission.medic.user.email,
+                            firstName = medicPermission.medic.user.firstName,
+                            lastNameFather = medicPermission.medic.user.lastNameFather,
+                            lastNameMother = medicPermission.medic.user.lastNameMother,
+                            maritalStatus = medicPermission.medic.user.maritalStatus,
+                            modifiedBy = medicPermission.medic.user.modifiedBy,
+                            modifiedDate = medicPermission.medic.user.modifiedDate,
+                            organDonor = medicPermission.medic.user.organDonor,
+                            phone = medicPermission.medic.user.phone,
+                            roleId = medicPermission.medic.user.role_id,
+                            since = medicPermission.medic.user.since,
+                            passwordHash = medicPermission.medic.user.password_hash
+
+
+                        }
+
+                    }
+                };
+            }
+            
+        }
+
+        public List<PatientMedicPermission> getPermissionRequests(long userId)
+        {
+            using (var context = new DataAccess.registroclinicoEntities())
+            {
+                var patient = context.patients.FirstOrDefault(s => s.user_id == userId);
+                var permissions = context.patient_medic_permissions.Include("medic").Where(s => s.patient_id == patient.id).ToList();
+
+                List<PatientMedicPermission> convertedPermissions = new List<PatientMedicPermission>();
+                try
+                {
+
+                    foreach (var medicPermission in permissions)
+                    {
+                        PatientMedicPermission p = new PatientMedicPermission
+                        {
+                            medic_id = medicPermission.medic_id,
+                            patient_id = patient.id,
+                            is_medic_authorized = medicPermission.is_medic_authorized,
+                            is_future_request_blocked = medicPermission.is_future_request_blocked,
+                            medic = new Medic
+                            {
+
+                                id = medicPermission.medic.id,
+                                cmp = medicPermission.medic.cmp,
+                                rne = medicPermission.medic.rne,
+                                IsApproved = medicPermission.medic.IsApproved,
+                                IsFreezed = medicPermission.medic.IsFreezed,
+                                user = new User
+                                {
+
+                                    id = medicPermission.medic.user.id,
+                                    address = medicPermission.medic.user.address,
+                                    cellphone = medicPermission.medic.user.cellphone,
+                                    countryId = medicPermission.medic.user.country_id,
+                                    deleted = medicPermission.medic.user.deleted,
+                                    createdBy = medicPermission.medic.user.createdBy,
+                                    createdDate = medicPermission.medic.user.createdDate,
+                                    districtId = medicPermission.medic.user.district_id,
+                                    departmentId = medicPermission.medic.user.department_id,
+                                    provinceId = medicPermission.medic.user.province_id,
+                                    documentNumber = medicPermission.medic.user.documentNumber,
+                                    documentType = medicPermission.medic.user.documentType,
+                                    email = medicPermission.medic.user.email,
+                                    firstName = medicPermission.medic.user.firstName,
+                                    lastNameFather = medicPermission.medic.user.lastNameFather,
+                                    lastNameMother = medicPermission.medic.user.lastNameMother,
+                                    maritalStatus = medicPermission.medic.user.maritalStatus,
+                                    modifiedBy = medicPermission.medic.user.modifiedBy,
+                                    modifiedDate = medicPermission.medic.user.modifiedDate,
+                                    organDonor = medicPermission.medic.user.organDonor,
+                                    phone = medicPermission.medic.user.phone,
+                                    roleId = medicPermission.medic.user.role_id,
+                                    since = medicPermission.medic.user.since,
+                                    passwordHash = medicPermission.medic.user.password_hash
+                                    
+
+                                }
+
+                            }
+                        };
+
+                        convertedPermissions.Add(p);
+                    }
+
+                    return convertedPermissions;
+                }
+                catch (Exception ex)
+                
+                {
+
+                    throw ex;
+                }
+                
+
+                //List<Medic> medics = new List<Medic>();
+                //foreach (var item in permissions)
+                //{
+                //    var x = context.medics.FirstOrDefault(s => s.id == item.medic_id);
+                //    medics.Add( new Medic
+                //    {
+                //        id = x.id,
+                //        cmp = x.cmp,
+                //        rne = x.rne,
+                //        IsApproved = x.IsApproved,
+                //        IsFreezed = x.IsFreezed,
+                //        user = new User
+                //        {
+
+                //            id = x.user.id,
+                //            address = x.user.address,
+                //            birthday = x.user.birthday,
+                //            cellphone = x.user.cellphone,
+                //            countryId = x.user.country_id,
+                //            deleted = x.user.deleted,
+                //            createdBy = x.user.createdBy,
+                //            createdDate = x.user.createdDate,
+                //            districtId = x.user.district_id,
+                //            departmentId = x.user.department_id,
+                //            provinceId = x.user.province_id,
+                //            documentNumber = x.user.documentNumber,
+                //            documentType = x.user.documentType,
+                //            email = x.user.email,
+                //            firstName = x.user.firstName,
+                //            lastNameFather = x.user.lastNameFather,
+                //            lastNameMother = x.user.lastNameMother,
+                //            maritalStatus = x.user.maritalStatus,
+                //            modifiedBy = x.user.modifiedBy,
+                //            modifiedDate = x.user.modifiedDate,
+                //            organDonor = x.user.organDonor,
+                //            phone = x.user.phone,
+                //            roleId = x.user.role_id,
+                //            since = x.user.since,
+                //            passwordHash = x.user.password_hash,
+                //            role = new Role
+                //            {
+                //                id = x.user.role.id,
+                //                name = x.user.role.name,
+                //                description = x.user.role.description
+                //            },
+
+                //            sex = x.user.sex
+
+                //        }
+                //    });
+                //}
+
+            }
+
+        }
+
+        public bool ChangeMedicAccess(PatientMedicPermission medicPermission)
+        {
+
+            using (var context = new DataAccess.registroclinicoEntities())
+            {
+                //user id coming as patient id from UI
+                var patient = context.patients.FirstOrDefault(s => s.user_id == medicPermission.user_id);
+
+                var isRequestExist = context.patient_medic_permissions.FirstOrDefault(s => s.patient_id == patient.id && s.medic_id == medicPermission.medic_id);
+                bool isMedicAuthrized = medicPermission.is_medic_authorized;
+                bool isMedicAuthrizedAndFutureRequests = medicPermission.is_future_request_blocked;
+
+                if(isRequestExist == null)
+                {
+                    context.patient_medic_permissions.Add(new patient_medic_permission  
+                    {
+                        medic_id = medicPermission.medic_id,
+                        patient_id = patient.id,
+                        is_medic_authorized = medicPermission.is_medic_authorized,
+                        is_future_request_blocked = medicPermission.is_future_request_blocked
+                    });
+                }
+                else
+                {
+                    isRequestExist.is_medic_authorized = isMedicAuthrized;
+                    isRequestExist.is_future_request_blocked = isMedicAuthrizedAndFutureRequests;
+                }
+
+                return context.SaveChanges() > 0 ;
             }
         }
     }

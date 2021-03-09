@@ -69,6 +69,7 @@
     <Compile Include="Establishment.cs" />
     <Compile Include="Lab.cs" />
     <Compile Include="LabUploadResult.cs" />
+    <Compile Include="PatientMedicPermission.cs" />
     <Compile Include="PatientSymptoms.cs" />
     <Compile Include="Speciality.cs" />
     <Compile Include="Exam.cs" />

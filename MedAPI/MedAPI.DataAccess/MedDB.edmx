@@ -338,7 +338,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.nurse_specialties'
           </Key>
           <Property Name="patient_id" Type="bigint" Nullable="false" />
           <Property Name="medic_id" Type="bigint" Nullable="false" />
-          <Property Name="permission" Type="bit" Nullable="false" />
+          <Property Name="is_medic_authorized" Type="bit" Nullable="false" />
           <Property Name="is_future_request_blocked" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="patient_medicines">
@@ -2680,10 +2680,10 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           </Key>
           <Property Name="patient_id" Type="Int64" Nullable="false" />
           <Property Name="medic_id" Type="Int64" Nullable="false" />
-          <Property Name="permission" Type="Boolean" Nullable="false" />
           <Property Name="is_future_request_blocked" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="medic" Relationship="registroclinicoModel.medic__FKgyco417bacd28ti07gdpxwvsr" FromRole="patient_medic_permission" ToRole="medic" />
           <NavigationProperty Name="patient" Relationship="registroclinicoModel.patient__FKgyco417bacd28ti07gdpxwvsr" FromRole="patient_medic_permission" ToRole="patient" />
+          <Property Name="is_medic_authorized" Type="Boolean" Nullable="false" />
         </EntityType>
         <Association Name="medic__FKgyco417bacd28ti07gdpxwvsr">
           <End Type="registroclinicoModel.medic" Role="medic" Multiplicity="1" />
@@ -3249,8 +3249,8 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <EntitySetMapping Name="patient_medic_permission">
             <EntityTypeMapping TypeName="registroclinicoModel.patient_medic_permission">
               <MappingFragment StoreEntitySet="patient_medic_permission">
+                <ScalarProperty Name="is_medic_authorized" ColumnName="is_medic_authorized" />
                 <ScalarProperty Name="is_future_request_blocked" ColumnName="is_future_request_blocked" />
-                <ScalarProperty Name="permission" ColumnName="permission" />
                 <ScalarProperty Name="medic_id" ColumnName="medic_id" />
                 <ScalarProperty Name="patient_id" ColumnName="patient_id" />
               </MappingFragment>

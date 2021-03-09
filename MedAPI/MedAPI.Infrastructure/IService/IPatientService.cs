@@ -23,5 +23,8 @@ namespace MedAPI.Infrastructure.IService
         bool SaveSymptoms(SymptomsWithCustom mSymptoms);
         SymptomsWithCustom GetSymptomsByPatientId(string docNum);
         List<Symptoms> GetAllSymptoms();
+        PatientMedicPermission checkMedicAccessForPatientData(long id);
+        List<PatientMedicPermission> getPermissionRequests(long userId);
+        bool ChangeMedicAccess(PatientMedicPermission medicPermission);
     }
 }

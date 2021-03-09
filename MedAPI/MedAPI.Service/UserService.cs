@@ -5,6 +5,7 @@ using MedAPI.Infrastructure.IService;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using static MedAPI.Infrastructure.Common;
 using Medicine = MedAPI.Infrastructure.Common.Medicine;
 
@@ -236,7 +237,14 @@ namespace MedAPI.Service
             
         }
 
-     
+
+        public User GetCurrentUser(ClaimsPrincipal principal)
+        {
+            var userId = principal.Claims.Where(c => c.Type == "userId").Single().Value;
+            return this.GetUserById(int.Parse(userId));
+        }
+
+
 
 
 

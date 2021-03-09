@@ -72,12 +72,14 @@
                 {{ patient.lastnameMother | uppercase }},
                 {{ patient.name }}
               </h2>
-
-              <h3>Please request access to patient</h3>
             </div>
           </div>
         </mat-card-content>
         <mat-card-actions fxLayout="row" fxLayoutAlign="end center">
+          <h3 style="margin: 0 !important">
+            Envíe un correo electrónico al paciente haciendo clic en 'Solicitar
+            acceso' para obtener acceso a los datos del paciente
+          </h3>
           <button
             mat-button
             color="primary"
@@ -85,7 +87,7 @@
             (click)="requestAccess()"
             *ngIf="!this.isMedicBlockedForFurtherRequest"
           >
-            Request Access
+            Solicitar acceso
           </button>
         </mat-card-actions>
       </mat-card>

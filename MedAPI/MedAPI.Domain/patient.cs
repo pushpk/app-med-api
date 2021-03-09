@@ -18,7 +18,7 @@ namespace MedAPI.Domain
             this.personalBackgroundList = new List<PatientPersonalBackgrounds>();
             this.patientFatherbackgroundList = new List<PatientFatherbackgrounds>();
             this.patientMotherbackgroundList = new List<PatientMotherbackgrounds>();
-
+            patientMedicPermission = new List<PatientMedicPermission>();
             user = new User();
         }
 
@@ -59,5 +59,6 @@ namespace MedAPI.Domain
         //public List<Note> notes { get; set; }
         //public List<Triage> triages { get; set; }
         public Domain.User user { get; set; }
+        public List<Domain.PatientMedicPermission> patientMedicPermission { get; set; }
     }
 }
