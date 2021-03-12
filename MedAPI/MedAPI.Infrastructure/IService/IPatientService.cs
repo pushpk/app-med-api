@@ -26,5 +26,6 @@ namespace MedAPI.Infrastructure.IService
         PatientMedicPermission checkMedicAccessForPatientData(long id);
         List<PatientMedicPermission> getPermissionRequests(long userId);
         bool ChangeMedicAccess(PatientMedicPermission medicPermission);
+        void InsertOrChangePermissionRequest(long userId, int medicId);
     }
 }

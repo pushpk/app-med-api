@@ -338,12 +338,14 @@ namespace MedAPI.Controllers
 
         [HttpGet]
         [Route("RequestAccess")]
-        public HttpResponseMessage RequestPatientAccess(int userId)
+        public HttpResponseMessage RequestPatientAccess(int userId, int medicId)
         {
             var user = this.userService.GetUserById(userId);
+            
             HttpResponseMessage response = null;
             try
             {
+                patientService.InsertOrChangePermissionRequest(userId, medicId);
                 var accountSettingPage = Infrastructure.SecurityHelper.GetAccountSettingLink(Request);
                 var emailBody = emailService.GetEmailBody(EmailPurpose.PatientDataAccessRequest, accountSettingPage);
                 emailService.SendEmailAsync(user.email, "Solicitud de acceso a datos - SolidarityMedical", emailBody, accountSettingPage);
@@ -383,6 +385,9 @@ namespace MedAPI.Controllers
             {
                 patientService.ChangeMedicAccess(medicPermission);
                 var permissions = patientService.getPermissionRequests(medicPermission.user_id);
+                
+                var emailBody = emailService.GetEmailBody(EmailPurpose.PatientDataAccessRequestApproved);
+                emailService.SendEmailAsync(permissions.FirstOrDefault(s => s.medic_id == medicPermission.medic_id).medic.user.email, "Solicitud de datos del paciente aprobada - SolidarityMedical", emailBody);
                 response = Request.CreateResponse(HttpStatusCode.OK, new { permissions = permissions });
             }
             catch (Exception ex)

@@ -134,13 +134,15 @@ export class PatientService {
     userId: number,
     medicId: number,
     isMedicAuthorized: boolean,
-    isFutureRequestBlocked: boolean
+    isFutureRequestBlocked: boolean,
+    isRequestSent: boolean
   ) {
     var medicPermission = {
       user_id: userId,
       medic_id: medicId,
       is_medic_authorized: isMedicAuthorized,
       is_future_request_blocked: isFutureRequestBlocked,
+      is_request_sent: isRequestSent,
     };
 
     return this.httpUtilService.invoke(

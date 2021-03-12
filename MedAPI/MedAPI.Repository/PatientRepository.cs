@@ -141,18 +141,19 @@ namespace MedAPI.Repository
                         efPatients = new DataAccess.patient();
                         context.patients.Add(efPatients);
 
-                        foreach (var medic in context.medics)
-                        {
-                            context.patient_medic_permissions.Add(new DataAccess.patient_medic_permission
-                            {
-                                medic_id = medic.id,
-                                patient_id = mPatient.id,
-                                is_medic_authorized = false,
-                                is_future_request_blocked = false
+                        //foreach (var medic in context.medics)
+                        //{
+                        //    context.patient_medic_permissions.Add(new DataAccess.patient_medic_permission
+                        //    {
+                        //        medic_id = medic.id,
+                        //        patient_id = mPatient.id,
+                        //        is_medic_authorized = false,
+                        //        is_future_request_blocked = false,
+                        //        is_request_sent = false
 
-                            });
+                        //    });
 
-                        }
+                        //}
                     }
                     efPatients.id = mPatient.id;
                     efPatients.user_id = mPatient.userId;
@@ -240,7 +241,8 @@ namespace MedAPI.Repository
                                                        patient_id = y.patient_id,
                                                        medic_id = y.medic_id,
                                                        is_medic_authorized = y.is_medic_authorized,
-                                                       is_future_request_blocked = y.is_future_request_blocked
+                                                       is_future_request_blocked = y.is_future_request_blocked,
+                                                       is_request_sent = y.is_future_request_blocked
                                                    }).ToList()),
                         allergiesList = ((from y in context.patient_allergies
                                           where y.patient_id == patientFromRepo.id && y.isDeleted == false
@@ -558,12 +560,15 @@ namespace MedAPI.Repository
             using (var context = new DataAccess.registroclinicoEntities())
             {
                 var medicPermission = context.patient_medic_permissions.FirstOrDefault(s => s.patient_id == id);
-                return new PatientMedicPermission
+                return medicPermission == null ?  new PatientMedicPermission() :
+
+                 new PatientMedicPermission
                 {
                     medic_id = medicPermission.medic_id,
                     patient_id = medicPermission.patient_id,
                     is_medic_authorized = medicPermission.is_medic_authorized,
                     is_future_request_blocked = medicPermission.is_future_request_blocked,
+                    is_request_sent= medicPermission.is_request_sent,
                     medic = new Medic
                     {
 
@@ -614,7 +619,7 @@ namespace MedAPI.Repository
             using (var context = new DataAccess.registroclinicoEntities())
             {
                 var patient = context.patients.FirstOrDefault(s => s.user_id == userId);
-                var permissions = context.patient_medic_permissions.Include("medic").Where(s => s.patient_id == patient.id).ToList();
+                var permissions = context.patient_medic_permissions.Include("medic").Where(s => s.patient_id == patient.id ).ToList();
 
                 List<PatientMedicPermission> convertedPermissions = new List<PatientMedicPermission>();
                 try
@@ -628,6 +633,7 @@ namespace MedAPI.Repository
                             patient_id = patient.id,
                             is_medic_authorized = medicPermission.is_medic_authorized,
                             is_future_request_blocked = medicPermission.is_future_request_blocked,
+                            is_request_sent = medicPermission.is_request_sent,
                             medic = new Medic
                             {
 
@@ -682,59 +688,6 @@ namespace MedAPI.Repository
                     throw ex;
                 }
                 
-
-                //List<Medic> medics = new List<Medic>();
-                //foreach (var item in permissions)
-                //{
-                //    var x = context.medics.FirstOrDefault(s => s.id == item.medic_id);
-                //    medics.Add( new Medic
-                //    {
-                //        id = x.id,
-                //        cmp = x.cmp,
-                //        rne = x.rne,
-                //        IsApproved = x.IsApproved,
-                //        IsFreezed = x.IsFreezed,
-                //        user = new User
-                //        {
-
-                //            id = x.user.id,
-                //            address = x.user.address,
-                //            birthday = x.user.birthday,
-                //            cellphone = x.user.cellphone,
-                //            countryId = x.user.country_id,
-                //            deleted = x.user.deleted,
-                //            createdBy = x.user.createdBy,
-                //            createdDate = x.user.createdDate,
-                //            districtId = x.user.district_id,
-                //            departmentId = x.user.department_id,
-                //            provinceId = x.user.province_id,
-                //            documentNumber = x.user.documentNumber,
-                //            documentType = x.user.documentType,
-                //            email = x.user.email,
-                //            firstName = x.user.firstName,
-                //            lastNameFather = x.user.lastNameFather,
-                //            lastNameMother = x.user.lastNameMother,
-                //            maritalStatus = x.user.maritalStatus,
-                //            modifiedBy = x.user.modifiedBy,
-                //            modifiedDate = x.user.modifiedDate,
-                //            organDonor = x.user.organDonor,
-                //            phone = x.user.phone,
-                //            roleId = x.user.role_id,
-                //            since = x.user.since,
-                //            passwordHash = x.user.password_hash,
-                //            role = new Role
-                //            {
-                //                id = x.user.role.id,
-                //                name = x.user.role.name,
-                //                description = x.user.role.description
-                //            },
-
-                //            sex = x.user.sex
-
-                //        }
-                //    });
-                //}
-
             }
 
         }
@@ -750,24 +703,62 @@ namespace MedAPI.Repository
                 var isRequestExist = context.patient_medic_permissions.FirstOrDefault(s => s.patient_id == patient.id && s.medic_id == medicPermission.medic_id);
                 bool isMedicAuthrized = medicPermission.is_medic_authorized;
                 bool isMedicAuthrizedAndFutureRequests = medicPermission.is_future_request_blocked;
+                bool isRequestSent = medicPermission.is_request_sent;
 
-                if(isRequestExist == null)
+                if (isRequestExist == null)
                 {
                     context.patient_medic_permissions.Add(new patient_medic_permission  
                     {
                         medic_id = medicPermission.medic_id,
                         patient_id = patient.id,
                         is_medic_authorized = medicPermission.is_medic_authorized,
-                        is_future_request_blocked = medicPermission.is_future_request_blocked
+                        is_future_request_blocked = medicPermission.is_future_request_blocked,
+                        is_request_sent = medicPermission.is_request_sent,
                     });
                 }
                 else
                 {
                     isRequestExist.is_medic_authorized = isMedicAuthrized;
                     isRequestExist.is_future_request_blocked = isMedicAuthrizedAndFutureRequests;
+                    isRequestExist.is_request_sent = isRequestSent;
                 }
 
                 return context.SaveChanges() > 0 ;
+            }
+        }
+
+        public void InsertOrChangePermissionRequest(long userId, int medicId)
+        {
+            using (var context = new DataAccess.registroclinicoEntities())
+            {
+                var patient = context.patients.FirstOrDefault(s => s.user_id == userId);
+                var permissions = context.patient_medic_permissions.Include("medic").Where(s => s.patient_id == patient.id && s.medic_id == medicId).FirstOrDefault();
+
+                try
+                { 
+                    if(permissions == null)
+                    {
+                           context.patient_medic_permissions.Add(new DataAccess.patient_medic_permission
+                            {
+                                medic_id = medicId,
+                                patient_id = patient.id,
+                                is_medic_authorized = false,
+                                is_future_request_blocked = false,
+                                is_request_sent = false
+
+                            });
+
+                        context.SaveChanges();
+                    }
+                }
+                catch (Exception ex)
+
+                {
+                    throw ex;
+                }
+
+
+
             }
         }
     }

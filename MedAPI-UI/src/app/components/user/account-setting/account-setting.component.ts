@@ -45,6 +45,8 @@ export class AccountSettingComponent implements OnInit {
   changeMedicAccess(medicId: number, action: string) {
     var isMedicAuthorized = false;
     var isFutureRequestBlocked = false;
+    var isRequestSent = true;
+
     switch (action) {
       case 'approve': {
         isMedicAuthorized = true;
@@ -71,7 +73,8 @@ export class AccountSettingComponent implements OnInit {
         this.currentUserId,
         medicId,
         isMedicAuthorized,
-        isFutureRequestBlocked
+        isFutureRequestBlocked,
+        isRequestSent
       )
       .then((response: any) => {
         this.medicRequests = response.permissions;

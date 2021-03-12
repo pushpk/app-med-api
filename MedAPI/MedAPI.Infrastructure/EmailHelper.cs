@@ -15,7 +15,8 @@ namespace MedAPI.Infrastructure
             ApproveAccount,
             DenyAccount,
             PatientNotification,
-            PatientDataAccessRequest
+            PatientDataAccessRequest,
+            PatientDataAccessRequestApproved
         }
     }
 }

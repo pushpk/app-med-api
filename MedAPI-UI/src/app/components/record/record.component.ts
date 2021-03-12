@@ -978,15 +978,14 @@ export class RecordComponent implements OnInit, OnDestroy {
         this.patient.lastnameFather = patientDetails.user.lastNameFather;
         this.patient.lastnameMother = patientDetails.user.lastNameMother;
 
-        if (
-          role === 'medic' &&
-          data.patient.patientMedicPermission &&
-          medAuthData
-        ) {
-          this.isMedicAuthorized = !!data.patient.patientMedicPermission[0]
-            .is_medic_authorized;
-          this.isMedicBlockedForFurtherRequest = !!data.patient
-            .patientMedicPermission[0].is_future_request_blocked;
+        if (role === 'medic') {
+          var permission = data.patient.patientMedicPermission[0];
+          this.isMedicAuthorized = permission
+            ? !!permission.is_medic_authorized
+            : false;
+          this.isMedicBlockedForFurtherRequest = permission
+            ? !!permission.is_future_request_blocked
+            : false;
           return;
         }
 
@@ -1246,7 +1245,7 @@ export class RecordComponent implements OnInit, OnDestroy {
     let currentMedicId = +localStorage.getItem('loggedInID');
     console.log(this.patient);
     this.recordService
-      .requestAccess(this.patient.userId)
+      .requestAccess(this.patient.userId, currentMedicId)
       .then(() => {
         this.toastr.success('Sent Request Access Successfully!');
       })

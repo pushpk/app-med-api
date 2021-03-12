@@ -14,8 +14,6 @@ namespace MedAPI.Domain
             public bool is_medic_authorized { get; set; }
             public bool is_future_request_blocked { get; set; }
         public  Domain.Medic medic { get; set; }
-
-
-
+        public bool is_request_sent { get; set; }
     }
 }

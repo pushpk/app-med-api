@@ -30,5 +30,6 @@ namespace MedAPI.Infrastructure.IRepository
         
         bool ChangeMedicAccess(PatientMedicPermission medicPermission);
         List<PatientMedicPermission> getPermissionRequests(long userId);
+        void InsertOrChangePermissionRequest(long userId, int medicId);
     }
 }

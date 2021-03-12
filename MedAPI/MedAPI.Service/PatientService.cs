@@ -109,6 +109,12 @@ namespace MedAPI.Service
         {
             return patientRepository.checkMedicAccessForPatientData(id);        }
 
+
+        public void InsertOrChangePermissionRequest(long userId, int medicId)
+        {
+             patientRepository.InsertOrChangePermissionRequest(userId, medicId);
+        }
+
         public List<PatientMedicPermission> getPermissionRequests(long userId)
         {
             return patientRepository.getPermissionRequests(userId);

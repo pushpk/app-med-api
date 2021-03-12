@@ -146,13 +146,24 @@ export class RecordService {
     return self.httpUtilService.invokeQuery('GET', params, apiEndpoint);
   }
 
-  requestAccess(userId: number) {
+  requestAccess(userId: number, medicId: number) {
     const self = this;
     const apiEndpoint = 'users/RequestAccess';
     const params1 = {
       key: 'userId',
       value: userId,
     };
-    return self.httpUtilService.invokeQuery('GET', params1, apiEndpoint);
+
+    const params2 = {
+      key: 'medicId',
+      value: medicId,
+    };
+
+    return self.httpUtilService.invokeQueryWithTwoParams(
+      'GET',
+      params1,
+      params2,
+      apiEndpoint
+    );
   }
 }
