@@ -26,8 +26,6 @@ namespace MedAPI
             var myProvider = new AuthorizationServerProvider();
             OAuthAuthorizationServerOptions options = new OAuthAuthorizationServerOptions
             {
-                
-
                 AllowInsecureHttp = true,
                 TokenEndpointPath = new PathString("/token"),
                 AccessTokenExpireTimeSpan = TimeSpan.FromDays(1),

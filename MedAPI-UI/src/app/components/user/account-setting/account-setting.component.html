@@ -9,7 +9,7 @@
         </mat-tab>
         <mat-tab label="Account"> Content 2 </mat-tab>
         <mat-tab label="Data Access Requests" id="dataAccess">
-          <mat-table [dataSource]="this.medicRequests">
+          <mat-table [dataSource]="this.medicRequestsDataSource">
             <!-- Position Column -->
             <ng-container matColumnDef="medic.user.firstName">
               <mat-header-cell *matHeaderCellDef>
@@ -108,8 +108,13 @@
             ></mat-header-row>
             <mat-row
               *matRowDef="let row; columns: displayedColumnsUpload"
-            ></mat-row> </mat-table
-        ></mat-tab>
+            ></mat-row>
+          </mat-table>
+          <mat-paginator
+            [pageSizeOptions]="[5, 10, 20]"
+            showFirstLastButtons
+          ></mat-paginator>
+        </mat-tab>
       </mat-tab-group> </mat-card-content
   ></mat-card>
 </div>

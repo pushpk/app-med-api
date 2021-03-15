@@ -26,8 +26,6 @@ namespace MedAPI.Infrastructure.Security
 
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
-         
-
             using (var dbContext = new registroclinicoEntities())
             {
                 var user = dbContext.users.FirstOrDefault(x => x.email == context.UserName && x.deleted == false);
