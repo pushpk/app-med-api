@@ -228,6 +228,7 @@
     </Content>
     <Content Include="SQL-Scripts\02-2021\1.0_Increasing_width_of_race.sql" />
     <Content Include="SQL-Scripts\02-2021\2.0_update_phone_with_cellphone.sql" />
+    <Content Include="SQL-Scripts\02-2021\3.0_add_new_table_medic_client_permission.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

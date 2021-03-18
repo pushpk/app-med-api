@@ -4,8 +4,9 @@ Begin Transaction
 Create table [registroclinico].patient_medic_permission(
 patient_id bigint NOT NULL,
 medic_id bigint NOT NULL,
-permission bit NOT NULL,
+is_medic_authorized bit NOT NULL,
 is_future_request_blocked bit NOT NULL,
+is_request_sent bit NOT NULL,
 
 )
 GO
@@ -14,7 +15,10 @@ ALTER TABLE [registroclinico].[patient_medic_permission]
     ADD CONSTRAINT pk_patient_medic PRIMARY KEY (patient_id,medic_id)
 GO
 
-ALTER TABLE [registroclinico].[patient_medic_permission] ADD  DEFAULT 0 FOR [permission]
+ALTER TABLE [registroclinico].[patient_medic_permission] ADD  DEFAULT 0 FOR [is_medic_authorized]
+GO
+
+ALTER TABLE [registroclinico].[patient_medic_permission] ADD  DEFAULT 0 FOR [is_request_sent]
 GO
 
 

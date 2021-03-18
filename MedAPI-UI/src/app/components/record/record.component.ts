@@ -986,7 +986,10 @@ export class RecordComponent implements OnInit, OnDestroy {
           this.isMedicBlockedForFurtherRequest = permission
             ? !!permission.is_future_request_blocked
             : false;
-          return;
+
+          if (!this.isMedicAuthorized) {
+            return;
+          }
         }
 
         this.patient.documentType = patientDetails.user.documentType;

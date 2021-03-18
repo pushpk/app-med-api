@@ -27,6 +27,7 @@ export class AccountSettingComponent implements OnInit, AfterViewInit {
     'action3',
   ];
   currentUserId: number;
+  role: string;
 
   constructor(
     private patientService: PatientService,
@@ -34,6 +35,7 @@ export class AccountSettingComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit(): void {
+    this.role = localStorage.getItem('role');
     this.currentUserId = +localStorage.getItem('loggedInID');
     this.patientService
       .getMedicAccessPermissions(this.currentUserId)

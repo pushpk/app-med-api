@@ -11,7 +11,7 @@
         name="patientEmail"
         matInput
         #patientEmail="ngModel"
-        [disabled]="isEditable"
+        [disabled]="isEditable || userRole != 'patient'"
         [(ngModel)]="patient.email"
         maxlength="250"
         required

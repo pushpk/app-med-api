@@ -25,6 +25,7 @@ export class CreatePatientComponent implements OnInit {
     waiting: false,
     success: false,
   };
+  userRole: string;
   constructor(
     public route: ActivatedRoute,
     public router: Router,
@@ -55,6 +56,7 @@ export class CreatePatientComponent implements OnInit {
         ? true
         : false;
 
+    this.userRole = localStorage.getItem('role');
     this.tabs = [
       {
         title: 'Información General',

@@ -7,8 +7,11 @@
             <app-password-reset></app-password-reset>
           </div>
         </mat-tab>
-        <mat-tab label="Account"> Content 2 </mat-tab>
-        <mat-tab label="Data Access Requests" id="dataAccess">
+        <mat-tab
+          label="Data Access Requests"
+          id="dataAccess"
+          *ngIf="this.role == 'patient'"
+        >
           <mat-table [dataSource]="this.medicRequestsDataSource">
             <!-- Position Column -->
             <ng-container matColumnDef="medic.user.firstName">
