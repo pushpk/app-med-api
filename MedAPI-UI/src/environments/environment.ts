@@ -5,10 +5,11 @@
 export const environment = {
   production: false,
   // apiUrl:'https://medapi-test.azurewebsites.net/',
-  apiUrl: 'http://localhost/MedAPI/api/',
-  // apiUrl: 'http://127.0.0.1:8080/',
+  // apiUrl: 'http://localhost/MedAPI/api/',
+  apiUrl: 'http://localhost:8080/api/',
 
-  loginUrl: 'http://localhost/MedAPI/',
+  //loginUrl: 'http://localhost/MedAPI/',
+  loginUrl: 'http://localhost:8080/',
   userInfo_LocalStoreKey: 'userData',
 };
 
