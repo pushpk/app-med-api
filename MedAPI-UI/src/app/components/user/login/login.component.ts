@@ -5,7 +5,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserAuthService } from '../../../auth/user-auth.service';
 import { RecordService } from '../../record/services/record.service';
 import { UserService } from '../user.service';
@@ -25,7 +25,8 @@ export class LoginComponent implements OnInit {
     public router: Router,
     private recordService: RecordService,
     public userService: UserService,
-    private userAuthService: UserAuthService
+    private userAuthService: UserAuthService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
@@ -70,12 +71,18 @@ export class LoginComponent implements OnInit {
 
         localStorage.setItem('loggedInID', response.id);
 
-        // console.log(response.role);
+        const returnUrl = this.route.snapshot.queryParams.returnUrl;
+
         if (response['role'] === 4) {
           localStorage.setItem('role', 'patient');
-          var rt = '/records/' + response.docNumber;
+          if (returnUrl){
+            this.router.navigateByUrl(returnUrl);
+          }
+          else{
+            var rt = '/records/' + response.docNumber;
+            this.router.navigateByUrl(rt);
+          }
 
-          this.router.navigateByUrl(rt);
         } else if (response['role'] === 5) {
           if (!response['IsApproved']) {
             localStorage.clear();
@@ -85,7 +92,10 @@ export class LoginComponent implements OnInit {
             localStorage.clear();
             localStorage.setItem('reason', 'freezed');
             this.router.navigateByUrl('/no-access');
-          } else {
+          } else if (returnUrl){
+            this.router.navigateByUrl(returnUrl);
+          }
+          else {
             localStorage.setItem('role', 'lab');
             this.router.navigateByUrl('/records');
           }
@@ -104,7 +114,10 @@ export class LoginComponent implements OnInit {
               localStorage.clear();
               localStorage.setItem('reason', 'freezed');
               this.router.navigateByUrl('/no-access');
-            } else {
+            } else if (returnUrl){
+              this.router.navigateByUrl(returnUrl);
+            }
+            else {
               this.router.navigateByUrl('/records');
             }
           }

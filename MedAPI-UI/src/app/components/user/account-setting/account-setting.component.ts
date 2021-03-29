@@ -19,9 +19,9 @@ export class AccountSettingComponent implements OnInit, AfterViewInit {
   medicRequestsDataSource = new MatTableDataSource<Permissions>([]);
 
   displayedColumnsUpload: string[] = [
-    'medic.user.firstName',
-    'medic.rne',
-    'medic.cmp',
+    'name',
+    'cmp',
+    'rne',
     'action',
     'action2',
     'action3',
@@ -88,10 +88,10 @@ export class AccountSettingComponent implements OnInit, AfterViewInit {
       )
       .then((response: any) => {
         this.medicRequests = response.permissions;
-        this.toastr.success('Success!');
+        this.toastr.success('Respuesta enviada');
       })
       .catch((error: any) => {
-        this.toastr.success('Failed!');
+        this.toastr.error('Ocurrió un error');
         console.log(error);
       });
   }

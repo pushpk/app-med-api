@@ -341,6 +341,7 @@ namespace MedAPI.Controllers
         public HttpResponseMessage RequestPatientAccess(int userId, int medicId)
         {
             var user = this.userService.GetUserById(userId);
+            var medic = this.userService.GetUserById(medicId);
             
             HttpResponseMessage response = null;
             try
@@ -348,9 +349,9 @@ namespace MedAPI.Controllers
                 patientService.InsertOrChangePermissionRequest(userId, medicId);
                 var accountSettingPage = Infrastructure.SecurityHelper.GetAccountSettingLink(Request);
                 var emailBody = emailService.GetEmailBody(EmailPurpose.PatientDataAccessRequest, accountSettingPage);
-                emailService.SendEmailAsync(user.email, "Solicitud de acceso a datos - SolidarityMedical", emailBody, accountSettingPage);
+                emailService.SendEmailAsync(user.email, "Solicitud de acceso a datos - SolidarityMedical", emailBody, accountSettingPage, medic.firstName + " " + medic.lastNameFather + " " + medic.lastNameMother);
                 response = Request.CreateResponse(HttpStatusCode.OK);
-
+                //string email, string subject, string body, string link = null, string name = null, string dni = null
             }
             catch (Exception ex)
             {
@@ -385,9 +386,22 @@ namespace MedAPI.Controllers
             {
                 patientService.ChangeMedicAccess(medicPermission);
                 var permissions = patientService.getPermissionRequests(medicPermission.user_id);
-                
-                var emailBody = emailService.GetEmailBody(EmailPurpose.PatientDataAccessRequestApproved);
-                emailService.SendEmailAsync(permissions.FirstOrDefault(s => s.medic_id == medicPermission.medic_id).medic.user.email, "Solicitud de datos del paciente aprobada - SolidarityMedical", emailBody);
+                var medic = permissions.FirstOrDefault(s => s.medic_id == medicPermission.medic_id).medic.user;
+                var patient = userService.GetUserById(medicPermission.user_id);
+
+                string emailBody;
+
+                if (medicPermission.is_medic_authorized == true)
+                {
+                    emailBody = emailService.GetEmailBody(EmailPurpose.PatientDataAccessRequestApproved);
+                    emailService.SendEmailAsync(medic.email, "Solicitud de datos del paciente aprobada - SolidarityMedical", emailBody, null, patient.firstName + " " + patient.lastNameFather + " " + patient.lastNameMother, patient.documentNumber);
+                }
+                else
+                {
+                    emailBody = emailService.GetEmailBody(EmailPurpose.PatientDataAccessRequestRejected);
+                    emailService.SendEmailAsync(medic.email, "Solicitud de datos del paciente rechazada - SolidarityMedical", emailBody, null, patient.firstName + " " + patient.lastNameFather + " " + patient.lastNameMother);
+                }
+
                 response = Request.CreateResponse(HttpStatusCode.OK, new { permissions = permissions });
             }
             catch (Exception ex)

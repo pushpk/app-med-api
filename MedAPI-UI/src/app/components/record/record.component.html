@@ -79,9 +79,13 @@
           <div fxLayoutAlign="left center" fxFlex="15" fxFlex.md="20" fxFlex.sm="25" fxFlex.xs="32">
           </div>
           <div fxLayoutAlign="left center" fxFlex="70" fxFlex.md="65" fxFlex.sm="60" fxFlex.xs="53">
-            <h3 style="margin-left:0">
+            <h3 *ngIf="!this.isMedicBlockedForFurtherRequest" style="margin-left:0">
               El acceso a los datos clínicos de este paciente esta restringido. Haga click en 
               'Solicitar Acceso' para notificar al paciente via email y pedir acceso ilimitado.
+            </h3>
+            <h3 *ngIf="this.isMedicBlockedForFurtherRequest" style="margin-left:0">
+              El acceso a los datos clínicos de este paciente esta restringido. Comuníquese con el
+              paciente para que le otorge acceso.
             </h3>
           </div>
           <div fxLayoutAlign="end center" fxFlex>

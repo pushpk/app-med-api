@@ -1,5 +1,8 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { UserAuthService } from 'src/app/auth/user-auth.service';
+import { UserService } from 'src/app/components/user/user.service';
 
 @Component({
   selector: 'app-idle-logout',
@@ -10,7 +13,8 @@ export class IdleLogoutComponent implements OnInit, OnDestroy {
   timeLeft: number = 120;
   interval: any;
 
-  constructor(public dialogRef: MatDialogRef<IdleLogoutComponent>,
+  constructor(public dialogRef: MatDialogRef<IdleLogoutComponent>, private userService: UserService,
+    private userAuthService: UserAuthService, private router: Router,
     @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnDestroy(): void {
@@ -26,12 +30,20 @@ export class IdleLogoutComponent implements OnInit, OnDestroy {
     this.dialogRef.close({
       logout: true,
     });
+    this.userAuthService.clear();
+    this.router.navigateByUrl('/login');
+    this.userService.setInactivityAlert(true);
+    this.userService.resetTimer();
+    this.userService.stopTimer();
   }
 
   answer() {
     this.dialogRef.close({
-      logout: false,
+      logout: true,
     });
+    this.userService.setInactivityAlert(false);
+    this.userService.resetTimer();
+    this.userService.stopTimer();
   }
 
   startTimer() {

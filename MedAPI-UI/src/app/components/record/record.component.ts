@@ -578,8 +578,6 @@ export class RecordComponent implements OnInit, OnDestroy {
       .then((response: any) => {
         this.setPatientDetails(response);
 
-        console.log(self.patient);
-
         if (
           typeof self.patient.notes !== 'undefined' &&
           self.patient.notes !== null
