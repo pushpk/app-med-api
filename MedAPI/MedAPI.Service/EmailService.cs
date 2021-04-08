@@ -34,14 +34,18 @@ namespace MedAPI.Service
                     return "d-d550a39a2dbe4fc8abba4c8bf4de426b";
                 case EmailPurpose.PatientDataAccessRequest:
                     //return $"Estimado cliente,<br /><br />Lamentamos avisarle que su aplicación no ha sido aceptada por nuestros administradores. Si desea refutar esta decisión o proveer alguna información adicional, por favor contáctenos a admin@solidaritymedical.net";
-                    return "d-d550a39a2dbe4fc8abba4c8bf4de426b";
+                    return "d-b26c18216ea54dbb99244ec99ee40d6d";
+                case EmailPurpose.PatientDataAccessRequestApproved:
+                    return "d-d516d466eef740389cebe7ce2616e128";
+                case EmailPurpose.PatientDataAccessRequestRejected:
+                    return "d-8463041353d04963a4787c9a7f6544f5";
                 default:
                     return string.Empty;
             }
         }
 
        
-        public async Task SendEmailAsync(string email, string subject, string body, string link=null)
+        public async Task SendEmailAsync(string email, string subject, string body, string link=null, string name=null, string dni=null)
         {
             //SmtpServer.Host = ConfigurationManager.AppSettings.Get("HOST");
             //mail.From = new MailAddress(ConfigurationManager.AppSettings.Get("FROM"));
@@ -65,6 +69,9 @@ namespace MedAPI.Service
             };
             msg.SetTemplateData(new {
                 Link = link,
+                DoctorName = name,
+                PatientName = name,
+                PatientDni = dni
                 //Group_ID = 147677
                 //Sender_Name = "SolidarityMedical",
                 //Sender_Address = "4301 McQueen Dr.",

@@ -16,6 +16,7 @@ export class UserService {
   isLoggedIn = false;
   timer: any;
   showInactivityAlert = false;
+  dialogRef: any;
 
   constructor(
     private httpUtilService: HttpUtilService,
@@ -57,9 +58,12 @@ export class UserService {
               }) => {
                 this.timer = this.bnIdle
                   .startWatching(1200)
+                  //.startWatching(60)
                   .subscribe((isTimedOut: boolean) => {
                     // console.log(isTimedOut);
                     if (isTimedOut) {
+                      this.bnIdle.stopTimer();
+                      this.bnIdle.resetTimer();
                       this.showIdleTimer();
                     }
                   });
@@ -120,31 +124,45 @@ export class UserService {
     const self = this;
 
     if (this.timer) {
+      this.bnIdle.resetTimer();
       this.bnIdle.stopTimer();
       this.timer.unsubscribe();
+      this.timer = null;
+      this.setInactivityAlert(false);
     }
   }
 
+  stopTimer() {
+    this.bnIdle.stopTimer();
+  }
+
+  resetTimer() {
+    this.bnIdle.resetTimer();
+  }
+
+  setInactivityAlert(value: boolean): any{
+    this.showInactivityAlert = value;
+  }
+
   showIdleTimer() {
-    let dialogRef = this.dialog.open(IdleLogoutComponent, {
+    if (this.dialogRef){
+      return;
+    }
+
+    this.dialogRef = this.dialog.open(IdleLogoutComponent, {
       panelClass: 'custom-dialog',
       data: {},
       autoFocus: false,
       maxWidth: '120vh',
     });
-    dialogRef.afterClosed().subscribe((response: any) => {
+    this.dialogRef.afterClosed().subscribe((response: any) => {
+      this.dialogRef = null;
       if (response !== undefined && response.logout === false) {
         this.showInactivityAlert = false;
-        this.bnIdle.stopTimer();
-        this.bnIdle.resetTimer();
       } else {
-        this.bnIdle.stopTimer();
         this.timer.unsubscribe();
-        this.showInactivityAlert = true;
-        this.logout();
-        this.userAuthService.clear();
-        this.router.navigateByUrl('/login');
-        console.log('session expired');
+        // this.timer.unsubscribe();
+        // this.logout();
       }
     });
   }

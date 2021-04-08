@@ -578,8 +578,6 @@ export class RecordComponent implements OnInit, OnDestroy {
       .then((response: any) => {
         this.setPatientDetails(response);
 
-        console.log(self.patient);
-
         if (
           typeof self.patient.notes !== 'undefined' &&
           self.patient.notes !== null
@@ -1250,10 +1248,10 @@ export class RecordComponent implements OnInit, OnDestroy {
     this.recordService
       .requestAccess(this.patient.userId, currentMedicId)
       .then(() => {
-        this.toastr.success('Sent Request Access Successfully!');
+        this.toastr.success('Solicitud de acesso enviada');
       })
       .catch(() => {
-        this.toastr.error('Something went wrong!');
+        this.toastr.error('Hubo un error. Por favor intente nuevamente');
       });
   }
 }

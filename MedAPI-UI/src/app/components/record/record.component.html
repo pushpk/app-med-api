@@ -75,20 +75,31 @@
             </div>
           </div>
         </mat-card-content>
-        <mat-card-actions fxLayout="row" fxLayoutAlign="end center">
-          <h3 style="margin: 0 !important">
-            Envíe un correo electrónico al paciente haciendo clic en 'Solicitar
-            acceso' para obtener acceso a los datos del paciente
-          </h3>
-          <button
-            mat-button
-            color="primary"
-            type="button"
-            (click)="requestAccess()"
-            *ngIf="!this.isMedicBlockedForFurtherRequest"
-          >
-            Solicitar acceso
-          </button>
+        <mat-card-actions fxLayout="row">
+          <div fxLayoutAlign="left center" fxFlex="15" fxFlex.md="20" fxFlex.sm="25" fxFlex.xs="32">
+          </div>
+          <div fxLayoutAlign="left center" fxFlex="70" fxFlex.md="65" fxFlex.sm="60" fxFlex.xs="53">
+            <h3 *ngIf="!this.isMedicBlockedForFurtherRequest" style="margin-left:0">
+              El acceso a los datos clínicos de este paciente esta restringido. Haga click en 
+              'Solicitar Acceso' para notificar al paciente via email y pedir acceso ilimitado.
+            </h3>
+            <h3 *ngIf="this.isMedicBlockedForFurtherRequest" style="margin-left:0">
+              El acceso a los datos clínicos de este paciente esta restringido. Comuníquese con el
+              paciente para que le otorge acceso.
+            </h3>
+          </div>
+          <div fxLayoutAlign="end center" fxFlex>
+              <button
+              mat-button
+              style="margin-right:10px;"
+              color="primary"
+              type="button"
+              (click)="requestAccess()"
+              *ngIf="!this.isMedicBlockedForFurtherRequest"
+            >
+              Solicitar acceso
+            </button>
+          </div>
         </mat-card-actions>
       </mat-card>
     </div>

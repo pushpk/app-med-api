@@ -2,19 +2,14 @@
   <mat-card class="no-pad">
     <mat-card-content>
       <mat-tab-group>
-        <mat-tab label="Change Password">
-          <div style="padding: 2%">
-            <app-password-reset></app-password-reset>
-          </div>
-        </mat-tab>
         <mat-tab
-          label="Data Access Requests"
+          label="Solicitudes de Acceso"
           id="dataAccess"
           *ngIf="this.role == 'patient'"
         >
           <mat-table [dataSource]="this.medicRequestsDataSource">
             <!-- Position Column -->
-            <ng-container matColumnDef="medic.user.firstName">
+            <ng-container matColumnDef="name">
               <mat-header-cell *matHeaderCellDef>
                 <div style="display: block">
                   <div style="display: flex">
@@ -26,14 +21,28 @@
                 {{
                   element.medic.user.firstName +
                     " " +
-                    element.medic.user.lastNameMother +
+                    element.medic.user.lastNameFather + 
                     " " +
-                    element.medic.user.lastNameFather
+                    element.medic.user.lastNameMother
+
                 }}
               </mat-cell>
             </ng-container>
 
-            <ng-container matColumnDef="medic.rne">
+            <ng-container matColumnDef="cmp">
+              <mat-header-cell *matHeaderCellDef>
+                <div style="display: block">
+                  <div style="display: flex">
+                    <span>CMP</span>
+                  </div>
+                </div>
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                {{ element.medic.cmp }}
+              </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="rne">
               <mat-header-cell *matHeaderCellDef>
                 <div style="display: block">
                   <div style="display: flex">
@@ -46,18 +55,6 @@
               </mat-cell>
             </ng-container>
 
-            <ng-container matColumnDef="medic.cmp">
-              <mat-header-cell *matHeaderCellDef>
-                <div style="display: block">
-                  <div style="display: flex">
-                    <span>CMP</span>
-                  </div>
-                </div>
-              </mat-header-cell>
-              <mat-cell *matCellDef="let element">
-                {{ element.medic.cmp }}
-              </mat-cell>
-            </ng-container>
 
             <ng-container matColumnDef="action">
               <mat-header-cell *matHeaderCellDef> </mat-header-cell>
@@ -101,7 +98,7 @@
                   "
                   [disabled]="element.is_future_request_blocked"
                 >
-                  Denegar y bloquear
+                  Negar y bloquear
                 </button>
               </mat-cell>
             </ng-container>
@@ -117,6 +114,11 @@
             [pageSizeOptions]="[5, 10, 20]"
             showFirstLastButtons
           ></mat-paginator>
+        </mat-tab>
+        <mat-tab label="Cambiar Contraseña">
+          <div style="padding: 2%">
+            <app-password-reset></app-password-reset>
+          </div>
         </mat-tab>
       </mat-tab-group> </mat-card-content
   ></mat-card>

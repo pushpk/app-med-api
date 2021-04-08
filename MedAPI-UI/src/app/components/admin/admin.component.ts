@@ -104,9 +104,11 @@ export class AdminComponent implements OnInit {
         console.log(error);
       });
 
-    this.adminService.getActiveUserCounts().then((response) => {
-      this.userCounts = response;
-    });
+      this.userCounts = this.adminService.getActiveUserCounts();
+
+    // this.adminService.getActiveUserCounts().then((response) => {
+    //   this.userCounts = response;
+    // });
   }
 
   ngAfterViewInit() {
