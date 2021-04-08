@@ -47,4 +47,5 @@ Thumbs.db
 
 # Config Files
 MedAPI/MedAPI/Web.config
+*.config
 
