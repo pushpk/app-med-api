@@ -263,4 +263,6 @@ MedAPI/MedAPI/Web.Release.config
 MedAPI/MedAPI/Web.Developmnet.config
 MedAPI/MedAPI/Web.config
 MedAPI/MedAPI/Web.Debug.config
+Web.config
+*.config
 
