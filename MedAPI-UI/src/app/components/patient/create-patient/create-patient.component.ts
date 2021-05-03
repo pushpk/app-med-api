@@ -89,6 +89,7 @@ export class CreatePatientComponent implements OnInit {
         this.patient.passwordHash = val;
       });
       const patientDetails = JSON.parse(patientData);
+
       this.patient = patientDetails;
     }
   }
@@ -114,6 +115,12 @@ export class CreatePatientComponent implements OnInit {
     console.log(this.patient);
 
     this.patient.IsEdit = true;
+    this.patient.birthday =
+      this.patient.monthOfBirth +
+      '/' +
+      this.patient.dayOfBirth +
+      '/' +
+      +this.patient.yearOfBirth;
     this.patientService
       .save(this.patient, currentUserEmail)
       .then((response: any) => {

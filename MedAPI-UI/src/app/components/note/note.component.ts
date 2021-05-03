@@ -1,28 +1,28 @@
-import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { NoteService } from './services/note.service';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, NgForm } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { RecordService } from '../record/services/record.service';
-import { CheckEmptyUtil } from '../../shared/util/check-empty.util';
-import {
-  CardiovascularFraminghamIndicator,
-  CardiovascularRiskReynoldsIndicator,
-  HypertensionIndicator,
-  DiabetesIndicator,
-  FractureIndicator,
-  CardiovascularAgeIndicator,
-} from './indicators/indicators';
 import { MatDialog } from '@angular/material/dialog';
-// import { DialogDiagnosisComponent } from './dialog-diagnosis/dialog-diagnosis.component';
-import { ResourcesService } from '../../services/resources.service';
+import { ActivatedRoute, Router } from '@angular/router';
 // import { catchError } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
-import { Patient } from '../../models/patient.model';
-import { NoteDetail } from '../../models/noteDetail.model';
-import { FormTriageComponent } from '../note/form-triage/form-triage.component';
-import { DialogCloseAttentionComponent } from './dialog-close-attention/dialog-close-attention.component';
 import { BehaviorSubject } from 'rxjs';
 import { FormCanDeactivate } from 'src/app/auth/form-can-deactivate';
+import { NoteDetail } from '../../models/noteDetail.model';
+import { Patient } from '../../models/patient.model';
+// import { DialogDiagnosisComponent } from './dialog-diagnosis/dialog-diagnosis.component';
+import { ResourcesService } from '../../services/resources.service';
+import { CheckEmptyUtil } from '../../shared/util/check-empty.util';
+import { FormTriageComponent } from '../note/form-triage/form-triage.component';
+import { RecordService } from '../record/services/record.service';
+import { DialogCloseAttentionComponent } from './dialog-close-attention/dialog-close-attention.component';
+import {
+  CardiovascularAgeIndicator,
+  CardiovascularFraminghamIndicator,
+  CardiovascularRiskReynoldsIndicator,
+  DiabetesIndicator,
+  FractureIndicator,
+  HypertensionIndicator,
+} from './indicators/indicators';
+import { NoteService } from './services/note.service';
 
 @Component({
   selector: 'app-note',
@@ -264,65 +264,6 @@ export class NoteComponent extends FormCanDeactivate implements OnInit {
       const patientDetails = JSON.parse(patientData);
       this.patient = patientDetails;
     }
-    //  console.log(patientDetails, 'patientDetails');
-    //  this.patient.id = patientDetails.id;
-    //  this.patient.name = patientDetails.user.firstName;
-    //  this.patient.lastnameFather = patientDetails.user.lastNameFather;
-    //  this.patient.lastnameMother = patientDetails.user.lastNameMother;
-    //  this.patient.country = patientDetails.user.countryId;
-    //  this.patient.documentType = patientDetails.user.documentType;
-    //  this.patient.documentNumber = patientDetails.user.documentNumber;
-    //  this.patient.birthday = patientDetails.user.birthday;
-    //  this.patient.sex = patientDetails.user.sex;
-    //  this.patient.maritalStatus = patientDetails.user.maritalStatus;
-    //  this.patient.maritalStatus = patientDetails.user.maritalStatus;
-    //  this.patient.province = patientDetails.user.district;
-    //  this.patient.district = patientDetails.user.districtId;
-    //  this.patient.address = patientDetails.user.address;
-    //  if (CheckEmptyUtil.isNotEmpty(patientDetails.user.organDonor)) {
-    //    this.patient.isDonor = patientDetails.user.organDonor;
-    //  } else {
-    //    this.patient.isDonor = false;
-    //  }
-    //  this.patient.email = patientDetails.user.email;
-    //  this.patient.phone = patientDetails.user.cellphone;
-
-    //  this.patient.educationalAttainment = patientDetails.educationalAttainment;
-    //  this.patient.occupation = patientDetails.occupation;
-    //  this.patient.bloodType = patientDetails.bloodType;
-    //  this.patient.alcoholConsumption = patientDetails.alcohol;
-    //  this.patient.physicalActivity = patientDetails.physicalActivity;
-    //  this.patient.fvConsumption = patientDetails.fruitsVegetables;
-    //  this.patient.cigarettes = patientDetails.cigaretteNumber;
-    //  this.patient.dormNumber = patientDetails.dormNumber;
-    //  this.patient.fractureNumber = patientDetails.fractureNumber;
-    //  this.patient.highGlucose = patientDetails.highGlucose;
-    //  this.patient.home = {
-    //    rooms: patientDetails.residentNumber,
-    //    population: '',
-    //    type: patientDetails.homeType,
-    //    ownership: patientDetails.homeOwnership,
-    //    material: patientDetails.homeMaterial,
-    //    electricity: patientDetails.electricity,
-    //    water: patientDetails.water,
-    //    sewage: patientDetails.sewage
-    //  }
-    //  this.patient.otherAllergies = patientDetails.otherAllergies;
-    //  this.patient.otherMedicines = patientDetails.otherMedicines;
-    //  this.patient.otherPersonalBackground = patientDetails.otherPersonalBackground;
-    //  this.patient.otherFatherBackground = patientDetails.otherFatherBackground;
-    //  this.patient.otherMotherBackground = patientDetails.otherMotherBackground;
-    //  this.patient.passwordHash = patientDetails.user.passwordHash;
-    //  this.note.patientId = patientDetails.id;
-    //  this.patient.cigarettes = patientDetails.cigaretteNumber;
-    //}
-
-    // this.patient.personalBackground = ['HIPERTENSION', 'DIABETES_MELITUS_'];
-    // this.patient.medicines = ['ANTIHIPERTENSIVOS'];
-    // this.patient.fatherBackground = ['HIPERTENSION', 'ENFERMEDAD_CARDIOVASCULAR'];
-    // this.patient.motherBackground = ['HIPERTENSION', 'ENFERMEDAD_CARDIOVASCULAR'];
-    // this.patient.previousFractures = '5';
-    // this.patient.physicalActivity = 'MODERADA';
   }
 
   private showTabs(speciality: string) {

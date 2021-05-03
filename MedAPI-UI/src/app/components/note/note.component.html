@@ -161,11 +161,44 @@
               Anterior
             </button>
 
-            <button
+            <!-- <button
               mat-button
               color="primary"
               type="button"
               *ngIf="index.value < tabs.length - 1"
+              (click)="index.setValue(index.value + 1)"
+            >
+              Siguiente
+            </button> -->
+
+            <button
+              mat-button
+              color="primary"
+              type="button"
+              *ngIf="index.value == 0"
+              [disabled]="this.note.triage.others.specialities == ''"
+              (click)="index.setValue(index.value + 1)"
+            >
+              Siguiente
+            </button>
+
+            <button
+              mat-button
+              color="primary"
+              type="button"
+              *ngIf="index.value == 1"
+              [disabled]="
+                this.note.symptoms.description == '' ||
+                this.note.symptoms.duration == null ||
+                (this.note.symptoms.duration !== null &&
+                  this.note.symptoms.duration.toString() == '') ||
+                this.note.symptoms.durationUnit == '' ||
+                this.note.diagnosis.list.length <= 0 ||
+                (data.isPharmacological &&
+                  this.note.treatments.list.length <= 0) ||
+                (data.isPharmacological == false &&
+                  this.note.treatments.other == '')
+              "
               (click)="index.setValue(index.value + 1)"
             >
               Siguiente

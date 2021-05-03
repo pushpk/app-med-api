@@ -10,6 +10,7 @@ export class Patient {
   documentType = '';
   documentNumber = '';
   birthday = '';
+
   sex = '';
   maritalStatus = '';
   department: String = null;

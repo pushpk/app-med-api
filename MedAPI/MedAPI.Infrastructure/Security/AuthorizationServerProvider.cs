@@ -32,11 +32,11 @@ namespace MedAPI.Infrastructure.Security
                 if (user != null && HashPasswordHelper.ValidatePassword(context.Password, user.password_hash))
                 {
                     
-                    if (!user.emailConfirmed)
-                    {
-                        context.SetError("email_not_confired", "Email_Not_Confirmed");
-                        return;
-                    }
+                    //if (!user.emailConfirmed)
+                    //{
+                    //    context.SetError("email_not_confired", "Email_Not_Confirmed");
+                    //    return;
+                    //}
                     
                     var identity = new ClaimsIdentity(context.Options.AuthenticationType);
                     identity.AddClaim(new Claim("userId", user.id.ToString()));

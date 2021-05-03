@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Medic } from 'src/app/models/medic.model';
-import { PatientService } from '../../patient/service/patient.service';
-import { MedicUser } from 'src/app/models/medicuser.model';
-import { ToastrService } from 'ngx-toastr';
-import { Router } from '@angular/router';
-import { MustMatchDirective } from 'src/app/shared/directive/mustMatch.directive';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { Medic } from 'src/app/models/medic.model';
+import { MedicUser } from 'src/app/models/medicuser.model';
 import { DialogTermsAndConditionsComponent } from 'src/app/shared/termsAndConditions/dialog-terms-and-conditions.component';
+import { PatientService } from '../../patient/service/patient.service';
 
 @Component({
   selector: 'app-medic-registration',
@@ -25,8 +24,7 @@ export class MedicRegistrationComponent implements OnInit {
     public router: Router,
     private patientService: PatientService,
     public toastr: ToastrService,
-    public dialog: MatDialog,
-
+    public dialog: MatDialog
   ) {
     this.medic.user = new MedicUser();
     this.medic.user.roleId = 2;
@@ -46,70 +44,71 @@ export class MedicRegistrationComponent implements OnInit {
 
     this.patientService.resources.subscribe((o) => {
       this.resources = o;
+      this.specialities = this.resources.specialities;
     });
 
-    this.specialities = [
-      'ALEGOLOGIA',
-      'ANALISIS CLINICOS',
-      'ANATOMIA PATOLOGICA',
-      'ANESTESIOLOGIA',
-      'BIOQUIMICA CLINICA',
-      'CARDIOLOGIA',
-      'CIRUGIA CARDIOVASCULAR',
-      'CIRUGIA GENERAL',
-      'CIRUGIA ORAL Y MAXILOFACIAL',
-      'CIRUGIA ORTOPEDICA Y TRAUMATOLOGIA',
-      'CIRUGIA PEDIATRICA',
-      'CIRUGIA PLASTICA',
-      'CIRUGIA TORACICA',
-      'CIRUGIA VASCULAR',
-      'DERMATOLOGIA',
-      'ENDOCRINOLOGIA',
-      'ESTOMATOLOGIA',
-      'FARMACOLOGIA CLINICA',
-      'GASTROENTEROLOGIA',
-      'GENETICA MEDICA',
-      'GERIATRIA',
-      'GINECOLOGIA Y OBSTETRICIA',
-      'HEMATOLOGIA',
-      'HIDROLOGIA MEDICA',
-      'INFECTOLOGIA',
-      'INMUNOLOGIA',
-      'MEDICINA AEROESPACIAL',
-      'MEDICINA DEL DEPORTE',
-      'MEDICINA DEL TRABAJO',
-      'MEDICINA DE URGENCIAS',
-      'MEDICINA FAMILIAR',
-      'MEDICINA FISICA Y REHABILITACION',
-      'MEDICINA GENERAL',
-      'MEDICINA INTENSIVA',
-      'MEDICINA INTERNA',
-      'MEDICINA LEGAL Y FORENSE',
-      'MEDICINA NUCLEAR',
-      'MEDICINA PREVENTIVA',
-      'MICROBIOLOGIA Y PARASITOLOGIA',
-      'NEFROLOGIA',
-      'NEUMOLOGIA',
-      'NEUROCIRUGIA',
-      'NEUROFISIOLOGIA CLINICA',
-      'NEUROLOGIA',
-      'NUTRIOLOGIA',
-      'ODONTOLOGIA',
-      'OFTALMOLOGIA',
-      'ONCOLOGIA MEDICA',
-      'ONCOLOGIA RADIOTERAPICA',
-      'OTORRINOLARINGOLOGIA',
-      'PEDIATRIA',
-      'PROCTOLOGIA',
-      'PSIQUIATRIA',
-      'QUIRUGICAS',
-      'RADIOLOGIA',
-      'REHABILITACION',
-      'REUMATOLOGIA',
-      'TOXICOLOGIA',
-      'TRAUMATOLOGIA',
-      'UROLOGIA',
-    ];
+    //.resources[
+    //   'ALEGOLOGIA',
+    //   'ANALISIS CLINICOS',
+    //   'ANATOMIA PATOLOGICA',
+    //   'ANESTESIOLOGIA',
+    //   'BIOQUIMICA CLINICA',
+    //   'CARDIOLOGIA',
+    //   'CIRUGIA CARDIOVASCULAR',
+    //   'CIRUGIA GENERAL',
+    //   'CIRUGIA ORAL Y MAXILOFACIAL',
+    //   'CIRUGIA ORTOPEDICA Y TRAUMATOLOGIA',
+    //   'CIRUGIA PEDIATRICA',
+    //   'CIRUGIA PLASTICA',
+    //   'CIRUGIA TORACICA',
+    //   'CIRUGIA VASCULAR',
+    //   'DERMATOLOGIA',
+    //   'ENDOCRINOLOGIA',
+    //   'ESTOMATOLOGIA',
+    //   'FARMACOLOGIA CLINICA',
+    //   'GASTROENTEROLOGIA',
+    //   'GENETICA MEDICA',
+    //   'GERIATRIA',
+    //   'GINECOLOGIA Y OBSTETRICIA',
+    //   'HEMATOLOGIA',
+    //   'HIDROLOGIA MEDICA',
+    //   'INFECTOLOGIA',
+    //   'INMUNOLOGIA',
+    //   'MEDICINA AEROESPACIAL',
+    //   'MEDICINA DEL DEPORTE',
+    //   'MEDICINA DEL TRABAJO',
+    //   'MEDICINA DE URGENCIAS',
+    //   'MEDICINA FAMILIAR',
+    //   'MEDICINA FISICA Y REHABILITACION',
+    //   'MEDICINA GENERAL',
+    //   'MEDICINA INTENSIVA',
+    //   'MEDICINA INTERNA',
+    //   'MEDICINA LEGAL Y FORENSE',
+    //   'MEDICINA NUCLEAR',
+    //   'MEDICINA PREVENTIVA',
+    //   'MICROBIOLOGIA Y PARASITOLOGIA',
+    //   'NEFROLOGIA',
+    //   'NEUMOLOGIA',
+    //   'NEUROCIRUGIA',
+    //   'NEUROFISIOLOGIA CLINICA',
+    //   'NEUROLOGIA',
+    //   'NUTRIOLOGIA',
+    //   'ODONTOLOGIA',
+    //   'OFTALMOLOGIA',
+    //   'ONCOLOGIA MEDICA',
+    //   'ONCOLOGIA RADIOTERAPICA',
+    //   'OTORRINOLARINGOLOGIA',
+    //   'PEDIATRIA',
+    //   'PROCTOLOGIA',
+    //   'PSIQUIATRIA',
+    //   'QUIRUGICAS',
+    //   'RADIOLOGIA',
+    //   'REHABILITACION',
+    //   'REUMATOLOGIA',
+    //   'TOXICOLOGIA',
+    //   'TRAUMATOLOGIA',
+    //   'UROLOGIA',
+    // ];
   }
 
   submitRequest() {
@@ -169,31 +168,26 @@ export class MedicRegistrationComponent implements OnInit {
     ele.value = ele.value.replace(regex, '');
   }
 
-  openTermsAndConditions(){
+  openTermsAndConditions() {
     let dialogRef = this.dialog.open(DialogTermsAndConditionsComponent, {
       panelClass: 'custom-dialog',
-      data: {
-      },
+      data: {},
       autoFocus: false,
       maxHeight: '90vh',
-      maxWidth: '120vw'
-
+      maxWidth: '120vw',
     });
     dialogRef.afterClosed().subscribe((response: any) => {
-      console.log(response)
-      if (response == undefined){
+      console.log(response);
+      if (response == undefined) {
         this.acceptTermsAndConditions = false;
         this.showRequiredError = true;
-      }
-      else if (response.accept == true) {
+      } else if (response.accept == true) {
         this.acceptTermsAndConditions = true;
         this.showRequiredError = false;
       } else {
         this.acceptTermsAndConditions = false;
         this.showRequiredError = true;
       }
-
     });
-
   }
 }

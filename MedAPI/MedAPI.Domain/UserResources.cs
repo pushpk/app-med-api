@@ -29,6 +29,7 @@ namespace MedAPI.Domain
             races = new List<ObjectNode>();
             provinces = new List<ObjectNode>();
             districts = new List<ObjectNode>();
+              specialities = new List<string>();
         }
 
         public List<ObjectNode> maritalStatuses { get; set; }
@@ -50,5 +51,7 @@ namespace MedAPI.Domain
         public List<ObjectNode> races { get; set; }
         public List<ObjectNode> provinces { get; set; }
         public List<ObjectNode> districts { get; set; }
+
+        public List<string> specialities { get; set; }
     }
 }

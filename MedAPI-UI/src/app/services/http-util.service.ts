@@ -27,6 +27,10 @@ export class HttpUtilService {
         .request(method, url, { body, headers })
         .toPromise()
         .then((response: any) => {
+          console.log(
+            '🚀 ~ file: http-util.service.ts ~ line 30 ~ HttpUtilService ~ promise ~ body',
+            body
+          );
           return resolve(response);
         })
         .catch((error) => {

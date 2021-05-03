@@ -1,25 +1,10 @@
-import {
-  Component,
-  OnInit,
-  Input,
-  ViewChild,
-  ElementRef,
-  Output,
-  EventEmitter,
-} from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, Input, OnInit } from '@angular/core';
 import { ControlContainer, FormControl, NgForm } from '@angular/forms';
-import { NoteService } from '../../services/note.service';
-import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { map, startWith } from 'rxjs/operators';
-import {
-  MatAutocomplete,
-  MatAutocompleteSelectedEvent,
-} from '@angular/material/autocomplete';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogDiagnosisComponent } from '../../dialog-diagnosis/dialog-diagnosis.component';
 import { DialogExamComponent } from '../../dialog-exam/dialog-exam.component';
 import { DialogMedicineComponent } from '../../dialog-medicine/dialog-medicine.component';
+import { NoteService } from '../../services/note.service';
 
 @Component({
   selector: 'app-form-conclusion',
@@ -133,6 +118,7 @@ export class FormConclusionComponent implements OnInit {
         diagnosis.type = response.type;
         const index = this.note.diagnosis.list.indexOf(diagnosis);
         if (index === -1) {
+          diagnosis.$id = Date.now();
           this.note.diagnosis.list.push(diagnosis);
         }
       } else {
@@ -184,6 +170,7 @@ export class FormConclusionComponent implements OnInit {
 
     var index = this.note.exams.list.indexOf(exam);
     if (index === -1) {
+      exam.$id = Date.now();
       this.note.exams.list.push(exam);
     }
 
@@ -250,6 +237,7 @@ export class FormConclusionComponent implements OnInit {
     dialogRef.afterClosed().subscribe((response: any) => {
       if (response.accept && response.indications) {
         d.indications = response.indications;
+        d.$id = Date.now();
         const index = this.note.treatments.list.indexOf(d);
         if (index === -1) {
           this.note.treatments.list.push(d);

@@ -104,7 +104,9 @@ export class UserService {
         //   this.toastr.toastrConfig.timeOut = 0;
         //   this.toastr.error(error.error);
         // } else {
-        this.toastr.error('Incorrect email or password, Please try again!');
+        this.toastr.error(
+          'Incorrect email or password, Please try again!!!!!!'
+        );
         console.log(error);
         //}
       });
@@ -140,12 +142,12 @@ export class UserService {
     this.bnIdle.resetTimer();
   }
 
-  setInactivityAlert(value: boolean): any{
+  setInactivityAlert(value: boolean): any {
     this.showInactivityAlert = value;
   }
 
   showIdleTimer() {
-    if (this.dialogRef){
+    if (this.dialogRef) {
       return;
     }
 

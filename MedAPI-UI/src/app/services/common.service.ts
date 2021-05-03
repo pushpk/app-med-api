@@ -1,20 +1,17 @@
-import { Injectable, EventEmitter } from '@angular/core';
-import { MatSidenav } from '@angular/material/sidenav';
-import { BehaviorSubject } from 'rxjs';
-import { TitleCasePipe } from '@angular/common';
-import { jsPDF } from 'jspdf';
-
-// import 'jspdf-autotable';
-
-import { Patient } from '../models/patient.model';
-import { NoteDetail } from '../models/noteDetail.model';
-import { DatePipe } from '@angular/common';
-import { HttpUtilService } from './http-util.service';
-import { MedicUser } from '../models/medicuser.model';
-import { Medic } from '../models/medic.model';
+import { DatePipe, TitleCasePipe } from '@angular/common';
+import { EventEmitter, Injectable } from '@angular/core';
 import { AbstractControl, ValidatorFn } from '@angular/forms';
+import { MatSidenav } from '@angular/material/sidenav';
 import { DomSanitizer } from '@angular/platform-browser';
+import { jsPDF } from 'jspdf';
+import { BehaviorSubject } from 'rxjs';
 import * as fontRef from '../../assets/Pacifico-Regular-bold.js';
+import { Medic } from '../models/medic.model';
+import { NoteDetail } from '../models/noteDetail.model';
+// import 'jspdf-autotable';
+import { Patient } from '../models/patient.model';
+import { HttpUtilService } from './http-util.service';
+
 
 @Injectable({
   providedIn: 'root',
@@ -130,7 +127,7 @@ export class CommonService {
 
           doc.text(
             'Fecha: ' +
-              this.datepipe.transform(note.registrationDate, 'dd/MM/yyyy'),
+              this.datepipe.transform(new Date(), 'dd/MM/yyyy'),
             doc.internal.pageSize.width / 2,
             currentY + 7,
             null,
@@ -664,7 +661,8 @@ export class CommonService {
 
 
           doc.setFontSize(contentFontSize);
-          doc.save(patient.lastnameFather + '_' + type + '.pdf');
+          window.open(doc.output('bloburl').toString())
+          //doc.save(patient.lastnameFather + '_' + type + '.pdf');
         })
         .catch((error: any) => {
           console.log(error);

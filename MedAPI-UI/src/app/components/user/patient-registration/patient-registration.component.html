@@ -169,8 +169,13 @@
             fxLayoutAlign="space-between center"
             style="margin-left: 10px; margin-right: 10px"
           >
-            <mat-form-field fxFlex="30" fxFlex.md="30" fxFlex.xs="100">
-              <mat-label>Fecha de nacimiento</mat-label>
+            <mat-form-field
+              style="margin-right: 10px"
+              fxFlex="30"
+              fxFlex.md="30"
+              fxFlex.xs="100"
+            >
+              <mat-label> Fecha de nacimiento</mat-label>
               <input
                 name="patientBirthday"
                 matInput
@@ -193,6 +198,7 @@
                 Este campo es requerido
               </mat-error>
             </mat-form-field>
+
             <mat-form-field fxFlex="30" fxFlex.md="30" fxFlex.xs="100">
               <mat-label>Sexo</mat-label>
               <mat-select
@@ -404,6 +410,86 @@
         </div>
       </mat-card-content>
     </mat-card>
+    <!-- <mat-card class="no-pad">
+      <mat-card-content>
+        <div class="layout-padding" fxLayout="column">
+          <h2
+            class="mat-title form-section"
+            fxFlex="100"
+            style="margin-left: 10px; margin-right: 10px"
+          >
+            Fecha de nacimiento
+          </h2>
+
+          <div
+            fxLayout="inherit"
+            fxLayoutAlign="space-between"
+            style="width: 30%; margin-left: 10px"
+          >
+            <mat-form-field style="margin-right: 10px">
+              <mat-label>DD</mat-label>
+
+              <input
+                type="text"
+                name="dayOfBirth"
+                #dayOfBirth="ngModel"
+                [(ngModel)]="patient.dayOfBirth"
+                matInput
+                required
+                placeholder="DD"
+                mask="99/99"
+              />
+              <mat-error
+                *ngIf="
+                  dayOfBirth.errors && (dayOfBirth.touched || dayOfBirth.dirty)
+                "
+              >
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field style="margin-right: 10px">
+              <mat-label>MM</mat-label>
+              <input
+                type="number"
+                name="monthOfBirth"
+                #monthOfBirth="ngModel"
+                [(ngModel)]="patient.monthOfBirth"
+                matInput
+                min="1"
+                max="12"
+                required
+              />
+              <mat-error
+                *ngIf="
+                  monthOfBirth.errors &&
+                  (monthOfBirth.touched || monthOfBirth.dirty)
+                "
+              >
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>YYYY</mat-label>
+              <input
+                type="number"
+                name="yearOfBirth"
+                #yearOfBirth="ngModel"
+                [(ngModel)]="patient.yearOfBirth"
+                matInput
+                min="1900"
+                max="9999"
+                required
+              />
+              <mat-error
+                *ngIf="
+                  yearOfBirth.errors &&
+                  (yearOfBirth.touched || yearOfBirth.dirty)
+                "
+              >
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card> -->
 
     <mat-card class="no-pad">
       <div style="margin-top: 15px"></div>

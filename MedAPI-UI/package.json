@@ -33,6 +33,7 @@
     "mat-table-filter": "^9.0.1",
     "moment": "^2.29.1",
     "ng-multiselect-dropdown": "^0.2.10",
+    "ngx-mask": "^11.1.5",
     "ngx-toastr": "^12.1.0",
     "rxjs": "~6.5.4",
     "signature_pad": "^3.0.0-beta.4",

@@ -19,13 +19,16 @@ namespace MedAPI.Service
         private readonly IDistrictRepository districtRepository;
         private readonly IProvinceRepository provinceRepository;
         private readonly IBloodTypeService bloodTypeService;
+        private readonly ITriageRepository triageRepository;
+
 
         public UserService(IUserRepository userRepository,
             IDepartmentRepository departmentRepository,
             ICountryRepository countryRepository,
              IDistrictRepository districtRepository,
              IProvinceRepository provinceRepository,
-             IBloodTypeService bloodTypeService
+             IBloodTypeService bloodTypeService,
+             ITriageRepository triageRepository
             )
         {
             this.userRepository = userRepository;
@@ -34,6 +37,7 @@ namespace MedAPI.Service
             this.districtRepository = districtRepository;
             this.provinceRepository = provinceRepository;
             this.bloodTypeService = bloodTypeService;
+            this.triageRepository = triageRepository;
         }
 
 
@@ -204,6 +208,10 @@ namespace MedAPI.Service
                 .Cast<Race>()
                 .Select(d => new ObjectNode() { id = d.ToString().ToUpper(), name = d.GetDescription() })
                 .ToList();
+
+            mUserResourcesList.specialities = triageRepository.getSpecialities().OrderBy(s => s.name)
+                            .Select(d =>  d.name )
+                            .ToList();
 
 
 

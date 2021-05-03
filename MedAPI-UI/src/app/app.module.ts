@@ -7,6 +7,7 @@ import { MatTableModule } from '@angular/material/table';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BnNgIdleService } from 'bn-ng-idle';
+import { NgxMaskModule } from 'ngx-mask';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthInterceptor } from './shared/interceptors/AuthInterceptor';
@@ -23,6 +24,7 @@ import { SharedModule } from './shared/shared.module';
     AppRoutingModule,
     SharedModule,
     BrowserAnimationsModule,
+    NgxMaskModule.forRoot(),
   ],
   providers: [
     DatePipe,

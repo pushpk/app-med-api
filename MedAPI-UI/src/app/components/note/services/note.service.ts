@@ -1,6 +1,6 @@
-import { Injectable, EventEmitter, Output } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 import { HttpUtilService } from '../../../services/http-util.service';
-import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
 import { ResourcesService } from '../../../services/resources.service';
 
 @Injectable({

@@ -203,7 +203,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <EntityDeploy Include="MedDb.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>MedDb.Designer.cs</LastGenOutput>
