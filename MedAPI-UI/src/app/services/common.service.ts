@@ -82,6 +82,7 @@ export class CommonService {
       var medic;
       var titleFontSize = 20;
       var contentFontSize = 14;
+      var tableFontSize = 12;
 
 
       const medicId = note.medicId === null ? +localStorage.getItem('loggedInID') : +note.medicId;
@@ -127,7 +128,7 @@ export class CommonService {
 
           doc.text(
             'Fecha: ' +
-              this.datepipe.transform(new Date(), 'dd/MM/yyyy'),
+            note.registrationDate ? this.datepipe.transform(note.registrationDate, 'dd/MM/yyyy') : this.datepipe.transform(new Date(), 'dd/MM/yyyy'),
             doc.internal.pageSize.width / 2,
             currentY + 7,
             null,
@@ -137,20 +138,20 @@ export class CommonService {
           //Right Side of the page
           //Patient Sex
           doc.setFont('helvetica', 'bold');
-          doc.text('Sexo', 146, 63);
+          doc.text('Sexo', 120, 63);
 
           doc.setFont('helvetica', null);
-          doc.text(patient.sex, 146, 71);
+          doc.text(patient.sex, 120, 71);
 
           // Patient Date of Birth
           doc.setFont('helvetica', 'bold');
-          doc.text('Fecha de Nacimiento', 146, 83);
+          doc.text('Fecha de Nacimiento', 120, 83);
 
           doc.setFont('helvetica', null);
           doc.text(
             // patient.age.toString(),
             this.datepipe.transform(patient.birthday, 'dd-MM-yyyy'),
-            146,
+            120,
             91
           );
 
@@ -214,20 +215,20 @@ export class CommonService {
             // console.log(doc.internal.pageSize.height);
             // console.log(currentY);
             doc.setFont('helvetica', 'bold');
-            doc.text('Frecuencia cardiaca (lpm)', 14, (currentY += 15));
+            doc.text('Frecuencia cardiaca (lpm)', 120, currentY-8);
             doc.setFont('helvetica', null);
             if (note.triage.vitalFunctions.heartRate){
               doc.text(
                 note.triage.vitalFunctions.heartRate.toString(),
-                14,
-                (currentY += 8)
+                120,
+                (currentY)
               );
             }
             else{
               doc.text(
                 '-',
-                14,
-                (currentY += 8)
+                120,
+                (currentY)
               );
             }
           }
@@ -284,6 +285,8 @@ export class CommonService {
             doc.text(splitSymptoms, 14, (currentY += 8));
 
             // Patient Background Information from NOTE
+
+            
             doc.setFont('helvetica', 'bold');
             if (currentY + doc.splitTextToSize(note.symptoms.description, 180).length * 7 + 8> doc.internal.pageSize.height) {
               doc.addPage();
@@ -308,7 +311,7 @@ export class CommonService {
             //Note Examen físico
             if (note.physicalExam.text.length > 0) {
               var index = 20;
-              if (currentY + doc.splitTextToSize(note.symptoms.background, 180).length * 7 + 40 > doc.internal.pageSize.height) {
+              if (currentY + doc.splitTextToSize(note.symptoms.background, 180).length * 7 + 8 > doc.internal.pageSize.height) {
                 doc.addPage();
                 currentY = 0;
               }
@@ -323,11 +326,11 @@ export class CommonService {
               doc.text(splitPhysicalExam, 14, (currentY += 8));
 
             }
-            else {
-              currentY += 15;
-            }
+            // else {
+            //   currentY += 15;
+            // }
 
-            if (currentY + 75 > doc.internal.pageSize.height) {
+            if (currentY + 70 > doc.internal.pageSize.height) {
               doc.addPage();
               currentY = 15;
             }
@@ -352,7 +355,7 @@ export class CommonService {
                 this.titleCasePipe.transform(note.diagnosis.list[i].title),
                 note.diagnosis.list[i].type === 'PRESUMPTIVE'
                   ? 'Presumptivo'
-                  : note.diagnosis.list[i].type === 'DEFINATIVE'
+                  : note.diagnosis.list[i].type === 'DEFINITIVE'
                   ? 'Definitivo'
                   : '',
               ];
@@ -361,12 +364,12 @@ export class CommonService {
             // @ts-ignore
             doc.autoTable({
               styles: { theme: 'plain' },
-              margin: { top: (currentY += 8) },
+              startY: (currentY += 8),
               body: rows,
               columns: col,
               theme: 'grid',
               headStyles: {
-                fontSize: contentFontSize,
+                fontSize: tableFontSize,
                 fontStyle: 'bold',
                 fillColor: 'white',
                 textColor: 'black',
@@ -374,7 +377,7 @@ export class CommonService {
                 lineWidth: 0.5,
               },
               bodyStyles: {
-                fontSize: contentFontSize,
+                fontSize: tableFontSize,
                 textColor: 'black',
                 lineColor: 'black',
                 lineWidth: 0.5,
@@ -386,11 +389,14 @@ export class CommonService {
             });
             if (currentY > doc.internal.pageSize.height) {
               doc.addPage();
-              currentY = 0;
+              currentY = 15;
+            }
+            else {
+              // @ts-ignore
+              currentY += 12 + doc.lastAutoTable.finalY;
             }
 
-            // @ts-ignore
-            currentY = 12 + doc.lastAutoTable.finalY;
+
 
             if (note.diagnosis.observations.length > 0){
               doc.setFont('helvetica', 'italic');
@@ -412,7 +418,7 @@ export class CommonService {
 
             if (currentY + 75 > doc.internal.pageSize.height) {
               doc.addPage();
-              currentY = 0;
+              currentY = 8;
             }
 
             doc.setFont('helvetica', 'bold');
@@ -443,7 +449,7 @@ export class CommonService {
               columns: colExams,
               theme: 'grid',
               headStyles: {
-                fontSize: contentFontSize,
+                fontSize: tableFontSize,
                 fontStyle: 'bold',
                 fillColor: 'white',
                 textColor: 'black',
@@ -451,7 +457,7 @@ export class CommonService {
                 lineWidth: 0.5,
               },
               bodyStyles: {
-                fontSize: contentFontSize,
+                fontSize: tableFontSize,
                 textColor: 'black',
                 lineColor: 'black',
                 lineWidth: 0.5,
@@ -459,7 +465,7 @@ export class CommonService {
             });
 
             // @ts-ignore
-            currentY = 12 + doc.lastAutoTable.finalY;
+            currentY = 12 + (doc as any).lastAutoTable.finalY;
 
             if (note.exams.observations.length > 0){
               doc.setFont('helvetica', 'italic');
@@ -472,10 +478,10 @@ export class CommonService {
               doc.text(splitExamsObservations, 14, (currentY += 8));
             }
 
-            if (currentY > doc.internal.pageSize.height) {
-              doc.addPage();
-              currentY = 0;
-            }
+            // if (currentY > doc.internal.pageSize.height) {
+            //   doc.addPage();
+            //   currentY = 0;
+            // }
 
             // doc.setFont('helvetica', 'bold');
             // doc.text('Observaciones', 14, (currentY += 15));
@@ -484,27 +490,36 @@ export class CommonService {
             // doc.text(note.exams.observations, 14, (currentY += 8));
 
             // @ts-ignore
-            finalY = doc.lastAutoTable ? doc.lastAutoTable.finalY + 30 : 180;
+            finalY = (doc as any).lastAutoTable ? (doc as any).lastAutoTable.finalY + 30 : 180;
+
           }
 
-          if (type === 'Prescription') {
+          if (type === 'Attention' || type === 'Prescription') {
+
+            if (currentY + 75 > doc.internal.pageSize.height) {
+              doc.addPage();
+              currentY = 0;
+            }
+            
+            doc.setFont('helvetica', 'bold');
+            doc.text('Tratamientos', 14, (currentY += 15));
+
+
             var colTreatments = ['#', 'Descripción', 'Indicaciones'];
             var rowsTreatments = [];
-
-            // console.log(note.treatments.list);
-            // console.log(note.interconsultation.list);
 
             for (var i = 0; i < note.treatments.list.length; i++) {
               var temp = [
                 i + 1,
-                note.treatments.list[i].name,
+                this.titleCasePipe.transform(note.treatments.list[i].name),
                 note.treatments.list[i].indications,
               ];
               rowsTreatments.push(temp);
             }
+            
             if (note.treatments.other && note.treatments.other.length > 0) {
               var otherTreatment = [
-                note.treatments.list.length + 1,
+                note.treatments.list.length > 0 ? note.treatments.list.length + 1 : 0,
                 'No farmacéutico',
                 note.treatments.other,
               ];
@@ -513,12 +528,12 @@ export class CommonService {
             // @ts-ignore
             doc.autoTable({
               styles: { theme: 'plain' },
-              margin: { top: 120 },
+              startY: (currentY += 8),
               body: rowsTreatments,
               columns: colTreatments,
               theme: 'grid',
               headStyles: {
-                fontSize: contentFontSize,
+                fontSize: tableFontSize,
                 fontStyle: 'bold',
                 fillColor: 'white',
                 textColor: 'black',
@@ -526,15 +541,22 @@ export class CommonService {
                 lineWidth: 0.5,
               },
               bodyStyles: {
-                fontSize: contentFontSize,
+                fontSize: tableFontSize,
                 textColor: 'black',
                 lineColor: 'black',
                 lineWidth: 0.5,
               },
             });
 
+            currentY = 12 + (doc as any).lastAutoTable.finalY;
+
             // @ts-ignore
-            finalY = doc.lastAutoTable ? doc.lastAutoTable.finalY + 40 : 105 + 40;
+            if (currentY > doc.internal.pageSize.height) {
+              doc.addPage();
+              currentY = 0;
+            }
+            
+            finalY = (doc as any).lastAutoTable ? (doc as any).lastAutoTable.finalY + 40 : 105 + 40;
           }
 
           if (type === 'Interconsultation') {
@@ -574,7 +596,7 @@ export class CommonService {
               columns: colInterconsultation,
               theme: 'grid',
               headStyles: {
-                fontSize: contentFontSize,
+                fontSize: tableFontSize,
                 fontStyle: 'bold',
                 fillColor: 'white',
                 textColor: 'black',
@@ -582,7 +604,7 @@ export class CommonService {
                 lineWidth: 0.5,
               },
               bodyStyles: {
-                fontSize: contentFontSize,
+                fontSize: tableFontSize,
                 textColor: 'black',
                 lineColor: 'black',
                 lineWidth: 0.5,
@@ -590,7 +612,7 @@ export class CommonService {
             });
 
             // @ts-ignore
-            finalY = doc.lastAutoTable ? doc.lastAutoTable.finalY + 25 : currentY + 25;
+            finalY = doc.lastAutoTable ? doc.lastAutoTable.finalY + 10 : currentY + 10;
           }
 
           var pageHeight = doc.internal.pageSize.height;
@@ -603,14 +625,17 @@ export class CommonService {
           const imageData = signImageDataUrl ? signImageDataUrl : 'data:image/png;base64,' + note.signatuteDraw;
 
           doc.setFont('helvetica', 'bold');
-          if (type === 'Attention' || type === 'Exams'){
-            finalY += 30;
+          if (type === 'Attention' ){
+            finalY += 0;
+          }
+          else if (type === 'Exams'){
+            finalY += 20;
           }
           else if (type === 'Interconsultation'){
             finalY += 8;
           }
           else {
-            finalY += 10;
+            finalY += 8;
           }
           doc.text('Médico', 14, finalY);
 
@@ -652,10 +677,9 @@ export class CommonService {
           );
 
           doc.text(
-            'Fecha:' +
-              this.datepipe.transform(note.registrationDate, 'dd/MM/yyyy'),
+            'Fecha:' + 
+              note.registrationDate ? this.datepipe.transform(note.registrationDate, 'dd/MM/yyyy') : this.datepipe.transform(new Date(), 'dd/MM/yyyy'),
             14,
-
             40 + finalY
           );
 

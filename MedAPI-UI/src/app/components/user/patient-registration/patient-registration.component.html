@@ -175,11 +175,12 @@
               fxFlex.md="30"
               fxFlex.xs="100"
             >
-              <mat-label> Fecha de nacimiento</mat-label>
+              <mat-label> Fecha de nacimiento (dd/mm/yyyy)</mat-label>
               <input
                 name="patientBirthday"
                 matInput
                 [matDatepicker]="picker"
+                [max]="today"
                 #patientBirthday="ngModel"
                 [(ngModel)]="patient.birthday"
                 required

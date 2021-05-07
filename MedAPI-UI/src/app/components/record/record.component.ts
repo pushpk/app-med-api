@@ -255,7 +255,7 @@ export class RecordComponent implements OnInit, OnDestroy {
           'id',
           'specialty',
           'registrationDate',
-          'category',
+          // 'category',
           'description',
           'action',
         ]
@@ -263,22 +263,22 @@ export class RecordComponent implements OnInit, OnDestroy {
           'id',
           'specialty',
           'registrationDate',
-          'category',
+          // 'category',
+          'evaluation',
           'description',
           'status',
-          'evaluation',
         ];
 
-    this.symptomsDropDownSettings = {
-      singleSelection: false,
-      idField: 'id',
-      textField: 'name',
-      enableCheckAll: false,
-      selectAllText: 'Select All',
-      unSelectAllText: 'UnSelect All',
-      itemsShowLimit: 3,
-      allowSearchFilter: true,
-    };
+    // this.symptomsDropDownSettings = {
+    //   singleSelection: false,
+    //   idField: 'id',
+    //   textField: 'name',
+    //   enableCheckAll: false,
+    //   selectAllText: 'Select All',
+    //   unSelectAllText: 'UnSelect All',
+    //   itemsShowLimit: 3,
+    //   allowSearchFilter: true,
+    // };
 
     if (this.isUserLabPerson && docNumber) {
       this.isLoadingResults = true;
@@ -295,27 +295,27 @@ export class RecordComponent implements OnInit, OnDestroy {
           this.isLoadingResults = false;
         });
     } else {
-      this.recordService
-        .getSymptoms()
-        .then((response: Symptoms[]) => {
-          this.symptomsDropDownList = response['symptoms'];
+      // this.recordService
+      //   .getSymptoms()
+      //   .then((response: Symptoms[]) => {
+      //     this.symptomsDropDownList = response['symptoms'];
 
-          if (this.isUserPatient) {
-            this.recordService
-              .getSymptomsForPatient(this.documentNumber)
-              .then((response: any) => {
-                this.selectedSymptomsDropDownList =
-                  response['symptoms']['symptoms'];
-                this.customSymptoms = response['symptoms']['Custom_Symptom'];
-              })
-              .catch((error: any) => {
-                console.log(error);
-              });
-          }
-        })
-        .catch((error: any) => {
-          console.log(error);
-        });
+      //     if (this.isUserPatient) {
+      //       this.recordService
+      //         .getSymptomsForPatient(this.documentNumber)
+      //         .then((response: any) => {
+      //           this.selectedSymptomsDropDownList =
+      //             response['symptoms']['symptoms'];
+      //           this.customSymptoms = response['symptoms']['Custom_Symptom'];
+      //         })
+      //         .catch((error: any) => {
+      //           console.log(error);
+      //         });
+      //     }
+      //   })
+      //   .catch((error: any) => {
+      //     console.log(error);
+      //   });
     }
   }
 
@@ -620,16 +620,16 @@ export class RecordComponent implements OnInit, OnDestroy {
             });
 
           if (this.isUserAdmin) {
-            this.recordService
-              .getSymptomsForPatient(this.documentNumber)
-              .then((response: any) => {
-                this.selectedSymptomsDropDownList =
-                  response['symptoms']['symptoms'];
-                this.customSymptoms = response['symptoms']['Custom_Symptom'];
-              })
-              .catch((error: any) => {
-                console.log(error);
-              });
+            // this.recordService
+            //   .getSymptomsForPatient(this.documentNumber)
+            //   .then((response: any) => {
+            //     this.selectedSymptomsDropDownList =
+            //       response['symptoms']['symptoms'];
+            //     this.customSymptoms = response['symptoms']['Custom_Symptom'];
+            //   })
+            //   .catch((error: any) => {
+            //     console.log(error);
+            //   });
           }
         } else {
           this.labId = Number(localStorage.getItem('loggedInID'));

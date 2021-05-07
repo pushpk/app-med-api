@@ -19,7 +19,7 @@
           </mat-option>
         </mat-autocomplete>
         <mat-chip *ngFor="let allergie of selectedAllergies"
-                  [removable]="removable" class="my-8 mx-8"
+                  [removable]="removable" class="my-8 mx-8 selected-chip"
                   v-if="!allergie.isDeleted"
                   (removed)="removeAllergie(allergie)">
           {{allergie.name}}
@@ -62,7 +62,7 @@
           </mat-option>
         </mat-autocomplete>
         <mat-chip *ngFor="let medicine of selectedMedicines"
-                  [removable]="removable" class="my-8 mx-8"
+                  [removable]="removable" class="selected-chip my-8 mx-8"
                   v-if="!medicine.isDeleted"
                   (removed)="removeMedicine(medicine)">
           {{medicine.name}}
@@ -105,7 +105,7 @@
           </mat-option>
         </mat-autocomplete>
         <mat-chip *ngFor="let pbg of selectedPersonalBackgrounds"
-                  [removable]="removable" class="my-8 mx-8"
+                  [removable]="removable" class="selected-chip my-8 mx-8"
                   v-if="!pbg.isDeleted"
                   (removed)="removePersonalBackground(pbg)">
           {{pbg.name}}
@@ -148,7 +148,7 @@
           </mat-option>
         </mat-autocomplete>
         <mat-chip *ngFor="let fatherBg of selectedFatherBackgrounds"
-                  [removable]="removable" class="my-8 mx-8"
+                  [removable]="removable" class="selected-chip my-8 mx-8"
                   v-if="!fatherBg.isDeleted"
                   (removed)="removeFatherBackground(fatherBg)">
           {{fatherBg.name}}
@@ -191,7 +191,7 @@
           </mat-option>
         </mat-autocomplete>
         <mat-chip *ngFor="let motherBg of selectedMotherBackgrounds"
-                  [removable]="removable" class="my-8 mx-8"
+                  [removable]="removable" class="selected-chip my-8 mx-8"
                   v-if="!motherBg.isDeleted"
                   (removed)="removeMotherBackground(motherBg)">
           {{motherBg.name}}
