@@ -265,7 +265,6 @@ export class FormConclusionComponent implements OnInit {
   }
 
   getInterconsultations(termEntered: string) {
-    console.log(termEntered);
     let str = termEntered;
     // this.interconsultationCtrl.valueChanges.subscribe((value: string) => {
     //   str += value;

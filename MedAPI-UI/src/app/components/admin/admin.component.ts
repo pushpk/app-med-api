@@ -1,16 +1,15 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
-import { Medic } from 'src/app/models/medic.model';
-import { CommonService } from 'src/app/services/common.service';
-import { User } from '../user/model/user.model';
-import { AdminService } from './services/admin.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatTableFilter } from 'mat-table-filter';
-import { MedicUser } from 'src/app/models/medicuser.model';
+import { ToastrService } from 'ngx-toastr';
 import { LabUser } from 'src/app/models/labUser.model';
+import { Medic } from 'src/app/models/medic.model';
+import { MedicUser } from 'src/app/models/medicuser.model';
+import { CommonService } from 'src/app/services/common.service';
+import { AdminService } from './services/admin.service';
 
 @Component({
   selector: 'app-admin',
@@ -104,7 +103,7 @@ export class AdminComponent implements OnInit {
         console.log(error);
       });
 
-      this.userCounts = this.adminService.getActiveUserCounts();
+    this.userCounts = this.adminService.getActiveUserCounts();
 
     // this.adminService.getActiveUserCounts().then((response) => {
     //   this.userCounts = response;
@@ -164,7 +163,7 @@ export class AdminComponent implements OnInit {
           .getNonApprovedMedics()
           .then((response: Medic[]) => {
             //f
-            console.log(response);
+
             this.nonApprovedMedicsData = response;
             this.nonApprovedMedics.data = response;
           })

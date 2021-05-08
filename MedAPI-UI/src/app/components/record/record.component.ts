@@ -180,7 +180,6 @@ export class RecordComponent implements OnInit, OnDestroy {
       (idFilterValue) => {
         this.filteredValues.id = idFilterValue;
         this.dataSource.filter = JSON.stringify(this.filteredValues);
-        console.log(this.dataSource.filter);
       }
     );
     this.subscriptionSpecialtyFilter = this.specialtyFilter.valueChanges.subscribe(
@@ -299,7 +298,6 @@ export class RecordComponent implements OnInit, OnDestroy {
       //   .getSymptoms()
       //   .then((response: Symptoms[]) => {
       //     this.symptomsDropDownList = response['symptoms'];
-
       //     if (this.isUserPatient) {
       //       this.recordService
       //         .getSymptomsForPatient(this.documentNumber)
@@ -430,7 +428,6 @@ export class RecordComponent implements OnInit, OnDestroy {
 
   downloadTestResult(id: number, fileName: string) {
     this.recordService.getUploadResultFile(id).subscribe((data) => {
-      console.log(data);
       importedSaveAs(data, fileName);
     });
   }

@@ -27,16 +27,13 @@ export class AccountConfirmationComponent implements OnInit {
       this.code = params['code'];
     });
 
-    console.log(this.id);
-    console.log(this.code);
-
     //call service to confirm account
 
     this.patientService
       .confirmEmail(this.id, encodeURIComponent(this.code))
       .then((response: User) => {
         this.confirmSuccess = true;
-        console.log(response.role);
+
         if (response.role === 2) {
           this.showMedic = true;
         } else {

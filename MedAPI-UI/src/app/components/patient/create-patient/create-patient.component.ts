@@ -112,15 +112,8 @@ export class CreatePatientComponent implements OnInit {
     let currentUserEmail = localStorage.getItem('email');
     let currentUserId = localStorage.getItem('IoggedInID');
 
-    console.log(this.patient);
-
     this.patient.IsEdit = true;
-    this.patient.birthday =
-      this.patient.monthOfBirth +
-      '/' +
-      this.patient.dayOfBirth +
-      '/' +
-      +this.patient.yearOfBirth;
+
     this.patientService
       .save(this.patient, currentUserEmail)
       .then((response: any) => {

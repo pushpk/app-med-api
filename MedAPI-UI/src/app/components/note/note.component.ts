@@ -232,7 +232,6 @@ export class NoteComponent extends FormCanDeactivate implements OnInit {
 
       this.selectNoteId = this.route.snapshot.paramMap.get('new');
       if (this.selectNoteId === 'new') {
-        // console.log(noteDetails, 'details112');
         this.note = noteDetails[0];
         this.note.specialty = this.speciality;
         this.note.userId = this.patient.userId;

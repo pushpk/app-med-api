@@ -177,7 +177,6 @@ export class MedicRegistrationComponent implements OnInit {
       maxWidth: '120vw',
     });
     dialogRef.afterClosed().subscribe((response: any) => {
-      console.log(response);
       if (response == undefined) {
         this.acceptTermsAndConditions = false;
         this.showRequiredError = true;

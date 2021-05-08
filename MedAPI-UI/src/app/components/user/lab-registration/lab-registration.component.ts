@@ -46,12 +46,9 @@ export class LabRegistrationComponent implements OnInit {
   }
 
   submitRequest() {
-    console.log(this.labUser);
     this.patientService
       .createLab(this.labUser)
       .then((response: any) => {
-        console.log(response);
-
         this.toastr.success('Laboratorio registrado con éxito.');
         this.router.navigateByUrl('/login');
       })
@@ -81,7 +78,6 @@ export class LabRegistrationComponent implements OnInit {
       maxWidth: '120vw',
     });
     dialogRef.afterClosed().subscribe((response: any) => {
-      console.log(response);
       if (response == undefined) {
         this.acceptTermsAndConditions = false;
         this.showRequiredError = true;
