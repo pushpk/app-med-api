@@ -13,7 +13,7 @@ export class IdleLogoutComponent implements OnInit, OnDestroy {
   timeLeft: number = 120;
   interval: any;
 
-  constructor(public dialogRef: MatDialogRef<IdleLogoutComponent>, private userService: UserService,
+  constructor(public dialogRef: MatDialogRef<IdleLogoutComponent>,
     private userAuthService: UserAuthService, private router: Router,
     @Inject(MAT_DIALOG_DATA) public data: any) { }
 
@@ -26,24 +26,23 @@ export class IdleLogoutComponent implements OnInit, OnDestroy {
     this.startTimer();
   }
 
-  cancel(): void {
+  logout(): void {
     this.dialogRef.close({
       logout: true,
     });
     this.userAuthService.clear();
-    this.router.navigateByUrl('/login');
-    this.userService.setInactivityAlert(true);
-    this.userService.resetTimer();
-    this.userService.stopTimer();
+    // this.userService.setInactivityAlert(true);
+    // this.userService.resetTimer();
+    // this.userService.stopTimer();
   }
 
-  answer() {
+  cancel() {
     this.dialogRef.close({
-      logout: true,
+      logout: false,
     });
-    this.userService.setInactivityAlert(false);
-    this.userService.resetTimer();
-    this.userService.stopTimer();
+    // this.userService.setInactivityAlert(false);
+    // this.userService.resetTimer();
+    // this.userService.stopTimer();
   }
 
   startTimer() {
@@ -51,7 +50,7 @@ export class IdleLogoutComponent implements OnInit, OnDestroy {
       if(this.timeLeft > 0) {
         this.timeLeft--;
       } else {
-        this.cancel();
+        this.logout();
       }
     },1000)
   }

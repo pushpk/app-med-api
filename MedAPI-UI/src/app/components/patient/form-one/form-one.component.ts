@@ -1,10 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { DateAdapter } from '@angular/material/core';
+import { MyDateAdapter } from 'src/app/shared/directive/date-adapter';
 import { PatientService } from '../service/patient.service';
 
 @Component({
   selector: 'app-form-one',
   templateUrl: './form-one.component.html',
   styleUrls: ['./form-one.component.scss'],
+  providers: [{provide: DateAdapter, useClass: MyDateAdapter}]
 })
 export class FormOneComponent implements OnInit {
   @Input() patient;
@@ -13,7 +16,10 @@ export class FormOneComponent implements OnInit {
 
   resources: any;
 
-  constructor(private patientService: PatientService) {}
+  constructor(private patientService: PatientService, private dateAdapter: DateAdapter<Date>,
+    ) {
+    this.dateAdapter.setLocale('en-GB');
+  }
 
   ngOnInit(): void {
     this.patientService.resources.subscribe((o) => {

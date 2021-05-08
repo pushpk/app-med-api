@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { Patient } from 'src/app/models/patient.model';
+import { MyDateAdapter } from 'src/app/shared/directive/date-adapter';
 import { DialogTermsAndConditionsComponent } from 'src/app/shared/termsAndConditions/dialog-terms-and-conditions.component';
 import { PatientService } from '../../patient/service/patient.service';
 
@@ -16,6 +17,7 @@ import { PatientService } from '../../patient/service/patient.service';
   selector: 'app-patient-registration',
   templateUrl: './patient-registration.component.html',
   styleUrls: ['./patient-registration.component.scss'],
+  providers: [{provide: DateAdapter, useClass: MyDateAdapter}]
 })
 export class PatientRegistrationComponent implements OnInit {
   resources: any;
@@ -31,6 +33,7 @@ export class PatientRegistrationComponent implements OnInit {
   filteredPersonalBackgrounds: Observable<string[]>;
   acceptTermsAndConditions = false;
   showRequiredError = false;
+  today = new Date();
 
   selectedAllergies = [];
   selectedMedicines = [];
@@ -78,7 +81,7 @@ export class PatientRegistrationComponent implements OnInit {
     this.patientService
       .registerPatient(this.patient)
       .then((response: any) => {
-        console.log(response);
+        // console.log(response);
         // this.submit.waiting = false;
         // this.submit.success = true;
         this.toastr.success('Paciente afiliado correctamente.');
@@ -303,7 +306,7 @@ export class PatientRegistrationComponent implements OnInit {
     this.patientService
       .updateProvinces(resourcesPath)
       .then((response: any) => {
-        console.log(response, 'response');
+        // console.log(response, 'response');
         this.resources.provinces = response;
       })
       .catch((error) => {
@@ -318,7 +321,7 @@ export class PatientRegistrationComponent implements OnInit {
     this.patientService
       .updateDistricts(resourcesPath)
       .then((response: any) => {
-        console.log(response, 'response');
+        // console.log(response, 'response');
         this.resources.districts = response;
       })
       .catch((error) => {
@@ -335,7 +338,7 @@ export class PatientRegistrationComponent implements OnInit {
       maxWidth: '120vw',
     });
     dialogRef.afterClosed().subscribe((response: any) => {
-      console.log(response);
+      // console.log(response);
       if (response == undefined) {
         this.acceptTermsAndConditions = false;
         this.showRequiredError = true;

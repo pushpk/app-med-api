@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
-import { IConfig } from 'ngx-mask';
+// import { IConfig } from 'ngx-mask';
 import { InputMaskDirective } from '../../shared/directive/input-mask.directive';
 import { SharedModule } from '../../shared/shared.module';
 import { CreatePatientComponent } from './create-patient/create-patient.component';
@@ -13,7 +13,7 @@ import { FormThreeComponent } from './form-three/form-three.component';
 import { FormTwoComponent } from './form-two/form-two.component';
 import { PatientComponent } from './patient.component';
 
-export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
+// export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
 
 const routes: Routes = [
   {

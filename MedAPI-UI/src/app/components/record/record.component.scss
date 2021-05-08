@@ -38,8 +38,8 @@ table{
  .mat-column-description {
    word-wrap: break-word !important;
    white-space: unset !important;
-   flex: 0 0 32% !important;
-   width: 32% !important;
+   flex: 0 0 38% !important;
+   width: 38% !important;
    overflow-wrap: break-word;
    word-wrap: break-word;
  
@@ -54,8 +54,8 @@ table{
  .mat-column-specialty {
    word-wrap: break-word !important;
    white-space: unset !important;
-   flex: 0 0 16% !important;
-   width: 16% !important;
+   flex: 0 0 17% !important;
+   width: 17% !important;
    overflow-wrap: break-word;
    word-wrap: break-word;
  
@@ -70,8 +70,8 @@ table{
  .mat-column-registrationDate {
    word-wrap: break-word !important;
    white-space: unset !important;
-   flex: 0 0 12% !important;
-   width: 12% !important;
+   flex: 0 0 10% !important;
+   width: 10% !important;
    overflow-wrap: break-word;
    word-wrap: break-word;
  
@@ -86,8 +86,8 @@ table{
  .mat-column-category {
    word-wrap: break-word !important;
    white-space: unset !important;
-   flex: 0 0 12% !important;
-   width: 12% !important;
+   flex: 0 0 10% !important;
+   width: 10% !important;
    overflow-wrap: break-word;
    word-wrap: break-word;
  
@@ -100,8 +100,8 @@ table{
  .mat-column-status {
   word-wrap: break-word !important;
   white-space: unset !important;
-  flex: 0 0 8% !important;
-  width: 8% !important;
+  flex: 0 0 10% !important;
+  width: 10% !important;
   overflow-wrap: break-word;
   word-wrap: break-word;
 
@@ -114,8 +114,8 @@ table{
 .mat-column-evaluation {
   word-wrap: break-word !important;
   white-space: unset !important;
-  flex: 0 0 10% !important;
-  width: 10% !important;
+  flex: 0 0 14% !important;
+  width: 14% !important;
   overflow-wrap: break-word;
   word-wrap: break-word;
 
@@ -229,8 +229,33 @@ table{
   // color: rgb(70,150,236);
   color: rgb(244,174,61);
   // font-weight: 500;
-
  }
+
+ .download-icon{
+  font-size:medium;
+  margin-right:3px; 
+  color:rgb(33, 150, 243); 
+  font-weight:500;
+ }
+
+ .button-classic{
+  background-color: rgb(237, 238, 243); 
+  border: 2px solid rgb(33, 150, 243);
+  border-radius:8px;
+ }
+
+ .button-highlight{
+  background-color:rgb(33, 150, 243); 
+  color: white; 
+  // border: 2px solid rgb(33, 150, 243);
+  padding-top: 2px;
+  padding-bottom: 2px;
+  border-radius:8px;
+  // box-shadow: 0 0 20px #eee;
+  // box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  // transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+  background-image: linear-gradient(to right, rgb(33, 150, 243), rgb(56, 130, 240))
+}
 
  @media only screen and (max-width: 736px) and (orientation:portrait) {
   mat-header-row, mat-row {

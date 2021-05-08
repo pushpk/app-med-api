@@ -56,17 +56,7 @@ export class UserService {
                 IsFreezed: boolean;
                 message: string;
               }) => {
-                this.timer = this.bnIdle
-                  .startWatching(1200)
-                  //.startWatching(60)
-                  .subscribe((isTimedOut: boolean) => {
-                    // console.log(isTimedOut);
-                    if (isTimedOut) {
-                      this.bnIdle.stopTimer();
-                      this.bnIdle.resetTimer();
-                      this.showIdleTimer();
-                    }
-                  });
+                this.startTimer();
                 if (response.message) {
                   return response.message;
                 } else {
@@ -142,6 +132,20 @@ export class UserService {
     this.bnIdle.resetTimer();
   }
 
+  startTimer(){
+    this.timer = this.bnIdle
+    .startWatching(1200)
+    //.startWatching(60)
+    .subscribe((isTimedOut: boolean) => {
+      // console.log(isTimedOut);
+      if (isTimedOut) {
+        this.bnIdle.stopTimer();
+        this.bnIdle.resetTimer();
+        this.showIdleTimer();
+      }
+    });
+  }
+
   setInactivityAlert(value: boolean): any {
     this.showInactivityAlert = value;
   }
@@ -158,11 +162,17 @@ export class UserService {
       maxWidth: '120vh',
     });
     this.dialogRef.afterClosed().subscribe((response: any) => {
-      this.dialogRef = null;
+        this.dialogRef = null;
+        this.bnIdle.resetTimer();
+        this.bnIdle.stopTimer();
+        this.timer.unsubscribe();
+        this.timer = null;
       if (response !== undefined && response.logout === false) {
         this.showInactivityAlert = false;
+        this.startTimer();
       } else {
-        this.timer.unsubscribe();
+        this.showInactivityAlert = true;
+        this.router.navigateByUrl('/login');
         // this.timer.unsubscribe();
         // this.logout();
       }

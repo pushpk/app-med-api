@@ -9,7 +9,7 @@ export const environment = {
   // apiUrl: 'http://localhost:8080/api/',
 
   loginUrl: 'http://localhost/MedAPI/',
-  //loginUrl: 'http://localhost:8080/',
+  // loginUrl: 'http://localhost:8080/',
   userInfo_LocalStoreKey: 'userData',
 };
 

@@ -119,6 +119,10 @@ import { DialogTermsAndConditionsComponent } from './termsAndConditions/dialog-t
     MatNativeDateModule,
     MatMomentDateModule,
   ],
-  providers: [MatDatepickerModule, MatNativeDateModule, TitleCasePipe],
+  providers: [
+    MatDatepickerModule,
+    MatNativeDateModule,
+    TitleCasePipe,
+  ],
 })
 export class SharedModule {}

@@ -106,28 +106,30 @@
 
     <div *ngIf="this.isMedicAuthorized">
       <a
+        class="button-classic"
         *ngIf="this.isUserAdmin"
         mat-button
         color="primary"
         href="javascript:void(0);"
-        style="margin-bottom: 20px; background-color: rgb(237, 238, 243)"
+        style="margin-bottom: 20px;"
         (click)="navigateToPatient()"
       >
         Info Detallada
       </a>
       <a
+        class="button-classic"
         *ngIf="this.isUserPatient"
         mat-button
         color="primary"
         href="javascript:void(0);"
-        style="margin-bottom: 20px; background-color: rgb(237, 238, 243)"
+        style="margin-bottom: 20px;"
         (click)="navigateToPatient()"
       >
         Editar Info
       </a>
 
       <mat-card class="no-pad">
-        <mat-card-content>
+        <mat-card-content style="margin-bottom: 0;">
           <!-- <mat-toolbar color="default">
       <mat-toolbar-row> -->
           <div fxLayout="row wrap" fxLayoutAlign="left center">
@@ -154,9 +156,7 @@
             </div>
           </div>
 
-          <!-- </mat-toolbar-row>
-    </mat-toolbar> -->
-          <div *ngIf="!this.isUserLabPerson">
+          <!-- <div *ngIf="!this.isUserLabPerson">
             <div
               fxLayout="row wrap"
               fxLayoutAlign="left center"
@@ -203,7 +203,7 @@
                 />
               </mat-form-field>
             </div>
-          </div>
+          </div> -->
 
           <!-- <div style="width: 95% !important; margin-bottom: 10px; margin-top: 10px !important;" class="ml-24" > -->
 
@@ -218,7 +218,7 @@
 
 </div> -->
         </mat-card-content>
-        <mat-card-actions fxLayout="row" fxLayoutAlign="end center">
+        <!-- <mat-card-actions fxLayout="row" fxLayoutAlign="end center">
           <button
             mat-button
             color="primary"
@@ -228,7 +228,7 @@
           >
             Guardar
           </button>
-        </mat-card-actions>
+        </mat-card-actions> -->
       </mat-card>
 
       <div
@@ -300,15 +300,16 @@
 
       <div *ngIf="showRecord && !this.isUserLabPerson" id="recordTable">
         <!-- <div fxFlex="100" *ngIf="ticket.status === 0 && this.isUserAdmin"> -->
+          <!-- color="primary" -->
         <a
+          class="button-highlight"
           mat-button
-          color="primary"
           href="javascript:void(0);"
           *ngIf="this.isUserAdmin"
-          style="margin-bottom: 20px; background-color: rgb(237, 238, 243)"
+          style="margin-bottom: 20px;"
           (click)="navigateToNotes(null)"
         >
-          Nueva atención
+          Crear atención nueva
         </a>
         <br />
 
@@ -516,17 +517,9 @@
             </mat-cell>
           </ng-container>
 
-          <ng-container matColumnDef="category">
+          <!-- <ng-container matColumnDef="category">
             <mat-header-cell *matHeaderCellDef mat-sort-header>
               <div style="display: block">
-                <!-- <mat-form-field style="width: 80%; display: flex; justify-content: space-around; text-align: center;">
-                <input
-                  matInput
-                  [(ngModel)]="filterEntity.category"
-                  appearance="outline"
-                  placeholder="Buscar Categoría"
-                />
-              </mat-form-field> -->
                 <div style="display: flex">
                   <span>Categoría</span>
                 </div>
@@ -535,7 +528,7 @@
             <mat-cell *matCellDef="let element">
               {{ element.category === "attention" ? "atención" : "evolución" }}
             </mat-cell>
-          </ng-container>
+          </ng-container> -->
 
           <ng-container matColumnDef="status">
             <mat-header-cell *matHeaderCellDef mat-sort-header>
@@ -573,7 +566,7 @@
           <ng-container matColumnDef="evaluation">
             <mat-header-cell *matHeaderCellDef> </mat-header-cell>
             <mat-cell *matCellDef="let element">
-              <span
+              <div
                 class="download"
                 (click)="navigateToNotes(element.id)"
                 (click)="$event.stopPropagation()"
@@ -582,11 +575,12 @@
                   element.category != 'evaluation' &&
                   element.status == 'open'
                 "
-                style="cursor: pointer"
+                style="cursor: pointer; display: flex; align-items: center;"
                 disabled
               >
-                Adjuntar evolución
-              </span>
+                <i class="material-icons download" style="font-size: medium; margin-right:3px; font-weight:500; color:rgb(33, 150, 243);">add_circle_outline</i>
+                evolución
+              </div>
             </mat-cell>
           </ng-container>
 
@@ -681,10 +675,10 @@
         </div>
         <div *ngIf="this.isUserAdmin || this.isUserLabPerson">
           <button
+            class="button-classic"
             mat-button
             type="button"
             color="primary"
-            style="background-color: rgb(237, 238, 243)"
             (click)="toggleUploadCard()"
           >
             Cargar resultado nuevo
