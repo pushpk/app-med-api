@@ -467,6 +467,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <Property Name="patient_id" Type="bigint" />
           <Property Name="ticket_id" Type="bigint" />
           <Property Name="speciality" Type="nvarchar" MaxLength="255" />
+          <Property Name="saturation" Type="float" />
         </EntityType>
         <EntityType Name="upload">
           <Key>
@@ -1772,6 +1773,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <NavigationProperty Name="notes" Relationship="Self.FK_note_triage" FromRole="triage" ToRole="note" />
           <NavigationProperty Name="ticket" Relationship="Self.ticket____triage" FromRole="triage" ToRole="ticket" />
           <Property Name="speciality" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="saturation" Type="Double" />
         </EntityType>
         <EntityType Name="upload">
           <Key>
@@ -3096,6 +3098,7 @@ warning 6002: The table/view 'registroclinico.registroclinico.role_permissions' 
           <EntitySetMapping Name="triages">
             <EntityTypeMapping TypeName="registroclinicoModel.triage">
               <MappingFragment StoreEntitySet="triage">
+                <ScalarProperty Name="saturation" ColumnName="saturation" />
                 <ScalarProperty Name="speciality" ColumnName="speciality" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="abdominalPerimeter" ColumnName="abdominalPerimeter" />
