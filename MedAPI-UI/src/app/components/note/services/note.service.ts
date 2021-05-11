@@ -10,6 +10,7 @@ export class NoteService {
   resources: BehaviorSubject<[]> = new BehaviorSubject([]);
   updateComputedFieldsEvent: EventEmitter<[]> = new EventEmitter<[]>();
   isPharmacologicalEvent = new BehaviorSubject<boolean>(true);
+  isTeleconsultation = new BehaviorSubject<boolean>(true);
   isPharmacological = this.isPharmacologicalEvent.asObservable();
   // isPharmacologicalChange: EventEmitter<boolean> = new EventEmitter<boolean>();
 
@@ -24,6 +25,9 @@ export class NoteService {
     this.isPharmacologicalEvent.next(isPharma);
   }
 
+  setIsTeleconsultation(isTeleconsultation: boolean){
+    this.isTeleconsultation.next(isTeleconsultation);
+  }
   // getIsPharmacological(){
   //   return this.isPharmacological;
   // }

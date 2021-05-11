@@ -17,6 +17,7 @@ import { DialogDiabetesRiskComponent } from '../indicators/dialog-diabetes-risk/
 import { DialogFractureRiskComponent } from '../indicators/dialog-fracture-risk/dialog-fracture-risk.component';
 import { FormCanDeactivate } from 'src/app/auth/form-can-deactivate';
 import { ControlContainer, NgForm } from '@angular/forms';
+// import { ConsoleReporter } from 'jasmine';
 
 @Component({
   selector: 'app-form-triage',
@@ -30,14 +31,33 @@ export class FormTriageComponent implements OnInit {
   @Input() patient: any;
   @Input() isEditable: boolean;
   @Output() computedFieldsChange = new EventEmitter<any>();
+  isTeleconsultation = true;
+  showSelectVitalFunctions = false;
   BMI: number;
 
   constructor(public noteService: NoteService, public dialog: MatDialog) {}
 
   ngOnInit(): void {
+    if (!this.isEditable){
+      this.isTeleconsultation = false;
+    }
     this.noteService.resources.subscribe((o) => {
       this.resources = o;
     });
+  }
+
+  onSpecialtySelected(event): any{
+    const specialty = this.resources.specialities.find(d => d.id.toString() === event.toString());
+    if (specialty.name === 'CARDIOLOGIA' || specialty.name === 'MEDICINA GENERAL' || specialty.name === 'MEDICINA INTERNA' || specialty.name === 'NEUMOLOGIA'){
+      this.showSelectVitalFunctions = true;
+    }
+    else {
+      this.showSelectVitalFunctions = false;
+    }
+  }
+
+  updateForm(event): any{
+    this.noteService.setIsTeleconsultation(event.checked);
   }
 
   updateComputedFields() {

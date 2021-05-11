@@ -513,7 +513,7 @@ export class NoteComponent extends FormCanDeactivate implements OnInit {
     //this.note.symptoms.duration
     //this.note.symptoms.durationUnit
     //this.note.diagnosis.list.length
-    this.note.treatments.list.length;
+    // this.note.treatments.list.length;
 
     //
     self.submit.waiting = true;

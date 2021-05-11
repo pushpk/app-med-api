@@ -41,6 +41,7 @@ import { Triage } from '../../models/triage.model';
 import { CheckEmptyUtil } from '../../shared/util/check-empty.util';
 import { NoteService } from '../note/services/note.service';
 import { RecordService } from './services/record.service';
+import * as moment from 'moment';
 
 export enum TicketStatus {
   REGISTERED = 0,
@@ -81,6 +82,10 @@ export class RecordComponent implements OnInit, OnDestroy {
   showRecord: boolean;
   isMedicAuthorized: boolean = true;
   isMedicBlockedForFurtherRequest: boolean = false;
+  patientAllergies: string = '';
+  patientMedicines: string = '';
+  patientDiseases: string = '';
+
 
   // displayedColumns: string[] = ['id', 'specialty', 'date', 'category', 'description', 'status', 'evaluation', 'action'];
 
@@ -652,8 +657,6 @@ export class RecordComponent implements OnInit, OnDestroy {
   }
 
   navigateToNotes(id: number) {
-    console.log(id);
-
     let routerPath = '/records/notes/new';
     switch (this.selectedSpeciality) {
       case 'general':
@@ -940,6 +943,7 @@ export class RecordComponent implements OnInit, OnDestroy {
         triage.vitalFunctions.hypertensionRisk = note.triage.hypertensionRisk;
         triage.vitalFunctions.diabetesRisk = note.triage.diabetesRisk;
         triage.vitalFunctions.fractureRisk = note.triage.fractureRisk;
+        triage.vitalFunctions.saturation = note.triage.saturation;
         triage.others.totalCholesterol = note.triage.totalCholesterol;
         triage.others.ldlCholesterol = note.triage.ldlCholesterol;
         triage.others.hdlCholesterol = note.triage.hdlCholesterol;
@@ -990,6 +994,7 @@ export class RecordComponent implements OnInit, OnDestroy {
         this.patient.documentType = patientDetails.user.documentType;
         this.patient.documentNumber = patientDetails.user.documentNumber;
         this.patient.birthday = patientDetails.user.birthday;
+        this.patient.age = moment(new Date()).diff(this.patient.birthday, 'years');
         this.patient.sex = patientDetails.user.sex;
         this.patient.maritalStatus = patientDetails.user.maritalStatus;
         this.patient.province = String(patientDetails.user.provinceId);
@@ -1033,7 +1038,7 @@ export class RecordComponent implements OnInit, OnDestroy {
           patientDetails.otherFatherBackground;
         this.patient.otherMotherBackground =
           patientDetails.otherMotherBackground;
-        this.patient.passwordHash = patientDetails.user.passwordHash;
+        // this.patient.passwordHash = patientDetails.user.passwordHash;
         this.patient.allergies = this.setAllergiesList(patientDetails);
         this.patient.medicines = this.setMedicinesList(patientDetails);
         this.patient.personalBackground = this.setPatientPersonalbackgroundList(
@@ -1077,6 +1082,7 @@ export class RecordComponent implements OnInit, OnDestroy {
             }
           });
         }
+        this.patientAllergies = allergies.map(d => d.name).join(", ");
         return allergies;
       }
     } catch (e) {
@@ -1101,6 +1107,7 @@ export class RecordComponent implements OnInit, OnDestroy {
             }
           });
         }
+        this.patientMedicines = medicines.map(d => d.name).join(", ");
         return medicines;
       }
     } catch (e) {
@@ -1173,6 +1180,7 @@ export class RecordComponent implements OnInit, OnDestroy {
             }
           });
         }
+        this.patientDiseases = pBackgrounds.map(d => d.name).join(", ");
         return pBackgrounds;
       }
     } catch (e) {

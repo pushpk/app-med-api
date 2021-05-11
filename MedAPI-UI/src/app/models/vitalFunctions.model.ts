@@ -14,4 +14,5 @@ export class VitalFunctions {
   diabetesRisk = '';
   fractureRisk = '';
   cardiovascularAge = '';
+  saturation = '';
 }

@@ -15,6 +15,7 @@ namespace MedAPI.models
         public double diabetesRisk { get; set; }
         public double fractureRisk { get; set; }
         public double cardiovascularAge { get; set; }
+        public double saturation { get; set; }
         public double systolic { get; set; }
         public double heartRate { get; set; }
         public double respiratoryRate { get; set; }

@@ -449,6 +449,7 @@ namespace MedAPI.Controllers
             triage.heartRisk = note.triage.vitalFunctions.cardiovascularAge;
             triage.hypertensionRisk = note.triage.vitalFunctions.hypertensionRisk;
             triage.systolicBloodPressure = note.triage.vitalFunctions.systolic;
+            triage.saturation = note.triage.vitalFunctions.saturation;
             triage.temperature = note.triage.vitalFunctions.temperature;
             triage.weight = note.triage.vitalFunctions.weight;
             triage.size = note.triage.vitalFunctions.height;

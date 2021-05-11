@@ -19,6 +19,7 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   timer: any;
   showInactivityAlert: boolean = false;
+  isLoading = false;
 
   constructor(
     private fb: FormBuilder,
@@ -52,6 +53,7 @@ export class LoginComponent implements OnInit {
   }
 
   doLogin() {
+    this.isLoading = true;
     const self = this;
     let username = self.loginForm.get('username').value;
     let password = self.loginForm.get('password').value;
@@ -61,6 +63,7 @@ export class LoginComponent implements OnInit {
       grant_type: 'password',
     };
     this.userService.login(credentials).then((response: any) => {
+      this.isLoading = false;
       if (response === 'Email_Not_Confirmed') {
         var rt = '/email-not-confirmed?email=' + username;
         this.router.navigateByUrl(rt);

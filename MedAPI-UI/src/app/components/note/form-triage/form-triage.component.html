@@ -10,17 +10,42 @@
 <div class="maintainer">
   <div class="layout-padding" fxLayout="column">
     <!-- <fieldset [disabled]="isEditable"> -->
-    <div fxLayout="column">
-      <h2 class="mat-title form-section" fxFlex="100">Especialidades</h2>
+    <div fxLayout="column" *ngIf="this.isEditable">
+      <h2 class="mat-title form-section" fxFlex="100">Tipo de consulta</h2>
       <div fxLayout="row" fxLayoutGap="24px">
+        <h4 [ngClass]="{'highlight': !isTeleconsultation}">Presencial</h4>
+        <mat-slide-toggle sliderColor 
+                          [sliderColor]="'lightgrey'" 
+                          [circleColor]="'rgb(139,126,190)'" 
+                          name="teleconsultation" 
+                          [(ngModel)]="isTeleconsultation" 
+                          style="margin-top:12px;" 
+                          (change)="updateForm($event)">
+        </mat-slide-toggle>
+        <h4 [ngClass]="{'highlight': isTeleconsultation}">Teleconsulta</h4>
+      </div>
+    </div>
+    <!-- <div fxLayout="column" *ngIf="this.isEditable">
+      <h2 class="mat-title form-section">Tipo de consulta</h2>
+      <div fxLayout="row wrap">
+        <mat-button-toggle-group [(ngModel)]="isTeleconsultation" (change)="updateForm($event)" name="isTeleconsultation" aria-label="Font Style">
+          <mat-button-toggle [checked]="isTeleconsultation" [value]="true">Teleconsulta</mat-button-toggle>
+          <mat-button-toggle [checked]="!isTeleconsultation" [value]="false">Presencial</mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+    </div> -->
+    <div fxLayout="column">
+      <h2 class="mat-title form-section" fxFlex="100">Especialidad</h2>
+      <div fxLayout="row wrap" fxLayoutAlign="space-between center">
         <mat-form-field fxFlex>
-          <mat-label>Especialidades</mat-label>
+          <mat-label>Especialidad</mat-label>
           <mat-select
             [disabled]="!isEditable"
             name="specialities"
             class="max-width"
             required
             #specialities="ngModel"
+            (valueChange)="onSpecialtySelected($event)"
             [(ngModel)]="note.triage.others.specialities"
           >
             <mat-option
@@ -42,8 +67,8 @@
     </div>
     <div fxLayout="column" *ngIf="this.note.category == 'attention'">
       <h2 class="mat-title form-section" fxFlex="100">Funciones biológicas</h2>
-      <div fxLayout="row" fxLayoutGap="24px">
-        <mat-form-field fxFlex>
+      <div fxLayout="row" fxLayout="row wrap" fxLayoutAlign="space-between center">
+        <mat-form-field fxFlex fxFlex="32" fxFlex.md="32" fxFlex.xs="100">
           <mat-label>Apetito</mat-label>
           <mat-select
             [disabled]="!isEditable"
@@ -61,7 +86,7 @@
             Este campo es requerido
           </mat-error>
         </mat-form-field>
-        <mat-form-field fxFlex>
+        <mat-form-field fxFlex fxFlex="32" fxFlex.md="32" fxFlex.xs="100">
           <mat-label>Sed</mat-label>
           <mat-select
             [disabled]="!isEditable"
@@ -79,7 +104,7 @@
             Este campo es requerido
           </mat-error>
         </mat-form-field>
-        <mat-form-field fxFlex>
+        <mat-form-field fxFlex fxFlex="32" fxFlex.md="32" fxFlex.xs="100">
           <mat-label>Sueño</mat-label>
           <mat-select
             [disabled]="!isEditable"
@@ -98,8 +123,8 @@
           </mat-error>
         </mat-form-field>
       </div>
-      <div fxLayout="row" fxLayoutGap="24px">
-        <mat-form-field fxFlex>
+      <div fxLayout="row wrap" fxLayoutAlign="space-between center">
+        <mat-form-field fxFlex fxFlex="32" fxFlex.md="32" fxFlex.xs="100">
           <mat-label>Diuresis</mat-label>
           <mat-select
             [disabled]="!isEditable"
@@ -117,7 +142,7 @@
             Este campo es requerido
           </mat-error>
         </mat-form-field>
-        <mat-form-field fxFlex>
+        <mat-form-field fxFlex fxFlex="32" fxFlex.md="32" fxFlex.xs="100">
           <mat-label>Deposiciones</mat-label>
           <mat-select
             [disabled]="!isEditable"
@@ -141,7 +166,7 @@
             Este campo es requerido
           </mat-error>
         </mat-form-field>
-        <mat-form-field fxFlex>
+        <mat-form-field fxFlex fxFlex="32" fxFlex.md="32" fxFlex.xs="100">
           <mat-label>Evolución ponderal</mat-label>
           <mat-select
             [disabled]="!isEditable"
@@ -169,9 +194,9 @@
       </div>
     </div>
     <div fxLayout="column">
-      <h2 class="mat-title form-section" fxFlex="100">Funciones vitales</h2>
-      <div fxLayout="row" fxLayoutGap="24px">
-        <mat-form-field fxFlex>
+      <h2 *ngIf="!this.isTeleconsultation || this.showSelectVitalFunctions" class="mat-title form-section" fxFlex="100">Funciones vitales (opcionales)</h2>
+      <div fxLayout="row wrap" fxLayoutAlign="space-between center">
+        <mat-form-field fxFlex *ngIf="!this.isTeleconsultation || this.showSelectVitalFunctions" fxFlex="32" fxFlex.md="32" fxFlex.xs="100">
           <mat-label>Presión arterial sistólica (mmHg)</mat-label>
           <input
             [disabled]="!isEditable"
@@ -184,7 +209,7 @@
             (change)="updateComputedFields()"
           />
         </mat-form-field>
-        <mat-form-field fxFlex>
+        <mat-form-field fxFlex *ngIf="!this.isTeleconsultation || this.showSelectVitalFunctions" fxFlex="32" fxFlex.md="32" fxFlex.xs="100">
           <mat-label>Presión arterial diastólica (mmHg)</mat-label>
           <input
             [disabled]="!isEditable"
@@ -197,7 +222,7 @@
             (change)="updateComputedFields()"
           />
         </mat-form-field>
-        <mat-form-field fxFlex>
+        <mat-form-field fxFlex *ngIf="!this.isTeleconsultation || this.showSelectVitalFunctions" fxFlex="32" fxFlex.md="32" fxFlex.xs="100">
           <mat-label>Frecuencia cardiaca (lpm)</mat-label>
           <input
             [disabled]="!isEditable"
@@ -210,20 +235,8 @@
           />
         </mat-form-field>
       </div>
-      <div fxLayout="row" fxLayoutGap="24px">
-        <mat-form-field fxFlex>
-          <mat-label>Frecuencia respiratoria (rpm)</mat-label>
-          <input
-            [disabled]="!isEditable"
-            type="number"
-            name="respiratoryRate"
-            min="0"
-            #respiratoryRate="ngModel"
-            matInput
-            [(ngModel)]="note.triage.vitalFunctions.respiratoryRate"
-          />
-        </mat-form-field>
-        <mat-form-field fxFlex>
+      <div fxLayout="row wrap" fxLayoutAlign="space-between center">
+        <mat-form-field fxFlex *ngIf="!this.isTeleconsultation || this.showSelectVitalFunctions" fxFlex="32" fxFlex.md="32" fxFlex.xs="100">
           <mat-label>Temperatura (C°)</mat-label>
           <input
             [disabled]="!isEditable"
@@ -235,22 +248,33 @@
             [(ngModel)]="note.triage.vitalFunctions.temperature"
           />
         </mat-form-field>
-        <mat-form-field fxFlex>
-          <mat-label>saturación (%)</mat-label>
+        <mat-form-field fxFlex *ngIf="!this.isTeleconsultation || this.showSelectVitalFunctions" fxFlex="32" fxFlex.md="32" fxFlex.xs="100">
+          <mat-label>Saturación (%)</mat-label>
           <input
             [disabled]="!isEditable"
             type="number"
-            name="waistCircumference"
+            name="saturation"
             min="0"
             matInput
-            #waistCircumference="ngModel"
-            [(ngModel)]="note.triage.vitalFunctions.waistCircumference"
-            (change)="updateComputedFields()"
+            #saturation="ngModel"
+            [(ngModel)]="note.triage.vitalFunctions.saturation"
+          />
+        </mat-form-field>
+        <mat-form-field fxFlex *ngIf="!this.isTeleconsultation || this.showSelectVitalFunctions" fxFlex="32" fxFlex.md="32" fxFlex.xs="100">
+          <mat-label>Frecuencia respiratoria (rpm)</mat-label>
+          <input
+            [disabled]="!isEditable"
+            type="number"
+            name="respiratoryRate"
+            min="0"
+            #respiratoryRate="ngModel"
+            matInput
+            [(ngModel)]="note.triage.vitalFunctions.respiratoryRate"
           />
         </mat-form-field>
       </div>
-      <div fxLayout="row" fxLayoutGap="24px">
-        <mat-form-field fxFlex="32">
+      <div fxLayout="row wrap" fxLayoutAlign="space-between center">
+        <mat-form-field *ngIf="!this.isTeleconsultation" fxFlex="32" fxFlex.md="32" fxFlex.xs="100">
           <mat-label>Talla (m)</mat-label>
           <input
             [disabled]="!isEditable"
@@ -264,7 +288,7 @@
             (change)="updateComputedFields()"
           />
         </mat-form-field>
-        <mat-form-field fxFlex="32">
+        <mat-form-field fxFlex *ngIf="!this.isTeleconsultation" fxFlex="32" fxFlex.md="32" fxFlex.xs="100">
           <mat-label>Peso (kg)</mat-label>
           <input
             [disabled]="!isEditable"
@@ -278,8 +302,10 @@
           />
         </mat-form-field>
         <mat-form-field
-          fxFlex="32"
+          fxFlex
+          fxFlex="32" fxFlex.md="32" fxFlex.xs="100"
           ngClass="{'mat-icon-left mat-has-icon': note.triage.vitalFunctions.bmi > 25}"
+          *ngIf="!this.isTeleconsultation"
         >
           <mat-label>IMC (kg/m<sup>2</sup>)</mat-label>
           <div fxLayout="row">
