@@ -84,7 +84,6 @@ export class CommonService {
       var contentFontSize = 14;
       var tableFontSize = 12;
 
-
       const medicId = note.medicId === null ? +localStorage.getItem('loggedInID') : +note.medicId;
       this.getMedicForThisNote(medicId)
         .then((response: Medic) => {
@@ -127,8 +126,7 @@ export class CommonService {
           doc.setFontSize(contentFontSize);
 
           doc.text(
-            'Fecha: ' +
-            note.registrationDate ? this.datepipe.transform(note.registrationDate, 'dd/MM/yyyy') : this.datepipe.transform(new Date(), 'dd/MM/yyyy'),
+            'Fecha: ' + (note.registrationDate ? this.datepipe.transform(note.registrationDate, 'dd/MM/yyyy') : this.datepipe.transform(new Date(), 'dd/MM/yyyy')),
             doc.internal.pageSize.width / 2,
             currentY + 7,
             null,
@@ -671,16 +669,13 @@ export class CommonService {
           doc.text(
             'CMP:' + this.medicForNote.cmp + ' RNE:' + this.medicForNote.rne,
             14,
-
             34 + finalY
-
           );
 
           doc.text(
-            'Fecha:' + 
-              note.registrationDate ? this.datepipe.transform(note.registrationDate, 'dd/MM/yyyy') : this.datepipe.transform(new Date(), 'dd/MM/yyyy'),
-            14,
-            40 + finalY
+            'Fecha:' + (note.registrationDate ? this.datepipe.transform(note.registrationDate, 'dd/MM/yyyy') : this.datepipe.transform(new Date(), 'dd/MM/yyyy')),
+              14,
+              40 + finalY
           );
 
 

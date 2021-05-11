@@ -105,3 +105,8 @@
   .alert-danger .alert-link {
     color: #843534;
   }
+
+  @keyframes spinner {
+    to {transform: rotate(360deg);}
+  }
+   

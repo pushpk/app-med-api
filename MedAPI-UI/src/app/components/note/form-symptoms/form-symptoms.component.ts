@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output, OnDestroy } from '@angular/core';
 import { NoteService } from '../services/note.service';
 import { ControlContainer, FormControl, NgForm } from '@angular/forms';
 import { Observable } from 'rxjs';
@@ -15,11 +15,13 @@ import { CheckEmptyUtil } from '../../../shared/util/check-empty.util';
   styleUrls: ['./form-symptoms.component.scss'],
   viewProviders: [{ provide: ControlContainer, useExisting: NgForm }],
 })
-export class FormSymptomsComponent implements OnInit {
+export class FormSymptomsComponent implements OnInit, OnDestroy {
   resources: any;
   @Input() note: any;
   @Input() patient: any;
   @Input() isEditable: boolean;
+  isTeleconsultation: boolean;
+  isTeleconsultationSubscription: any;
   durationUnits: any;
 
   //diagnosisCtrl = new FormControl();
@@ -52,6 +54,12 @@ export class FormSymptomsComponent implements OnInit {
 
   constructor(public noteService: NoteService, public dialog: MatDialog) {}
 
+  ngOnDestroy(): void {
+    if (this.isTeleconsultationSubscription){
+      this.isTeleconsultationSubscription.unsubscribe();
+    }
+  }
+
   ngOnInit(): void {
     this.noteService.resources.subscribe((o) => {
       this.resources = o;
@@ -73,6 +81,12 @@ export class FormSymptomsComponent implements OnInit {
       { id: 4, name: 'Meses' },
       { id: 5, name: 'Años' },
     ];
+    this.noteService.isTeleconsultation.subscribe(data => {
+      this.isTeleconsultation = data;
+    });
+    if (!this.isEditable){
+      this.isTeleconsultation = false;
+    }
   }
 
   //getDiagnosis() {

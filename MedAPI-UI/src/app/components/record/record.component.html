@@ -133,28 +133,74 @@
           <!-- <mat-toolbar color="default">
       <mat-toolbar-row> -->
           <div fxLayout="row wrap" fxLayoutAlign="left center">
-            <div fxFlex="15" fxFlex.md="20" fxFlex.sm="25" fxFlex.xs="32">
-              <h4 style="margin-top: 15px; margin-left: 22px">Nombre:</h4>
+            <div fxFlex="15" fxFlex.md="20" fxFlex.sm="25" fxFlex.xs="36">
+              <h4 class="ellipsis" style="margin-top: 15px; margin-left: 22px">Nombre:</h4>
             </div>
-            <div fxFlex="75" fxFlex.md="70" fxFlex.sm="65" fxFlex.xs="58">
-              <h2 style="margin-top: 15px; font-weight: normal">
+            <div fxFlex="75" fxFlex.md="70" fxFlex.sm="65" fxFlex.xs="54">
+              <h3 style="margin-top: 15px; font-weight: normal">
                 {{ patient.lastnameFather | uppercase }}
                 {{ patient.lastnameMother | uppercase }},
                 {{ patient.name }}
-              </h2>
+              </h3>
             </div>
           </div>
 
           <div fxLayout="row wrap" fxLayoutAlign="left center">
-            <div fxFlex="15" fxFlex.md="20" fxFlex.sm="25" fxFlex.xs="32">
-              <h4 style="margin-top: 15px; margin-left: 22px">Fec. Nac.:</h4>
+            <div fxFlex="15" fxFlex.md="20" fxFlex.sm="25" fxFlex.xs="36">
+              <h4 class="ellipsis" style="margin-top: 15px; margin-left: 22px">Fec. Nac.:</h4>
             </div>
-            <div fxFlex="75" fxFlex.md="70" fxFlex.sm="65" fxFlex.xs="58">
+            <div fxFlex="75" fxFlex.md="70" fxFlex.sm="65" fxFlex.xs="54">
               <h4 style="margin-top: 15px; font-weight: normal">
                 {{ patient.birthday | date: "dd/MM/yyyy" }}
               </h4>
             </div>
           </div>
+
+          <div fxLayout="row wrap" fxLayoutAlign="left center">
+            <div fxFlex="15" fxFlex.md="20" fxFlex.sm="25" fxFlex.xs="36">
+              <h4 class="ellipsis" style="margin-top: 15px; margin-left: 22px">Edad:</h4>
+            </div>
+            <div fxFlex="75" fxFlex.md="70" fxFlex.sm="65" fxFlex.xs="54">
+              <h4 style="margin-top: 15px; font-weight: normal">
+                {{ patient.age + ' años' }}
+              </h4>
+            </div>
+          </div>
+
+          <div *ngIf="!this.isUserLabPerson" fxLayout="row wrap" fxLayoutAlign="left center">
+            <div fxFlex="15" fxFlex.md="20" fxFlex.sm="25" fxFlex.xs="36">
+              <h4 class="ellipsis" style="margin-top: 15px; margin-left: 22px">Alergias:</h4>
+            </div>
+            <div fxFlex="75" fxFlex.md="70" fxFlex.sm="65" fxFlex.xs="54">
+              <h4 style="margin-top: 15px; font-weight: normal">
+                {{ patientAllergies !== '' ? patientAllergies : 'Ninguna' }}
+              </h4>
+            </div>
+          </div>
+
+          <div *ngIf="!this.isUserLabPerson" fxLayout="row wrap" fxLayoutAlign="left center">
+            <div fxFlex="15" fxFlex.md="20" fxFlex.sm="25" fxFlex.xs="36">
+              <h4 class="ellipsis" style="margin-top: 15px; margin-left: 22px">Medicinas:</h4>
+            </div>
+            <div fxFlex="75" fxFlex.md="70" fxFlex.sm="65" fxFlex.xs="54">
+              <h4 style="margin-top: 15px; font-weight: normal">
+                {{ patientMedicines !== '' ? patientMedicines : 'Ninguna' }}
+              </h4>
+            </div>
+          </div>
+
+          <div *ngIf="!this.isUserLabPerson" fxLayout="row wrap" fxLayoutAlign="left center">
+            <div fxFlex="15" fxFlex.md="20" fxFlex.sm="25" fxFlex.xs="36">
+              <h4 class="ellipsis" style="margin-top: 15px; margin-left: 22px">Antecedentes:</h4>
+            </div>
+            <div fxFlex="75" fxFlex.md="70" fxFlex.sm="65" fxFlex.xs="54">
+              <h4 style="margin-top: 15px; font-weight: normal">
+                {{ patientDiseases !== '' ? patientDiseases : 'Ninguno'}}
+              </h4>
+            </div>
+          </div>
+
+
 
           <!-- <div *ngIf="!this.isUserLabPerson">
             <div

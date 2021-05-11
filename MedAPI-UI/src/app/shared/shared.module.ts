@@ -36,6 +36,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { ngfModule } from 'angular-file';
 import { ToastrModule } from 'ngx-toastr';
 import { NgInit } from './directive/nginit.directive';
+import { SliderColorDirective } from './directive/slider-color.directive';
 import { HeaderComponent } from './header/header.component';
 import { IdleLogoutComponent } from './idle-logout/idle-logout.component';
 import { OrderByPipe } from './order-by.pipe';
@@ -50,6 +51,7 @@ import { DialogTermsAndConditionsComponent } from './termsAndConditions/dialog-t
     OrderByPipe,
     DialogTermsAndConditionsComponent,
     IdleLogoutComponent,
+    SliderColorDirective
   ],
   imports: [
     CommonModule,
@@ -118,6 +120,7 @@ import { DialogTermsAndConditionsComponent } from './termsAndConditions/dialog-t
     MatDatepickerModule,
     MatNativeDateModule,
     MatMomentDateModule,
+    SliderColorDirective
   ],
   providers: [
     MatDatepickerModule,

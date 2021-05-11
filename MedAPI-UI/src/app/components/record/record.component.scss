@@ -257,6 +257,13 @@ table{
   background-image: linear-gradient(to right, rgb(33, 150, 243), rgb(56, 130, 240))
 }
 
+.ellipsis {
+  max-width: 96px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
  @media only screen and (max-width: 736px) and (orientation:portrait) {
   mat-header-row, mat-row {
     width: 220%;
