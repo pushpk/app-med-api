@@ -1,4 +1,5 @@
 ﻿using MedAPI.Domain;
+using MedAPI.Extention;
 using MedAPI.Infrastructure.IService;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ using System.Web.Http;
 
 namespace MedAPI.Controllers
 {
-    [System.Web.Http.RoutePrefix("util")]
+    [System.Web.Http.RoutePrefix("api/util")]
     public class CountryController : ApiController
     {
         private readonly ICountryService countryService;

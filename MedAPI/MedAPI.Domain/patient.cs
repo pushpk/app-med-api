@@ -18,12 +18,13 @@ namespace MedAPI.Domain
             this.personalBackgroundList = new List<PatientPersonalBackgrounds>();
             this.patientFatherbackgroundList = new List<PatientFatherbackgrounds>();
             this.patientMotherbackgroundList = new List<PatientMotherbackgrounds>();
-
+            patientMedicPermission = new List<PatientMedicPermission>();
             user = new User();
         }
 
         public string alcohol { get; set; }
         public string bloodType { get; set; }
+        public string race { get; set; }
         public long? cigaretteNumber { get; set; }
         public string createdTicket { get; set; }
         public long? dormNumber { get; set; }
@@ -58,5 +59,6 @@ namespace MedAPI.Domain
         //public List<Note> notes { get; set; }
         //public List<Triage> triages { get; set; }
         public Domain.User user { get; set; }
+        public List<Domain.PatientMedicPermission> patientMedicPermission { get; set; }
     }
 }

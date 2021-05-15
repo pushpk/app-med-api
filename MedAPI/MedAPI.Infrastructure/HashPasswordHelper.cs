@@ -17,6 +17,12 @@
             return BCrypt.Net.BCrypt.HashPassword(password);
         }
 
+        public static string HashToken(System.Guid token)
+        {
+            
+            return BCrypt.Net.BCrypt.HashString(token.ToString());
+        }
+
         public static bool ValidatePassword(string password, string correctHash)
         {
             return BCrypt.Net.BCrypt.Verify(password, correctHash);

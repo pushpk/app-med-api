@@ -1,21 +1,20 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { NoteService } from '../../services/note.service';
 
 @Component({
   selector: 'app-dialog-cardiovascular-risk-reynolds',
   templateUrl: './dialog-cardiovascular-risk-reynolds.component.html',
-  styleUrls: ['./dialog-cardiovascular-risk-reynolds.component.scss']
+  styleUrls: ['./dialog-cardiovascular-risk-reynolds.component.scss'],
 })
 export class DialogCardiovascularRiskReynoldsComponent implements OnInit {
-  
-  constructor(public dialogRef: MatDialogRef<DialogCardiovascularRiskReynoldsComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any, private noteService: NoteService) {
-    console.log(data, 'data');
-  }
+  constructor(
+    public dialogRef: MatDialogRef<DialogCardiovascularRiskReynoldsComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private noteService: NoteService
+  ) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   cancel(): void {
     this.dialogRef.close();
@@ -25,7 +24,7 @@ export class DialogCardiovascularRiskReynoldsComponent implements OnInit {
     this.dialogRef.close({
       accept: true,
       note: this.data.note,
-      patient: this.data.patient
+      patient: this.data.patient,
     });
   }
 

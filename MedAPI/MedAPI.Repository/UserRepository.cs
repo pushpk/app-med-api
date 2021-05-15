@@ -1,14 +1,75 @@
 ﻿using AutoMapper;
 using MedAPI.Domain;
+using MedAPI.Infrastructure;
 using MedAPI.Infrastructure.IRepository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 
 namespace MedAPI.Repository
 {
     public class UserRepository : IUserRepository
     {
+
+        public User ConfirmEmail(string userId, string token)
+        {
+            int userIdInt = int.Parse(userId);
+            //var bytes = BitConverter.GetBytes(false);
+            using (var context = new DataAccess.registroclinicoEntities())
+            {
+
+                var user = context.users.Where(x => x.id == userIdInt && x.deleted == false)
+                      .Select(x => new Domain.User
+                      {
+                          id = x.id,
+                          address = x.address,
+                          birthday = x.birthday,
+                          cellphone = x.cellphone,
+                          countryId = x.country_id,
+                          createdBy = x.createdBy,
+                          createdDate = x.createdDate,
+                          districtId = x.district_id,
+                          documentNumber = x.documentNumber,
+                          documentType = x.documentType,
+                          email = x.email,
+                          firstName = x.firstName,
+                          lastNameFather = x.lastNameFather,
+                          lastNameMother = x.lastNameFather,
+                          maritalStatus = x.maritalStatus,
+                          modifiedBy = x.modifiedBy,
+                          modifiedDate = x.modifiedDate,
+                          organDonor = x.organDonor,
+                          phone = x.phone,
+                          roleId = x.role_id,
+                          since = x.since,
+                          passwordHash = x.password_hash,
+                          role = new Role
+                          {
+                              id = x.role.id,
+                              name = x.role.name,
+                              description = x.role.description
+                          },
+                          sex = x.sex,
+                          token = x.token
+
+                      }).FirstOrDefault();
+
+                var tokenDecord = HttpUtility.UrlDecode(token);
+                if (user != null && HashPasswordHelper.ValidatePassword(user.token.ToString(), tokenDecord))
+                {
+                    var userUpdate = context.users.FirstOrDefault(x => x.id == userIdInt && x.deleted == false);
+                    userUpdate.emailConfirmed = true;
+                    context.SaveChanges();
+                    return user;
+
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
 
         public User Authenticate(string email)
         {
@@ -46,7 +107,8 @@ namespace MedAPI.Repository
                               name = x.role.name,
                               description = x.role.description
                           },
-                          sex = x.sex
+                          sex = x.sex,
+                          emailConfirmed = x.emailConfirmed
                       }).FirstOrDefault();
             }
         }
@@ -121,6 +183,7 @@ namespace MedAPI.Repository
                        documentNumber = x.documentNumber,
                        documentType = x.documentType,
                        email = x.email,
+                       emailConfirmed = x.emailConfirmed,
                        firstName = x.firstName,
                        lastNameFather = x.lastNameFather,
                        lastNameMother = x.lastNameMother,
@@ -135,6 +198,8 @@ namespace MedAPI.Repository
                        countryId = x.country_id,
                        districtId = x.district_id,
                        roleId = x.role_id,
+                       token = x.token,
+                       reset_token = x.reset_token
                    }).FirstOrDefault();
             }
         }
@@ -172,6 +237,8 @@ namespace MedAPI.Repository
                        countryId = x.country_id,
                        districtId = x.district_id,
                        roleId = x.role_id,
+                       reset_token = x.reset_token,
+                       token = x.token,
                        role = new Domain.Role
                        {
                            id = x.role.id,
@@ -181,27 +248,31 @@ namespace MedAPI.Repository
             }
         }
 
-        public User SaveUser(User mUser)
+        public bool IsUserAlreadyExist(User mUser, string cmp = null)
         {
-
-    //        firstName = '';
-    //        lastName = ''
-    //        email = '';
-    //        password = '';
-    //        confirmPassword = '';
-    //        documentNumber = '';
-    //        phone = '';
-    //    country: String = null;
-    //    department: String = null;
-    //    province: String = null;
-    //    district: String = null;
-    //    speciality: string  = '';
-    //    CMP: string = '';
-    //    RNE: string = '';
-
             using (var context = new DataAccess.registroclinicoEntities())
             {
+                bool emailAlreadyExist =  context.users.Any(m => m.email == mUser.email);
+                if (!emailAlreadyExist)
+                {
+                    if (mUser.roleId == 4)
+                    {
+                        return context.users.Any(m => m.documentNumber == mUser.documentNumber);
+                    }
+                    else if (mUser.roleId == 2)
+                    {
+                        return context.users.Any(m => m.documentNumber == mUser.documentNumber) || context.medics.Any(m => m.cmp== cmp);
+                    }
+                }
+                return emailAlreadyExist;
                 
+            }
+        }
+        public User SaveUser(User mUser)
+        {
+            using (var context = new DataAccess.registroclinicoEntities())
+            {
+
                 var efUser = context.users.Where(m => m.id == mUser.id).FirstOrDefault();
                 if (efUser == null)
                 {
@@ -213,7 +284,11 @@ namespace MedAPI.Repository
                     efUser.createdDate = DateTime.UtcNow;
                     efUser.since = DateTime.UtcNow.Date;
                     efUser.password_hash = mUser.passwordHash;
+                    efUser.token = Guid.NewGuid();
+                    efUser.reset_token = Guid.NewGuid();
                     context.users.Add(efUser);
+
+                   
                 }
                 else
                 {
@@ -222,21 +297,15 @@ namespace MedAPI.Repository
                 }
 
                 //Following properties does not apply to medic OR Lab, hence setting as empty to avoid validation error
-                if(mUser.roleId == 2 || mUser.roleId == 5)
+                if (mUser.roleId == 2 || mUser.roleId == 5)
                 {
-                    
-                    mUser.address = string.Empty;
+
+                   if(mUser.roleId ==2) mUser.address = string.Empty;
+
                     mUser.sex = string.Empty;
                     mUser.documentType = string.Empty;
 
-                    if(mUser.roleId == 5)
-                    {
-                        mUser.countryId = context.countries.FirstOrDefault().id;
-                        mUser.departmentId = context.departments.FirstOrDefault().id;
-                        mUser.provinceId = context.provinces.FirstOrDefault().id;
-                        mUser.districtId = context.districts.FirstOrDefault().id;
-
-                    }
+                   
                 }
 
 
@@ -259,6 +328,7 @@ namespace MedAPI.Repository
                 efUser.province_id = mUser.provinceId;
                 context.SaveChanges();
                 mUser.id = efUser.id;
+                mUser.token = efUser.token;
             }
             return mUser;
         }
@@ -267,49 +337,159 @@ namespace MedAPI.Repository
         {
             using (var context = new DataAccess.registroclinicoEntities())
             {
-               // var abc = context.medics.Include("user").Where(s => s.user.role_id == 2 && (!s.IsApproved || s.IsFreezed)).ToList();
+                // var abc = context.medics.Include("user").Where(s => s.user.role_id == 2 && (!s.IsApproved || s.IsFreezed)).ToList();
 
-                var abc =  (from us in context.medics.Include("user").Where(s => s.user.role_id == 2).OrderBy(s => s.IsApproved)
-                        select new Medic()
-                        {
-                            cmp = us.cmp,
-                            rne = us.rne,
-                            IsApproved = us.IsApproved,
-                            IsFreezed = us.IsFreezed,
-                            user = new User { 
+                var abc = (from us in context.medics.Include("user").Where(s => s.user.role_id == 2).OrderBy(s => s.IsApproved)
+                           select new Medic()
+                           {
+                               cmp = us.cmp,
+                               rne = us.rne,
+                               IsApproved = us.IsApproved,
+                               IsFreezed = us.IsFreezed,
+                               IsDenied = us.IsDenied,
+                               user = new User
+                               {
 
-                            id = us.user.id,
-                            address = us.user.address,
-                            birthday = us.user.birthday,
-                            cellphone = us.user.cellphone,
-                            createdBy = us.user.createdBy,
-                            createdDate = us.user.createdDate,
-                            deletable = us.user.deletable,
-                            deleted = us.user.deleted,
-                            documentNumber = us.user.documentNumber,
-                            documentType = us.user.documentType,
-                            email = us.user.email,
-                            firstName = us.user.firstName,
-                            lastNameFather = us.user.lastNameFather,
-                            lastNameMother = us.user.lastNameMother,
-                            maritalStatus = us.user.maritalStatus,
-                            modifiedBy = us.user.modifiedBy,
-                            modifiedDate = us.user.modifiedDate,
-                            organDonor = us.user.organDonor,
-                            passwordHash = us.user.password_hash,
-                            phone = us.user.phone,
-                            sex = us.user.sex,
-                            since = us.user.since,
-                            countryId = us.user.country_id,
-                            districtId = us.user.district_id,
-                            roleId = us.user.role_id,
-                           
-                            }
-                            
-                        }).ToList();
+                                   id = us.user.id,
+                                   address = us.user.address,
+                                   birthday = us.user.birthday,
+                                   cellphone = us.user.cellphone,
+                                   createdBy = us.user.createdBy,
+                                   createdDate = us.user.createdDate,
+                                   deletable = us.user.deletable,
+                                   deleted = us.user.deleted,
+                                   documentNumber = us.user.documentNumber,
+                                   documentType = us.user.documentType,
+                                   email = us.user.email,
+                                   firstName = us.user.firstName,
+                                   lastNameFather = us.user.lastNameFather,
+                                   lastNameMother = us.user.lastNameMother,
+                                   maritalStatus = us.user.maritalStatus,
+                                   modifiedBy = us.user.modifiedBy,
+                                   modifiedDate = us.user.modifiedDate,
+                                   organDonor = us.user.organDonor,
+                                   passwordHash = us.user.password_hash,
+                                   phone = us.user.phone,
+                                   sex = us.user.sex,
+                                   since = us.user.since,
+                                   countryId = us.user.country_id,
+                                   districtId = us.user.district_id,
+                                   roleId = us.user.role_id,
+
+                               }
+
+                           }).ToList();
 
                 return abc;
             }
+        }
+
+        public List<Lab> GetAllNonApprovedLabs()
+        {
+            using (var context = new DataAccess.registroclinicoEntities())
+            {
+                // var abc = context.medics.Include("user").Where(s => s.user.role_id == 2 && (!s.IsApproved || s.IsFreezed)).ToList();
+
+                var abc = (from us in context.labs.Include("user").Where(s => s.user.role_id == 5).OrderBy(s => s.IsApproved)
+                           select new Lab()
+                           {
+                              parentCompany = us.parentCompany,
+                               labName = us.labName,
+                               ruc = us.ruc,
+                               IsApproved = us.IsApproved,
+                               IsFreezed = us.IsFreezed,
+                               IsDenied = us.IsDenied,
+                               user = new User
+                               {
+
+                                   id = us.user.id,
+                                   address = us.user.address,
+                                   birthday = us.user.birthday,
+                                   cellphone = us.user.cellphone,
+                                   createdBy = us.user.createdBy,
+                                   createdDate = us.user.createdDate,
+                                   deletable = us.user.deletable,
+                                   deleted = us.user.deleted,
+                                   documentNumber = us.user.documentNumber,
+                                   documentType = us.user.documentType,
+                                   email = us.user.email,
+                                   firstName = us.user.firstName,
+                                   lastNameFather = us.user.lastNameFather,
+                                   lastNameMother = us.user.lastNameMother,
+                                   maritalStatus = us.user.maritalStatus,
+                                   modifiedBy = us.user.modifiedBy,
+                                   modifiedDate = us.user.modifiedDate,
+                                   organDonor = us.user.organDonor,
+                                   passwordHash = us.user.password_hash,
+                                   phone = us.user.phone,
+                                   sex = us.user.sex,
+                                   since = us.user.since,
+                                   countryId = us.user.country_id,
+                                   districtId = us.user.district_id,
+                                   roleId = us.user.role_id,
+
+                               }
+
+                           }).ToList();
+
+                return abc;
+            }
+        }
+
+        public bool ResetPassword(string userId, string oldPassword, string passwordHash)
+        {
+            int userIdInt = int.Parse(userId);
+
+            using (var context = new DataAccess.registroclinicoEntities())
+            {
+                var user = context.users.FirstOrDefault(x => x.id == userIdInt && x.deleted == false);
+
+                
+                if (user != null && HashPasswordHelper.ValidatePassword(oldPassword, user.password_hash))
+                {
+                    var userUpdate = context.users.FirstOrDefault(x => x.id == userIdInt && x.deleted == false);
+
+                    userUpdate.password_hash = passwordHash;
+                    
+                    context.SaveChanges();
+                    return true;
+
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+        }
+
+        public bool UpdatePassword(string userId, string token, string passwordHash)
+        {
+            int userIdInt = int.Parse(userId);
+
+            using (var context = new DataAccess.registroclinicoEntities())
+            {
+                var user = context.users.FirstOrDefault(x => x.id == userIdInt && x.deleted == false);
+
+                var tokenDecoded = HttpUtility.UrlDecode(token);
+
+                if (user != null && HashPasswordHelper.ValidatePassword(user.reset_token.ToString(), tokenDecoded))
+                {
+                    var userUpdate = context.users.FirstOrDefault(x => x.id == userIdInt && x.deleted == false);
+
+                        userUpdate.password_hash = passwordHash;
+                        userUpdate.reset_token = Guid.NewGuid();
+
+                        context.SaveChanges();
+                         return true;
+
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            
         }
     }
 }

@@ -10,13 +10,22 @@ namespace MedAPI.Repository
 {
     public class LabRepository : ILabRepository
     {
-        public List<LabUploadResult> GetAllUploadsByLab(int LabId)
+        public List<LabUploadResult> GetAllUploadsByLabAndPatient(int LabId, int patientId)
         {
             using (var context = new DataAccess.registroclinicoEntities())
             {
                 
                 int.TryParse(context.labs.FirstOrDefault(s => s.user_id == LabId).id.ToString(), out LabId);
-                var result = Mapper.Map<List<LabUploadResult>>(context.lab_Upload_Results.Where(x => x.lab_id == LabId).ToList());
+                var result = Mapper.Map<List<LabUploadResult>>(context.lab_Upload_Results.Where(x => x.lab_id == LabId && x.user_id == patientId).Select(s => new LabUploadResult
+                {
+                    id = s.id,
+                    user_id = s.user_id,
+                    patient_docNumber = s.user.documentNumber,
+                    uploadedBy = s.medic.user.lastNameFather.Length > 0 ? "Dr./Dra. " + s.medic.user.lastNameFather : s.lab.labName,
+                    fileName = s.fileName,
+                    dateUploaded = s.dateUploaded,
+                    comments = s.comments
+                }).ToList());
                 return result;
                 
             }
@@ -29,6 +38,8 @@ namespace MedAPI.Repository
                 var result = Mapper.Map<List<LabUploadResult>>(context.lab_Upload_Results.Where(x => x.user_id == patientId).Select(s => new LabUploadResult { 
                     id = s.id,
                     user_id = s.user_id,
+                    patient_docNumber = s.user.documentNumber,
+                    uploadedBy = s.medic.user.lastNameFather.Length > 0 ? "Dr./Dra. " + s.medic.user.lastNameFather : s.lab.labName,
                     fileName = s.fileName,
                     dateUploaded = s.dateUploaded,
                     comments = s.comments
@@ -37,6 +48,7 @@ namespace MedAPI.Repository
 
             }
         }
+
 
         public LabUploadResult GetTestResultById(int id)
         {
@@ -101,6 +113,84 @@ namespace MedAPI.Repository
 
                 return labResult.id;
 
+            }
+        }
+
+        public Lab GetLab(long id)
+        {
+            using (var context = new DataAccess.registroclinicoEntities())
+            {
+                return context.labs.Where(x => x.user_id == id)
+                   .Select(x => new Lab()
+                   {
+                       id = x.id,
+                       ruc = x.ruc,
+                       parentCompany = x.parentCompany,
+                       labName = x.labName,
+                       IsApproved = x.IsApproved,
+                       IsFreezed = x.IsFreezed,
+                       IsDenied = x.IsDenied,
+                       user = new User
+                       {
+
+                           id = x.user.id,
+                           address = x.user.address,
+                           birthday = x.user.birthday,
+                           cellphone = x.user.cellphone,
+                           countryId = x.user.country_id,
+                           deleted = x.user.deleted,
+                           createdBy = x.user.createdBy,
+                           createdDate = x.user.createdDate,
+                           districtId = x.user.district_id,
+                           departmentId = x.user.department_id,
+                           provinceId = x.user.province_id,
+                           documentNumber = x.user.documentNumber,
+                           documentType = x.user.documentType,
+                           email = x.user.email,
+                           firstName = x.user.firstName,
+                           lastNameFather = x.user.lastNameFather,
+                           lastNameMother = x.user.lastNameMother,
+                           maritalStatus = x.user.maritalStatus,
+                           modifiedBy = x.user.modifiedBy,
+                           modifiedDate = x.user.modifiedDate,
+                           organDonor = x.user.organDonor,
+                           phone = x.user.phone,
+                           roleId = x.user.role_id,
+                           since = x.user.since,
+                           passwordHash = x.user.password_hash,
+                           role = new Role
+                           {
+                               id = x.user.role.id,
+                               name = x.user.role.name,
+                               description = x.user.role.description
+                           },
+                           sex = x.user.sex
+
+                       }
+                   }).FirstOrDefault();
+            }
+        }
+
+        public int GetActiveLabCount()
+        {
+            using (var context = new DataAccess.registroclinicoEntities())
+            {
+                return context.labs.Where(x => (x.IsApproved || x.IsFreezed) && x.user.emailConfirmed == true).Count();
+            }
+        }
+
+        public Lab UpdateLab(Lab mLab)
+        {
+            using (var context = new DataAccess.registroclinicoEntities())
+            {
+                var efLab = context.labs.Where(m => m.id == mLab.id).FirstOrDefault();
+                efLab.IsFreezed = mLab.IsFreezed;
+                efLab.IsApproved = mLab.IsApproved;
+                efLab.IsDenied = mLab.IsDenied;
+
+                context.SaveChanges();
+
+                return mLab;
             }
         }
     }

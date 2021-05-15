@@ -23,6 +23,7 @@ namespace MedAPI.Repository
                             userId = p.user_id,
                             alcohol = p.alcohol,
                             bloodType = p.bloodType,
+                            race = p.race,
                             cigaretteNumber = p.cigaretteNumber,
                             createdTicket = p.createdTicket,
                             dormNumber = p.dormNumber,
@@ -48,6 +49,14 @@ namespace MedAPI.Repository
             }
         }
 
+        public int GetActivePatientCount()
+        {
+            using (var context = new DataAccess.registroclinicoEntities())
+            {
+                return context.patients.Where(x => x.user.emailConfirmed == true).Count();
+            }
+        }
+
         public Patient GetPatientById(long id)
         {
             using (var context = new DataAccess.registroclinicoEntities())
@@ -60,6 +69,7 @@ namespace MedAPI.Repository
                             userId = p.user_id,
                             alcohol = p.alcohol,
                             bloodType = p.bloodType,
+                            race = p.race,
                             cigaretteNumber = p.cigaretteNumber,
                             createdTicket = p.createdTicket,
                             dormNumber = p.dormNumber,
@@ -130,6 +140,20 @@ namespace MedAPI.Repository
                     {
                         efPatients = new DataAccess.patient();
                         context.patients.Add(efPatients);
+
+                        //foreach (var medic in context.medics)
+                        //{
+                        //    context.patient_medic_permissions.Add(new DataAccess.patient_medic_permission
+                        //    {
+                        //        medic_id = medic.id,
+                        //        patient_id = mPatient.id,
+                        //        is_medic_authorized = false,
+                        //        is_future_request_blocked = false,
+                        //        is_request_sent = false
+
+                        //    });
+
+                        //}
                     }
                     efPatients.id = mPatient.id;
                     efPatients.user_id = mPatient.userId;
@@ -157,6 +181,8 @@ namespace MedAPI.Repository
                     efPatients.sewage = mPatient.sewage;
                     efPatients.departmentId = mPatient.departmentId;
                     efPatients.water = mPatient.water;
+                    efPatients.race = mPatient.race;
+
                     context.SaveChanges();
                     mPatient.id = efPatients.id;
                 }
@@ -171,152 +197,138 @@ namespace MedAPI.Repository
         {
             using (var context = new DataAccess.registroclinicoEntities())
             {
-                Patient patient = new Patient();
-                var patients = (from x in context.patients
-                                where x.user.documentNumber == documentNumber.ToString()
-                                select new Patient
-                                {
-                                    id = x.id,
-                                    userId = x.user_id,
-                                    alcohol = x.alcohol,
-                                    bloodType = x.bloodType,
-                                    cigaretteNumber = x.cigaretteNumber,
-                                    createdTicket = x.createdTicket,
-                                    dormNumber = x.dormNumber,
-                                    educationalAttainment = x.educationalAttainment,
-                                    electricity = x.electricity,
-                                    fractureNumber = x.fractureNumber,
-                                    fruitsVegetables = x.fruitsVegetables,
-                                    highGlucose = x.highGlucose,
-                                    homeMaterial = x.homeMaterial,
-                                    homeOwnership = x.homeOwnership,
-                                    homeType = x.homeType,
-                                    occupation = x.occupation,
-                                    otherAllergies = x.otherAllergies,
-                                    otherFatherBackground = x.otherFatherBackground,
-                                    otherMedicines = x.otherMedicines,
-                                    otherMotherBackground = x.otherMotherBackground,
-                                    otherPersonalBackground = x.otherPersonalBackground,
-                                    physicalActivity = x.physicalActivity,
-                                    residentNumber = x.residentNumber,
-                                    sewage = x.sewage,
-                                    water = x.water,
-                                    departmentId = x.departmentId,
-                                    allergiesList = ((from y in context.patient_allergies
-                                                      where y.patient_id == x.id && y.isDeleted == false
-                                                      select new PatientAllergies()
-                                                      {
-                                                          id = y.id,
-                                                          patientId = y.patient_id,
-                                                          allergies = y.allergies
-                                                      }).ToList()),
-                                    medicinesList = ((from y in context.patient_medicines
-                                                      where y.patient_id == x.id && y.isDeleted == false
-                                                      select new PatientMedicines()
-                                                      {
-                                                          id = y.id,
-                                                          patientId = y.patient_id,
-                                                          medicines = y.medicines
-                                                      }).ToList()),
-                                    personalBackgroundList = ((from y in context.patient_personalbackgrounds
-                                                               where y.patient_id == x.id && y.isDeleted == false
-                                                               select new PatientPersonalBackgrounds()
-                                                               {
-                                                                   id = y.id,
-                                                                   patientId = y.patient_id,
-                                                                   personalBackgrounds = y.personalBackgrounds
-                                                               }).ToList()),
-                                    patientFatherbackgroundList = ((from y in context.patient_fatherbackgrounds
-                                                                    where y.patient_id == x.id && y.isDeleted == false
-                                                                    select new PatientFatherbackgrounds()
-                                                                    {
-                                                                        id = y.id,
-                                                                        patientId = y.patient_id,
-                                                                        fatherBackgrounds = y.fatherBackgrounds
-                                                                    }).ToList()),
-                                    patientMotherbackgroundList = ((from y in context.patient_motherbackgrounds
-                                                                    where y.patient_id == x.id && y.isDeleted == false
-                                                                    select new PatientMotherbackgrounds()
-                                                                    {
-                                                                        id = y.id,
-                                                                        patientId = y.patient_id,
-                                                                        motherBackgrounds = y.motherBackgrounds
-                                                                    }).ToList()),
-                                    //user = x.user
-                                    //address = x.address,
-                                    //birthday = x.birthday,
-                                    //cellphone = x.cellphone,
-                                    //countryId = x.country_id,
-                                    //deleted = x.deleted,
-                                    //createdBy = x.createdBy,
-                                    //createdDate = x.createdDate,
-                                    //districtId = x.district_id,
-                                    //documentNumber = x.documentNumber,
-                                    //documentType = x.documentType,
-                                    //email = x.email,
-                                    //firstName = x.firstName,
-                                    //lastNameFather = x.lastNameFather,
-                                    //lastNameMother = x.lastNameFather,
-                                    //maritalStatus = x.maritalStatus,
-                                    //modifiedBy = x.modifiedBy,
-                                    //modifiedDate = x.modifiedDate,
-                                    //organDonor = x.organDonor,
-                                    //phone = x.phone,
-                                    //roleId = x.role_id,
-                                    //since = x.since,
-                                    //passwordHash = x.password_hash,
-                                    //role = new Role
-                                    //{
-                                    //    id = x.role.id,
-                                    //    name = x.role.name,
-                                    //    description = x.role.description
-                                    //},
-                                    //sex = x.sex
-                                }).FirstOrDefault();
+                var patientFromRepo = context.patients.Where(p => p.user.documentNumber == documentNumber.ToString()).FirstOrDefault();
 
-                var users = (from x in context.users
-                             where x.documentNumber == documentNumber.ToString()
-                             select new User
-                             {
-                                 id = x.id,
-                                 address = x.address,
-                                 birthday = x.birthday,
-                                 cellphone = x.cellphone,
-                                 countryId = x.country_id,
-                                 deleted = x.deleted,
-                                 createdBy = x.createdBy,
-                                 createdDate = x.createdDate,
-                                 districtId = x.district_id,
-                                 departmentId = x.department_id,
-                                 provinceId = x.province_id,
-                                 documentNumber = x.documentNumber,
-                                 documentType = x.documentType,
-                                 email = x.email,
-                                 firstName = x.firstName,
-                                 lastNameFather = x.lastNameFather,
-                                 lastNameMother = x.lastNameMother,
-                                 maritalStatus = x.maritalStatus,
-                                 modifiedBy = x.modifiedBy,
-                                 modifiedDate = x.modifiedDate,
-                                 organDonor = x.organDonor,
-                                 phone = x.phone,
-                                 roleId = x.role_id,
-                                 since = x.since,
-                                 passwordHash = x.password_hash,
-                                 role = new Role
-                                 {
-                                     id = x.role.id,
-                                     name = x.role.name,
-                                     description = x.role.description
-                                 },
-                                 sex = x.sex
-                             }).FirstOrDefault();
-                if (patients != null)
+                if (patientFromRepo == null)
                 {
-                    patient = patients;
+                    return null;
                 }
-                patient.user = users;
-                return patient;
+                else
+                {
+                    var patient = new Patient
+                    {
+                        id = patientFromRepo.id,
+                        userId = patientFromRepo.user_id,
+                        alcohol = patientFromRepo.alcohol,
+                        bloodType = patientFromRepo.bloodType,
+                        race = patientFromRepo.race,
+                        cigaretteNumber = patientFromRepo.cigaretteNumber,
+                        createdTicket = patientFromRepo.createdTicket,
+                        dormNumber = patientFromRepo.dormNumber,
+                        educationalAttainment = patientFromRepo.educationalAttainment,
+                        electricity = patientFromRepo.electricity,
+                        fractureNumber = patientFromRepo.fractureNumber,
+                        fruitsVegetables = patientFromRepo.fruitsVegetables,
+                        highGlucose = patientFromRepo.highGlucose,
+                        homeMaterial = patientFromRepo.homeMaterial,
+                        homeOwnership = patientFromRepo.homeOwnership,
+                        homeType = patientFromRepo.homeType,
+                        occupation = patientFromRepo.occupation,
+                        otherAllergies = patientFromRepo.otherAllergies,
+                        otherFatherBackground = patientFromRepo.otherFatherBackground,
+                        otherMedicines = patientFromRepo.otherMedicines,
+                        otherMotherBackground = patientFromRepo.otherMotherBackground,
+                        otherPersonalBackground = patientFromRepo.otherPersonalBackground,
+                        physicalActivity = patientFromRepo.physicalActivity,
+                        residentNumber = patientFromRepo.residentNumber,
+                        sewage = patientFromRepo.sewage,
+                        water = patientFromRepo.water,
+                        departmentId = patientFromRepo.departmentId,
+                        patientMedicPermission = ((from y in context.patient_medic_permissions
+                                                   where y.patient_id == patientFromRepo.id 
+                                                   select new PatientMedicPermission()
+                                                   {
+                                                       patient_id = y.patient_id,
+                                                       medic_id = y.medic_id,
+                                                       is_medic_authorized = y.is_medic_authorized,
+                                                       is_future_request_blocked = y.is_future_request_blocked,
+                                                       is_request_sent = y.is_future_request_blocked
+                                                   }).ToList()),
+                        allergiesList = ((from y in context.patient_allergies
+                                          where y.patient_id == patientFromRepo.id && y.isDeleted == false
+                                          select new PatientAllergies()
+                                          {
+                                              id = y.id,
+                                              patientId = y.patient_id,
+                                              allergies = y.allergies
+                                          }).ToList()),
+                        medicinesList = ((from y in context.patient_medicines
+                                          where y.patient_id == patientFromRepo.id && y.isDeleted == false
+                                          select new PatientMedicines()
+                                          {
+                                              id = y.id,
+                                              patientId = y.patient_id,
+                                              medicines = y.medicines
+                                          }).ToList()),
+                        personalBackgroundList = ((from y in context.patient_personalbackgrounds
+                                                   where y.patient_id == patientFromRepo.id && y.isDeleted == false
+                                                   select new PatientPersonalBackgrounds()
+                                                   {
+                                                       id = y.id,
+                                                       patientId = y.patient_id,
+                                                       personalBackgrounds = y.personalBackgrounds
+                                                   }).ToList()),
+                        patientFatherbackgroundList = ((from y in context.patient_fatherbackgrounds
+                                                        where y.patient_id == patientFromRepo.id && y.isDeleted == false
+                                                        select new PatientFatherbackgrounds()
+                                                        {
+                                                            id = y.id,
+                                                            patientId = y.patient_id,
+                                                            fatherBackgrounds = y.fatherBackgrounds
+                                                        }).ToList()),
+                        patientMotherbackgroundList = ((from y in context.patient_motherbackgrounds
+                                                        where y.patient_id == patientFromRepo.id && y.isDeleted == false
+                                                        select new PatientMotherbackgrounds()
+                                                        {
+                                                            id = y.id,
+                                                            patientId = y.patient_id,
+                                                            motherBackgrounds = y.motherBackgrounds
+                                                        }).ToList()),
+                    };
+
+                    var user = (from x in context.users
+                                 where x.role_id == 4 && x.documentNumber == documentNumber.ToString()
+                                 select new User
+                                 {
+                                     id = x.id,
+                                     address = x.address,
+                                     birthday = x.birthday,
+                                     cellphone = x.cellphone,
+                                     countryId = x.country_id,
+                                     deleted = x.deleted,
+                                     createdBy = x.createdBy,
+                                     createdDate = x.createdDate,
+                                     districtId = x.district_id,
+                                     departmentId = x.department_id,
+                                     provinceId = x.province_id,
+                                     documentNumber = x.documentNumber,
+                                     documentType = x.documentType,
+                                     email = x.email,
+                                     firstName = x.firstName,
+                                     lastNameFather = x.lastNameFather,
+                                     lastNameMother = x.lastNameMother,
+                                     maritalStatus = x.maritalStatus,
+                                     modifiedBy = x.modifiedBy,
+                                     modifiedDate = x.modifiedDate,
+                                     organDonor = x.organDonor,
+                                     phone = x.phone,
+                                     roleId = x.role_id,
+                                     since = x.since,
+                                     passwordHash = x.password_hash,
+                                     role = new Role
+                                     {
+                                         id = x.role.id,
+                                         name = x.role.name,
+                                         description = x.role.description
+                                     },
+                                     sex = x.sex
+                                 }).FirstOrDefault();
+
+                    patient.user = user;
+
+                    return patient;
+
+                }
             }
         }
 
@@ -518,10 +530,10 @@ namespace MedAPI.Repository
                     });
 
                 }
-
+                
                 return new SymptomsWithCustom
                 {
-                    Custom_Symptom = ps.FirstOrDefault().custom_symptom,
+                    Custom_Symptom = ps.FirstOrDefault()?.custom_symptom,
                     symptoms = pSym.ToArray()
                 };
 
@@ -539,6 +551,213 @@ namespace MedAPI.Repository
                     name = s.name,
                     deleted = s.deleted
                 }).ToList();
+
+            }
+        }
+
+        public PatientMedicPermission checkMedicAccessForPatientData(long id)
+        {
+            using (var context = new DataAccess.registroclinicoEntities())
+            {
+                var medicPermission = context.patient_medic_permissions.FirstOrDefault(s => s.patient_id == id);
+                return medicPermission == null ?  new PatientMedicPermission() :
+
+                 new PatientMedicPermission
+                {
+                    medic_id = medicPermission.medic_id,
+                    patient_id = medicPermission.patient_id,
+                    is_medic_authorized = medicPermission.is_medic_authorized,
+                    is_future_request_blocked = medicPermission.is_future_request_blocked,
+                    is_request_sent= medicPermission.is_request_sent,
+                    medic = new Medic
+                    {
+
+                        id = medicPermission.medic.id,
+                        cmp = medicPermission.medic.cmp,
+                        rne = medicPermission.medic.rne,
+                        IsApproved = medicPermission.medic.IsApproved,
+                        IsFreezed = medicPermission.medic.IsFreezed,
+                        user = new User
+                        {
+
+                            id = medicPermission.medic.user.id,
+                            address = medicPermission.medic.user.address,
+                            cellphone = medicPermission.medic.user.cellphone,
+                            countryId = medicPermission.medic.user.country_id,
+                            deleted = medicPermission.medic.user.deleted,
+                            createdBy = medicPermission.medic.user.createdBy,
+                            createdDate = medicPermission.medic.user.createdDate,
+                            districtId = medicPermission.medic.user.district_id,
+                            departmentId = medicPermission.medic.user.department_id,
+                            provinceId = medicPermission.medic.user.province_id,
+                            documentNumber = medicPermission.medic.user.documentNumber,
+                            documentType = medicPermission.medic.user.documentType,
+                            email = medicPermission.medic.user.email,
+                            firstName = medicPermission.medic.user.firstName,
+                            lastNameFather = medicPermission.medic.user.lastNameFather,
+                            lastNameMother = medicPermission.medic.user.lastNameMother,
+                            maritalStatus = medicPermission.medic.user.maritalStatus,
+                            modifiedBy = medicPermission.medic.user.modifiedBy,
+                            modifiedDate = medicPermission.medic.user.modifiedDate,
+                            organDonor = medicPermission.medic.user.organDonor,
+                            phone = medicPermission.medic.user.phone,
+                            roleId = medicPermission.medic.user.role_id,
+                            since = medicPermission.medic.user.since,
+                            passwordHash = medicPermission.medic.user.password_hash
+
+
+                        }
+
+                    }
+                };
+            }
+            
+        }
+
+        public List<PatientMedicPermission> getPermissionRequests(long userId)
+        {
+            using (var context = new DataAccess.registroclinicoEntities())
+            {
+                var patient = context.patients.FirstOrDefault(s => s.user_id == userId);
+                var permissions = context.patient_medic_permissions.Include("medic").Where(s => s.patient_id == patient.id ).ToList();
+
+                List<PatientMedicPermission> convertedPermissions = new List<PatientMedicPermission>();
+                try
+                {
+
+                    foreach (var medicPermission in permissions)
+                    {
+                        PatientMedicPermission p = new PatientMedicPermission
+                        {
+                            medic_id = medicPermission.medic_id,
+                            patient_id = patient.id,
+                            is_medic_authorized = medicPermission.is_medic_authorized,
+                            is_future_request_blocked = medicPermission.is_future_request_blocked,
+                            is_request_sent = medicPermission.is_request_sent,
+                            medic = new Medic
+                            {
+
+                                id = medicPermission.medic.id,
+                                cmp = medicPermission.medic.cmp,
+                                rne = medicPermission.medic.rne,
+                                IsApproved = medicPermission.medic.IsApproved,
+                                IsFreezed = medicPermission.medic.IsFreezed,
+                                user = new User
+                                {
+
+                                    id = medicPermission.medic.user.id,
+                                    address = medicPermission.medic.user.address,
+                                    cellphone = medicPermission.medic.user.cellphone,
+                                    countryId = medicPermission.medic.user.country_id,
+                                    deleted = medicPermission.medic.user.deleted,
+                                    createdBy = medicPermission.medic.user.createdBy,
+                                    createdDate = medicPermission.medic.user.createdDate,
+                                    districtId = medicPermission.medic.user.district_id,
+                                    departmentId = medicPermission.medic.user.department_id,
+                                    provinceId = medicPermission.medic.user.province_id,
+                                    documentNumber = medicPermission.medic.user.documentNumber,
+                                    documentType = medicPermission.medic.user.documentType,
+                                    email = medicPermission.medic.user.email,
+                                    firstName = medicPermission.medic.user.firstName,
+                                    lastNameFather = medicPermission.medic.user.lastNameFather,
+                                    lastNameMother = medicPermission.medic.user.lastNameMother,
+                                    maritalStatus = medicPermission.medic.user.maritalStatus,
+                                    modifiedBy = medicPermission.medic.user.modifiedBy,
+                                    modifiedDate = medicPermission.medic.user.modifiedDate,
+                                    organDonor = medicPermission.medic.user.organDonor,
+                                    phone = medicPermission.medic.user.phone,
+                                    roleId = medicPermission.medic.user.role_id,
+                                    since = medicPermission.medic.user.since,
+                                    passwordHash = medicPermission.medic.user.password_hash
+                                    
+
+                                }
+
+                            }
+                        };
+
+                        convertedPermissions.Add(p);
+                    }
+
+                    return convertedPermissions;
+                }
+                catch (Exception ex)
+                
+                {
+
+                    throw ex;
+                }
+                
+            }
+
+        }
+
+        public bool ChangeMedicAccess(PatientMedicPermission medicPermission)
+        {
+
+            using (var context = new DataAccess.registroclinicoEntities())
+            {
+                //user id coming as patient id from UI
+                var patient = context.patients.FirstOrDefault(s => s.user_id == medicPermission.user_id);
+
+                var isRequestExist = context.patient_medic_permissions.FirstOrDefault(s => s.patient_id == patient.id && s.medic_id == medicPermission.medic_id);
+                bool isMedicAuthrized = medicPermission.is_medic_authorized;
+                bool isMedicAuthrizedAndFutureRequests = medicPermission.is_future_request_blocked;
+                bool isRequestSent = medicPermission.is_request_sent;
+
+                if (isRequestExist == null)
+                {
+                    context.patient_medic_permissions.Add(new patient_medic_permission  
+                    {
+                        medic_id = medicPermission.medic_id,
+                        patient_id = patient.id,
+                        is_medic_authorized = medicPermission.is_medic_authorized,
+                        is_future_request_blocked = medicPermission.is_future_request_blocked,
+                        is_request_sent = medicPermission.is_request_sent,
+                    });
+                }
+                else
+                {
+                    isRequestExist.is_medic_authorized = isMedicAuthrized;
+                    isRequestExist.is_future_request_blocked = isMedicAuthrizedAndFutureRequests;
+                    isRequestExist.is_request_sent = isRequestSent;
+                }
+
+                return context.SaveChanges() > 0 ;
+            }
+        }
+
+        public void InsertOrChangePermissionRequest(long userId, int medicId)
+        {
+            using (var context = new DataAccess.registroclinicoEntities())
+            {
+                var patient = context.patients.FirstOrDefault(s => s.user_id == userId);
+                var permissions = context.patient_medic_permissions.Include("medic").Where(s => s.patient_id == patient.id && s.medic_id == medicId).FirstOrDefault();
+
+                try
+                { 
+                    if(permissions == null)
+                    {
+                           context.patient_medic_permissions.Add(new DataAccess.patient_medic_permission
+                            {
+                                medic_id = medicId,
+                                patient_id = patient.id,
+                                is_medic_authorized = false,
+                                is_future_request_blocked = false,
+                                is_request_sent = false
+
+                            });
+
+                        context.SaveChanges();
+                    }
+                }
+                catch (Exception ex)
+
+                {
+                    throw ex;
+                }
+
+
 
             }
         }

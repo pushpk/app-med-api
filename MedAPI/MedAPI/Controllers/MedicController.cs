@@ -7,21 +7,26 @@ using System.Net;
 using System.Net.Http;
 using System.Web;
 using System.Web.Http;
+using static MedAPI.Infrastructure.EmailHelper;
 
 namespace MedAPI.Controllers
 {
 
-    [System.Web.Http.RoutePrefix("users")]
+    [System.Web.Http.RoutePrefix("api/users")]
+    [Authorize]
     public class MedicController : ApiController
     {
         private readonly IMedicService medicService;
         private readonly IUserService userService;
-        public MedicController(IMedicService medicService, IUserService userService)
+        private readonly IEmailService emailService;
+        public MedicController(IMedicService medicService, IUserService userService, IEmailService emailService)
         {
             this.medicService = medicService;
             this.userService = userService;
-        }
+            this.emailService = emailService;
+    }
         [HttpGet]
+        [Authorize(Roles = "admin")]
         [Route("medic")]
         public HttpResponseMessage GetAll()
         {
@@ -65,8 +70,32 @@ namespace MedAPI.Controllers
             return response;
         }
 
+        [HttpGet]
+        [Route("get-medic")]
+        public HttpResponseMessage GetMedicId(long id)
+        {
+            HttpResponseMessage response = null;
+            try
+            {
+                Medic mMedic = medicService.GetMedicById(id);
+                if (mMedic == null)
+                {
+                    response = Request.CreateResponse(HttpStatusCode.NotFound, "Requested entity was not found in database.");
+                }
+                else
+                {
+                    response = Request.CreateResponse(HttpStatusCode.OK, mMedic);
+                }
+            }
+            catch (Exception ex)
+            {
+                response = Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+            return response;
+        }
 
         [HttpGet]
+        [Authorize(Roles = "admin")]
         [Route("freeze-medic")]
         public HttpResponseMessage FreezeMedic(long id)
         {
@@ -95,6 +124,7 @@ namespace MedAPI.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "admin")]
         [Route("approve-medic")]
         public HttpResponseMessage AprroveMedic(long id)
         {
@@ -104,7 +134,43 @@ namespace MedAPI.Controllers
                 Medic mMedic = medicService.GetMedicById(id);
 
                 mMedic.IsApproved = true;
+                mMedic.IsDenied = false;
                 mMedic = medicService.UpdateMedic(mMedic);
+                var emailBody = emailService.GetEmailBody(EmailPurpose.ApproveAccount);
+                //emailService.SendEmailAsync(mMedic.user.email, "Medic Approved -  MedAPI", emailBody);
+                emailService.SendEmailAsync(mMedic.user.email, "Cuenta Aprobada - SolidarityMedical", emailBody);
+
+                if (mMedic == null)
+                {
+                    response = Request.CreateResponse(HttpStatusCode.NotFound, "Requested entity was not found in database.");
+                }
+                else
+                {
+                    response = Request.CreateResponse(HttpStatusCode.OK, mMedic);
+                }
+            }
+            catch (Exception ex)
+            {
+                response = Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+            return response;
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "admin")]
+        [Route("deny-medic")]
+        public HttpResponseMessage DenyMedic(long id)
+        {
+            HttpResponseMessage response = null;
+            try
+            {
+                Medic mMedic = medicService.GetMedicById(id);
+
+                mMedic.IsDenied = true;
+                mMedic.IsApproved = false;
+                mMedic = medicService.UpdateMedic(mMedic);
+                var emailBody = emailService.GetEmailBody(EmailPurpose.DenyAccount);
+                emailService.SendEmailAsync(mMedic.user.email, "Cuenta Denegada - SolidarityMedical", emailBody);
 
                 if (mMedic == null)
                 {
@@ -123,6 +189,7 @@ namespace MedAPI.Controllers
         }
 
         [HttpDelete]
+        [Authorize(Roles = "admin")]
         [Route("medic/{id:int}")]
         public HttpResponseMessage Delete(long id)
         {
@@ -154,27 +221,35 @@ namespace MedAPI.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         [Route("medic")]
         public HttpResponseMessage Create(Domain.Medic mMedic)
         {
             HttpResponseMessage response = null;
-            try
-            {
-                mMedic = medicService.SaveMedic(mMedic);
-                response = Request.CreateResponse(HttpStatusCode.OK, mMedic);
-                //if (IsAdminPermission())
-                //{
-                   
-                //}
-                //else
-                //{
-                //    response = Request.CreateResponse(HttpStatusCode.Unauthorized);
-                //}
 
-            }
-            catch (Exception ex)
+            if (userService.IsUserAlreadyExist(mMedic.user, mMedic.cmp))
             {
-                response = Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+                response = Request.CreateResponse(HttpStatusCode.Conflict, "User Already Exist");
+            }
+            else
+            {
+                try
+                {
+                    mMedic = medicService.SaveMedic(mMedic);
+
+                    var emailConfirmationLink = Infrastructure.SecurityHelper.GetEmailConfirmatioLink(mMedic.user, Request);
+                    var emailBody = emailService.GetEmailBody(EmailPurpose.EmailVerification, emailConfirmationLink);
+                    emailService.SendEmailAsync(mMedic.user.email, "Verificacion de Email - SolidarityMedical", emailBody, emailConfirmationLink);
+
+
+                    response = Request.CreateResponse(HttpStatusCode.OK, mMedic);
+
+
+                }
+                catch (Exception ex)
+                {
+                    response = Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+                }
             }
             return response;
         }

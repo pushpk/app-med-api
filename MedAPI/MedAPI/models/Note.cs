@@ -29,6 +29,10 @@ namespace MedAPI.models
         public List<CardiovascularSymptoms> cardiovascularSymptoms { get; set; }
 
 
+        public Nullable<bool> isSignatureDraw { get; set; }
+        public string signatuteText { get; set; }
+        public byte[] signatuteDraw { get; set; }
+
         public string status { get; set; }
 
         

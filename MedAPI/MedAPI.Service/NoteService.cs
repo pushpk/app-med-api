@@ -72,7 +72,7 @@ namespace MedAPI.Service
                             .Select(d => new ObjectNode() { id = d.ToString().ToUpper(), name = StringExtensions.FirstCharToUpper(d.ToString()) })
                             .ToList();
 
-            mNoteResourcesList.specialities = this.triageRepository.getSpecialities()
+            mNoteResourcesList.specialities = this.triageRepository.getSpecialities().OrderBy(s => s.name)
                             .Select(d => new ObjectNode() { id = d.id.ToString().ToUpper(), name = d.name })
                             .ToList();
 
@@ -149,6 +149,18 @@ namespace MedAPI.Service
         public bool CloseAttention(long id)
         {
             return noteRepository.CloseAttention(id);
+        }
+
+        public bool saveSignature(int noteId, bool isSignDraw, string signText, byte[] signImageData)
+        {
+            return noteRepository.saveSignature(noteId, isSignDraw, signText, signImageData);
+
+
+        }
+
+        public byte[] GetNoteSignatureIfDraw(int noteId)
+        {
+            return noteRepository.GetNoteSignatureIfDraw(noteId);
         }
     }
 }

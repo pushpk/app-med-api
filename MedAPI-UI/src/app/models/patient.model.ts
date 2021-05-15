@@ -1,6 +1,4 @@
 import { Home } from './home.model';
-import { CheckEmptyUtil } from '../shared/util/check-empty.util';
-import { NoteDetail } from './noteDetail.model';
 
 export class Patient {
   id = 0;
@@ -12,6 +10,7 @@ export class Patient {
   documentType = '';
   documentNumber = '';
   birthday = '';
+
   sex = '';
   maritalStatus = '';
   department: String = null;
@@ -21,6 +20,7 @@ export class Patient {
   isDonor = false;
   email = '';
   phone = '';
+  cellphone = '';
   race = '';
   educationalAttainment = '';
   occupation = '';
@@ -51,5 +51,5 @@ export class Patient {
   notes = [];
   roleId = 0;
   confirmPasswordHash = '';
-  
+  IsEdit: boolean = false;
 }

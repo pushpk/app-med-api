@@ -55,6 +55,7 @@ namespace MedAPI.DataAccess
         public virtual DbSet<notereferral> notereferrals { get; set; }
         public virtual DbSet<nurse> nurses { get; set; }
         public virtual DbSet<patient> patients { get; set; }
+        public virtual DbSet<patient_medic_permission> patient_medic_permissions { get; set; }
         public virtual DbSet<patient_allergies> patient_allergies { get; set; }
         public virtual DbSet<patient_fatherbackgrounds> patient_fatherbackgrounds { get; set; }
         public virtual DbSet<patient_medicines> patient_medicines { get; set; }

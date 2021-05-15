@@ -7,7 +7,7 @@ using System.Web.Http;
 
 namespace MedAPI.Controllers
 {
-    [System.Web.Http.RoutePrefix("note")]
+    [System.Web.Http.RoutePrefix("api/note")]
     public class ReportController : ApiController
     {
         [HttpGet]

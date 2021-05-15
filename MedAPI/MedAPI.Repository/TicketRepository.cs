@@ -38,6 +38,9 @@ namespace MedAPI.Repository
                             sicknessTime = n.sicknessTime,
                             sicknessUnit = n.sicknessUnit,
                             triageId = n.triage_id,
+                            isSignatureDraw = n.isSignatureDraw,
+                            signatuteText = n.signatuteText,
+                            signatuteDraw = n.signatuteDraw,
                             treatment = n.treatment,
                             ticketId = n.ticket_id,
                             symptom = n.symptom,
@@ -79,6 +82,9 @@ namespace MedAPI.Repository
                             modifiedDate = n.modifiedDate,
                             physicalExam = n.physicalExam,
                             patientId = n.patient_id,
+                            isSignatureDraw = n.isSignatureDraw,
+                            signatuteText = n.signatuteText,
+                            signatuteDraw = n.signatuteDraw,
                             sicknessTime = n.sicknessTime,
                             sicknessUnit = n.sicknessUnit,
                             triageId = n.triage_id,
@@ -113,6 +119,8 @@ namespace MedAPI.Repository
                 efTicket.serie = mTicket.serie;
                 efTicket.nroTicket = mTicket.nroTicket;
                 context.SaveChanges();
+
+
                 mTicket.id = efTicket.id;
             }
             return mTicket;

@@ -9,10 +9,12 @@ using System.Web.Http;
 using MedAPI.models;
 using System.Collections.Generic;
 using static MedAPI.Infrastructure.Common;
+using System.IO;
 
 namespace MedAPI.Controllers
 {
-    [System.Web.Http.RoutePrefix("record")]
+    [System.Web.Http.RoutePrefix("api/record")]
+    [Authorize]
     public class NoteController : ApiController
     {
         private readonly INoteService noteService;
@@ -92,6 +94,7 @@ namespace MedAPI.Controllers
 
 
         [HttpPost]
+        [Authorize(Roles = "medic")]
         [Route("note")]
         public HttpResponseMessage Create(models.Note mNote)
         {
@@ -146,6 +149,60 @@ namespace MedAPI.Controllers
                 response = Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
             return response;
+        }
+
+        [HttpPost]
+        [Route("saveSignatureForNote")]
+        public HttpResponseMessage SaveSignatureForNote()
+        {
+            HttpResponseMessage response = null;
+
+            var httpRequest = HttpContext.Current.Request;
+            byte[] signImageData = null;
+            string signText = null;
+
+            var noteId = int.Parse(httpRequest.Form["noteId"].ToString());
+            var isSignDraw= httpRequest.Form["IsSignDraw"].ToString() == "true" ? true : false;
+            
+            if(isSignDraw)
+            {
+                if (httpRequest.Files.Count < 1)
+                {
+                    return Request.CreateResponse(HttpStatusCode.BadRequest);
+                }
+                
+                using (var binaryReader = new BinaryReader(httpRequest.Files[0].InputStream))
+                {
+                    signImageData = binaryReader.ReadBytes(httpRequest.Files[0].ContentLength);
+                }
+            }
+            else
+            {
+                signText = httpRequest.Form["signText"].ToString();
+
+            }
+
+           var result =  noteService.saveSignature(noteId, isSignDraw, signText, signImageData);
+
+            if (result)
+            {
+                response = Request.CreateResponse(HttpStatusCode.OK, result);
+                
+            }
+            else
+            {
+                response = Request.CreateResponse(HttpStatusCode.InternalServerError);
+            }
+            return response;
+
+        }
+
+        [HttpGet]
+        [Route("noteSignature/{noteId}")]
+        public string Get(int noteId)
+        {
+            var image = noteService.GetNoteSignatureIfDraw(noteId);
+            return System.Convert.ToBase64String(image);
         }
 
         [HttpPost]
@@ -281,6 +338,7 @@ namespace MedAPI.Controllers
             {
                 note.createdBy = Convert.ToString(userData.id);
                 note.createdDate = DateTime.Now;
+                note.medicId = userData.id;
             }
             note.deleted = false;
             note.diagnosis = mNote.diagnosis.observations;
@@ -303,6 +361,9 @@ namespace MedAPI.Controllers
             note.triage.id = mNote.triageId;
             note.ticketId = mNote.ticketId;
             note.ticket.id = mNote.ticketId;
+            note.isSignatureDraw = mNote.isSignatureDraw;
+            note.signatuteText = mNote.signatuteText;
+            note.signatuteDraw = mNote.signatuteDraw;
             note.userId = mNote.userId;
             return note;
         }
@@ -388,6 +449,7 @@ namespace MedAPI.Controllers
             triage.heartRisk = note.triage.vitalFunctions.cardiovascularAge;
             triage.hypertensionRisk = note.triage.vitalFunctions.hypertensionRisk;
             triage.systolicBloodPressure = note.triage.vitalFunctions.systolic;
+            triage.saturation = note.triage.vitalFunctions.saturation;
             triage.temperature = note.triage.vitalFunctions.temperature;
             triage.weight = note.triage.vitalFunctions.weight;
             triage.size = note.triage.vitalFunctions.height;
@@ -457,5 +519,12 @@ namespace MedAPI.Controllers
             return cardiovascularSymptoms;
         }
 
+    }
+
+    public class signClass
+    {
+        public int NoteId { get; set; }
+
+        public object signDraw { get; set; }
     }
 }

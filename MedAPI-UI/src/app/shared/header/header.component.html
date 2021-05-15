@@ -1,21 +1,37 @@
 <mat-toolbar color="primary" class="md-whiteframe-z2">
   <mat-toolbar-row>
-    <ng-container *ngIf="userAuthService.isAuthenticated();">
-      <button mat-icon-button (click)="toggleFilter();">
-        <mat-icon>menu</mat-icon>
-      </button>
-    </ng-container>
-    <h2>
+    <div class="logo" style="padding-top: 8px">
+      <img src="assets/images/logoWhiteLetters.png" height="50" />
+    </div>
+    <!-- <h2>
       <span>Historia Clínica Electrónica</span>
-    </h2>
+    </h2> -->
     <span class="horizontal-spacer"></span>
-    <ng-container *ngIf="userAuthService.isAuthenticated();">
-      <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Menu">
-        <mat-icon> more_vert</mat-icon>
+    <ng-container *ngIf="userAuthService.isAuthenticated()">
+      <button
+        mat-icon-button
+        aria-label="Example icon-button with a menu"
+        style="margin-right: 0.5%"
+        (click)="navigateToHome()"
+      >
+        <mat-icon>home</mat-icon>
+      </button>
+      <button
+        mat-icon-button
+        [matMenuTriggerFor]="menu"
+        aria-label="Example icon-button with a menu"
+      >
+        <mat-icon>account_circle</mat-icon>
+        <mat-icon>arrow_drop_down</mat-icon>
       </button>
       <mat-menu #menu="matMenu">
-        <button mat-menu-item aria-label="signout" id="signout" (click)="logout()">
-          <mat-icon>close</mat-icon>&nbsp;&nbsp;Cerrar sesión
+        <button mat-menu-item (click)="showAccountSetting()">
+          <mat-icon>settings</mat-icon>
+          <span>Configuración</span>
+        </button>
+        <button mat-menu-item (click)="logout()">
+          <mat-icon>send</mat-icon>
+          <span>Cerrar Sesión</span>
         </button>
       </mat-menu>
     </ng-container>

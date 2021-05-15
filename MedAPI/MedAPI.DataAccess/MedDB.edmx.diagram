@@ -88,6 +88,9 @@
         <EntityTypeShape EntityType="registroclinicoModel.symptom" Width="1.5" PointX="5.25" PointY="19.375" />
         <AssociationConnector Association="registroclinicoModel.FK_patient_symptoms_patient" />
         <AssociationConnector Association="registroclinicoModel.FK_patient_symptoms_symptoms" />
+        <EntityTypeShape EntityType="registroclinicoModel.patient_medic_permission" Width="1.5" PointX="17.25" PointY="22" />
+        <AssociationConnector Association="registroclinicoModel.medic__FKgyco417bacd28ti07gdpxwvsr" />
+        <AssociationConnector Association="registroclinicoModel.patient__FKgyco417bacd28ti07gdpxwvsr" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

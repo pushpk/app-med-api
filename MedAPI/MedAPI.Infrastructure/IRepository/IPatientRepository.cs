@@ -10,6 +10,7 @@ namespace MedAPI.Infrastructure.IRepository
     public interface IPatientRepository
     {
         List<Patient> GetAllPatient();
+        int GetActivePatientCount();
         Patient GetPatientById(long id);
         bool DeletePatientById(long id);
         List<District> GetDistrictByprovinceId(long id);
@@ -25,5 +26,10 @@ namespace MedAPI.Infrastructure.IRepository
         bool SaveSymptoms(SymptomsWithCustom mSymptoms);
         SymptomsWithCustom GetSymptomsByPatientId(string docNum);
         List<Symptoms> GetAllSymptoms();
+        PatientMedicPermission checkMedicAccessForPatientData(long id);
+        
+        bool ChangeMedicAccess(PatientMedicPermission medicPermission);
+        List<PatientMedicPermission> getPermissionRequests(long userId);
+        void InsertOrChangePermissionRequest(long userId, int medicId);
     }
 }

@@ -9,23 +9,46 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UserService } from './user.service';
 import { MedicRegistrationComponent } from './medic-registration/medic-registration.component';
 import { MustMatchDirective } from 'src/app/shared/directive/mustMatch.directive';
+
 import { PatientRegistrationComponent } from './patient-registration/patient-registration.component';
 import { LabRegistrationComponent } from './lab-registration/lab-registration.component';
 import { NoAccessComponent } from './no-access/no-access.component';
+import { AccountConfirmationComponent } from './account-confirmation/account-confirmation.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { EmailNotConfirmedComponent } from './email-not-confirmed/email-not-confirmed.component';
+import { PasswordPatternDirective } from 'src/app/shared/directive/passwordPattern.directive';
+import { AccountSettingComponent } from './account-setting/account-setting.component';
+import { PasswordResetComponent } from './account-setting/password-reset/password-reset.component';
 
 const routes: Routes = [
   {
-    path: '', component: LoginComponent
-
+    path: '',
+    component: LoginComponent,
   },
   {
-    path: 'logout', component: LogoutComponent
-  }
+    path: 'logout',
+    component: LogoutComponent,
+  },
 ];
 
-
 @NgModule({
-  declarations: [LoginComponent, LogoutComponent, MedicRegistrationComponent, MustMatchDirective, PatientRegistrationComponent, LabRegistrationComponent, NoAccessComponent],
+  declarations: [
+    LoginComponent,
+    LogoutComponent,
+    MedicRegistrationComponent,
+    MustMatchDirective,
+    PasswordPatternDirective,
+    PatientRegistrationComponent,
+    LabRegistrationComponent,
+    NoAccessComponent,
+    AccountConfirmationComponent,
+    ForgotPasswordComponent,
+    ResetPasswordComponent,
+    EmailNotConfirmedComponent,
+    AccountSettingComponent,
+    PasswordResetComponent,
+  ],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
@@ -33,9 +56,8 @@ const routes: Routes = [
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    RouterModule
+    RouterModule,
   ],
-  providers: [UserService]
-
+  providers: [UserService],
 })
-export class UserModule { }
+export class UserModule {}

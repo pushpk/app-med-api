@@ -1,29 +1,13 @@
 <div class="summary print layout-padding" fxLayout="column">
-
   <!-- <div layout="row" layout-wrap *ngIf="form.$error!=={}">
       <h2>Complete todos los campos obligatorios para continuar.</h2>
   </div> -->
 
   <div fxLayout="row" *ngIf="!submit.waiting && !submit.success">
-
-    <h2 *ngIf="this.isEditable" fxFlex="100">Ahora puede guardar la atención</h2>
-
-    <!-- <div fxFlex="100" *ngIf="!note.id"> -->
-      <div fxFlex="100" >
-      <a href="javascript: void(0);" mat-button (click)="downloadAttention()" >
-        Descargar Atención
-      </a>
-
-      <a href="javascript: void(0);" mat-button (click)="downloadPrescription()" >
-        Descargar Receta médica
-      </a>
-
-      <a href="javascript: void(0);" mat-button (click)="downloadInter()">
-        Descargar Interconsulta
-      </a>
-    </div>
+    <h2 *ngIf="this.isEditable && !submit.success" fxFlex="100">
+      Ahora puede guardar la atención
+    </h2>
   </div>
-
   <div fxLayout="row" *ngIf="submit.waiting">
     <h2>Guardando la atención...</h2>
   </div>
@@ -31,20 +15,132 @@
   <div fxLayout="row" *ngIf="!submit.waiting && submit.success">
     <h2 fxFlex="100">La atención se ha registrado correctamente</h2>
 
-    <div fxFlex="100" *ngIf="!note.id">
-      <a href="javascript: void(0);" mat-button  (click)="downloadAttention()" >
+    <div fxFlex="100">
+      <a href="javascript: void(0);" mat-button (click)="downloadAttention()">
         Descargar Atención
       </a>
 
-     
 
-      <a href="javascript: void(0);" mat-button (click)="downloadPrescription()" >
+      <a
+        href="javascript: void(0);"
+        mat-button
+        (click)="downloadPrescription()"
+      >
+        Descargar Receta médica
+
+      </a>
+
+      <a href="javascript: void(0);" mat-button (click)="downloadInter()">
+        Descargar Interconsulta
+      </a>
+
+      <a href="javascript: void(0);" mat-button (click)="downloadExams()" >
+        Descargar Exámenes
+      </a>
+    </div>
+  </div>
+  <div fxLayout="row" *ngIf="!submit.waiting && !submit.success && !isEditable">
+    <div fxFlex="100">
+      <a href="javascript: void(0);" mat-button (click)="downloadAttention()">
+        Descargar Atención
+      </a>
+
+      <a
+        href="javascript: void(0);"
+        mat-button
+        (click)="downloadPrescription()"
+      >
         Descargar Receta médica
       </a>
 
-      <a href="javascript: void(0);" mat-button (click)="downloadInter()" >
+      <a href="javascript: void(0);" mat-button (click)="downloadInter()">
         Descargar Interconsulta
       </a>
+
+      <a href="javascript: void(0);" mat-button (click)="downloadExams()" >
+        Descargar Exámenes
+      </a>
+    </div>
+  </div>
+
+  <div fxLayout="column" #entireSignature>
+    <div fxFlex style="margin: 10px" *ngIf="!submit.waiting && !submit.success">
+      <mat-radio-group
+        aria-label="Select an option"
+        [(ngModel)]="note.isSignatureDraw"
+        (change)="signatureOptionChange()"
+        [disabled]="
+          (!submit.waiting && submit.success) ||
+          this.note.signatuteDraw != null ||
+          this.note.signatuteText !== ''
+        "
+      >
+        <b style="margin-right: 25px"> Seleccione el tipo de firma:</b>
+        <div style="padding-top: 10px;">
+          <mat-radio-button [value]="false">Texto</mat-radio-button>
+          <mat-radio-button [value]="true">Dibujo</mat-radio-button>
+        </div>
+      </mat-radio-group>
+    </div>
+
+    <div style="margin: 10px" *ngIf="!submit.waiting && !submit.success">
+      <mat-form-field
+        class="example-form-field"
+        *ngIf="!this.note.isSignatureDraw"
+        style="width: 600px"
+      >
+        <mat-label>Signature</mat-label>
+        <input
+          id="signatureText"
+          [disabled]="!submit.waiting && submit.success"
+          class="signature-fonts"
+          matInput
+          type="text"
+          [(ngModel)]="note.signatuteText"
+          name="signatuteText"
+          #signatuteText="ngModel"
+          style="height:50px;"
+        />
+      </mat-form-field>
+    </div>
+    <div>
+      <div class="row" style="display: inline-block; width: 600">
+        <div class="signature-pad" #sPadDiv style="width:100%">
+          <div class="signature-pad--body col-6" style="width:100%">
+            <canvas
+              #sPad
+              height="150"
+              width="600"
+              style="
+                touch-action: none;
+                box-shadow: 0 0 5px rgb(218, 218, 218) inset;
+                border-radius: 10px;
+              "
+            ></canvas>
+          </div>
+        </div>
+        <div #signatureShow style="display: none">
+          <!-- <h3>firma</h3> -->
+          <!-- <div> -->
+            <img [src]="signImageDataUrl" />
+          <!-- </div> -->
+        </div>
+        <div class="row" style="display: inline-block; width: 600px">
+          <section class="col-6">
+            <div class="row">
+              <div class="col-6">
+                <div class="col-3" #signatureButtons>
+                  <a *ngIf="!submit.waiting && !submit.success" mat-button color="primary" (click)="saveSignature()"
+                    >Confirmar*</a
+                  >
+                  <a *ngIf="this.note.isSignatureDraw" mat-button (click)="clear()">Borrar</a>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+        <p *ngIf="!submit.waiting && !submit.success" style="margin-top:20px; color:grey;">*Al hacer click, usted confirma que su firma es verídica y da autorización para adjuntar a su firma en toda documentación asociada con esta atención o evolución. </p>
+      </div>
     </div>
   </div>
 </div>

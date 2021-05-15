@@ -1,387 +1,877 @@
 <div class="maintainer">
-  <form novalidate name="form" #f="ngForm" (ngSubmit)="submitRequest()" [mustMatch]="['password', 'confirmPassword']">
-  <mat-card class="no-pad">
-  
+  <h2>Paciente</h2>
+
+  <form
+    novalidate
+    name="form"
+    #f="ngForm"
+    (ngSubmit)="submitRequest()"
+    [mustMatch]="['password', 'confirmPassword']"
+  >
+    <mat-card class="no-pad">
       <mat-card-content>
-
-  <div class="layout-padding" fxLayout="column" style="margin-top: 20px;">
-    <h2 class="mat-title form-section" fxFlex="100" style="margin-left: 10px; margin-right: 10px;">Información general</h2>
-      <div fxLayout="row wrap" fxLayoutAlign="space-between center" style="margin-left: 10px; margin-right: 10px;">
-    <mat-form-field fxFlex="30" fxFlex.md="30" fxFlex.xs="100">
-      <mat-label>Nombres</mat-label>
-      <input type="text" name="patientName" matInput #patientName="ngModel"
-             [(ngModel)]="patient.name" maxlength="250" required>
-      <mat-hint align="end">{{patientName.value?.length || 0}}/250</mat-hint>
-      <mat-error *ngIf="patientName.errors && (patientName.touched || patientName.dirty)">
-        Este campo es requerido
-      </mat-error>
-    </mat-form-field>
-    <mat-form-field fxFlex="30" fxFlex.md="30" fxFlex.xs="100">
-      <mat-label>Apellido Paterno</mat-label>
-      <input type="text" name="patientLastnameFather" maxlength="250" matInput #patientLastnameFather="ngModel"
-             [(ngModel)]="patient.lastnameFather" required>
-      <mat-hint align="end">{{patientLastnameFather.value?.length || 0}}/250</mat-hint>
-      <mat-error *ngIf="patientLastnameFather.errors && (patientLastnameFather.touched || patientLastnameFather.dirty)">
-        Este campo es requerido
-      </mat-error>
-    </mat-form-field>
-    <mat-form-field fxFlex="30" fxFlex.md="30" fxFlex.xs="100">
-      <mat-label>Apellido Materno</mat-label>
-      <input type="text" name="patientLastnameMother" maxlength="250" matInput #patientLastnameMother="ngModel"
-             [(ngModel)]="patient.lastnameMother" required>
-      <mat-hint align="end">{{patientLastnameMother.value?.length || 0}}/250</mat-hint>
-      <mat-error *ngIf="patientLastnameMother.errors && (patientLastnameMother.touched || patientLastnameMother.dirty)">
-        Este campo es requerido
-      </mat-error>
-    </mat-form-field>
-  </div>
-  <div fxLayout="row wrap" fxLayoutAlign="space-between center" style="margin-left: 10px; margin-right: 10px;">
-    <mat-form-field fxFlex="30" fxFlex.md="30" fxFlex.xs="100">
-      <mat-label>País de nacimiento</mat-label>
-      <mat-select name="country" class="max-width" required #country="ngModel"
-                  [(ngModel)]="patient.country">
-        <mat-option *ngFor="let c of resources.countries" [(value)]="c.id">{{c.name}}</mat-option>
-      </mat-select>
-      <mat-error *ngIf="country.errors && (country.touched || country.dirty)">
-        Este campo es requerido
-      </mat-error>
-    </mat-form-field>
-    <mat-form-field fxFlex="30" fxFlex.md="30" fxFlex.xs="100">
-      <mat-label>Tipo de documento</mat-label>
-      <mat-select name="documentType" class="max-width" required #documentType="ngModel"
-                  [(ngModel)]="patient.documentType">
-        <mat-option *ngFor="let dt of resources.documentTypes" [(value)]="dt.id">{{dt.name}}</mat-option>
-      </mat-select>
-      <mat-error *ngIf="documentType.errors && (documentType.touched || documentType.dirty)">
-        Este campo es requerido
-      </mat-error>
-    </mat-form-field>
-    <mat-form-field fxFlex="30" fxFlex.md="30" fxFlex.xs="100">
-      <mat-label>Número de documento</mat-label>
-      <input type="text" name="patientDocumentNumber" matInput #patientDocumentNumber="ngModel"
-             [(ngModel)]="patient.documentNumber" required maxlength="8">
-      <mat-error *ngIf="patientDocumentNumber.errors && (patientDocumentNumber.touched || patientDocumentNumber.dirty)">
-        Este campo es requerido
-      </mat-error>
-    </mat-form-field>
-  </div>
-  <div fxLayout="row wrap" fxLayoutAlign="space-between center" style="margin-left: 10px; margin-right: 10px;">
-    <mat-form-field fxFlex="30" fxFlex.md="30" fxFlex.xs="100">
-      <mat-label>Fecha de nacimiento</mat-label>
-      <input name="patientBirthday" matInput [matDatepicker]="picker" #patientBirthday="ngModel" [(ngModel)]="patient.birthday"
-             required>
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-      <mat-error *ngIf="patientBirthday.errors && (patientBirthday.touched || patientBirthday.dirty)">
-        Este campo es requerido
-      </mat-error>
-    </mat-form-field>
-    <mat-form-field fxFlex="30" fxFlex.md="30" fxFlex.xs="100">
-      <mat-label>Sexo</mat-label>
-      <mat-select name="sex" class="max-width" [(value)]="patient.sex" required #sex="ngModel"
-                  [(ngModel)]="patient.sex">
-        <mat-option *ngFor="let s of resources.sexes" [(value)]="s.id">{{s.name}}</mat-option>
-      </mat-select>
-      <mat-error *ngIf="sex.errors && (sex.touched || sex.dirty)">
-        Este campo es requerido
-      </mat-error>
-    </mat-form-field>
-    <mat-form-field fxFlex="30" fxFlex.md="30" fxFlex.xs="100">
-      <mat-label>Estado civil</mat-label>
-      <mat-select name="maritalStatus" class="max-width" [(value)]="patient.maritalStatus" required #maritalStatus="ngModel"
-                  [(ngModel)]="patient.maritalStatus">
-        <mat-option *ngFor="let s of resources.maritalStatuses" [(value)]="s.id">{{s.name}}</mat-option>
-      </mat-select>
-      <mat-error *ngIf="maritalStatus.errors && (maritalStatus.touched || maritalStatus.dirty)">
-        Este campo es requerido
-      </mat-error>
-    </mat-form-field>
-  </div>
-  <div fxLayout="row wrap" fxLayoutAlign="space-between center" style="margin-left: 10px; margin-right: 10px;">
-    <mat-form-field fxFlex="30" fxFlex.md="30" fxFlex.xs="100">
-      <mat-label>Departamento</mat-label>
-    <mat-select name="department" class="max-width" required #department="ngModel"
-                [(ngModel)]="patient.department" (selectionChange)="updateProvinces()">
-      <mat-option *ngFor="let s of resources.departments" [(value)]="s.id">{{s.name}}</mat-option>
-    </mat-select>
-    <mat-error *ngIf="department.errors && (department.touched || department.dirty)">
-      Este campo es requerido
-    </mat-error>
-  </mat-form-field>  
-  <mat-form-field fxFlex="30" fxFlex.md="30" fxFlex.xs="100">
-    <mat-label>Provincia</mat-label>
-      <mat-select name="province" class="max-width" required #province="ngModel"
-                  [(ngModel)]="patient.province" (selectionChange)="updateDistricts()">
-        <mat-option *ngFor="let s of resources.provinces" [(value)]="s.id">{{s.name}}</mat-option>
-      </mat-select>
-      <mat-error *ngIf="province.errors && (province.touched || province.dirty)">
-        Este campo es requerido
-      </mat-error>
-    </mat-form-field>
-    <mat-form-field fxFlex="30" fxFlex.md="30" fxFlex.xs="100">
-      <mat-label>Distrito</mat-label>
-      <mat-select name="district" class="max-width" required #district="ngModel"
-                  [(ngModel)]="patient.district">
-        <mat-option *ngFor="let s of resources.districts" [(value)]="s.id">{{s.name}}</mat-option>
-      </mat-select>
-      <mat-error *ngIf="district.errors && (district.touched || district.dirty)">
-        Este campo es requerido
-      </mat-error>
-    </mat-form-field>
-  </div>
-  
-  <div fxLayout="row wrap" fxLayoutAlign="space-between center" style="margin-left: 10px; margin-right: 10px;">
-    <mat-form-field fxFlex="65" fxFlex.md="65" fxFlex.xs="100">
-      <mat-label>Dirección</mat-label>
-      <input type="text" name="patientAddress" maxlength="250" matInput #patientAddress="ngModel"
-             [(ngModel)]="patient.address" required>
-      <mat-hint align="end">{{patientAddress.value?.length || 0}}/250</mat-hint>
-      <mat-error *ngIf="patientAddress.errors && (patientAddress.touched || patientAddress.dirty)">
-        Este campo es requerido
-      </mat-error>
-    </mat-form-field>
-    <mat-form-field fxFlex="30" fxFlex.md="30" fxFlex.xs="100">
-      <mat-label>Teléfono</mat-label>
-          <input type="number" name="patientPhone" maxlength="10" matInput #patientPhone="ngModel"
-                 [(ngModel)]="patient.phone" required>
-          <mat-hint align="end">{{patientPhone.value?.length || 0}}/10</mat-hint>
-          <mat-error *ngIf="patientPhone.errors && (patientPhone.touched || patientPhone.dirty)">
-            Este campo es requerido
-          </mat-error>
-        </mat-form-field>
-   
-  </div>
-  <div fxLayout="row wrap" fxLayoutAlign="space-between center" style="margin-left: 10px; margin-right: 10px;">
-
-
-        <mat-form-field fxFlex="30" fxFlex.md="30" fxFlex.xs="100">
-          <mat-label>Grupo sanguíneo y factor RH</mat-label>
-          <mat-select name="bloodType" class="max-width" required #bloodType="ngModel"
-                      [(ngModel)]="patient.bloodType">
-            <mat-option *ngFor="let c of resources.bloodTypes" [value]="c.id">{{c.name}}</mat-option>
-          </mat-select>
-          <mat-error *ngIf="bloodType.errors && (bloodType.touched || bloodType.dirty)">
-            Este campo es requerido
-          </mat-error>
-        </mat-form-field>
-        <div fxFlex="65" fxFlex.md="65" fxFlex.xs="100">
-          <mat-slide-toggle [(ngModel)]="patient.isDonor">
-            {{patient.isDonor ? "Sí es donante de órganos" : "No es donante de órganos"}}
-          </mat-slide-toggle>
-        </div>
-  </div>
-</div>
-
-  </mat-card-content>
-  </mat-card>
-
-
-  <mat-card class="no-pad">
-      <div style="margin-top: 15px;">
-  
-      </div>
-      <mat-card-content>
-          <div class="layout-padding" fxLayout="column">
-  
-            <div fxLayout="column" style="margin-left: 10px; margin-right: 10px;">
-              <h2 class="mat-title form-section" fxFlex="100">Alergias</h2>
-                  <div fxLayout="column">
-                    <mat-form-field>
-                      <mat-chip-list #chipList aria-label="Alergias selection">
-                        <input #allergieInput
-                               matInput
-                               [formControl]="allergiesCtrl"
-                               [matAutocomplete]="auto"
-                               [matChipInputFor]="chipList"
-                               (matChipInputTokenEnd)="addAllergie($event)"
-                               [matChipInputSeparatorKeyCodes]="separatorKeysCodes">
-                      </mat-chip-list>
-                      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedAllergie($event)">
-                        <mat-option *ngFor="let allergie of filteredAllergies | async" [value]="allergie">
-                          {{allergie.name}}
-                        </mat-option>
-                      </mat-autocomplete>
-                      <mat-chip *ngFor="let allergie of selectedAllergies"
-                                [removable]="removable" class="my-8 mx-8"
-                                v-if="!allergie.isDeleted"
-                                (removed)="removeAllergie(allergie)">
-                        {{allergie.name}}
-                        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-                      </mat-chip>
-                    </mat-form-field>
-                    <div>
-                      <mat-chip *ngFor="let allergie of resources.allergies"
-                                [selectable]="selectable"
-                                (click)="addAllergieSymptoms(allergie)"
-                                class="my-8 mx-8">
-                        <div>{{allergie.name}}</div>
-                      </mat-chip>
-                    </div>
-                  </div>
-                  <mat-form-field>
-                    <mat-label>Otras alergias</mat-label>
-                    <input type="text" matInput name="otherAllergies" [(ngModel)]="patient.otherAllergies" maxlength="250"
-                           #otherAllergies="ngModel">
-                    <mat-hint align="end">{{otherAllergies.value?.length || 0}}/250</mat-hint>
-                  </mat-form-field>
-                </div>
-
-                
-                <div fxLayout="column" style="margin-left: 10px; margin-right: 10px;">
-                  <h2 class="mat-title form-section" fxFlex="100">Medicinas</h2>
-                  <div fxLayout="column">
-                    <mat-form-field>
-                      <mat-chip-list #chipList aria-label="Medicinas selection">
-                        <input #allergieInput
-                               matInput
-                               [formControl]="medicineCtrl"
-                               [matAutocomplete]="auto"
-                               [matChipInputFor]="chipList"
-                               (matChipInputTokenEnd)="addMedicine($event)"
-                               [matChipInputSeparatorKeyCodes]="separatorKeysCodes">
-                      </mat-chip-list>
-                      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedMedicine($event)">
-                        <mat-option *ngFor="let medicine of filteredMedicines | async" [value]="medicine">
-                          {{medicine.name}}
-                        </mat-option>
-                      </mat-autocomplete>
-                      <mat-chip *ngFor="let medicine of selectedMedicines"
-                                [removable]="removable" class="my-8 mx-8"
-                                v-if="!medicine.isDeleted"
-                                (removed)="removeMedicine(medicine)">
-                        {{medicine.name}}
-                        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-                      </mat-chip>
-                    </mat-form-field>
-                    <div>
-                      <mat-chip *ngFor="let medicine of resources.medicines"
-                                [selectable]="selectable"
-                                (click)="addMedicineSymptoms(medicine)"
-                                class="my-8 mx-8">
-                        <div>{{medicine.name}}</div>
-                      </mat-chip>
-                    </div>
-                  </div>
-                  <mat-form-field>
-                    <mat-label>Otras medicamentos</mat-label>
-                    <input type="text" matInput name="otherMedicines" [(ngModel)]="patient.otherMedicines" maxlength="250"
-                           #otherMedicines="ngModel">
-                    <mat-hint align="end">{{otherMedicines.value?.length || 0}}/250</mat-hint>
-                  </mat-form-field>
-                </div>
-
-                <div fxLayout="column" style="margin-left: 10px; margin-right: 10px;">
-                  <h2 class="mat-title form-section" fxFlex="100">Antecedentes personales</h2>
-                  <div fxLayout="column">
-                    <mat-form-field>
-                      <mat-chip-list #chipList aria-label="Antecedentes personales selection">
-                        <input #personalBackgroundInput
-                               matInput
-                               [formControl]="personalBackgroundCtrl"
-                               [matAutocomplete]="auto"
-                               [matChipInputFor]="chipList"
-                               (matChipInputTokenEnd)="addPersonalBackground($event)"
-                               [matChipInputSeparatorKeyCodes]="separatorKeysCodes">
-                      </mat-chip-list>
-                      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedPersonalBackground($event)">
-                        <mat-option *ngFor="let personalBg of filteredPersonalBackgrounds | async" [value]="personalBg">
-                          {{personalBg.name}}
-                        </mat-option>
-                      </mat-autocomplete>
-                      <mat-chip *ngFor="let pbg of selectedPersonalBackgrounds"
-                                [removable]="removable" class="my-8 mx-8"
-                                v-if="!pbg.isDeleted"
-                                (removed)="removePersonalBackground(pbg)">
-                        {{pbg.name}}
-                        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-                      </mat-chip>
-                    </mat-form-field>
-                    <div>
-                      <mat-chip *ngFor="let bg of resources.backgrounds"
-                                [selectable]="selectable"
-                                (click)="addPersonalBackgroundSymptoms(bg)"
-                                class="my-8 mx-8">
-                        <div>{{bg.name}}</div>
-                      </mat-chip>
-                    </div>
-                  </div>
-                  <mat-form-field>
-                    <mat-label>Otras antecedentes</mat-label>
-                    <input type="text" matInput name="otherPersonalBackground" [(ngModel)]="patient.otherPersonalBackground" maxlength="250"
-                           #otherPersonalBackground="ngModel">
-                    <mat-hint align="end">{{otherPersonalBackground.value?.length || 0}}/250</mat-hint>
-                  </mat-form-field>
-                </div>
+        <div class="layout-padding" fxLayout="column" style="margin-top: 20px">
+          <h2
+            class="mat-title form-section"
+            fxFlex="100"
+            style="margin-left: 10px; margin-right: 10px"
+          >
+            Información general
+          </h2>
+          <div
+            fxLayout="row wrap"
+            fxLayoutAlign="space-between center"
+            style="margin-left: 10px; margin-right: 10px"
+          >
+            <mat-form-field fxFlex="30" fxFlex.md="30" fxFlex.xs="100">
+              <mat-label>Nombres</mat-label>
+              <input
+                type="text"
+                name="patientName"
+                matInput
+                #patientName="ngModel"
+                [(ngModel)]="patient.name"
+                maxlength="250"
+                required
+              />
+              <mat-hint align="end"
+                >{{ patientName.value?.length || 0 }}/250</mat-hint
+              >
+              <mat-error
+                *ngIf="
+                  patientName.errors &&
+                  (patientName.touched || patientName.dirty)
+                "
+              >
+                Este campo es requerido
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field fxFlex="30" fxFlex.md="30" fxFlex.xs="100">
+              <mat-label>Apellido Paterno</mat-label>
+              <input
+                type="text"
+                name="patientLastnameFather"
+                maxlength="250"
+                matInput
+                #patientLastnameFather="ngModel"
+                [(ngModel)]="patient.lastnameFather"
+                required
+              />
+              <mat-hint align="end"
+                >{{ patientLastnameFather.value?.length || 0 }}/250</mat-hint
+              >
+              <mat-error
+                *ngIf="
+                  patientLastnameFather.errors &&
+                  (patientLastnameFather.touched || patientLastnameFather.dirty)
+                "
+              >
+                Este campo es requerido
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field fxFlex="30" fxFlex.md="30" fxFlex.xs="100">
+              <mat-label>Apellido Materno</mat-label>
+              <input
+                type="text"
+                name="patientLastnameMother"
+                maxlength="250"
+                matInput
+                #patientLastnameMother="ngModel"
+                [(ngModel)]="patient.lastnameMother"
+                required
+              />
+              <mat-hint align="end"
+                >{{ patientLastnameMother.value?.length || 0 }}/250</mat-hint
+              >
+              <mat-error
+                *ngIf="
+                  patientLastnameMother.errors &&
+                  (patientLastnameMother.touched || patientLastnameMother.dirty)
+                "
+              >
+                Este campo es requerido
+              </mat-error>
+            </mat-form-field>
           </div>
+          <div
+            fxLayout="row wrap"
+            fxLayoutAlign="space-between center"
+            style="margin-left: 10px; margin-right: 10px"
+          >
+            <mat-form-field fxFlex="30" fxFlex.md="30" fxFlex.xs="100">
+              <mat-label>País de nacimiento</mat-label>
+              <mat-select
+                name="country"
+                class="max-width"
+                required
+                #country="ngModel"
+                [(ngModel)]="patient.country"
+              >
+                <mat-option
+                  *ngFor="let c of resources.countries"
+                  [(value)]="c.id"
+                  >{{ c.name }}</mat-option
+                >
+              </mat-select>
+              <mat-error
+                *ngIf="country.errors && (country.touched || country.dirty)"
+              >
+                Este campo es requerido
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field fxFlex="30" fxFlex.md="30" fxFlex.xs="100">
+              <mat-label>Tipo de documento</mat-label>
+              <mat-select
+                name="documentType"
+                class="max-width"
+                required
+                #documentType="ngModel"
+                [(ngModel)]="patient.documentType"
+              >
+                <mat-option
+                  *ngFor="let dt of resources.documentTypes"
+                  [(value)]="dt.id"
+                  >{{ dt.name }}</mat-option
+                >
+              </mat-select>
+              <mat-error
+                *ngIf="
+                  documentType.errors &&
+                  (documentType.touched || documentType.dirty)
+                "
+              >
+                Este campo es requerido
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field fxFlex="30" fxFlex.md="30" fxFlex.xs="100">
+              <mat-label>Número de documento</mat-label>
+              <input
+                type="text"
+                name="patientDocumentNumber"
+                matInput
+                #patientDocumentNumber="ngModel"
+                [(ngModel)]="patient.documentNumber"
+                required
+                maxlength="8"
+              />
+              <mat-error
+                *ngIf="
+                  patientDocumentNumber.errors &&
+                  (patientDocumentNumber.touched || patientDocumentNumber.dirty)
+                "
+              >
+                Este campo es requerido
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div
+            fxLayout="row wrap"
+            fxLayoutAlign="space-between center"
+            style="margin-left: 10px; margin-right: 10px"
+          >
+            <mat-form-field
+              style="margin-right: 10px"
+              fxFlex="30"
+              fxFlex.md="30"
+              fxFlex.xs="100"
+            >
+              <mat-label> Fecha de nacimiento (dd/mm/yyyy)</mat-label>
+              <input
+                name="patientBirthday"
+                matInput
+                [matDatepicker]="picker"
+                [max]="today"
+                #patientBirthday="ngModel"
+                [(ngModel)]="patient.birthday"
+                required
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="picker"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+              <mat-error
+                *ngIf="
+                  patientBirthday.errors &&
+                  (patientBirthday.touched || patientBirthday.dirty)
+                "
+              >
+                Este campo es requerido
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field fxFlex="30" fxFlex.md="30" fxFlex.xs="100">
+              <mat-label>Sexo</mat-label>
+              <mat-select
+                name="sex"
+                class="max-width"
+                [(value)]="patient.sex"
+                required
+                #sex="ngModel"
+                [(ngModel)]="patient.sex"
+              >
+                <mat-option
+                  *ngFor="let s of resources.sexes"
+                  [(value)]="s.id"
+                  >{{ s.name }}</mat-option
+                >
+              </mat-select>
+              <mat-error *ngIf="sex.errors && (sex.touched || sex.dirty)">
+                Este campo es requerido
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field fxFlex="30" fxFlex.md="30" fxFlex.xs="100">
+              <mat-label>Estado civil</mat-label>
+              <mat-select
+                name="maritalStatus"
+                class="max-width"
+                [(value)]="patient.maritalStatus"
+                required
+                #maritalStatus="ngModel"
+                [(ngModel)]="patient.maritalStatus"
+              >
+                <mat-option
+                  *ngFor="let s of resources.maritalStatuses"
+                  [(value)]="s.id"
+                  >{{ s.name }}</mat-option
+                >
+              </mat-select>
+              <mat-error
+                *ngIf="
+                  maritalStatus.errors &&
+                  (maritalStatus.touched || maritalStatus.dirty)
+                "
+              >
+                Este campo es requerido
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div
+            fxLayout="row wrap"
+            fxLayoutAlign="space-between center"
+            style="margin-left: 10px; margin-right: 10px"
+          >
+            <mat-form-field fxFlex="30" fxFlex.md="30" fxFlex.xs="100">
+              <mat-label>Departamento</mat-label>
+              <mat-select
+                name="department"
+                class="max-width"
+                required
+                #department="ngModel"
+                [(ngModel)]="patient.department"
+                (selectionChange)="updateProvinces()"
+              >
+                <mat-option
+                  *ngFor="let s of resources.departments"
+                  [(value)]="s.id"
+                  >{{ s.name }}</mat-option
+                >
+              </mat-select>
+              <mat-error
+                *ngIf="
+                  department.errors && (department.touched || department.dirty)
+                "
+              >
+                Este campo es requerido
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field fxFlex="30" fxFlex.md="30" fxFlex.xs="100">
+              <mat-label>Provincia</mat-label>
+              <mat-select
+                name="province"
+                class="max-width"
+                required
+                #province="ngModel"
+                [(ngModel)]="patient.province"
+                (selectionChange)="updateDistricts()"
+              >
+                <mat-option
+                  *ngFor="let s of resources.provinces"
+                  [(value)]="s.id"
+                  >{{ s.name }}</mat-option
+                >
+              </mat-select>
+              <mat-error
+                *ngIf="province.errors && (province.touched || province.dirty)"
+              >
+                Este campo es requerido
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field fxFlex="30" fxFlex.md="30" fxFlex.xs="100">
+              <mat-label>Distrito</mat-label>
+              <mat-select
+                name="district"
+                class="max-width"
+                required
+                #district="ngModel"
+                [(ngModel)]="patient.district"
+              >
+                <mat-option
+                  *ngFor="let s of resources.districts"
+                  [(value)]="s.id"
+                  >{{ s.name }}</mat-option
+                >
+              </mat-select>
+              <mat-error
+                *ngIf="district.errors && (district.touched || district.dirty)"
+              >
+                Este campo es requerido
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div
+            fxLayout="row wrap"
+            fxLayoutAlign="space-between center"
+            style="margin-left: 10px; margin-right: 10px"
+          >
+            <mat-form-field fxFlex="65" fxFlex.md="65" fxFlex.xs="100">
+              <mat-label>Dirección</mat-label>
+              <input
+                type="text"
+                name="patientAddress"
+                maxlength="250"
+                matInput
+                #patientAddress="ngModel"
+                [(ngModel)]="patient.address"
+                required
+              />
+              <mat-hint align="end"
+                >{{ patientAddress.value?.length || 0 }}/250</mat-hint
+              >
+              <mat-error
+                *ngIf="
+                  patientAddress.errors &&
+                  (patientAddress.touched || patientAddress.dirty)
+                "
+              >
+                Este campo es requerido
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field fxFlex="30" fxFlex.md="30" fxFlex.xs="100">
+              <mat-label>Teléfono</mat-label>
+              <input
+                type="number"
+                name="patientPhone"
+                maxlength="10"
+                matInput
+                #patientPhone="ngModel"
+                [(ngModel)]="patient.phone"
+                required
+              />
+
+              <mat-error
+                *ngIf="
+                  patientPhone.errors &&
+                  (patientPhone.touched || patientPhone.dirty)
+                "
+              >
+                Este campo es requerido
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div
+            fxLayout="row wrap"
+            fxLayoutAlign="space-between center"
+            style="margin-left: 10px; margin-right: 10px"
+          >
+            <mat-form-field fxFlex="30" fxFlex.md="30" fxFlex.xs="100">
+              <mat-label>Grupo sanguíneo y factor RH</mat-label>
+              <mat-select
+                name="bloodType"
+                class="max-width"
+                required
+                #bloodType="ngModel"
+                [(ngModel)]="patient.bloodType"
+              >
+                <mat-option
+                  *ngFor="let c of resources.bloodTypes"
+                  [value]="c.id"
+                  >{{ c.name }}</mat-option
+                >
+              </mat-select>
+              <mat-error
+                *ngIf="
+                  bloodType.errors && (bloodType.touched || bloodType.dirty)
+                "
+              >
+                Este campo es requerido
+              </mat-error>
+            </mat-form-field>
+            <div fxFlex="65" fxFlex.md="65" fxFlex.xs="100">
+              <mat-slide-toggle name="isDonor" [(ngModel)]="patient.isDonor">
+                {{
+                  patient.isDonor
+                    ? "Sí es donante de órganos"
+                    : "No es donante de órganos"
+                }}
+              </mat-slide-toggle>
+            </div>
+          </div>
+        </div>
       </mat-card-content>
-  </mat-card>
-
-
-
-  <mat-card class="no-pad">
-      <div style="margin-top: 15px;">
-  
-      </div>
+    </mat-card>
+    <!-- <mat-card class="no-pad">
       <mat-card-content>
         <div class="layout-padding" fxLayout="column">
-          <div fxLayout="row wrap" fxLayoutAlign="space-between center" style="margin-left: 10px; margin-right: 10px;">
-            <mat-form-field fxFlex="30" fxFlex.md="30" fxFlex.sm="100" fxFlex.xs="100">
-              <mat-label>Correo electrónico</mat-label>
-              <input type="email" name="email" matInput matInput #email="ngModel" [(ngModel)]="patient.email" 
-            email  required>
-              <mat-error *ngIf="email.invalid && email.errors.required && (email.touched || email.dirty)">
-                Este campo es requerido
-              </mat-error>
-  
-  
-              <mat-error *ngIf="email.invalid && email.errors.email && (email.touched || email.dirty)">
-                Ingrese el correo electrónico correcto
-              </mat-error>
-  
-  
-            </mat-form-field>
-  
-            <mat-form-field fxFlex="30" fxFlex.md="30" fxFlex.sm="100" fxFlex.xs="100">
-              <mat-label>Contraseña</mat-label>
-              <input type="password" name="password" matInput maxlength="16" matInput #password="ngModel"
-                [(ngModel)]="patient.passwordHash" required>
-              <mat-hint align="end">{{password.value?.length || 0}}/16</mat-hint>
-              <mat-error *ngIf="password.errors && (password.touched || password.dirty)">
-                Este campo es requerido
-              </mat-error>
-            </mat-form-field>
-  
-            <mat-form-field fxFlex="30" fxFlex.md="30" fxFlex.sm="100" fxFlex.xs="100">
-              <mat-label>Confirmar Contraseña</mat-label>
-              <input type="password" name="confirmPassword" matInput maxlength="16" matInput #confirmPassword="ngModel"
-                [(ngModel)]="patient.confirmPasswordHash" required>
-              <mat-hint align="end">{{confirmPassword.value?.length || 0}}/16</mat-hint>
-              <!-- *ngIf="confirmPassword.errors && (confirmPassword.touched || confirmPassword.dirty) -->
-              <mat-error *ngIf="confirmPassword.invalid && confirmPassword.errors.required && (confirmPassword.touched || confirmPassword.dirty)">
-                Este campo es requerido 
-              </mat-error>
-  
+          <h2
+            class="mat-title form-section"
+            fxFlex="100"
+            style="margin-left: 10px; margin-right: 10px"
+          >
+            Fecha de nacimiento
+          </h2>
+
+          <div
+            fxLayout="inherit"
+            fxLayoutAlign="space-between"
+            style="width: 30%; margin-left: 10px"
+          >
+            <mat-form-field style="margin-right: 10px">
+              <mat-label>DD</mat-label>
+
+              <input
+                type="text"
+                name="dayOfBirth"
+                #dayOfBirth="ngModel"
+                [(ngModel)]="patient.dayOfBirth"
+                matInput
+                required
+                placeholder="DD"
+                mask="99/99"
+              />
               <mat-error
-                *ngIf="confirmPassword.invalid && confirmPassword.errors.mustMatch && (confirmPassword.touched || confirmPassword.dirty)">
-                Las contraseñas y la confirmación de contraseña deben coincidir
+                *ngIf="
+                  dayOfBirth.errors && (dayOfBirth.touched || dayOfBirth.dirty)
+                "
+              >
               </mat-error>
-  
-  
-              <!-- Este campo es requerido -->
-  
-  
             </mat-form-field>
-  
+            <mat-form-field style="margin-right: 10px">
+              <mat-label>MM</mat-label>
+              <input
+                type="number"
+                name="monthOfBirth"
+                #monthOfBirth="ngModel"
+                [(ngModel)]="patient.monthOfBirth"
+                matInput
+                min="1"
+                max="12"
+                required
+              />
+              <mat-error
+                *ngIf="
+                  monthOfBirth.errors &&
+                  (monthOfBirth.touched || monthOfBirth.dirty)
+                "
+              >
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+              <mat-label>YYYY</mat-label>
+              <input
+                type="number"
+                name="yearOfBirth"
+                #yearOfBirth="ngModel"
+                [(ngModel)]="patient.yearOfBirth"
+                matInput
+                min="1900"
+                max="9999"
+                required
+              />
+              <mat-error
+                *ngIf="
+                  yearOfBirth.errors &&
+                  (yearOfBirth.touched || yearOfBirth.dirty)
+                "
+              >
+              </mat-error>
+            </mat-form-field>
           </div>
         </div>
-  
-  
       </mat-card-content>
-      
+    </mat-card> -->
+
+    <mat-card class="no-pad">
+      <div style="margin-top: 15px"></div>
+      <mat-card-content>
+        <div class="layout-padding" fxLayout="column">
+          <div fxLayout="column" style="margin-left: 10px; margin-right: 10px">
+            <h2 class="mat-title form-section" fxFlex="100">Alergias</h2>
+            <div fxLayout="column">
+              <mat-form-field>
+                <mat-chip-list #chipList aria-label="Alergias selection">
+                  <input
+                    #allergieInput
+                    matInput
+                    [disabled]="true"
+                    [formControl]="allergiesCtrl"
+                    [matAutocomplete]="auto"
+                    [matChipInputFor]="chipList"
+                    (matChipInputTokenEnd)="addAllergie($event)"
+                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                  />
+                </mat-chip-list>
+                <mat-autocomplete
+                  #auto="matAutocomplete"
+                  (optionSelected)="selectedAllergie($event)"
+                >
+                  <mat-option
+                    *ngFor="let allergie of filteredAllergies | async"
+                    [value]="allergie"
+                  >
+                    {{ allergie.name }}
+                  </mat-option>
+                </mat-autocomplete>
+                <mat-chip
+                  *ngFor="let allergie of selectedAllergies"
+                  [removable]="removable"
+                  class="my-8 mx-8"
+                  v-if="!allergie.isDeleted"
+                  (removed)="removeAllergie(allergie)"
+                >
+                  {{ allergie.name }}
+                  <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                </mat-chip>
+              </mat-form-field>
+              <div>
+                <mat-chip
+                  *ngFor="let allergie of resources.allergies"
+                  [selectable]="selectable"
+                  (click)="addAllergieSymptoms(allergie)"
+                  class="my-8 mx-8"
+                >
+                  <div>{{ allergie.name }}</div>
+                </mat-chip>
+              </div>
+            </div>
+            <mat-form-field>
+              <mat-label>Otras alergias</mat-label>
+              <input
+                type="text"
+                matInput
+                name="otherAllergies"
+                [(ngModel)]="patient.otherAllergies"
+                maxlength="250"
+                #otherAllergies="ngModel"
+              />
+              <mat-hint align="end"
+                >{{ otherAllergies.value?.length || 0 }}/250</mat-hint
+              >
+            </mat-form-field>
+          </div>
+
+          <div fxLayout="column" style="margin-left: 10px; margin-right: 10px">
+            <h2 class="mat-title form-section" fxFlex="100">Medicinas</h2>
+            <div fxLayout="column">
+              <mat-form-field>
+                <mat-chip-list #chipList aria-label="Medicinas selection">
+                  <input
+                    #medicineInput
+                    [disabled]="true"
+                    matInput
+                    [formControl]="medicineCtrl"
+                    [matAutocomplete]="auto"
+                    [matChipInputFor]="chipList"
+                    (matChipInputTokenEnd)="addMedicine($event)"
+                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                  />
+                </mat-chip-list>
+                <mat-autocomplete
+                  #auto="matAutocomplete"
+                  (optionSelected)="selectedMedicine($event)"
+                >
+                  <mat-option
+                    *ngFor="let medicine of filteredMedicines | async"
+                    [value]="medicine"
+                  >
+                    {{ medicine.name }}
+                  </mat-option>
+                </mat-autocomplete>
+                <mat-chip
+                  *ngFor="let medicine of selectedMedicines"
+                  [removable]="removable"
+                  class="my-8 mx-8"
+                  v-if="!medicine.isDeleted"
+                  (removed)="removeMedicine(medicine)"
+                >
+                  {{ medicine.name }}
+                  <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                </mat-chip>
+              </mat-form-field>
+              <div>
+                <mat-chip
+                  *ngFor="let medicine of resources.medicines"
+                  [selectable]="selectable"
+                  (click)="addMedicineSymptoms(medicine)"
+                  class="my-8 mx-8"
+                >
+                  <div>{{ medicine.name }}</div>
+                </mat-chip>
+              </div>
+            </div>
+            <mat-form-field>
+              <mat-label>Otros medicamentos</mat-label>
+              <input
+                type="text"
+                matInput
+                name="otherMedicines"
+                [(ngModel)]="patient.otherMedicines"
+                maxlength="250"
+                #otherMedicines="ngModel"
+              />
+              <mat-hint align="end"
+                >{{ otherMedicines.value?.length || 0 }}/250</mat-hint
+              >
+            </mat-form-field>
+          </div>
+
+          <div fxLayout="column" style="margin-left: 10px; margin-right: 10px">
+            <h2 class="mat-title form-section" fxFlex="100">
+              Antecedentes personales
+            </h2>
+            <div fxLayout="column">
+              <mat-form-field>
+                <mat-chip-list
+                  #chipList
+                  aria-label="Antecedentes personales selection"
+                >
+                  <input
+                    #personalBackgroundInput
+                    matInput
+                    [disabled]="true"
+                    [formControl]="personalBackgroundCtrl"
+                    [matAutocomplete]="auto"
+                    [matChipInputFor]="chipList"
+                    (matChipInputTokenEnd)="addPersonalBackground($event)"
+                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                  />
+                </mat-chip-list>
+                <mat-autocomplete
+                  #auto="matAutocomplete"
+                  (optionSelected)="selectedPersonalBackground($event)"
+                >
+                  <mat-option
+                    *ngFor="
+                      let personalBg of filteredPersonalBackgrounds | async
+                    "
+                    [value]="personalBg"
+                  >
+                    {{ personalBg.name }}
+                  </mat-option>
+                </mat-autocomplete>
+                <mat-chip
+                  *ngFor="let pbg of selectedPersonalBackgrounds"
+                  [removable]="removable"
+                  class="my-8 mx-8"
+                  v-if="!pbg.isDeleted"
+                  (removed)="removePersonalBackground(pbg)"
+                >
+                  {{ pbg.name }}
+                  <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                </mat-chip>
+              </mat-form-field>
+              <div>
+                <mat-chip
+                  *ngFor="let bg of resources.backgrounds"
+                  [selectable]="selectable"
+                  (click)="addPersonalBackgroundSymptoms(bg)"
+                  class="my-8 mx-8"
+                >
+                  <div>{{ bg.name }}</div>
+                </mat-chip>
+              </div>
+            </div>
+            <mat-form-field>
+              <mat-label>Otros antecedentes</mat-label>
+              <input
+                type="text"
+                matInput
+                name="otherPersonalBackground"
+                [(ngModel)]="patient.otherPersonalBackground"
+                maxlength="250"
+                #otherPersonalBackground="ngModel"
+              />
+              <mat-hint align="end"
+                >{{ otherPersonalBackground.value?.length || 0 }}/250</mat-hint
+              >
+            </mat-form-field>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="no-pad">
+      <div style="margin-top: 15px"></div>
+      <mat-card-content>
+        <div class="layout-padding" fxLayout="column">
+          <div
+            fxLayout="row wrap"
+            fxLayoutAlign="space-between center"
+            style="margin-left: 10px; margin-right: 10px"
+          >
+            <mat-form-field
+              fxFlex="30"
+              fxFlex.md="30"
+              fxFlex.sm="100"
+              fxFlex.xs="100"
+            >
+              <mat-label>Correo electrónico</mat-label>
+              <input
+                type="email"
+                name="email"
+                matInput
+                matInput
+                #email="ngModel"
+                [(ngModel)]="patient.email"
+                email
+                required
+              />
+              <mat-error
+                *ngIf="
+                  email.invalid &&
+                  email.errors.required &&
+                  (email.touched || email.dirty)
+                "
+              >
+                Este campo es requerido
+              </mat-error>
+
+              <mat-error
+                *ngIf="
+                  email.invalid &&
+                  email.errors.email &&
+                  (email.touched || email.dirty)
+                "
+              >
+                Este correo electrónico es invalido
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field
+              fxFlex="30"
+              fxFlex.md="30"
+              fxFlex.sm="100"
+              fxFlex.xs="100"
+            >
+              <mat-label>Contraseña</mat-label>
+              <input
+                type="password"
+                name="password"
+                matInput
+                maxlength="16"
+                matInput
+                #password="ngModel"
+                [(ngModel)]="patient.passwordHash"
+                appPasswordPattern
+                required
+                autocomplete="on"
+              />
+              <mat-hint align="end"
+                >{{ password.value?.length || 0 }}/16</mat-hint
+              >
+              <mat-error
+                *ngIf="
+                  password.errors?.required &&
+                  (password.touched || password.dirty)
+                "
+              >
+                Este campo es requerido
+              </mat-error>
+              <mat-error
+                *ngIf="
+                  password.errors?.invalidPassword &&
+                  (password.touched || password.dirty)
+                "
+              >
+                La contraseña debe tener un mínimo de 8 caracteres, al menos 1
+                letra mayúscula, 1 letra minúscula y 1 número
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field
+              fxFlex="30"
+              fxFlex.md="30"
+              fxFlex.sm="100"
+              fxFlex.xs="100"
+            >
+              <mat-label>Confirmar Contraseña</mat-label>
+              <input
+                type="password"
+                name="confirmPassword"
+                matInput
+                maxlength="16"
+                matInput
+                #confirmPassword="ngModel"
+                autocomplete="on"
+                [(ngModel)]="patient.confirmPasswordHash"
+                required
+              />
+              <mat-hint align="end"
+                >{{ confirmPassword.value?.length || 0 }}/16</mat-hint
+              >
+              <!-- *ngIf="confirmPassword.errors && (confirmPassword.touched || confirmPassword.dirty) -->
+              <mat-error
+                *ngIf="
+                  confirmPassword.invalid &&
+                  confirmPassword.errors.required &&
+                  (confirmPassword.touched || confirmPassword.dirty)
+                "
+              >
+                Este campo es requerido
+              </mat-error>
+
+              <mat-error
+                *ngIf="
+                  confirmPassword.invalid &&
+                  confirmPassword.errors.mustMatch &&
+                  (confirmPassword.touched || confirmPassword.dirty)
+                "
+              >
+                Las contraseñas y la confirmación de contraseña deben coincidir
+              </mat-error>
+
+              <!-- Este campo es requerido -->
+            </mat-form-field>
+            <mat-checkbox
+              fxFlex
+              fxLayoutAlign="left center"
+              style="margin-top: 20px"
+              name="acceptTermsAndConditions"
+              [(ngModel)]="acceptTermsAndConditions"
+              (click)="$event.preventDefault()"
+              (click)="openTermsAndConditions()"
+            >
+              Acepto los <a href="">términos y condiciones</a><sup>*</sup>
+            </mat-checkbox>
+          </div>
+          <p
+            fxLayoutAlign="end center"
+            *ngIf="this.showRequiredError"
+            style="color: red"
+          >
+            Debe aceptar los términos y condiciones.
+          </p>
+        </div>
+      </mat-card-content>
+
       <mat-card-actions fxLayout="row" fxLayoutAlign="end center">
-        <button mat-button color="primary" type="submit" [disabled]="!f.valid">Registrarse</button>
-        <a mat-button  color="default" href="javascript:void(0)" [routerLink]='["/login"]'>Cancelar</a>
+        <button
+          mat-button
+          color="primary"
+          type="submit"
+          [disabled]="!f.valid || !acceptTermsAndConditions"
+        >
+          Registrarse
+        </button>
+        <a
+          mat-button
+          color="default"
+          href="javascript:void(0)"
+          [routerLink]="['/login']"
+          >Cancelar</a
+        >
       </mat-card-actions>
-  </mat-card>
+    </mat-card>
   </form>
 </div>

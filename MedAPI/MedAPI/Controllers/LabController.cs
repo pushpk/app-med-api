@@ -9,29 +9,44 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Web;
 using System.Web.Http;
+using static MedAPI.Infrastructure.EmailHelper;
 
 namespace MedAPI.Controllers
 {
 
-    [System.Web.Http.RoutePrefix("users")]
+    [System.Web.Http.RoutePrefix("api/users")]
+    [Authorize]
     public class LabController : ApiController
     {
         private readonly ILabService labService;
         private readonly IUserService userService;
-        public LabController(ILabService labService, IUserService userService)
+        private readonly IEmailService emailService;
+        public LabController(ILabService labService, IUserService userService, IEmailService emailService)
         {
             this.labService = labService;
             this.userService = userService;
+            this.emailService = emailService;
         }
        
         [HttpPost]
         [Route("lab")]
+        [AllowAnonymous]
         public HttpResponseMessage Create(Domain.Lab mLab)
         {
             HttpResponseMessage response = null;
             try
             {
+                if (userService.IsUserAlreadyExist(mLab.user))
+                {
+                    return Request.CreateResponse(HttpStatusCode.Conflict, "User Already Exist");
+                }
+
                 mLab = labService.SaveLab(mLab);
+                
+                var emailConfirmationLink = Infrastructure.SecurityHelper.GetEmailConfirmatioLink(mLab.user, Request);
+                var emailBody = emailService.GetEmailBody(EmailPurpose.EmailVerification, emailConfirmationLink);
+                emailService.SendEmailAsync(mLab.user.email, "Verifique su Email - SolidarityMedical", emailBody, emailConfirmationLink);
+
                 response = Request.CreateResponse(HttpStatusCode.OK, mLab);
                 //if (IsAdminPermission())
                 //{
@@ -51,6 +66,7 @@ namespace MedAPI.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "lab, medic")]
         [Route("lab-upload-result")]
         public HttpResponseMessage Create()
         {
@@ -88,12 +104,14 @@ namespace MedAPI.Controllers
             {
                 fileData = binaryReader.ReadBytes(uploadedFile.ContentLength);
             }
+            var user = userService.GetUserById(int.Parse(userId));
 
             LabUploadResult uploadResult = new LabUploadResult
             {
                 fileName = uploadedFile.FileName,
                 fileContent = fileData,
                 comments = comments,
+                patient_docNumber = user.documentNumber,
                 user_id = int.Parse(userId),
                 labId = labId,
                 medicId = medicId
@@ -103,6 +121,9 @@ namespace MedAPI.Controllers
             try
             {
                 uploadResult = labService.SaveUploadedFile(uploadResult);
+                var labNotificationLink = Infrastructure.SecurityHelper.GetLabNotificationLink(user, Request);
+                var emailBody = emailService.GetEmailBody(EmailPurpose.PatientNotification);
+                emailService.SendEmailAsync(user.email, "New Upload From Lab", emailBody, labNotificationLink);
                 response = Request.CreateResponse(HttpStatusCode.OK, uploadResult);
                 
             }
@@ -114,13 +135,13 @@ namespace MedAPI.Controllers
         }
 
         [HttpGet]
-        [Route("lab-uploads-by-lab")]
-        public HttpResponseMessage Get(int labId)
+        [Route("lab-uploads-by-lab-and-patient")]
+        public HttpResponseMessage Get(int labId, int patientId)
         {
             HttpResponseMessage response = null;
             try
             {
-                response = Request.CreateResponse(HttpStatusCode.OK, labService.GetAllUploadsByLab(labId));
+                response = Request.CreateResponse(HttpStatusCode.OK, labService.GetAllUploadsByLabAndPatient(labId, patientId));
             }
             catch (Exception ex)
             {
@@ -171,6 +192,103 @@ namespace MedAPI.Controllers
             response.Content.Headers.ContentDisposition.FileName = uploadResult.fileName + ".pdf";
             //Set the File Content Type.  
             response.Content.Headers.ContentType = new MediaTypeHeaderValue(MimeMapping.GetMimeMapping(uploadResult.fileName + ".pdf"));
+            return response;
+        }
+
+
+        [HttpGet]
+        [Authorize(Roles = "admin")]
+        [Route("freeze-lab")]
+        public HttpResponseMessage FreezeLab(long id)
+        {
+            HttpResponseMessage response = null;
+            try
+            {
+                Lab mLab= labService.GetLab(id);
+
+                mLab.IsFreezed = !mLab.IsFreezed;
+                mLab = labService.UpdateLab(mLab);
+
+                if (mLab == null)
+                {
+                    response = Request.CreateResponse(HttpStatusCode.NotFound, "Requested entity was not found in database.");
+                }
+                else
+                {
+                    response = Request.CreateResponse(HttpStatusCode.OK, mLab);
+                }
+            }
+            catch (Exception ex)
+            {
+                response = Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+            return response;
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "admin")]
+        [Route("approve-lab")]
+        public HttpResponseMessage AprroveLab(long id)
+        {
+            HttpResponseMessage response = null;
+            try
+            {
+                Lab mLab = labService.GetLab(id);
+
+                mLab.IsApproved = true;
+                mLab.IsDenied = false;
+
+                mLab = labService.UpdateLab(mLab);
+
+                var emailBody = emailService.GetEmailBody(EmailPurpose.ApproveAccount);
+                emailService.SendEmailAsync(mLab.user.email, "Laboratorio Aprobado -  SolidarityMedical", emailBody);
+
+
+                if (mLab == null)
+                {
+                    response = Request.CreateResponse(HttpStatusCode.NotFound, "Requested entity was not found in database.");
+                }
+                else
+                {
+                    response = Request.CreateResponse(HttpStatusCode.OK, mLab);
+                }
+            }
+            catch (Exception ex)
+            {
+                response = Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+            return response;
+        }
+
+        [HttpGet]
+        [Authorize(Roles = "admin")]
+        [Route("deny-lab")]
+        public HttpResponseMessage DenyLab(long id)
+        {
+            HttpResponseMessage response = null;
+            try
+            {
+                Lab mLab = labService.GetLab(id);
+
+                mLab.IsDenied = true;
+                mLab.IsApproved = false;
+                mLab = labService.UpdateLab(mLab);
+                var emailBody = emailService.GetEmailBody(EmailPurpose.DenyAccount);
+                emailService.SendEmailAsync(mLab.user.email, "Laboratorio Denegado - SolidarityMedical", emailBody);
+
+                if (mLab == null)
+                {
+                    response = Request.CreateResponse(HttpStatusCode.NotFound, "Requested entity was not found in database.");
+                }
+                else
+                {
+                    response = Request.CreateResponse(HttpStatusCode.OK, mLab);
+                }
+            }
+            catch (Exception ex)
+            {
+                response = Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
             return response;
         }
 

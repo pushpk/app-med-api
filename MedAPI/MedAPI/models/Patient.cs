@@ -49,6 +49,8 @@ namespace MedAPI.models
         public string email { get; set; }
         public string phone { get; set; }
         public string createdBy { get; set; }
+
+        
         public DateTime? createdDate { get; set; }
         public bool deletable { get; set; }
         public bool deleted { get; set; }
@@ -61,5 +63,7 @@ namespace MedAPI.models
         public long? fractureNumber { get; set; }
         public long? dormNumber { get; set; }
         public string highGlucose { get; set; }
+
+        public bool IsEdit { get; set; }
     }
 }

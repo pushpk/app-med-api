@@ -8,12 +8,13 @@ import { PatientService } from '../service/patient.service';
 })
 export class FormFourComponent implements OnInit {
   @Input() patient: any;
+  @Input() isEditable: boolean;
   resources: any;
 
   constructor(private patientService: PatientService) { }
 
   ngOnInit(): void {
-    console.log(this.patient, 'patient');
+    // console.log(this.patient, 'patient');
     this.patientService.resources.subscribe((o) => {
       this.resources = o;
     });

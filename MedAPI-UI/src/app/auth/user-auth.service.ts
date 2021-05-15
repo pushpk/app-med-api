@@ -7,8 +7,7 @@ import { environment } from '../../environments/environment';
 export class UserAuthService {
   public keyName: string = environment.userInfo_LocalStoreKey;
 
-  constructor() {
-  }
+  constructor() {}
 
   public save(userData: Object) {
     localStorage.setItem(this.keyName, JSON.stringify(userData));
@@ -21,9 +20,11 @@ export class UserAuthService {
   public load() {
     try {
       let storedData: string = localStorage.getItem(this.keyName);
-      if (!storedData) { throw Error('no user data found'); }
+      if (!storedData) {
+        throw Error('no user data found');
+      }
       return JSON.parse(storedData);
-    } catch (e) { }
+    } catch (e) {}
     return null;
   }
 
@@ -34,6 +35,7 @@ export class UserAuthService {
     localStorage.removeItem('speciality');
     localStorage.removeItem('selectNotes');
     localStorage.removeItem('email');
+    localStorage.clear();
   }
 
   public isAuthenticated() {
@@ -41,10 +43,10 @@ export class UserAuthService {
     let loggedIn: boolean = false;
     if (data !== null) {
       try {
-        //if (!data['token']) {
+        // if (!data['token']) {
         //  return false;
-        //}
-        loggedIn = (this.getUser() != null);
+        // }
+        loggedIn = this.getUser() != null;
       } catch (e) {
         console.error(e);
       }
@@ -55,7 +57,14 @@ export class UserAuthService {
   getUser(): any {
     try {
       return JSON.parse(localStorage.getItem(this.keyName));
-    } catch (e) { }
+    } catch (e) {}
+    return null;
+  }
+
+  getUserId(): any {
+    try {
+      return JSON.parse(localStorage.getItem('loggedInID'));
+    } catch (e) {}
     return null;
   }
 

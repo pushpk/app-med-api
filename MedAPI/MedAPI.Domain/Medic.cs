@@ -14,6 +14,7 @@ namespace MedAPI.Domain
         }
         public bool IsFreezed { get; set; }
         public bool IsApproved { get; set; }
+        public bool IsDenied { get; set; }
 
         public string cmp { get; set; }
         public string rne { get; set; }

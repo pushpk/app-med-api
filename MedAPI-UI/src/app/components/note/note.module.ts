@@ -19,29 +19,45 @@ import { DialogDiabetesRiskComponent } from './indicators/dialog-diabetes-risk/d
 import { DialogFractureRiskComponent } from './indicators/dialog-fracture-risk/dialog-fracture-risk.component';
 import { DialogHypertensionRiskComponent } from './indicators/dialog-hypertension-risk/dialog-hypertension-risk.component';
 import { CardioFormSymptomsComponent } from './cardiology/cardio-form-symptoms/cardio-form-symptoms.component';
+import { DialogCloseAttentionComponent } from './dialog-close-attention/dialog-close-attention.component';
+import { CanDeactivateGuard } from 'src/app/auth/CanDeactivateGuard.guard';
 
 const routes: Routes = [
   {
-    path: ':new', component: NoteComponent,
-    children: [
-      { path: ':speciality', component: NoteComponent }
-    ]
-  }
+    path: ':new',
+    component: NoteComponent,
+    canDeactivate: [CanDeactivateGuard],
+    children: [{ path: ':speciality', component: NoteComponent }],
+  },
 ];
 
 @NgModule({
-  declarations: [NoteComponent, FormTriageComponent, FormSymptomsComponent, FormSummaryComponent,
-    DialogMedicineComponent, DialogExamComponent, DialogDiagnosisComponent, FormConclusionComponent,
-    DialogBmiComponent, DialogCardiovascularAgeComponent, DialogCardiovascularRiskFraminghamComponent,
-    DialogCardiovascularRiskReynoldsComponent, DialogDiabetesRiskComponent, DialogFractureRiskComponent,
+  declarations: [
+    NoteComponent,
+    FormTriageComponent,
+    FormSymptomsComponent,
+    FormSummaryComponent,
+    DialogMedicineComponent,
+    DialogExamComponent,
+    DialogDiagnosisComponent,
+    FormConclusionComponent,
+    DialogBmiComponent,
+    DialogCardiovascularAgeComponent,
+    DialogCardiovascularRiskFraminghamComponent,
+    DialogCardiovascularRiskReynoldsComponent,
+    DialogDiabetesRiskComponent,
+    DialogFractureRiskComponent,
     DialogHypertensionRiskComponent,
-    CardioFormSymptomsComponent],
+    CardioFormSymptomsComponent,
+    DialogCloseAttentionComponent,
+  ],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     RouterModule.forChild(routes),
-    SharedModule
-  ]
+    SharedModule,
+  ],
+  providers: [CanDeactivateGuard],
 })
-export class NoteModule { }
+export class NoteModule {}

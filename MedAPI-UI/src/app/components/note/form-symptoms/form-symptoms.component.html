@@ -1,22 +1,17 @@
-<div class="layout-padding general symptoms" fxLayout="column">
+<div class="general symptoms" fxLayout="column">
   <div fxLayout="column">
     <div fxLayout="column" class="layout-padding">
-
-
-
-
-      
       <div fxLayout="column" fxLayoutGap="24px">
         <h2 class="mat-title form-section" fxFlex="100">Síntomas</h2>
         <mat-form-field fxFlex>
           <mat-label>Descripción</mat-label>
           <textarea [disabled]="!isEditable" matInput name="symptoms" class="max-width" maxlength="250" #symptoms="ngModel"
-                    [(ngModel)]="note.symptoms.description">
+                    [(ngModel)]="note.symptoms.description" required>
         </textarea>
           <mat-hint align="end">{{symptoms.value?.length || 0}}/250</mat-hint>
         </mat-form-field>
         <div fxLayout="row" fxLayoutGap="24px">
-          <mat-form-field fxFlex="32">
+          <mat-form-field fxFlex="32" fxFlex.xs="46">
             <mat-label>Tiempo de síntoma</mat-label>
             <input [disabled]="!isEditable" type="number" name="symptomDuration" min="0" matInput #symptomDuration="ngModel"
                    [(ngModel)]="note.symptoms.duration" required>
@@ -24,11 +19,11 @@
               Este campo es requerido
             </mat-error>
           </mat-form-field>
-          <mat-form-field fxFlex="32">
+          <mat-form-field fxFlex="32" fxFlex.xs="46">
             <mat-label>Unidades</mat-label>
             <mat-select [disabled]="!isEditable" name="durationUnit" class="max-width" #durationUnit="ngModel"
                         [(ngModel)]="note.symptoms.durationUnit" required>
-              <mat-option *ngFor="let c of resources.durationUnits" [value]="c.id">{{c.name}}</mat-option>
+              <mat-option *ngFor="let c of resources.durationUnits" [value]="c.name">{{c.name}}</mat-option>
             </mat-select>
             <mat-error *ngIf="durationUnit.errors && (durationUnit.touched || durationUnit.dirty)">
               Este campo es requerido
@@ -46,7 +41,7 @@
           </mat-error>
         </mat-form-field>
       </div>
-      <div fxLayout="column" fxLayoutGap="24px">
+      <div fxLayout="column" fxLayoutGap="24px" *ngIf="!this.isTeleconsultation">
         <h2 class="mat-title form-section" fxFlex="100">Examen físico</h2>
         <mat-form-field fxFlex>
           <mat-label>Descripción</mat-label>

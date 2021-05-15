@@ -38,11 +38,12 @@ export class NoteDetail {
   deleted = false;
   medicId = null;
   triageId = 0;
+  signatuteDraw: any = null;
+  signatuteText: string = '';
+  isSignatureDraw: boolean = true;
   attached_attention = 0;
   status = '';
   category = '';
   prognosis = '';
   notes = '';
-  
-
 }

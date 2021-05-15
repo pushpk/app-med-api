@@ -31,6 +31,7 @@ namespace MedAPI.Domain
         public double? ldlCholesterol { get; set; }
         public string modifiedBy { get; set; }
         public DateTime? modifiedDate { get; set; }
+        public double? saturation { get; set; }
         public double? size { get; set; }
         public string sleep { get; set; }
         public double? systolicBloodPressure { get; set; }

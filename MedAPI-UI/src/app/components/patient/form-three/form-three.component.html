@@ -5,6 +5,7 @@
       <mat-form-field>
         <mat-chip-list #chipList aria-label="Alergias selection">
           <input #allergieInput
+                 [disabled]="true"
                  matInput
                  [formControl]="allergiesCtrl"
                  [matAutocomplete]="auto"
@@ -18,7 +19,7 @@
           </mat-option>
         </mat-autocomplete>
         <mat-chip *ngFor="let allergie of selectedAllergies"
-                  [removable]="removable" class="my-8 mx-8"
+                  [removable]="removable" class="my-8 mx-8 selected-chip"
                   v-if="!allergie.isDeleted"
                   (removed)="removeAllergie(allergie)">
           {{allergie.name}}
@@ -46,7 +47,8 @@
     <div fxLayout="column">
       <mat-form-field>
         <mat-chip-list #chipList aria-label="Medicinas selection">
-          <input #allergieInput
+          <input #medicineInput
+                 [disabled]="true"
                  matInput
                  [formControl]="medicineCtrl"
                  [matAutocomplete]="auto"
@@ -60,7 +62,7 @@
           </mat-option>
         </mat-autocomplete>
         <mat-chip *ngFor="let medicine of selectedMedicines"
-                  [removable]="removable" class="my-8 mx-8"
+                  [removable]="removable" class="selected-chip my-8 mx-8"
                   v-if="!medicine.isDeleted"
                   (removed)="removeMedicine(medicine)">
           {{medicine.name}}
@@ -89,6 +91,7 @@
       <mat-form-field>
         <mat-chip-list #chipList aria-label="Antecedentes personales selection">
           <input #personalBackgroundInput
+                 [disabled]="true"
                  matInput
                  [formControl]="personalBackgroundCtrl"
                  [matAutocomplete]="auto"
@@ -102,7 +105,7 @@
           </mat-option>
         </mat-autocomplete>
         <mat-chip *ngFor="let pbg of selectedPersonalBackgrounds"
-                  [removable]="removable" class="my-8 mx-8"
+                  [removable]="removable" class="selected-chip my-8 mx-8"
                   v-if="!pbg.isDeleted"
                   (removed)="removePersonalBackground(pbg)">
           {{pbg.name}}
@@ -131,6 +134,7 @@
       <mat-form-field>
         <mat-chip-list #chipList aria-label="Antecedentes del Padre selection">
           <input #fatherBackgroundInput
+                 [disabled]="true"
                  matInput
                  [formControl]="fatherBackgroundCtrl"
                  [matAutocomplete]="auto"
@@ -144,7 +148,7 @@
           </mat-option>
         </mat-autocomplete>
         <mat-chip *ngFor="let fatherBg of selectedFatherBackgrounds"
-                  [removable]="removable" class="my-8 mx-8"
+                  [removable]="removable" class="selected-chip my-8 mx-8"
                   v-if="!fatherBg.isDeleted"
                   (removed)="removeFatherBackground(fatherBg)">
           {{fatherBg.name}}
@@ -173,6 +177,7 @@
       <mat-form-field>
         <mat-chip-list #chipList aria-label="Antecedentes del Madre selection">
           <input #motherBackgroundInput
+                 [disabled]="true"
                  matInput
                  [formControl]="motherBackgroundCtrl"
                  [matAutocomplete]="auto"
@@ -186,7 +191,7 @@
           </mat-option>
         </mat-autocomplete>
         <mat-chip *ngFor="let motherBg of selectedMotherBackgrounds"
-                  [removable]="removable" class="my-8 mx-8"
+                  [removable]="removable" class="selected-chip my-8 mx-8"
                   v-if="!motherBg.isDeleted"
                   (removed)="removeMotherBackground(motherBg)">
           {{motherBg.name}}

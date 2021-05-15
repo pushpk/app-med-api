@@ -6,6 +6,7 @@ namespace MedAPI.Infrastructure.IService
     public interface IPatientService
     {
         List<Domain.Patient> GetAllPatient();
+        int GetActivePatientCount();
         Domain.Patient GetPatientById(long id);
         bool DeletePatientById(long id);
         List<Province> GetProvinceByDepartment(long id);
@@ -22,5 +23,9 @@ namespace MedAPI.Infrastructure.IService
         bool SaveSymptoms(SymptomsWithCustom mSymptoms);
         SymptomsWithCustom GetSymptomsByPatientId(string docNum);
         List<Symptoms> GetAllSymptoms();
+        PatientMedicPermission checkMedicAccessForPatientData(long id);
+        List<PatientMedicPermission> getPermissionRequests(long userId);
+        bool ChangeMedicAccess(PatientMedicPermission medicPermission);
+        void InsertOrChangePermissionRequest(long userId, int medicId);
     }
 }

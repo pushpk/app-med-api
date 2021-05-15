@@ -12,6 +12,8 @@ namespace MedAPI.Domain
         public long id { get; set; }
         public string address { get; set; }
         public DateTime birthday { get; set; }
+
+
         public string cellphone { get; set; }
         public string createdBy { get; set; }
         public DateTime? createdDate { get; set; }
@@ -29,6 +31,8 @@ namespace MedAPI.Domain
         public DateTime? modifiedDate { get; set; }
         public bool organDonor { get; set; }
         public string passwordHash { get; set; }
+
+
         public string phone { get; set; }
         public string sex { get; set; }
         public DateTime since { get; set; }
@@ -38,7 +42,9 @@ namespace MedAPI.Domain
         public long? departmentId { get; set; }
         public long? roleId { get; set; }
 
-
+        public System.Guid token { get; set; }
+        public bool emailConfirmed { get; set; }
+        public System.Guid reset_token { get; set; }
         public Medic medic { get; set; }
 
         public virtual Country country { get; set; }

@@ -1,5 +1,8 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://medapi-test.azurewebsites.net/',
-  userInfo_LocalStoreKey: 'userData'
+  apiUrl: 'https://solidaritymedicaldevelopment.com/api/',
+  loginUrl: 'https://solidaritymedicaldevelopment.com/',
+  // apiUrl: 'https://solidaritymedical.net/api/',
+  //loginUrl: 'https://solidaritymedical.net/',
+  userInfo_LocalStoreKey: 'userData',
 };

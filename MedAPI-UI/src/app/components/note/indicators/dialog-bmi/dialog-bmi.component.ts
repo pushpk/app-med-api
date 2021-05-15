@@ -1,21 +1,20 @@
-import { Component, OnInit, Inject, EventEmitter } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { NoteService } from '../../services/note.service';
 
 @Component({
   selector: 'app-dialog-bmi',
   templateUrl: './dialog-bmi.component.html',
-  styleUrls: ['./dialog-bmi.component.scss']
+  styleUrls: ['./dialog-bmi.component.scss'],
 })
 export class DialogBmiComponent implements OnInit {
-  
-  constructor(public dialogRef: MatDialogRef<DialogBmiComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any, private noteService: NoteService) {
-    console.log(data, 'data');
-  }
+  constructor(
+    public dialogRef: MatDialogRef<DialogBmiComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private noteService: NoteService
+  ) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   cancel(): void {
     this.dialogRef.close();
@@ -29,7 +28,7 @@ export class DialogBmiComponent implements OnInit {
     this.dialogRef.close({
       accept: true,
       note: this.data.note,
-      patient: this.data.patient
+      patient: this.data.patient,
     });
   }
 }

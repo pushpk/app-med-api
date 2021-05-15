@@ -15,18 +15,23 @@ namespace MedAPI.Extention
             CreateMap<User, user>();
             CreateMap<user, User>();
             CreateMap<exam, Exam>();
-            CreateMap<medic, Medic> ();
-            CreateMap<Medic, medic>();
+            CreateMap<medic, Medic> ().ForMember(d => d.user, opt => opt.MapFrom(x => x.user)); ;
+            CreateMap<Medic, medic>().ForMember(d => d.user, opt => opt.MapFrom(x => x.user)); ;
 
             CreateMap<patient, Patient>();
             CreateMap<Patient, patient>();
 
             CreateMap<patient_symptoms, PatientSymptoms>();
             CreateMap<PatientSymptoms, patient_symptoms>();
+            //CreateMap<PatientMedicPermission, patient_medic_permission>().ForMember(d => d.medic, opt => opt.MapFrom(x => x.medic)); 
+            //CreateMap<patient_medic_permission, PatientMedicPermission>().ForMember(d => d.medic, opt => opt.MapFrom(x => x.medic));
 
+
+            CreateMap<PatientMedicPermission, patient_medic_permission>();
+            CreateMap<patient_medic_permission, PatientMedicPermission>();
 
             CreateMap<Symptoms, symptom>().ForMember(d => d.patient_symptoms, opt => opt.MapFrom(x => x.patient_symptoms));
-            CreateMap<symptom, Symptoms>().ForMember(d => d.patient_symptoms, opt => opt.MapFrom(x => x.patient_symptoms)); ;
+            CreateMap<symptom, Symptoms>().ForMember(d => d.patient_symptoms, opt => opt.MapFrom(x => x.patient_symptoms));
 
 
 

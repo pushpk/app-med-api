@@ -5,6 +5,7 @@ using MedAPI.Infrastructure.IService;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using static MedAPI.Infrastructure.Common;
 using Medicine = MedAPI.Infrastructure.Common.Medicine;
 
@@ -18,13 +19,16 @@ namespace MedAPI.Service
         private readonly IDistrictRepository districtRepository;
         private readonly IProvinceRepository provinceRepository;
         private readonly IBloodTypeService bloodTypeService;
+        private readonly ITriageRepository triageRepository;
+
 
         public UserService(IUserRepository userRepository,
             IDepartmentRepository departmentRepository,
             ICountryRepository countryRepository,
              IDistrictRepository districtRepository,
              IProvinceRepository provinceRepository,
-             IBloodTypeService bloodTypeService
+             IBloodTypeService bloodTypeService,
+             ITriageRepository triageRepository
             )
         {
             this.userRepository = userRepository;
@@ -33,6 +37,7 @@ namespace MedAPI.Service
             this.districtRepository = districtRepository;
             this.provinceRepository = provinceRepository;
             this.bloodTypeService = bloodTypeService;
+            this.triageRepository = triageRepository;
         }
 
 
@@ -42,6 +47,7 @@ namespace MedAPI.Service
 
             User mUser = new User();
             mUser = userRepository.Authenticate(email);
+
             if (mUser != null && HashPasswordHelper.ValidatePassword(password, mUser.passwordHash))
             {
                 return mUser;
@@ -51,6 +57,27 @@ namespace MedAPI.Service
                 return null;
             }
         }
+
+        public User ConfirmEmail(string id, string token)
+        {
+            //var a = HashPasswordHelper.HashPassword(token);
+            return userRepository.ConfirmEmail(id, token);
+
+        }
+
+        public bool ResetPassword(string id, string token, string passwordHash, bool isUserForgotPassword = true, string oldPassword = null)
+        {
+            if (isUserForgotPassword)
+            {
+                return userRepository.UpdatePassword(id, token, passwordHash);
+            }
+            else
+            {
+                return userRepository.ResetPassword(id, oldPassword, passwordHash);
+            }
+
+        }
+
         public User Credentials(string email)
         {
             return userRepository.Authenticate(email);
@@ -83,6 +110,11 @@ namespace MedAPI.Service
                 mUser.passwordHash = Infrastructure.HashPasswordHelper.HashPassword(mUser.passwordHash);
             }
             return userRepository.SaveUser(mUser);
+        }
+
+        public bool IsUserAlreadyExist(User mUser, string cmp = null)
+        {
+            return userRepository.IsUserAlreadyExist(mUser, cmp);
         }
 
         public UserResources GetResources()
@@ -173,9 +205,15 @@ namespace MedAPI.Service
                   .ToList();
 
             mUserResourcesList.races = Enum.GetValues(typeof(Race))
-                .Cast<FruitsVegetables>()
-                .Select(d => new ObjectNode() { id = d.ToString().ToUpper(), name = StringExtensions.FirstCharToUpper(d.ToString()) })
+                .Cast<Race>()
+                .Select(d => new ObjectNode() { id = d.ToString().ToUpper(), name = d.GetDescription() })
                 .ToList();
+
+            mUserResourcesList.specialities = triageRepository.getSpecialities().OrderBy(s => s.name)
+                            .Select(d =>  d.name )
+                            .ToList();
+
+
 
             mUserResourcesList.provinces = provinceRepository.GetAllProvince().Select(x => new Domain.ObjectNode()
             {
@@ -195,5 +233,28 @@ namespace MedAPI.Service
         {
             return userRepository.GetAllNonApprovedMedics();
         }
+
+        public List<Lab> GetAllNonApprovedLabs()
+        {
+            return userRepository.GetAllNonApprovedLabs();
+        }
+
+        public User GetUserByEmail(string email)
+        {
+            return userRepository.GetByEmail(email);
+            
+        }
+
+
+        public User GetCurrentUser(ClaimsPrincipal principal)
+        {
+            var userId = principal.Claims.Where(c => c.Type == "userId").Single().Value;
+            return this.GetUserById(int.Parse(userId));
+        }
+
+
+
+
+
     }
 }

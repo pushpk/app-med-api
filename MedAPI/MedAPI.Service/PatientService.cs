@@ -23,6 +23,11 @@ namespace MedAPI.Service
             return patientRepository.GetAllPatient();
         }
 
+        public int GetActivePatientCount()
+        {
+            return patientRepository.GetActivePatientCount();
+        }
+
         public Patient GetPatientById(long id)
         {
             return patientRepository.GetPatientById(id);
@@ -59,6 +64,7 @@ namespace MedAPI.Service
         {
             return patientRepository.GetPatientByDocumentNumber(documentNumber);
         }
+
 
         public bool SaveAllergiesList(List<PatientAllergies> mAllergies)
         {
@@ -98,5 +104,27 @@ namespace MedAPI.Service
 
 
         }
+
+        public PatientMedicPermission checkMedicAccessForPatientData(long id)
+        {
+            return patientRepository.checkMedicAccessForPatientData(id);        }
+
+
+        public void InsertOrChangePermissionRequest(long userId, int medicId)
+        {
+             patientRepository.InsertOrChangePermissionRequest(userId, medicId);
+        }
+
+        public List<PatientMedicPermission> getPermissionRequests(long userId)
+        {
+            return patientRepository.getPermissionRequests(userId);
+        }
+
+        public bool ChangeMedicAccess(PatientMedicPermission medicPermission)
+        {
+
+            return patientRepository.ChangeMedicAccess(medicPermission);
+        }
+    
     }
 }

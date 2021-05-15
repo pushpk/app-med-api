@@ -1,5 +1,6 @@
 ﻿using MedAPI.Domain;
 using MedAPI.ExceptionFormatter;
+using MedAPI.Extention;
 using MedAPI.Infrastructure.IService;
 using MedAPI.models;
 using System;
@@ -8,24 +9,28 @@ using System.Data.Entity.Validation;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Security.Claims;
 using System.Web;
 using System.Web.Http;
+using static MedAPI.Infrastructure.EmailHelper;
 
 namespace MedAPI.Controllers
 {
-    [System.Web.Http.RoutePrefix("users")]
+    [System.Web.Http.RoutePrefix("api/users")]
     public class PatientController : ApiController
     {
         private readonly IUserService userService;
         private readonly IPatientService patientService;
         private readonly INoteService noteService;
+        private readonly IEmailService emailService;
 
 
-        public PatientController(IUserService userService, IPatientService patientService, INoteService noteService)
+        public PatientController(IUserService userService, IPatientService patientService, INoteService noteService, IEmailService emailService)
         {
             this.userService = userService;
             this.patientService = patientService;
             this.noteService = noteService;
+            this.emailService = emailService;
         }
         [HttpGet]
         [Route("patient")]
@@ -75,17 +80,19 @@ namespace MedAPI.Controllers
             HttpResponseMessage response = null;
             try
             {
-                if (IsAdminPermission())
-                {
-                    Domain.Patient responsePatient = CreatePatient(mPatient);
+                
+                    var patient = setPatientInfo(mPatient);
 
-                    response = Request.CreateResponse(HttpStatusCode.OK, responsePatient);
-                }
-                else
-                {
-                    response = Request.CreateResponse(HttpStatusCode.Unauthorized);
-                }
-
+                    if (userService.IsUserAlreadyExist(patient.user) && !mPatient.IsEdit)
+                    {
+                        response = Request.CreateResponse(HttpStatusCode.Conflict, "User Already Exist");
+                    }
+                    else
+                    {
+                        Domain.Patient responsePatient = CreatePatient(mPatient);
+                        response = Request.CreateResponse(HttpStatusCode.OK, responsePatient);
+                    }
+              
             }
             catch (DbEntityValidationException e)
             {
@@ -99,6 +106,8 @@ namespace MedAPI.Controllers
             return response;
         }
 
+
+
         [HttpPost]
         [Route("RegisterPatient")]
         public HttpResponseMessage RegisterPatient(models.Patient mPatient)
@@ -106,8 +115,23 @@ namespace MedAPI.Controllers
             HttpResponseMessage response = null;
             try
             {
-                Domain.Patient responsePatient = CreatePatient(mPatient);
-                response = Request.CreateResponse(HttpStatusCode.OK, responsePatient);
+                var patient = setPatientInfo(mPatient);
+
+                if (userService.IsUserAlreadyExist(patient.user))
+                {
+                    response = Request.CreateResponse(HttpStatusCode.Conflict, "User Already Exist");
+                }
+                else
+                {
+
+                    Domain.Patient responsePatient = CreatePatient(mPatient);
+
+                    var emailConfirmationLink = Infrastructure.SecurityHelper.GetEmailConfirmatioLink(responsePatient.user, Request);
+                    var emailBody = emailService.GetEmailBody(EmailPurpose.EmailVerification, emailConfirmationLink);
+                    emailService.SendEmailAsync(responsePatient.user.email, "Verifique su Email - SolidarityMedical", emailBody, emailConfirmationLink);
+
+                    response = Request.CreateResponse(HttpStatusCode.OK, responsePatient);
+                }
             }
             catch (DbEntityValidationException e)
             {
@@ -152,17 +176,20 @@ namespace MedAPI.Controllers
             HttpResponseMessage response = null;
             try
             {
-                if (IsAdminPermission())
+
+                var patient = setPatientInfo(mPatient);
+                if (userService.IsUserAlreadyExist(patient.user) && !mPatient.IsEdit)
                 {
-                    mPatient.id = id;
-                    var patient = setPatientInfo(mPatient);
-                    var responsePatient = patientService.SavePatient(patient);
-                    response = Request.CreateResponse(HttpStatusCode.OK, responsePatient);
+                    response = Request.CreateResponse(HttpStatusCode.Conflict, "User Already Exist");
+                 
                 }
                 else
                 {
-                    response = Request.CreateResponse(HttpStatusCode.Unauthorized);
+                    patient.id = id;
+                    var responsePatient = patientService.SavePatient(patient);
                 }
+            
+
 
             }
             catch (DbEntityValidationException e)
@@ -179,6 +206,7 @@ namespace MedAPI.Controllers
 
 
         [HttpDelete]
+        [Authorize(Roles = "admin")]
         [Route("patient/{id:int}")]
         public HttpResponseMessage Delete(long id)
         {
@@ -202,7 +230,7 @@ namespace MedAPI.Controllers
         }
 
         [HttpGet]
-        [Route("~/department/{id:int}/provinces")]
+        [Route("~/api/department/{id:int}/provinces")]
         public HttpResponseMessage GetProvinceByDepartment(long id)
         {
             HttpResponseMessage response = null;
@@ -217,7 +245,7 @@ namespace MedAPI.Controllers
             return response;
         }
         [HttpGet]
-        [Route("~/province/{id:int}/districts")]
+        [Route("~/api/province/{id:int}/districts")]
         public HttpResponseMessage GetDistrictByprovinceId(long id)
         {
             HttpResponseMessage response = null;
@@ -233,11 +261,46 @@ namespace MedAPI.Controllers
         }
 
         [HttpGet]
-        [Route("~/record/patient")]
+        [Authorize]
+        [Route("~/api/record/patient")]
         public HttpResponseMessage GetPatient(int documentNumber)
         {
-            //Domain.User pat = patientService.GetPatientByDocumentNumber(documentNumber);
+            ClaimsPrincipal principal = Request.GetRequestContext().Principal as ClaimsPrincipal;
+            var currentLoggedInUser = userService.GetCurrentUser(principal);
+
             Domain.Patient pat = patientService.GetPatientByDocumentNumber(documentNumber);
+            
+
+
+            //if medic check access 
+            if(currentLoggedInUser.roleId == 2)
+            {
+                var permission = patientService.checkMedicAccessForPatientData(pat.id);
+                if(permission != null && !permission.is_medic_authorized)
+                {
+                    Domain.Patient limitedDataPat = new Domain.Patient
+                    {
+                        patientMedicPermission = pat.patientMedicPermission,
+                        user = new Domain.User
+                        {
+                            id = pat.user.id,
+                            documentNumber = pat.user.documentNumber,
+                            email = pat.user.email,
+                            firstName = pat.user.firstName,
+                            lastNameFather = pat.user.lastNameFather,
+                            lastNameMother = pat.user.lastNameMother,
+                            roleId = pat.user.roleId,
+                            role = new Role
+                            {
+                                id = pat.user.role.id,
+                                name = pat.user.role.name,
+                                description = pat.user.role.description
+                            }
+                        }
+                    };
+                    return  Request.CreateResponse(HttpStatusCode.OK, new { patient = limitedDataPat});
+                }
+            }
 
             var notes = noteService.GetAllNoteByPatient(Convert.ToInt32(pat.id));
 
@@ -271,26 +334,100 @@ namespace MedAPI.Controllers
                 response = Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
             return response;
-
-
         }
 
-
         [HttpGet]
-        [Route("GetSymptomsByPatientID")]
-        public HttpResponseMessage GetSymptomsByPatient(string documentNumber)
+        [Route("RequestAccess")]
+        public HttpResponseMessage RequestPatientAccess(int userId, int medicId)
         {
-            //Domain.User pat = patientService.GetPatientByDocumentNumber(documentNumber);
-            var symptoms = patientService.GetSymptomsByPatientId(documentNumber);
-
+            var user = this.userService.GetUserById(userId);
+            var medic = this.userService.GetUserById(medicId);
+            
             HttpResponseMessage response = null;
             try
             {
-                response = Request.CreateResponse(HttpStatusCode.OK, new { symptoms = symptoms });
+                patientService.InsertOrChangePermissionRequest(userId, medicId);
+                var accountSettingPage = Infrastructure.SecurityHelper.GetAccountSettingLink(Request);
+                var emailBody = emailService.GetEmailBody(EmailPurpose.PatientDataAccessRequest, accountSettingPage);
+                emailService.SendEmailAsync(user.email, "Solicitud de acceso a datos - SolidarityMedical", emailBody, accountSettingPage, medic.firstName + " " + medic.lastNameFather + " " + medic.lastNameMother);
+                response = Request.CreateResponse(HttpStatusCode.OK);
+                //string email, string subject, string body, string link = null, string name = null, string dni = null
             }
             catch (Exception ex)
             {
                 response = Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+            return response;
+        }
+
+        [HttpGet]
+        [Route("MedicAccessRequests")]
+        public HttpResponseMessage MedicAccessRequests(int userId)
+        {
+            HttpResponseMessage response = null;
+            try
+            {
+                var permissions = patientService.getPermissionRequests(userId);
+                response =  Request.CreateResponse(HttpStatusCode.OK, new { permissions = permissions });
+            }
+            catch (Exception ex)
+            {
+                response = Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+            return response;
+        }
+
+        [HttpPost]
+        [Route("MedicAccessRequestChange")]
+        public HttpResponseMessage MedicAccessRequests(PatientMedicPermission medicPermission)
+        {
+            HttpResponseMessage response = null;
+            try
+            {
+                patientService.ChangeMedicAccess(medicPermission);
+                var permissions = patientService.getPermissionRequests(medicPermission.user_id);
+                var medic = permissions.FirstOrDefault(s => s.medic_id == medicPermission.medic_id).medic.user;
+                var patient = userService.GetUserById(medicPermission.user_id);
+
+                string emailBody;
+
+                if (medicPermission.is_medic_authorized == true)
+                {
+                    emailBody = emailService.GetEmailBody(EmailPurpose.PatientDataAccessRequestApproved);
+                    emailService.SendEmailAsync(medic.email, "Solicitud de datos del paciente aprobada - SolidarityMedical", emailBody, null, patient.firstName + " " + patient.lastNameFather + " " + patient.lastNameMother, patient.documentNumber);
+                }
+                else
+                {
+                    emailBody = emailService.GetEmailBody(EmailPurpose.PatientDataAccessRequestRejected);
+                    emailService.SendEmailAsync(medic.email, "Solicitud de datos del paciente rechazada - SolidarityMedical", emailBody, null, patient.firstName + " " + patient.lastNameFather + " " + patient.lastNameMother);
+                }
+
+                response = Request.CreateResponse(HttpStatusCode.OK, new { permissions = permissions });
+            }
+            catch (Exception ex)
+            {
+                response = Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+            return response;
+        }
+
+
+        [HttpGet]
+        [Authorize]
+        [Route("GetSymptomsByPatientID")]
+        public HttpResponseMessage GetSymptomsByPatient(string documentNumber)
+        {
+            HttpResponseMessage response = null;
+            try
+            {
+                var symptoms = patientService.GetSymptomsByPatientId(documentNumber);
+                response = Request.CreateResponse(HttpStatusCode.OK, new { symptoms = symptoms });
+            }
+            catch (Exception ex)
+            {
+                //response = Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+                response = Request.CreateResponse(HttpStatusCode.OK);
+
             }
             return response;
 
@@ -362,6 +499,7 @@ namespace MedAPI.Controllers
             patient.water = mPatient.home.water;
             patient.sewage = mPatient.home.sewage;
             patient.departmentId = mPatient.department;
+            patient.race = mPatient.race;
             patient.user = setUserInfo(mPatient);
             return patient;
         }
@@ -374,7 +512,8 @@ namespace MedAPI.Controllers
             user.id = mPatient.userId;
             user.address = mPatient.address;
             user.birthday = mPatient.birthday;
-            user.cellphone = mPatient.phone;
+            user.phone = mPatient.phone;
+            
             if (userData != null)
             {
                 user.createdBy = Convert.ToString(userData.id);

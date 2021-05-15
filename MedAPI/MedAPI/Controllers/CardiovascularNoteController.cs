@@ -9,7 +9,7 @@ using System.Web.Http;
 
 namespace MedAPI.Controllers
 {
-    [System.Web.Http.RoutePrefix("record")]
+    [System.Web.Http.RoutePrefix("api/record")]
     public class CardiovascularNoteController : ApiController
     {
         private readonly ICardiovascularNoteService cardiovascularNoteService;

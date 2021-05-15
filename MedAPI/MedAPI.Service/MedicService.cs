@@ -27,6 +27,10 @@ namespace MedAPI.Service
             }
             return medics;
         }
+        public int GetActiveMedicCount()
+        {
+            return medicRepository.GetActiveMedicCount();
+        }
         public Medic GetMedicById(long id)
         {
             return medicRepository.GetMedicById(id);

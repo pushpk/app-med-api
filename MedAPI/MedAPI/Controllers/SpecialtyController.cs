@@ -8,7 +8,7 @@ using System.Web.Http;
 
 namespace MedAPI.Controllers
 {
-    [System.Web.Http.RoutePrefix("record")]
+    [System.Web.Http.RoutePrefix("api/record")]
     public class SpecialtyController : ApiController
     {
         private readonly ISpecialtyService specialtyService;

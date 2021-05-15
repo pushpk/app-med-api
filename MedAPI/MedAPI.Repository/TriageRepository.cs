@@ -36,6 +36,7 @@ namespace MedAPI.Repository
                             modifiedBy = tr.modifiedBy,
                             modifiedDate = tr.modifiedDate,
                             patientId = tr.patient_id,
+                            saturation = tr.saturation,
                             size = tr.size,
                             sleep = tr.sleep,
                             systolicBloodPressure = tr.systolicBloodPressure,
@@ -98,6 +99,7 @@ namespace MedAPI.Repository
                 efTriages.sleep = triage.sleep;
                 efTriages.systolicBloodPressure = triage.systolicBloodPressure;
                 efTriages.temperature = triage.temperature;
+                efTriages.saturation = triage.saturation;
                 efTriages.thirst = triage.thirst;
                 efTriages.ticket_id = triage.ticketId;
                 efTriages.totalCholesterol = triage.totalCholesterol;

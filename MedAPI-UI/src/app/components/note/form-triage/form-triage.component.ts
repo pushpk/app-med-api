@@ -1,4 +1,11 @@
-import { Component, OnInit, Input, EventEmitter, Output, } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  EventEmitter,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { NoteService } from '../services/note.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { DialogBmiComponent } from '../indicators/dialog-bmi/dialog-bmi.component';
@@ -8,11 +15,15 @@ import { DialogCardiovascularRiskReynoldsComponent } from '../indicators/dialog-
 import { DialogHypertensionRiskComponent } from '../indicators/dialog-hypertension-risk/dialog-hypertension-risk.component';
 import { DialogDiabetesRiskComponent } from '../indicators/dialog-diabetes-risk/dialog-diabetes-risk.component';
 import { DialogFractureRiskComponent } from '../indicators/dialog-fracture-risk/dialog-fracture-risk.component';
+import { FormCanDeactivate } from 'src/app/auth/form-can-deactivate';
+import { ControlContainer, NgForm } from '@angular/forms';
+// import { ConsoleReporter } from 'jasmine';
 
 @Component({
   selector: 'app-form-triage',
   templateUrl: './form-triage.component.html',
-  styleUrls: ['./form-triage.component.scss']
+  styleUrls: ['./form-triage.component.scss'],
+  viewProviders: [{ provide: ControlContainer, useExisting: NgForm }],
 })
 export class FormTriageComponent implements OnInit {
   resources: any;
@@ -20,26 +31,40 @@ export class FormTriageComponent implements OnInit {
   @Input() patient: any;
   @Input() isEditable: boolean;
   @Output() computedFieldsChange = new EventEmitter<any>();
+  isTeleconsultation = true;
+  showSelectVitalFunctions = false;
+  BMI: number;
 
-
-
-  constructor(public noteService: NoteService, public dialog: MatDialog) {
-  }
+  constructor(public noteService: NoteService, public dialog: MatDialog) {}
 
   ngOnInit(): void {
+    if (!this.isEditable){
+      this.isTeleconsultation = false;
+    }
     this.noteService.resources.subscribe((o) => {
       this.resources = o;
     });
+  }
+
+  onSpecialtySelected(event): any{
+    const specialty = this.resources.specialities.find(d => d.id.toString() === event.toString());
+    if (specialty.name === 'CARDIOLOGIA' || specialty.name === 'MEDICINA GENERAL' || specialty.name === 'MEDICINA INTERNA' || specialty.name === 'NEUMOLOGIA'){
+      this.showSelectVitalFunctions = true;
+    }
+    else {
+      this.showSelectVitalFunctions = false;
+    }
+  }
+
+  updateForm(event): any{
+    this.noteService.setIsTeleconsultation(event.checked);
   }
 
   updateComputedFields() {
     this.computedFieldsChange.emit(this.note);
   }
 
-
-
   showIndicatorDialog(o: any) {
-    console.log(o, 'o');
     const dialogConfig = new MatDialogConfig();
     let dialogModal: any;
     dialogConfig.disableClose = true;
@@ -65,12 +90,12 @@ export class FormTriageComponent implements OnInit {
       panelClass: 'custom-dialog',
       data: {
         note: this.note,
-        patient: this.patient
-      }
+        patient: this.patient,
+      },
     });
 
-    dialogRef.afterClosed().subscribe(
-      data => console.log("Dialog output:", data)
-    );
+    dialogRef
+      .afterClosed()
+      .subscribe((data) => console.log('Dialog output:', data));
   }
 }
