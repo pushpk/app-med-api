@@ -5,7 +5,35 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="CardiovascularNoteRepository.cs" />
+    <Compile Remove="CountryRepository.cs" />
+    <Compile Remove="DepartmentRepository.cs" />
+    <Compile Remove="DiagnosisRepository.cs" />
+    <Compile Remove="DistrictRepository.cs" />
+    <Compile Remove="EstablishmentRepository.cs" />
+    <Compile Remove="ExamRepository.cs" />
+    <Compile Remove="LabRepository.cs" />
+    <Compile Remove="MedicineRepository.cs" />
+    <Compile Remove="MedicRepository.cs" />
+    <Compile Remove="NoteRepository.cs" />
+    <Compile Remove="NurseRepository.cs" />
+    <Compile Remove="ProvinceRepository.cs" />
+    <Compile Remove="SpecialtyRepository.cs" />
+    <Compile Remove="TicketRepository.cs" />
+    <Compile Remove="TriageRepository.cs" />
+    <Compile Remove="UserRepository.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="IRepository\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Data\Data.csproj" />
   </ItemGroup>
 
 </Project>
