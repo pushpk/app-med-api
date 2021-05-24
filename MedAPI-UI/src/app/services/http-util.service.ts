@@ -22,6 +22,8 @@ export class HttpUtilService {
     const headers = new HttpHeaders(requestHeaders);
     const body = CheckEmptyUtil.isNotEmptyObject(postBody) ? postBody : null;
 
+    console.log(JSON.stringify(body));
+
     const promise = new Promise((resolve, reject) => {
       this.httpClient
         .request(method, url, { body, headers })
