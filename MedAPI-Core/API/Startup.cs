@@ -1,4 +1,5 @@
-using Data.Model;
+
+using Data.DataModels;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -14,6 +15,8 @@ using Microsoft.Identity.Web;
 using Microsoft.OpenApi.Models;
 using Repository;
 using Repository.IRepository;
+using Services;
+using Services.IServices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,6 +45,61 @@ namespace API
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddMicrosoftIdentityWebApi(Configuration.GetSection("AzureAd"));
 
+            services.AddTransient<IDiagnosisService, DiagnosisService>();
+            services.AddTransient<IExamService, ExamService>();
+            services.AddTransient<IMedicineService, MedicineService>();
+            services.AddTransient<ICardiovascularNoteService, CardiovascularNoteService>();
+            services.AddTransient<INoteService, NoteService>();
+            services.AddTransient<ISpecialtyService, SpecialtyService>();
+
+            services.AddTransient<IBloodTypeService, BloodTypeService>();
+            services.AddTransient<IDocumentTypeService, DocumentTypeService>();
+            services.AddTransient<IEducationService, EducationService>();
+            services.AddTransient<IHomeMaterialService, HomeMaterialService>();
+            services.AddTransient<IHomeOwnershipService, HomeOwnershipService>();
+            services.AddTransient<IHomeTypeService, HomeTypeService>();
+            services.AddTransient<IMedicineService, MedicineService>();
+            services.AddTransient<IMaritalStatusService, MaritalStatusService>();
+            services.AddTransient<IUserService, UserService>();
+            services.AddTransient<ITicketService, TicketService>();
+            services.AddTransient<ITriageService, TriageService>();
+            services.AddTransient<ICountryService, CountryService>();
+            services.AddTransient<IDepartmentService, DepartmentService>();
+            services.AddTransient<IDistrictService, DistrictService>();
+            services.AddTransient<INurseService, NurseService>();
+            services.AddTransient<IEstablishmentService, EstablishmentService>();
+            services.AddTransient<IProvinceService, ProvinceService>();
+            services.AddTransient<IMedicService, MedicService>();
+            services.AddTransient<IPatientService, PatientService>();
+            services.AddTransient<ISpecialtyService, SpecialtyService>();
+            services.AddTransient<ILabService, LabService>();
+
+            services.AddTransient<IApplicationService, ApplicationService>();
+            services.AddTransient<IEmailService, EmailService>();
+            //Repository
+            services.AddTransient<IDiagnosisRepository, DiagnosisRepository>();
+        //    services.AddTransient<IExamRepository, ExamRepository>();
+       //     services.AddTransient<IMedicineRepository, MedicineRepository>();
+        ///    services.AddTransient<ICardiovascularNoteRepository, CardiovascularNoteRepository>();
+        //    services.AddTransient<INoteRepository, NoteRepository>();
+            services.AddTransient<IUserRepository, UserRepository>();
+         //   services.AddTransient<ITicketRepository, TicketRepository>();
+            services.AddTransient<ITriageRepository, TriageRepository>();
+            services.AddTransient<ICountryRepository, CountryRepository>();
+            services.AddTransient<IDepartmentRepository, DepartmentRepository>();
+            services.AddTransient<IDistrictRepository, DistrictRepository>();
+         //   services.AddTransient<IEstablishmentRepository, EstablishmentRepository>();
+            services.AddTransient<IProvinceRepository, ProvinceRepository>();
+       //     services.AddTransient<IMedicRepository, MedicRepository>();
+            services.AddTransient<IPatientRepository, PatientRepository>();
+            services.AddTransient<IApplicationRepository, ApplicationRepository>();
+           // services.AddTransient<INurseRepository, NurseRepository>();
+          //  services.AddTransient<ISpecialtyRepository, SpecialtyRepository>();
+         //   services.AddTransient<ILabRepository, LabRepository>();
+
+            services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IPatientService, PatientService>();
+            services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IPatientRepository, PatientRepository>();
 
             services.AddControllers();

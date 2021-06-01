@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
-using Data.Model;
-using MedAPI.Infrastructure;
+using Data.DataModels;
+using Microsoft.EntityFrameworkCore;
+using Repository.DTOs;
+using Repository.Helpers;
 using Repository.IRepository;
 using System;
 using System.Collections.Generic;
@@ -20,7 +22,7 @@ namespace Repository
             {
 
                 var user = context.users.Where(x => x.id == userIdInt && x.deleted == false)
-                      .Select(x => new Domain.User
+                      .Select(x => new User
                       {
                           id = x.id,
                           address = x.address,
@@ -56,7 +58,7 @@ namespace Repository
                       }).FirstOrDefault();
 
                 var tokenDecord = HttpUtility.UrlDecode(token);
-                if (user != null && HashPasswordHelper.ValidatePassword(user.token.ToString(), tokenDecord))
+                if (user != null && HashPasswordHelperRepo.ValidatePassword(user.token.ToString(), tokenDecord))
                 {
                     var userUpdate = context.users.FirstOrDefault(x => x.id == userIdInt && x.deleted == false);
                     userUpdate.emailConfirmed = true;
@@ -77,7 +79,7 @@ namespace Repository
             using (var context = new registroclinicocoreContext())
             {
                 return context.users.Where(x => x.email == email && x.deleted == false)
-                      .Select(x => new Domain.User
+                      .Select(x => new User
                       {
                           id = x.id,
                           address = x.address,
@@ -239,7 +241,7 @@ namespace Repository
                        roleId = x.role_id,
                        reset_token = x.reset_token,
                        token = x.token,
-                       role = new Domain.Role
+                       role = new Role
                        {
                            id = x.role.id,
                            name = x.role.name
@@ -276,7 +278,7 @@ namespace Repository
                 var efUser = context.users.Where(m => m.id == mUser.id).FirstOrDefault();
                 if (efUser == null)
                 {
-                    efUser = new DataAccess.user();
+                    efUser = new user();
                     efUser.deleted = false;// BitConverter.GetBytes(false);
                     efUser.deletable = false;// BitConverter.GetBytes(false);
                     efUser.organDonor = false;// BitConverter.GetBytes(false);
@@ -339,7 +341,7 @@ namespace Repository
             {
                 // var abc = context.medics.Include("user").Where(s => s.user.role_id == 2 && (!s.IsApproved || s.IsFreezed)).ToList();
 
-                var abc = (from us in context.medics.Include("user").Where(s => s.user.role_id == 2).OrderBy(s => s.IsApproved)
+                var abc = (from us in context.medics.Include("user").Where(s => s.idNavigation.role_id == 2).OrderBy(s => s.IsApproved)
                            select new Medic()
                            {
                                cmp = us.cmp,
@@ -350,31 +352,31 @@ namespace Repository
                                user = new User
                                {
 
-                                   id = us.user.id,
-                                   address = us.user.address,
-                                   birthday = us.user.birthday,
-                                   cellphone = us.user.cellphone,
-                                   createdBy = us.user.createdBy,
-                                   createdDate = us.user.createdDate,
-                                   deletable = us.user.deletable,
-                                   deleted = us.user.deleted,
-                                   documentNumber = us.user.documentNumber,
-                                   documentType = us.user.documentType,
-                                   email = us.user.email,
-                                   firstName = us.user.firstName,
-                                   lastNameFather = us.user.lastNameFather,
-                                   lastNameMother = us.user.lastNameMother,
-                                   maritalStatus = us.user.maritalStatus,
-                                   modifiedBy = us.user.modifiedBy,
-                                   modifiedDate = us.user.modifiedDate,
-                                   organDonor = us.user.organDonor,
-                                   passwordHash = us.user.password_hash,
-                                   phone = us.user.phone,
-                                   sex = us.user.sex,
-                                   since = us.user.since,
-                                   countryId = us.user.country_id,
-                                   districtId = us.user.district_id,
-                                   roleId = us.user.role_id,
+                                   id = us.idNavigation.id,
+                                   address = us.idNavigation.address,
+                                   birthday = us.idNavigation.birthday,
+                                   cellphone = us.idNavigation.cellphone,
+                                   createdBy = us.idNavigation.createdBy,
+                                   createdDate = us.idNavigation.createdDate,
+                                   deletable = us.idNavigation.deletable,
+                                   deleted = us.idNavigation.deleted,
+                                   documentNumber = us.idNavigation.documentNumber,
+                                   documentType = us.idNavigation.documentType,
+                                   email = us.idNavigation.email,
+                                   firstName = us.idNavigation.firstName,
+                                   lastNameFather = us.idNavigation.lastNameFather,
+                                   lastNameMother = us.idNavigation.lastNameMother,
+                                   maritalStatus = us.idNavigation.maritalStatus,
+                                   modifiedBy = us.idNavigation.modifiedBy,
+                                   modifiedDate = us.idNavigation.modifiedDate,
+                                   organDonor = us.idNavigation.organDonor,
+                                   passwordHash = us.idNavigation.password_hash,
+                                   phone = us.idNavigation.phone,
+                                   sex = us.idNavigation.sex,
+                                   since = us.idNavigation.since,
+                                   countryId = us.idNavigation.country_id,
+                                   districtId = us.idNavigation.district_id,
+                                   roleId = us.idNavigation.role_id,
 
                                }
 
@@ -445,7 +447,7 @@ namespace Repository
                 var user = context.users.FirstOrDefault(x => x.id == userIdInt && x.deleted == false);
 
                 
-                if (user != null && HashPasswordHelper.ValidatePassword(oldPassword, user.password_hash))
+                if (user != null && HashPasswordHelperRepo.ValidatePassword(oldPassword, user.password_hash))
                 {
                     var userUpdate = context.users.FirstOrDefault(x => x.id == userIdInt && x.deleted == false);
 
@@ -473,7 +475,7 @@ namespace Repository
 
                 var tokenDecoded = HttpUtility.UrlDecode(token);
 
-                if (user != null && HashPasswordHelper.ValidatePassword(user.reset_token.ToString(), tokenDecoded))
+                if (user != null && HashPasswordHelperRepo.ValidatePassword(user.reset_token.ToString(), tokenDecoded))
                 {
                     var userUpdate = context.users.FirstOrDefault(x => x.id == userIdInt && x.deleted == false);
 

@@ -1,4 +1,5 @@
-﻿using Data.Model;
+﻿using Data.DataModels;
+
 using Repository.IRepository;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,13 @@ namespace Repository
 {
     public class SpecialtyRepository : ISpecialtyRepository
     {
-       
+        private readonly registroclinicocoreContext context;
+        public SpecialtyRepository(registroclinicocoreContext context)
+        {
+            this.context = context;
+
+        }
+
         public List<Speciality> SearchByName(string name)
         {
             using (var context = new registroclinicocoreContext())

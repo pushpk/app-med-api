@@ -1,4 +1,6 @@
-﻿using Data.Model;
+﻿using Data.DataModels;
+
+using Repository.DTOs;
 using Repository.IRepository;
 using System;
 using System.Collections.Generic;
@@ -8,10 +10,15 @@ namespace Repository
 {
     public class CountryRepository : ICountryRepository
     {
+        private readonly registroclinicocoreContext context;
+        public CountryRepository(registroclinicocoreContext context)
+        {
+            this.context = context;
+
+        }
         public Country GetByName(string name)
         {
-            using (var context = new registroclinicocoreContext())
-            {
+            
                 return context.countries.Where(x => x.name == name)
                    .Select(x => new Country()
                    {
@@ -26,7 +33,7 @@ namespace Repository
                            deleted = c.deleted
                        }).ToList()
                    }).FirstOrDefault();
-            }
+           
         }
         public List<Country> GetAllCountry()
         {
@@ -95,7 +102,7 @@ namespace Repository
                 var efCountries = context.countries.Where(m => m.id == mCountry.id).FirstOrDefault();
                 if (efCountries == null)
                 {
-                    efCountries = new DataAccess.country();
+                    efCountries = new country();
                     efCountries.deleted = true;// BitConverter.GetBytes(false);
                     context.countries.Add(efCountries);
                 }

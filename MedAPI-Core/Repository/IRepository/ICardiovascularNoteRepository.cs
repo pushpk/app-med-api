@@ -1,14 +1,14 @@
-﻿using Data.Model;
+﻿using Repository.DTOs;
 using System.Collections.Generic;
 
 namespace Repository.IRepository
 {
     public interface ICardiovascularNoteRepository
     {
-        List<Cardiovascularnote> GetAllCardiovascularNote();
-        Cardiovascularnote GetCardiovascularNoteById(long id);
+        List<CardiovascularNote> GetAllCardiovascularNote();
+        CardiovascularNote GetCardiovascularNoteById(long id);
         bool DeleteCardiovascularNoteById(long id);
-        int SaveCardiovascularNote(Cardiovascularnote mCardiovascularNote);
-        bool SaveCardiovascularSymptoms(List<CardiovascularnoteCardiovascularsymptom> CardiovascularSymptoms);        
+        int SaveCardiovascularNote(CardiovascularNote mCardiovascularNote);
+        bool SaveCardiovascularSymptoms(List<CardiovascularSymptoms> CardiovascularSymptoms);        
     }
 }

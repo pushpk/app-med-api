@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Data.Model;
+using Data.DataModels; using Repository.DTOs;
 using Repository.IRepository;
 using System;
 using System.Collections.Generic;

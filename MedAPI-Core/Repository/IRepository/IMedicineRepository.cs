@@ -1,4 +1,4 @@
-﻿using Data.Model;
+﻿using Repository.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;

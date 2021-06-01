@@ -1,4 +1,5 @@
-﻿using Data.Model;
+﻿using Data.DataModels;
+using Repository.DTOs;
 using Repository.IRepository;
 using System;
 using System.Linq;
@@ -17,16 +18,16 @@ namespace Repository
         {
 
 
-            var efUpload = _context.Uploads.Where(m => m.Id == mUpload.Id).FirstOrDefault();
+            var efUpload = _context.uploads.Where(m => m.id == mUpload.id).FirstOrDefault();
             if (efUpload == null)
             {
 
-                _context.Uploads.Add(efUpload);
+                _context.uploads.Add(efUpload);
             }
-            efUpload.CreatedBy = mUpload.CreatedBy;
-            efUpload.Path = mUpload.Path;
+            efUpload.createdBy = mUpload.createdBy;
+            efUpload.path = mUpload.path;
             _context.SaveChanges();
-            mUpload.Id = efUpload.Id;
+            mUpload.id = efUpload.id;
 
             return mUpload;
         }

@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Data.Model;
+using Repository.DTOs;
 
 namespace Repository.IRepository
 {

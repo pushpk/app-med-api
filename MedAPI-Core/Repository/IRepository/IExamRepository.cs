@@ -1,4 +1,4 @@
-﻿using Data.Model;
+﻿using Repository.DTOs;
 using System.Collections.Generic;
 
 namespace Repository.IRepository

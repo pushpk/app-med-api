@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
-using Data.Model;
+using Repository.DTOs;
 
 namespace Repository.IRepository
 {
     public interface INurseRepository
     {
         List<Nurse> GetAll();
-        NurseSpecialty GetNurseSpecialtiesById(long id);
+        NurseSpecialties GetNurseSpecialtiesById(long id);
         Nurse GetNurseById(long id);
         void SaveNurse(Nurse mNurse);
-        void SaveSpecialtie(NurseSpecialty mNurseSpecialties);
+        void SaveSpecialtie(NurseSpecialties mNurseSpecialties);
     }
 }

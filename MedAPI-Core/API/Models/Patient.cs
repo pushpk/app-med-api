@@ -16,7 +16,7 @@ namespace API.Models
         public string alcoholConsumption { get; set; }
         public string physicalActivity { get; set; }
         public string fvConsumption { get; set; }
-        //public Home home { get; set; }
+        public Home home { get; set; }
         public Allergy[] allergies { get; set; }
         public string otherAllergies { get; set; }
 

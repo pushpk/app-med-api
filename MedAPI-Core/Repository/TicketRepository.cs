@@ -1,4 +1,4 @@
-﻿using Data.Model;
+﻿using Data.DataModels; using Repository.DTOs;
 using Repository.IRepository;
 using System;
 using System.Collections.Generic;
@@ -17,7 +17,7 @@ namespace Repository
                         join t in context.tickets on n.ticket.id equals t.id
                         where t.serie == serie && t.nroTicket == nroTicket &&
                         n.deleted != false && t.deleted != false
-                        select new Domain.Note
+                        select new Note
                         {
                             age = n.age,
                             completed = n.completed,

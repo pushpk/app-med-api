@@ -1,4 +1,4 @@
-﻿using Data.Model;
+﻿using Repository.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,10 +14,10 @@ namespace Repository.IRepository
         bool DeleteNoteById(long id);
         Note GetNoteById(long id);
         Note SaveNote(Note mNote);
-        bool SaveDiagnosisList(List<Notediagnosis> mDiagnosis);
-        bool SaveExamsList(List<Noteexam> mExams);
-        bool SaveMedicationsList(List<Notemedicine> mMedications);
-        bool SaveReferralsList(List<Notereferral> mReferrals);
+        bool SaveDiagnosisList(List<NoteDiagnosi> mDiagnosis);
+        bool SaveExamsList(List<NoteExam> mExams);
+        bool SaveMedicationsList(List<NoteMedicine> mMedications);
+        bool SaveReferralsList(List<NoteReferral> mReferrals);
         bool CloseAttention(long id);
         bool saveSignature(int noteId, bool isSignDraw, string signText, byte[] signImageData);
         byte[] GetNoteSignatureIfDraw(int noteId);

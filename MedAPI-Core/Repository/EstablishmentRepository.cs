@@ -1,4 +1,4 @@
-﻿using Data.Model;
+﻿using Data.DataModels; using Repository.DTOs;
 using Repository.IRepository;
 using System;
 using System.Collections.Generic;
@@ -8,11 +8,16 @@ namespace Repository
 {
     public class EstablishmentRepository : IEstablishmentRepository
     {
+        private readonly registroclinicocoreContext context;
+        public EstablishmentRepository(registroclinicocoreContext context)
+        {
+            this.context = context;
+
+        }
         public List<Establishment> GetAllEstablishment()
         {
             var bytes = BitConverter.GetBytes(true);
-            using (var context = new registroclinicocoreContext())
-            {
+           
                 return (from c in context.establishments
                         where c.deleted != bytes
                         select new Establishment()
@@ -25,17 +30,16 @@ namespace Repository
                             initials=c.initials,
                             phone=c.phone
                         }).OrderBy(x => x.name).ToList();
-            }
+            
         }
         public Establishment SaveEstablishment(Establishment mEstablishment)
         {
             var bytes = BitConverter.GetBytes(true);
-            using (var context = new registroclinicocoreContext())
-            {
+           
                 var efEstablishments = context.establishments.Where(m => m.id == mEstablishment.id && m.deleted != bytes).FirstOrDefault();
                 if (efEstablishments == null)
                 {
-                    efEstablishments = new DataAccess.establishment();
+                    efEstablishments = new establishment();
                     efEstablishments.deleted = BitConverter.GetBytes(false);
                     context.establishments.Add(efEstablishments);
                 }
@@ -46,14 +50,13 @@ namespace Repository
                 efEstablishments.establishmentType = mEstablishment.establishmentType;
                 context.SaveChanges();
                 mEstablishment.id = efEstablishments.id;
-            }
+            
             return mEstablishment;
         }
         public Establishment GetEstablishmentById(long id)
         {
             var bytes = BitConverter.GetBytes(true);
-            using (var context = new registroclinicocoreContext())
-            {
+            
                 return context.establishments.Where(x => x.id == id && x.deleted != bytes)
                    .Select(x => new Establishment()
                    {
@@ -65,13 +68,12 @@ namespace Repository
                        establishmentType=x.establishmentType,
                        phone=x.phone
                    }).FirstOrDefault();
-            }
+            
         }
         public bool DeleteEstablishmentById(long id)
         {
             bool isSuccess = false;
-            using (var context = new registroclinicocoreContext())
-            {
+           
                 var efEstablishments = context.establishments.Where(m => m.id == id).FirstOrDefault();
                 if (efEstablishments != null)
                 {
@@ -80,7 +82,7 @@ namespace Repository
                     isSuccess = true;
                 }
                 return isSuccess;
-            }
+            
         }
     }
 }

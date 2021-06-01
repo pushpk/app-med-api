@@ -1,4 +1,5 @@
-﻿using Data.Model;
+﻿using Data.DataModels;
+using Repository.DTOs;
 using Repository.IRepository;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,13 @@ namespace Repository
 {
     public class DistrictRepository : IDistrictRepository
     {
+        private readonly registroclinicocoreContext context;
+        public DistrictRepository(registroclinicocoreContext context)
+        {
+            this.context = context;
+
+        }
+
         public List<District> GetAllDistrict()
         {
             //var bytes = BitConverter.GetBytes(true);
@@ -35,7 +43,7 @@ namespace Repository
                 var efDisrict = context.districts.Where(m => m.id == mDistrict.id && m.deleted != true).FirstOrDefault();
                 if (efDisrict == null)
                 {
-                    efDisrict = new DataAccess.district();
+                    efDisrict = new district();
                     efDisrict.deleted = false;// BitConverter.GetBytes(false);
                     context.districts.Add(efDisrict);
                 }
