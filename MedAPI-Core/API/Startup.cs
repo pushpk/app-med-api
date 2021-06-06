@@ -16,7 +16,7 @@ using Microsoft.OpenApi.Models;
 using Repository;
 using Repository.IRepository;
 using Services;
-using Services.IServices;
+using Services.IServices; using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,8 +42,34 @@ namespace API
                 x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
 
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddMicrosoftIdentityWebApi(Configuration.GetSection("AzureAd"));
+
+
+
+            services.AddAutoMapper(typeof(Startup));
+                        
+            //Repository
+            services.AddTransient<IDiagnosisRepository, DiagnosisRepository>();
+            services.AddTransient<IExamRepository, ExamRepository>();
+            services.AddTransient<IMedicineRepository, MedicineRepository>();
+             services.AddTransient<ICardiovascularNoteRepository, CardiovascularNoteRepository>();
+            services.AddTransient<INoteRepository, NoteRepository>();
+            services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<ITicketRepository, TicketRepository>();
+            services.AddTransient<ITriageRepository, TriageRepository>();
+            services.AddTransient<ICountryRepository, CountryRepository>();
+            services.AddTransient<IDepartmentRepository, DepartmentRepository>();
+            services.AddTransient<IDistrictRepository, DistrictRepository>();
+            services.AddTransient<IEstablishmentRepository, EstablishmentRepository>();
+            services.AddTransient<IProvinceRepository, ProvinceRepository>();
+            services.AddTransient<IMedicRepository, MedicRepository>();
+            services.AddTransient<IPatientRepository, PatientRepository>();
+            services.AddTransient<IApplicationRepository, ApplicationRepository>();
+            services.AddTransient<INurseRepository, NurseRepository>();
+            services.AddTransient<ISpecialtyRepository, SpecialtyRepository>();
+            services.AddTransient<ILabRepository, LabRepository>();
+            services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IPatientRepository, PatientRepository>();
+
 
             services.AddTransient<IDiagnosisService, DiagnosisService>();
             services.AddTransient<IExamService, ExamService>();
@@ -51,7 +77,6 @@ namespace API
             services.AddTransient<ICardiovascularNoteService, CardiovascularNoteService>();
             services.AddTransient<INoteService, NoteService>();
             services.AddTransient<ISpecialtyService, SpecialtyService>();
-
             services.AddTransient<IBloodTypeService, BloodTypeService>();
             services.AddTransient<IDocumentTypeService, DocumentTypeService>();
             services.AddTransient<IEducationService, EducationService>();
@@ -73,42 +98,18 @@ namespace API
             services.AddTransient<IPatientService, PatientService>();
             services.AddTransient<ISpecialtyService, SpecialtyService>();
             services.AddTransient<ILabService, LabService>();
-
             services.AddTransient<IApplicationService, ApplicationService>();
             services.AddTransient<IEmailService, EmailService>();
-            //Repository
-            services.AddTransient<IDiagnosisRepository, DiagnosisRepository>();
-        //    services.AddTransient<IExamRepository, ExamRepository>();
-       //     services.AddTransient<IMedicineRepository, MedicineRepository>();
-        ///    services.AddTransient<ICardiovascularNoteRepository, CardiovascularNoteRepository>();
-        //    services.AddTransient<INoteRepository, NoteRepository>();
-            services.AddTransient<IUserRepository, UserRepository>();
-         //   services.AddTransient<ITicketRepository, TicketRepository>();
-            services.AddTransient<ITriageRepository, TriageRepository>();
-            services.AddTransient<ICountryRepository, CountryRepository>();
-            services.AddTransient<IDepartmentRepository, DepartmentRepository>();
-            services.AddTransient<IDistrictRepository, DistrictRepository>();
-         //   services.AddTransient<IEstablishmentRepository, EstablishmentRepository>();
-            services.AddTransient<IProvinceRepository, ProvinceRepository>();
-       //     services.AddTransient<IMedicRepository, MedicRepository>();
-            services.AddTransient<IPatientRepository, PatientRepository>();
-            services.AddTransient<IApplicationRepository, ApplicationRepository>();
-           // services.AddTransient<INurseRepository, NurseRepository>();
-          //  services.AddTransient<ISpecialtyRepository, SpecialtyRepository>();
-         //   services.AddTransient<ILabRepository, LabRepository>();
-
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IPatientService, PatientService>();
-            services.AddTransient<IUserRepository, UserRepository>();
-            services.AddTransient<IPatientRepository, PatientRepository>();
 
             services.AddControllers();
 
 
-            services.AddAutoMapper(typeof(Startup));
 
             services.AddSwaggerGen(c =>
             {
+                c.CustomSchemaIds(type => type.ToString());
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
             });
         }
@@ -129,8 +130,8 @@ namespace API
 
             app.UseRouting();
 
-            app.UseAuthentication();
-            app.UseAuthorization();
+           // app.UseAuthentication();
+          //  app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

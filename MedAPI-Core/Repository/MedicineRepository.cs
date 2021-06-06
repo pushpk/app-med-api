@@ -11,11 +11,20 @@ namespace Repository
 {
     public class MedicineRepository : IMedicineRepository
     {
+        private readonly IMapper mapper;
+        private readonly registroclinicocoreContext context;
+
+        public MedicineRepository(IMapper mapper, registroclinicocoreContext context)
+        {
+            this.mapper = mapper;
+            this.context = context;
+
+        }
+
         public bool DeleteMedicineById(long id)
         {
             bool isSuccess = false;
-            using (var context = new registroclinicocoreContext())
-            {
+           
                 var efMedicine = context.medicines.Where(m => m.id == id).FirstOrDefault();
                 if (efMedicine != null)
                 {
@@ -24,14 +33,13 @@ namespace Repository
                     isSuccess = true;
                 }
                 return isSuccess;
-            }
+            
         }
 
         public List<Medicine> GetAllMedicine()
         {
             //var bytes = BitConverter.GetBytes(true);
-            using (var context = new registroclinicocoreContext())
-            {
+           
                 return (from me in context.medicines
                         where me.deleted != true
                         select new Medicine()
@@ -45,13 +53,12 @@ namespace Repository
                             owner = me.owner,
                             presentation = me.presentation
                         }).ToList();
-            }
+            
         }
 
         public Medicine GetMedicineById(long id)
         {
-            using (var context = new registroclinicocoreContext())
-            {
+           
                 return context.medicines.Where(x => x.id == id && x.deleted != false)
                    .Select(x => new Medicine()
                    {
@@ -64,17 +71,16 @@ namespace Repository
                        owner = x.owner,
                        presentation = x.presentation
                    }).FirstOrDefault();
-            }
+            
         }
 
         public int SaveMedicine(Medicine mMedicine)
         {
-            using (var context = new registroclinicocoreContext())
-            {
+           
                 var efMedicine = context.medicines.Where(x => x.id == mMedicine.id).FirstOrDefault();
                 if (efMedicine == null)
                 {
-                    efMedicine = new DataAccess.medicine();
+                    efMedicine = new medicine();
                     efMedicine.deleted = false;// BitConverter.GetBytes(false);
                     context.medicines.Add(efMedicine);
                 }
@@ -87,16 +93,15 @@ namespace Repository
                 efMedicine.presentation = mMedicine.presentation;
                 context.SaveChanges();
                 return Convert.ToInt32(efMedicine.id);
-            }
+            
         }
 
         public List<Medicine> SearchByName(string name)
         {
-            using (var context = new registroclinicocoreContext())
-            {
-                var result =  Mapper.Map<List<Medicine>>(context.medicines.Where(x => x.name.Contains(name) && !x.deleted).ToList());
+            
+                var result = mapper.Map<List<Medicine>>(context.medicines.Where(x => x.name.Contains(name) && !x.deleted).ToList());
                 return result;
-            }
+            
         }
     }
 }

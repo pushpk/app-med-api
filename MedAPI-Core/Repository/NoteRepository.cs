@@ -1,5 +1,6 @@
-﻿using MedAPI.DataAccess;
-using Data.DataModels; using Repository.DTOs;
+﻿using AutoMapper;
+using Data.DataModels; 
+using Repository.DTOs;
 using Repository.IRepository;
 using System;
 using System.Collections.Generic;
@@ -8,17 +9,23 @@ using System.Linq;
 namespace Repository
 {
     public class NoteRepository : INoteRepository
-
-
     {
+        private readonly IMapper mapper;
+        private readonly registroclinicocoreContext context;
+
+        public NoteRepository(IMapper mapper, registroclinicocoreContext context)
+        {
+            this.mapper = mapper;
+            this.context = context;
+
+        }
 
         public List<Note> GetAllNoteByPatient(int id)
         {
             List<Note> notesAll = new List<Note>();
 
             //var bytes = BitConverter.GetBytes(true);
-            using (var context = new registroclinicocoreContext())
-            {
+           
                 var notesAttentions = (from nt in context.notes
                              where nt.deleted != true && nt.patient_id == id && nt.category == "attention"
                              select new Note()
@@ -57,7 +64,7 @@ namespace Repository
                                  isSignatureDraw = nt.isSignatureDraw,
                                  signatuteText = nt.signatuteText,
                                  signatuteDraw = nt.signatuteDraw,
-                                 noteDiagnosis = ((from x in context.notediagnosis
+                                 noteDiagnosis = ((from x in context.notediagnoses
                                                    where x.deleted != true && x.note_id == nt.id
                                                    select new NoteDiagnosi()
                                                    {
@@ -65,7 +72,7 @@ namespace Repository
                                                        noteId = x.note_id,
                                                        diagnosisId = x.diagnosis_id,
                                                        diagnosisType = x.diagnosisType,
-                                                       diagnosisList = (from y in context.diagnosis
+                                                       diagnosisList = (from y in context.diagnoses
                                                                         where y.id == x.diagnosis_id
                                                                         select new Diagnosis
                                                                         {
@@ -162,9 +169,9 @@ namespace Repository
                                                patientId = x.patient_id,
                                                ticketId = x.ticket_id
                                            }).FirstOrDefault(),
-                                 Cardiovascularnote = (from x in context.cardiovascularnotes
+                                 cardiovascularNote = (from x in context.cardiovascularnotes
                                                        where x.note_id == nt.id
-                                                       select new Cardiovascularnote()
+                                                       select new CardiovascularNote()
                                                        {
                                                            id = x.id,
                                                            auscultationSite = x.auscultationSite,
@@ -248,7 +255,7 @@ namespace Repository
                                                 status = nt.status,
                                                attached_attention = nt.attached_attention.HasValue ? nt.attached_attention.Value : 0,
                                                category = nt.category,
-                                               noteDiagnosis = ((from x in context.notediagnosis
+                                               noteDiagnosis = ((from x in context.notediagnoses
                                                                  where x.deleted != true && x.note_id == nt.id
                                                                  select new NoteDiagnosi()
                                                                  {
@@ -256,7 +263,7 @@ namespace Repository
                                                                      noteId = x.note_id,
                                                                      diagnosisId = x.diagnosis_id,
                                                                      diagnosisType = x.diagnosisType,
-                                                                     diagnosisList = (from y in context.diagnosis
+                                                                     diagnosisList = (from y in context.diagnoses
                                                                                       where y.id == x.diagnosis_id
                                                                                       select new Diagnosis
                                                                                       {
@@ -353,9 +360,9 @@ namespace Repository
                                                              patientId = x.patient_id,
                                                              ticketId = x.ticket_id
                                                          }).FirstOrDefault(),
-                                               Cardiovascularnote = (from x in context.cardiovascularnotes
+                                               cardiovascularNote = (from x in context.cardiovascularnotes
                                                                      where x.note_id == nt.id
-                                                                     select new Cardiovascularnote()
+                                                                     select new CardiovascularNote()
                                                                      {
                                                                          id = x.id,
                                                                          auscultationSite = x.auscultationSite,
@@ -402,13 +409,12 @@ namespace Repository
                     notesAll.AddRange(notesEvaluations);
                 }
                 return notesAll;
-            }
+            
         }
         public bool DeleteNoteById(long id)
         {
             bool isSuccess = false;
-            using (var context = new registroclinicocoreContext())
-            {
+           
                 var efNote = context.notes.Where(m => m.id == id).FirstOrDefault();
                 if (efNote != null)
                 {
@@ -417,15 +423,14 @@ namespace Repository
                     isSuccess = true;
                 }
                 return isSuccess;
-            }
+            
         }
 
         public List<Note> GetAllNote()
         {
             List<Note> notes = new List<Note>();
             //var bytes = BitConverter.GetBytes(true);
-            using (var context = new registroclinicocoreContext())
-            {
+           
                 var notesbyAttentions =  (from nt in context.notes
                         where nt.deleted != true && nt.category == "attention"
                         select new Note()
@@ -509,13 +514,13 @@ namespace Repository
 
                 return notes;
 
-            }
+            
         }
 
         public Note GetNoteById(long id)
         {
-            using (var context = new registroclinicocoreContext())
-            {
+           
+           
                 return context.notes.Where(x => x.id == id)
                    .Select(x => new Note()
                    {
@@ -550,17 +555,16 @@ namespace Repository
                        notes = x.notes,
                        category = x.category
                    }).FirstOrDefault();
-            }
+            
         }
 
         public Note SaveNote(Note mNote)
         {
-            using (var context = new registroclinicocoreContext())
-            {
+           
                 var efNotes = context.notes.Where(m => m.id == mNote.id).FirstOrDefault();
                 if (efNotes == null)
                 {
-                    efNotes = new DataAccess.note();
+                    efNotes = new note();
                     efNotes.deleted = false;// BitConverter.GetBytes(false);
                     efNotes.createdDate = mNote.createdDate;
                     context.notes.Add(efNotes);
@@ -618,23 +622,22 @@ namespace Repository
 
                
                 mNote.id = efNotes.id;  
-            }
+            
             return mNote;
         }
         public bool SaveDiagnosisList(List<NoteDiagnosi> mDiagnosis)
         {
-            using (var context = new registroclinicocoreContext())
-            {
+           
                 try
                 {
                     foreach (var diagnosis in mDiagnosis)
                     {
-                        var efDignosos = context.notediagnosis.Where(m => m.diagnosis_id == diagnosis.diagnosisId && m.note_id == diagnosis.noteId).FirstOrDefault();
+                        var efDignosos = context.notediagnoses.Where(m => m.diagnosis_id == diagnosis.diagnosisId && m.note_id == diagnosis.noteId).FirstOrDefault();
                         if (efDignosos == null)
                         {
-                            efDignosos = new DataAccess.notediagnosi();
+                            efDignosos = new notediagnosis();
                             efDignosos.deleted = false;// BitConverter.GetBytes(false);   
-                            context.notediagnosis.Add(efDignosos);
+                            context.notediagnoses.Add(efDignosos);
                         }
                         efDignosos.diagnosisType = diagnosis.diagnosisType;
                         efDignosos.diagnosis_id = diagnosis.diagnosisId;
@@ -648,14 +651,13 @@ namespace Repository
                 {
                     return false;
                 }
-            }
+            
 
         }
 
         public bool SaveExamsList(List<NoteExam> mExams)
         {
-            using (var context = new registroclinicocoreContext())
-            {
+            
                 try
                 {
                     foreach (var exam in mExams)
@@ -663,7 +665,7 @@ namespace Repository
                         var efExams = context.noteexams.Where(m => m.exam_id == exam.examId && m.note_id == exam.noteId).FirstOrDefault();
                         if (efExams == null)
                         {
-                            efExams = new DataAccess.noteexam();
+                            efExams = new noteexam();
                             efExams.deleted = false;// BitConverter.GetBytes(false);   
                             context.noteexams.Add(efExams);
                         }
@@ -679,12 +681,11 @@ namespace Repository
                 {
                     return false;
                 }
-            }
+            
         }
         public bool SaveMedicationsList(List<NoteMedicine> mMedications)
         {
-            using (var context = new registroclinicocoreContext())
-            {
+            
                 try
                 {
                     foreach (var medication in mMedications)
@@ -692,7 +693,7 @@ namespace Repository
                         var efMedications = context.notemedicines.Where(m => m.medicine_id == medication.medicineId && m.note_id == medication.noteId).FirstOrDefault();
                         if (efMedications == null)
                         {
-                            efMedications = new DataAccess.notemedicine();
+                            efMedications = new notemedicine();
                             efMedications.deleted = false;// BitConverter.GetBytes(false);   
                             context.notemedicines.Add(efMedications);
                         }
@@ -712,13 +713,12 @@ namespace Repository
                 {
                     return false;
                 }
-            }
+            
         }
 
         public bool SaveReferralsList(List<NoteReferral> mReferrals)
         {
-            using (var context = new registroclinicocoreContext())
-            {
+            
                 try
                 {
                     foreach (var referral in mReferrals)
@@ -726,7 +726,7 @@ namespace Repository
                         var efReferrals = context.notereferrals.Where(m => m.note_id == referral.noteId).FirstOrDefault();
                         if (efReferrals == null)
                         {
-                            efReferrals = new DataAccess.notereferral();
+                            efReferrals = new notereferral();
                             efReferrals.deleted = false;// BitConverter.GetBytes(false);   
                             context.notereferrals.Add(efReferrals);
                         }
@@ -742,13 +742,12 @@ namespace Repository
                 {
                     return false;
                 }
-            }
+            
         }
 
         public bool CloseAttention(long id)
         {
-            using (var context = new registroclinicocoreContext())
-            {
+            
                 try
                 {
                     var attention = context.notes.FirstOrDefault(m => m.id == id);
@@ -764,14 +763,13 @@ namespace Repository
                 {
                     return false;
                 }
-            }
+            
 
         }
 
         public bool saveSignature(int noteId, bool isSignDraw, string signText, byte[] signImageData)
         {
-            using (var context = new registroclinicocoreContext())
-            {
+            
                 try
                 {
                     var efNotes = context.notes.Where(m => m.id == noteId).FirstOrDefault();
@@ -793,16 +791,15 @@ namespace Repository
 
                 }
                 
-            }
+            
             return false;
         }
 
         public byte[] GetNoteSignatureIfDraw(int noteId)
         {
-            using (var context = new registroclinicocoreContext())
-            {
+           
                 return context.notes.FirstOrDefault(s => s.id == noteId).signatuteDraw;
-            }
+            
         }
     }
 }

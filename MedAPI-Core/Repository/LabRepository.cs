@@ -10,62 +10,68 @@ namespace Repository
 {
     public class LabRepository : ILabRepository
     {
+        private readonly IMapper mapper;
+        private readonly registroclinicocoreContext context;
+
+        public LabRepository(IMapper mapper, registroclinicocoreContext context)
+        {
+            this.mapper = mapper;
+            this.context = context;
+
+        }
         public List<LabUploadResult> GetAllUploadsByLabAndPatient(int LabId, int patientId)
         {
-            using (var context = new registroclinicocoreContext())
-            {
+           
                 
                 int.TryParse(context.labs.FirstOrDefault(s => s.user_id == LabId).id.ToString(), out LabId);
-                var result = Mapper.Map<List<LabUploadResult>>(context.lab_Upload_Results.Where(x => x.lab_id == LabId && x.user_id == patientId).Select(s => new LabUploadResult
+                var result = mapper.Map<List<LabUploadResult>>(context.lab_upload_results.Where(x => x.lab_id == LabId && x.user_id == patientId).Select(s => new LabUploadResult
                 {
                     id = s.id,
                     user_id = s.user_id,
                     patient_docNumber = s.user.documentNumber,
-                    uploadedBy = s.medic.user.lastNameFather.Length > 0 ? "Dr./Dra. " + s.medic.user.lastNameFather : s.lab.labName,
+                    uploadedBy = s.medic_user.user.lastNameFather.Length > 0 ? "Dr./Dra. " + s.medic_user.user.lastNameFather : s.lab.labName,
                     fileName = s.fileName,
                     dateUploaded = s.dateUploaded,
                     comments = s.comments
                 }).ToList());
                 return result;
                 
-            }
+            
         }
 
         public List<LabUploadResult> GetAllUploadsByPatient(int patientId)
         {
-            using (var context = new registroclinicocoreContext())
-            {
-                var result = Mapper.Map<List<LabUploadResult>>(context.lab_Upload_Results.Where(x => x.user_id == patientId).Select(s => new LabUploadResult { 
+            
+                var result = mapper.Map<List<LabUploadResult>>(context.lab_upload_results.Where(x => x.user_id == patientId).Select(s => new LabUploadResult { 
                     id = s.id,
                     user_id = s.user_id,
                     patient_docNumber = s.user.documentNumber,
-                    uploadedBy = s.medic.user.lastNameFather.Length > 0 ? "Dr./Dra. " + s.medic.user.lastNameFather : s.lab.labName,
+                    uploadedBy = s.medic_user.user.lastNameFather.Length > 0 ? "Dr./Dra. " + s.medic_user.user.lastNameFather : s.lab.labName,
                     fileName = s.fileName,
                     dateUploaded = s.dateUploaded,
                     comments = s.comments
                 }).ToList());
                 return result;
 
-            }
+            
         }
 
 
         public LabUploadResult GetTestResultById(int id)
         {
-            using (var context = new registroclinicocoreContext())
-            {
-                return Mapper.Map<LabUploadResult>(context.lab_Upload_Results.FirstOrDefault(s => s.id == id));
-            }
+           
+                 return mapper.Map<LabUploadResult>(context.lab_upload_results.First(s => s.id == id));
+                
+            
         }
 
         public long SaveLab(Lab lab)
         {
-            using (var context = new registroclinicocoreContext())
-            {
+            
                 var efLab = context.labs.Where(m => m.id == lab.id).FirstOrDefault();
                 if (efLab == null)
                 {
-                    efLab = new DataAccess.lab();
+                    efLab = new lab();
                     context.labs.Add(efLab);
                 }
                 efLab.id = lab.id;
@@ -76,19 +82,18 @@ namespace Repository
 
                 context.SaveChanges();
 
-                return efLab.id;
-            }
+               return efLab.id;
+            
         }
 
         public long SaveUploadedFile(LabUploadResult labResult)
         {
-            using (var context = new registroclinicocoreContext())
-            {
-                var efUploadResult = context.lab_Upload_Results.Where(m => m.id == labResult.id).FirstOrDefault();
+            
+                var efUploadResult = context.lab_upload_results.Where(m => m.id == labResult.id).FirstOrDefault();
                 if (efUploadResult == null)
                 {
-                    efUploadResult = new DataAccess.lab_upload_result();
-                    context.lab_Upload_Results.Add(efUploadResult);
+                    efUploadResult = new lab_upload_result();
+                    context.lab_upload_results.Add(efUploadResult);
                 }
                 efUploadResult.id = labResult.id;
                 efUploadResult.user_id = labResult.user_id;
@@ -113,13 +118,12 @@ namespace Repository
 
                 return labResult.id;
 
-            }
+            
         }
 
         public Lab GetLab(long id)
         {
-            using (var context = new registroclinicocoreContext())
-            {
+            
                 return context.labs.Where(x => x.user_id == id)
                    .Select(x => new Lab()
                    {
@@ -168,21 +172,19 @@ namespace Repository
 
                        }
                    }).FirstOrDefault();
-            }
+            
         }
 
         public int GetActiveLabCount()
         {
-            using (var context = new registroclinicocoreContext())
-            {
+           
                 return context.labs.Where(x => (x.IsApproved || x.IsFreezed) && x.user.emailConfirmed == true).Count();
-            }
+            
         }
 
         public Lab UpdateLab(Lab mLab)
         {
-            using (var context = new registroclinicocoreContext())
-            {
+           
                 var efLab = context.labs.Where(m => m.id == mLab.id).FirstOrDefault();
                 efLab.IsFreezed = mLab.IsFreezed;
                 efLab.IsApproved = mLab.IsApproved;
@@ -191,7 +193,7 @@ namespace Repository
                 context.SaveChanges();
 
                 return mLab;
-            }
+            
         }
     }
 }

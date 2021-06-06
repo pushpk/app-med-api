@@ -15,18 +15,25 @@ namespace Services
             this.applicationRepository = applicationRepository;
         }
 
+        public Upload SaveFile(Upload mUpload)
+        {
+            throw new System.NotImplementedException();
+        }
+
         //public Upload SaveFile(Upload mUpload)
         //{
-           
-        //    string filePath = Path.Combine(HttpContext.Current.Server.MapPath("~/public/assets"),mUpload.filename);
-        //    string absultepath = "/public/assets/" + mUpload.filename;
-        //    if (mUpload.fileByte != null)
-        //    {
-        //        File.WriteAllBytes(filePath, mUpload.fileByte);
-        //        mUpload.path = absultepath;
-        //        applicationRepository.Upload(mUpload);
-        //    }
-        //    return mUpload;
+
+        //    //string filePath = Path.Combine(HttpContext.Current.Server.MapPath("~/public/assets"), mUpload.filename);
+        //    //string absultepath = "/public/assets/" + mUpload.filename;
+        //    //if (mUpload.fileByte != null)
+        //    //{
+        //    //    File.WriteAllBytes(filePath, mUpload.fileByte);
+        //    //    mUpload.path = absultepath;
+        //    //    applicationRepository.Upload(mUpload);
+        //    //}
+        //    //return mUpload;
+
+        //    throw new Ec; 
         //}
     }
 }

@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   // apiUrl:'https://medapi-test.azurewebsites.net/',
-  apiUrl: 'http://localhost/MedAPI/api/',
+  apiUrl: 'https://localhost:44381/api/',
   //apiUrl: 'http://localhost:8080/api/',
 
   loginUrl: 'http://localhost/MedAPI/',

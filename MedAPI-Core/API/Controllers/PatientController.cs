@@ -17,27 +17,27 @@ using System.Data.Entity.Validation;
 
 namespace API.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class PatientController : ControllerBase
+
+    public class PatientController : BaseController
     {
-        private readonly IPatientRepository patientRepository;
+        
         private readonly IMapper mapper;
         private readonly IUserService userService;
         private readonly IPatientService patientService;
         private readonly IEmailService emailService;
 
-        public PatientController(IPatientRepository patientRepository, IMapper mapper, IEmailService emailService)
+        public PatientController(IPatientService patientService, IMapper mapper, IEmailService emailService, IUserService userService)
         {
-            this.patientRepository = patientRepository;
+            this.patientService = patientService;
             this.mapper = mapper;
             this.emailService = emailService;
+            this.userService = userService;
         }
 
 
         [HttpPost]
         [Route("patient")]
-        public bool Create(Patient mPatient)
+        public ActionResult Create(Patient mPatient)
         {
             try
             {
@@ -45,31 +45,32 @@ namespace API.Controllers
 
                 if (userService.IsUserAlreadyExist(patient.user))
                 {
-                    //response = Request.CreateResponse(HttpStatusCode.Conflict, "User Already Exist");
+                    return BadRequest("User Already Exist");
                 }
                 else
                 {
 
                     Repository.DTOs.Patient responsePatient = CreatePatient(mPatient);
 
-                   // var emailConfirmationLink = SecurityHelper.GetEmailConfirmatioLink(responsePatient.user, Request);
-                  //  var emailBody = emailService.GetEmailBody(EmailPurpose.EmailVerification, emailConfirmationLink);
-                    //emailService.SendEmailAsync(responsePatient.user.email, "Verifique su Email - SolidarityMedical", emailBody, emailConfirmationLink);
+                    var emailConfirmationLink = SecurityHelper.GetEmailConfirmatioLink(responsePatient.user, Request);
+                    var emailBody = emailService.GetEmailBody(EmailPurpose.EmailVerification, emailConfirmationLink);
+                    emailService.SendEmailAsync(responsePatient.user.email, "Verifique su Email - SolidarityMedical", emailBody, emailConfirmationLink);
 
-                  //  response = Request.CreateResponse(HttpStatusCode.OK, responsePatient);
+                    return Ok(responsePatient);
                 }
             }
             catch (DbEntityValidationException e)
             {
                 //var newException = new FormattedDbEntityValidationException(e);
-                //response = Request.CreateResponse(HttpStatusCode.InternalServerError, newException);
+                return BadRequest(e.Message.ToString());
+                
             }
             catch (Exception ex)
             {
-               // response = Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+                 return StatusCode(500, ex.Message.ToString());
             }
            
-            return true;
+            
         }
 
         private Repository.DTOs.Patient CreatePatient(Models.Patient mPatient)
@@ -93,7 +94,7 @@ namespace API.Controllers
             patientService.SaveFatherBackgroundList(patientFatherBackgrounds);
             return responsePatient;
         }
-        public Repository.DTOs.Patient setPatientInfo(Models.Patient mPatient)
+        private Repository.DTOs.Patient setPatientInfo(Models.Patient mPatient)
         {
             Repository.DTOs.Patient patient = new Repository.DTOs.Patient();
             patient.id = mPatient.id;
@@ -126,7 +127,7 @@ namespace API.Controllers
             return patient;
         }
 
-        public Repository.DTOs.User setUserInfo(Models.Patient mPatient)
+        private Repository.DTOs.User setUserInfo(Models.Patient mPatient)
         {
 
             var userData = getUserInfo();
@@ -175,13 +176,13 @@ namespace API.Controllers
             //}
             return user;
         }
-        public Repository.DTOs.User getUserInfo()
+        private Repository.DTOs.User getUserInfo()
         {
-            var headerValues = "";
-            //var headerValues = HttpContext.Current.Request.Headers.GetValues("email");
-            if (headerValues != null)
+            //var headerValues = "";
+            var email = Request.Headers["email"].ToString();
+            if (email != null)
             {
-                string email = Convert.ToString(headerValues.FirstOrDefault());
+               // string email = Convert.ToString(headerValues.FirstOrDefault());
                 return userService.GetByEmail(email);
             }
             else
@@ -191,7 +192,7 @@ namespace API.Controllers
         }
 
 
-        public List< Repository.DTOs.PatientAllergies> setAllergyList(Models.Patient patient)
+        private List< Repository.DTOs.PatientAllergies> setAllergyList(Models.Patient patient)
         {
             List< Repository.DTOs.PatientAllergies> lstAllergies = new List< Repository.DTOs.PatientAllergies>();
              Repository.DTOs.PatientAllergies allergies;
@@ -209,7 +210,7 @@ namespace API.Controllers
             }
             return lstAllergies;
         }
-        public List< Repository.DTOs.PatientMedicines> setMedicinesList(Models.Patient patient)
+        private List< Repository.DTOs.PatientMedicines> setMedicinesList(Models.Patient patient)
         {
             List< Repository.DTOs.PatientMedicines> lstMedicines = new List< Repository.DTOs.PatientMedicines>();
              Repository.DTOs.PatientMedicines medicines;
@@ -227,7 +228,7 @@ namespace API.Controllers
             }
             return lstMedicines;
         }
-        public List< Repository.DTOs.PatientMotherbackgrounds> setMotherbackgroundsList(Models.Patient patient)
+        private List< Repository.DTOs.PatientMotherbackgrounds> setMotherbackgroundsList(Models.Patient patient)
         {
             List< Repository.DTOs.PatientMotherbackgrounds> lstMotherbackgrounds = new List< Repository.DTOs.PatientMotherbackgrounds>();
              Repository.DTOs.PatientMotherbackgrounds mBackground;
@@ -245,7 +246,7 @@ namespace API.Controllers
             }
             return lstMotherbackgrounds;
         }
-        public List<Repository.DTOs.PatientFatherbackgrounds> setFatherbackgroundsList(Models.Patient patient)
+        private List<Repository.DTOs.PatientFatherbackgrounds> setFatherbackgroundsList(Models.Patient patient)
         {
             List<Repository.DTOs.PatientFatherbackgrounds> lstFatherbackgrounds = new List<Repository.DTOs.PatientFatherbackgrounds>();
             Repository.DTOs.PatientFatherbackgrounds fBackground;
@@ -263,7 +264,7 @@ namespace API.Controllers
             }
             return lstFatherbackgrounds;
         }
-        public List< Repository.DTOs.PatientPersonalBackgrounds> setPersonalbackgroundsList(Models.Patient patient)
+        private List< Repository.DTOs.PatientPersonalBackgrounds> setPersonalbackgroundsList(Models.Patient patient)
         {
             List< Repository.DTOs.PatientPersonalBackgrounds> lstPersonalbackgrounds = new List< Repository.DTOs.PatientPersonalBackgrounds>();
              Repository.DTOs.PatientPersonalBackgrounds pBackground;

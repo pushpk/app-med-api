@@ -4,6 +4,6 @@ namespace Services.IServices
 {
     public interface IApplicationService
     {
-        //Upload SaveFile(Upload mUpload);
+        Upload SaveFile(Upload mUpload);
     }
 }

@@ -1,4 +1,5 @@
-﻿using Repository.DTOs;
+﻿using Microsoft.AspNetCore.Http;
+using Repository.DTOs;
 using System;
 using System.Net.Http;
 using System.Web;
@@ -7,38 +8,33 @@ namespace Services.Helpers
 {
     public class SecurityHelper
     {
-        public static string GetEmailConfirmatioLink(User mUser, HttpRequestMessage Request)
+        public static string GetEmailConfirmatioLink(User mUser, HttpRequest Request)
         {
             var tokenHash = HttpUtility.UrlEncode(HashPasswordHelper.HashToken(mUser.token).ToString());
-            var baseUrl = Request.RequestUri.GetLeftPart(UriPartial.Authority);
-
-            return $"{baseUrl}/account-confirm?id={mUser.id}&code={tokenHash}";
+            return $"{GetBaseUrl(Request)}/account-confirm?id={mUser.id}&code={tokenHash}";
         }
 
-        public static string GetPasswordResetLink(User mUser, HttpRequestMessage Request)
+        public static string GetPasswordResetLink(User mUser, HttpRequest Request)
         {
             var tokenHash = HttpUtility.UrlEncode(HashPasswordHelper.HashToken(mUser.reset_token));
-            var baseUrl = Request.RequestUri.GetLeftPart(UriPartial.Authority);
-
-            return $"{baseUrl}/reset-password?id={mUser.id}&code={tokenHash}";
+            return $"{GetBaseUrl(Request)}/reset-password?id={mUser.id}&code={tokenHash}";
         }
 
-        public static string GetLabNotificationLink(User user, HttpRequestMessage Request)
+        public static string GetLabNotificationLink(User user, HttpRequest Request)
         {
-            var baseUrl = Request.RequestUri.GetLeftPart(UriPartial.Authority);
-
-            return $"{baseUrl}/records/{user.documentNumber}";
+            return $"{GetBaseUrl(Request)}/records/{user.documentNumber}";
 
         }
 
         
-        public static string GetAccountSettingLink(HttpRequestMessage Request)
+        public static string GetAccountSettingLink(HttpRequest Request)
         {
-            var baseUrl = Request.RequestUri.GetLeftPart(UriPartial.Authority);
-
-            return $"{baseUrl}/account-setting";
+            return $"{GetBaseUrl(Request)}/account-setting";
 
         }
+
+        public static string GetBaseUrl(HttpRequest request) => $"{request.Scheme}://{request.Host.Value}";
+        
 
     }
 }

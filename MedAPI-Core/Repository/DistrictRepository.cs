@@ -21,8 +21,7 @@ namespace Repository
         public List<District> GetAllDistrict()
         {
             //var bytes = BitConverter.GetBytes(true);
-            using (var context = new registroclinicocoreContext())
-            {
+           
                 return (from c in context.districts
                         where c.deleted != true
                         select new District()
@@ -32,15 +31,13 @@ namespace Repository
                             id = c.id,
                             provinceId = c.province_id,
                             ubigeo = c.ubigeo,
-                        }).OrderBy(x => x.name).ToList();
-            }
+                       }).OrderBy(x => x.name).ToList();
+            
         }
         public District SaveDistrict(District mDistrict)
         {
             //var bytes= BitConverter.GetBytes(true);
-            using (var context = new registroclinicocoreContext())
-            {
-                var efDisrict = context.districts.Where(m => m.id == mDistrict.id && m.deleted != true).FirstOrDefault();
+          var efDisrict = context.districts.Where(m => m.id == mDistrict.id && m.deleted != true).FirstOrDefault();
                 if (efDisrict == null)
                 {
                     efDisrict = new district();
@@ -52,14 +49,13 @@ namespace Repository
                 efDisrict.ubigeo = mDistrict.ubigeo;
                 context.SaveChanges();
                 mDistrict.id = efDisrict.id;
-            }
+            
             return mDistrict;
         }
         public District GetDistrictById(long id)
         {
             //var bytes = BitConverter.GetBytes(true);
-            using (var context = new registroclinicocoreContext())
-            {
+           
                 return context.districts.Where(x => x.id == id && x.deleted != true)
                    .Select(x => new District()
                    {
@@ -69,13 +65,12 @@ namespace Repository
                        provinceId = x.province_id,
                        ubigeo = x.ubigeo
                    }).FirstOrDefault();
-            }
+            
         }
         public bool DeleteDistrictById(long id)
         {
             bool isSuccess = false;
-            using (var context = new registroclinicocoreContext())
-            {
+          
                 var efDistricts = context.districts.Where(m => m.id == id).FirstOrDefault();
                 if (efDistricts != null)
                 {
@@ -84,7 +79,7 @@ namespace Repository
                     isSuccess = true;
                 }
                 return isSuccess;
-            }
+            
         }
     }
 }

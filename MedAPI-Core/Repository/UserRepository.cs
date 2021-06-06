@@ -13,13 +13,19 @@ namespace Repository
 {
     public class UserRepository : IUserRepository
     {
+       
+        private readonly registroclinicocoreContext context;
+        public UserRepository(registroclinicocoreContext context)
+        { 
+            this.context = context;
+
+        }
 
         public User ConfirmEmail(string userId, string token)
         {
             int userIdInt = int.Parse(userId);
             //var bytes = BitConverter.GetBytes(false);
-            using (var context = new registroclinicocoreContext())
-            {
+           
 
                 var user = context.users.Where(x => x.id == userIdInt && x.deleted == false)
                       .Select(x => new User
@@ -69,15 +75,13 @@ namespace Repository
                 else
                 {
                     return null;
-                }
-            }
+               }
+            
         }
 
         public User Authenticate(string email)
         {
-            //var bytes = BitConverter.GetBytes(false);
-            using (var context = new registroclinicocoreContext())
-            {
+           
                 return context.users.Where(x => x.email == email && x.deleted == false)
                       .Select(x => new User
                       {
@@ -112,14 +116,13 @@ namespace Repository
                           sex = x.sex,
                           emailConfirmed = x.emailConfirmed
                       }).FirstOrDefault();
-            }
+            
         }
 
         public bool DeleteUserById(long id)
         {
             bool isSuccess = false;
-            using (var context = new registroclinicocoreContext())
-            {
+         
                 var efuser = context.users.Where(m => m.id == id).FirstOrDefault();
                 if (efuser != null)
                 {
@@ -128,13 +131,12 @@ namespace Repository
                     isSuccess = true;
                 }
                 return isSuccess;
-            }
+            
         }
 
         public List<User> GetAllUser()
         {
-            using (var context = new registroclinicocoreContext())
-            {
+           
                 return (from us in context.users
                         select new User()
                         {
@@ -164,13 +166,12 @@ namespace Repository
                             districtId = us.district_id,
                             roleId = us.role_id
                         }).ToList();
-            }
+            
         }
 
         public User GetUserById(long id)
         {
-            using (var context = new registroclinicocoreContext())
-            {
+          
                 return context.users.Where(x => x.id == id)
                    .Select(x => new User()
                    {
@@ -203,57 +204,65 @@ namespace Repository
                        token = x.token,
                        reset_token = x.reset_token
                    }).FirstOrDefault();
-            }
+            
         }
 
         public User GetByEmail(string email)
         {
-            //var bytes = BitConverter.GetBytes(false);
-            using (var context = new registroclinicocoreContext())
-            {
-                return context.users.Where(x => x.email == email && x.deleted == false)
-                   .Select(x => new User()
-                   {
-                       id = x.id,
-                       address = x.address,
-                       birthday = x.birthday,
-                       cellphone = x.cellphone,
-                       createdBy = x.createdBy,
-                       createdDate = x.createdDate,
-                       deletable = x.deletable,
-                       deleted = x.deleted,
-                       documentNumber = x.documentNumber,
-                       documentType = x.documentType,
-                       email = x.email,
-                       firstName = x.firstName,
-                       lastNameFather = x.lastNameFather,
-                       lastNameMother = x.lastNameMother,
-                       maritalStatus = x.maritalStatus,
-                       modifiedBy = x.modifiedBy,
-                       modifiedDate = x.modifiedDate,
-                       organDonor = x.organDonor,
-                       passwordHash = x.password_hash,
-                       phone = x.phone,
-                       sex = x.sex,
-                       since = x.since,
-                       countryId = x.country_id,
-                       districtId = x.district_id,
-                       roleId = x.role_id,
-                       reset_token = x.reset_token,
-                       token = x.token,
-                       role = new Role
-                       {
-                           id = x.role.id,
-                           name = x.role.name
-                       }
-                   }).FirstOrDefault();
-            }
+           
+                try
+                {
+                    return context.users.Where(x => x.email == email && x.deleted == false)
+                  .Select(x => new User()
+                  {
+                      id = x.id,
+                      address = x.address,
+                      birthday = x.birthday,
+                      cellphone = x.cellphone,
+                      createdBy = x.createdBy,
+                      createdDate = x.createdDate,
+                      deletable = x.deletable,
+                      deleted = x.deleted,
+                      documentNumber = x.documentNumber,
+                      documentType = x.documentType,
+                      email = x.email,
+                      firstName = x.firstName,
+                      lastNameFather = x.lastNameFather,
+                      lastNameMother = x.lastNameMother,
+                      maritalStatus = x.maritalStatus,
+                      modifiedBy = x.modifiedBy,
+                      modifiedDate = x.modifiedDate,
+                      organDonor = x.organDonor,
+                      passwordHash = x.password_hash,
+                      phone = x.phone,
+                      sex = x.sex,
+                      since = x.since,
+                      countryId = x.country_id,
+                      districtId = x.district_id,
+                      roleId = x.role_id,
+                      reset_token = x.reset_token,
+                      token = x.token,
+                      role = new Role
+                      {
+                          id = x.role.id,
+                          name = x.role.name
+                      }
+                  }).FirstOrDefault();
+                }
+                catch (Exception e)
+                {
+
+                    throw ;
+                }
+               
+
+                
+            
         }
 
         public bool IsUserAlreadyExist(User mUser, string cmp = null)
         {
-            using (var context = new registroclinicocoreContext())
-            {
+          
                 bool emailAlreadyExist =  context.users.Any(m => m.email == mUser.email);
                 if (!emailAlreadyExist)
                 {
@@ -268,80 +277,79 @@ namespace Repository
                 }
                 return emailAlreadyExist;
                 
-            }
+            
         }
         public User SaveUser(User mUser)
         {
-            using (var context = new registroclinicocoreContext())
+
+
+            var efUser = context.users.Where(m => m.id == mUser.id).FirstOrDefault();
+            if (efUser == null)
+            {
+                efUser = new user();
+                efUser.deleted = false;// BitConverter.GetBytes(false);
+                efUser.deletable = false;// BitConverter.GetBytes(false);
+                efUser.organDonor = false;// BitConverter.GetBytes(false);
+                efUser.createdBy = mUser.createdBy;
+                efUser.createdDate = DateTime.UtcNow;
+                efUser.since = DateTime.UtcNow.Date;
+                efUser.password_hash = mUser.passwordHash;
+                efUser.token = Guid.NewGuid();
+                efUser.reset_token = Guid.NewGuid();
+                context.users.Add(efUser);
+
+
+            }
+            else
+            {
+                efUser.modifiedDate = DateTime.UtcNow;
+                efUser.modifiedBy = mUser.createdBy;
+            }
+
+            //Following properties does not apply to medic OR Lab, hence setting as empty to avoid validation error
+            if (mUser.roleId == 2 || mUser.roleId == 5)
             {
 
-                var efUser = context.users.Where(m => m.id == mUser.id).FirstOrDefault();
-                if (efUser == null)
-                {
-                    efUser = new user();
-                    efUser.deleted = false;// BitConverter.GetBytes(false);
-                    efUser.deletable = false;// BitConverter.GetBytes(false);
-                    efUser.organDonor = false;// BitConverter.GetBytes(false);
-                    efUser.createdBy = mUser.createdBy;
-                    efUser.createdDate = DateTime.UtcNow;
-                    efUser.since = DateTime.UtcNow.Date;
-                    efUser.password_hash = mUser.passwordHash;
-                    efUser.token = Guid.NewGuid();
-                    efUser.reset_token = Guid.NewGuid();
-                    context.users.Add(efUser);
+                if (mUser.roleId == 2) mUser.address = string.Empty;
 
-                   
-                }
-                else
-                {
-                    efUser.modifiedDate = DateTime.UtcNow;
-                    efUser.modifiedBy = mUser.createdBy;
-                }
-
-                //Following properties does not apply to medic OR Lab, hence setting as empty to avoid validation error
-                if (mUser.roleId == 2 || mUser.roleId == 5)
-                {
-
-                   if(mUser.roleId ==2) mUser.address = string.Empty;
-
-                    mUser.sex = string.Empty;
-                    mUser.documentType = string.Empty;
-
-                   
-                }
+                mUser.sex = string.Empty;
+                mUser.documentType = string.Empty;
 
 
-                efUser.firstName = mUser.firstName;
-                efUser.lastNameFather = mUser.lastNameFather;
-                efUser.lastNameMother = mUser.lastNameMother;
-                efUser.phone = mUser.phone;
-                efUser.address = mUser.address;
-                efUser.country_id = mUser.countryId;
-                efUser.documentType = mUser.documentType;
-                efUser.documentNumber = mUser.documentNumber;
-                efUser.birthday = mUser.birthday;
-                efUser.role_id = mUser.roleId;
-                efUser.email = mUser.email;
-                efUser.maritalStatus = mUser.maritalStatus;
-                efUser.cellphone = mUser.cellphone;
-                efUser.sex = mUser.sex;
-                efUser.district_id = mUser.districtId;
-                efUser.department_id = mUser.departmentId;
-                efUser.province_id = mUser.provinceId;
-                context.SaveChanges();
-                mUser.id = efUser.id;
-                mUser.token = efUser.token;
             }
+
+
+            efUser.firstName = mUser.firstName;
+            efUser.lastNameFather = mUser.lastNameFather;
+            efUser.lastNameMother = mUser.lastNameMother;
+            efUser.phone = mUser.phone;
+            efUser.address = mUser.address;
+            efUser.country_id = mUser.countryId;
+            efUser.documentType = mUser.documentType;
+            efUser.documentNumber = mUser.documentNumber;
+            efUser.birthday = mUser.birthday;
+            efUser.role_id = mUser.roleId;
+            efUser.email = mUser.email;
+            efUser.maritalStatus = mUser.maritalStatus;
+            efUser.cellphone = mUser.cellphone;
+            efUser.sex = mUser.sex;
+            efUser.district_id = mUser.districtId;
+            efUser.department_id = mUser.departmentId;
+            efUser.province_id = mUser.provinceId;
+            context.SaveChanges();
+            mUser.id = efUser.id;
+            mUser.token = efUser.token;
+
             return mUser;
         }
+        
 
         public List<Medic> GetAllNonApprovedMedics()
         {
-            using (var context = new registroclinicocoreContext())
-            {
+            
                 // var abc = context.medics.Include("user").Where(s => s.user.role_id == 2 && (!s.IsApproved || s.IsFreezed)).ToList();
 
-                var abc = (from us in context.medics.Include("user").Where(s => s.idNavigation.role_id == 2).OrderBy(s => s.IsApproved)
+                var abc = (from us in context.medics.Include("user").Where(s => s.user.role_id == 2).OrderBy(s => s.IsApproved)
                            select new Medic()
                            {
                                cmp = us.cmp,
@@ -352,44 +360,43 @@ namespace Repository
                                user = new User
                                {
 
-                                   id = us.idNavigation.id,
-                                   address = us.idNavigation.address,
-                                   birthday = us.idNavigation.birthday,
-                                   cellphone = us.idNavigation.cellphone,
-                                   createdBy = us.idNavigation.createdBy,
-                                   createdDate = us.idNavigation.createdDate,
-                                   deletable = us.idNavigation.deletable,
-                                   deleted = us.idNavigation.deleted,
-                                   documentNumber = us.idNavigation.documentNumber,
-                                   documentType = us.idNavigation.documentType,
-                                   email = us.idNavigation.email,
-                                   firstName = us.idNavigation.firstName,
-                                   lastNameFather = us.idNavigation.lastNameFather,
-                                   lastNameMother = us.idNavigation.lastNameMother,
-                                   maritalStatus = us.idNavigation.maritalStatus,
-                                   modifiedBy = us.idNavigation.modifiedBy,
-                                   modifiedDate = us.idNavigation.modifiedDate,
-                                   organDonor = us.idNavigation.organDonor,
-                                   passwordHash = us.idNavigation.password_hash,
-                                   phone = us.idNavigation.phone,
-                                   sex = us.idNavigation.sex,
-                                   since = us.idNavigation.since,
-                                   countryId = us.idNavigation.country_id,
-                                   districtId = us.idNavigation.district_id,
-                                   roleId = us.idNavigation.role_id,
+                                   id = us.user.id,
+                                   address = us.user.address,
+                                   birthday = us.user.birthday,
+                                   cellphone = us.user.cellphone,
+                                   createdBy = us.user.createdBy,
+                                   createdDate = us.user.createdDate,
+                                   deletable = us.user.deletable,
+                                   deleted = us.user.deleted,
+                                   documentNumber = us.user.documentNumber,
+                                   documentType = us.user.documentType,
+                                   email = us.user.email,
+                                   firstName = us.user.firstName,
+                                   lastNameFather = us.user.lastNameFather,
+                                   lastNameMother = us.user.lastNameMother,
+                                   maritalStatus = us.user.maritalStatus,
+                                   modifiedBy = us.user.modifiedBy,
+                                   modifiedDate = us.user.modifiedDate,
+                                   organDonor = us.user.organDonor,
+                                   passwordHash = us.user.password_hash,
+                                   phone = us.user.phone,
+                                   sex = us.user.sex,
+                                   since = us.user.since,
+                                   countryId = us.user.country_id,
+                                   districtId = us.user.district_id,
+                                   roleId = us.user.role_id,
 
                                }
 
                            }).ToList();
 
                 return abc;
-            }
+            
         }
 
         public List<Lab> GetAllNonApprovedLabs()
         {
-            using (var context = new registroclinicocoreContext())
-            {
+          
                 // var abc = context.medics.Include("user").Where(s => s.user.role_id == 2 && (!s.IsApproved || s.IsFreezed)).ToList();
 
                 var abc = (from us in context.labs.Include("user").Where(s => s.user.role_id == 5).OrderBy(s => s.IsApproved)
@@ -435,15 +442,14 @@ namespace Repository
                            }).ToList();
 
                 return abc;
-            }
+            
         }
 
         public bool ResetPassword(string userId, string oldPassword, string passwordHash)
         {
             int userIdInt = int.Parse(userId);
 
-            using (var context = new registroclinicocoreContext())
-            {
+            
                 var user = context.users.FirstOrDefault(x => x.id == userIdInt && x.deleted == false);
 
                 
@@ -461,7 +467,7 @@ namespace Repository
                 {
                     return false;
                 }
-            }
+            
 
         }
 
@@ -469,9 +475,7 @@ namespace Repository
         {
             int userIdInt = int.Parse(userId);
 
-            using (var context = new registroclinicocoreContext())
-            {
-                var user = context.users.FirstOrDefault(x => x.id == userIdInt && x.deleted == false);
+              var user = context.users.FirstOrDefault(x => x.id == userIdInt && x.deleted == false);
 
                 var tokenDecoded = HttpUtility.UrlDecode(token);
 
@@ -490,7 +494,7 @@ namespace Repository
                 {
                     return false;
                 }
-            }
+            
             
         }
     }

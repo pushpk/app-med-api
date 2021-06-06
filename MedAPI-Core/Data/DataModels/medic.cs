@@ -21,7 +21,7 @@ namespace Data.DataModels
         public bool IsApproved { get; set; }
         public bool IsDenied { get; set; }
 
-        public virtual user idNavigation { get; set; }
+        public virtual user user { get; set; }
         public virtual medic_specialty medic_specialty { get; set; }
         public virtual ICollection<lab_upload_result> lab_upload_results { get; set; }
         public virtual ICollection<note> notes { get; set; }

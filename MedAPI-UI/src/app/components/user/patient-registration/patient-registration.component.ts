@@ -17,7 +17,7 @@ import { PatientService } from '../../patient/service/patient.service';
   selector: 'app-patient-registration',
   templateUrl: './patient-registration.component.html',
   styleUrls: ['./patient-registration.component.scss'],
-  providers: [{provide: DateAdapter, useClass: MyDateAdapter}]
+  providers: [{ provide: DateAdapter, useClass: MyDateAdapter }],
 })
 export class PatientRegistrationComponent implements OnInit {
   resources: any;
@@ -81,7 +81,7 @@ export class PatientRegistrationComponent implements OnInit {
     this.patientService
       .registerPatient(this.patient)
       .then((response: any) => {
-        // console.log(response);
+        console.log(response);
         // this.submit.waiting = false;
         // this.submit.success = true;
         this.toastr.success('Paciente afiliado correctamente.');
@@ -268,9 +268,8 @@ export class PatientRegistrationComponent implements OnInit {
           isDeleted: false,
         };
         this.patient.personalBackground.push(pBackground);
-        this.selectedPersonalBackgrounds = this.patient.personalBackground.filter(
-          (x) => !x.isDeleted
-        );
+        this.selectedPersonalBackgrounds =
+          this.patient.personalBackground.filter((x) => !x.isDeleted);
       }
     }
   }

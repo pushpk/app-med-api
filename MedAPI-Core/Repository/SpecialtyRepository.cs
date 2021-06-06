@@ -1,5 +1,5 @@
 ﻿using Data.DataModels;
-
+using Repository.DTOs;
 using Repository.IRepository;
 using System;
 using System.Collections.Generic;
@@ -16,22 +16,19 @@ namespace Repository
             this.context = context;
 
         }
-
+      
         public List<Speciality> SearchByName(string name)
         {
-            using (var context = new registroclinicocoreContext())
-            {
+            
                 return context.specialities.Where(x => x.name.Contains(name))
                      .Select(x => new Speciality()
                      {
                          id = x.id,
                          name = x.name
-                         
-                     }).ToList();
-            }
-        }
 
-       
+                     }).ToList();
+            
+        }
     }
 }
 

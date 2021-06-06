@@ -38,8 +38,7 @@ namespace Repository
         public List<Country> GetAllCountry()
         {
             //var bytes = BitConverter.GetBytes(true);
-            using (var context = new registroclinicocoreContext())
-            {
+           
                 return (from c in context.countries
                         where c.deleted != true
                         select new Country()
@@ -56,13 +55,12 @@ namespace Repository
                             }).ToList()
                             
                         }).OrderBy(x => x.name).ToList();
-            }
+            
         }
         public Country GetCountryById(long id)
         {
             //var bytes = BitConverter.GetBytes(true);
-            using (var context = new registroclinicocoreContext())
-            {
+           
                 return context.countries.Where(x => x.id == id && x.deleted != true)
                    .Select(x => new Country()
                    {
@@ -78,13 +76,12 @@ namespace Repository
                        deleted = x.deleted,
 
                    }).FirstOrDefault();
-            }
+            
         }
         public bool DeleteCountryById(long id)
         {
             bool isSuccess = false;
-            using (var context = new registroclinicocoreContext())
-            {
+           
                 var efCountries = context.countries.Where(m => m.id == id).FirstOrDefault();
                 if (efCountries != null)
                 {
@@ -93,12 +90,11 @@ namespace Repository
                     isSuccess = true;
                 }
                 return isSuccess;
-            }
+            
         }
         public Country SaveCountry(Country mCountry)
         {
-            using (var context = new registroclinicocoreContext())
-            {
+            
                 var efCountries = context.countries.Where(m => m.id == mCountry.id).FirstOrDefault();
                 if (efCountries == null)
                 {
@@ -109,7 +105,7 @@ namespace Repository
                 efCountries.name = mCountry.name;
                 context.SaveChanges();
                 mCountry.id = efCountries.id;
-            }
+            
             return mCountry;
         }
     }

@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data", "Data\Data.csproj", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repository", "Repository\Repository.csproj", "{A7A2DE11-9A0F-4283-93A4-81D3C64B7B79}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "Services\Services.csproj", "{E9501D82-3143-4986-8B61-0C3ADC3CE8BD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services", "Services\Services.csproj", "{E9501D82-3143-4986-8B61-0C3ADC3CE8BD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{FBEEBE21-A6EC-4AFE-AC3E-A71A50614F6B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{E9501D82-3143-4986-8B61-0C3ADC3CE8BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E9501D82-3143-4986-8B61-0C3ADC3CE8BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E9501D82-3143-4986-8B61-0C3ADC3CE8BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FBEEBE21-A6EC-4AFE-AC3E-A71A50614F6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FBEEBE21-A6EC-4AFE-AC3E-A71A50614F6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FBEEBE21-A6EC-4AFE-AC3E-A71A50614F6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FBEEBE21-A6EC-4AFE-AC3E-A71A50614F6B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,4 +1,5 @@
-﻿using Data.DataModels; using Repository.DTOs;
+﻿using AutoMapper;
+using Data.DataModels; using Repository.DTOs;
 using Repository.IRepository;
 using System;
 using System.Collections.Generic;
@@ -8,10 +9,20 @@ namespace Repository
 {
     public class MedicRepository : IMedicRepository
     {
+
+        private readonly IMapper mapper;
+        private readonly registroclinicocoreContext context;
+
+        public MedicRepository(IMapper mapper, registroclinicocoreContext context)
+        {
+            this.mapper = mapper;
+            this.context = context;
+
+        }
+
         public List<Medic> GetAllMedic()
         {
-            using (var context = new registroclinicocoreContext())
-            {
+        
                 return (from me in context.medics
                         select new Medic()
                         {
@@ -19,21 +30,19 @@ namespace Repository
                             cmp = me.cmp,
                             rne = me.rne
                         }).ToList();
-            }
+            
         }
 
         public int GetActiveMedicCount()
         {
-            using (var context = new registroclinicocoreContext())
-            {
+           
                 return context.medics.Where(x => (x.IsApproved || x.IsFreezed) && x.user.emailConfirmed == true).Count();
-            }
+            
         }
 
         public Medic GetMedicById(long id)
         {
-            using (var context = new registroclinicocoreContext())
-            {
+          
                 return context.medics.Where(x => x.id == id)
                    .Select(x => new Medic()
                    {
@@ -80,13 +89,12 @@ namespace Repository
 
                        }
                    }).FirstOrDefault();
-            }
+            
         }
         public bool DeleteMedicById(long id)
         {
             bool isSuccess = false;
-            using (var context = new registroclinicocoreContext())
-            {
+           
                 var efMedics = context.medics.Where(m => m.id == id).FirstOrDefault();
                 if (efMedics != null)
                 {
@@ -95,17 +103,16 @@ namespace Repository
                     isSuccess = true;
                 }
                 return isSuccess;
-            }
+            
         }
 
         public long SaveMedic(Medic mMedic)
         {
-            using (var context = new registroclinicocoreContext())
-            {
+            
                 var efMedic = context.medics.Where(m => m.id == mMedic.id).FirstOrDefault();
                 if (efMedic == null)
                 {
-                    efMedic = new DataAccess.medic();
+                    efMedic = new medic();
                     context.medics.Add(efMedic);
                 }
                 efMedic.id = mMedic.id;
@@ -118,7 +125,7 @@ namespace Repository
                 if (efMedicSp == null)
                 {
 
-                    efMedicSp = new DataAccess.medic_specialties();
+                    efMedicSp = new medic_specialty();
                     context.medic_specialties.Add(efMedicSp);
                 }
 
@@ -128,20 +135,19 @@ namespace Repository
                 context.SaveChanges();
 
                 return efMedic.id;
-            }
+            
         }
 
         public void UpdateMedic(Medic mMedic)
         {
-            using (var context = new registroclinicocoreContext())
-            {
+           
                 var efMedic = context.medics.Where(m => m.id == mMedic.id).FirstOrDefault();
                 efMedic.IsFreezed = mMedic.IsFreezed;
                 efMedic.IsApproved = mMedic.IsApproved;
                 efMedic.IsDenied = mMedic.IsDenied;
 
                 context.SaveChanges();
-            }
+            
         }
     }
 }

@@ -17,5 +17,6 @@ namespace API.Models
         {
             get; set;
         }
+        public long id { get; set; }
     }
 }

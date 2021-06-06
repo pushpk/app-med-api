@@ -286,7 +286,7 @@ namespace Data.DataModels
 
                 entity.Property(e => e.rne).HasMaxLength(255);
 
-                entity.HasOne(d => d.idNavigation)
+                entity.HasOne(d => d.user)
                     .WithOne(p => p.medic)
                     .HasForeignKey<medic>(d => d.id)
                     .OnDelete(DeleteBehavior.ClientSetNull)
