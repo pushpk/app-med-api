@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 
 #nullable disable
 
 namespace Data.DataModels
 {
-    public partial class user
+    public partial class user : IdentityUser<long>
     {
         public user()
         {
@@ -15,7 +16,7 @@ namespace Data.DataModels
             patients = new HashSet<patient>();
         }
 
-        public long id { get; set; }
+        
         public string address { get; set; }
         public DateTime birthday { get; set; }
         public string cellphone { get; set; }
@@ -25,7 +26,7 @@ namespace Data.DataModels
         public bool deleted { get; set; }
         public string documentNumber { get; set; }
         public string documentType { get; set; }
-        public string email { get; set; }
+        
         public string firstName { get; set; }
         public string lastNameFather { get; set; }
         public string lastNameMother { get; set; }
@@ -43,7 +44,7 @@ namespace Data.DataModels
         public long? department_id { get; set; }
         public long? province_id { get; set; }
         public Guid token { get; set; }
-        public bool emailConfirmed { get; set; }
+        
         public Guid reset_token { get; set; }
 
         public virtual country country { get; set; }

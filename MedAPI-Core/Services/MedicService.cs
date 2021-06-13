@@ -45,10 +45,6 @@ namespace Services
         public Medic SaveMedic(Repository.DTOs.Medic mMedic)
         {
 
-            if (mMedic.user.id == 0)
-            {
-                mMedic.user.passwordHash = Services.Helpers.HashPasswordHelper.HashPassword(mMedic.user.passwordHash);
-            }
             mMedic.user = userRepository.SaveUser(mMedic.user);
 
             if (mMedic.user.id > 0)

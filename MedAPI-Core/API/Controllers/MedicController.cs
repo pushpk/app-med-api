@@ -10,6 +10,10 @@ using API.Controllers;   using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using static Services.Helpers.EmailHelper;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Data.DataModels;
+using AutoMapper;
+using Infrastructure;
 
 namespace API.Controllers
 {
@@ -21,12 +25,18 @@ namespace API.Controllers
         private readonly IMedicService medicService;
         private readonly IUserService userService;
         private readonly IEmailService emailService;
-        public MedicController(IMedicService medicService, IUserService userService, IEmailService emailService)
+        private readonly UserManager<user> _userManager;
+        private readonly IMapper _mapper;
+
+
+        public MedicController(IMedicService medicService, IUserService userService, IEmailService emailService, UserManager<user> userManager, IMapper mapper)
         {
             this.medicService = medicService;
             this.userService = userService;
             this.emailService = emailService;
-    }
+            _userManager = userManager;
+            this._mapper = mapper;
+        }
         [HttpGet]
         [Authorize(Roles = "admin")]
         [Route("medic")]
@@ -239,9 +249,10 @@ namespace API.Controllers
             {
                 try
                 {
+
                     mMedic = medicService.SaveMedic(mMedic);
 
-                    var emailConfirmationLink = GetEmailConfirmatioLink(mMedic.user, Request);
+                    var emailConfirmationLink = SecurityHelper.GetEmailConfirmatioLink(mMedic.user, Request, _userManager, _mapper);
                     var emailBody = emailService.GetEmailBody(EmailPurpose.EmailVerification, emailConfirmationLink.ToString());
                     emailService.SendEmailAsync(mMedic.user.email, "Verificacion de Email - SolidarityMedical", emailBody, emailConfirmationLink.ToString());
 
@@ -258,10 +269,7 @@ namespace API.Controllers
           
         }
 
-        private object GetEmailConfirmatioLink(User user, HttpRequest request)
-        {
-            throw new NotImplementedException();
-        }
+       
 
         [HttpPost]
         [Route("medic/{id:int}")]

@@ -21,6 +21,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 
 namespace API
 {
@@ -36,13 +37,23 @@ namespace API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            
             services.AddDbContext<registroclinicocoreContext>(x =>
             {
                 x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
 
+             services.AddIdentity<user, role>(options => {
+                 options.Password.RequireDigit = true;
+                 options.Password.RequiredLength = 4;
+                 options.Password.RequireNonAlphanumeric = false;
+                 options.Password.RequireUppercase = false;
+                 options.Password.RequireLowercase = false;
 
+                 options.SignIn.RequireConfirmedEmail = true;
+
+             }).AddEntityFrameworkStores<registroclinicocoreContext>();
+                
 
 
             services.AddAutoMapper(typeof(Startup));
@@ -103,7 +114,7 @@ namespace API
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IPatientService, PatientService>();
 
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson();
 
 
 
@@ -130,8 +141,8 @@ namespace API
 
             app.UseRouting();
 
-           // app.UseAuthentication();
-          //  app.UseAuthorization();
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,5 +12,7 @@ namespace API.Controllers
     [ApiController]
     public class BaseController : ControllerBase
     {
+       
+       
     }
 }

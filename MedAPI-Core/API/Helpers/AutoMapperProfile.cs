@@ -11,7 +11,7 @@ namespace API.Helpers
     {
         public AutoMapperProfile()
         {
-            
+
             //CreateMap<API.Models.Allergy, Data.DataModels.PatientAllergy>();
             //CreateMap<API.Models.Medicine, Data.DataModels.PatientMedicine>();
 
@@ -27,6 +27,8 @@ namespace API.Helpers
             //      opt => opt.MapFrom(src => src.department))
             //        .ForMember(dest => dest.Department,
             //      opt => opt.Ignore()); ;
+
+           
 
         }
     }

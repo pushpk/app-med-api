@@ -8,7 +8,8 @@ using System.Linq;
 using System.Security.Claims;
 using static Services.Helpers.Common;
 using Medicine = Services.Helpers.Common.Medicine;
-
+using Data.DataModels;
+using Microsoft.AspNetCore.Identity;
 
 namespace Services
 {
@@ -23,13 +24,15 @@ namespace Services
         private readonly ITriageRepository triageRepository;
 
 
+
         public UserService(IUserRepository userRepository,
             IDepartmentRepository departmentRepository,
             ICountryRepository countryRepository,
              IDistrictRepository districtRepository,
              IProvinceRepository provinceRepository,
              IBloodTypeService bloodTypeService,
-             ITriageRepository triageRepository
+             ITriageRepository triageRepository,
+             UserManager<user> userManager
             )
         {
             this.userRepository = userRepository;
@@ -39,6 +42,7 @@ namespace Services
             this.provinceRepository = provinceRepository;
             this.bloodTypeService = bloodTypeService;
             this.triageRepository = triageRepository;
+            
         }
 
 
@@ -115,6 +119,7 @@ namespace Services
 
         public bool IsUserAlreadyExist(User mUser, string cmp = null)
         {
+            
             return userRepository.IsUserAlreadyExist(mUser, cmp);
         }
 

@@ -61,7 +61,7 @@ namespace Repository
         public int GetActivePatientCount()
         {
             
-                return context.patients.Where(x => x.user.emailConfirmed == true).Count();
+                return context.patients.Where(x => x.user.EmailConfirmed == true).Count();
             
         }
 
@@ -281,7 +281,7 @@ namespace Repository
                                 where x.role_id == 4 && x.documentNumber == documentNumber.ToString()
                                 select new User
                                 {
-                                    id = x.id,
+                                    id = x.Id,
                                     address = x.address,
                                     birthday = x.birthday,
                                     cellphone = x.cellphone,
@@ -294,7 +294,7 @@ namespace Repository
                                     provinceId = x.province_id,
                                     documentNumber = x.documentNumber,
                                     documentType = x.documentType,
-                                    email = x.email,
+                                    email = x.Email,
                                     firstName = x.firstName,
                                     lastNameFather = x.lastNameFather,
                                     lastNameMother = x.lastNameMother,
@@ -308,9 +308,9 @@ namespace Repository
                                     passwordHash = x.password_hash,
                                     role = new Role
                                     {
-                                        id = x.role.id,
-                                        name = x.role.name,
-                                        description = x.role.description
+                                        id = x.role.Id,
+                                        name = x.role.Name,
+                                        description = x.role.Name
                                     },
                                     sex = x.sex
                                 }).FirstOrDefault();
@@ -462,7 +462,7 @@ namespace Repository
         public bool SaveSymptoms(SymptomsWithCustom mSymptoms)
         {
            
-                long userId = context.users.FirstOrDefault(s => s.documentNumber == mSymptoms.documentNumber).id;
+                long userId = context.users.FirstOrDefault(s => s.documentNumber == mSymptoms.documentNumber).Id;
                 long patientId = context.patients.FirstOrDefault(s => s.user_id == userId).id;
 
                 var efSymptomsExisting = context.patient_symptoms.Where(m => m.patient_id == patientId);
@@ -499,7 +499,7 @@ namespace Repository
         public SymptomsWithCustom GetSymptomsByPatientId(string docNum)
         {
            
-                long userId = context.users.FirstOrDefault(s => s.documentNumber == docNum).id;
+                long userId = context.users.FirstOrDefault(s => s.documentNumber == docNum).Id;
                 long patientId = context.patients.FirstOrDefault(s => s.user_id == userId).id;
 
                 List<Symptoms> pSym = new List<Symptoms>();
@@ -563,7 +563,7 @@ namespace Repository
                          user = new User
                          {
 
-                             id = medicPermission.medic.user.id,
+                             id = medicPermission.medic.user.Id,
                              address = medicPermission.medic.user.address,
                              cellphone = medicPermission.medic.user.cellphone,
                              countryId = medicPermission.medic.user.country_id,
@@ -575,7 +575,7 @@ namespace Repository
                              provinceId = medicPermission.medic.user.province_id,
                              documentNumber = medicPermission.medic.user.documentNumber,
                              documentType = medicPermission.medic.user.documentType,
-                             email = medicPermission.medic.user.email,
+                             email = medicPermission.medic.user.Email,
                              firstName = medicPermission.medic.user.firstName,
                              lastNameFather = medicPermission.medic.user.lastNameFather,
                              lastNameMother = medicPermission.medic.user.lastNameMother,
@@ -627,7 +627,7 @@ namespace Repository
                                 user = new User
                                 {
 
-                                    id = medicPermission.medic.user.id,
+                                    id = medicPermission.medic.user.Id,
                                     address = medicPermission.medic.user.address,
                                     cellphone = medicPermission.medic.user.cellphone,
                                     countryId = medicPermission.medic.user.country_id,
@@ -639,7 +639,7 @@ namespace Repository
                                     provinceId = medicPermission.medic.user.province_id,
                                     documentNumber = medicPermission.medic.user.documentNumber,
                                     documentType = medicPermission.medic.user.documentType,
-                                    email = medicPermission.medic.user.email,
+                                    email = medicPermission.medic.user.Email,
                                     firstName = medicPermission.medic.user.firstName,
                                     lastNameFather = medicPermission.medic.user.lastNameFather,
                                     lastNameMother = medicPermission.medic.user.lastNameMother,

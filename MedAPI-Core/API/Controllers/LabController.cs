@@ -36,7 +36,6 @@ namespace API.Controllers
         [AllowAnonymous]
         public ActionResult Create(Lab mLab)
         {
-           
             try
             {
                 if (userService.IsUserAlreadyExist(mLab.user))

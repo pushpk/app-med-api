@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Data.DataModels;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Repository.DTOs;
 using Repository.Helpers;
@@ -7,6 +8,7 @@ using Repository.IRepository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 
 namespace Repository
@@ -15,9 +17,11 @@ namespace Repository
     {
        
         private readonly registroclinicocoreContext context;
-        public UserRepository(registroclinicocoreContext context)
+        private readonly UserManager<user> _userManager;
+        public UserRepository(registroclinicocoreContext context, UserManager<user> userManager)
         { 
             this.context = context;
+            _userManager = userManager;
 
         }
 
@@ -27,10 +31,10 @@ namespace Repository
             //var bytes = BitConverter.GetBytes(false);
            
 
-                var user = context.users.Where(x => x.id == userIdInt && x.deleted == false)
+                var user = context.users.Where(x => x.Id == userIdInt && x.deleted == false)
                       .Select(x => new User
                       {
-                          id = x.id,
+                          id = x.Id,
                           address = x.address,
                           birthday = x.birthday,
                           cellphone = x.cellphone,
@@ -40,7 +44,7 @@ namespace Repository
                           districtId = x.district_id,
                           documentNumber = x.documentNumber,
                           documentType = x.documentType,
-                          email = x.email,
+                          email = x.Email,
                           firstName = x.firstName,
                           lastNameFather = x.lastNameFather,
                           lastNameMother = x.lastNameFather,
@@ -54,9 +58,9 @@ namespace Repository
                           passwordHash = x.password_hash,
                           role = new Role
                           {
-                              id = x.role.id,
-                              name = x.role.name,
-                              description = x.role.description
+                              id = x.role.Id,
+                              name = x.role.Name,
+                              description = x.role.Name
                           },
                           sex = x.sex,
                           token = x.token
@@ -66,8 +70,8 @@ namespace Repository
                 var tokenDecord = HttpUtility.UrlDecode(token);
                 if (user != null && HashPasswordHelperRepo.ValidatePassword(user.token.ToString(), tokenDecord))
                 {
-                    var userUpdate = context.users.FirstOrDefault(x => x.id == userIdInt && x.deleted == false);
-                    userUpdate.emailConfirmed = true;
+                    var userUpdate = context.users.FirstOrDefault(x => x.Id == userIdInt && x.deleted == false);
+                    userUpdate.EmailConfirmed = true;
                     context.SaveChanges();
                     return user;
 
@@ -82,10 +86,10 @@ namespace Repository
         public User Authenticate(string email)
         {
            
-                return context.users.Where(x => x.email == email && x.deleted == false)
+                return context.users.Where(x => x.Email == email && x.deleted == false)
                       .Select(x => new User
                       {
-                          id = x.id,
+                          id = x.Id,
                           address = x.address,
                           birthday = x.birthday,
                           cellphone = x.cellphone,
@@ -95,7 +99,7 @@ namespace Repository
                           districtId = x.district_id,
                           documentNumber = x.documentNumber,
                           documentType = x.documentType,
-                          email = x.email,
+                          email = x.Email,
                           firstName = x.firstName,
                           lastNameFather = x.lastNameFather,
                           lastNameMother = x.lastNameFather,
@@ -109,12 +113,12 @@ namespace Repository
                           passwordHash = x.password_hash,
                           role = new Role
                           {
-                              id = x.role.id,
-                              name = x.role.name,
-                              description = x.role.description
+                              id = x.role.Id,
+                              name = x.role.Name,
+                              description = x.role.Name
                           },
                           sex = x.sex,
-                          emailConfirmed = x.emailConfirmed
+                          emailConfirmed = x.EmailConfirmed
                       }).FirstOrDefault();
             
         }
@@ -123,7 +127,7 @@ namespace Repository
         {
             bool isSuccess = false;
          
-                var efuser = context.users.Where(m => m.id == id).FirstOrDefault();
+                var efuser = context.users.Where(m => m.Id == id).FirstOrDefault();
                 if (efuser != null)
                 {
                     efuser.deleted = true;// BitConverter.GetBytes(true);
@@ -140,7 +144,7 @@ namespace Repository
                 return (from us in context.users
                         select new User()
                         {
-                            id = us.id,
+                            id = us.Id,
                             address = us.address,
                             birthday = us.birthday,
                             cellphone = us.cellphone,
@@ -150,7 +154,7 @@ namespace Repository
                             deleted = us.deleted,
                             documentNumber = us.documentNumber,
                             documentType = us.documentType,
-                            email = us.email,
+                            email = us.Email,
                             firstName = us.firstName,
                             lastNameFather = us.lastNameFather,
                             lastNameMother = us.lastNameMother,
@@ -172,10 +176,10 @@ namespace Repository
         public User GetUserById(long id)
         {
           
-                return context.users.Where(x => x.id == id)
+                return context.users.Where(x => x.Id == id)
                    .Select(x => new User()
                    {
-                       id = x.id,
+                       id = x.Id,
                        address = x.address,
                        birthday = x.birthday,
                        cellphone = x.cellphone,
@@ -185,8 +189,8 @@ namespace Repository
                        deleted = x.deleted,
                        documentNumber = x.documentNumber,
                        documentType = x.documentType,
-                       email = x.email,
-                       emailConfirmed = x.emailConfirmed,
+                       email = x.Email,
+                       emailConfirmed = x.EmailConfirmed,
                        firstName = x.firstName,
                        lastNameFather = x.lastNameFather,
                        lastNameMother = x.lastNameMother,
@@ -212,10 +216,10 @@ namespace Repository
            
                 try
                 {
-                    return context.users.Where(x => x.email == email && x.deleted == false)
+                    return context.users.Where(x => x.Email == email && x.deleted == false)
                   .Select(x => new User()
                   {
-                      id = x.id,
+                      id = x.Id,
                       address = x.address,
                       birthday = x.birthday,
                       cellphone = x.cellphone,
@@ -225,7 +229,7 @@ namespace Repository
                       deleted = x.deleted,
                       documentNumber = x.documentNumber,
                       documentType = x.documentType,
-                      email = x.email,
+                      email = x.Email,
                       firstName = x.firstName,
                       lastNameFather = x.lastNameFather,
                       lastNameMother = x.lastNameMother,
@@ -244,8 +248,8 @@ namespace Repository
                       token = x.token,
                       role = new Role
                       {
-                          id = x.role.id,
-                          name = x.role.name
+                          id = x.role.Id,
+                          name = x.role.Name
                       }
                   }).FirstOrDefault();
                 }
@@ -263,7 +267,7 @@ namespace Repository
         public bool IsUserAlreadyExist(User mUser, string cmp = null)
         {
           
-                bool emailAlreadyExist =  context.users.Any(m => m.email == mUser.email);
+                bool emailAlreadyExist =  context.users.Any(m => m.Email == mUser.email);
                 if (!emailAlreadyExist)
                 {
                     if (mUser.roleId == 4)
@@ -282,8 +286,7 @@ namespace Repository
         public User SaveUser(User mUser)
         {
 
-
-            var efUser = context.users.Where(m => m.id == mUser.id).FirstOrDefault();
+            var efUser = context.users.Where(m => m.Id == mUser.id).FirstOrDefault();
             if (efUser == null)
             {
                 efUser = new user();
@@ -293,10 +296,12 @@ namespace Repository
                 efUser.createdBy = mUser.createdBy;
                 efUser.createdDate = DateTime.UtcNow;
                 efUser.since = DateTime.UtcNow.Date;
-                efUser.password_hash = mUser.passwordHash;
-                efUser.token = Guid.NewGuid();
-                efUser.reset_token = Guid.NewGuid();
-                context.users.Add(efUser);
+                efUser.password_hash = string.Empty;
+                //efUser.token = Guid.NewGuid();
+                //efUser.reset_token = Guid.NewGuid();
+
+              
+                
 
 
             }
@@ -318,7 +323,7 @@ namespace Repository
 
             }
 
-
+            efUser.UserName = mUser.email;
             efUser.firstName = mUser.firstName;
             efUser.lastNameFather = mUser.lastNameFather;
             efUser.lastNameMother = mUser.lastNameMother;
@@ -329,18 +334,36 @@ namespace Repository
             efUser.documentNumber = mUser.documentNumber;
             efUser.birthday = mUser.birthday;
             efUser.role_id = mUser.roleId;
-            efUser.email = mUser.email;
+            efUser.Email = mUser.email;
             efUser.maritalStatus = mUser.maritalStatus;
             efUser.cellphone = mUser.cellphone;
             efUser.sex = mUser.sex;
             efUser.district_id = mUser.districtId;
             efUser.department_id = mUser.departmentId;
             efUser.province_id = mUser.provinceId;
-            context.SaveChanges();
-            mUser.id = efUser.id;
-            mUser.token = efUser.token;
+            try
+            {
+                var result = _userManager.CreateAsync(efUser, mUser.passwordHash).Result;
+                if (result.Succeeded)
+                {
+                    mUser.id = _userManager.FindByEmailAsync(mUser.email).Result.Id;
+                    mUser.token = efUser.token;
 
-            return mUser;
+                    return mUser;
+                }
+                else
+                {
+                    throw new Exception(result.Errors.FirstOrDefault().Description);
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            
+
+            
         }
         
 
@@ -360,7 +383,7 @@ namespace Repository
                                user = new User
                                {
 
-                                   id = us.user.id,
+                                   id = us.user.Id,
                                    address = us.user.address,
                                    birthday = us.user.birthday,
                                    cellphone = us.user.cellphone,
@@ -370,7 +393,7 @@ namespace Repository
                                    deleted = us.user.deleted,
                                    documentNumber = us.user.documentNumber,
                                    documentType = us.user.documentType,
-                                   email = us.user.email,
+                                   email = us.user.Email,
                                    firstName = us.user.firstName,
                                    lastNameFather = us.user.lastNameFather,
                                    lastNameMother = us.user.lastNameMother,
@@ -411,7 +434,7 @@ namespace Repository
                                user = new User
                                {
 
-                                   id = us.user.id,
+                                   id = us.user.Id,
                                    address = us.user.address,
                                    birthday = us.user.birthday,
                                    cellphone = us.user.cellphone,
@@ -421,7 +444,7 @@ namespace Repository
                                    deleted = us.user.deleted,
                                    documentNumber = us.user.documentNumber,
                                    documentType = us.user.documentType,
-                                   email = us.user.email,
+                                   email = us.user.Email,
                                    firstName = us.user.firstName,
                                    lastNameFather = us.user.lastNameFather,
                                    lastNameMother = us.user.lastNameMother,
@@ -450,12 +473,12 @@ namespace Repository
             int userIdInt = int.Parse(userId);
 
             
-                var user = context.users.FirstOrDefault(x => x.id == userIdInt && x.deleted == false);
+                var user = context.users.FirstOrDefault(x => x.Id == userIdInt && x.deleted == false);
 
                 
                 if (user != null && HashPasswordHelperRepo.ValidatePassword(oldPassword, user.password_hash))
                 {
-                    var userUpdate = context.users.FirstOrDefault(x => x.id == userIdInt && x.deleted == false);
+                    var userUpdate = context.users.FirstOrDefault(x => x.Id == userIdInt && x.deleted == false);
 
                     userUpdate.password_hash = passwordHash;
                     
@@ -475,13 +498,13 @@ namespace Repository
         {
             int userIdInt = int.Parse(userId);
 
-              var user = context.users.FirstOrDefault(x => x.id == userIdInt && x.deleted == false);
+              var user = context.users.FirstOrDefault(x => x.Id == userIdInt && x.deleted == false);
 
                 var tokenDecoded = HttpUtility.UrlDecode(token);
 
                 if (user != null && HashPasswordHelperRepo.ValidatePassword(user.reset_token.ToString(), tokenDecoded))
                 {
-                    var userUpdate = context.users.FirstOrDefault(x => x.id == userIdInt && x.deleted == false);
+                    var userUpdate = context.users.FirstOrDefault(x => x.Id == userIdInt && x.deleted == false);
 
                         userUpdate.password_hash = passwordHash;
                         userUpdate.reset_token = Guid.NewGuid();

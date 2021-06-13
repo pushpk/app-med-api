@@ -1,4 +1,6 @@
 ﻿using System;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -6,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Data.DataModels
 {
-    public partial class registroclinicocoreContext : DbContext
+    public partial class registroclinicocoreContext : IdentityDbContext<user, role, long>
     {
         public registroclinicocoreContext()
         {
@@ -59,15 +61,17 @@ namespace Data.DataModels
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+           ;
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=DESKTOP-8JJ6GUN\\SQLEXPRESS;Database=registroclinico-core;Persist Security Info=True;User ID=registroclinico;Password=Password9*;");
+                optionsBuilder.UseSqlServer("Server=DESKTOP-8JJ6GUN\\SQLEXPRESS;Database=registroclinico-core;Persist Security Info=True;User ID=registroclinico;Password=Password10*;");
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
 
             modelBuilder.Entity<cardiovascularnote>(entity =>
@@ -701,13 +705,9 @@ namespace Data.DataModels
             {
                 entity.ToTable("role", "registroclinico");
 
-                entity.Property(e => e.description)
-                    .IsRequired()
-                    .HasMaxLength(255);
+              
 
-                entity.Property(e => e.name)
-                    .IsRequired()
-                    .HasMaxLength(255);
+               
             });
 
             modelBuilder.Entity<role_permission>(entity =>
@@ -824,7 +824,7 @@ namespace Data.DataModels
                     .IsRequired()
                     .HasMaxLength(255);
 
-                entity.Property(e => e.email)
+                entity.Property(e => e.Email)
                     .IsRequired()
                     .HasMaxLength(255);
 
@@ -846,9 +846,7 @@ namespace Data.DataModels
 
                 entity.Property(e => e.modifiedDate).HasPrecision(0);
 
-                entity.Property(e => e.password_hash)
-                    .IsRequired()
-                    .HasMaxLength(255);
+              
 
                 entity.Property(e => e.phone).HasMaxLength(255);
 

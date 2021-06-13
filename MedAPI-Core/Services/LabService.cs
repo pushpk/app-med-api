@@ -35,11 +35,8 @@ namespace Services
         public Lab SaveLab(Lab mLab)
         {
 
-            if (mLab.user.id == 0)
-            {
-                mLab.user.passwordHash = Services.Helpers.HashPasswordHelper.HashPassword(mLab.user.passwordHash);
-            }
-            mLab.user = userRepository.SaveUser(mLab.user);
+           
+            mLab.user =  userRepository.SaveUser(mLab.user);
 
             if (mLab.user.id > 0)
             {

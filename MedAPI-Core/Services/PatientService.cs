@@ -47,10 +47,7 @@ namespace Services
 
         public Patient SavePatient(Patient mPatient)
         {
-            if (mPatient.user.id == 0)
-            {
-                mPatient.user.passwordHash = Services.Helpers.HashPasswordHelper.HashPassword(mPatient.user.passwordHash);
-            }
+           
             mPatient.user = userRepository.SaveUser(mPatient.user);
 
             if (mPatient.user.id > 0)

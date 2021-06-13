@@ -137,7 +137,7 @@ namespace Repository
                        user = new User
                        {
 
-                           id = x.user.id,
+                           id = x.user.Id,
                            address = x.user.address,
                            birthday = x.user.birthday,
                            cellphone = x.user.cellphone,
@@ -150,7 +150,7 @@ namespace Repository
                            provinceId = x.user.province_id,
                            documentNumber = x.user.documentNumber,
                            documentType = x.user.documentType,
-                           email = x.user.email,
+                           email = x.user.Email,
                            firstName = x.user.firstName,
                            lastNameFather = x.user.lastNameFather,
                            lastNameMother = x.user.lastNameMother,
@@ -159,14 +159,14 @@ namespace Repository
                            modifiedDate = x.user.modifiedDate,
                            organDonor = x.user.organDonor,
                            phone = x.user.phone,
-                           roleId = x.user.role_id,
+                           roleId = x.user.Id,
                            since = x.user.since,
                            passwordHash = x.user.password_hash,
                            role = new Role
                            {
-                               id = x.user.role.id,
-                               name = x.user.role.name,
-                               description = x.user.role.description
+                               id = x.user.role.Id,
+                               name = x.user.role.Name,
+                               description = x.user.role.Name
                            },
                            sex = x.user.sex
 
@@ -178,7 +178,7 @@ namespace Repository
         public int GetActiveLabCount()
         {
            
-                return context.labs.Where(x => (x.IsApproved || x.IsFreezed) && x.user.emailConfirmed == true).Count();
+                return context.labs.Where(x => (x.IsApproved || x.IsFreezed) && x.user.EmailConfirmed == true).Count();
             
         }
 
