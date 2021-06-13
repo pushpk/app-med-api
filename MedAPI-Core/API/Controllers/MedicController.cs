@@ -150,7 +150,7 @@ namespace API.Controllers
                 mMedic = medicService.UpdateMedic(mMedic);
                 var emailBody = emailService.GetEmailBody(EmailPurpose.ApproveAccount);
                 //emailService.SendEmailAsync(mMedic.user.email, "Medic Approved -  MedAPI", emailBody);
-                emailService.SendEmailAsync(mMedic.user.email, "Cuenta Aprobada - SolidarityMedical", emailBody);
+                emailService.SendEmailAsync(mMedic.user.Email, "Cuenta Aprobada - SolidarityMedical", emailBody);
 
                 if (mMedic == null)
                 {
@@ -182,7 +182,7 @@ namespace API.Controllers
                 mMedic.IsApproved = false;
                 mMedic = medicService.UpdateMedic(mMedic);
                 var emailBody = emailService.GetEmailBody(EmailPurpose.DenyAccount);
-                emailService.SendEmailAsync(mMedic.user.email, "Cuenta Denegada - SolidarityMedical", emailBody);
+                emailService.SendEmailAsync(mMedic.user.Email, "Cuenta Denegada - SolidarityMedical", emailBody);
 
                 if (mMedic == null)
                 {
@@ -249,12 +249,12 @@ namespace API.Controllers
             {
                 try
                 {
-
+                    mMedic.user.SecurityStamp = Guid.NewGuid().ToString();
                     mMedic = medicService.SaveMedic(mMedic);
-
+                    
                     var emailConfirmationLink = SecurityHelper.GetEmailConfirmatioLink(mMedic.user, Request, _userManager, _mapper);
                     var emailBody = emailService.GetEmailBody(EmailPurpose.EmailVerification, emailConfirmationLink.ToString());
-                    emailService.SendEmailAsync(mMedic.user.email, "Verificacion de Email - SolidarityMedical", emailBody, emailConfirmationLink.ToString());
+                    emailService.SendEmailAsync(mMedic.user.Email, "Verificacion de Email - SolidarityMedical", emailBody, emailConfirmationLink.ToString());
 
 
                    return Ok(mMedic);
@@ -280,7 +280,7 @@ namespace API.Controllers
             {
                 if (IsAdminPermission())
                 {
-                    mMedic.user.id = id;
+                    mMedic.user.Id = id;
                     mMedic = medicService.SaveMedic(mMedic);
                    return Ok(mMedic);
                 }

@@ -54,7 +54,7 @@ namespace API.Controllers
 
                     var emailConfirmationLink = SecurityHelper.GetEmailConfirmatioLink(responsePatient.user, Request);
                     var emailBody = emailService.GetEmailBody(EmailPurpose.EmailVerification, emailConfirmationLink);
-                    emailService.SendEmailAsync(responsePatient.user.email, "Verifique su Email - SolidarityMedical", emailBody, emailConfirmationLink);
+                    emailService.SendEmailAsync(responsePatient.user.Email, "Verifique su Email - SolidarityMedical", emailBody, emailConfirmationLink);
 
                     return Ok(responsePatient);
                 }
@@ -132,19 +132,19 @@ namespace API.Controllers
 
             var userData = getUserInfo();
             Repository.DTOs.User user = new Repository.DTOs.User();
-            user.id = mPatient.userId;
+            user.Id = mPatient.userId;
             user.address = mPatient.address;
             user.birthday = mPatient.birthday;
             user.phone = mPatient.phone;
 
             if (userData != null)
             {
-                user.createdBy = Convert.ToString(userData.id);
+                user.createdBy = Convert.ToString(userData.Id);
             }
             user.createdDate = DateTime.Now;
             user.documentNumber = mPatient.documentNumber;
             user.documentType = mPatient.documentType;
-            user.email = mPatient.email;
+            user.Email = mPatient.email;
             user.firstName = mPatient.name;
             user.lastNameFather = mPatient.lastnameFather;
             user.lastNameMother = mPatient.lastnameMother;
@@ -152,10 +152,10 @@ namespace API.Controllers
             user.organDonor = mPatient.isDonor;
             if (mPatient.userId > 0)
             {
-                user.modifiedBy = Convert.ToString(userData.id);
+                user.modifiedBy = Convert.ToString(userData.Id);
                 user.modifiedDate = DateTime.Now;
             }
-            user.passwordHash = mPatient.passwordHash;
+            user.PasswordHash = mPatient.passwordHash;
             user.sex = mPatient.sex;
             user.since = DateTime.Now;
 

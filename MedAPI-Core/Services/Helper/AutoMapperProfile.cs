@@ -15,6 +15,7 @@ namespace API.Helpers
         {
 
             CreateMap<User, user>();
+              
 
         }
     }

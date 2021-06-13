@@ -53,7 +53,7 @@ namespace Services
             User mUser = new User();
             mUser = userRepository.Authenticate(email);
 
-            if (mUser != null && HashPasswordHelper.ValidatePassword(password, mUser.passwordHash))
+            if (mUser != null && HashPasswordHelper.ValidatePassword(password, mUser.PasswordHash))
             {
                 return mUser;
             }
@@ -110,9 +110,9 @@ namespace Services
         }
         public User SaveUser(User mUser)
         {
-            if (mUser.id == 0)
+            if (mUser.Id == 0)
             {
-                mUser.passwordHash = HashPasswordHelper.HashPassword(mUser.passwordHash);
+                mUser.PasswordHash = HashPasswordHelper.HashPassword(mUser.PasswordHash);
             }
             return userRepository.SaveUser(mUser);
         }

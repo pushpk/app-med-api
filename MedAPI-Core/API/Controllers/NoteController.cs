@@ -342,16 +342,16 @@ namespace API.Controllers
 
             if (userData != null)
             {
-                note.createdBy = Convert.ToString(userData.id);
+                note.createdBy = Convert.ToString(userData.Id);
                 note.createdDate = DateTime.Now;
-                note.medicId = userData.id;
+                note.medicId = userData.Id;
             }
             note.deleted = false;
             note.diagnosis = mNote.diagnosis.observations;
             note.exam = mNote.exams.observations;
             if (note.id > 0)
             {
-                note.modifiedBy = Convert.ToString(userData.id);
+                note.modifiedBy = Convert.ToString(userData.Id);
                 note.modifiedDate = DateTime.Now;
             }
             note.physicalExam = mNote.physicalExam.text;

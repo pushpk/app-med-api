@@ -104,7 +104,7 @@ namespace API.Controllers
             {
                 if (IsAdminPermission())
                 {
-                    mNurse.user.id = id;
+                    mNurse.user.Id = id;
                     mNurse = nurseService.SaveNurse(mNurse);
                    return Ok(mNurse);
                 }

@@ -11,13 +11,13 @@ namespace Services.Helpers
         public static string GetEmailConfirmatioLink(User mUser, HttpRequest Request)
         {
             var tokenHash = HttpUtility.UrlEncode(HashPasswordHelper.HashToken(mUser.token).ToString());
-            return $"{GetBaseUrl(Request)}/account-confirm?id={mUser.id}&code={tokenHash}";
+            return $"{GetBaseUrl(Request)}/account-confirm?id={mUser.Id}&code={tokenHash}";
         }
 
         public static string GetPasswordResetLink(User mUser, HttpRequest Request)
         {
             var tokenHash = HttpUtility.UrlEncode(HashPasswordHelper.HashToken(mUser.reset_token));
-            return $"{GetBaseUrl(Request)}/reset-password?id={mUser.id}&code={tokenHash}";
+            return $"{GetBaseUrl(Request)}/reset-password?id={mUser.Id}&code={tokenHash}";
         }
 
         public static string GetLabNotificationLink(User user, HttpRequest Request)

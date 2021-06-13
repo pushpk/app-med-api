@@ -34,7 +34,7 @@ namespace Repository
                 var user = context.users.Where(x => x.Id == userIdInt && x.deleted == false)
                       .Select(x => new User
                       {
-                          id = x.Id,
+                          Id = x.Id,
                           address = x.address,
                           birthday = x.birthday,
                           cellphone = x.cellphone,
@@ -44,7 +44,7 @@ namespace Repository
                           districtId = x.district_id,
                           documentNumber = x.documentNumber,
                           documentType = x.documentType,
-                          email = x.Email,
+                          Email = x.Email,
                           firstName = x.firstName,
                           lastNameFather = x.lastNameFather,
                           lastNameMother = x.lastNameFather,
@@ -55,7 +55,7 @@ namespace Repository
                           phone = x.phone,
                           roleId = x.role_id,
                           since = x.since,
-                          passwordHash = x.password_hash,
+                          PasswordHash = x.password_hash,
                           role = new Role
                           {
                               id = x.role.Id,
@@ -89,7 +89,7 @@ namespace Repository
                 return context.users.Where(x => x.Email == email && x.deleted == false)
                       .Select(x => new User
                       {
-                          id = x.Id,
+                          Id = x.Id,
                           address = x.address,
                           birthday = x.birthday,
                           cellphone = x.cellphone,
@@ -99,7 +99,7 @@ namespace Repository
                           districtId = x.district_id,
                           documentNumber = x.documentNumber,
                           documentType = x.documentType,
-                          email = x.Email,
+                          Email = x.Email,
                           firstName = x.firstName,
                           lastNameFather = x.lastNameFather,
                           lastNameMother = x.lastNameFather,
@@ -110,7 +110,7 @@ namespace Repository
                           phone = x.phone,
                           roleId = x.role_id,
                           since = x.since,
-                          passwordHash = x.password_hash,
+                          PasswordHash = x.password_hash,
                           role = new Role
                           {
                               id = x.role.Id,
@@ -118,7 +118,7 @@ namespace Repository
                               description = x.role.Name
                           },
                           sex = x.sex,
-                          emailConfirmed = x.EmailConfirmed
+                          EmailConfirmed = x.EmailConfirmed
                       }).FirstOrDefault();
             
         }
@@ -144,7 +144,7 @@ namespace Repository
                 return (from us in context.users
                         select new User()
                         {
-                            id = us.Id,
+                            Id = us.Id,
                             address = us.address,
                             birthday = us.birthday,
                             cellphone = us.cellphone,
@@ -154,7 +154,7 @@ namespace Repository
                             deleted = us.deleted,
                             documentNumber = us.documentNumber,
                             documentType = us.documentType,
-                            email = us.Email,
+                            Email = us.Email,
                             firstName = us.firstName,
                             lastNameFather = us.lastNameFather,
                             lastNameMother = us.lastNameMother,
@@ -162,7 +162,7 @@ namespace Repository
                             modifiedBy = us.modifiedBy,
                             modifiedDate = us.modifiedDate,
                             organDonor = us.organDonor,
-                            passwordHash = us.password_hash,
+                            PasswordHash = us.password_hash,
                             phone = us.phone,
                             sex = us.sex,
                             since = us.since,
@@ -179,7 +179,7 @@ namespace Repository
                 return context.users.Where(x => x.Id == id)
                    .Select(x => new User()
                    {
-                       id = x.Id,
+                       Id = x.Id,
                        address = x.address,
                        birthday = x.birthday,
                        cellphone = x.cellphone,
@@ -189,8 +189,8 @@ namespace Repository
                        deleted = x.deleted,
                        documentNumber = x.documentNumber,
                        documentType = x.documentType,
-                       email = x.Email,
-                       emailConfirmed = x.EmailConfirmed,
+                       Email = x.Email,
+                       EmailConfirmed = x.EmailConfirmed,
                        firstName = x.firstName,
                        lastNameFather = x.lastNameFather,
                        lastNameMother = x.lastNameMother,
@@ -198,7 +198,7 @@ namespace Repository
                        modifiedBy = x.modifiedBy,
                        modifiedDate = x.modifiedDate,
                        organDonor = x.organDonor,
-                       passwordHash = x.password_hash,
+                       PasswordHash = x.password_hash,
                        phone = x.phone,
                        sex = x.sex,
                        since = x.since,
@@ -219,7 +219,7 @@ namespace Repository
                     return context.users.Where(x => x.Email == email && x.deleted == false)
                   .Select(x => new User()
                   {
-                      id = x.Id,
+                      Id = x.Id,
                       address = x.address,
                       birthday = x.birthday,
                       cellphone = x.cellphone,
@@ -229,7 +229,7 @@ namespace Repository
                       deleted = x.deleted,
                       documentNumber = x.documentNumber,
                       documentType = x.documentType,
-                      email = x.Email,
+                      Email = x.Email,
                       firstName = x.firstName,
                       lastNameFather = x.lastNameFather,
                       lastNameMother = x.lastNameMother,
@@ -237,7 +237,7 @@ namespace Repository
                       modifiedBy = x.modifiedBy,
                       modifiedDate = x.modifiedDate,
                       organDonor = x.organDonor,
-                      passwordHash = x.password_hash,
+                      PasswordHash = x.password_hash,
                       phone = x.phone,
                       sex = x.sex,
                       since = x.since,
@@ -267,7 +267,7 @@ namespace Repository
         public bool IsUserAlreadyExist(User mUser, string cmp = null)
         {
           
-                bool emailAlreadyExist =  context.users.Any(m => m.Email == mUser.email);
+                bool emailAlreadyExist =  context.users.Any(m => m.Email == mUser.Email);
                 if (!emailAlreadyExist)
                 {
                     if (mUser.roleId == 4)
@@ -286,7 +286,7 @@ namespace Repository
         public User SaveUser(User mUser)
         {
 
-            var efUser = context.users.Where(m => m.Id == mUser.id).FirstOrDefault();
+            var efUser = context.users.Where(m => m.Id == mUser.Id).FirstOrDefault();
             if (efUser == null)
             {
                 efUser = new user();
@@ -297,6 +297,7 @@ namespace Repository
                 efUser.createdDate = DateTime.UtcNow;
                 efUser.since = DateTime.UtcNow.Date;
                 efUser.password_hash = string.Empty;
+                
                 //efUser.token = Guid.NewGuid();
                 //efUser.reset_token = Guid.NewGuid();
 
@@ -323,7 +324,7 @@ namespace Repository
 
             }
 
-            efUser.UserName = mUser.email;
+            efUser.UserName = mUser.Email;
             efUser.firstName = mUser.firstName;
             efUser.lastNameFather = mUser.lastNameFather;
             efUser.lastNameMother = mUser.lastNameMother;
@@ -334,19 +335,20 @@ namespace Repository
             efUser.documentNumber = mUser.documentNumber;
             efUser.birthday = mUser.birthday;
             efUser.role_id = mUser.roleId;
-            efUser.Email = mUser.email;
+            efUser.Email = mUser.Email;
             efUser.maritalStatus = mUser.maritalStatus;
             efUser.cellphone = mUser.cellphone;
             efUser.sex = mUser.sex;
             efUser.district_id = mUser.districtId;
             efUser.department_id = mUser.departmentId;
             efUser.province_id = mUser.provinceId;
+            efUser.SecurityStamp = mUser.SecurityStamp;
             try
             {
-                var result = _userManager.CreateAsync(efUser, mUser.passwordHash).Result;
+                var result = _userManager.CreateAsync(efUser, mUser.PasswordHash).Result;
                 if (result.Succeeded)
                 {
-                    mUser.id = _userManager.FindByEmailAsync(mUser.email).Result.Id;
+                    mUser.Id = _userManager.FindByEmailAsync(mUser.Email).Result.Id;
                     mUser.token = efUser.token;
 
                     return mUser;
@@ -383,7 +385,7 @@ namespace Repository
                                user = new User
                                {
 
-                                   id = us.user.Id,
+                                   Id = us.user.Id,
                                    address = us.user.address,
                                    birthday = us.user.birthday,
                                    cellphone = us.user.cellphone,
@@ -393,7 +395,7 @@ namespace Repository
                                    deleted = us.user.deleted,
                                    documentNumber = us.user.documentNumber,
                                    documentType = us.user.documentType,
-                                   email = us.user.Email,
+                                   Email = us.user.Email,
                                    firstName = us.user.firstName,
                                    lastNameFather = us.user.lastNameFather,
                                    lastNameMother = us.user.lastNameMother,
@@ -401,7 +403,7 @@ namespace Repository
                                    modifiedBy = us.user.modifiedBy,
                                    modifiedDate = us.user.modifiedDate,
                                    organDonor = us.user.organDonor,
-                                   passwordHash = us.user.password_hash,
+                                   PasswordHash = us.user.password_hash,
                                    phone = us.user.phone,
                                    sex = us.user.sex,
                                    since = us.user.since,
@@ -434,7 +436,7 @@ namespace Repository
                                user = new User
                                {
 
-                                   id = us.user.Id,
+                                   Id = us.user.Id,
                                    address = us.user.address,
                                    birthday = us.user.birthday,
                                    cellphone = us.user.cellphone,
@@ -444,7 +446,7 @@ namespace Repository
                                    deleted = us.user.deleted,
                                    documentNumber = us.user.documentNumber,
                                    documentType = us.user.documentType,
-                                   email = us.user.Email,
+                                   Email = us.user.Email,
                                    firstName = us.user.firstName,
                                    lastNameFather = us.user.lastNameFather,
                                    lastNameMother = us.user.lastNameMother,
@@ -452,7 +454,7 @@ namespace Repository
                                    modifiedBy = us.user.modifiedBy,
                                    modifiedDate = us.user.modifiedDate,
                                    organDonor = us.user.organDonor,
-                                   passwordHash = us.user.password_hash,
+                                   PasswordHash = us.user.password_hash,
                                    phone = us.user.phone,
                                    sex = us.user.sex,
                                    since = us.user.since,

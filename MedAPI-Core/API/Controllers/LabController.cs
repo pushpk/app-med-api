@@ -48,7 +48,7 @@ namespace API.Controllers
                 
                 var emailConfirmationLink = SecurityHelper.GetEmailConfirmatioLink(mLab.user, Request);
                 var emailBody = emailService.GetEmailBody(EmailPurpose.EmailVerification, emailConfirmationLink);
-                emailService.SendEmailAsync(mLab.user.email, "Verifique su Email - SolidarityMedical", emailBody, emailConfirmationLink);
+                emailService.SendEmailAsync(mLab.user.Email, "Verifique su Email - SolidarityMedical", emailBody, emailConfirmationLink);
 
                return Ok(mLab);
                 //if (IsAdminPermission())
@@ -127,7 +127,7 @@ namespace API.Controllers
                 uploadResult = labService.SaveUploadedFile(uploadResult);
                 var labNotificationLink = SecurityHelper.GetLabNotificationLink(user, Request);
                 var emailBody = emailService.GetEmailBody(EmailPurpose.PatientNotification);
-                emailService.SendEmailAsync(user.email, "New Upload From Lab", emailBody, labNotificationLink);
+                emailService.SendEmailAsync(user.Email, "New Upload From Lab", emailBody, labNotificationLink);
                return Ok(uploadResult);
                 
             }
@@ -247,7 +247,7 @@ namespace API.Controllers
                 mLab = labService.UpdateLab(mLab);
 
                 var emailBody = emailService.GetEmailBody(EmailPurpose.ApproveAccount);
-                emailService.SendEmailAsync(mLab.user.email, "Laboratorio Aprobado -  SolidarityMedical", emailBody);
+                emailService.SendEmailAsync(mLab.user.Email, "Laboratorio Aprobado -  SolidarityMedical", emailBody);
 
 
                 if (mLab == null)
@@ -280,7 +280,7 @@ namespace API.Controllers
                 mLab.IsApproved = false;
                 mLab = labService.UpdateLab(mLab);
                 var emailBody = emailService.GetEmailBody(EmailPurpose.DenyAccount);
-                emailService.SendEmailAsync(mLab.user.email, "Laboratorio Denegado - SolidarityMedical", emailBody);
+                emailService.SendEmailAsync(mLab.user.Email, "Laboratorio Denegado - SolidarityMedical", emailBody);
 
                 if (mLab == null)
                 {

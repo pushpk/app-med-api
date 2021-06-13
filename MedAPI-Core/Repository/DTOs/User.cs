@@ -9,10 +9,9 @@ namespace Repository.DTOs
         {
             role = new Role();
         }
-        public long id { get; set; }
+        public long Id { get; set; }
         public string address { get; set; }
         public DateTime birthday { get; set; }
-
 
         public string cellphone { get; set; }
         public string createdBy { get; set; }
@@ -21,7 +20,7 @@ namespace Repository.DTOs
         public bool deleted { get; set; }
         public string documentNumber { get; set; }
         public string documentType { get; set; }
-        public string email { get; set; }
+        
         public string firstName { get; set; }
         public string lastName { get; set; }
         public string lastNameFather { get; set; }
@@ -30,8 +29,6 @@ namespace Repository.DTOs
         public string modifiedBy { get; set; }
         public DateTime? modifiedDate { get; set; }
         public bool organDonor { get; set; }
-        public string passwordHash { get; set; }
-
 
         public string phone { get; set; }
         public string sex { get; set; }
@@ -43,8 +40,26 @@ namespace Repository.DTOs
         public long? roleId { get; set; }
 
         public System.Guid token { get; set; }
-        public bool emailConfirmed { get; set; }
         public System.Guid reset_token { get; set; }
+
+        //----Identity User Properties
+        #region Identity User Props
+        public virtual DateTimeOffset? LockoutEnd { get; set; }
+        public virtual bool TwoFactorEnabled { get; set; }
+        public virtual bool PhoneNumberConfirmed { get; set; }
+        public virtual string PhoneNumber { get; set; }
+        public virtual string ConcurrencyStamp { get; set; }
+        public virtual string SecurityStamp { get; set; }
+        public virtual string PasswordHash { get; set; }
+        public virtual bool EmailConfirmed { get; set; }
+        public virtual string NormalizedEmail { get; set; }
+        public virtual string Email { get; set; }
+        public virtual string NormalizedUserName { get; set; }
+        public virtual string UserName { get; set; }
+        public virtual bool LockoutEnabled { get; set; }
+        public virtual int AccessFailedCount { get; set; } 
+        #endregion
+
         public Medic medic { get; set; }
 
         public virtual Country country { get; set; }

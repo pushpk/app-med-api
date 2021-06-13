@@ -174,7 +174,7 @@ namespace API.Controllers
 
                 var emailVerificationLink = SecurityHelper.GetEmailConfirmatioLink(mUser, Request);
                 var emailBody = emailService.GetEmailBody(EmailPurpose.EmailVerification, emailVerificationLink);
-                emailService.SendEmailAsync(mUser.email, "Confirm Email - MedAPI", emailBody, emailVerificationLink);
+                emailService.SendEmailAsync(mUser.Email, "Confirm Email - MedAPI", emailBody, emailVerificationLink);
 
                return Ok(mUser);
             }
@@ -195,7 +195,7 @@ namespace API.Controllers
             
             try
             {
-                mUser.id = id;
+                mUser.Id = id;
                 mUser = userService.SaveUser(mUser);
                return Ok(mUser);
             }
@@ -338,7 +338,7 @@ namespace API.Controllers
                 {
                     var passwordResetLink = SecurityHelper.GetPasswordResetLink(user, Request);
                     var emailBody = emailService.GetEmailBody(EmailPurpose.ForgotPassword, passwordResetLink);
-                    emailService.SendEmailAsync(user.email, "Confirm Email - MedAPI", emailBody, passwordResetLink);
+                    emailService.SendEmailAsync(user.Email, "Confirm Email - MedAPI", emailBody, passwordResetLink);
 
 
                     //if user valid - generate and send a link
@@ -366,7 +366,7 @@ namespace API.Controllers
                 {
                     var emailConfirmationLink = SecurityHelper.GetEmailConfirmatioLink(user, Request);
                     var emailBody = emailService.GetEmailBody(EmailPurpose.EmailVerification, emailConfirmationLink);
-                    emailService.SendEmailAsync(user.email, "Verifique su Email - SolidarityMedical", emailBody, emailConfirmationLink);
+                    emailService.SendEmailAsync(user.Email, "Verifique su Email - SolidarityMedical", emailBody, emailConfirmationLink);
 
 
                     //if user valid - generate and send a link

@@ -137,7 +137,7 @@ namespace Repository
                        user = new User
                        {
 
-                           id = x.user.Id,
+                           Id = x.user.Id,
                            address = x.user.address,
                            birthday = x.user.birthday,
                            cellphone = x.user.cellphone,
@@ -150,7 +150,7 @@ namespace Repository
                            provinceId = x.user.province_id,
                            documentNumber = x.user.documentNumber,
                            documentType = x.user.documentType,
-                           email = x.user.Email,
+                           Email = x.user.Email,
                            firstName = x.user.firstName,
                            lastNameFather = x.user.lastNameFather,
                            lastNameMother = x.user.lastNameMother,
@@ -161,7 +161,7 @@ namespace Repository
                            phone = x.user.phone,
                            roleId = x.user.Id,
                            since = x.user.since,
-                           passwordHash = x.user.password_hash,
+                           PasswordHash = x.user.password_hash,
                            role = new Role
                            {
                                id = x.user.role.Id,

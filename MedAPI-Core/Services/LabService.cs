@@ -38,9 +38,9 @@ namespace Services
            
             mLab.user =  userRepository.SaveUser(mLab.user);
 
-            if (mLab.user.id > 0)
+            if (mLab.user.Id > 0)
             {
-                mLab.userId = mLab.user.id;
+                mLab.userId = mLab.user.Id;
                 labRepository.SaveLab(mLab);
             }
             return mLab;

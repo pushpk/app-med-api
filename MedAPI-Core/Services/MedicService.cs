@@ -47,9 +47,10 @@ namespace Services
 
             mMedic.user = userRepository.SaveUser(mMedic.user);
 
-            if (mMedic.user.id > 0)
+            if (mMedic.user.Id > 0)
             {
-                mMedic.id = mMedic.user.id;
+                mMedic.id = mMedic.user.Id;
+
                 medicRepository.SaveMedic(mMedic);
             }
             return mMedic;

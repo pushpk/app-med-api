@@ -1,5 +1,7 @@
 ﻿
 using AutoMapper;
+using Data.DataModels;
+using Repository.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,7 +30,9 @@ namespace API.Helpers
             //        .ForMember(dest => dest.Department,
             //      opt => opt.Ignore()); ;
 
-           
+            CreateMap<User, user>()
+                .ForMember(x => x.role, d => d.Ignore())
+                .ForMember(x => x.medic, d => d.Ignore()); 
 
         }
     }

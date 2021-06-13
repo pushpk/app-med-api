@@ -52,8 +52,10 @@ namespace API
 
                  options.SignIn.RequireConfirmedEmail = true;
 
-             }).AddEntityFrameworkStores<registroclinicocoreContext>();
-                
+             }).AddEntityFrameworkStores<registroclinicocoreContext>()
+            .AddTokenProvider<DataProtectorTokenProvider<user>>(TokenOptions.DefaultProvider);
+
+
 
 
             services.AddAutoMapper(typeof(Startup));

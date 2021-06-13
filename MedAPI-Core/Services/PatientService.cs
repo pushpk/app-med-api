@@ -50,9 +50,9 @@ namespace Services
            
             mPatient.user = userRepository.SaveUser(mPatient.user);
 
-            if (mPatient.user.id > 0)
+            if (mPatient.user.Id > 0)
             {
-                mPatient.userId = mPatient.user.id;
+                mPatient.userId = mPatient.user.Id;
                 patientRepository.SavePatient(mPatient);
             }
             return mPatient;

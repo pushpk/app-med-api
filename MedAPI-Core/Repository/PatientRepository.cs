@@ -281,7 +281,7 @@ namespace Repository
                                 where x.role_id == 4 && x.documentNumber == documentNumber.ToString()
                                 select new User
                                 {
-                                    id = x.Id,
+                                    Id = x.Id,
                                     address = x.address,
                                     birthday = x.birthday,
                                     cellphone = x.cellphone,
@@ -294,7 +294,7 @@ namespace Repository
                                     provinceId = x.province_id,
                                     documentNumber = x.documentNumber,
                                     documentType = x.documentType,
-                                    email = x.Email,
+                                    Email = x.Email,
                                     firstName = x.firstName,
                                     lastNameFather = x.lastNameFather,
                                     lastNameMother = x.lastNameMother,
@@ -305,7 +305,7 @@ namespace Repository
                                     phone = x.phone,
                                     roleId = x.role_id,
                                     since = x.since,
-                                    passwordHash = x.password_hash,
+                                    PasswordHash = x.password_hash,
                                     role = new Role
                                     {
                                         id = x.role.Id,
@@ -563,7 +563,7 @@ namespace Repository
                          user = new User
                          {
 
-                             id = medicPermission.medic.user.Id,
+                             Id = medicPermission.medic.user.Id,
                              address = medicPermission.medic.user.address,
                              cellphone = medicPermission.medic.user.cellphone,
                              countryId = medicPermission.medic.user.country_id,
@@ -575,7 +575,7 @@ namespace Repository
                              provinceId = medicPermission.medic.user.province_id,
                              documentNumber = medicPermission.medic.user.documentNumber,
                              documentType = medicPermission.medic.user.documentType,
-                             email = medicPermission.medic.user.Email,
+                             Email = medicPermission.medic.user.Email,
                              firstName = medicPermission.medic.user.firstName,
                              lastNameFather = medicPermission.medic.user.lastNameFather,
                              lastNameMother = medicPermission.medic.user.lastNameMother,
@@ -586,7 +586,7 @@ namespace Repository
                              phone = medicPermission.medic.user.phone,
                              roleId = medicPermission.medic.user.role_id,
                              since = medicPermission.medic.user.since,
-                             passwordHash = medicPermission.medic.user.password_hash
+                             PasswordHash = medicPermission.medic.user.password_hash
 
 
                          }
@@ -627,7 +627,7 @@ namespace Repository
                                 user = new User
                                 {
 
-                                    id = medicPermission.medic.user.Id,
+                                    Id = medicPermission.medic.user.Id,
                                     address = medicPermission.medic.user.address,
                                     cellphone = medicPermission.medic.user.cellphone,
                                     countryId = medicPermission.medic.user.country_id,
@@ -639,7 +639,7 @@ namespace Repository
                                     provinceId = medicPermission.medic.user.province_id,
                                     documentNumber = medicPermission.medic.user.documentNumber,
                                     documentType = medicPermission.medic.user.documentType,
-                                    email = medicPermission.medic.user.Email,
+                                    Email = medicPermission.medic.user.Email,
                                     firstName = medicPermission.medic.user.firstName,
                                     lastNameFather = medicPermission.medic.user.lastNameFather,
                                     lastNameMother = medicPermission.medic.user.lastNameMother,
@@ -650,7 +650,7 @@ namespace Repository
                                     phone = medicPermission.medic.user.phone,
                                     roleId = medicPermission.medic.user.role_id,
                                     since = medicPermission.medic.user.since,
-                                    passwordHash = medicPermission.medic.user.password_hash
+                                    PasswordHash = medicPermission.medic.user.password_hash
 
 
                                 }

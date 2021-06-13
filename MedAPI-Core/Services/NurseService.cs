@@ -50,18 +50,18 @@ namespace Services
 
         public Nurse SaveNurse(Nurse mNurse)
         {
-            if (mNurse.user.id == 0)
+            if (mNurse.user.Id == 0)
             {
-                mNurse.user.passwordHash = Services.Helpers.HashPasswordHelper.HashPassword(mNurse.user.passwordHash);
+                mNurse.user.PasswordHash = Services.Helpers.HashPasswordHelper.HashPassword(mNurse.user.PasswordHash);
             }
             mNurse.user = userRepository.SaveUser(mNurse.user);
 
-            if (mNurse.user.id > 0)
+            if (mNurse.user.Id > 0)
             {
-                mNurse.id = mNurse.user.id;
+                mNurse.id = mNurse.user.Id;
                 nurseRepository.SaveNurse(mNurse);
 
-                mNurse.nurseSpecialties.nurseId = mNurse.user.id;
+                mNurse.nurseSpecialties.nurseId = mNurse.user.Id;
                 nurseRepository.SaveSpecialtie(mNurse.nurseSpecialties);
             }
             return mNurse;
