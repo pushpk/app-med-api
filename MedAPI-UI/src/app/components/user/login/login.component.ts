@@ -60,7 +60,6 @@ export class LoginComponent implements OnInit {
     let credentials = {
       username: username,
       password: password,
-      grant_type: 'password',
     };
     this.userService.login(credentials).then((response: any) => {
       this.isLoading = false;
@@ -78,14 +77,12 @@ export class LoginComponent implements OnInit {
 
         if (response['role'] === 4) {
           localStorage.setItem('role', 'patient');
-          if (returnUrl){
+          if (returnUrl) {
             this.router.navigateByUrl(returnUrl);
-          }
-          else{
+          } else {
             var rt = '/records/' + response.docNumber;
             this.router.navigateByUrl(rt);
           }
-
         } else if (response['role'] === 5) {
           if (!response['IsApproved']) {
             localStorage.clear();
@@ -95,10 +92,9 @@ export class LoginComponent implements OnInit {
             localStorage.clear();
             localStorage.setItem('reason', 'freezed');
             this.router.navigateByUrl('/no-access');
-          } else if (returnUrl){
+          } else if (returnUrl) {
             this.router.navigateByUrl(returnUrl);
-          }
-          else {
+          } else {
             localStorage.setItem('role', 'lab');
             this.router.navigateByUrl('/records');
           }
@@ -117,10 +113,9 @@ export class LoginComponent implements OnInit {
               localStorage.clear();
               localStorage.setItem('reason', 'freezed');
               this.router.navigateByUrl('/no-access');
-            } else if (returnUrl){
+            } else if (returnUrl) {
               this.router.navigateByUrl(returnUrl);
-            }
-            else {
+            } else {
               this.router.navigateByUrl('/records');
             }
           }

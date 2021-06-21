@@ -8,16 +8,18 @@ namespace Services.Helpers
 {
     public class SecurityHelper
     {
-        public static string GetEmailConfirmatioLink(User mUser, HttpRequest Request)
-        {
-            var tokenHash = HttpUtility.UrlEncode(HashPasswordHelper.HashToken(mUser.token).ToString());
-            return $"{GetBaseUrl(Request)}/account-confirm?id={mUser.Id}&code={tokenHash}";
-        }
+        //public static string GetEmailConfirmatioLink(User mUser, HttpRequest Request)
+        //{
+        //    return string.Empty;
+        //    //var tokenHash = HttpUtility.UrlEncode(HashPasswordHelper.HashToken(mUser.token).ToString());
+        //    //return $"{GetBaseUrl(Request)}/account-confirm?id={mUser.Id}&code={tokenHash}";
+        //}
 
         public static string GetPasswordResetLink(User mUser, HttpRequest Request)
         {
-            var tokenHash = HttpUtility.UrlEncode(HashPasswordHelper.HashToken(mUser.reset_token));
-            return $"{GetBaseUrl(Request)}/reset-password?id={mUser.Id}&code={tokenHash}";
+            return string.Empty;
+            //var tokenHash = HttpUtility.UrlEncode(HashPasswordHelper.HashToken(mUser.reset_token));
+            //return $"{GetBaseUrl(Request)}/reset-password?id={mUser.Id}&code={tokenHash}";
         }
 
         public static string GetLabNotificationLink(User user, HttpRequest Request)

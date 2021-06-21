@@ -34,12 +34,7 @@ export class PatientService {
   }
 
   registerPatient(patient: any) {
-    return this.httpUtilService.invoke(
-      'POST',
-      patient,
-      'users/RegisterPatient',
-      null
-    );
+    return this.httpUtilService.invoke('POST', patient, 'Patient', null);
   }
 
   createMedic(medic: Medic) {

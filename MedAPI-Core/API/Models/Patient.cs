@@ -65,5 +65,6 @@ namespace API.Models
         public string highGlucose { get; set; }
 
         public bool IsEdit { get; set; }
+     
     }
 }

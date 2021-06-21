@@ -10,9 +10,12 @@ using System.Net.Http.Headers;
 using System.Web;
 using API.Controllers;   using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using Services.Helpers;
 using static Services.Helpers.EmailHelper;
 using Microsoft.AspNetCore.StaticFiles;
+using Infrastructure;
+using Microsoft.AspNetCore.Identity;
+using Data.DataModels;
+using AutoMapper;
 
 namespace API.Controllers
 {
@@ -24,11 +27,15 @@ namespace API.Controllers
         private readonly ILabService labService;
         private readonly IUserService userService;
         private readonly IEmailService emailService;
-        public LabController(ILabService labService, IUserService userService, IEmailService emailService)
+        private readonly UserManager<user> _userManager;
+        private readonly IMapper _mapper;
+        public LabController(ILabService labService, IUserService userService, IEmailService emailService, UserManager<user> userManager, IMapper mapper)
         {
             this.labService = labService;
             this.userService = userService;
             this.emailService = emailService;
+            _userManager = userManager;
+            this._mapper = mapper;
         }
        
         [HttpPost]
@@ -43,10 +50,10 @@ namespace API.Controllers
                     return BadRequest("User Already Exist");
                     
                 }
-
+                mLab.user.SecurityStamp = Guid.NewGuid().ToString();
                 mLab = labService.SaveLab(mLab);
                 
-                var emailConfirmationLink = SecurityHelper.GetEmailConfirmatioLink(mLab.user, Request);
+                var emailConfirmationLink = SecurityHelper.GetEmailConfirmatioLink(mLab.user, Request, _userManager, _mapper);
                 var emailBody = emailService.GetEmailBody(EmailPurpose.EmailVerification, emailConfirmationLink);
                 emailService.SendEmailAsync(mLab.user.Email, "Verifique su Email - SolidarityMedical", emailBody, emailConfirmationLink);
 
@@ -125,7 +132,7 @@ namespace API.Controllers
             try
             {
                 uploadResult = labService.SaveUploadedFile(uploadResult);
-                var labNotificationLink = SecurityHelper.GetLabNotificationLink(user, Request);
+                var labNotificationLink = SecurityHelper.GetLabNotificationLink(user, Request, _userManager, _mapper);
                 var emailBody = emailService.GetEmailBody(EmailPurpose.PatientNotification);
                 emailService.SendEmailAsync(user.Email, "New Upload From Lab", emailBody, labNotificationLink);
                return Ok(uploadResult);

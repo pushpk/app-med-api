@@ -3,6 +3,7 @@ using AutoMapper;
 using Data.DataModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Repository.DTOs;
 using System;
 using System.Net.Http;
 using System.Web;
@@ -31,6 +32,11 @@ namespace Infrastructure
            
         }
 
+        public static string GetLabNotificationLink(User user, HttpRequest request, UserManager<user> userManager, IMapper mapper)
+        {
+            return string.Empty;
+        }
+
         //public static string GetPasswordResetLink(User mUser, HttpRequestMessage Request)
         //{
         //    return string.Empty;
@@ -48,7 +54,7 @@ namespace Infrastructure
 
         //}
 
-        
+
         //public static string GetAccountSettingLink(HttpRequestMessage Request)
         //{
         //    var baseUrl = Request.RequestUri.GetLeftPart(UriPartial.Authority);

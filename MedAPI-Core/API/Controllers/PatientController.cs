@@ -11,9 +11,12 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Repository;
 using Services.IServices;
-using Services.Helpers;
+
 using static Services.Helpers.EmailHelper;
 using System.Data.Entity.Validation;
+using Infrastructure;
+using Microsoft.AspNetCore.Identity;
+using Data.DataModels;
 
 namespace API.Controllers
 {
@@ -21,22 +24,24 @@ namespace API.Controllers
     public class PatientController : BaseController
     {
         
-        private readonly IMapper mapper;
+        
         private readonly IUserService userService;
         private readonly IPatientService patientService;
         private readonly IEmailService emailService;
+        private readonly UserManager<user> _userManager;
+        private readonly IMapper _mapper;
 
-        public PatientController(IPatientService patientService, IMapper mapper, IEmailService emailService, IUserService userService)
+        public PatientController(IPatientService patientService,  IEmailService emailService, IUserService userService, UserManager<user> userManager, IMapper mapper)
         {
             this.patientService = patientService;
-            this.mapper = mapper;
             this.emailService = emailService;
             this.userService = userService;
+            _userManager = userManager;
+            this._mapper = mapper;
         }
 
 
         [HttpPost]
-        [Route("patient")]
         public ActionResult Create(Patient mPatient)
         {
             try
@@ -49,10 +54,10 @@ namespace API.Controllers
                 }
                 else
                 {
-
+                    
                     Repository.DTOs.Patient responsePatient = CreatePatient(mPatient);
 
-                    var emailConfirmationLink = SecurityHelper.GetEmailConfirmatioLink(responsePatient.user, Request);
+                    var emailConfirmationLink = SecurityHelper.GetEmailConfirmatioLink(responsePatient.user, Request, _userManager, _mapper);
                     var emailBody = emailService.GetEmailBody(EmailPurpose.EmailVerification, emailConfirmationLink);
                     emailService.SendEmailAsync(responsePatient.user.Email, "Verifique su Email - SolidarityMedical", emailBody, emailConfirmationLink);
 
@@ -123,6 +128,7 @@ namespace API.Controllers
             patient.sewage = mPatient.home.sewage;
             patient.departmentId = mPatient.department;
             patient.race = mPatient.race;
+            
             patient.user = setUserInfo(mPatient);
             return patient;
         }
@@ -132,7 +138,9 @@ namespace API.Controllers
 
             var userData = getUserInfo();
             Repository.DTOs.User user = new Repository.DTOs.User();
+
             user.Id = mPatient.userId;
+            user.SecurityStamp = Guid.NewGuid().ToString();
             user.address = mPatient.address;
             user.birthday = mPatient.birthday;
             user.phone = mPatient.phone;

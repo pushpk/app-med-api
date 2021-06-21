@@ -5,18 +5,21 @@ using SendGrid.Helpers.Mail;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Web;
+
 using System.Threading.Tasks;
 using API.Controllers;
 
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Repository.DTOs;
-using Services.Helpers;
+
 using static Services.Helpers.EmailHelper;
+using Microsoft.AspNetCore.Identity;
+using AutoMapper;
+using Data.DataModels;
+using Infrastructure;
+using API.Models;
+using System.Linq;
 
 namespace API.Controllers
 {
@@ -28,15 +31,127 @@ namespace API.Controllers
         private readonly IMedicService medicService;
         private readonly ILabService labService;
         private readonly IPatientService patientService;
+        private readonly UserManager<user> _userManager;
+        private readonly SignInManager<user> _signInManager;
+        private readonly IMapper _mapper;
 
-        public UserController(IUserService userService, IEmailService emailService, IMedicService medicService, ILabService labService, IPatientService patientService)
+
+        public UserController(IUserService userService, 
+            IEmailService emailService, 
+            IMedicService medicService, 
+            ILabService labService, 
+            IPatientService patientService, 
+            UserManager<user> userManager,
+            SignInManager<user> signInManager,
+            IMapper mapper)
         {
             this.userService = userService;
             this.emailService = emailService;
             this.medicService = medicService;
             this.labService = labService;
             this.patientService = patientService;
+            _userManager = userManager;
+            _signInManager = signInManager;
+            this._mapper = mapper;
         }
+
+
+        [HttpPost]
+        //[EnableCors(origins: "*", headers: "*", methods: "*")]
+        [Route("login")]
+        public async  Task<IActionResult> authenticate(LoginModel loginModel)
+        {
+           var signInResult =  await  _signInManager.PasswordSignInAsync(loginModel.username, loginModel.password, false, false);
+            if(signInResult.Succeeded)
+            {
+                var user = _userManager.Users.FirstOrDefault(s => s.Email == loginModel.username);
+                if(user != null)
+                {
+                    if (!user.EmailConfirmed)
+                    {
+                        return Ok(new { message = "Email_Not_Confirmed" });
+                    }
+
+                }
+            }
+            return Ok();
+            //try
+            //{
+            //    ClaimsPrincipal principal = Request.GetRequestContext().Principal as ClaimsPrincipal;
+            //    var mUser = userService.GetCurrentUser(principal); 
+
+            //    if (mUser != null)
+            //    {
+            //        if (!mUser.emailConfirmed)
+            //        {
+            //            return Ok(new { message = "Email_Not_Confirmed" });
+            //        }
+
+            //        IEnumerable<string> permissions;
+            //        using (var ctx = new DataAccess.registroclinicoEntities())
+            //        {
+            //            permissions = ctx.role_permissions.Where(s => s.Role_id == mUser.roleId).Select(s => s.permissions).ToArray();
+
+            //            if (mUser.roleId == 2)
+            //            {
+            //                var medic = this.medicService.GetMedicById(mUser.id);
+
+            //               return Ok(new
+            //                {
+            //                    id = mUser.id,
+            //                    role = mUser.roleId,
+            //                    docNumber = mUser.documentNumber,
+            //                    name = $"{mUser.firstName} {mUser.lastNameFather} {mUser.lastNameMother}",
+            //                    permissions = permissions,
+            //                    IsApproved = medic.IsApproved,
+            //                    IsFreezed = medic.IsFreezed,
+            //                    cmp = medic.cmp,
+            //                    rne = medic.rne
+            //                });
+            //            }
+            //            else if (mUser.roleId == 5)
+            //            {
+            //                var labUser = this.labService.GetLab(mUser.id);
+
+            //               return Ok(new
+            //                {
+            //                    id = mUser.id,
+            //                    role = mUser.roleId,
+            //                    docNumber = mUser.documentNumber,
+            //                    name = $"{mUser.firstName} {mUser.lastNameFather} {mUser.lastNameMother}",
+            //                    permissions = permissions,
+            //                    IsApproved = labUser.IsApproved,
+            //                    IsFreezed = labUser.IsFreezed
+
+            //                });
+            //            }
+            //            else
+            //            {
+            //               return Ok(new
+            //                {
+            //                    id = mUser.id,
+            //                    role = mUser.roleId,
+            //                    docNumber = mUser.documentNumber,
+            //                    name = $"{mUser.firstName} {mUser.lastNameFather} {mUser.lastNameMother}",
+            //                    permissions = permissions
+            //                });
+            //            }
+            //        }
+            //    }
+            //    else
+            //    {
+            //        response = Request.CreateResponse(HttpStatusCode.Forbidden, "Invalid username or password!");
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    return StatusCode(500, ex.Message.ToString());
+
+            //}
+
+
+        }
+
 
         [HttpGet]
         [Authorize]
@@ -163,27 +278,27 @@ namespace API.Controllers
         }
 
 
-        [HttpPost]
-        [Route("create")]
-        public ActionResult Create(User mUser, string currentUrl)
-        {
+        //[HttpPost]
+        //[Route("create")]
+        //public ActionResult Create(User mUser, string currentUrl)
+        //{
             
-            try
-            {
-                mUser = userService.SaveUser(mUser);
+        //    try
+        //    {
+        //        mUser = userService.SaveUser(mUser);
 
-                var emailVerificationLink = SecurityHelper.GetEmailConfirmatioLink(mUser, Request);
-                var emailBody = emailService.GetEmailBody(EmailPurpose.EmailVerification, emailVerificationLink);
-                emailService.SendEmailAsync(mUser.Email, "Confirm Email - MedAPI", emailBody, emailVerificationLink);
+        //        var emailVerificationLink = SecurityHelper.GetEmailConfirmatioLink(mUser, Request);
+        //        var emailBody = emailService.GetEmailBody(EmailPurpose.EmailVerification, emailVerificationLink);
+        //        emailService.SendEmailAsync(mUser.Email, "Confirm Email - MedAPI", emailBody, emailVerificationLink);
 
-               return Ok(mUser);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex.Message.ToString());
-            }
+        //       return Ok(mUser);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return StatusCode(500, ex.Message.ToString());
+        //    }
            
-        }
+        //}
 
 
 
@@ -226,89 +341,6 @@ namespace API.Controllers
 
 
 
-        [HttpGet]
-        //[EnableCors(origins: "*", headers: "*", methods: "*")]
-        [Route("Get-User-Info")]
-        public ActionResult authenticate()
-        {
-
-            return Ok();
-            //try
-            //{
-            //    ClaimsPrincipal principal = Request.GetRequestContext().Principal as ClaimsPrincipal;
-            //    var mUser = userService.GetCurrentUser(principal); 
-               
-            //    if (mUser != null)
-            //    {
-            //        if (!mUser.emailConfirmed)
-            //        {
-            //            return Ok(new { message = "Email_Not_Confirmed" });
-            //        }
-
-            //        IEnumerable<string> permissions;
-            //        using (var ctx = new DataAccess.registroclinicoEntities())
-            //        {
-            //            permissions = ctx.role_permissions.Where(s => s.Role_id == mUser.roleId).Select(s => s.permissions).ToArray();
-
-            //            if (mUser.roleId == 2)
-            //            {
-            //                var medic = this.medicService.GetMedicById(mUser.id);
-
-            //               return Ok(new
-            //                {
-            //                    id = mUser.id,
-            //                    role = mUser.roleId,
-            //                    docNumber = mUser.documentNumber,
-            //                    name = $"{mUser.firstName} {mUser.lastNameFather} {mUser.lastNameMother}",
-            //                    permissions = permissions,
-            //                    IsApproved = medic.IsApproved,
-            //                    IsFreezed = medic.IsFreezed,
-            //                    cmp = medic.cmp,
-            //                    rne = medic.rne
-            //                });
-            //            }
-            //            else if (mUser.roleId == 5)
-            //            {
-            //                var labUser = this.labService.GetLab(mUser.id);
-
-            //               return Ok(new
-            //                {
-            //                    id = mUser.id,
-            //                    role = mUser.roleId,
-            //                    docNumber = mUser.documentNumber,
-            //                    name = $"{mUser.firstName} {mUser.lastNameFather} {mUser.lastNameMother}",
-            //                    permissions = permissions,
-            //                    IsApproved = labUser.IsApproved,
-            //                    IsFreezed = labUser.IsFreezed
-
-            //                });
-            //            }
-            //            else
-            //            {
-            //               return Ok(new
-            //                {
-            //                    id = mUser.id,
-            //                    role = mUser.roleId,
-            //                    docNumber = mUser.documentNumber,
-            //                    name = $"{mUser.firstName} {mUser.lastNameFather} {mUser.lastNameMother}",
-            //                    permissions = permissions
-            //                });
-            //            }
-            //        }
-            //    }
-            //    else
-            //    {
-            //        response = Request.CreateResponse(HttpStatusCode.Forbidden, "Invalid username or password!");
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    return StatusCode(500, ex.Message.ToString());
-                
-            //}
-
-           
-        }
 
 
         [HttpGet]
@@ -336,7 +368,8 @@ namespace API.Controllers
 
                 if (user != null)
                 {
-                    var passwordResetLink = SecurityHelper.GetPasswordResetLink(user, Request);
+                    //var passwordResetLink = SecurityHelper.GetPasswordResetLink(user, Request);
+                    var passwordResetLink = string.Empty;
                     var emailBody = emailService.GetEmailBody(EmailPurpose.ForgotPassword, passwordResetLink);
                     emailService.SendEmailAsync(user.Email, "Confirm Email - MedAPI", emailBody, passwordResetLink);
 
@@ -364,7 +397,7 @@ namespace API.Controllers
 
                 if (user != null)
                 {
-                    var emailConfirmationLink = SecurityHelper.GetEmailConfirmatioLink(user, Request);
+                    var emailConfirmationLink = SecurityHelper.GetEmailConfirmatioLink(user, Request, _userManager, _mapper);
                     var emailBody = emailService.GetEmailBody(EmailPurpose.EmailVerification, emailConfirmationLink);
                     emailService.SendEmailAsync(user.Email, "Verifique su Email - SolidarityMedical", emailBody, emailConfirmationLink);
 
@@ -428,7 +461,7 @@ namespace API.Controllers
         [Route("reset-password")]
         public ActionResult ResetPassowrd(UserWithIdPw user)
         {
-            string password = HashPasswordHelper.HashPassword(user.passwordHash);
+            string password = "";
 
             try
             {
@@ -459,7 +492,7 @@ namespace API.Controllers
         public ActionResult ChangePassowrd(UserWithIdPw user)
         {
 
-            string newPassword = HashPasswordHelper.HashPassword(user.passwordHash);
+            string newPassword = string.Empty;
             try
             {
                 var existingUser = userService.GetUserById(user.id);
@@ -486,13 +519,13 @@ namespace API.Controllers
 
 
 
-        [HttpGet]
-        [Route("hash-password")]
-        public string HashString(string pw)
-        {
-            return HashPasswordHelper.HashPassword(pw);
+        //[HttpGet]
+        //[Route("hash-password")]
+        //public string HashString(string pw)
+        //{
+        //    return HashPasswordHelper.HashPassword(pw);
 
-        }
+        //}
 
     }
 }
